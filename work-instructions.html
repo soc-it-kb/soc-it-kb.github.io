@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work Instructions — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html" class="active">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="kb-page-hero">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>Work Instructions</h1>
+    <p>Precise, step-by-step, tool-specific instructions used during SOC operations and incident response. Work instructions support containment, investigation, eradication, and recovery actions and are designed to be SOAR-ready.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Tool-specific steps</span>
+      <span class="kb-meta-pill">All tiers</span>
+      <span class="kb-meta-pill">SOAR-ready</span>
+    </div>
+  </div>
+
+  <div class="kb-notice">
+    <strong>How to use work instructions:</strong> Work instructions are referenced from within Runbooks and Playbooks when a specific tool action is required. They provide the exact click-by-click steps — follow them in sequence and record outcomes as directed.
+  </div>
+
+  <div class="kb-section">
+    <div class="kb-section-title">Email related work instructions</div>
+    <div class="kb-category">
+      <div class="kb-category-header">
+        <div class="kb-category-title">
+          📧 Email tools
+          <span class="kb-category-badge">3 work instructions</span>
+        </div>
+        <a class="kb-see-all" href="#">See all</a>
+      </div>
+      <div class="kb-entry-list">
+        <a class="kb-entry" href="#">
+          <span class="kb-entry-code">EM-WI-01</span>
+          <span class="kb-entry-name">Analyse Email Headers</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">8 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="#">
+          <span class="kb-entry-code">EM-WI-04</span>
+          <span class="kb-entry-name">Remove Malicious Emails from Mailboxes</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">7 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="#">
+          <span class="kb-entry-code">EM-WI-05</span>
+          <span class="kb-entry-name">Block Sender / Domain</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">7 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="kb-section">
+    <div class="kb-section-title">About work instructions</div>
+    <div class="kb-info-box">
+      <p>Work instructions are the most granular level of operational documentation in this knowledge base. They are designed to be:</p>
+      <ul class="kb-bullet-list">
+        <li><strong>Tool-agnostic where possible</strong> — steps describe the action and expected outcome, not just menu paths that change with software updates</li>
+        <li><strong>SOAR-ready</strong> — structured to be translated directly into automated playbook actions</li>
+        <li><strong>Linked to runbooks and playbooks</strong> — each WI is called from a specific step in a parent Runbook or Playbook</li>
+        <li><strong>Evidence-focused</strong> — each step notes what should be recorded for the incident record</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="kb-section">
+    <div class="kb-section-title">Related content</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
+      <a href="runbooks.html" style="background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:1rem 1.25rem;text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;">📋</span>
+        <div><div style="font-size:13px;font-weight:600;color:#1a1a1a;">Runbooks</div><div style="font-size:12px;color:#888;">Alert triage procedures</div></div>
+      </a>
+      <a href="playbooks.html" style="background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:1rem 1.25rem;text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;">🔄</span>
+        <div><div style="font-size:13px;font-weight:600;color:#1a1a1a;">Playbooks</div><div style="font-size:12px;color:#888;">Incident response workflows</div></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Published 7 January 2026 &nbsp;·&nbsp; IT Operations</span>
+    <span><a href="index.html" style="color:#297086;text-decoration:none;">← Back to home</a></span>
+  </div>
+
+</div>
+</body>
+</html>

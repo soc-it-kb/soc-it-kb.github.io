@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Governance &amp; Change Log — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .kb-change-entry {
+    background:#fff; border:0.5px solid #e0e0dc; border-radius:12px;
+    padding:1rem 1.25rem; display:flex; gap:14px; align-items:flex-start;
+  }
+  .kb-change-entry + .kb-change-entry { margin-top:8px; }
+  .kb-change-date {
+    font-size:12px; color:#aaa; white-space:nowrap;
+    min-width:80px; padding-top:2px;
+  }
+  .kb-change-body { flex:1; }
+  .kb-change-title { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:3px; }
+  .kb-change-desc  { font-size:13px; color:#666; line-height:1.5; }
+  .kb-change-tags  { display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; }
+  .kb-change-tag   { font-size:11px; background:#f5f5f3; border:0.5px solid #e0e0dc; border-radius:8px; padding:2px 7px; color:#888; }
+
+  .process-steps { display:flex; flex-direction:column; gap:0; }
+  .process-step { display:flex; gap:14px; align-items:flex-start; padding:0.9rem 0; border-bottom:0.5px solid #f0f0ec; }
+  .process-step:last-child { border-bottom:none; }
+  .step-num { width:28px; height:28px; border-radius:50%; background:#0E414F; color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .step-body h4 { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:3px; }
+  .step-body p  { font-size:13px; color:#666; line-height:1.5; }
+</style>
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html" class="active">Governance</a>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="kb-page-hero">
+    <span class="kb-page-hero-icon">📊</span>
+    <h1>Governance &amp; Change Log</h1>
+    <p>Ensuring transparency, traceability, and continuous improvement of SOC procedures. This page records all changes to knowledge base content and defines the contribution and review process.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Transparency</span>
+      <span class="kb-meta-pill">Traceability</span>
+      <span class="kb-meta-pill">Continuous improvement</span>
+    </div>
+  </div>
+
+  <!-- Governance Principles -->
+  <div class="kb-section">
+    <div class="kb-section-title">Governance principles</div>
+    <div class="kb-info-box">
+      <ul class="kb-bullet-list">
+        <li>All content changes must be reviewed and approved before publication</li>
+        <li>SOPs are mandatory — deviations require a documented exception approved by the SOC Manager</li>
+        <li>Content is reviewed at minimum annually, and following any major incident or significant tooling change</li>
+        <li>All playbooks, runbooks, and SOPs must reference the NIST CSF function they support</li>
+        <li>Feedback and improvement suggestions are welcomed and should follow the contribution process below</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Contribution Process -->
+  <div class="kb-section">
+    <div class="kb-section-title">Contribution &amp; change process</div>
+    <div class="kb-info-box">
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Identify the change</h4>
+            <p>Raise a change request — this could be a gap identified during an incident, a lessons learned action, a new threat type, or a tooling update.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Draft the content</h4>
+            <p>Draft the new or updated procedure following the existing format and naming convention (e.g. EM-RB-XX for email runbooks). Use existing published content as a template.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Peer review</h4>
+            <p>The draft is reviewed by at least one other SOC analyst or subject matter expert. Feedback is incorporated before escalating for approval.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>SOC Manager approval</h4>
+            <p>The SOC Manager reviews and approves the content. For SOPs and significant procedural changes, CISO-level sign-off may be required.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h4>Publish &amp; log</h4>
+            <p>Content is published to the knowledge base and a change log entry is created below recording the change, owner, and date.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change Log -->
+  <div class="kb-section">
+    <div class="kb-section-title">Change log</div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">8 Jan 2026</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">EM-WI-01: Analyse Email Headers — published</div>
+        <div class="kb-change-desc">New work instruction covering step-by-step email header analysis for phishing triage.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag">Work Instruction</span><span class="kb-change-tag">Email</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">6 Jan 2026</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">EM-RB-06-01 to 06-04: Threatening email runbook series — published</div>
+        <div class="kb-change-desc">Four-part runbook series covering triage, threat analysis, containment, and escalation for threatening/harassing email campaigns.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag">Runbook</span><span class="kb-change-tag">Email</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">6 Jan 2026</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">EM-PB-06: Threatening / Harassing Email Campaign playbook — published</div>
+        <div class="kb-change-desc">End-to-end playbook for managing threatening or harassing email campaigns targeting multiple recipients.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag">Playbook</span><span class="kb-change-tag">Email</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">7 Jan 2026</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">EM-WI-04, EM-WI-05: Email work instructions — published</div>
+        <div class="kb-change-desc">Two new work instructions covering mailbox remediation and sender/domain blocking.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag">Work Instruction</span><span class="kb-change-tag">Email</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">5 Jan 2026</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">SOP catalogue — initial draft published</div>
+        <div class="kb-change-desc">Five SOPs drafted covering email, identity, endpoint, network threat operations, and incident severity classification. All in draft status pending review.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag">SOP</span><span class="kb-change-tag">Governance</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">23 Dec 2025</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">Network and identity playbooks — published</div>
+        <div class="kb-change-desc">Five network threat playbooks (NW-PB-01 to NW-PB-05) and identity playbooks ID-PB-07 and EM-PB-05 (Ransomware) published.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag">Playbook</span><span class="kb-change-tag">Network</span><span class="kb-change-tag">Identity</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">22 Dec 2025</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">Initial email and identity playbook &amp; runbook release</div>
+        <div class="kb-change-desc">First major release — email playbooks EM-PB-01 to EM-PB-05, identity playbooks ID-PB-01 to ID-PB-06, and email runbooks EM-RB-03 to EM-RB-07 published.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag">Playbook</span><span class="kb-change-tag">Runbook</span><span class="kb-change-tag">Email</span><span class="kb-change-tag">Identity</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">18 Dec 2025</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">Knowledge base site created</div>
+        <div class="kb-change-desc">Initial knowledge base structure established. Home page, section pages, and governance framework created.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag">Site</span><span class="kb-change-tag">Governance</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Published 18 December 2025 &nbsp;·&nbsp; IT Operations</span>
+    <span><a href="index.html" style="color:#297086;text-decoration:none;">← Back to home</a></span>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tools &amp; References — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .tactic-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px; }
+  .tactic-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem 1.1rem; }
+  .tactic-card-header { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+  .tactic-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:#f0f0ec; color:#555; padding:2px 6px; border-radius:5px; }
+  .tactic-name { font-size:13px; font-weight:600; color:#1a1a1a; }
+  .tactic-entries { display:flex; flex-direction:column; gap:4px; }
+  .tactic-entry { display:flex; align-items:baseline; gap:6px; font-size:12px; }
+  .tactic-entry code { font-family:'SF Mono','Fira Code',monospace; font-size:10px; background:#E6F1FB; color:#297086; padding:1px 5px; border-radius:4px; flex-shrink:0; }
+  .tactic-entry span { color:#555; line-height:1.4; }
+  .tactic-refs { margin-top:6px; font-size:11px; color:#aaa; }
+
+  .tool-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; }
+  .tool-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; }
+  .tool-card-name { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:4px; }
+  .tool-card-caps { font-size:12px; color:#666; margin-bottom:6px; line-height:1.4; }
+  .tool-card-tags { display:flex; flex-wrap:wrap; gap:4px; }
+  .tool-tag { font-size:10px; background:#f5f5f3; border:0.5px solid #e0e0dc; border-radius:8px; padding:2px 7px; color:#888; }
+</style>
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html" class="active">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="kb-page-hero">
+    <span class="kb-page-hero-icon">🛠️</span>
+    <h1>Tools &amp; References</h1>
+    <p>Centralised reference for SOC tools mapped to MITRE ATT&amp;CK tactics and techniques. Supports alert triage, investigation, response, threat hunting, and development of new playbooks and runbooks.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">MITRE ATT&amp;CK aligned</span>
+      <span class="kb-meta-pill">Authoritative</span>
+      <span class="kb-meta-pill">All tiers</span>
+    </div>
+  </div>
+
+  <!-- Primary Matrix -->
+  <div class="kb-section">
+    <div class="kb-section-title">SOC tool × MITRE ATT&amp;CK mapping — primary matrix (tactic › tool)</div>
+    <div class="kb-table-wrap">
+      <table class="kb-table">
+        <thead>
+          <tr>
+            <th>MITRE Tactic</th>
+            <th>Primary Tools</th>
+            <th>Secondary / Supporting Tools</th>
+            <th>Typical Use in Playbooks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Initial Access</td><td>Email Security, EDR/XDR</td><td>SIEM, Threat Intel</td><td>Phishing, drive-by download</td></tr>
+          <tr><td>Execution</td><td>EDR/XDR</td><td>SIEM</td><td>Process creation, script execution</td></tr>
+          <tr><td>Persistence</td><td>EDR/XDR, IAM</td><td>SIEM</td><td>Registry, scheduled tasks</td></tr>
+          <tr><td>Privilege Escalation</td><td>EDR/XDR, IAM</td><td>SIEM</td><td>Token abuse, UAC bypass</td></tr>
+          <tr><td>Defense Evasion</td><td>EDR/XDR</td><td>SIEM</td><td>Tampering, obfuscation</td></tr>
+          <tr><td>Credential Access</td><td>EDR/XDR, IAM</td><td>SIEM, Threat Intel</td><td>LSASS, keylogging</td></tr>
+          <tr><td>Discovery</td><td>EDR/XDR</td><td>SIEM</td><td>Network, account discovery</td></tr>
+          <tr><td>Lateral Movement</td><td>EDR/XDR, Network Security</td><td>SIEM</td><td>SMB, RDP, WinRM</td></tr>
+          <tr><td>Command &amp; Control</td><td>Network Security, EDR/XDR</td><td>SIEM, Threat Intel</td><td>Beaconing, tunnels</td></tr>
+          <tr><td>Exfiltration</td><td>DLP, Network Security</td><td>SIEM</td><td>Data movement</td></tr>
+          <tr><td>Impact</td><td>EDR/XDR, Backup/DR</td><td>SIEM</td><td>Ransomware, destruction</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Technique Drill-Down -->
+  <div class="kb-section">
+    <div class="kb-section-title">Technique-level drill-down (tactic › technique › tool)</div>
+    <div class="kb-table-wrap">
+      <table class="kb-table">
+        <thead>
+          <tr><th>ATT&amp;CK ID</th><th>Technique Name</th><th>Primary Tool</th><th>Data Sources</th><th>Typical Evidence</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>T1059</code></td><td>Command and Scripting Interpreter</td><td>EDR/XDR</td><td>Process, Command Line</td><td>PowerShell execution</td></tr>
+          <tr><td><code>T1055</code></td><td>Process Injection</td><td>EDR/XDR</td><td>Memory, API Calls</td><td>Suspicious DLL injection</td></tr>
+          <tr><td><code>T1078</code></td><td>Valid Accounts</td><td>IAM, EDR/XDR</td><td>Auth Logs</td><td>Unusual login patterns</td></tr>
+          <tr><td><code>T1021</code></td><td>Remote Services</td><td>Network, EDR/XDR</td><td>Network Logs</td><td>Lateral RDP</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ATT&CK Coverage by Tactic -->
+  <div class="kb-section">
+    <div class="kb-section-title">ATT&amp;CK techniques covered by published playbooks &amp; runbooks</div>
+    <div class="kb-notice" style="margin-bottom:1rem;">Framework reference: MITRE ATT&amp;CK &nbsp;·&nbsp; Status: Authoritative — reflects current published SOC content</div>
+
+    <div class="tactic-grid">
+
+      <div class="tactic-card">
+        <div class="tactic-card-header">
+          <span class="tactic-id">TA0001</span>
+          <span class="tactic-name">Initial Access</span>
+        </div>
+        <div class="tactic-entries">
+          <div class="tactic-entry"><code>T1566.001</code><span>Spearphishing Attachment — EM-PB-01, EM-PB-03, EM-RB-*</span></div>
+          <div class="tactic-entry"><code>T1566.002</code><span>Spearphishing Link — EM-PB-01, EM-PB-02, EM-RB-*</span></div>
+          <div class="tactic-entry"><code>T1566.003</code><span>Spearphishing via Service — EM-PB-04</span></div>
+          <div class="tactic-entry"><code>T1190</code><span>Exploit Public-Facing App — NW-PB-01, NW-RB-01</span></div>
+          <div class="tactic-entry"><code>T1078</code><span>Valid Accounts — ID-PB-01, ID-PB-02</span></div>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-card-header">
+          <span class="tactic-id">TA0002</span>
+          <span class="tactic-name">Execution</span>
+        </div>
+        <div class="tactic-entries">
+          <div class="tactic-entry"><code>T1059.001</code><span>PowerShell — EP-PB-01, EP-RB-01</span></div>
+          <div class="tactic-entry"><code>T1059.003</code><span>Windows Command Shell — EP-PB-01</span></div>
+          <div class="tactic-entry"><code>T1204.002</code><span>User Execution: Malicious File — EM-PB-01, EP-PB-01</span></div>
+          <div class="tactic-entry"><code>T1106</code><span>Native API — EP-PB-02</span></div>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-card-header">
+          <span class="tactic-id">TA0003</span>
+          <span class="tactic-name">Persistence</span>
+        </div>
+        <div class="tactic-entries">
+          <div class="tactic-entry"><code>T1053.005</code><span>Scheduled Task — EP-PB-03</span></div>
+          <div class="tactic-entry"><code>T1547.001</code><span>Registry Run Keys — EP-PB-03</span></div>
+          <div class="tactic-entry"><code>T1136</code><span>Create Account — ID-PB-03</span></div>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-card-header">
+          <span class="tactic-id">TA0004</span>
+          <span class="tactic-name">Privilege Escalation</span>
+        </div>
+        <div class="tactic-entries">
+          <div class="tactic-entry"><code>T1068</code><span>Exploitation for Privilege Escalation — EP-PB-02</span></div>
+          <div class="tactic-entry"><code>T1078</code><span>Valid Accounts — ID-PB-02</span></div>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-card-header">
+          <span class="tactic-id">TA0005</span>
+          <span class="tactic-name">Defense Evasion</span>
+        </div>
+        <div class="tactic-entries">
+          <div class="tactic-entry"><code>T1562.001</code><span>Disable/Modify Security Tools — EP-PB-02, EP-PB-04</span></div>
+          <div class="tactic-entry"><code>T1027</code><span>Obfuscated Files — EM-PB-03, EP-PB-01</span></div>
+          <div class="tactic-entry"><code>T1036</code><span>Masquerading — EM-PB-02, EP-PB-01</span></div>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-card-header">
+          <span class="tactic-id">TA0006</span>
+          <span class="tactic-name">Credential Access</span>
+        </div>
+        <div class="tactic-entries">
+          <div class="tactic-entry"><code>T1003.001</code><span>LSASS Memory — EP-PB-02</span></div>
+          <div class="tactic-entry"><code>T1110</code><span>Brute Force — ID-PB-02</span></div>
+          <div class="tactic-entry"><code>T1556</code><span>Modify Auth Process — ID-PB-03</span></div>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-card-header">
+          <span class="tactic-id">TA0007</span>
+          <span class="tactic-name">Discovery</span>
+        </div>
+        <div class="tactic-entries">
+          <div class="tactic-entry"><code>T1087</code><span>Account Discovery — ID-PB-01, EP-PB-01</span></div>
+          <div class="tactic-entry"><code>T1046</code><span>Network Service Discovery — NW-PB-02</span></div>
+          <div class="tactic-entry"><code>T1018</code><span>Remote System Discovery — NW-PB-02</span></div>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-card-header">
+          <span class="tactic-id">TA0008</span>
+          <span class="tactic-name">Lateral Movement</span>
+        </div>
+        <div class="tactic-entries">
+          <div class="tactic-entry"><code>T1021.001</code><span>Remote Services: RDP — NW-PB-03, EP-PB-01</span></div>
+          <div class="tactic-entry"><code>T1021.002</code><span>SMB/Windows Admin Shares — NW-PB-03</span></div>
+          <div class="tactic-entry"><code>T1078</code><span>Valid Accounts — ID-PB-02, NW-PB-03</span></div>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-card-header">
+          <span class="tactic-id">TA0011</span>
+          <span class="tactic-name">Command &amp; Control</span>
+        </div>
+        <div class="tactic-entries">
+          <div class="tactic-entry"><code>T1071.001</code><span>Web Protocols — NW-PB-04</span></div>
+          <div class="tactic-entry"><code>T1095</code><span>Non-Application Layer Protocol — NW-PB-04</span></div>
+          <div class="tactic-entry"><code>T1043</code><span>Commonly Used Port — NW-PB-04</span></div>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-card-header">
+          <span class="tactic-id">TA0010</span>
+          <span class="tactic-name">Exfiltration</span>
+        </div>
+        <div class="tactic-entries">
+          <div class="tactic-entry"><code>T1041</code><span>Exfiltration Over C2 Channel — NW-PB-05</span></div>
+          <div class="tactic-entry"><code>T1567.002</code><span>Exfiltration to Cloud Storage — EM-PB-05, NW-PB-05</span></div>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-card-header">
+          <span class="tactic-id">TA0040</span>
+          <span class="tactic-name">Impact</span>
+        </div>
+        <div class="tactic-entries">
+          <div class="tactic-entry"><code>T1486</code><span>Data Encrypted for Impact — EP-PB-05</span></div>
+          <div class="tactic-entry"><code>T1490</code><span>Inhibit System Recovery — EP-PB-05</span></div>
+          <div class="tactic-entry"><code>T1489</code><span>Service Stop — EP-PB-04</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Tool Capability Reference -->
+  <div class="kb-section">
+    <div class="kb-section-title">Tool capability reference</div>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-card-name">EDR / XDR</div>
+        <div class="tool-card-caps">Endpoint telemetry and containment</div>
+        <div class="tool-card-tags">
+          <span class="tool-tag">Execution → Impact</span>
+          <span class="tool-tag">Malware</span>
+          <span class="tool-tag">Ransomware</span>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-name">SIEM</div>
+        <div class="tool-card-caps">Log correlation and alerting</div>
+        <div class="tool-card-tags">
+          <span class="tool-tag">All tactics</span>
+          <span class="tool-tag">Detection</span>
+          <span class="tool-tag">Correlation</span>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-name">Email Security</div>
+        <div class="tool-card-caps">Phishing detection and prevention</div>
+        <div class="tool-card-tags">
+          <span class="tool-tag">Initial Access</span>
+          <span class="tool-tag">Phish triage</span>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-name">IAM</div>
+        <div class="tool-card-caps">Auth and identity logs</div>
+        <div class="tool-card-tags">
+          <span class="tool-tag">Credential Access</span>
+          <span class="tool-tag">Account compromise</span>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-name">Network Security</div>
+        <div class="tool-card-caps">Traffic inspection and analysis</div>
+        <div class="tool-card-tags">
+          <span class="tool-tag">Lateral Movement</span>
+          <span class="tool-tag">C2</span>
+          <span class="tool-tag">Beaconing</span>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-name">Threat Intel</div>
+        <div class="tool-card-caps">Context and enrichment</div>
+        <div class="tool-card-tags">
+          <span class="tool-tag">All tactics</span>
+          <span class="tool-tag">Triage</span>
+          <span class="tool-tag">Hunting</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Coverage Validation -->
+  <div class="kb-section">
+    <div class="kb-section-title">ATT&amp;CK coverage validation matrix</div>
+    <div class="kb-table-wrap">
+      <table class="kb-table">
+        <thead>
+          <tr><th>ATT&amp;CK Tactic</th><th>Coverage</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Initial Access</td><td><span class="badge badge-covered">Covered</span></td><td>Strong email + EDR coverage</td></tr>
+          <tr><td>Execution</td><td><span class="badge badge-covered">Covered</span></td><td>EDR provides good telemetry</td></tr>
+          <tr><td>Persistence</td><td><span class="badge badge-partial">Partial</span></td><td>Endpoint covered; cloud persistence gaps remain</td></tr>
+          <tr><td>Privilege Escalation</td><td><span class="badge badge-partial">Partial</span></td><td>Identity coverage developing</td></tr>
+          <tr><td>Defense Evasion</td><td><span class="badge badge-partial">Partial</span></td><td>Limited memory telemetry</td></tr>
+          <tr><td>Credential Access</td><td><span class="badge badge-covered">Covered</span></td><td>IAM + EDR combination effective</td></tr>
+          <tr><td>Discovery</td><td><span class="badge badge-covered">Covered</span></td><td>Network + endpoint covered</td></tr>
+          <tr><td>Lateral Movement</td><td><span class="badge badge-covered">Covered</span></td><td>RDP and SMB well covered</td></tr>
+          <tr><td>Command &amp; Control</td><td><span class="badge badge-covered">Covered</span></td><td>Network security primary</td></tr>
+          <tr><td>Exfiltration</td><td><span class="badge badge-partial">Partial</span></td><td>DLP partial — improvement planned</td></tr>
+          <tr><td>Impact</td><td><span class="badge badge-covered">Covered</span></td><td>Good EDR + backup/DR coverage</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Published 7 January 2026 &nbsp;·&nbsp; IT Operations</span>
+    <span><a href="index.html" style="color:#297086;text-decoration:none;">← Back to home</a></span>
+  </div>
+
+</div>
+</body>
+</html>

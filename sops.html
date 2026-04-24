@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOPs — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html" class="active">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="kb-page-hero">
+    <span class="kb-page-hero-icon">📐</span>
+    <h1>Standard Operating Procedures</h1>
+    <p>Authoritative SOPs governing how the Security Operations Centre detects, triages, escalates, responds to, and recovers from cybersecurity incidents. SOPs define mandatory processes, roles, decision points, and control requirements.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Governance layer</span>
+      <span class="kb-meta-pill">All tiers</span>
+      <span class="kb-meta-pill">Mandatory</span>
+    </div>
+  </div>
+
+  <div class="kb-warning">
+    <strong>SOPs are mandatory.</strong> Deviations require a documented exception. SOPs are reviewed annually or following major incidents.
+  </div>
+
+  <div class="kb-section">
+    <div class="kb-section-title">Scope</div>
+    <div class="kb-info-box">
+      <p>These SOPs apply to all teams involved in security operations and incident response:</p>
+      <ul class="kb-bullet-list">
+        <li>Global SOC</li>
+        <li>Regional SOCs</li>
+        <li>MDR partner (where contractually applicable)</li>
+        <li>Local IT / Cyber teams engaged in incident response</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="kb-section">
+    <div class="kb-section-title">SOP catalogue</div>
+    <div class="kb-table-wrap">
+      <table class="kb-table">
+        <thead>
+          <tr>
+            <th>SOP ID</th>
+            <th>SOP Name</th>
+            <th>NIST CSF Function</th>
+            <th>Aligned Playbooks</th>
+            <th>Status</th>
+            <th>Owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>SOP-EM-01</code></td>
+            <td>Email Threat Operations</td>
+            <td>Detect / Respond</td>
+            <td>EM-PB-01 → EM-PB-05</td>
+            <td><span class="badge badge-draft">Draft</span></td>
+            <td>SOC Manager</td>
+          </tr>
+          <tr>
+            <td><code>SOP-ID-01</code></td>
+            <td>Identity Threat Operations</td>
+            <td>Protect / Detect / Respond</td>
+            <td>ID-PB-01 → ID-PB-05</td>
+            <td><span class="badge badge-draft">Draft</span></td>
+            <td>IAM Lead</td>
+          </tr>
+          <tr>
+            <td><code>SOP-EP-01</code></td>
+            <td>Endpoint Threat Operations</td>
+            <td>Detect / Respond / Recover</td>
+            <td>EP-PB-01 → EP-PB-05</td>
+            <td><span class="badge badge-draft">Draft</span></td>
+            <td>EDR Lead</td>
+          </tr>
+          <tr>
+            <td><code>SOP-NW-01</code></td>
+            <td>Network Threat Operations</td>
+            <td>Detect / Respond</td>
+            <td>NW-PB-01 → NW-PB-05</td>
+            <td><span class="badge badge-draft">Draft</span></td>
+            <td>Network Security Lead</td>
+          </tr>
+          <tr>
+            <td><code>SOP-IM-01</code></td>
+            <td>Incident Severity Classification &amp; Escalation</td>
+            <td>Govern</td>
+            <td>All</td>
+            <td><span class="badge badge-draft">Draft</span></td>
+            <td>SOC Manager</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="kb-section">
+    <div class="kb-section-title">Governance notes</div>
+    <div class="kb-info-box">
+      <ul class="kb-bullet-list">
+        <li>SOPs are mandatory for all in-scope teams — compliance is not optional</li>
+        <li>Any deviation from an SOP must be documented with a formal exception request</li>
+        <li>SOPs are reviewed annually as a minimum, or immediately following a major incident</li>
+        <li>Updates to SOPs must go through the change control process defined in Governance &amp; Change Log</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Published 5 January 2026 &nbsp;·&nbsp; IT Operations</span>
+    <span><a href="index.html" style="color:#297086;text-decoration:none;">← Back to home</a></span>
+  </div>
+
+</div>
+</body>
+</html>
