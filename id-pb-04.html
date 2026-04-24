@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ID-PB-04: OAuth App Abuse / Malicious Consent Grant — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .pb-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .pb-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .pb-meta-item strong { color:#1a1a1a; }
+  .pb-meta-sep { color:#e0e0dc; }
+  .pb-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .pb-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#185FA5; margin-bottom:4px; }
+  .pb-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .pb-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .pb-section p:last-child { margin-bottom:0; }
+  .pb-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .pb-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .pb-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:#185FA5; flex-shrink:0; margin-top:5px; }
+  .pb-bullet.out-of-scope li::before { background:#ccc; }
+  .pb-two-col { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .pb-sub-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .pb-sub-box h4 { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:8px; }
+  .decision-box { background:#E6F1FB; border:0.5px solid #B5D4F4; border-radius:10px; padding:1rem 1.25rem; margin-top:10px; }
+  .decision-box p { font-size:13px; color:#185FA5; line-height:1.6; margin-bottom:0; }
+  .escalation-box { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:10px; padding:1rem 1.25rem; margin-top:4px; }
+  .escalation-box p { font-size:13px; color:#993C1D; line-height:1.8; margin-bottom:0; }
+
+  /* OAuth-specific warning banner */
+  .oauth-banner {
+    background:#EEEDFE; border:0.5px solid #C5C2FC;
+    border-radius:12px; padding:1rem 1.5rem;
+    margin-bottom:1.25rem;
+    display:flex; align-items:center; gap:12px;
+  }
+  .oauth-banner-icon { font-size:22px; flex-shrink:0; }
+  .oauth-banner-text strong { color:#3C3489; font-size:14px; display:block; margin-bottom:2px; }
+  .oauth-banner-text p { color:#4a3fa0; font-size:13px; line-height:1.5; margin:0; }
+
+  /* Permission tags */
+  .perm-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .perm-tag { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; padding:3px 10px; border-radius:6px; }
+  .perm-tag.moderate { background:#FAEEDA; color:#854F0B; border-color:#FAC775; }
+
+  /* Checklist */
+  .checklist { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .checklist-item { display:flex; align-items:center; justify-content:space-between; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; gap:12px; }
+  .checklist-label { font-size:14px; color:#333; flex:1; }
+  .checklist-box { width:20px; height:20px; border-radius:4px; border:1.5px solid #ccc; flex-shrink:0; background:#fff; }
+
+  /* Action matrix */
+  .action-row { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:0.5px solid #f0f0ec; gap:12px; }
+  .action-row:last-child { border-bottom:none; }
+  .action-name { font-size:14px; color:#333; flex:1; }
+  .action-req { font-size:12px; font-weight:600; padding:3px 10px; border-radius:10px; white-space:nowrap; }
+  .req-yes  { background:#E1F5EE; color:#0F6E56; }
+  .req-cond { background:#FAEEDA; color:#854F0B; }
+
+  /* Runbook invocation */
+  .rb-invoke-grid { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .rb-invoke-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; text-decoration:none; color:inherit; transition:border-color 0.15s, background 0.15s; }
+  .rb-invoke-row:hover { border-color:#185FA5; background:#f0f5fb; }
+  .rb-invoke-scenario { font-size:13px; color:#555; flex:1; }
+  .rb-invoke-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:#E6F1FB; color:#185FA5; padding:2px 8px; border-radius:6px; white-space:nowrap; }
+  .rb-invoke-arrow { color:#ccc; font-size:14px; }
+
+  /* Scope expansion */
+  .scope-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .scope-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .scope-box h4 { font-size:12px; font-weight:600; color:#185FA5; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+
+  /* Validation checklist */
+  .validation-list { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .validation-item { display:flex; align-items:center; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#444; }
+  .validation-item::before { content:'✓'; color:#0F6E56; font-weight:700; font-size:13px; flex-shrink:0; }
+
+  /* Notify grid */
+  .notify-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-top:8px; }
+  .notify-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.8rem 1rem; text-align:center; }
+  .notify-icon { font-size:20px; margin-bottom:4px; }
+  .notify-name { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:2px; }
+  .notify-role { font-size:12px; color:#888; line-height:1.4; }
+
+  /* Evidence */
+  .evidence-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:8px; margin-top:4px; }
+  .evidence-item { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#444; display:flex; align-items:center; gap:8px; }
+  .evidence-item::before { content:''; width:6px; height:6px; border-radius:50%; background:#185FA5; flex-shrink:0; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:#185FA5; text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { color:#ccc; }
+  .pb-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .pb-nav a { font-size:13px; color:#185FA5; text-decoration:none; }
+  .pb-nav a:hover { text-decoration:underline; }
+
+  @media(max-width:640px){ .pb-two-col, .scope-grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html" class="active">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="playbooks.html">Playbooks</a><span>›</span>
+    <span>ID-PB-04</span>
+  </div>
+
+  <!-- OAuth warning banner -->
+  <div class="oauth-banner">
+    <div class="oauth-banner-icon">⚠️</div>
+    <div class="oauth-banner-text">
+      <strong>Password reset alone does not evict the attacker</strong>
+      <p>OAuth tokens persist independently of credentials. A compromised OAuth consent grant survives a password reset — token revocation and consent removal are mandatory steps in this playbook.</p>
+    </div>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#0F3460 0%,#185FA5 100%);">
+    <span class="kb-page-hero-icon">🔐</span>
+    <h1>ID-PB-04: OAuth App Abuse / Malicious Consent Grant</h1>
+    <p>Standardised framework for detecting, investigating, and remediating OAuth application abuse — including malicious or overly permissive consent grants that allow attackers to maintain persistent access without credentials.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">🔐 Identity threats</span>
+      <span class="kb-meta-pill">Tier 2 / 3</span>
+      <span class="kb-meta-pill">Post-phishing persistence</span>
+      <span class="kb-meta-pill">MDR integrated</span>
+    </div>
+  </div>
+
+  <div class="pb-meta-bar">
+    <div class="pb-meta-item">📋 <strong>ID:</strong> ID-PB-04</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">📅 <strong>Published:</strong> 22 December 2025</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">🏷️ <strong>Category:</strong> Identity Threat</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <!-- 1. Purpose -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 1</div>
+    <div class="pb-section-title">Purpose</div>
+    <p>Provide a standardised decision and response framework for detecting, investigating, and remediating OAuth application abuse, including malicious or overly permissive consent grants that allow attackers to maintain access without credentials.</p>
+    <p>This playbook addresses one of the most persistent post-phishing attack paths, where password resets alone do not evict the attacker.</p>
+  </div>
+
+  <!-- 2. Scope -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 2</div>
+    <div class="pb-section-title">Scope</div>
+    <div class="pb-two-col">
+      <div class="pb-sub-box">
+        <h4>✅ In scope</h4>
+        <ul class="pb-bullet">
+          <li>Malicious OAuth app registrations</li>
+          <li>User-granted OAuth consent with excessive permissions</li>
+          <li>Token-based access abuse (Graph, mail, files, calendar)</li>
+          <li>MDR or SOC detections of suspicious app activity</li>
+          <li>OAuth artefacts discovered during ID-PB-01 / ID-PB-03 investigations</li>
+        </ul>
+      </div>
+      <div class="pb-sub-box">
+        <h4>❌ Out of scope</h4>
+        <ul class="pb-bullet out-of-scope">
+          <li>Legitimate enterprise app onboarding (IAM governance)</li>
+          <li>Service principal compromise without user consent (handled separately)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Trigger Conditions -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 3</div>
+    <div class="pb-section-title">Trigger Conditions</div>
+    <ul class="pb-bullet">
+      <li>MDR escalates suspected OAuth abuse</li>
+      <li>SOC identifies a new or suspicious OAuth app consent</li>
+      <li>Identity platform flags risky consent activity</li>
+      <li>OAuth artefacts discovered during account compromise response</li>
+      <li>User reports unusual mailbox or file access without visible sign-ins</li>
+    </ul>
+  </div>
+
+  <!-- 4. Initial Validation -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 4</div>
+    <div class="pb-section-title">Initial Validation (Decision Logic)</div>
+    <p>Confirm the activity is OAuth-related by checking for any of the following:</p>
+    <ul class="pb-bullet">
+      <li>New app consent granted recently without IT approval?</li>
+      <li>Permissions include mail, files, or offline access?</li>
+      <li>App not recognised or not on the business-approved list?</li>
+      <li>Data access observed without corresponding interactive sign-in events?</li>
+    </ul>
+    <div class="decision-box">
+      <p>If <strong>NO</strong> to all → Route to appropriate identity playbook<br>
+      If <strong>YES</strong> to any → Proceed with OAuth abuse assessment (Section 5)</p>
+    </div>
+  </div>
+
+  <!-- 5. OAuth Abuse Assessment -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 5</div>
+    <div class="pb-section-title">OAuth Abuse Assessment</div>
+    <p>Assess risk and intent. <strong>Presence of any indicator confirms OAuth risk:</strong></p>
+    <div class="checklist">
+      <div class="checklist-item"><span class="checklist-label">App not on approved / known list</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">Excessive permissions granted (see high-risk list below)</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">Consent granted at or near the time of a phishing event</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">App publisher is unverified or unknown</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">Token activity detected without corresponding sign-in events</span><div class="checklist-box"></div></div>
+    </div>
+    <div style="margin-top:12px;">
+      <div style="font-size:12px;font-weight:600;color:#993C1D;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">High-risk OAuth permission scopes</div>
+      <div class="perm-grid">
+        <span class="perm-tag">Mail.Read</span>
+        <span class="perm-tag">Mail.ReadWrite</span>
+        <span class="perm-tag">Files.ReadWrite.All</span>
+        <span class="perm-tag">offline_access</span>
+        <span class="perm-tag">Contacts.ReadWrite</span>
+        <span class="perm-tag moderate">Calendars.ReadWrite</span>
+        <span class="perm-tag moderate">User.Read.All</span>
+        <span class="perm-tag moderate">Directory.ReadWrite.All</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Severity & Escalation -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 6</div>
+    <div class="pb-section-title">Severity &amp; Escalation Criteria</div>
+    <p>Escalate to <strong>High Severity</strong> if any of the following apply:</p>
+    <div class="escalation-box">
+      <p>
+        🔴 Mailbox or file access permissions granted to the app<br>
+        🔴 Offline access or refresh tokens enabled<br>
+        🔴 Privileged or VIP user consented to the app<br>
+        🔴 OAuth artefact persists after a password reset has been performed<br>
+        🔴 MDR confirms active data access via the OAuth token
+      </p>
+    </div>
+    <div style="margin-top:1rem;">
+      <div style="font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Notify immediately</div>
+      <div class="notify-grid">
+        <div class="notify-card"><div class="notify-icon">🔐</div><div class="notify-name">Identity Team</div><div class="notify-role">Consent revocation support</div></div>
+        <div class="notify-card"><div class="notify-icon">👔</div><div class="notify-name">SOC Leadership</div><div class="notify-role">High severity awareness</div></div>
+        <div class="notify-card"><div class="notify-icon">🤝</div><div class="notify-name">MDR Partner</div><div class="notify-role">If applicable</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Response Strategy -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 7</div>
+    <div class="pb-section-title">Response Strategy</div>
+    <p>The following actions must be orchestrated across the response team:</p>
+    <div class="action-row"><span class="action-name">OAuth app inventory review — enumerate all consented apps</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Permission assessment — evaluate scope of access granted</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Consent revocation — remove malicious app authorisation</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Token invalidation — revoke all issued tokens and refresh tokens</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Sign-in and audit log review</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Account containment (if sign-in compromise also present)</span><span class="action-req req-cond">Conditional</span></div>
+    <div class="action-row"><span class="action-name">Scope expansion to other affected users</span><span class="action-req req-cond">Conditional</span></div>
+  </div>
+
+  <!-- 8. Runbook Invocation -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 8</div>
+    <div class="pb-section-title">Runbook Invocation Matrix</div>
+    <p>This playbook invokes execution runbooks only:</p>
+    <div class="rb-invoke-grid">
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Review OAuth apps &amp; permissions</span><span class="rb-invoke-code">ID-RB-04</span><span class="rb-invoke-arrow">›</span></a>
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Revoke OAuth consent / tokens</span><span class="rb-invoke-code">ID-RB-05</span><span class="rb-invoke-arrow">›</span></a>
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Reset user account (if needed)</span><span class="rb-invoke-code">ID-RB-01</span><span class="rb-invoke-arrow">›</span></a>
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Review sign-in and audit logs</span><span class="rb-invoke-code">ID-RB-03</span><span class="rb-invoke-arrow">›</span></a>
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Remove mailbox persistence</span><span class="rb-invoke-code">ID-RB-02</span><span class="rb-invoke-arrow">›</span></a>
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Disable external forwarding (if present)</span><span class="rb-invoke-code">EM-RB-07</span><span class="rb-invoke-arrow">›</span></a>
+    </div>
+  </div>
+
+  <!-- 9. Persistence & Access Validation -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 9</div>
+    <div class="pb-section-title">Persistence &amp; Access Validation Logic</div>
+    <p>After remediation, confirm all of the following before proceeding to closure:</p>
+    <div class="validation-list">
+      <div class="validation-item">OAuth app is no longer authorised on the account</div>
+      <div class="validation-item">Access tokens and refresh tokens have been revoked and invalidated</div>
+      <div class="validation-item">No continued data access without a corresponding interactive sign-in</div>
+      <div class="validation-item">No additional OAuth artefacts exist for the same user</div>
+    </div>
+    <div class="escalation-box" style="margin-top:10px;">
+      <p>⚠️ If access persists after revocation → escalate to ID-PB-05 (Privileged Account Compromise) — the attacker may have deeper persistence</p>
+    </div>
+  </div>
+
+  <!-- 10. Scope Expansion -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 10</div>
+    <div class="pb-section-title">Scope Expansion Logic</div>
+    <div class="scope-grid">
+      <div class="scope-box">
+        <h4>Triggers for expansion</h4>
+        <ul class="pb-bullet">
+          <li>Same OAuth app consented by multiple users</li>
+          <li>Consent granted from the same IP or ASN</li>
+          <li>Similar permission scopes seen tenant-wide</li>
+          <li>MDR identifies campaign-level behaviour</li>
+        </ul>
+      </div>
+      <div class="scope-box">
+        <h4>Expansion actions</h4>
+        <ul class="pb-bullet">
+          <li>Tenant-wide OAuth app inventory review</li>
+          <li>Search for users with similar consent patterns</li>
+          <li>Correlate consent timestamps with phishing events</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. Communication -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 11</div>
+    <div class="pb-section-title">Communication &amp; Coordination</div>
+    <p>Inform the affected user of the following:</p>
+    <ul class="pb-bullet">
+      <li>That a third-party application was accessing their data</li>
+      <li>What specific permissions were granted to the app</li>
+      <li>That access has been fully revoked and what they need to do next</li>
+    </ul>
+    <div class="decision-box" style="margin-top:10px;">
+      <p>Coordinate with Identity Engineering to address governance gaps — specifically whether user consent should be restricted to admin-approved apps only. Align all actions with the MDR ticket workflow.</p>
+    </div>
+  </div>
+
+  <!-- 12. Closure Criteria -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 12</div>
+    <div class="pb-section-title">Closure Criteria</div>
+    <ul class="pb-bullet">
+      <li>Malicious OAuth app fully revoked from all affected accounts</li>
+      <li>All tokens and refresh tokens invalidated</li>
+      <li>No residual data access observed</li>
+      <li>Sign-in and audit logs reviewed and confirmed clean</li>
+      <li>User confirms no further abnormal behaviour</li>
+    </ul>
+  </div>
+
+  <!-- 13. Evidence -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 13</div>
+    <div class="pb-section-title">Evidence to Capture</div>
+    <div class="evidence-grid">
+      <div class="evidence-item">OAuth app name, ID, and publisher</div>
+      <div class="evidence-item">Permissions granted (full scope list)</div>
+      <div class="evidence-item">Consent timestamp and source IP</div>
+      <div class="evidence-item">Token revocation confirmation</div>
+      <div class="evidence-item">Audit and sign-in log excerpts</div>
+    </div>
+  </div>
+
+  <!-- 14. Post-Incident -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 14</div>
+    <div class="pb-section-title">Post-Incident Actions</div>
+    <ul class="pb-bullet">
+      <li>Recommend consent governance controls — admin-only consent or restricted scope policies</li>
+      <li>Review Conditional Access policies for OAuth app access</li>
+      <li>Tune MDR and SOC detections for consent abuse patterns</li>
+      <li>Update phishing playbooks to include OAuth artefact checks as a standard step</li>
+      <li>Feed app indicators and publisher details into threat intelligence</li>
+    </ul>
+  </div>
+
+  <div class="pb-nav">
+    <a href="id-pb-03.html">← ID-PB-03: MFA Fatigue / Bypass</a>
+    <a href="playbooks.html">← Back to Playbooks</a>
+    <a href="id-pb-05.html">ID-PB-05: Privileged Account Compromise →</a>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>ID-PB-04 · Published 22 December 2025 · Paulo Ferreira</span>
+    <span><a href="playbooks.html" style="color:#185FA5;text-decoration:none;">← Back to Playbooks</a></span>
+  </div>
+
+</div>
+</body>
+</html>

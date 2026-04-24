@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EP-PB-04: Endpoint Persistence Mechanisms — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --ep:#8B4A0E; --ep-light:#FEF0E6; --ep-border:#F5C89A; }
+  .pb-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .pb-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .pb-meta-item strong { color:#1a1a1a; }
+  .pb-meta-sep { color:#e0e0dc; }
+  .pb-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .pb-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ep); margin-bottom:4px; }
+  .pb-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .pb-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .pb-section p:last-child { margin-bottom:0; }
+  .pb-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .pb-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .pb-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--ep); flex-shrink:0; margin-top:5px; }
+  .pb-bullet.out-of-scope li::before { background:#ccc; }
+  .pb-two-col { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .pb-sub-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .pb-sub-box h4 { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:8px; }
+  .decision-box { background:var(--ep-light); border:0.5px solid var(--ep-border); border-radius:10px; padding:1rem 1.25rem; margin-top:10px; }
+  .decision-box p { font-size:13px; color:var(--ep); line-height:1.6; margin-bottom:0; }
+  .escalation-box { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:10px; padding:1rem 1.25rem; margin-top:4px; }
+  .escalation-box p { font-size:13px; color:#993C1D; line-height:1.8; margin-bottom:0; }
+  /* Persistence type grid */
+  .persist-type-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-top:8px; }
+  .persist-type-card { background:var(--ep-light); border:0.5px solid var(--ep-border); border-radius:8px; padding:0.7rem 1rem; }
+  .persist-type-card h4 { font-size:12px; font-weight:600; color:var(--ep); margin-bottom:3px; }
+  .persist-type-card p  { font-size:12px; color:#666; margin:0; line-height:1.4; }
+  .checklist { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .checklist-item { display:flex; align-items:center; justify-content:space-between; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; gap:12px; }
+  .checklist-label { font-size:14px; color:#333; flex:1; }
+  .checklist-box { width:20px; height:20px; border-radius:4px; border:1.5px solid #ccc; flex-shrink:0; background:#fff; }
+  .action-row { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:0.5px solid #f0f0ec; gap:12px; }
+  .action-row:last-child { border-bottom:none; }
+  .action-name { font-size:14px; color:#333; flex:1; }
+  .action-req { font-size:12px; font-weight:600; padding:3px 10px; border-radius:10px; white-space:nowrap; }
+  .req-yes  { background:#E1F5EE; color:#0F6E56; }
+  .req-cond { background:#FAEEDA; color:#854F0B; }
+  .rb-invoke-grid { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .rb-invoke-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; text-decoration:none; color:inherit; transition:border-color 0.15s; }
+  .rb-invoke-row:hover { border-color:var(--ep); background:var(--ep-light); }
+  .rb-invoke-scenario { font-size:13px; color:#555; flex:1; }
+  .rb-invoke-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--ep-light); color:var(--ep); padding:2px 8px; border-radius:6px; white-space:nowrap; }
+  .rb-invoke-arrow { color:#ccc; font-size:14px; }
+  .contain-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .contain-box { border-radius:10px; padding:1rem 1.1rem; }
+  .contain-box.immediate  { background:#FAECE7; border:0.5px solid #F5C0B0; }
+  .contain-box.controlled { background:#FAEEDA; border:0.5px solid #FAC775; }
+  .contain-box h4 { font-size:13px; font-weight:600; margin-bottom:8px; }
+  .contain-box.immediate h4  { color:#993C1D; }
+  .contain-box.controlled h4 { color:#854F0B; }
+  .contain-box ul { list-style:none; display:flex; flex-direction:column; gap:5px; }
+  .contain-box li { font-size:13px; color:#555; line-height:1.5; display:flex; align-items:flex-start; gap:8px; }
+  .contain-box.immediate li::before  { content:'🔴'; font-size:10px; flex-shrink:0; margin-top:2px; }
+  .contain-box.controlled li::before { content:'🟡'; font-size:10px; flex-shrink:0; margin-top:2px; }
+  /* Validation list */
+  .validation-list { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .validation-item { display:flex; align-items:center; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#444; }
+  .validation-item::before { content:'✓'; color:#0F6E56; font-weight:700; font-size:13px; flex-shrink:0; }
+  .notify-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; margin-top:8px; }
+  .notify-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.8rem 1rem; text-align:center; }
+  .notify-icon { font-size:20px; margin-bottom:4px; }
+  .notify-name { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:2px; }
+  .notify-role { font-size:12px; color:#888; line-height:1.4; }
+  .evidence-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:8px; margin-top:4px; }
+  .evidence-item { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#444; display:flex; align-items:center; gap:8px; }
+  .evidence-item::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--ep); flex-shrink:0; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--ep); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .pb-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .pb-nav a { font-size:13px; color:var(--ep); text-decoration:none; }
+  @media(max-width:640px){ .pb-two-col,.contain-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html" class="active">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="playbooks.html">Playbooks</a><span>›</span>
+    <span>EP-PB-04</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#4A1E00 0%,#8B4A0E 100%);">
+    <span class="kb-page-hero-icon">💻</span>
+    <h1>EP-PB-04: Endpoint Persistence Mechanisms</h1>
+    <p>Framework for detecting, investigating, and eradicating endpoint persistence mechanisms — ensuring that endpoint compromise is fully remediated, not merely contained. Persistence must be removed before any incident can be closed.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">💻 Endpoint threats</span>
+      <span class="kb-meta-pill">Tier 2 / 3</span>
+      <span class="kb-meta-pill">Full eradication required</span>
+      <span class="kb-meta-pill">MDR integrated</span>
+    </div>
+  </div>
+
+  <div class="pb-meta-bar">
+    <div class="pb-meta-item">📋 <strong>ID:</strong> EP-PB-04</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">📅 <strong>Published:</strong> 23 December 2025</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">🏷️ <strong>Category:</strong> Endpoint Threat</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 1</div>
+    <div class="pb-section-title">Purpose</div>
+    <p>Provide a standardised decision and response framework for detecting, investigating, and eradicating endpoint persistence mechanisms used by attackers to maintain access after initial compromise.</p>
+    <p>This playbook ensures that endpoint compromise is <strong>fully remediated, not merely contained</strong>. Persistence must always be removed before any endpoint incident is closed.</p>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 2</div>
+    <div class="pb-section-title">Scope</div>
+    <div class="pb-two-col">
+      <div class="pb-sub-box">
+        <h4>✅ In scope</h4>
+        <ul class="pb-bullet">
+          <li>Scheduled tasks executing unknown or suspicious binaries</li>
+          <li>Registry run keys and startup folder entries</li>
+          <li>Malicious services and drivers</li>
+          <li>WMI event subscriptions</li>
+          <li>Local user or admin account creation</li>
+          <li>Persistence discovered during EP-PB-01/02/03 or MDR escalations</li>
+        </ul>
+        <div style="margin-top:10px;">
+          <div style="font-size:11px;font-weight:600;color:var(--ep);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Persistence types</div>
+          <div class="persist-type-grid">
+            <div class="persist-type-card"><h4>Scheduled tasks</h4><p>Tasks executing unknown binaries</p></div>
+            <div class="persist-type-card"><h4>Registry autorun</h4><p>Run keys with obfuscated commands</p></div>
+            <div class="persist-type-card"><h4>Services</h4><p>Running from user-writable paths</p></div>
+            <div class="persist-type-card"><h4>WMI subscriptions</h4><p>Encoded payload triggers</p></div>
+            <div class="persist-type-card"><h4>Local accounts</h4><p>New local user or admin created</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="pb-sub-box">
+        <h4>❌ Out of scope</h4>
+        <ul class="pb-bullet out-of-scope">
+          <li>Identity-only persistence (mailbox rules, OAuth) → ID-PB-02 / ID-PB-04</li>
+          <li>Network device persistence → Network playbooks</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 3</div>
+    <div class="pb-section-title">Trigger Conditions</div>
+    <ul class="pb-bullet">
+      <li>EDR detects persistence-related behaviour (task creation, registry modification, service installation)</li>
+      <li>MDR escalates suspected persistence activity</li>
+      <li>SOC identifies startup, service, or scheduled task anomalies</li>
+      <li>Endpoint compromise response requires persistence validation before closure</li>
+      <li>Post-containment verification requires persistence assurance</li>
+    </ul>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 4</div>
+    <div class="pb-section-title">Initial Validation (Decision Logic)</div>
+    <p>Validate whether the observed mechanism is legitimate:</p>
+    <ul class="pb-bullet">
+      <li>Is the persistence mechanism documented and approved?</li>
+      <li>Is it associated with known software or IT management tooling?</li>
+      <li>Was it created during an approved change window?</li>
+      <li>Does it align with the endpoint's role and the user's function?</li>
+    </ul>
+    <div class="decision-box">
+      <p>If <strong>YES</strong> — legitimate → Document and close as Authorised Configuration<br>
+      If <strong>NO</strong> or <strong>UNCLEAR</strong> → Proceed with persistence assessment (Section 5)</p>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 5</div>
+    <div class="pb-section-title">Persistence Assessment</div>
+    <p>Assess type, intent, and risk. <strong>Presence of any indicator = Confirmed Malicious Persistence:</strong></p>
+    <div class="checklist">
+      <div class="checklist-item"><span class="checklist-label">Scheduled task executing an unknown or unsigned binary</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">Registry autorun entry with obfuscated or encoded command</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">Service running from a user-writable or temp path</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">WMI event subscription with an encoded payload</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">New local user or admin account created without authorisation</span><div class="checklist-box"></div></div>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 6</div>
+    <div class="pb-section-title">Severity &amp; Escalation Criteria</div>
+    <p>Escalate to <strong>High Severity</strong> if any of the following apply:</p>
+    <div class="escalation-box">
+      <p>🔴 Persistence survives a system reboot<br>
+      🔴 Persistence tied to external C2 communication<br>
+      🔴 Privileged account or system involved<br>
+      🔴 Persistence exists on multiple endpoints<br>
+      🔴 MDR confirms hands-on-keyboard attacker activity</p>
+    </div>
+    <div style="margin-top:1rem;">
+      <div style="font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Notify immediately</div>
+      <div class="notify-grid">
+        <div class="notify-card"><div class="notify-icon">👔</div><div class="notify-name">SOC Leadership</div><div class="notify-role">High severity awareness</div></div>
+        <div class="notify-card"><div class="notify-icon">💻</div><div class="notify-name">Endpoint / IT Ops</div><div class="notify-role">Removal support</div></div>
+        <div class="notify-card"><div class="notify-icon">🤝</div><div class="notify-name">MDR Partner</div><div class="notify-role">If applicable</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 7</div>
+    <div class="pb-section-title">Response Strategy</div>
+    <div class="action-row"><span class="action-name">Persistence mechanism identification — enumerate all types</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Persistence removal</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">IOC generation and blocking</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Mandatory scope expansion</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Endpoint containment decision</span><span class="action-req req-cond">Conditional</span></div>
+    <div class="action-row"><span class="action-name">Credential exposure assessment</span><span class="action-req req-cond">Conditional</span></div>
+    <div class="escalation-box" style="margin-top:10px;">
+      <p>⚠️ <strong>Persistence must be removed before closing any endpoint incident</strong> — never close without confirming full eradication</p>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 8</div>
+    <div class="pb-section-title">Runbook Invocation Matrix</div>
+    <div class="rb-invoke-grid">
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Endpoint investigation</span><span class="rb-invoke-code">EP-RB-01</span><span class="rb-invoke-arrow">›</span></a>
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Isolate endpoint</span><span class="rb-invoke-code">EP-RB-02</span><span class="rb-invoke-arrow">›</span></a>
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Remove persistence artefacts</span><span class="rb-invoke-code">EP-RB-03</span><span class="rb-invoke-arrow">›</span></a>
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Reset exposed credentials</span><span class="rb-invoke-code">ID-RB-01</span><span class="rb-invoke-arrow">›</span></a>
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Review sign-in activity</span><span class="rb-invoke-code">ID-RB-03</span><span class="rb-invoke-arrow">›</span></a>
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Block malicious hashes</span><span class="rb-invoke-code">EM-RB-06</span><span class="rb-invoke-arrow">›</span></a>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 9</div>
+    <div class="pb-section-title">Containment Decision Logic</div>
+    <div class="contain-grid">
+      <div class="contain-box immediate">
+        <h4>🔴 Immediate isolation</h4>
+        <ul>
+          <li>Persistence is executing active payloads right now</li>
+          <li>External C2 communication observed</li>
+          <li>Multiple persistence methods present simultaneously</li>
+        </ul>
+      </div>
+      <div class="contain-box controlled">
+        <h4>🟡 Controlled containment</h4>
+        <ul>
+          <li>Persistence is currently dormant</li>
+          <li>Business-critical system — isolation has high impact</li>
+          <li>Forensic capture required before removal</li>
+        </ul>
+      </div>
+    </div>
+    <div class="decision-box" style="margin-top:10px;">
+      <p>Containment must be coordinated to avoid tipping off the attacker prematurely — especially when persistence is dormant and the attacker may still have situational awareness.</p>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 10</div>
+    <div class="pb-section-title">Scope Expansion Logic</div>
+    <p>Scope expansion is <strong>mandatory</strong> for all EP-PB-04 incidents:</p>
+    <ul class="pb-bullet">
+      <li>Search for identical persistence artefacts (task names, registry keys, file paths) across all endpoints</li>
+      <li>Correlate file paths, registry keys, and task names tenant-wide</li>
+      <li>Identify other endpoints accessed or used by the same compromised user</li>
+      <li>Review lateral movement indicators (EP-PB-03) for connected compromise</li>
+      <li>Validate no persistence exists on related or adjacent systems</li>
+    </ul>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 11</div>
+    <div class="pb-section-title">Communication &amp; Coordination</div>
+    <ul class="pb-bullet">
+      <li>Coordinate removal timing carefully with IT operations</li>
+      <li>Avoid notifying the affected user until persistence is fully removed</li>
+      <li>Align all remediation actions with the MDR team</li>
+      <li>Escalate to Incident Command if persistence is widespread across multiple systems</li>
+    </ul>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 12</div>
+    <div class="pb-section-title">Closure Criteria</div>
+    <p>The incident may be closed when <strong>all</strong> of the following are confirmed:</p>
+    <div class="validation-list">
+      <div class="validation-item">All persistence mechanisms identified and removed</div>
+      <div class="validation-item">Endpoint rebooted and re-validated post-removal</div>
+      <div class="validation-item">No re-creation of persistence observed after removal</div>
+      <div class="validation-item">Credentials reset if any exposure was suspected</div>
+      <div class="validation-item">Monitoring confirms endpoint stability and clean state</div>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 13</div>
+    <div class="pb-section-title">Evidence to Capture</div>
+    <div class="evidence-grid">
+      <div class="evidence-item">Type and location of persistence mechanism</div>
+      <div class="evidence-item">Creation timestamps</div>
+      <div class="evidence-item">Associated binaries or scripts</div>
+      <div class="evidence-item">User or process that created persistence</div>
+      <div class="evidence-item">Timeline of removal and validation</div>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 14</div>
+    <div class="pb-section-title">Post-Incident Actions</div>
+    <ul class="pb-bullet">
+      <li>Review and update endpoint hardening baselines</li>
+      <li>Reduce user write permissions where unnecessarily broad</li>
+      <li>Enforce application control to prevent unknown binary execution</li>
+      <li>Tune EDR persistence detection rules</li>
+      <li>Feed artefacts into threat hunting use cases</li>
+      <li>Update endpoint recovery procedures if gaps were identified</li>
+    </ul>
+  </div>
+
+  <div class="pb-nav">
+    <a href="ep-pb-03.html">← EP-PB-03: Lateral Movement</a>
+    <a href="playbooks.html">← Back to Playbooks</a>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>EP-PB-04 · Published 23 December 2025 · Paulo Ferreira</span>
+    <span><a href="playbooks.html" style="color:var(--ep);text-decoration:none;">← Back to Playbooks</a></span>
+  </div>
+</div>
+</body>
+</html>

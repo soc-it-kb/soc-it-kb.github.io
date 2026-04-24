@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NW-PB-05: Denial of Service (DoS) / Network Disruption — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .pb-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .pb-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .pb-meta-item strong { color:#1a1a1a; }
+  .pb-meta-sep { color:#e0e0dc; }
+  .pb-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .pb-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#3C6E3C; margin-bottom:4px; }
+  .pb-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .pb-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .pb-section p:last-child { margin-bottom:0; }
+  .pb-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .pb-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .pb-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:#3C6E3C; flex-shrink:0; margin-top:5px; }
+  .pb-bullet.out-of-scope li::before { background:#ccc; }
+  .pb-two-col { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .pb-sub-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .pb-sub-box h4 { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:8px; }
+  .decision-box { background:#EDF6ED; border:0.5px solid #A8D5A8; border-radius:10px; padding:1rem 1.25rem; margin-top:10px; }
+  .decision-box p { font-size:13px; color:#2D5A2D; line-height:1.6; margin-bottom:0; }
+  .escalation-box { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:10px; padding:1rem 1.25rem; margin-top:4px; }
+  .escalation-box p { font-size:13px; color:#993C1D; line-height:1.8; margin-bottom:0; }
+
+  /* Availability banner */
+  .avail-banner { background:#3D0A0A; border:0.5px solid #8B1A1A; border-radius:12px; padding:1rem 1.5rem; margin-bottom:1.25rem; display:flex; align-items:center; gap:12px; }
+  .avail-banner-icon { font-size:22px; flex-shrink:0; }
+  .avail-banner-text strong { color:#FF6B6B; font-size:14px; display:block; margin-bottom:2px; }
+  .avail-banner-text p { color:rgba(255,200,200,0.85); font-size:13px; line-height:1.5; margin:0; }
+
+  /* Attack type cards */
+  .attack-type-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:8px; }
+  .attack-type-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.8rem 1rem; }
+  .attack-type-card h4 { font-size:12px; font-weight:600; color:#3C6E3C; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px; }
+  .attack-type-card p  { font-size:13px; color:#555; line-height:1.4; margin:0; }
+
+  /* Checklist */
+  .checklist { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .checklist-item { display:flex; align-items:center; justify-content:space-between; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; gap:12px; }
+  .checklist-label { font-size:14px; color:#333; flex:1; }
+  .checklist-box { width:20px; height:20px; border-radius:4px; border:1.5px solid #ccc; flex-shrink:0; background:#fff; }
+
+  /* Action matrix */
+  .action-row { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:0.5px solid #f0f0ec; gap:12px; }
+  .action-row:last-child { border-bottom:none; }
+  .action-name { font-size:14px; color:#333; flex:1; }
+  .action-req { font-size:12px; font-weight:600; padding:3px 10px; border-radius:10px; white-space:nowrap; }
+  .req-yes      { background:#E1F5EE; color:#0F6E56; }
+  .req-critical { background:#FAECE7; color:#993C1D; }
+  .req-cond     { background:#FAEEDA; color:#854F0B; }
+
+  /* Runbook invocation */
+  .rb-invoke-grid { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .rb-invoke-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; text-decoration:none; color:inherit; transition:border-color 0.15s, background 0.15s; }
+  .rb-invoke-row:hover { border-color:#3C6E3C; background:#f0f7f0; }
+  .rb-invoke-row.future { opacity:0.55; cursor:default; pointer-events:none; }
+  .rb-invoke-scenario { font-size:13px; color:#555; flex:1; }
+  .rb-invoke-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:#EDF6ED; color:#2D5A2D; padding:2px 8px; border-radius:6px; white-space:nowrap; }
+  .rb-invoke-future { font-size:10px; font-weight:600; background:#f5f5f3; color:#aaa; border:0.5px solid #e0e0dc; padding:2px 7px; border-radius:6px; white-space:nowrap; }
+  .rb-invoke-arrow { color:#ccc; font-size:14px; }
+
+  /* Mitigation strategy grid */
+  .mitigation-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:4px; }
+  .mitigation-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .mitigation-box h4 { font-size:12px; font-weight:600; color:#3C6E3C; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+
+  /* Stakeholder grid */
+  .stakeholder-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:8px; margin-top:8px; }
+  .stakeholder-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.8rem 1rem; text-align:center; }
+  .stakeholder-icon { font-size:20px; margin-bottom:4px; }
+  .stakeholder-name { font-size:12px; font-weight:600; color:#1a1a1a; margin-bottom:3px; }
+  .stakeholder-role { font-size:11px; color:#888; line-height:1.4; }
+
+  /* Scope expansion */
+  .scope-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .scope-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .scope-box h4 { font-size:12px; font-weight:600; color:#3C6E3C; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+
+  /* Evidence */
+  .evidence-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:8px; margin-top:4px; }
+  .evidence-item { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#444; display:flex; align-items:center; gap:8px; }
+  .evidence-item::before { content:''; width:6px; height:6px; border-radius:50%; background:#3C6E3C; flex-shrink:0; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:#3C6E3C; text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { color:#ccc; }
+  .pb-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .pb-nav a { font-size:13px; color:#3C6E3C; text-decoration:none; }
+  .pb-nav a:hover { text-decoration:underline; }
+
+  @media(max-width:640px){ .pb-two-col, .scope-grid, .attack-type-grid, .mitigation-grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html" class="active">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="playbooks.html">Playbooks</a><span>›</span>
+    <span>NW-PB-05</span>
+  </div>
+
+  <!-- Availability banner -->
+  <div class="avail-banner">
+    <div class="avail-banner-icon">⚡</div>
+    <div class="avail-banner-text">
+      <strong>Primary objective: service availability, not attribution</strong>
+      <p>DoS response prioritises restoring services and protecting users. Attribution and forensic investigation are secondary. DoS may also be a diversion for a simultaneous attack — always check for concurrent activity.</p>
+    </div>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A3A1A 0%,#3C6E3C 100%);">
+    <span class="kb-page-hero-icon">🌐</span>
+    <h1>NW-PB-05: Denial of Service (DoS) / Network Disruption</h1>
+    <p>Standardised framework for detecting, investigating, and responding to DoS attacks and network disruption events — ensuring rapid service stabilisation, coordinated infrastructure response, and protection of critical services.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">🌐 Network threats</span>
+      <span class="kb-meta-pill">All tiers</span>
+      <span class="kb-meta-pill">Incident Command</span>
+      <span class="kb-meta-pill">ISP coordination</span>
+    </div>
+  </div>
+
+  <div class="pb-meta-bar">
+    <div class="pb-meta-item">📋 <strong>ID:</strong> NW-PB-05</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">📅 <strong>Published:</strong> 23 December 2025</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">🏷️ <strong>Category:</strong> Network Threat</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <!-- 1. Purpose -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 1</div>
+    <div class="pb-section-title">Purpose</div>
+    <p>Provide a standardised decision and response framework for detecting, investigating, and responding to Denial of Service (DoS) attacks and network disruption events, ensuring rapid service stabilisation, coordinated response with infrastructure teams, and protection of critical services.</p>
+    <p>This playbook addresses availability-impacting incidents, which may be malicious (DoS/DDoS), abuse-driven (resource exhaustion), or symptomatic of a broader attack (ransomware, extortion, diversion tactic).</p>
+    <div style="margin-top:12px;">
+      <div style="font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Attack type reference</div>
+      <div class="attack-type-grid">
+        <div class="attack-type-card"><h4>Malicious</h4><p>Intentional DoS or DDoS from attacker-controlled infrastructure</p></div>
+        <div class="attack-type-card"><h4>Abuse-driven</h4><p>Resource exhaustion from crawlers, scrapers, or misconfigured systems</p></div>
+        <div class="attack-type-card"><h4>Diversion</h4><p>DoS used to distract while a concurrent attack (ransomware, exfiltration) occurs</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Scope -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 2</div>
+    <div class="pb-section-title">Scope</div>
+    <div class="pb-two-col">
+      <div class="pb-sub-box">
+        <h4>✅ In scope</h4>
+        <ul class="pb-bullet">
+          <li>Distributed Denial of Service (DDoS) attacks</li>
+          <li>Targeted DoS against applications, networks, or services</li>
+          <li>Network saturation or bandwidth exhaustion</li>
+          <li>Resource exhaustion on network devices</li>
+          <li>Network disruption detected by firewalls, NDR, ISP alerts, or MDR</li>
+        </ul>
+      </div>
+      <div class="pb-sub-box">
+        <h4>❌ Out of scope</h4>
+        <ul class="pb-bullet out-of-scope">
+          <li>Endpoint-level resource exhaustion → EP playbooks</li>
+          <li>Planned outages or maintenance events</li>
+          <li>Data exfiltration without service impact → NW-PB-04</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Trigger Conditions -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 3</div>
+    <div class="pb-section-title">Trigger Conditions</div>
+    <ul class="pb-bullet">
+      <li>Network or application becomes unavailable or severely degraded</li>
+      <li>Firewall or NDR detects volumetric traffic spikes</li>
+      <li>ISP or upstream provider reports DDoS activity</li>
+      <li>MDR escalates suspected DoS or service disruption</li>
+      <li>SOC observes sudden traffic surges, connection exhaustion, or service timeouts across multiple users</li>
+    </ul>
+  </div>
+
+  <!-- 4. Initial Validation -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 4</div>
+    <div class="pb-section-title">Initial Validation (Decision Logic)</div>
+    <p>Validate whether the disruption is malicious rather than operational:</p>
+    <ul class="pb-bullet">
+      <li>Is there an unusual and unexplained spike in inbound traffic?</li>
+      <li>Are requests malformed, repetitive, or clearly automated?</li>
+      <li>Is traffic sourced from multiple or spoofed IP addresses?</li>
+      <li>Does the issue persist after standard operational troubleshooting?</li>
+    </ul>
+    <div class="decision-box">
+      <p>If <strong>NO</strong> — legitimate outage or misconfiguration suspected → Route to IT incident management<br>
+      If <strong>YES</strong> or <strong>UNCLEAR</strong> → Proceed with DoS assessment (Section 5)</p>
+    </div>
+  </div>
+
+  <!-- 5. DoS Assessment -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 5</div>
+    <div class="pb-section-title">DoS / Disruption Assessment</div>
+    <p>Assess type, scope, and confidence. <strong>Presence of any indicator = Suspected DoS / Network Attack:</strong></p>
+    <div class="checklist">
+      <div class="checklist-item"><span class="checklist-label">Volumetric traffic spike significantly above baseline</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">Distributed source IPs or spoofed source addresses</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">Application-layer abuse (HTTP floods, API hammering)</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">Targeted service or resource exhaustion</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">Concurrent extortion or threat message received</span><div class="checklist-box"></div></div>
+    </div>
+  </div>
+
+  <!-- 6. Severity & Escalation -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 6</div>
+    <div class="pb-section-title">Severity &amp; Escalation Criteria</div>
+    <p>Escalate to <strong>High or Critical Severity</strong> if any of the following apply:</p>
+    <div class="escalation-box">
+      <p>
+        🔴 Public-facing or mission-critical services impacted<br>
+        🔴 Attack is sustained or actively escalating<br>
+        🔴 Multiple services or geographic locations affected<br>
+        🔴 DoS coincides with ransomware, exfiltration, or extortion threats<br>
+        🔴 MDR or ISP confirms a malicious, organised attack
+      </p>
+    </div>
+    <div style="margin-top:1rem;">
+      <div style="font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Notify immediately</div>
+      <div class="stakeholder-grid">
+        <div class="stakeholder-card"><div class="stakeholder-icon">👔</div><div class="stakeholder-name">SOC Leadership</div><div class="stakeholder-role">Incident command activation</div></div>
+        <div class="stakeholder-card"><div class="stakeholder-icon">🌐</div><div class="stakeholder-name">Network / Infra Leadership</div><div class="stakeholder-role">Mitigation execution</div></div>
+        <div class="stakeholder-card"><div class="stakeholder-icon">⚙️</div><div class="stakeholder-name">Incident Command</div><div class="stakeholder-role">Crisis management</div></div>
+        <div class="stakeholder-card"><div class="stakeholder-icon">🤝</div><div class="stakeholder-name">MDR Partner</div><div class="stakeholder-role">If applicable</div></div>
+        <div class="stakeholder-card"><div class="stakeholder-icon">📢</div><div class="stakeholder-name">Comms / PR</div><div class="stakeholder-role">Per IR plan</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Response Strategy -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 7</div>
+    <div class="pb-section-title">Response Strategy</div>
+    <p>Execute the following actions immediately — <strong>availability restoration is the primary objective</strong>:</p>
+    <div class="action-row"><span class="action-name">Traffic pattern analysis — classify attack type</span><span class="action-req req-critical">Critical</span></div>
+    <div class="action-row"><span class="action-name">Attack classification (volumetric vs application-layer)</span><span class="action-req req-critical">Critical</span></div>
+    <div class="action-row"><span class="action-name">Service protection decision — mitigation strategy selection</span><span class="action-req req-critical">Critical</span></div>
+    <div class="action-row"><span class="action-name">Upstream / ISP coordination for traffic scrubbing</span><span class="action-req req-critical">Critical</span></div>
+    <div class="action-row"><span class="action-name">Availability restoration</span><span class="action-req req-critical">Critical</span></div>
+    <div class="action-row"><span class="action-name">Scope expansion — check for concurrent attacks</span><span class="action-req req-critical">Critical</span></div>
+  </div>
+
+  <!-- 8. Runbook Invocation -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 8</div>
+    <div class="pb-section-title">Runbook Invocation Matrix</div>
+    <p>This playbook invokes execution runbooks only:</p>
+    <div class="rb-invoke-grid">
+      <div class="rb-invoke-row future">
+        <span class="rb-invoke-scenario">Analyse DoS traffic patterns</span>
+        <span class="rb-invoke-code">NW-RB-01</span>
+        <span class="rb-invoke-future">Coming soon</span>
+      </div>
+      <div class="rb-invoke-row future">
+        <span class="rb-invoke-scenario">Apply network / firewall mitigation</span>
+        <span class="rb-invoke-code">NW-RB-04</span>
+        <span class="rb-invoke-future">Coming soon</span>
+      </div>
+      <div class="rb-invoke-row future">
+        <span class="rb-invoke-scenario">Coordinate ISP / upstream mitigation</span>
+        <span class="rb-invoke-code">NW-RB-05</span>
+        <span class="rb-invoke-future">Coming soon</span>
+      </div>
+      <a class="rb-invoke-row" href="runbooks.html">
+        <span class="rb-invoke-scenario">Investigate related endpoint activity</span>
+        <span class="rb-invoke-code">EP-RB-01</span>
+        <span class="rb-invoke-arrow">›</span>
+      </a>
+      <a class="rb-invoke-row" href="runbooks.html">
+        <span class="rb-invoke-scenario">Review sign-in activity (if diversion suspected)</span>
+        <span class="rb-invoke-code">ID-RB-03</span>
+        <span class="rb-invoke-arrow">›</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 9. Mitigation Logic -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 9</div>
+    <div class="pb-section-title">Containment &amp; Mitigation Logic</div>
+    <p>Select the mitigation strategy based on the attack type identified in Section 5:</p>
+    <div class="mitigation-grid">
+      <div class="mitigation-box">
+        <h4>Volumetric attacks</h4>
+        <ul class="pb-bullet">
+          <li>Activate upstream filtering or traffic scrubbing service</li>
+          <li>Engage ISP or DDoS protection provider</li>
+          <li>Apply null-routing for identified source IP ranges</li>
+        </ul>
+      </div>
+      <div class="mitigation-box">
+        <h4>Application-layer attacks</h4>
+        <ul class="pb-bullet">
+          <li>Apply rate limiting at the WAF or load balancer</li>
+          <li>Adjust WAF rules to block abusive patterns</li>
+          <li>Implement temporary service access restrictions</li>
+        </ul>
+      </div>
+      <div class="mitigation-box">
+        <h4>Internal disruption</h4>
+        <ul class="pb-bullet">
+          <li>Apply network segment isolation</li>
+          <li>Activate service failover if available</li>
+          <li>Identify and contain the internal source</li>
+        </ul>
+      </div>
+    </div>
+    <div class="decision-box" style="margin-top:10px;">
+      <p>Mitigation actions should prioritise <strong>stability and reduction of user impact</strong>. Coordinate all actions with the network team before applying changes to production infrastructure.</p>
+    </div>
+  </div>
+
+  <!-- 10. Scope Expansion -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 10</div>
+    <div class="pb-section-title">Scope Expansion Logic</div>
+    <p>Scope expansion is <strong>mandatory</strong> for all NW-PB-05 incidents — particularly to detect diversion attacks:</p>
+    <div class="scope-grid">
+      <div class="scope-box">
+        <h4>Impact identification</h4>
+        <ul class="pb-bullet">
+          <li>Identify all services impacted by the disruption</li>
+          <li>Determine geographic and network scope of the attack</li>
+          <li>Monitor for secondary or follow-on intrusion attempts</li>
+        </ul>
+      </div>
+      <div class="scope-box">
+        <h4>Diversion check</h4>
+        <ul class="pb-bullet">
+          <li>Review concurrent security alerts (phishing, ransomware, C2)</li>
+          <li>Assess whether the DoS is a diversion for another simultaneous attack</li>
+          <li>Escalate to relevant playbooks if concurrent attack confirmed</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. Communication -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 11</div>
+    <div class="pb-section-title">Communication &amp; Coordination</div>
+    <ul class="pb-bullet">
+      <li>Activate Incident Command if availability is materially impacted</li>
+      <li>Maintain a single source of truth for all incident updates</li>
+      <li>Coordinate technical actions with network teams and ISP simultaneously</li>
+      <li>Align external communications with Leadership and Comms/PR before publishing</li>
+      <li>Maintain MDR situational awareness throughout</li>
+    </ul>
+  </div>
+
+  <!-- 12. Closure Criteria -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 12</div>
+    <div class="pb-section-title">Closure Criteria</div>
+    <p>The incident may be closed when all of the following are confirmed:</p>
+    <ul class="pb-bullet">
+      <li>Network and services fully stabilised and operating normally</li>
+      <li>Malicious traffic mitigated or naturally subsided</li>
+      <li>No secondary or concurrent attacks observed</li>
+      <li>Root cause identified and documented</li>
+      <li>Post-incident resilience review completed</li>
+    </ul>
+  </div>
+
+  <!-- 13. Evidence -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 13</div>
+    <div class="pb-section-title">Evidence to Capture</div>
+    <div class="evidence-grid">
+      <div class="evidence-item">Traffic volumes and timelines</div>
+      <div class="evidence-item">Source IP ranges and ASNs</div>
+      <div class="evidence-item">Targeted services and ports</div>
+      <div class="evidence-item">Firewall / NDR / ISP alert exports</div>
+      <div class="evidence-item">All mitigation actions taken and timestamps</div>
+      <div class="evidence-item">Availability impact timeline</div>
+    </div>
+  </div>
+
+  <!-- 14. Post-Incident -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 14</div>
+    <div class="pb-section-title">Post-Incident Actions</div>
+    <ul class="pb-bullet">
+      <li>Review DDoS protection posture and service provider capabilities</li>
+      <li>Improve rate-limiting and WAF rule coverage</li>
+      <li>Enhance network resilience and redundancy where gaps identified</li>
+      <li>Tune detection thresholds to reduce false positives and improve speed of detection</li>
+      <li>Update crisis and communications playbooks based on lessons learned</li>
+      <li>Conduct a formal resilience review and table-top exercise</li>
+    </ul>
+  </div>
+
+  <div class="pb-nav">
+    <a href="nw-pb-04.html">← NW-PB-04: Data Exfiltration</a>
+    <a href="playbooks.html">← Back to Playbooks</a>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>NW-PB-05 · Published 23 December 2025 · Paulo Ferreira</span>
+    <span><a href="playbooks.html" style="color:#3C6E3C;text-decoration:none;">← Back to Playbooks</a></span>
+  </div>
+
+</div>
+</body>
+</html>

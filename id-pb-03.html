@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ID-PB-03: MFA Fatigue / MFA Bypass Attack — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .pb-meta-bar {
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    background:#fff; border:0.5px solid #e0e0dc; border-radius:12px;
+    padding:0.9rem 1.25rem; margin-bottom:1.5rem;
+  }
+  .pb-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .pb-meta-item strong { color:#1a1a1a; }
+  .pb-meta-sep { color:#e0e0dc; }
+  .pb-section {
+    background:#fff; border:0.5px solid #e0e0dc;
+    border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px;
+  }
+  .pb-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#185FA5; margin-bottom:4px; }
+  .pb-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .pb-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .pb-section p:last-child { margin-bottom:0; }
+  .pb-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .pb-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .pb-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:#185FA5; flex-shrink:0; margin-top:5px; }
+  .pb-bullet.out-of-scope li::before { background:#ccc; }
+  .pb-two-col { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .pb-sub-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .pb-sub-box h4 { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:8px; }
+  .decision-box { background:#E6F1FB; border:0.5px solid #B5D4F4; border-radius:10px; padding:1rem 1.25rem; margin-top:10px; }
+  .decision-box p { font-size:13px; color:#185FA5; line-height:1.6; margin-bottom:0; }
+  .escalation-box { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:10px; padding:1rem 1.25rem; margin-top:4px; }
+  .escalation-box p { font-size:13px; color:#993C1D; line-height:1.8; margin-bottom:0; }
+  .posture-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px; margin-top:8px; }
+  .posture-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.8rem 1rem; }
+  .posture-card h4 { font-size:12px; font-weight:600; color:#185FA5; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px; }
+  .posture-card p  { font-size:13px; color:#555; line-height:1.4; margin:0; }
+  .checklist { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .checklist-item { display:flex; align-items:center; justify-content:space-between; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; gap:12px; }
+  .checklist-label { font-size:14px; color:#333; flex:1; }
+  .checklist-box { width:20px; height:20px; border-radius:4px; border:1.5px solid #ccc; flex-shrink:0; background:#fff; }
+  .action-row { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:0.5px solid #f0f0ec; gap:12px; }
+  .action-row:last-child { border-bottom:none; }
+  .action-name { font-size:14px; color:#333; flex:1; }
+  .action-req { font-size:12px; font-weight:600; padding:3px 10px; border-radius:10px; white-space:nowrap; }
+  .req-yes  { background:#E1F5EE; color:#0F6E56; }
+  .req-cond { background:#FAEEDA; color:#854F0B; }
+  .rb-invoke-grid { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .rb-invoke-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; text-decoration:none; color:inherit; transition:border-color 0.15s, background 0.15s; }
+  .rb-invoke-row:hover { border-color:#185FA5; background:#f0f5fb; }
+  .rb-invoke-scenario { font-size:13px; color:#555; flex:1; }
+  .rb-invoke-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:#E6F1FB; color:#185FA5; padding:2px 8px; border-radius:6px; white-space:nowrap; }
+  .rb-invoke-arrow { color:#ccc; font-size:14px; }
+  .scope-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .scope-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .scope-box h4 { font-size:12px; font-weight:600; color:#185FA5; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+  .notify-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-top:8px; }
+  .notify-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.8rem 1rem; text-align:center; }
+  .notify-icon { font-size:20px; margin-bottom:4px; }
+  .notify-name { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:2px; }
+  .notify-role { font-size:12px; color:#888; line-height:1.4; }
+  .evidence-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:8px; margin-top:4px; }
+  .evidence-item { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#444; display:flex; align-items:center; gap:8px; }
+  .evidence-item::before { content:''; width:6px; height:6px; border-radius:50%; background:#185FA5; flex-shrink:0; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:#185FA5; text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { color:#ccc; }
+  .pb-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .pb-nav a { font-size:13px; color:#185FA5; text-decoration:none; }
+  .pb-nav a:hover { text-decoration:underline; }
+  @media(max-width:640px){ .pb-two-col, .scope-grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html" class="active">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="playbooks.html">Playbooks</a><span>›</span>
+    <span>ID-PB-03</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#0F3460 0%,#185FA5 100%);">
+    <span class="kb-page-hero-icon">🔐</span>
+    <h1>ID-PB-03: MFA Fatigue / MFA Bypass Attack</h1>
+    <p>Standardised response framework for MFA fatigue, bypass, and abuse attacks — addressing scenarios where MFA is technically enabled but operationally bypassed through user coercion, push bombing, or protocol abuse.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">🔐 Identity threats</span>
+      <span class="kb-meta-pill">Tier 1 / 2 / 3</span>
+      <span class="kb-meta-pill">MDR integrated</span>
+    </div>
+  </div>
+
+  <div class="pb-meta-bar">
+    <div class="pb-meta-item">📋 <strong>ID:</strong> ID-PB-03</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">📅 <strong>Published:</strong> 22 December 2025</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">🏷️ <strong>Category:</strong> Identity Threat</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 1</div>
+    <div class="pb-section-title">Purpose</div>
+    <p>Provide a standardised decision and response framework for detecting, investigating, and responding to Multi-Factor Authentication (MFA) fatigue, MFA bypass, or MFA abuse attacks, ensuring rapid containment and prevention of repeated compromise.</p>
+    <p>This playbook addresses attacks where MFA is technically enabled but operationally bypassed through user coercion, push bombing, or protocol abuse.</p>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 2</div>
+    <div class="pb-section-title">Scope</div>
+    <div class="pb-two-col">
+      <div class="pb-sub-box">
+        <h4>✅ In scope</h4>
+        <ul class="pb-bullet">
+          <li>MFA push-notification fatigue attacks</li>
+          <li>MFA approval abuse</li>
+          <li>MFA challenge replay or bypass</li>
+          <li>Identity risk detections indicating MFA abuse</li>
+          <li>User-reported unexpected MFA prompts</li>
+        </ul>
+      </div>
+      <div class="pb-sub-box">
+        <h4>❌ Out of scope</h4>
+        <ul class="pb-bullet out-of-scope">
+          <li>Password spray without MFA interaction → ID-PB-07</li>
+          <li>OAuth token abuse → ID-PB-04</li>
+          <li>Hardware token compromise (handled separately)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 3</div>
+    <div class="pb-section-title">Trigger Conditions</div>
+    <ul class="pb-bullet">
+      <li>MDR escalates suspected MFA fatigue or bypass</li>
+      <li>Identity platform flags anomalous MFA behaviour</li>
+      <li>User reports repeated or unexpected MFA prompts</li>
+      <li>SOC detects successful sign-in following multiple MFA denials</li>
+      <li>Sign-ins approved from suspicious or unexpected locations</li>
+    </ul>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 4</div>
+    <div class="pb-section-title">Initial Validation (Decision Logic)</div>
+    <p>Confirm the event is MFA-related by checking for any of the following:</p>
+    <ul class="pb-bullet">
+      <li>Multiple MFA challenges generated within a short time window?</li>
+      <li>MFA approvals occurring without a user-initiated login event?</li>
+      <li>MFA challenge followed immediately by a successful sign-in?</li>
+      <li>Use of legacy or weak authentication paths bypassing MFA?</li>
+    </ul>
+    <div class="decision-box">
+      <p>If <strong>NO</strong> to all → Route to the appropriate identity playbook<br>
+      If <strong>YES</strong> to any → Proceed with MFA abuse assessment (Section 5)</p>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 5</div>
+    <div class="pb-section-title">MFA Abuse Assessment</div>
+    <p>Assess the attack pattern. <strong>Presence of any indicator confirms MFA abuse:</strong></p>
+    <div class="checklist">
+      <div class="checklist-item"><span class="checklist-label">High volume of MFA prompts in a short window</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">User reports being told "Approve to stop alerts"</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">Successful sign-in recorded after MFA spam</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">MFA approved from an unfamiliar location or device</span><div class="checklist-box"></div></div>
+      <div class="checklist-item"><span class="checklist-label">Pattern of repeated MFA failures followed by success</span><div class="checklist-box"></div></div>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 6</div>
+    <div class="pb-section-title">Severity &amp; Escalation Criteria</div>
+    <p>Escalate to <strong>High Severity</strong> if any of the following apply:</p>
+    <div class="escalation-box">
+      <p>
+        🔴 Successful sign-in achieved via MFA abuse<br>
+        🔴 Privileged or VIP account targeted<br>
+        🔴 MFA abuse repeated across multiple users simultaneously<br>
+        🔴 MDR confirms active attacker persistence following bypass
+      </p>
+    </div>
+    <div style="margin-top:1rem;">
+      <div style="font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Notify immediately</div>
+      <div class="notify-grid">
+        <div class="notify-card"><div class="notify-icon">🔐</div><div class="notify-name">Identity Team</div><div class="notify-role">MFA reset and re-registration</div></div>
+        <div class="notify-card"><div class="notify-icon">👔</div><div class="notify-name">SOC Leadership</div><div class="notify-role">High severity awareness</div></div>
+        <div class="notify-card"><div class="notify-icon">🤝</div><div class="notify-name">MDR Partner</div><div class="notify-role">If applicable</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 7</div>
+    <div class="pb-section-title">Response Strategy</div>
+    <p>Execute the following actions immediately and in parallel where possible:</p>
+    <div class="action-row"><span class="action-name">Immediate session revocation — revoke all active tokens</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Credential reset</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">MFA method review — assess method strength</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">MFA re-registration with stronger method</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Sign-in log review</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Persistence check (mailbox rules, OAuth)</span><span class="action-req req-cond">Conditional</span></div>
+    <div class="action-row"><span class="action-name">Endpoint validation (if sign-in succeeded)</span><span class="action-req req-cond">Conditional</span></div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 8</div>
+    <div class="pb-section-title">Runbook Invocation Matrix</div>
+    <p>This playbook invokes execution runbooks only:</p>
+    <div class="rb-invoke-grid">
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Revoke sessions / reset account</span><span class="rb-invoke-code">ID-RB-01</span><span class="rb-invoke-arrow">›</span></a>
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Review sign-in and MFA logs</span><span class="rb-invoke-code">ID-RB-03</span><span class="rb-invoke-arrow">›</span></a>
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Review mailbox rules</span><span class="rb-invoke-code">ID-RB-02</span><span class="rb-invoke-arrow">›</span></a>
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Disable external forwarding (if present)</span><span class="rb-invoke-code">EM-RB-07</span><span class="rb-invoke-arrow">›</span></a>
+      <a class="rb-invoke-row" href="runbooks.html"><span class="rb-invoke-scenario">Endpoint investigation (if sign-in succeeded)</span><span class="rb-invoke-code">EP-RB-01</span><span class="rb-invoke-arrow">›</span></a>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 9</div>
+    <div class="pb-section-title">MFA Hardening &amp; Containment Logic</div>
+    <p>During response, validate and strengthen the MFA posture of the affected account:</p>
+    <div class="posture-grid">
+      <div class="posture-card"><h4>MFA method</h4><p>Confirm method used and upgrade if weak (SMS → authenticator app → FIDO2)</p></div>
+      <div class="posture-card"><h4>Number matching</h4><p>Is MFA number matching enabled? Prevents blind push-approval attacks</p></div>
+      <div class="posture-card"><h4>Legacy auth</h4><p>Is legacy authentication still enabled? Block via Conditional Access if so</p></div>
+      <div class="posture-card"><h4>Conditional Access</h4><p>Are Conditional Access policies enforced for this account and application?</p></div>
+    </div>
+    <div class="escalation-box" style="margin-top:10px;">
+      <p>⚠️ If MFA posture is weak or misconfigured → escalate to Identity Engineering and record as a formal control gap</p>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 10</div>
+    <div class="pb-section-title">Scope Expansion Logic</div>
+    <div class="scope-grid">
+      <div class="scope-box">
+        <h4>Triggers for expansion</h4>
+        <ul class="pb-bullet">
+          <li>Same IP targeting multiple users</li>
+          <li>Similar MFA abuse patterns across the tenant</li>
+          <li>MFA fatigue detected in parallel incidents</li>
+          <li>MDR indicates campaign-level activity</li>
+        </ul>
+      </div>
+      <div class="scope-box">
+        <h4>Expansion actions</h4>
+        <ul class="pb-bullet">
+          <li>Search for users with repeated MFA prompts</li>
+          <li>Correlate attacking IPs and ASNs across accounts</li>
+          <li>Review MFA logs tenant-wide for pattern matching</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 11</div>
+    <div class="pb-section-title">Communication &amp; Coordination</div>
+    <p>Inform the affected user of the following:</p>
+    <ul class="pb-bullet">
+      <li>That an MFA abuse attack was detected and what occurred</li>
+      <li>That credentials have been reset and MFA re-registration is required</li>
+      <li>How to recognise and respond to future MFA fatigue attempts</li>
+    </ul>
+    <div class="decision-box" style="margin-top:10px;">
+      <p>Coordinate MFA re-enrolment carefully — ensure the user registers on a trusted device. Align all actions with the MDR ticket and record the re-registration timestamp.</p>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 12</div>
+    <div class="pb-section-title">Closure Criteria</div>
+    <ul class="pb-bullet">
+      <li>Credentials reset and MFA fully re-registered with a stronger method</li>
+      <li>All active sessions revoked</li>
+      <li>MFA abuse source blocked or mitigated</li>
+      <li>Sign-in activity reviewed and confirmed clean</li>
+      <li>User confirms no further unexpected MFA prompts</li>
+    </ul>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 13</div>
+    <div class="pb-section-title">Evidence to Capture</div>
+    <div class="evidence-grid">
+      <div class="evidence-item">MFA event logs</div>
+      <div class="evidence-item">Sign-in logs (pre and post reset)</div>
+      <div class="evidence-item">Attacking IP addresses and geolocation</div>
+      <div class="evidence-item">MFA method details at time of attack</div>
+      <div class="evidence-item">Timeline of MFA prompts and approvals</div>
+    </div>
+  </div>
+
+  <div class="pb-section">
+    <div class="pb-section-num">Section 14</div>
+    <div class="pb-section-title">Post-Incident Actions</div>
+    <ul class="pb-bullet">
+      <li>Recommend MFA hardening — number matching, phishing-resistant MFA (FIDO2)</li>
+      <li>Review and tighten Conditional Access policies</li>
+      <li>Tune MFA abuse detection thresholds in the identity platform</li>
+      <li>Feed indicators into threat hunting queries</li>
+      <li>Update user awareness materials to cover MFA fatigue scenarios</li>
+    </ul>
+  </div>
+
+  <div class="pb-nav">
+    <a href="id-pb-02.html">← ID-PB-02: Mailbox Rules &amp; Persistence</a>
+    <a href="playbooks.html">← Back to Playbooks</a>
+    <a href="id-pb-04.html">ID-PB-04: OAuth App Abuse →</a>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>ID-PB-03 · Published 22 December 2025 · Paulo Ferreira</span>
+    <span><a href="playbooks.html" style="color:#185FA5;text-decoration:none;">← Back to Playbooks</a></span>
+  </div>
+
+</div>
+</body>
+</html>

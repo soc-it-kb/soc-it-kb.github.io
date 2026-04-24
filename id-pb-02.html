@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ID-PB-02: Suspicious Mailbox Rules & Identity Persistence — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .pb-meta-bar {
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    background:#fff; border:0.5px solid #e0e0dc; border-radius:12px;
+    padding:0.9rem 1.25rem; margin-bottom:1.5rem;
+  }
+  .pb-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .pb-meta-item strong { color:#1a1a1a; }
+  .pb-meta-sep { color:#e0e0dc; }
+
+  .pb-section {
+    background:#fff; border:0.5px solid #e0e0dc;
+    border-radius:12px; padding:1.25rem 1.5rem;
+    margin-bottom:10px;
+  }
+  .pb-section-num {
+    font-size:11px; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:#185FA5; margin-bottom:4px;
+  }
+  .pb-section-title {
+    font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem;
+    padding-bottom:8px; border-bottom:0.5px solid #f0f0ec;
+  }
+  .pb-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .pb-section p:last-child { margin-bottom:0; }
+
+  .pb-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .pb-bullet li {
+    display:flex; align-items:flex-start; gap:10px;
+    font-size:14px; color:#333; line-height:1.5;
+  }
+  .pb-bullet li::before {
+    content:''; width:7px; height:7px; border-radius:50%;
+    background:#185FA5; flex-shrink:0; margin-top:5px;
+  }
+  .pb-bullet.out-of-scope li::before { background:#ccc; }
+
+  .pb-two-col { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .pb-sub-box {
+    background:#f9f9f7; border:0.5px solid #e8e8e4;
+    border-radius:8px; padding:0.9rem 1rem;
+  }
+  .pb-sub-box h4 { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:8px; }
+
+  .decision-box {
+    background:#E6F1FB; border:0.5px solid #B5D4F4;
+    border-radius:10px; padding:1rem 1.25rem; margin-top:10px;
+  }
+  .decision-box p { font-size:13px; color:#185FA5; line-height:1.6; margin-bottom:0; }
+
+  .escalation-box {
+    background:#FAECE7; border:0.5px solid #F5C0B0;
+    border-radius:10px; padding:1rem 1.25rem; margin-top:4px;
+  }
+  .escalation-box p { font-size:13px; color:#993C1D; line-height:1.8; margin-bottom:0; }
+
+  /* Persistence assessment table */
+  .persist-grid { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .persist-row {
+    display:flex; align-items:center; gap:12px;
+    background:#f9f9f7; border:0.5px solid #e8e8e4;
+    border-radius:8px; padding:0.7rem 1rem;
+  }
+  .persist-technique {
+    font-size:13px; font-weight:600; color:#1a1a1a;
+    min-width:170px; flex-shrink:0;
+  }
+  .persist-indicator { font-size:13px; color:#555; flex:1; line-height:1.4; }
+  .checklist-box {
+    width:20px; height:20px; border-radius:4px;
+    border:1.5px solid #ccc; flex-shrink:0; background:#fff;
+  }
+
+  /* Action matrix */
+  .action-row {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:8px 0; border-bottom:0.5px solid #f0f0ec; gap:12px;
+  }
+  .action-row:last-child { border-bottom:none; }
+  .action-name { font-size:14px; color:#333; flex:1; }
+  .action-req {
+    font-size:12px; font-weight:600; padding:3px 10px;
+    border-radius:10px; white-space:nowrap;
+  }
+  .req-yes  { background:#E1F5EE; color:#0F6E56; }
+  .req-cond { background:#FAEEDA; color:#854F0B; }
+
+  .rb-invoke-grid { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .rb-invoke-row {
+    display:flex; align-items:center; gap:12px;
+    background:#f9f9f7; border:0.5px solid #e8e8e4;
+    border-radius:8px; padding:0.7rem 1rem;
+    text-decoration:none; color:inherit;
+    transition:border-color 0.15s, background 0.15s;
+  }
+  .rb-invoke-row:hover { border-color:#185FA5; background:#f0f5fb; }
+  .rb-invoke-scenario { font-size:13px; color:#555; flex:1; }
+  .rb-invoke-code {
+    font-family:'SF Mono','Fira Code',monospace; font-size:11px;
+    font-weight:600; background:#E6F1FB; color:#185FA5;
+    padding:2px 8px; border-radius:6px; white-space:nowrap;
+  }
+  .rb-invoke-arrow { color:#ccc; font-size:14px; }
+
+  /* Scope expansion */
+  .scope-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .scope-box {
+    background:#f9f9f7; border:0.5px solid #e8e8e4;
+    border-radius:8px; padding:0.9rem 1rem;
+  }
+  .scope-box h4 { font-size:12px; font-weight:600; color:#185FA5; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+
+  /* Evidence */
+  .evidence-grid {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:8px; margin-top:4px;
+  }
+  .evidence-item {
+    background:#f9f9f7; border:0.5px solid #e8e8e4;
+    border-radius:8px; padding:0.7rem 1rem;
+    font-size:13px; color:#444;
+    display:flex; align-items:center; gap:8px;
+  }
+  .evidence-item::before {
+    content:''; width:6px; height:6px; border-radius:50%;
+    background:#185FA5; flex-shrink:0;
+  }
+
+  /* Notify grid */
+  .notify-grid {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:8px; margin-top:8px;
+  }
+  .notify-card {
+    background:#f9f9f7; border:0.5px solid #e8e8e4;
+    border-radius:8px; padding:0.8rem 1rem; text-align:center;
+  }
+  .notify-icon { font-size:20px; margin-bottom:4px; }
+  .notify-name { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:2px; }
+  .notify-role { font-size:12px; color:#888; line-height:1.4; }
+
+  .breadcrumb {
+    display:flex; align-items:center; gap:6px;
+    font-size:12px; color:#aaa; margin-bottom:1rem;
+  }
+  .breadcrumb a { color:#185FA5; text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { color:#ccc; }
+
+  .pb-nav {
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:10px; margin-top:1rem;
+  }
+  .pb-nav a { font-size:13px; color:#185FA5; text-decoration:none; }
+  .pb-nav a:hover { text-decoration:underline; }
+
+  @media(max-width:640px){
+    .pb-two-col, .scope-grid { grid-template-columns:1fr; }
+    .persist-technique { min-width:120px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html" class="active">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="playbooks.html">Playbooks</a><span>›</span>
+    <span>ID-PB-02</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#0F3460 0%,#185FA5 100%);">
+    <span class="kb-page-hero-icon">🔐</span>
+    <h1>ID-PB-02: Suspicious Mailbox Rules &amp; Identity Persistence</h1>
+    <p>Standardised framework for detecting, investigating, and remediating identity persistence mechanisms following account compromise — ensuring attackers cannot maintain access after credentials have been reset.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">🔐 Identity threats</span>
+      <span class="kb-meta-pill">Tier 2 / 3</span>
+      <span class="kb-meta-pill">Post-compromise</span>
+      <span class="kb-meta-pill">MDR integrated</span>
+    </div>
+  </div>
+
+  <div class="pb-meta-bar">
+    <div class="pb-meta-item">📋 <strong>ID:</strong> ID-PB-02</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">📅 <strong>Published:</strong> 22 December 2025</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">🏷️ <strong>Category:</strong> Identity Threat</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <!-- 1. Purpose -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 1</div>
+    <div class="pb-section-title">Purpose</div>
+    <p>Provide a standardised decision and response framework for detecting, investigating, and remediating identity persistence mechanisms following account compromise, with a focus on mailbox rules, forwarding, and stealth access techniques.</p>
+    <p>This playbook ensures attackers cannot maintain access after credentials have been reset.</p>
+  </div>
+
+  <!-- 2. Scope -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 2</div>
+    <div class="pb-section-title">Scope</div>
+    <div class="pb-two-col">
+      <div class="pb-sub-box">
+        <h4>✅ In scope</h4>
+        <ul class="pb-bullet">
+          <li>Suspicious inbox rules</li>
+          <li>External mail forwarding</li>
+          <li>Hidden or obfuscated mailbox rules</li>
+          <li>Persistence discovered during phishing response (EM-PB-01 → EM-PB-05)</li>
+          <li>Persistence discovered during account compromise handling (ID-PB-01)</li>
+          <li>MDR escalations and proactive SOC hunting</li>
+        </ul>
+      </div>
+      <div class="pb-sub-box">
+        <h4>❌ Out of scope</h4>
+        <ul class="pb-bullet out-of-scope">
+          <li>OAuth application abuse → ID-PB-04</li>
+          <li>Endpoint-only persistence → Endpoint playbooks</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Trigger Conditions -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 3</div>
+    <div class="pb-section-title">Trigger Conditions</div>
+    <p>Initiate this playbook when any of the following occur:</p>
+    <ul class="pb-bullet">
+      <li>Suspicious mailbox rules detected via audit log or tooling</li>
+      <li>External email forwarding identified on a user account</li>
+      <li>MDR flags mailbox persistence indicators</li>
+      <li>SOC discovers rules during an ID-PB-01 investigation</li>
+      <li>User reports missing emails or unusual mailbox behaviour</li>
+    </ul>
+  </div>
+
+  <!-- 4. Initial Validation -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 4</div>
+    <div class="pb-section-title">Initial Validation (Decision Logic)</div>
+    <p>Confirm that the activity is not business-justified by reviewing the following:</p>
+    <ul class="pb-bullet">
+      <li>Was the rule created by the user knowingly and intentionally?</li>
+      <li>Is the forwarding destination an approved and recognised address?</li>
+      <li>Does the rule align with a documented and verifiable business process?</li>
+    </ul>
+    <div class="decision-box">
+      <p>If <strong>YES</strong> to all → Document and close as Authorised Configuration<br>
+      If <strong>NO</strong> or <strong>UNCLEAR</strong> to any → Treat as Malicious Persistence and proceed</p>
+    </div>
+  </div>
+
+  <!-- 5. Persistence Assessment -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 5</div>
+    <div class="pb-section-title">Persistence Assessment</div>
+    <p>Evaluate the type and severity of persistence. <strong>Presence of any indicator confirms persistence:</strong></p>
+    <div class="persist-grid">
+      <div class="persist-row">
+        <span class="persist-technique">🗑️ Auto-delete rules</span>
+        <span class="persist-indicator">Emails silently moved to Deleted Items</span>
+        <div class="checklist-box"></div>
+      </div>
+      <div class="persist-row">
+        <span class="persist-technique">📤 Auto-forwarding</span>
+        <span class="persist-indicator">External recipient configured for forwarding</span>
+        <div class="checklist-box"></div>
+      </div>
+      <div class="persist-row">
+        <span class="persist-technique">🔍 Keyword-based rules</span>
+        <span class="persist-indicator">Rules targeting financial or security-related terms</span>
+        <div class="checklist-box"></div>
+      </div>
+      <div class="persist-row">
+        <span class="persist-technique">👻 Hidden rules</span>
+        <span class="persist-indicator">Non-descriptive or obfuscated rule names</span>
+        <div class="checklist-box"></div>
+      </div>
+      <div class="persist-row">
+        <span class="persist-technique">⏱️ Timing correlation</span>
+        <span class="persist-indicator">Rule created at or near time of compromise</span>
+        <div class="checklist-box"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Risk & Escalation -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 6</div>
+    <div class="pb-section-title">Risk &amp; Escalation Criteria</div>
+    <p>Escalate to <strong>High Severity</strong> if any of the following apply:</p>
+    <div class="escalation-box">
+      <p>
+        🔴 Persistence follows confirmed credential compromise<br>
+        🔴 External forwarding is currently active<br>
+        🔴 Privileged or VIP account involved<br>
+        🔴 Evidence of data exposure via forwarding or rule<br>
+        🔴 Multiple persistence mechanisms identified simultaneously
+      </p>
+    </div>
+    <div style="margin-top:1rem;">
+      <div style="font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Notify immediately</div>
+      <div class="notify-grid">
+        <div class="notify-card"><div class="notify-icon">🔐</div><div class="notify-name">Identity Team</div><div class="notify-role">Remediation support</div></div>
+        <div class="notify-card"><div class="notify-icon">👔</div><div class="notify-name">SOC Leadership</div><div class="notify-role">High severity awareness</div></div>
+        <div class="notify-card"><div class="notify-icon">🤝</div><div class="notify-name">MDR Partner</div><div class="notify-role">If applicable</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Response Strategy -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 7</div>
+    <div class="pb-section-title">Response Strategy</div>
+    <p>The following actions must be orchestrated across the response team:</p>
+    <div class="action-row"><span class="action-name">Mailbox rule review — enumerate all rules</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Remove all malicious or unauthorised rules</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Disable external email forwarding</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Sign-in log review</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Session revocation</span><span class="action-req req-cond">Conditional</span></div>
+    <div class="action-row"><span class="action-name">Credential reset</span><span class="action-req req-cond">Conditional</span></div>
+    <div class="action-row"><span class="action-name">Scope expansion to other accounts</span><span class="action-req req-cond">Conditional</span></div>
+  </div>
+
+  <!-- 8. Runbook Invocation -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 8</div>
+    <div class="pb-section-title">Runbook Invocation Matrix</div>
+    <p>This playbook invokes execution runbooks only:</p>
+    <div class="rb-invoke-grid">
+      <a class="rb-invoke-row" href="runbooks.html">
+        <span class="rb-invoke-scenario">Review and remove mailbox rules</span>
+        <span class="rb-invoke-code">ID-RB-02</span>
+        <span class="rb-invoke-arrow">›</span>
+      </a>
+      <a class="rb-invoke-row" href="runbooks.html">
+        <span class="rb-invoke-scenario">Disable external email forwarding</span>
+        <span class="rb-invoke-code">EM-RB-07</span>
+        <span class="rb-invoke-arrow">›</span>
+      </a>
+      <a class="rb-invoke-row" href="runbooks.html">
+        <span class="rb-invoke-scenario">Reset compromised account</span>
+        <span class="rb-invoke-code">ID-RB-01</span>
+        <span class="rb-invoke-arrow">›</span>
+      </a>
+      <a class="rb-invoke-row" href="runbooks.html">
+        <span class="rb-invoke-scenario">Review sign-in activity</span>
+        <span class="rb-invoke-code">ID-RB-03</span>
+        <span class="rb-invoke-arrow">›</span>
+      </a>
+      <a class="rb-invoke-row" href="runbooks.html">
+        <span class="rb-invoke-scenario">Endpoint follow-up (if needed)</span>
+        <span class="rb-invoke-code">EP-RB-01</span>
+        <span class="rb-invoke-arrow">›</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 9. Scope Expansion -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 9</div>
+    <div class="pb-section-title">Scope Expansion Logic</div>
+    <div class="scope-grid">
+      <div class="scope-box">
+        <h4>Triggers for expansion</h4>
+        <ul class="pb-bullet">
+          <li>Rules reference financial or security terms</li>
+          <li>Forwarding destination reused across multiple users</li>
+          <li>Rule creation IP appears in other incidents</li>
+          <li>MDR indicates campaign-level activity</li>
+        </ul>
+      </div>
+      <div class="scope-box">
+        <h4>Expansion actions</h4>
+        <ul class="pb-bullet">
+          <li>Search for similar rules across the entire tenant</li>
+          <li>Review forwarding settings across all users</li>
+          <li>Correlate sign-in IPs across accounts</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. Communication -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 10</div>
+    <div class="pb-section-title">Communication &amp; Coordination</div>
+    <p>Inform the affected user of:</p>
+    <ul class="pb-bullet">
+      <li>What persistence mechanisms were found in their mailbox</li>
+      <li>What was removed and when</li>
+      <li>Any actions required from them (e.g. password reset, MFA re-registration)</li>
+    </ul>
+    <div class="decision-box" style="margin-top:10px;">
+      <p>Coordinate credential reset timing carefully — if an attacker is actively monitoring, premature reset alerts may trigger data destruction. Align with MDR ticket workflow before acting.</p>
+    </div>
+  </div>
+
+  <!-- 11. Closure Criteria -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 11</div>
+    <div class="pb-section-title">Closure Criteria</div>
+    <p>The incident may be closed when all of the following are confirmed:</p>
+    <ul class="pb-bullet">
+      <li>All malicious or unauthorised rules removed</li>
+      <li>External forwarding fully disabled</li>
+      <li>No unauthorised persistence mechanisms remain</li>
+      <li>Sign-in activity reviewed and confirmed clean</li>
+      <li>User confirms normal mailbox behaviour restored</li>
+    </ul>
+  </div>
+
+  <!-- 12. Evidence -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 12</div>
+    <div class="pb-section-title">Evidence to Capture</div>
+    <div class="evidence-grid">
+      <div class="evidence-item">Screenshots or exports of malicious rules</div>
+      <div class="evidence-item">Forwarding configuration before and after</div>
+      <div class="evidence-item">Rule creation timestamps</div>
+      <div class="evidence-item">Associated sign-in IP addresses</div>
+      <div class="evidence-item">Timeline of all remediation actions</div>
+    </div>
+  </div>
+
+  <!-- 13. Post-Incident -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 13</div>
+    <div class="pb-section-title">Post-Incident Actions</div>
+    <ul class="pb-bullet">
+      <li>Identify detection gaps in mailbox rule and forwarding alerting</li>
+      <li>Recommend tenant-wide external forwarding restrictions</li>
+      <li>Update SOC hunting queries with new persistence indicators</li>
+      <li>Feed persistence IOCs into threat intelligence platform</li>
+      <li>Reinforce user awareness if phishing was the initial vector</li>
+    </ul>
+  </div>
+
+  <div class="pb-nav">
+    <a href="id-pb-01.html">← ID-PB-01: Account Compromise</a>
+    <a href="playbooks.html">← Back to Playbooks</a>
+    <a href="id-pb-03.html">ID-PB-03: MFA Fatigue / Bypass →</a>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>ID-PB-02 · Published 22 December 2025 · Paulo Ferreira</span>
+    <span><a href="playbooks.html" style="color:#185FA5;text-decoration:none;">← Back to Playbooks</a></span>
+  </div>
+
+</div>
+</body>
+</html>

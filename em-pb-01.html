@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EM-PB-01: Phishing Incident Response — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .pb-meta-bar {
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    background:#fff; border:0.5px solid #e0e0dc; border-radius:12px;
+    padding:0.9rem 1.25rem; margin-bottom:1.5rem;
+  }
+  .pb-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .pb-meta-item strong { color:#1a1a1a; }
+  .pb-meta-sep { color:#e0e0dc; }
+
+  .pb-section {
+    background:#fff; border:0.5px solid #e0e0dc;
+    border-radius:12px; padding:1.25rem 1.5rem;
+    margin-bottom:10px;
+  }
+  .pb-section-num {
+    font-size:11px; font-weight:700; letter-spacing:0.08em;
+    text-transform:uppercase; color:#297086; margin-bottom:4px;
+  }
+  .pb-section-title {
+    font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem;
+    padding-bottom:8px; border-bottom:0.5px solid #f0f0ec;
+  }
+  .pb-section p  { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .pb-section p:last-child { margin-bottom:0; }
+
+  .pb-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .pb-bullet li {
+    display:flex; align-items:flex-start; gap:10px;
+    font-size:14px; color:#333; line-height:1.5;
+  }
+  .pb-bullet li::before {
+    content:''; width:7px; height:7px; border-radius:50%;
+    background:#297086; flex-shrink:0; margin-top:5px;
+  }
+  .pb-bullet.out-of-scope li::before { background:#ccc; }
+
+  .pb-two-col { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .pb-sub-box {
+    background:#f9f9f7; border:0.5px solid #e8e8e4;
+    border-radius:8px; padding:0.9rem 1rem;
+  }
+  .pb-sub-box h4 { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:8px; }
+
+  /* Decision logic */
+  .decision-box {
+    background:#E6F1FB; border:0.5px solid #B5D4F4;
+    border-radius:10px; padding:1rem 1.25rem; margin-top:10px;
+  }
+  .decision-box p { font-size:13px; color:#185FA5; line-height:1.6; margin-bottom:0; }
+
+  /* Classification table */
+  .pb-class-grid { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .pb-class-row {
+    display:flex; align-items:flex-start; gap:10px;
+    background:#f9f9f7; border:0.5px solid #e8e8e4;
+    border-radius:8px; padding:0.7rem 1rem;
+  }
+  .pb-class-label {
+    font-size:12px; font-weight:600; min-width:170px;
+    color:#1a1a1a; flex-shrink:0;
+  }
+  .pb-class-desc { font-size:13px; color:#555; line-height:1.4; }
+
+  /* Action matrix */
+  .action-row {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:8px 0; border-bottom:0.5px solid #f0f0ec; gap:12px;
+  }
+  .action-row:last-child { border-bottom:none; }
+  .action-name { font-size:14px; color:#333; flex:1; }
+  .action-req {
+    font-size:12px; font-weight:600; padding:3px 10px;
+    border-radius:10px; white-space:nowrap;
+  }
+  .req-yes  { background:#E1F5EE; color:#0F6E56; }
+  .req-cond { background:#FAEEDA; color:#854F0B; }
+  .req-sla  { background:#E6F1FB; color:#185FA5; }
+
+  /* Runbook invocation */
+  .rb-invoke-grid { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .rb-invoke-row {
+    display:flex; align-items:center; gap:12px;
+    background:#f9f9f7; border:0.5px solid #e8e8e4;
+    border-radius:8px; padding:0.7rem 1rem;
+    text-decoration:none; color:inherit;
+    transition:border-color 0.15s, background 0.15s;
+  }
+  .rb-invoke-row:hover { border-color:#297086; background:#f0f7fa; }
+  .rb-invoke-scenario { font-size:13px; color:#555; flex:1; }
+  .rb-invoke-code {
+    font-family:'SF Mono','Fira Code',monospace; font-size:11px;
+    font-weight:600; background:#E6F1FB; color:#297086;
+    padding:2px 8px; border-radius:6px; white-space:nowrap;
+  }
+  .rb-invoke-arrow { color:#ccc; font-size:14px; }
+
+  /* Evidence / post-incident lists */
+  .evidence-grid {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:8px; margin-top:4px;
+  }
+  .evidence-item {
+    background:#f9f9f7; border:0.5px solid #e8e8e4;
+    border-radius:8px; padding:0.7rem 1rem;
+    font-size:13px; color:#444;
+    display:flex; align-items:center; gap:8px;
+  }
+  .evidence-item::before {
+    content:''; width:6px; height:6px; border-radius:50%;
+    background:#297086; flex-shrink:0;
+  }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    display:flex; align-items:center; gap:6px;
+    font-size:12px; color:#aaa; margin-bottom:1rem;
+  }
+  .breadcrumb a { color:#297086; text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { color:#ccc; }
+
+  @media(max-width:640px){
+    .pb-two-col { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html" class="active">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="playbooks.html">Playbooks</a><span>›</span>
+    <span>EM-PB-01</span>
+  </div>
+
+  <!-- Page Hero -->
+  <div class="kb-page-hero">
+    <span class="kb-page-hero-icon">🔄</span>
+    <h1>EM-PB-01: Phishing Incident Response</h1>
+    <p>Standardised decision and response framework for identifying, classifying, and responding to phishing incidents across all SOC tiers and MDR integrations.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">📧 Email threats</span>
+      <span class="kb-meta-pill">Tier 1 / 2 / 3</span>
+      <span class="kb-meta-pill">MDR integrated</span>
+    </div>
+  </div>
+
+  <!-- Meta bar -->
+  <div class="pb-meta-bar">
+    <div class="pb-meta-item">📋 <strong>ID:</strong> EM-PB-01</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">📅 <strong>Published:</strong> 22 December 2025</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">🏷️ <strong>Category:</strong> Email Threat</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <!-- 1. Purpose -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 1</div>
+    <div class="pb-section-title">Purpose</div>
+    <p>To provide a standardised decision and response framework for identifying, classifying, and responding to phishing incidents, ensuring consistent handling across Tier-1 to Tier-3 analysts and MDR integrations.</p>
+  </div>
+
+  <!-- 2. Scope -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 2</div>
+    <div class="pb-section-title">Scope</div>
+    <div class="pb-two-col">
+      <div class="pb-sub-box">
+        <h4>✅ In scope</h4>
+        <ul class="pb-bullet">
+          <li>User-reported phishing emails</li>
+          <li>Email security gateway alerts</li>
+          <li>MDR escalations related to phishing</li>
+          <li>Suspicious inbound email events</li>
+        </ul>
+      </div>
+      <div class="pb-sub-box">
+        <h4>❌ Out of scope</h4>
+        <ul class="pb-bullet out-of-scope">
+          <li>Internal email misuse (handled under ID playbooks)</li>
+          <li>Confirmed malware outbreaks (escalate to endpoint playbooks)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Trigger Conditions -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 3</div>
+    <div class="pb-section-title">Trigger Conditions</div>
+    <p>Initiate this playbook when any of the following occur:</p>
+    <ul class="pb-bullet">
+      <li>User reports a suspicious email</li>
+      <li>Email security platform raises a phishing alert</li>
+      <li>MDR escalates a suspected phishing event</li>
+      <li>SOC analyst identifies suspicious email artefacts during investigation</li>
+    </ul>
+  </div>
+
+  <!-- 4. Initial Triage -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 4</div>
+    <div class="pb-section-title">Initial Triage (Decision Logic)</div>
+    <p><strong>4.1 Validate Event</strong> — confirm all three conditions:</p>
+    <ul class="pb-bullet">
+      <li>Is the email external?</li>
+      <li>Is the email unsolicited?</li>
+      <li>Does it exhibit social engineering indicators?</li>
+    </ul>
+    <div class="decision-box">
+      <p>If <strong>NO</strong> to any → Close as False Positive / Legitimate Email<br>
+      If <strong>YES</strong> to all → Proceed to Classification (Section 5)</p>
+    </div>
+  </div>
+
+  <!-- 5. Classification -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 5</div>
+    <div class="pb-section-title">Classification Logic</div>
+    <p>Classify the email into one of the following categories:</p>
+    <div class="pb-class-grid">
+      <div class="pb-class-row"><span class="pb-class-label">🗑️ Spam</span><span class="pb-class-desc">No malicious intent, nuisance only</span></div>
+      <div class="pb-class-row"><span class="pb-class-label">🎣 Commodity Phishing</span><span class="pb-class-desc">Generic lure, no targeted content</span></div>
+      <div class="pb-class-row"><span class="pb-class-label">🔑 Credential Harvesting</span><span class="pb-class-desc">Login pages, MFA fatigue, fake portals</span></div>
+      <div class="pb-class-row"><span class="pb-class-label">💀 Malware Delivery</span><span class="pb-class-desc">Attachments, macro-enabled files</span></div>
+      <div class="pb-class-row"><span class="pb-class-label">💰 Business Email Compromise</span><span class="pb-class-desc">Financial lure, impersonation, urgency</span></div>
+    </div>
+  </div>
+
+  <!-- 6. User Interaction -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 6</div>
+    <div class="pb-section-title">User Interaction Assessment</div>
+    <p>Determine user impact by confirming:</p>
+    <ul class="pb-bullet">
+      <li>Did the user click a link?</li>
+      <li>Did the user open an attachment?</li>
+      <li>Did the user submit credentials?</li>
+    </ul>
+    <div class="decision-box">
+      <p>If <strong>no interaction</strong> → containment may still be required<br>
+      If <strong>interaction confirmed or suspected</strong> → escalate severity (see Section 7)</p>
+    </div>
+  </div>
+
+  <!-- 7. Risk & Escalation -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 7</div>
+    <div class="pb-section-title">Risk &amp; Escalation Criteria</div>
+    <p>Escalate to <strong>High Severity</strong> if any of the following apply:</p>
+    <ul class="pb-bullet">
+      <li>Privileged or VIP user involved</li>
+      <li>Credentials submitted</li>
+      <li>Multiple recipients affected</li>
+      <li>Evidence of lateral spread or inbox rules abuse</li>
+      <li>MDR confirms malicious activity</li>
+    </ul>
+  </div>
+
+  <!-- 8. Response Strategy -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 8</div>
+    <div class="pb-section-title">Response Strategy</div>
+    <p>Based on classification and impact, determine which actions are required:</p>
+    <div class="action-row"><span class="action-name">Email artefact analysis</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">Scope expansion (search org-wide)</span><span class="action-req req-cond">Conditional</span></div>
+    <div class="action-row"><span class="action-name">Email removal from mailboxes</span><span class="action-req req-cond">Conditional</span></div>
+    <div class="action-row"><span class="action-name">Account containment</span><span class="action-req req-cond">Conditional</span></div>
+    <div class="action-row"><span class="action-name">Threat intelligence enrichment</span><span class="action-req req-yes">Required</span></div>
+    <div class="action-row"><span class="action-name">MDR escalation</span><span class="action-req req-sla">As per SLA</span></div>
+  </div>
+
+  <!-- 9. Runbook Invocation -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 9</div>
+    <div class="pb-section-title">Runbook Invocation Matrix</div>
+    <p>The playbook stops here and invokes the relevant execution runbooks based on the scenario:</p>
+    <div class="rb-invoke-grid">
+      <a class="rb-invoke-row" href="runbooks.html">
+        <span class="rb-invoke-scenario">Header analysis</span>
+        <span class="rb-invoke-code">EM-RB-01</span>
+        <span class="rb-invoke-arrow">›</span>
+      </a>
+      <a class="rb-invoke-row" href="runbooks.html">
+        <span class="rb-invoke-scenario">URL analysis</span>
+        <span class="rb-invoke-code">EM-RB-02</span>
+        <span class="rb-invoke-arrow">›</span>
+      </a>
+      <a class="rb-invoke-row" href="runbooks.html">
+        <span class="rb-invoke-scenario">Attachment analysis</span>
+        <span class="rb-invoke-code">EM-RB-03</span>
+        <span class="rb-invoke-arrow">›</span>
+      </a>
+      <a class="rb-invoke-row" href="runbooks.html">
+        <span class="rb-invoke-scenario">Remove email from mailboxes</span>
+        <span class="rb-invoke-code">EM-RB-04</span>
+        <span class="rb-invoke-arrow">›</span>
+      </a>
+      <a class="rb-invoke-row" href="runbooks.html">
+        <span class="rb-invoke-scenario">Block sender / domain</span>
+        <span class="rb-invoke-code">EM-RB-05</span>
+        <span class="rb-invoke-arrow">›</span>
+      </a>
+      <a class="rb-invoke-row" href="runbooks.html">
+        <span class="rb-invoke-scenario">User account containment</span>
+        <span class="rb-invoke-code">ID-RB-01</span>
+        <span class="rb-invoke-arrow">›</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 10. Closure Criteria -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 10</div>
+    <div class="pb-section-title">Closure Criteria</div>
+    <p>An incident may be closed when all of the following are confirmed:</p>
+    <ul class="pb-bullet">
+      <li>Email classified and documented</li>
+      <li>Required containment actions completed</li>
+      <li>User notified (if applicable)</li>
+      <li>MDR ticket synchronised (if involved)</li>
+      <li>Incident record updated with findings</li>
+    </ul>
+  </div>
+
+  <!-- 11. Evidence -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 11</div>
+    <div class="pb-section-title">Evidence to Capture</div>
+    <div class="evidence-grid">
+      <div class="evidence-item">Email headers</div>
+      <div class="evidence-item">URLs / attachment hashes</div>
+      <div class="evidence-item">Screenshots of lures</div>
+      <div class="evidence-item">User interaction confirmation</div>
+      <div class="evidence-item">Timeline of actions</div>
+    </div>
+  </div>
+
+  <!-- 12. Post-Incident -->
+  <div class="pb-section">
+    <div class="pb-section-num">Section 12</div>
+    <div class="pb-section-title">Post-Incident Actions</div>
+    <ul class="pb-bullet">
+      <li>Identify detection gaps</li>
+      <li>Update awareness materials (if campaign-based)</li>
+      <li>Recommend tuning or blocking rules</li>
+      <li>Feed indicators into threat intelligence platforms</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>EM-PB-01 · Published 22 December 2025 · Paulo Ferreira</span>
+    <span><a href="playbooks.html" style="color:#297086;text-decoration:none;">← Back to Playbooks</a></span>
+  </div>
+
+</div>
+</body>
+</html>
