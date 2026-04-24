@@ -3,13 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Runbooks — Cyber Security Knowledge Base</title>
+<title>Runbooks & Checklists — Cyber Security Knowledge Base</title>
 <link rel="stylesheet" href="shared.css">
+<style>
+  .kb-category { margin-bottom:1.75rem; }
+  .kb-category-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:0.6rem; }
+  .kb-category-title { display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600; color:#1a1a1a; }
+  .kb-category-badge { font-size:11px; padding:2px 8px; border-radius:10px; font-weight:500; }
+  .badge-email    { background:#E1F5EE; color:#0F6E56; }
+  .badge-identity { background:#E6F1FB; color:#185FA5; }
+  .badge-network  { background:#EDF6ED; color:#2D5A2D; }
+  .badge-endpoint { background:#FEF0E6; color:#8B4A0E; }
+  .badge-tier1    { background:#F3EEF9; color:#6B3FA0; }
+  .kb-entry-list { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; overflow:hidden; }
+  .kb-entry { display:flex; align-items:center; padding:0.8rem 1.1rem; border-bottom:0.5px solid #f0f0ec; text-decoration:none; color:inherit; transition:background 0.1s; gap:12px; }
+  .kb-entry:last-child { border-bottom:none; }
+  .kb-entry:hover { background:#f9f9f7; }
+  .kb-entry-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; padding:2px 7px; border-radius:6px; white-space:nowrap; flex-shrink:0; }
+  .code-email    { background:#E1F5EE; color:#0F6E56; }
+  .code-identity { background:#E6F1FB; color:#185FA5; }
+  .code-network  { background:#EDF6ED; color:#2D5A2D; }
+  .code-endpoint { background:#FEF0E6; color:#8B4A0E; }
+  .code-tier1-id { background:#F3EEF9; color:#6B3FA0; }
+  .code-tier1-em { background:#E1F5EE; color:#0F6E56; }
+  .kb-entry-name { font-size:14px; color:#1a1a1a; flex:1; line-height:1.4; }
+  .kb-entry-meta { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+  .kb-entry-date   { font-size:12px; color:#aaa; white-space:nowrap; }
+  .kb-entry-author { font-size:12px; color:#888; white-space:nowrap; }
+  .kb-entry-arrow  { color:#ccc; font-size:14px; }
+  .kb-entry-series { font-size:11px; color:#aaa; margin-left:4px; }
+  .kb-how-box { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1.75rem; }
+  .kb-how-box p { font-size:14px; color:#555; line-height:1.7; margin-bottom:0; }
+  .stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin-bottom:1.75rem; }
+  .stat-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .stat-num   { font-size:28px; font-weight:700; color:#1a1a1a; line-height:1; margin-bottom:4px; }
+  .stat-label { font-size:12px; color:#888; }
+  @media(max-width:600px){ .kb-entry-author{display:none;} .kb-entry-meta{gap:6px;} }
+</style>
 </head>
 <body>
 
 <nav class="kb-topnav">
-  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
   <a href="index.html">Home</a>
   <a href="runbooks.html" class="active">Runbooks</a>
   <a href="playbooks.html">Playbooks</a>
@@ -23,145 +58,263 @@
 
   <div class="kb-page-hero">
     <span class="kb-page-hero-icon">📋</span>
-    <h1>Runbooks</h1>
-    <p>Step-by-step SOC operational runbooks for alert triage and incident response. Each runbook is trigger-based — find the one that matches your alert and follow the procedure.</p>
+    <h1>Runbooks &amp; Tier-1 Checklists</h1>
+    <p>Step-by-step execution procedures for SOC analysts — covering alert triage, technical containment, and investigation actions. Tier-1 Checklists are simplified quick-reference guides for first-responder IT staff.</p>
     <div class="kb-page-hero-meta">
       <span class="kb-meta-pill">Alert triage</span>
-      <span class="kb-meta-pill">Tier 1 / Tier 2</span>
-      <span class="kb-meta-pill">Initial response</span>
+      <span class="kb-meta-pill">Tier 1 / 2 / 3</span>
+      <span class="kb-meta-pill">Technical execution</span>
     </div>
   </div>
 
-  <div class="kb-notice">
-    <strong>How to use runbooks:</strong> Runbooks are used during alert triage and initial response. Locate the runbook matching your alert type, follow each step in sequence, and escalate to a Playbook if the alert is confirmed as an incident.
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">23</div><div class="stat-label">Total runbooks</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#0F6E56;">10</div><div class="stat-label">Email runbooks</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#185FA5;">4</div><div class="stat-label">Identity runbooks</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#2D5A2D;">5</div><div class="stat-label">Network runbooks</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#8B4A0E;">4</div><div class="stat-label">Endpoint runbooks</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#6B3FA0;">10</div><div class="stat-label">Tier-1 checklists</div></div>
   </div>
 
+  <div class="kb-how-box">
+    <p>Runbooks are invoked by <a href="playbooks.html" style="color:#297086;">Playbooks</a> once an incident is confirmed. Each runbook covers a specific technical action — triage, blocking, isolation, or investigation. For full incident management, use the playbooks. Tier-1 Checklists are standalone quick-reference tools for lower-skill IT staff responding to common alert types.</p>
+  </div>
+
+  <!-- ── EMAIL RUNBOOKS ── -->
   <div class="kb-section">
     <div class="kb-section-title">Email threat runbooks</div>
-
     <div class="kb-category">
       <div class="kb-category-header">
-        <div class="kb-category-title">
-          📧 Email threats
-          <span class="kb-category-badge">9 runbooks</span>
-        </div>
-        <a class="kb-see-all" href="#">See all</a>
+        <div class="kb-category-title">📧 Email threats <span class="kb-category-badge badge-email">10 runbooks</span></div>
       </div>
       <div class="kb-entry-list">
-        <a class="kb-entry" href="#">
-          <span class="kb-entry-code">EM-RB-06-01</span>
-          <span class="kb-entry-name">Initial Triage &amp; Validation</span>
-          <span class="kb-entry-meta">
-            <span class="kb-entry-date">6 Jan 2026</span>
-            <span class="kb-entry-author">Paulo Ferreira</span>
-            <span class="kb-entry-arrow">›</span>
-          </span>
-        </a>
-        <a class="kb-entry" href="#">
-          <span class="kb-entry-code">EM-RB-06-02</span>
-          <span class="kb-entry-name">Threat &amp; Credibility Analysis</span>
-          <span class="kb-entry-meta">
-            <span class="kb-entry-date">6 Jan 2026</span>
-            <span class="kb-entry-author">Paulo Ferreira</span>
-            <span class="kb-entry-arrow">›</span>
-          </span>
-        </a>
-        <a class="kb-entry" href="#">
-          <span class="kb-entry-code">EM-RB-06-03</span>
-          <span class="kb-entry-name">Containment &amp; Mailbox Remediation</span>
-          <span class="kb-entry-meta">
-            <span class="kb-entry-date">6 Jan 2026</span>
-            <span class="kb-entry-author">Paulo Ferreira</span>
-            <span class="kb-entry-arrow">›</span>
-          </span>
-        </a>
-        <a class="kb-entry" href="#">
-          <span class="kb-entry-code">EM-RB-06-04</span>
-          <span class="kb-entry-name">Escalation, Communication &amp; Closure</span>
-          <span class="kb-entry-meta">
-            <span class="kb-entry-date">6 Jan 2026</span>
-            <span class="kb-entry-author">Paulo Ferreira</span>
-            <span class="kb-entry-arrow">›</span>
-          </span>
-        </a>
-        <a class="kb-entry" href="#">
-          <span class="kb-entry-code">EM-RB-03</span>
+        <a class="kb-entry" href="em-rb-03.html">
+          <span class="kb-entry-code code-email">EM-RB-03</span>
           <span class="kb-entry-name">Analyse Attachments</span>
-          <span class="kb-entry-meta">
-            <span class="kb-entry-date">22 Dec 2025</span>
-            <span class="kb-entry-author">Paulo Ferreira</span>
-            <span class="kb-entry-arrow">›</span>
-          </span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">22 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
         </a>
-        <a class="kb-entry" href="#">
-          <span class="kb-entry-code">EM-RB-04</span>
+        <a class="kb-entry" href="em-rb-04.html">
+          <span class="kb-entry-code code-email">EM-RB-04</span>
           <span class="kb-entry-name">Remove Phishing Emails from Mailboxes</span>
-          <span class="kb-entry-meta">
-            <span class="kb-entry-date">22 Dec 2025</span>
-            <span class="kb-entry-author">Paulo Ferreira</span>
-            <span class="kb-entry-arrow">›</span>
-          </span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">22 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
         </a>
-        <a class="kb-entry" href="#">
-          <span class="kb-entry-code">EM-RB-05</span>
+        <a class="kb-entry" href="em-rb-05.html">
+          <span class="kb-entry-code code-email">EM-RB-05</span>
           <span class="kb-entry-name">Block Sender / Domain</span>
-          <span class="kb-entry-meta">
-            <span class="kb-entry-date">22 Dec 2025</span>
-            <span class="kb-entry-author">Paulo Ferreira</span>
-            <span class="kb-entry-arrow">›</span>
-          </span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">22 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
         </a>
-        <a class="kb-entry" href="#">
-          <span class="kb-entry-code">EM-RB-06</span>
+        <a class="kb-entry" href="em-rb-06.html">
+          <span class="kb-entry-code code-email">EM-RB-06</span>
           <span class="kb-entry-name">Block Malicious File Hash</span>
-          <span class="kb-entry-meta">
-            <span class="kb-entry-date">22 Dec 2025</span>
-            <span class="kb-entry-author">Paulo Ferreira</span>
-            <span class="kb-entry-arrow">›</span>
-          </span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">22 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
         </a>
-        <a class="kb-entry" href="#">
-          <span class="kb-entry-code">EM-RB-07</span>
+        <a class="kb-entry" href="em-rb-06-01.html">
+          <span class="kb-entry-code code-email">EM-RB-06-01</span>
+          <span class="kb-entry-name">Initial Triage &amp; Validation <span class="kb-entry-series">· EM-PB-06 series step 1/4</span></span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">6 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="em-rb-06-02.html">
+          <span class="kb-entry-code code-email">EM-RB-06-02</span>
+          <span class="kb-entry-name">Threat &amp; Credibility Analysis <span class="kb-entry-series">· EM-PB-06 series step 2/4</span></span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">6 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="em-rb-06-03.html">
+          <span class="kb-entry-code code-email">EM-RB-06-03</span>
+          <span class="kb-entry-name">Containment &amp; Mailbox Remediation <span class="kb-entry-series">· EM-PB-06 series step 3/4</span></span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">6 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="em-rb-06-04.html">
+          <span class="kb-entry-code code-email">EM-RB-06-04</span>
+          <span class="kb-entry-name">Escalation, Communication &amp; Closure <span class="kb-entry-series">· EM-PB-06 series step 4/4</span></span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">6 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="em-rb-07.html">
+          <span class="kb-entry-code code-email">EM-RB-07</span>
           <span class="kb-entry-name">Disable External Email Forwarding</span>
-          <span class="kb-entry-meta">
-            <span class="kb-entry-date">22 Dec 2025</span>
-            <span class="kb-entry-author">Paulo Ferreira</span>
-            <span class="kb-entry-arrow">›</span>
-          </span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">22 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
         </a>
       </div>
     </div>
   </div>
 
+  <!-- ── IDENTITY RUNBOOKS ── -->
   <div class="kb-section">
-    <div class="kb-section-title">Related content</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
-      <a href="playbooks.html" style="background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:1rem 1.25rem;text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;transition:border-color 0.15s;">
-        <span style="font-size:20px;">🔄</span>
-        <div>
-          <div style="font-size:13px;font-weight:600;color:#1a1a1a;">Playbooks</div>
-          <div style="font-size:12px;color:#888;">For confirmed incidents</div>
-        </div>
-      </a>
-      <a href="work-instructions.html" style="background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:1rem 1.25rem;text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;transition:border-color 0.15s;">
-        <span style="font-size:20px;">🔧</span>
-        <div>
-          <div style="font-size:13px;font-weight:600;color:#1a1a1a;">Work instructions</div>
-          <div style="font-size:12px;color:#888;">Tool-specific steps</div>
-        </div>
-      </a>
-      <a href="tools-references.html" style="background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:1rem 1.25rem;text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;transition:border-color 0.15s;">
-        <span style="font-size:20px;">🛠️</span>
-        <div>
-          <div style="font-size:13px;font-weight:600;color:#1a1a1a;">Tools &amp; references</div>
-          <div style="font-size:12px;color:#888;">MITRE ATT&amp;CK mapping</div>
-        </div>
-      </a>
+    <div class="kb-section-title">Identity threat runbooks</div>
+    <div class="kb-category">
+      <div class="kb-category-header">
+        <div class="kb-category-title">🔐 Identity threats <span class="kb-category-badge badge-identity">4 runbooks</span></div>
+      </div>
+      <div class="kb-entry-list">
+        <a class="kb-entry" href="id-rb-01.html">
+          <span class="kb-entry-code code-identity">ID-RB-01</span>
+          <span class="kb-entry-name">Account Reset</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">22 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="id-rb-02.html">
+          <span class="kb-entry-code code-identity">ID-RB-02</span>
+          <span class="kb-entry-name">Review and Remove Malicious Mailbox Rules</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">22 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="id-rb-03.html">
+          <span class="kb-entry-code code-identity">ID-RB-03</span>
+          <span class="kb-entry-name">Review Sign-In Logs for Account Compromise</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">22 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="id-rb-05.html">
+          <span class="kb-entry-code code-identity">ID-RB-05</span>
+          <span class="kb-entry-name">Revoke OAuth Consent &amp; Invalidate Tokens</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">23 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── NETWORK RUNBOOKS ── -->
+  <div class="kb-section">
+    <div class="kb-section-title">Network threat runbooks</div>
+    <div class="kb-category">
+      <div class="kb-category-header">
+        <div class="kb-category-title">🌐 Network threats <span class="kb-category-badge badge-network">5 runbooks</span></div>
+      </div>
+      <div class="kb-entry-list">
+        <a class="kb-entry" href="nw-rb-01.html">
+          <span class="kb-entry-code code-network">NW-RB-01</span>
+          <span class="kb-entry-name">Analyse Network Traffic &amp; Indicators</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">23 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="nw-rb-02.html">
+          <span class="kb-entry-code code-network">NW-RB-02</span>
+          <span class="kb-entry-name">Block IP / Domain / Network Indicator</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">23 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="nw-rb-03.html">
+          <span class="kb-entry-code code-network">NW-RB-03</span>
+          <span class="kb-entry-name">Block Internal Scanning / East-West Traffic</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">23 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="nw-rb-04.html">
+          <span class="kb-entry-code code-network">NW-RB-04</span>
+          <span class="kb-entry-name">Apply DoS / DDoS Mitigations</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">23 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="nw-rb-05.html">
+          <span class="kb-entry-code code-network">NW-RB-05</span>
+          <span class="kb-entry-name">Coordinate ISP / Upstream Mitigation</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">23 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ENDPOINT RUNBOOKS ── -->
+  <div class="kb-section">
+    <div class="kb-section-title">Endpoint threat runbooks</div>
+    <div class="kb-category">
+      <div class="kb-category-header">
+        <div class="kb-category-title">💻 Endpoint threats <span class="kb-category-badge badge-endpoint">4 runbooks</span></div>
+      </div>
+      <div class="kb-entry-list">
+        <a class="kb-entry" href="ep-rb-01.html">
+          <span class="kb-entry-code code-endpoint">EP-RB-01</span>
+          <span class="kb-entry-name">Endpoint Investigation Following Email Threat</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">22 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="ep-rb-02.html">
+          <span class="kb-entry-code code-endpoint">EP-RB-02</span>
+          <span class="kb-entry-name">Isolate Endpoint</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">23 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="ep-rb-03.html">
+          <span class="kb-entry-code code-endpoint">EP-RB-03</span>
+          <span class="kb-entry-name">Remove Malware &amp; Persistence Artefacts</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">23 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="ep-rb-04.html">
+          <span class="kb-entry-code code-endpoint">EP-RB-04</span>
+          <span class="kb-entry-name">Contain Lateral Movement</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">23 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TIER-1 CHECKLISTS ── -->
+  <div class="kb-section">
+    <div class="kb-section-title">Tier-1 Quick Checklists</div>
+    <div class="kb-how-box" style="margin-bottom:0.75rem;">
+      <p>Simplified quick-reference checklists for first-responder IT staff. Each checklist covers a common alert type with YES/NO questions, traffic-light decision logic, and mandatory evidence capture steps. No deep technical knowledge required.</p>
+    </div>
+
+    <div class="kb-category" style="margin-top:10px;">
+      <div class="kb-category-header">
+        <div class="kb-category-title">🔐 Identity threat checklists <span class="kb-category-badge badge-tier1">5 checklists</span></div>
+      </div>
+      <div class="kb-entry-list">
+        <a class="kb-entry" href="tier1-id-01.html">
+          <span class="kb-entry-code code-tier1-id">ID-01</span>
+          <span class="kb-entry-name">Suspicious Authentication Activity</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-id-02.html">
+          <span class="kb-entry-code code-tier1-id">ID-02</span>
+          <span class="kb-entry-name">Privileged Account Abuse</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-id-03.html">
+          <span class="kb-entry-code code-tier1-id">ID-03</span>
+          <span class="kb-entry-name">MFA Fatigue / MFA Push Abuse</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-id-04.html">
+          <span class="kb-entry-code code-tier1-id">ID-04</span>
+          <span class="kb-entry-name">OAuth Application Abuse</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-id-05.html">
+          <span class="kb-entry-code code-tier1-id">ID-05</span>
+          <span class="kb-entry-name">Token Theft / Session Hijacking</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="kb-category" style="margin-top:10px;">
+      <div class="kb-category-header">
+        <div class="kb-category-title">📧 Email threat checklists <span class="kb-category-badge badge-email">5 checklists</span></div>
+      </div>
+      <div class="kb-entry-list">
+        <a class="kb-entry" href="tier1-em-01.html">
+          <span class="kb-entry-code code-tier1-em">EM-01</span>
+          <span class="kb-entry-name">Phishing</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-em-02.html">
+          <span class="kb-entry-code code-tier1-em">EM-02</span>
+          <span class="kb-entry-name">Business Email Compromise (BEC)</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-em-03.html">
+          <span class="kb-entry-code code-tier1-em">EM-03</span>
+          <span class="kb-entry-name">Malicious Attachment / Malware Delivery</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-em-04.html">
+          <span class="kb-entry-code code-tier1-em">EM-04</span>
+          <span class="kb-entry-name">Internal Phishing / Lateral Phish</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-em-05.html">
+          <span class="kb-entry-code code-tier1-em">EM-05</span>
+          <span class="kb-entry-name">Email Auto-Forwarding / Exfiltration Abuse</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+      </div>
     </div>
   </div>
 
   <div class="kb-footer">
-    <span><span class="live-dot"></span>Published 8 January 2026 &nbsp;·&nbsp; Paulo Ferreira</span>
+    <span><span class="live-dot"></span>23 runbooks · 10 checklists · Cyber Security Knowledge Base</span>
     <span><a href="index.html" style="color:#297086;text-decoration:none;">← Back to home</a></span>
   </div>
 
