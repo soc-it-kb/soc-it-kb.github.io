@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ID-RB-03: Review Sign-In Logs for Account Compromise — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --rb:#185FA5; --rb-light:#E6F1FB; --rb-border:#B5D4F4; }
+  .pb-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .pb-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .pb-meta-item strong { color:#1a1a1a; }
+  .pb-meta-sep { color:#e0e0dc; }
+  .rb-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .rb-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--rb); margin-bottom:4px; }
+  .rb-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .rb-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .rb-section p:last-child { margin-bottom:0; }
+  .rb-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .rb-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .rb-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--rb); flex-shrink:0; margin-top:5px; }
+  .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tag { font-size:12px; background:var(--rb-light); color:var(--rb); border:0.5px solid var(--rb-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .rb-steps { display:flex; flex-direction:column; gap:6px; }
+  .rb-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .rb-step-num { width:24px; height:24px; border-radius:50%; background:var(--rb-light); color:var(--rb); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .rb-step-body { flex:1; }
+  .rb-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; }
+  .rb-step-note { font-size:12px; color:#888; margin-top:3px; line-height:1.4; }
+  .rb-observe { list-style:none; margin-top:6px; display:flex; flex-direction:column; gap:4px; }
+  .rb-observe li { font-size:13px; color:#555; display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+  .rb-observe li::before { content:'→'; color:var(--rb); font-weight:600; flex-shrink:0; }
+  /* Anomaly reference cards */
+  .anomaly-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-top:8px; }
+  .anomaly-card { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:8px; padding:0.8rem 1rem; }
+  .anomaly-card h4 { font-size:12px; font-weight:600; color:#993C1D; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px; }
+  .anomaly-card p  { font-size:12px; color:#7a2e10; margin:0; line-height:1.4; }
+  .outcome-box { background:var(--rb-light); border:0.5px solid var(--rb-border); border-radius:10px; padding:1rem 1.25rem; }
+  .outcome-box p { font-size:13px; color:var(--rb); line-height:1.6; margin-bottom:0; }
+  .tips-list { display:flex; flex-direction:column; gap:8px; margin-top:4px; }
+  .tip-item { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:#444; line-height:1.5; }
+  .tip-item::before { content:'💡'; font-size:14px; flex-shrink:0; }
+  .artifact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-top:4px; }
+  .artifact-item { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#444; display:flex; align-items:center; gap:8px; }
+  .artifact-item::before { content:'📄'; font-size:14px; flex-shrink:0; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--rb); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { color:#ccc; }
+  .rb-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .rb-nav a { font-size:13px; color:var(--rb); text-decoration:none; }
+  .rb-nav a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html" class="active">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="runbooks.html">Runbooks</a><span>›</span>
+    <span>ID-RB-03</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#0F3460 0%,#185FA5 100%);">
+    <span class="kb-page-hero-icon">📋</span>
+    <h1>ID-RB-03: Review Sign-In Logs for Account Compromise</h1>
+    <p>Review authentication activity to identify indicators of account compromise — covering anomalous IPs, impossible travel, legacy authentication, MFA bypass, and Conditional Access outcomes.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">🔐 Identity threats</span>
+      <span class="kb-meta-pill">Tier 1 / 2</span>
+      <span class="kb-meta-pill">Investigation</span>
+    </div>
+  </div>
+
+  <div class="pb-meta-bar">
+    <div class="pb-meta-item">📋 <strong>ID:</strong> ID-RB-03</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">📅 <strong>Published:</strong> 22 December 2025</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">🏷️ <strong>Category:</strong> Identity Threat</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 1</div>
+    <div class="rb-section-title">Purpose</div>
+    <p>Review authentication activity to identify indicators of account compromise following phishing, BEC, or credential theft.</p>
+    <div style="margin-top:10px;">
+      <div style="font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Key anomalies to look for</div>
+      <div class="anomaly-grid">
+        <div class="anomaly-card"><h4>Impossible travel</h4><p>Sign-ins from geographically distant locations within unrealistic timeframes</p></div>
+        <div class="anomaly-card"><h4>Legacy auth</h4><p>Basic auth or SMTP/POP/IMAP — bypasses MFA and Conditional Access</p></div>
+        <div class="anomaly-card"><h4>MFA bypass</h4><p>Successful sign-in after MFA failures, or approval from unknown location</p></div>
+        <div class="anomaly-card"><h4>Unknown device</h4><p>Sign-in from unregistered, non-compliant, or unfamiliar device</p></div>
+        <div class="anomaly-card"><h4>High-risk IP</h4><p>Known VPN, TOR, proxy, or threat intel flagged IP address</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 2</div>
+    <div class="rb-section-title">Required Access</div>
+    <div class="tag-grid">
+      <span class="tag">📊 Entra ID sign-in logs</span>
+      <span class="tag">🔒 Conditional Access visibility</span>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 3</div>
+    <div class="rb-section-title">Inputs Required</div>
+    <div class="tag-grid">
+      <span class="tag">👤 Username / UPN</span>
+      <span class="tag">🕐 Incident timeframe</span>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 4</div>
+    <div class="rb-section-title">Step-by-Step Procedure</div>
+    <div class="rb-steps">
+      <div class="rb-step">
+        <div class="rb-step-num">1</div>
+        <div class="rb-step-body">
+          <div class="rb-step-text">Open the user's sign-in logs in Entra ID (Microsoft Entra admin center)</div>
+        </div>
+      </div>
+      <div class="rb-step">
+        <div class="rb-step-num">2</div>
+        <div class="rb-step-body">
+          <div class="rb-step-text">Filter logs by the incident timeframe — start slightly before the suspected compromise time</div>
+          <div class="rb-step-note">Focus primarily on <strong>successful</strong> sign-ins, not just failures — attackers who got in will show as successful</div>
+        </div>
+      </div>
+      <div class="rb-step">
+        <div class="rb-step-num">3</div>
+        <div class="rb-step-body">
+          <div class="rb-step-text">Review the following fields for each sign-in entry:</div>
+          <ul class="rb-observe">
+            <li>IP address — check reputation against threat intelligence</li>
+            <li>Geolocation — identify unexpected countries or cities</li>
+            <li>Device details — registered vs unregistered, compliant vs non-compliant</li>
+            <li>Authentication method — modern auth vs legacy auth</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rb-step">
+        <div class="rb-step-num">4</div>
+        <div class="rb-step-body">
+          <div class="rb-step-text">Identify anomalies using the reference cards above — flag any of the following:</div>
+          <ul class="rb-observe">
+            <li>Impossible travel between two sign-in locations</li>
+            <li>Legacy authentication protocol usage</li>
+            <li>MFA bypass or suspicious MFA approval</li>
+            <li>Sign-in from high-risk or anonymised IP</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rb-step">
+        <div class="rb-step-num">5</div>
+        <div class="rb-step-body">
+          <div class="rb-step-text">Review Conditional Access policy results — identify any policies that were bypassed or failed to apply</div>
+        </div>
+      </div>
+      <div class="rb-step">
+        <div class="rb-step-num">6</div>
+        <div class="rb-step-body">
+          <div class="rb-step-text">Correlate sign-in activity with mailbox activity (rule creation, forwarding) and endpoint telemetry</div>
+        </div>
+      </div>
+      <div class="rb-step">
+        <div class="rb-step-num">7</div>
+        <div class="rb-step-body">
+          <div class="rb-step-text">Record all anomalous entries, IP addresses, and findings in the incident ticket</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 5</div>
+    <div class="rb-section-title">Expected Outcome</div>
+    <div class="outcome-box">
+      <p>✅ Clear determination of compromise likelihood based on sign-in evidence<br>
+      ✅ Evidence to support escalation or closure decision<br>
+      ✅ Anomalous IPs and sign-in patterns documented as IOCs</p>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 6</div>
+    <div class="rb-section-title">Validation Checks</div>
+    <ul class="rb-bullet">
+      <li>No active suspicious sessions visible in the identity platform</li>
+      <li>MFA enforced and confirmed on the account</li>
+    </ul>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 7</div>
+    <div class="rb-section-title">Common Errors &amp; Tips</div>
+    <div class="tips-list">
+      <div class="tip-item">Focus on <strong>successful</strong> sign-ins, not just failures — a failed attempt means the attacker didn't get in; a successful one means they did</div>
+      <div class="tip-item">Legacy authentication (SMTP, POP, IMAP, Basic Auth) is a frequent red flag — it bypasses MFA and Conditional Access entirely</div>
+      <div class="tip-item">Cross-reference IP addresses against threat intelligence — even a single high-risk IP in a successful sign-in warrants investigation</div>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 8</div>
+    <div class="rb-section-title">Output Artefacts</div>
+    <div class="artifact-grid">
+      <div class="artifact-item">Sign-in log export</div>
+      <div class="artifact-item">Anomalous IP list</div>
+      <div class="artifact-item">Conditional Access results</div>
+      <div class="artifact-item">Compromise determination</div>
+    </div>
+  </div>
+
+  <div class="rb-nav">
+    <a href="id-rb-02.html">← ID-RB-02: Review Mailbox Rules</a>
+    <a href="runbooks.html">← Back to Runbooks</a>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>ID-RB-03 · Published 22 December 2025 · Paulo Ferreira</span>
+    <span><a href="runbooks.html" style="color:var(--rb);text-decoration:none;">← Back to Runbooks</a></span>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NW-RB-01: Analyse Network Traffic & Indicators — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --rb:#2D5A2D; --rb-light:#EDF6ED; --rb-border:#A8D5A8; }
+  .pb-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .pb-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .pb-meta-item strong { color:#1a1a1a; }
+  .pb-meta-sep { color:#e0e0dc; }
+  .rb-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .rb-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--rb); margin-bottom:4px; }
+  .rb-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .rb-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .rb-section p:last-child { margin-bottom:0; }
+  .rb-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .rb-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .rb-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--rb); flex-shrink:0; margin-top:5px; }
+  .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tag { font-size:12px; background:var(--rb-light); color:var(--rb); border:0.5px solid var(--rb-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .rb-phase { margin-bottom:1.25rem; }
+  .rb-phase:last-child { margin-bottom:0; }
+  .rb-phase-title { font-size:12px; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:var(--rb); margin-bottom:8px; padding-bottom:5px; border-bottom:0.5px solid var(--rb-border); display:flex; align-items:center; gap:8px; }
+  .rb-phase-num { width:22px; height:22px; border-radius:50%; background:var(--rb); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .rb-steps { display:flex; flex-direction:column; gap:6px; }
+  .rb-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .rb-step-num { width:24px; height:24px; border-radius:50%; background:var(--rb-light); color:var(--rb); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .rb-step-body { flex:1; }
+  .rb-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; }
+  .rb-step-note { font-size:12px; color:#888; margin-top:3px; line-height:1.4; }
+  .rb-observe { list-style:none; margin-top:6px; display:flex; flex-direction:column; gap:4px; }
+  .rb-observe li { font-size:13px; color:#555; display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+  .rb-observe li::before { content:'→'; color:var(--rb); font-weight:600; flex-shrink:0; }
+  /* Verdict cards */
+  .verdict-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:8px; }
+  .verdict-card { border-radius:10px; padding:0.9rem 1rem; text-align:center; }
+  .verdict-card.benign     { background:#E1F5EE; border:0.5px solid #82D4B0; }
+  .verdict-card.suspicious { background:#FAEEDA; border:0.5px solid #FAC775; }
+  .verdict-card.malicious  { background:#FAECE7; border:0.5px solid #F5C0B0; }
+  .verdict-card h4 { font-size:12px; font-weight:700; margin-bottom:4px; }
+  .verdict-card.benign h4     { color:#0F6E56; }
+  .verdict-card.suspicious h4 { color:#854F0B; }
+  .verdict-card.malicious h4  { color:#993C1D; }
+  .verdict-card p { font-size:12px; line-height:1.4; margin:0; }
+  .verdict-card.benign p     { color:#1a6b47; }
+  .verdict-card.suspicious p { color:#6b3f0a; }
+  .verdict-card.malicious p  { color:#7a2e10; }
+  .outcome-box { background:var(--rb-light); border:0.5px solid var(--rb-border); border-radius:10px; padding:1rem 1.25rem; }
+  .outcome-box p { font-size:13px; color:var(--rb); line-height:1.6; margin-bottom:0; }
+  .tips-list { display:flex; flex-direction:column; gap:8px; margin-top:4px; }
+  .tip-item { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:#444; line-height:1.5; }
+  .tip-item::before { content:'💡'; font-size:14px; flex-shrink:0; }
+  .artifact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-top:4px; }
+  .artifact-item { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#444; display:flex; align-items:center; gap:8px; }
+  .artifact-item::before { content:'📄'; font-size:14px; flex-shrink:0; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--rb); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { color:#ccc; }
+  .rb-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .rb-nav a { font-size:13px; color:var(--rb); text-decoration:none; }
+  .rb-nav a:hover { text-decoration:underline; }
+  @media(max-width:600px){ .verdict-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html" class="active">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="runbooks.html">Runbooks</a><span>›</span>
+    <span>NW-RB-01</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A3A1A 0%,#3C6E3C 100%);">
+    <span class="kb-page-hero-icon">📋</span>
+    <h1>NW-RB-01: Analyse Network Traffic &amp; Indicators</h1>
+    <p>Repeatable, structured procedure to analyse suspicious network traffic and indicators — determining whether observed activity is benign noise, misconfiguration, or active malicious behaviour.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">🌐 Network threats</span>
+      <span class="kb-meta-pill">Tier 1 / 2</span>
+      <span class="kb-meta-pill">Investigation</span>
+    </div>
+  </div>
+
+  <div class="pb-meta-bar">
+    <div class="pb-meta-item">📋 <strong>ID:</strong> NW-RB-01</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">📅 <strong>Published:</strong> 23 December 2025</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">🏷️ <strong>Category:</strong> Network Threat</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 1</div>
+    <div class="rb-section-title">Purpose</div>
+    <p>Provide a repeatable, structured procedure to analyze suspicious network traffic and indicators, enabling analysts to determine whether observed activity represents benign network behaviour, misconfiguration or operational noise, or malicious activity (C2, reconnaissance, exfiltration, DoS).</p>
+    <p>This runbook supports all Network playbooks (NW-PB-01 → NW-PB-05) and acts as the primary network investigation execution layer.</p>
+    <div style="margin-top:10px;">
+      <div style="font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">This runbook produces one of three verdicts</div>
+      <div class="verdict-grid">
+        <div class="verdict-card benign"><h4>✅ Benign</h4><p>Close — document and monitor</p></div>
+        <div class="verdict-card suspicious"><h4>⚠️ Suspicious</h4><p>Escalate — continue investigation</p></div>
+        <div class="verdict-card malicious"><h4>🔴 Malicious</h4><p>Contain — invoke blocking runbooks</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 2</div>
+    <div class="rb-section-title">Required Access</div>
+    <div class="tag-grid">
+      <span class="tag">🔥 Firewall logs (perimeter and internal)</span>
+      <span class="tag">📡 NDR / IDS / IPS platform</span>
+      <span class="tag">🌐 Proxy / Secure Web Gateway logs</span>
+      <span class="tag">🔍 DNS logs (if available)</span>
+      <span class="tag">📊 Flow logs (NetFlow / VPC Flow)</span>
+      <span class="tag">🎫 SOC ticketing system</span>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 3</div>
+    <div class="rb-section-title">Inputs Required</div>
+    <div class="tag-grid">
+      <span class="tag">📤 Source IP address(es)</span>
+      <span class="tag">📥 Destination IP / domain / URL</span>
+      <span class="tag">🔢 Port(s) and protocol(s)</span>
+      <span class="tag">🕐 Timeframe of activity</span>
+      <span class="tag">🎫 Incident reference ID</span>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 4</div>
+    <div class="rb-section-title">Step-by-Step Procedure</div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">1</div>Validate Indicator Context</div>
+      <div class="rb-steps">
+        <div class="rb-step"><div class="rb-step-num">1</div><div class="rb-step-body"><div class="rb-step-text">Review the alert or detection source</div></div></div>
+        <div class="rb-step">
+          <div class="rb-step-num">2</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Identify the following:</div>
+            <ul class="rb-observe">
+              <li>Detection type — IDS, NDR, firewall, or proxy</li>
+              <li>Trigger reason — signature, anomaly, or threshold</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rb-step"><div class="rb-step-num">3</div><div class="rb-step-body"><div class="rb-step-text">Confirm indicator format is complete and valid</div></div></div>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">2</div>Identify Traffic Direction &amp; Scope</div>
+      <div class="rb-steps">
+        <div class="rb-step">
+          <div class="rb-step-num">1</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Determine traffic direction:</div>
+            <ul class="rb-observe">
+              <li>Inbound (external → internal)</li>
+              <li>Outbound (internal → external)</li>
+              <li>East-west (internal → internal)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rb-step">
+          <div class="rb-step-num">2</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Identify source system role (user endpoint, server, appliance) and destination type (internet, internal subnet, cloud service)</div>
+          </div>
+        </div>
+        <div class="rb-step"><div class="rb-step-num">3</div><div class="rb-step-body"><div class="rb-step-text">Record all affected systems</div></div></div>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">3</div>Analyse Traffic Characteristics</div>
+      <div class="rb-steps">
+        <div class="rb-step">
+          <div class="rb-step-num">1</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Review network telemetry for the following characteristics:</div>
+            <ul class="rb-observe">
+              <li>Connection frequency — one-off vs periodic</li>
+              <li>Session duration</li>
+              <li>Payload size — small beacons vs large transfers</li>
+              <li>Protocol usage consistency for the system role</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rb-step">
+          <div class="rb-step-num">2</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Flag the following anomalies:</div>
+            <ul class="rb-observe">
+              <li>Regular beaconing intervals — strong C2 indicator</li>
+              <li>Unexpected protocols for the system role</li>
+              <li>Abnormal ports or tunnelling behaviour</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">4</div>Enrich Network Indicators</div>
+      <div class="rb-steps">
+        <div class="rb-step">
+          <div class="rb-step-num">1</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Perform reputation lookups for all IPs, domains, and URLs involved</div>
+          </div>
+        </div>
+        <div class="rb-step">
+          <div class="rb-step-num">2</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Check the following for each indicator:</div>
+            <ul class="rb-observe">
+              <li>Domain age — newly registered domains are higher risk</li>
+              <li>ASN and hosting provider</li>
+              <li>Known malicious infrastructure associations</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rb-step"><div class="rb-step-num">3</div><div class="rb-step-body"><div class="rb-step-text">Record all enrichment results in the incident ticket</div></div></div>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">5</div>Correlate with Historical Traffic</div>
+      <div class="rb-steps">
+        <div class="rb-step">
+          <div class="rb-step-num">1</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Search historical logs for:</div>
+            <ul class="rb-observe">
+              <li>Prior communication with the same destination</li>
+              <li>Other systems communicating with the same indicator</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rb-step"><div class="rb-step-num">2</div><div class="rb-step-body"><div class="rb-step-text">Identify first-seen timestamp and whether activity has expanded across hosts</div></div></div>
+        <div class="rb-step"><div class="rb-step-num">3</div><div class="rb-step-body"><div class="rb-step-text">Determine whether activity is isolated to one host or systemic across the environment</div></div></div>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">6</div>Correlate with Endpoint &amp; Identity Telemetry</div>
+      <div class="rb-steps">
+        <div class="rb-step">
+          <div class="rb-step-num">1</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Pivot to endpoint telemetry:</div>
+            <ul class="rb-observe">
+              <li>Identify the process initiating the network traffic</li>
+              <li>Check command-line arguments if available</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rb-step">
+          <div class="rb-step-num">2</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Pivot to identity telemetry:</div>
+            <ul class="rb-observe">
+              <li>Identify the user associated with the source IP</li>
+              <li>Review recent sign-ins or anomalies for that account</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rb-step"><div class="rb-step-num">3</div><div class="rb-step-body"><div class="rb-step-text">Record all correlations in the incident ticket</div></div></div>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">7</div>Determine Malicious Likelihood</div>
+      <div class="rb-steps">
+        <div class="rb-step">
+          <div class="rb-step-num">1</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Based on all evidence gathered, classify traffic as one of:</div>
+            <ul class="rb-observe">
+              <li>Benign / Legitimate — close with documentation</li>
+              <li>Suspicious — continue monitoring and investigation</li>
+              <li>Malicious — invoke containment runbooks (NW-RB-02 / NW-RB-03)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rb-step"><div class="rb-step-num">2</div><div class="rb-step-body"><div class="rb-step-text">Record the justification for the classification clearly in the ticket</div></div></div>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">8</div>Document Findings</div>
+      <div class="rb-steps">
+        <div class="rb-step">
+          <div class="rb-step-num">1</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Summarise traffic pattern, indicators involved, and correlated endpoint / identity context</div>
+          </div>
+        </div>
+        <div class="rb-step">
+          <div class="rb-step-num">2</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Attach to the ticket: log excerpts, screenshots, and enrichment results</div>
+          </div>
+        </div>
+        <div class="rb-step"><div class="rb-step-num">3</div><div class="rb-step-body"><div class="rb-step-text">Update the SOC ticket with verdict and recommended next steps</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 5</div>
+    <div class="rb-section-title">Expected Outcome</div>
+    <div class="outcome-box">
+      <p>✅ Clear understanding of network activity intent<br>
+      ✅ Malicious vs benign determination with supporting evidence<br>
+      ✅ Actionable intelligence to invoke containment runbooks if required</p>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 6</div>
+    <div class="rb-section-title">Validation Checks</div>
+    <ul class="rb-bullet">
+      <li>Indicators verified across multiple data sources</li>
+      <li>Historical correlation performed</li>
+      <li>Endpoint and identity context reviewed</li>
+      <li>Verdict supported by documented evidence</li>
+    </ul>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 7</div>
+    <div class="rb-section-title">Common Errors &amp; Tips</div>
+    <div class="tips-list">
+      <div class="tip-item">A single connection does not equal compromise — look for patterns, periodicity, and context before escalating</div>
+      <div class="tip-item">CDN and cloud providers often host both benign and malicious traffic — always check the specific domain, not just the IP</div>
+      <div class="tip-item">Regular beaconing periodicity is a strong C2 indicator — even low-volume beaconing at fixed intervals warrants investigation</div>
+      <div class="tip-item">Always validate the source system's role before classifying traffic — a web server making DNS queries is different from a user workstation doing the same</div>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 8</div>
+    <div class="rb-section-title">Output Artefacts</div>
+    <div class="artifact-grid">
+      <div class="artifact-item">Network analysis summary</div>
+      <div class="artifact-item">Indicator enrichment results</div>
+      <div class="artifact-item">Affected systems list</div>
+      <div class="artifact-item">Verdict classification</div>
+    </div>
+  </div>
+
+  <div class="rb-nav">
+    <a href="runbooks.html">← Back to Runbooks</a>
+    <a href="nw-rb-02.html">NW-RB-02: Block IP / Domain →</a>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>NW-RB-01 · Published 23 December 2025 · Paulo Ferreira</span>
+    <span><a href="runbooks.html" style="color:var(--rb);text-decoration:none;">← Back to Runbooks</a></span>
+  </div>
+</div>
+</body>
+</html>

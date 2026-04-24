@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tier-1 Checklist — EM-03: Malicious Attachment / Malware Delivery</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --cat:#0F6E56; --cat-light:#E1F5EE; --cat-border:#82D4B0; }
+  .t1-hero { background:linear-gradient(135deg,#0E414F 0%,#297086 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.25rem; color:#fff; }
+  .t1-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.65; margin-bottom:6px; }
+  .t1-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; line-height:1.25; }
+  .t1-hero p  { font-size:14px; opacity:0.8; line-height:1.5; margin:0; }
+  .t1-hero-pills { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .t1-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .t1-trigger { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-trigger-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--cat); margin-bottom:6px; }
+  .t1-trigger-text { font-size:14px; color:#333; line-height:1.6; }
+  .t1-trigger-examples { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .t1-trigger-example { font-size:12px; background:var(--cat-light); color:var(--cat); border:0.5px solid var(--cat-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  /* High-risk file types reference */
+  .filetype-box { background:var(--cat-light); border:0.5px solid var(--cat-border); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .filetype-title { font-size:12px; font-weight:600; color:var(--cat); margin-bottom:8px; }
+  .filetype-grid { display:flex; flex-wrap:wrap; gap:6px; }
+  .filetype-tag { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; padding:3px 8px; border-radius:5px; }
+  .filetype-tag.red    { background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; }
+  .filetype-tag.amber  { background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .t1-checklist-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-checklist-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--cat); margin-bottom:10px; }
+  .t1-check-item { display:flex; align-items:center; gap:12px; padding:0.7rem 0; border-bottom:0.5px solid #f5f5f3; }
+  .t1-check-item:last-child { border-bottom:none; padding-bottom:0; }
+  .t1-check-num { width:26px; height:26px; border-radius:50%; background:var(--cat-light); color:var(--cat); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .t1-check-q { font-size:14px; color:#1a1a1a; flex:1; line-height:1.45; }
+  .t1-check-q .flag { font-size:11px; font-weight:600; background:#FAECE7; color:#993C1D; padding:2px 7px; border-radius:8px; margin-left:6px; vertical-align:middle; }
+  .t1-yn { display:flex; gap:6px; flex-shrink:0; }
+  .t1-y { width:36px; height:30px; border-radius:6px; background:#FAEEDA; border:1.5px solid #FAC775; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#854F0B; }
+  .t1-n { width:36px; height:30px; border-radius:6px; background:#f5f5f3; border:1.5px solid #e0e0dc; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#888; }
+  .t1-decision { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-decision-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--cat); margin-bottom:10px; }
+  .t1-decision-row { display:flex; align-items:flex-start; gap:12px; padding:0.65rem 0.9rem; border-radius:10px; margin-bottom:6px; }
+  .t1-decision-row:last-child { margin-bottom:0; }
+  .t1-decision-row.amber { background:#FAEEDA; }
+  .t1-decision-row.red   { background:#FAECE7; }
+  .t1-decision-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+  .t1-decision-text { font-size:13px; line-height:1.5; }
+  .t1-decision-row.amber .t1-decision-text { color:#6b3f0a; }
+  .t1-decision-row.red   .t1-decision-text { color:#7a2e10; }
+  .t1-decision-text strong { font-weight:700; }
+  .t1-actions { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-actions-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--cat); margin-bottom:10px; }
+  .t1-action-list { display:flex; flex-direction:column; gap:5px; }
+  .t1-action-item { display:flex; align-items:center; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#333; }
+  .t1-action-item::before { content:'☐'; font-size:15px; color:var(--cat); flex-shrink:0; }
+  .t1-action-item.warning { background:#FAECE7; border-color:#F5C0B0; color:#7a2e10; }
+  .t1-action-item.warning::before { content:'🚫'; font-size:14px; }
+  .t1-mistakes { background:#FAEEDA; border:0.5px solid #FAC775; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-mistakes-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#854F0B; margin-bottom:8px; }
+  .t1-mistake-list { display:flex; flex-direction:column; gap:5px; }
+  .t1-mistake-item { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:#6b3f0a; line-height:1.5; }
+  .t1-mistake-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+  .t1-tip { background:#1a1a1a; border-radius:12px; padding:1.1rem 1.4rem; display:flex; align-items:flex-start; gap:12px; }
+  .t1-tip-icon { font-size:22px; flex-shrink:0; }
+  .t1-tip-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#4ade80; margin-bottom:4px; }
+  .t1-tip-text  { font-size:13px; color:rgba(255,255,255,0.85); line-height:1.5; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--cat); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .t1-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .t1-nav a { font-size:13px; color:var(--cat); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="runbooks.html">Checklists</a><span>›</span>
+    <span>EM-03</span>
+  </div>
+
+  <div class="t1-hero">
+    <div class="t1-hero-eyebrow">Tier-1 Quick Checklist</div>
+    <h1>EM-03: Malicious Attachment / Malware Delivery</h1>
+    <p>Use this checklist to triage an email with a suspicious attachment. Whether the user opened it determines the escalation path — always ask the user directly.</p>
+    <div class="t1-hero-pills">
+      <span class="t1-hero-pill">📧 Email threats</span>
+      <span class="t1-hero-pill">Tier 1</span>
+      <span class="t1-hero-pill">Published 20 Dec 2025</span>
+    </div>
+  </div>
+
+  <!-- High-risk file type reference -->
+  <div class="filetype-box">
+    <div class="filetype-title">📎 High-risk attachment types — these require immediate escalation if opened</div>
+    <div class="filetype-grid">
+      <span class="filetype-tag red">.exe</span>
+      <span class="filetype-tag red">.dll</span>
+      <span class="filetype-tag red">.ps1</span>
+      <span class="filetype-tag red">.iso</span>
+      <span class="filetype-tag red">.img</span>
+      <span class="filetype-tag red">.lnk</span>
+      <span class="filetype-tag amber">.docm</span>
+      <span class="filetype-tag amber">.xlsm</span>
+      <span class="filetype-tag amber">.html</span>
+      <span class="filetype-tag amber">.zip</span>
+      <span class="filetype-tag amber">.pdf</span>
+    </div>
+  </div>
+
+  <div class="t1-trigger">
+    <div class="t1-trigger-label">🔔 When to use this checklist</div>
+    <div class="t1-trigger-text">Email gateway alert for a malicious or suspicious attachment / user report / EDR alert linked to an email delivery event.</div>
+    <div class="t1-trigger-examples">
+      <span class="t1-trigger-example">Email gateway alert</span>
+      <span class="t1-trigger-example">User-reported attachment</span>
+      <span class="t1-trigger-example">EDR alert post-email</span>
+      <span class="t1-trigger-example">Password-protected ZIP</span>
+    </div>
+  </div>
+
+  <div class="t1-checklist-card">
+    <div class="t1-checklist-label">Step 2 — Answer each question YES or NO</div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">1</div>
+      <div class="t1-check-q">Is there an email attachment involved?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">2</div>
+      <div class="t1-check-q">Is the attachment type high-risk? (see file type reference above)</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">3</div>
+      <div class="t1-check-q">Did the user open or execute the file? <span class="flag">Tier-3 immediate</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">4</div>
+      <div class="t1-check-q">Are there EDR alerts on the user's endpoint? <span class="flag">Tier-3 immediate</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">5</div>
+      <div class="t1-check-q">Are there other recipients who received the same email?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">6</div>
+      <div class="t1-check-q">Is this user a VIP or privileged account? <span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+  </div>
+
+  <div class="t1-decision">
+    <div class="t1-decision-label">Step 3 — Apply decision logic</div>
+    <div class="t1-decision-row red">
+      <div class="t1-decision-icon">🔴</div>
+      <div class="t1-decision-text"><strong>YES to question 3 or 4</strong> — Escalate to Tier-3 immediately. Treat as endpoint compromise.</div>
+    </div>
+    <div class="t1-decision-row amber">
+      <div class="t1-decision-icon">⚠️</div>
+      <div class="t1-decision-text"><strong>No execution but malicious indicators present</strong> — Escalate to Tier-2 with all evidence attached.</div>
+    </div>
+  </div>
+
+  <div class="t1-actions">
+    <div class="t1-actions-label">Step 4 — Mandatory actions</div>
+    <div class="t1-action-list">
+      <div class="t1-action-item">Preserve the original email and attachment — do not delete</div>
+      <div class="t1-action-item">Ask the user directly and explicitly whether they opened or executed the file</div>
+      <div class="t1-action-item">Search for other recipients of the same email</div>
+      <div class="t1-action-item">Attach all evidence to the incident ticket</div>
+      <div class="t1-action-item warning">Do NOT open or forward the attachment — handle in sandbox only</div>
+    </div>
+  </div>
+
+  <div class="t1-mistakes">
+    <div class="t1-mistakes-label">⚠️ Common Tier-1 mistakes to avoid</div>
+    <div class="t1-mistake-list">
+      <div class="t1-mistake-item">Assuming "blocked by gateway" means no risk — the attachment may have reached some users before the block was applied</div>
+      <div class="t1-mistake-item">Not confirming execution with the user — the user may have opened it and not mentioned it</div>
+      <div class="t1-mistake-item">Treating password-protected attachments as benign — passwords are used specifically to bypass email scanning</div>
+      <div class="t1-mistake-item">Delaying escalation after an EDR alert — an EDR alert means execution has already occurred</div>
+    </div>
+  </div>
+
+  <div class="t1-tip">
+    <div class="t1-tip-icon">💡</div>
+    <div>
+      <div class="t1-tip-label">Analyst Tip</div>
+      <div class="t1-tip-text">If an attachment was opened, always assume endpoint compromise until EDR proves otherwise. Do not wait for confirmation — escalate immediately and let Tier-3 investigate.</div>
+    </div>
+  </div>
+
+  <div class="t1-nav"><a href="runbooks.html">← Back to Checklists</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>EM-03 · Published 20 December 2025 · Paulo Ferreira</span>
+    <span><a href="runbooks.html" style="color:var(--cat);text-decoration:none;">← Back to Checklists</a></span>
+  </div>
+</div>
+</body>
+</html>

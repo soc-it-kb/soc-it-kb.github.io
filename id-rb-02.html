@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ID-RB-02: Review and Remove Malicious Mailbox Rules — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --rb:#185FA5; --rb-light:#E6F1FB; --rb-border:#B5D4F4; }
+  .pb-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .pb-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .pb-meta-item strong { color:#1a1a1a; }
+  .pb-meta-sep { color:#e0e0dc; }
+  .rb-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .rb-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--rb); margin-bottom:4px; }
+  .rb-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .rb-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .rb-section p:last-child { margin-bottom:0; }
+  .rb-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .rb-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .rb-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--rb); flex-shrink:0; margin-top:5px; }
+  .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tag { font-size:12px; background:var(--rb-light); color:var(--rb); border:0.5px solid var(--rb-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .rb-steps { display:flex; flex-direction:column; gap:6px; }
+  .rb-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .rb-step-num { width:24px; height:24px; border-radius:50%; background:var(--rb-light); color:var(--rb); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .rb-step-body { flex:1; }
+  .rb-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; }
+  .rb-step-note { font-size:12px; color:#888; margin-top:3px; line-height:1.4; }
+  .rb-observe { list-style:none; margin-top:6px; display:flex; flex-direction:column; gap:4px; }
+  .rb-observe li { font-size:13px; color:#555; display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+  .rb-observe li::before { content:'→'; color:var(--rb); font-weight:600; flex-shrink:0; }
+  /* Suspicious rule types */
+  .rule-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:8px; margin-top:8px; }
+  .rule-card { background:var(--rb-light); border:0.5px solid var(--rb-border); border-radius:8px; padding:0.8rem 1rem; }
+  .rule-card h4 { font-size:12px; font-weight:600; color:var(--rb); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px; }
+  .rule-card p  { font-size:12px; color:#185FA5; margin:0; line-height:1.4; }
+  .outcome-box { background:var(--rb-light); border:0.5px solid var(--rb-border); border-radius:10px; padding:1rem 1.25rem; }
+  .outcome-box p { font-size:13px; color:var(--rb); line-height:1.6; margin-bottom:0; }
+  .tips-list { display:flex; flex-direction:column; gap:8px; margin-top:4px; }
+  .tip-item { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:#444; line-height:1.5; }
+  .tip-item::before { content:'💡'; font-size:14px; flex-shrink:0; }
+  .artifact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-top:4px; }
+  .artifact-item { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#444; display:flex; align-items:center; gap:8px; }
+  .artifact-item::before { content:'📄'; font-size:14px; flex-shrink:0; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--rb); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { color:#ccc; }
+  .rb-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .rb-nav a { font-size:13px; color:var(--rb); text-decoration:none; }
+  .rb-nav a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html" class="active">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="runbooks.html">Runbooks</a><span>›</span>
+    <span>ID-RB-02</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#0F3460 0%,#185FA5 100%);">
+    <span class="kb-page-hero-icon">📋</span>
+    <h1>ID-RB-02: Review and Remove Malicious Mailbox Rules</h1>
+    <p>Identify and remove malicious or unauthorised mailbox rules — a common post-phishing persistence technique used to hide activity, exfiltrate data, or maintain attacker visibility.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">🔐 Identity threats</span>
+      <span class="kb-meta-pill">Tier 1 / 2</span>
+      <span class="kb-meta-pill">Persistence removal</span>
+    </div>
+  </div>
+
+  <div class="pb-meta-bar">
+    <div class="pb-meta-item">📋 <strong>ID:</strong> ID-RB-02</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">📅 <strong>Published:</strong> 22 December 2025</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">🏷️ <strong>Category:</strong> Identity Threat</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 1</div>
+    <div class="rb-section-title">Purpose</div>
+    <p>Identify and remove malicious or unauthorized mailbox rules commonly used for persistence after phishing or account compromise.</p>
+    <div style="margin-top:10px;">
+      <div style="font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Suspicious rule types to look for</div>
+      <div class="rule-grid">
+        <div class="rule-card"><h4>Auto-delete</h4><p>Silently moves or deletes messages to hide attacker activity</p></div>
+        <div class="rule-card"><h4>Auto-forward</h4><p>Redirects email to an external address for data exfiltration</p></div>
+        <div class="rule-card"><h4>Keyword-based</h4><p>Targets financial, security, or HR terms — selectively hides content</p></div>
+        <div class="rule-card"><h4>Hidden / obfuscated</h4><p>Non-descriptive names like "." or blank — designed to avoid detection</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 2</div>
+    <div class="rb-section-title">Required Access</div>
+    <div class="tag-grid">
+      <span class="tag">🔑 Exchange Admin access</span>
+      <span class="tag">📊 Audit log access</span>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 3</div>
+    <div class="rb-section-title">Inputs Required</div>
+    <div class="tag-grid">
+      <span class="tag">📬 User mailbox</span>
+      <span class="tag">🎫 Incident reference</span>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 4</div>
+    <div class="rb-section-title">Step-by-Step Procedure</div>
+    <div class="rb-steps">
+      <div class="rb-step">
+        <div class="rb-step-num">1</div>
+        <div class="rb-step-body">
+          <div class="rb-step-text">Access the mailbox rule configuration via Exchange Admin Center or PowerShell</div>
+        </div>
+      </div>
+      <div class="rb-step">
+        <div class="rb-step-num">2</div>
+        <div class="rb-step-body">
+          <div class="rb-step-text">Review <strong>all</strong> inbox rules — including those with non-descriptive or blank names</div>
+          <div class="rb-step-note">Use PowerShell (Get-InboxRule) to enumerate rules that may not appear in the UI</div>
+        </div>
+      </div>
+      <div class="rb-step">
+        <div class="rb-step-num">3</div>
+        <div class="rb-step-body">
+          <div class="rb-step-text">Identify suspicious rules using the following indicators:</div>
+          <ul class="rb-observe">
+            <li>Rules that auto-delete or move messages to Deleted Items</li>
+            <li>Rules that auto-forward to external addresses</li>
+            <li>Rules with obfuscated, blank, or non-descriptive names</li>
+            <li>Rules targeting keywords like "invoice", "payment", "password", "security"</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rb-step">
+        <div class="rb-step-num">4</div>
+        <div class="rb-step-body">
+          <div class="rb-step-text">Disable and remove all identified malicious rules</div>
+          <div class="rb-step-note">Document each rule before removal — name, conditions, actions, and creation timestamp are all evidence</div>
+        </div>
+      </div>
+      <div class="rb-step">
+        <div class="rb-step-num">5</div>
+        <div class="rb-step-body">
+          <div class="rb-step-text">Check and disable external forwarding settings on the mailbox (see EM-RB-07)</div>
+        </div>
+      </div>
+      <div class="rb-step">
+        <div class="rb-step-num">6</div>
+        <div class="rb-step-body">
+          <div class="rb-step-text">Review rule creation timestamps — correlate with the suspected compromise timeframe</div>
+        </div>
+      </div>
+      <div class="rb-step">
+        <div class="rb-step-num">7</div>
+        <div class="rb-step-body">
+          <div class="rb-step-text">Document all findings, removed rules, and timestamps in the incident ticket</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 5</div>
+    <div class="rb-section-title">Expected Outcome</div>
+    <div class="outcome-box">
+      <p>✅ All malicious or unauthorised rules removed<br>
+      ✅ Mailbox persistence fully eliminated<br>
+      ✅ External forwarding disabled</p>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 6</div>
+    <div class="rb-section-title">Validation Checks</div>
+    <ul class="rb-bullet">
+      <li>No unauthorised inbox rules remain (confirmed via PowerShell and UI)</li>
+      <li>External forwarding confirmed disabled</li>
+    </ul>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 7</div>
+    <div class="rb-section-title">Common Errors &amp; Tips</div>
+    <div class="tips-list">
+      <div class="tip-item">Attackers frequently use benign-sounding or blank rule names — never assume a rule is legitimate based on its name alone</div>
+      <div class="tip-item">Check both inbox rules (user-level) and transport rules (tenant-level) — malicious actors may have created rules at either layer</div>
+      <div class="tip-item">Use PowerShell (Get-InboxRule -Mailbox user@domain) to enumerate all rules including those hidden from the standard UI</div>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 8</div>
+    <div class="rb-section-title">Output Artefacts</div>
+    <div class="artifact-grid">
+      <div class="artifact-item">Removed rule details (name, conditions, actions)</div>
+      <div class="artifact-item">Rule creation timestamps</div>
+      <div class="artifact-item">Forwarding configuration record</div>
+    </div>
+  </div>
+
+  <div class="rb-nav">
+    <a href="id-rb-01.html">← ID-RB-01: Account Reset</a>
+    <a href="runbooks.html">← Back to Runbooks</a>
+    <a href="id-rb-03.html">ID-RB-03: Review Sign-In Activity →</a>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>ID-RB-02 · Published 22 December 2025 · Paulo Ferreira</span>
+    <span><a href="runbooks.html" style="color:var(--rb);text-decoration:none;">← Back to Runbooks</a></span>
+  </div>
+
+</div>
+</body>
+</html>

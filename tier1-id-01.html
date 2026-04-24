@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tier-1 Checklist — ID-01: Suspicious Authentication Activity</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* ── TIER-1 CHECKLIST DESIGN SYSTEM ── */
+  :root { --cat:#185FA5; --cat-light:#E6F1FB; --cat-border:#B5D4F4; }
+
+  .t1-hero { background:linear-gradient(135deg,#0F3460 0%,#185FA5 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.25rem; color:#fff; }
+  .t1-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.65; margin-bottom:6px; }
+  .t1-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; line-height:1.25; }
+  .t1-hero p  { font-size:14px; opacity:0.8; line-height:1.5; margin:0; }
+  .t1-hero-pills { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .t1-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  /* Trigger box */
+  .t1-trigger { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-trigger-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--cat); margin-bottom:6px; }
+  .t1-trigger-text { font-size:14px; color:#333; line-height:1.6; margin-bottom:6px; }
+  .t1-trigger-examples { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .t1-trigger-example { font-size:12px; background:var(--cat-light); color:var(--cat); border:0.5px solid var(--cat-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+
+  /* Checklist */
+  .t1-checklist-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-checklist-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--cat); margin-bottom:10px; }
+  .t1-check-item { display:flex; align-items:center; gap:12px; padding:0.7rem 0; border-bottom:0.5px solid #f5f5f3; }
+  .t1-check-item:last-child { border-bottom:none; padding-bottom:0; }
+  .t1-check-num { width:26px; height:26px; border-radius:50%; background:var(--cat-light); color:var(--cat); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .t1-check-q { font-size:14px; color:#1a1a1a; flex:1; line-height:1.45; }
+  .t1-check-q .flag { font-size:11px; font-weight:600; background:#FAECE7; color:#993C1D; padding:2px 7px; border-radius:8px; margin-left:6px; vertical-align:middle; }
+  .t1-yn { display:flex; gap:6px; flex-shrink:0; }
+  .t1-y { width:36px; height:30px; border-radius:6px; background:#FAEEDA; border:1.5px solid #FAC775; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#854F0B; cursor:pointer; user-select:none; }
+  .t1-n { width:36px; height:30px; border-radius:6px; background:#f5f5f3; border:1.5px solid #e0e0dc; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#888; cursor:pointer; user-select:none; }
+
+  /* Decision logic */
+  .t1-decision { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-decision-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--cat); margin-bottom:10px; }
+  .t1-decision-row { display:flex; align-items:flex-start; gap:12px; padding:0.65rem 0.9rem; border-radius:10px; margin-bottom:6px; }
+  .t1-decision-row:last-child { margin-bottom:0; }
+  .t1-decision-row.green  { background:#E1F5EE; }
+  .t1-decision-row.amber  { background:#FAEEDA; }
+  .t1-decision-row.red    { background:#FAECE7; }
+  .t1-decision-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+  .t1-decision-text { font-size:13px; line-height:1.5; }
+  .t1-decision-row.green .t1-decision-text  { color:#1a6b47; }
+  .t1-decision-row.amber .t1-decision-text  { color:#6b3f0a; }
+  .t1-decision-row.red   .t1-decision-text  { color:#7a2e10; }
+  .t1-decision-text strong { font-weight:700; }
+
+  /* Mandatory actions */
+  .t1-actions { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-actions-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--cat); margin-bottom:10px; }
+  .t1-action-group { margin-bottom:10px; }
+  .t1-action-group:last-child { margin-bottom:0; }
+  .t1-action-group-title { font-size:12px; font-weight:600; color:#888; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+  .t1-action-list { display:flex; flex-direction:column; gap:5px; }
+  .t1-action-item { display:flex; align-items:center; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#333; }
+  .t1-action-item::before { content:'☐'; font-size:15px; color:var(--cat); flex-shrink:0; }
+
+  /* Mistakes */
+  .t1-mistakes { background:#FAEEDA; border:0.5px solid #FAC775; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-mistakes-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#854F0B; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+  .t1-mistake-list { display:flex; flex-direction:column; gap:5px; }
+  .t1-mistake-item { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:#6b3f0a; line-height:1.5; }
+  .t1-mistake-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+
+  /* Analyst tip */
+  .t1-tip { background:#1a1a1a; border-radius:12px; padding:1.1rem 1.4rem; display:flex; align-items:flex-start; gap:12px; }
+  .t1-tip-icon { font-size:22px; flex-shrink:0; }
+  .t1-tip-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#4ade80; margin-bottom:4px; }
+  .t1-tip-text  { font-size:13px; color:rgba(255,255,255,0.85); line-height:1.5; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--cat); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { color:#ccc; }
+  .t1-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .t1-nav a { font-size:13px; color:var(--cat); text-decoration:none; }
+  .t1-nav a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="runbooks.html">Checklists</a><span>›</span>
+    <span>ID-01</span>
+  </div>
+
+  <div class="t1-hero">
+    <div class="t1-hero-eyebrow">Tier-1 Quick Checklist</div>
+    <h1>ID-01: Suspicious Authentication Activity</h1>
+    <p>Use this checklist to triage an authentication alert. Work through each question in order and follow the decision logic at the bottom.</p>
+    <div class="t1-hero-pills">
+      <span class="t1-hero-pill">🔐 Identity</span>
+      <span class="t1-hero-pill">Tier 1</span>
+      <span class="t1-hero-pill">Published 20 Dec 2025</span>
+    </div>
+  </div>
+
+  <!-- Trigger -->
+  <div class="t1-trigger">
+    <div class="t1-trigger-label">🔔 When to use this checklist</div>
+    <div class="t1-trigger-text">SIEM Alert / Identity Protection alert / MDR escalation indicating abnormal authentication behaviour.</div>
+    <div class="t1-trigger-examples">
+      <span class="t1-trigger-example">Multiple failed logins then success</span>
+      <span class="t1-trigger-example">Impossible travel</span>
+      <span class="t1-trigger-example">Login from high-risk country</span>
+      <span class="t1-trigger-example">Legacy auth login</span>
+      <span class="t1-trigger-example">New device or ASN</span>
+    </div>
+  </div>
+
+  <!-- Checklist -->
+  <div class="t1-checklist-card">
+    <div class="t1-checklist-label">Step 2 — Answer each question YES or NO</div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">1</div>
+      <div class="t1-check-q">Is the login from a new or unexpected country or region?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">2</div>
+      <div class="t1-check-q">Is the source IP associated with TOR, VPN, hosting infrastructure, or a high-risk ASN?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">3</div>
+      <div class="t1-check-q">Is the login from a new or unknown device?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">4</div>
+      <div class="t1-check-q">Were there multiple failed logins before a successful login?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">5</div>
+      <div class="t1-check-q">Was the login performed without MFA when MFA is expected? <span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">6</div>
+      <div class="t1-check-q">Was legacy authentication used (IMAP / POP / SMTP / Basic Auth)? <span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">7</div>
+      <div class="t1-check-q">Is the user a VIP, administrator, or privileged account? <span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">8</div>
+      <div class="t1-check-q">Is there recent phishing activity associated with this user?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+  </div>
+
+  <!-- Decision Logic -->
+  <div class="t1-decision">
+    <div class="t1-decision-label">Step 3 — Apply decision logic</div>
+    <div class="t1-decision-row green">
+      <div class="t1-decision-icon">✅</div>
+      <div class="t1-decision-text"><strong>All answers = NO</strong> — Document your findings and close the ticket.</div>
+    </div>
+    <div class="t1-decision-row amber">
+      <div class="t1-decision-icon">⚠️</div>
+      <div class="t1-decision-text"><strong>Any answer = YES</strong> — Escalate to Tier-2 with all evidence attached.</div>
+    </div>
+    <div class="t1-decision-row red">
+      <div class="t1-decision-icon">🔴</div>
+      <div class="t1-decision-text"><strong>YES to questions 5, 6, or 7</strong> — Mark as <strong>High Priority</strong> and escalate immediately. Do not wait.</div>
+    </div>
+  </div>
+
+  <!-- Mandatory Actions -->
+  <div class="t1-actions">
+    <div class="t1-actions-label">Step 4 — Mandatory actions before escalating</div>
+    <div class="t1-action-group">
+      <div class="t1-action-group-title">Capture and attach to ticket</div>
+      <div class="t1-action-list">
+        <div class="t1-action-item">User UPN</div>
+        <div class="t1-action-item">Timestamp(s) of the suspicious login</div>
+        <div class="t1-action-item">Source IP address(es)</div>
+        <div class="t1-action-item">Geo-location of the source IP</div>
+        <div class="t1-action-item">Device ID (if available)</div>
+        <div class="t1-action-item">MFA result — challenged / bypassed / not applied</div>
+      </div>
+    </div>
+    <div class="t1-action-group" style="margin-top:10px;">
+      <div class="t1-action-group-title">Check and note in ticket</div>
+      <div class="t1-action-list">
+        <div class="t1-action-item">Recent password reset in last 7 days</div>
+        <div class="t1-action-item">Known travel or documented VPN use</div>
+      </div>
+    </div>
+    <div class="t1-action-group" style="margin-top:10px;">
+      <div class="t1-action-group-title">Link to ticket</div>
+      <div class="t1-action-list">
+        <div class="t1-action-item">Related phishing ticket (if one exists)</div>
+        <div class="t1-action-item">MDR case reference (if applicable)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Common mistakes -->
+  <div class="t1-mistakes">
+    <div class="t1-mistakes-label">⚠️ Common Tier-1 mistakes to avoid</div>
+    <div class="t1-mistake-list">
+      <div class="t1-mistake-item">Assuming VPN usage without evidence — always verify before noting it</div>
+      <div class="t1-mistake-item">Closing an alert because "MFA is enabled" — check whether it was actually challenged and passed</div>
+      <div class="t1-mistake-item">Ignoring legacy authentication alerts — legacy auth bypasses MFA entirely</div>
+      <div class="t1-mistake-item">Treating VIP or admin logins as normal noise — these always warrant closer attention</div>
+      <div class="t1-mistake-item">Escalating without attaching the authentication evidence — Tier-2 cannot investigate without it</div>
+    </div>
+  </div>
+
+  <!-- Analyst tip -->
+  <div class="t1-tip">
+    <div class="t1-tip-icon">💡</div>
+    <div>
+      <div class="t1-tip-label">Analyst Tip</div>
+      <div class="t1-tip-text">If MFA is enabled and no MFA challenge is recorded in the logs, always assume increased risk and escalate — do not close.</div>
+    </div>
+  </div>
+
+  <div class="t1-nav" style="margin-top:1rem;">
+    <a href="runbooks.html">← Back to Checklists</a>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>ID-01 · Published 20 December 2025 · Paulo Ferreira</span>
+    <span><a href="runbooks.html" style="color:var(--cat);text-decoration:none;">← Back to Checklists</a></span>
+  </div>
+
+</div>
+</body>
+</html>

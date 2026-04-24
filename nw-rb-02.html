@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NW-RB-02: Block IP / Domain / Network Indicator — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --rb:#2D5A2D; --rb-light:#EDF6ED; --rb-border:#A8D5A8; }
+  .pb-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .pb-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .pb-meta-item strong { color:#1a1a1a; }
+  .pb-meta-sep { color:#e0e0dc; }
+  .rb-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .rb-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--rb); margin-bottom:4px; }
+  .rb-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .rb-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .rb-section p:last-child { margin-bottom:0; }
+  .rb-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .rb-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .rb-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--rb); flex-shrink:0; margin-top:5px; }
+  .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tag { font-size:12px; background:var(--rb-light); color:var(--rb); border:0.5px solid var(--rb-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .rb-phase { margin-bottom:1.25rem; }
+  .rb-phase:last-child { margin-bottom:0; }
+  .rb-phase-title { font-size:12px; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:var(--rb); margin-bottom:8px; padding-bottom:5px; border-bottom:0.5px solid var(--rb-border); display:flex; align-items:center; gap:8px; }
+  .rb-phase-num { width:22px; height:22px; border-radius:50%; background:var(--rb); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .rb-steps { display:flex; flex-direction:column; gap:6px; }
+  .rb-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .rb-step-num { width:24px; height:24px; border-radius:50%; background:var(--rb-light); color:var(--rb); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .rb-step-body { flex:1; }
+  .rb-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; }
+  .rb-step-note { font-size:12px; color:#888; margin-top:3px; line-height:1.4; }
+  .rb-observe { list-style:none; margin-top:6px; display:flex; flex-direction:column; gap:4px; }
+  .rb-observe li { font-size:13px; color:#555; display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+  .rb-observe li::before { content:'→'; color:var(--rb); font-weight:600; flex-shrink:0; }
+  /* Indicator type matrix */
+  .indicator-table { width:100%; border-collapse:collapse; margin-top:8px; font-size:13px; }
+  .indicator-table th { background:var(--rb-light); color:var(--rb); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--rb-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .indicator-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; }
+  .indicator-table tr:nth-child(even) td { background:#fafafa; }
+  /* Do-not-block warning */
+  .dnb-box { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:10px; padding:1rem 1.25rem; margin-top:8px; }
+  .dnb-box p { font-size:13px; color:#993C1D; line-height:1.6; margin-bottom:0; }
+  /* Block type grid */
+  .block-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+  .block-card { border-radius:10px; padding:1rem; }
+  .block-card.temp { background:#FAEEDA; border:0.5px solid #FAC775; }
+  .block-card.perm { background:var(--rb-light); border:0.5px solid var(--rb-border); }
+  .block-card h4 { font-size:13px; font-weight:600; margin-bottom:4px; }
+  .block-card.temp h4 { color:#854F0B; }
+  .block-card.perm h4 { color:var(--rb); }
+  .block-card p { font-size:13px; color:#555; margin:0; line-height:1.4; }
+  .outcome-box { background:var(--rb-light); border:0.5px solid var(--rb-border); border-radius:10px; padding:1rem 1.25rem; }
+  .outcome-box p { font-size:13px; color:var(--rb); line-height:1.6; margin-bottom:0; }
+  .tips-list { display:flex; flex-direction:column; gap:8px; margin-top:4px; }
+  .tip-item { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:#444; line-height:1.5; }
+  .tip-item::before { content:'💡'; font-size:14px; flex-shrink:0; }
+  .artifact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-top:4px; }
+  .artifact-item { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#444; display:flex; align-items:center; gap:8px; }
+  .artifact-item::before { content:'📄'; font-size:14px; flex-shrink:0; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--rb); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { color:#ccc; }
+  .rb-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .rb-nav a { font-size:13px; color:var(--rb); text-decoration:none; }
+  .rb-nav a:hover { text-decoration:underline; }
+  @media(max-width:600px){ .block-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html" class="active">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="runbooks.html">Runbooks</a><span>›</span>
+    <span>NW-RB-02</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A3A1A 0%,#3C6E3C 100%);">
+    <span class="kb-page-hero-icon">📋</span>
+    <h1>NW-RB-02: Block IP / Domain / Network Indicator</h1>
+    <p>Controlled, auditable procedure to block malicious or high-risk network indicators — stopping C2 communication, preventing data exfiltration, and containing active network-borne threats.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">🌐 Network threats</span>
+      <span class="kb-meta-pill">Tier 2 / 3</span>
+      <span class="kb-meta-pill">Network containment</span>
+    </div>
+  </div>
+
+  <div class="pb-meta-bar">
+    <div class="pb-meta-item">📋 <strong>ID:</strong> NW-RB-02</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">📅 <strong>Published:</strong> 23 December 2025</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">🏷️ <strong>Category:</strong> Network Threat</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 1</div>
+    <div class="rb-section-title">Purpose</div>
+    <p>Provide a controlled, auditable procedure to block malicious or high-risk network indicators — immediately reducing risk by stopping C2 communication, preventing data exfiltration, blocking attacker infrastructure, and containing active network-borne threats.</p>
+    <p>This runbook executes network containment decisions made in NW-PB-01 through NW-PB-05.</p>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 2</div>
+    <div class="rb-section-title">Required Access</div>
+    <div class="tag-grid">
+      <span class="tag">🔥 Firewall management (read/write or request-based)</span>
+      <span class="tag">🌐 Proxy / Secure Web Gateway management</span>
+      <span class="tag">🔍 DNS filtering platform (if applicable)</span>
+      <span class="tag">📡 NDR visibility (for validation)</span>
+      <span class="tag">🎫 SOC ticketing system</span>
+    </div>
+    <p style="margin-top:10px;font-size:13px;color:#888;">If direct write access is not permitted, this runbook defines the standard escalation and change request workflow.</p>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 3</div>
+    <div class="rb-section-title">Inputs Required</div>
+    <div class="tag-grid">
+      <span class="tag">🔢 Indicator type (IP / Domain / URL / ASN)</span>
+      <span class="tag">📌 Indicator value(s)</span>
+      <span class="tag">🔍 Source of intelligence</span>
+      <span class="tag">🎫 Incident reference ID</span>
+      <span class="tag">⏱️ Blocking scope (temporary / permanent)</span>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 4</div>
+    <div class="rb-section-title">Step-by-Step Procedure</div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">1</div>Validate Indicator Accuracy</div>
+      <div class="rb-steps">
+        <div class="rb-step"><div class="rb-step-num">1</div><div class="rb-step-body"><div class="rb-step-text">Confirm the indicator format is correct (valid IP, FQDN, or URL)</div></div></div>
+        <div class="rb-step">
+          <div class="rb-step-num">2</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Validate the indicator was observed in at least one of:</div>
+            <ul class="rb-observe">
+              <li>Firewall or proxy logs</li>
+              <li>NDR alerts</li>
+              <li>MDR escalation or TI feed</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rb-step"><div class="rb-step-num">3</div><div class="rb-step-body"><div class="rb-step-text">Confirm the indicator is actively malicious or high-risk</div></div></div>
+      </div>
+      <div class="dnb-box">
+        <p>🚫 <strong>Do not block indicators with:</strong> unverified single hits · known shared cloud or CDN infrastructure · legitimate business services (unless explicitly approved)</p>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">2</div>Determine Block Scope &amp; Method</div>
+      <div style="font-size:13px;color:#555;margin-bottom:8px;">Select the appropriate control based on indicator type:</div>
+      <table class="indicator-table">
+        <thead><tr><th>Indicator type</th><th>Primary control</th></tr></thead>
+        <tbody>
+          <tr><td>IP address</td><td>Firewall / NDR</td></tr>
+          <tr><td>Domain</td><td>DNS filtering / Proxy</td></tr>
+          <tr><td>URL</td><td>Proxy / Secure Web Gateway</td></tr>
+          <tr><td>ASN</td><td>Firewall (exceptional cases only)</td></tr>
+        </tbody>
+      </table>
+      <div class="rb-steps" style="margin-top:10px;">
+        <div class="rb-step"><div class="rb-step-num">1</div><div class="rb-step-body"><div class="rb-step-text">Determine the blocking scope — perimeter only, internal egress, or specific network segments</div></div></div>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">3</div>Assess Business Impact Risk</div>
+      <div class="rb-steps">
+        <div class="rb-step">
+          <div class="rb-step-num">1</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Before blocking, assess the following:</div>
+            <ul class="rb-observe">
+              <li>Is the destination used by any business applications?</li>
+              <li>Is the IP or domain shared hosting infrastructure?</li>
+              <li>Is this a temporary containment or a permanent block?</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rb-step"><div class="rb-step-num">2</div><div class="rb-step-body"><div class="rb-step-text">If potential business impact exists — coordinate with Network / IT and apply a temporary or scoped block first</div></div></div>
+      </div>
+      <div style="margin-top:10px;">
+        <div style="font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Block duration options</div>
+        <div class="block-grid">
+          <div class="block-card temp"><h4>⏱️ Temporary</h4><p>Incident-scoped — review and remove after incident closure</p></div>
+          <div class="block-card perm"><h4>🔒 Permanent</h4><p>TI-validated indicator — reviewed and added to long-term block list</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">4</div>Implement Block</div>
+      <div class="rb-steps">
+        <div class="rb-step">
+          <div class="rb-step-num">1</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Add the indicator to the appropriate platform:</div>
+            <ul class="rb-observe">
+              <li>Firewall deny list (IP / ASN)</li>
+              <li>Proxy block list (URL / Domain)</li>
+              <li>DNS sinkhole (Domain)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rb-step">
+          <div class="rb-step-num">2</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Record the following at time of implementation:</div>
+            <ul class="rb-observe">
+              <li>Platform used</li>
+              <li>Rule name or ID</li>
+              <li>Exact timestamp</li>
+              <li>Operator who applied the block</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">5</div>Validate Block Effectiveness</div>
+      <div class="rb-steps">
+        <div class="rb-step"><div class="rb-step-num">1</div><div class="rb-step-body"><div class="rb-step-text">Confirm the rule is active and propagated across relevant platforms</div></div></div>
+        <div class="rb-step">
+          <div class="rb-step-num">2</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Monitor for:</div>
+            <ul class="rb-observe">
+              <li>No further successful connections to the blocked indicator</li>
+              <li>Block events being logged in firewall / proxy / DNS</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rb-step"><div class="rb-step-num">3</div><div class="rb-step-body"><div class="rb-step-text">If traffic persists — re-evaluate indicator accuracy and check for alternate protocols or rotated destinations</div></div></div>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">6</div>Correlate Post-Block Behaviour</div>
+      <div class="rb-steps">
+        <div class="rb-step">
+          <div class="rb-step-num">1</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Monitor affected endpoints for:</div>
+            <ul class="rb-observe">
+              <li>Connection retries to the blocked indicator</li>
+              <li>Failover to secondary C2 destinations</li>
+              <li>New or secondary indicators emerging</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rb-step"><div class="rb-step-num">2</div><div class="rb-step-body"><div class="rb-step-text">Escalate if new C2 indicators appear or endpoint behaviour changes significantly after blocking</div></div></div>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">7</div>Document Actions</div>
+      <div class="rb-steps">
+        <div class="rb-step">
+          <div class="rb-step-num">1</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Record in the SOC ticket:</div>
+            <ul class="rb-observe">
+              <li>Indicator(s) blocked and type</li>
+              <li>Blocking location and scope</li>
+              <li>Validation outcome</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rb-step"><div class="rb-step-num">2</div><div class="rb-step-body"><div class="rb-step-text">Attach screenshots, rule IDs, and log excerpts to the ticket</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 5</div>
+    <div class="rb-section-title">Expected Outcome</div>
+    <div class="outcome-box">
+      <p>✅ Malicious network communication stopped<br>
+      ✅ Attacker control or data loss risk reduced<br>
+      ✅ Clear audit trail for all containment actions</p>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 6</div>
+    <div class="rb-section-title">Validation Checks</div>
+    <ul class="rb-bullet">
+      <li>Block rule active and enforced across all relevant platforms</li>
+      <li>No successful connections to the blocked indicator post-implementation</li>
+      <li>Endpoint behaviour stabilised or escalated appropriately</li>
+    </ul>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 7</div>
+    <div class="rb-section-title">Common Errors &amp; Tips</div>
+    <div class="tips-list">
+      <div class="tip-item">Blocking shared cloud IPs (AWS, Azure, Cloudflare) can cause widespread outages — always prefer domain-level blocking where possible</div>
+      <div class="tip-item">Domain blocking is generally safer and more precise than IP blocking — use IP blocking only when the IP is attacker-controlled infrastructure</div>
+      <div class="tip-item">Attackers rotate infrastructure quickly — after blocking, actively monitor for failover destinations and secondary indicators</div>
+      <div class="tip-item">Always pair blocking with endpoint investigation — blocking network traffic does not remove malware already present on the host</div>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 8</div>
+    <div class="rb-section-title">Output Artefacts</div>
+    <div class="artifact-grid">
+      <div class="artifact-item">Block confirmation</div>
+      <div class="artifact-item">Rule or policy reference</div>
+      <div class="artifact-item">Validation logs</div>
+      <div class="artifact-item">Updated incident timeline</div>
+    </div>
+  </div>
+
+  <div class="rb-nav">
+    <a href="runbooks.html">← Back to Runbooks</a>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>NW-RB-02 · Published 23 December 2025 · Paulo Ferreira</span>
+    <span><a href="runbooks.html" style="color:var(--rb);text-decoration:none;">← Back to Runbooks</a></span>
+  </div>
+
+</div>
+</body>
+</html>

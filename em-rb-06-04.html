@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EM-RB-06-04: Escalation, Communication & Closure — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --rb:#0F6E56; --rb-light:#E1F5EE; --rb-border:#82D4B0; }
+  .pb-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .pb-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .pb-meta-item strong { color:#1a1a1a; }
+  .pb-meta-sep { color:#e0e0dc; }
+  .rb-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .rb-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--rb); margin-bottom:4px; }
+  .rb-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .rb-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .rb-section p:last-child { margin-bottom:0; }
+  .rb-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .rb-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .rb-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--rb); flex-shrink:0; margin-top:5px; }
+  .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tag { font-size:12px; background:var(--rb-light); color:var(--rb); border:0.5px solid var(--rb-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .rb-phase { margin-bottom:1.25rem; }
+  .rb-phase:last-child { margin-bottom:0; }
+  .rb-phase-title { font-size:12px; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:var(--rb); margin-bottom:8px; padding-bottom:5px; border-bottom:0.5px solid var(--rb-border); display:flex; align-items:center; gap:8px; }
+  .rb-phase-num { width:22px; height:22px; border-radius:50%; background:var(--rb); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .rb-steps { display:flex; flex-direction:column; gap:6px; }
+  .rb-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .rb-step-num { width:24px; height:24px; border-radius:50%; background:var(--rb-light); color:var(--rb); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .rb-step-body { flex:1; }
+  .rb-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; }
+  .rb-step-note { font-size:12px; color:#888; margin-top:3px; line-height:1.4; }
+  .rb-observe { list-style:none; margin-top:6px; display:flex; flex-direction:column; gap:4px; }
+  .rb-observe li { font-size:13px; color:#555; display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+  .rb-observe li::before { content:'→'; color:var(--rb); font-weight:600; flex-shrink:0; }
+  .series-nav { background:#f9f9f7; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem 1.25rem; margin-bottom:1.5rem; }
+  .series-nav-title { font-size:11px; font-weight:600; color:#888; text-transform:uppercase; letter-spacing:0.07em; margin-bottom:8px; }
+  .series-steps { display:flex; align-items:center; flex-wrap:wrap; gap:4px; }
+  .series-step { font-size:12px; font-weight:600; padding:4px 12px; border-radius:20px; text-decoration:none; white-space:nowrap; }
+  .series-step.active   { background:var(--rb); color:#fff; }
+  .series-step.inactive { background:#f0f0ec; color:#888; }
+  .series-step.inactive:hover { background:#e0e0dc; color:#555; }
+  .series-arrow { color:#ccc; font-size:14px; flex-shrink:0; }
+  /* Stakeholder notification grid */
+  .stakeholder-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-top:8px; }
+  .stakeholder-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.8rem 1rem; text-align:center; }
+  .stakeholder-icon { font-size:20px; margin-bottom:4px; }
+  .stakeholder-name { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:2px; }
+  .stakeholder-when { font-size:11px; color:#888; line-height:1.4; }
+  /* Completion checklist */
+  .closure-checklist { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .closure-item { display:flex; align-items:center; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#444; }
+  .closure-item::before { content:'✓'; color:var(--rb); font-weight:700; font-size:13px; flex-shrink:0; }
+  .outcome-box { background:var(--rb-light); border:0.5px solid var(--rb-border); border-radius:10px; padding:1rem 1.25rem; }
+  .outcome-box p { font-size:13px; color:var(--rb); line-height:1.6; margin-bottom:0; }
+  .artifact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-top:4px; }
+  .artifact-item { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#444; display:flex; align-items:center; gap:8px; }
+  .artifact-item::before { content:'📄'; font-size:14px; flex-shrink:0; }
+  /* Series complete banner */
+  .complete-banner { background:#0E414F; border-radius:12px; padding:1rem 1.5rem; margin-bottom:1.25rem; display:flex; align-items:center; gap:12px; }
+  .complete-banner-icon { font-size:22px; flex-shrink:0; }
+  .complete-banner-text strong { color:#4ade80; font-size:14px; display:block; margin-bottom:2px; }
+  .complete-banner-text p { color:rgba(255,255,255,0.75); font-size:13px; line-height:1.5; margin:0; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--rb); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { color:#ccc; }
+  .rb-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .rb-nav a { font-size:13px; color:var(--rb); text-decoration:none; }
+  .rb-nav a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html" class="active">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="runbooks.html">Runbooks</a><span>›</span>
+    <a href="em-pb-06.html">EM-PB-06</a><span>›</span>
+    <span>EM-RB-06-04</span>
+  </div>
+
+  <div class="series-nav">
+    <div class="series-nav-title">EM-PB-06 Runbook series — Threatening / Harassing Email Campaign</div>
+    <div class="series-steps">
+      <a class="series-step inactive" href="em-rb-06-01.html">01 · Triage</a>
+      <span class="series-arrow">›</span>
+      <a class="series-step inactive" href="em-rb-06-02.html">02 · Analysis</a>
+      <span class="series-arrow">›</span>
+      <a class="series-step inactive" href="em-rb-06-03.html">03 · Containment</a>
+      <span class="series-arrow">›</span>
+      <a class="series-step active" href="em-rb-06-04.html">04 · Closure</a>
+    </div>
+  </div>
+
+  <!-- Series complete banner -->
+  <div class="complete-banner">
+    <div class="complete-banner-icon">✅</div>
+    <div class="complete-banner-text">
+      <strong>Final step — series completion</strong>
+      <p>This is the last runbook in the EM-PB-06 series. Completing this runbook closes the incident and fulfils safety, compliance, and documentation obligations.</p>
+    </div>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#0E414F 0%,#297086 100%);">
+    <span class="kb-page-hero-icon">📋</span>
+    <h1>EM-RB-06-04: Escalation, Communication &amp; Closure</h1>
+    <p>Ensure safety, compliance, and controlled closure of the threatening email incident — covering stakeholder notification, user communication, evidence preservation, and formal closure.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">📧 Email threats</span>
+      <span class="kb-meta-pill">Tier 3</span>
+      <span class="kb-meta-pill">Step 4 of 4</span>
+    </div>
+  </div>
+
+  <div class="pb-meta-bar">
+    <div class="pb-meta-item">📋 <strong>ID:</strong> EM-RB-06-04</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">📅 <strong>Published:</strong> 6 January 2026</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">🔗 <strong>Parent:</strong> <a href="em-pb-06.html" style="color:var(--rb);">EM-PB-06</a></div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">👥 <strong>Executed by:</strong> SOC Tier-3</div>
+    <div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 1</div>
+    <div class="rb-section-title">Objective</div>
+    <p>Ensure user safety, meet compliance obligations, preserve evidence with proper chain of custody, and close or transition the incident in a controlled and documented manner.</p>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 2</div>
+    <div class="rb-section-title">Trigger &amp; Invocation</div>
+    <div class="tag-grid">
+      <span class="tag">🔗 Tier-3 escalation from EM-PB-06</span>
+      <span class="tag">🔗 Or: containment completed in EM-RB-06-03</span>
+      <span class="tag">👥 Executed by SOC Tier-3</span>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 3</div>
+    <div class="rb-section-title">Main Run — Escalation &amp; Closure Procedure</div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">1</div>Escalation &amp; Stakeholder Notification</div>
+      <p style="font-size:13px;color:#555;margin-bottom:10px;">Notify the following stakeholders based on severity and incident type:</p>
+      <div class="stakeholder-grid">
+        <div class="stakeholder-card">
+          <div class="stakeholder-icon">⚖️</div>
+          <div class="stakeholder-name">Legal / Compliance</div>
+          <div class="stakeholder-when">If regulatory obligations may apply</div>
+        </div>
+        <div class="stakeholder-card">
+          <div class="stakeholder-icon">👥</div>
+          <div class="stakeholder-name">HR</div>
+          <div class="stakeholder-when">For employee support and welfare</div>
+        </div>
+        <div class="stakeholder-card">
+          <div class="stakeholder-icon">🏢</div>
+          <div class="stakeholder-name">Leadership / Crisis Team</div>
+          <div class="stakeholder-when">If P1 severity — critical or widespread threat</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">2</div>User Communication</div>
+      <div class="rb-steps">
+        <div class="rb-step">
+          <div class="rb-step-num">1</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Inform all affected users that the email has been removed and the situation is being managed</div>
+            <div class="rb-step-note">Use an approved, out-of-band communication channel — do not reply via the compromised thread</div>
+          </div>
+        </div>
+        <div class="rb-step">
+          <div class="rb-step-num">2</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Provide clear instructions on what users should do if they receive further messages</div>
+          </div>
+        </div>
+        <div class="rb-step">
+          <div class="rb-step-num">3</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Reassure users and set clear expectations — confirm that their safety and well-being is the priority</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">3</div>Evidence Preservation</div>
+      <div class="rb-steps">
+        <div class="rb-step">
+          <div class="rb-step-num">1</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Secure all email artefacts collected throughout the series (headers, body, attachments, URLs)</div>
+          </div>
+        </div>
+        <div class="rb-step">
+          <div class="rb-step-num">2</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Retain all logs and documented actions — do not delete or modify evidence</div>
+          </div>
+        </div>
+        <div class="rb-step">
+          <div class="rb-step-num">3</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Maintain chain of custody — record who handled evidence and when</div>
+            <div class="rb-step-note">This is critical if the incident proceeds to law enforcement or legal action</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rb-phase">
+      <div class="rb-phase-title"><div class="rb-phase-num">4</div>Closure</div>
+      <div class="rb-steps">
+        <div class="rb-step">
+          <div class="rb-step-num">1</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Document all actions taken throughout the four-runbook series in the incident ticket</div>
+          </div>
+        </div>
+        <div class="rb-step">
+          <div class="rb-step-num">2</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Record lessons learned and any detection or process improvement recommendations</div>
+          </div>
+        </div>
+        <div class="rb-step">
+          <div class="rb-step-num">3</div>
+          <div class="rb-step-body">
+            <div class="rb-step-text">Close or transition the incident per the governance process defined in EM-PB-06</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 4</div>
+    <div class="rb-section-title">Closure Checklist</div>
+    <p>Confirm all of the following before closing the incident:</p>
+    <div class="closure-checklist">
+      <div class="closure-item">All stakeholders notified as required by severity</div>
+      <div class="closure-item">All affected users communicated with</div>
+      <div class="closure-item">All evidence preserved with chain of custody documented</div>
+      <div class="closure-item">All actions documented in the incident ticket</div>
+      <div class="closure-item">Lessons learned recorded</div>
+      <div class="closure-item">Incident closed or formally transitioned</div>
+    </div>
+  </div>
+
+  <div class="rb-section">
+    <div class="rb-section-num">Section 5</div>
+    <div class="rb-section-title">Outputs</div>
+    <div class="outcome-box">
+      <p>✅ Incident formally closed or transitioned<br>
+      ✅ Evidence preserved and chain of custody maintained<br>
+      ✅ Improvement actions logged for governance review</p>
+    </div>
+    <div class="artifact-grid" style="margin-top:10px;">
+      <div class="artifact-item">Closed incident record</div>
+      <div class="artifact-item">Preserved evidence package</div>
+      <div class="artifact-item">Lessons learned entry</div>
+      <div class="artifact-item">Stakeholder communication record</div>
+    </div>
+  </div>
+
+  <div class="rb-nav">
+    <a href="em-rb-06-03.html">← 03 · Containment &amp; Mailbox Remediation</a>
+    <a href="runbooks.html">← Back to Runbooks</a>
+    <a href="em-rb-07.html">EM-RB-07: Disable External Email Forwarding →</a>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>EM-RB-06-04 · Published 6 January 2026 · Paulo Ferreira · Series complete</span>
+    <span><a href="runbooks.html" style="color:var(--rb);text-decoration:none;">← Back to Runbooks</a></span>
+  </div>
+
+</div>
+</body>
+</html>
