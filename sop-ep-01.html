@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOP-EP-01: Endpoint Threat Operations — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --sop:#4A5568; --sop-light:#F0F2F5; --sop-border:#CBD5E0; --sop-dark:#2D3748; }
+
+  /* Meta bar */
+  .sop-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid var(--sop-border); border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .sop-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .sop-meta-item strong { color:#1a1a1a; }
+  .sop-meta-sep { color:var(--sop-border); }
+  .sop-badge { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:var(--sop-light); color:var(--sop); border:0.5px solid var(--sop-border); }
+  .sop-badge.draft { background:#FAEEDA; color:#854F0B; border-color:#FAC775; }
+
+  /* Sections */
+  .sop-section { background:#fff; border:0.5px solid var(--sop-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .sop-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--sop); margin-bottom:4px; }
+  .sop-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .sop-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .sop-section p:last-child { margin-bottom:0; }
+
+  /* Bullet lists */
+  .sop-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .sop-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .sop-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--sop); flex-shrink:0; margin-top:5px; }
+
+  /* Two-col scope */
+  .sop-two-col { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .sop-sub-box { background:var(--sop-light); border:0.5px solid var(--sop-border); border-radius:8px; padding:0.9rem 1rem; }
+  .sop-sub-box h4 { font-size:13px; font-weight:600; color:var(--sop-dark); margin-bottom:8px; }
+
+  /* NIST table */
+  .sop-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .sop-table th { background:var(--sop-light); color:var(--sop); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--sop-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .sop-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; }
+  .sop-table tr:nth-child(even) td { background:#fafafa; }
+
+  /* Playbook links */
+  .sop-pb-grid { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .sop-pb-row { display:flex; align-items:center; gap:12px; background:var(--sop-light); border:0.5px solid var(--sop-border); border-radius:8px; padding:0.7rem 1rem; text-decoration:none; color:inherit; transition:border-color 0.15s; }
+  .sop-pb-row:hover { border-color:var(--sop); }
+  .sop-pb-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:#fff; color:var(--sop); border:0.5px solid var(--sop-border); padding:2px 8px; border-radius:6px; white-space:nowrap; }
+  .sop-pb-name { font-size:13px; color:#444; flex:1; }
+  .sop-pb-arrow { color:#ccc; font-size:14px; }
+
+  /* Roles table */
+  .sop-roles { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .sop-roles th { background:var(--sop-light); color:var(--sop); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--sop-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .sop-roles td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.5; }
+  .sop-roles tr:nth-child(even) td { background:#fafafa; }
+  .sop-roles td:first-child { font-weight:600; color:var(--sop-dark); white-space:nowrap; }
+
+  /* Procedure phases */
+  .sop-phase { margin-bottom:1.25rem; }
+  .sop-phase:last-child { margin-bottom:0; }
+  .sop-phase-title { font-size:13px; font-weight:600; color:var(--sop-dark); margin-bottom:8px; padding-bottom:5px; border-bottom:0.5px solid var(--sop-border); display:flex; align-items:center; gap:8px; }
+  .sop-phase-num { width:22px; height:22px; border-radius:50%; background:var(--sop); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+  /* Severity table */
+  .sev-row-critical td { background:#FAECE7; }
+  .sev-row-high     td { background:#FEF0E6; }
+  .sev-row-medium   td { background:#FAEEDA; }
+  .sev-row-low      td { background:#f9f9f7; }
+  .sev-badge { font-size:11px; font-weight:600; padding:2px 8px; border-radius:8px; white-space:nowrap; }
+  .sev-p1 { background:#FAECE7; color:#993C1D; }
+  .sev-p2 { background:#FEF0E6; color:#8B4A0E; }
+  .sev-p3 { background:#FAEEDA; color:#854F0B; }
+  .sev-p4 { background:#f0f0ec; color:#666; }
+
+  /* Review table */
+  .sop-review { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .sop-review th { background:var(--sop-light); color:var(--sop); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--sop-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .sop-review td { padding:8px 14px; border:0.5px solid #e8e8e4; color:#444; }
+  .sop-review td:first-child { font-weight:600; color:var(--sop-dark); }
+
+  /* Compliance tags */
+  .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tag { font-size:12px; background:var(--sop-light); color:var(--sop); border:0.5px solid var(--sop-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--sop); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { color:#ccc; }
+  .sop-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .sop-nav a { font-size:13px; color:var(--sop); text-decoration:none; }
+  .sop-nav a:hover { text-decoration:underline; }
+  @media(max-width:640px){ .sop-two-col{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html" class="active">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="sops.html">SOPs</a><span>›</span>
+    <span>SOP-EP-01</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#2D3748 0%,#4A5568 100%);">
+    <span class="kb-page-hero-icon">📄</span>
+    <h1>SOP-EP-01: Endpoint Threat Operations</h1>
+    <p>Standard Operating Procedure defining how the SOC detects, triages, investigates, escalates, and responds to endpoint-based threats — ensuring rapid containment, minimal spread, and effective recovery.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Cross-domain</span>
+      <span class="kb-meta-pill">Tier 1 / 2 / 3</span>
+      <span class="kb-meta-pill">NIST CSF 2.0</span>
+      <span class="kb-meta-pill">ISO 27035</span>
+    </div>
+  </div>
+
+  <div class="sop-meta-bar">
+    <div class="sop-meta-item">📋 <strong>SOP ID:</strong> SOP-EP-01</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item"><span class="sop-badge draft">Draft</span></div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">👤 <strong>Owner:</strong> Global SOC Manager</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">📅 <strong>Published:</strong> 24 December 2025</div>
+  </div>
+
+  <!-- 1. Purpose -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 1</div>
+    <div class="sop-section-title">Purpose</div>
+    <p>This Standard Operating Procedure (SOP) defines how the Security Operations Centre (SOC) detects, triages, investigates, escalates, and responds to endpoint-based threats, ensuring rapid containment, minimal spread, and effective recovery across all organisational endpoints.</p>
+    <p>Endpoints are treated as primary attack surfaces and initial access vectors. Compromise of an endpoint is assumed to present high lateral-movement and privilege-escalation risk until proven otherwise.</p>
+  </div>
+
+  <!-- 2. Scope -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 2</div>
+    <div class="sop-section-title">Scope</div>
+    <div class="sop-two-col">
+      <div class="sop-sub-box">
+        <h4>Applies to</h4>
+        <ul class="sop-bullet">
+          <li>Global SOC (Tier 1–3)</li>
+          <li>Regional SOCs</li>
+          <li>MDR provider</li>
+          <li>Endpoint / Workplace IT teams</li>
+          <li>Local IT teams supporting remediation</li>
+        </ul>
+      </div>
+      <div class="sop-sub-box">
+        <h4>In-scope threat categories</h4>
+        <ul class="sop-bullet">
+          <li>Malware (file-based and fileless)</li>
+          <li>Ransomware</li>
+          <li>Living-off-the-Land (LOLBins)</li>
+          <li>Exploitation of vulnerabilities</li>
+          <li>Persistence mechanisms</li>
+          <li>Lateral movement originating from endpoints</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sop-sub-box" style="margin-top:10px;">
+      <h4>In-scope endpoint assets</h4>
+      <ul class="sop-bullet" style="columns:2;gap:1rem;">
+        <li>User workstations (Windows, macOS, Linux)</li>
+        <li>Laptops — remote and high-risk locations</li>
+        <li>Servers where endpoint protection is deployed</li>
+        <li>Virtual desktops (VDI)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3. NIST CSF Alignment -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 3</div>
+    <div class="sop-section-title">NIST CSF 2.0 Alignment</div>
+    <table class="sop-table">
+      <thead><tr><th>NIST CSF function</th><th>Category</th></tr></thead>
+      <tbody>
+        <tr><td>Detect</td><td>DE.CM – Security Continuous Monitoring</td></tr>
+        <tr><td>Detect</td><td>DE.AE – Anomalies and Events</td></tr>
+        <tr><td>Respond</td><td>RS.AN – Incident Analysis</td></tr>
+        <tr><td>Respond</td><td>RS.MI – Mitigation</td></tr>
+        <tr><td>Recover</td><td>RC.RP – Recovery Planning</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:8px;font-size:13px;color:#888;">Also supports alignment with ISO 27035 (Incident Management) and endpoint security control requirements.</p>
+  </div>
+
+  <!-- 4. Aligned Playbooks -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 4</div>
+    <div class="sop-section-title">Aligned Playbooks</div>
+    <p>This SOP governs execution of the following Endpoint Threat Playbooks:</p>
+    <div class="sop-pb-grid">
+      <a class="sop-pb-row" href="ep-pb-01.html"><span class="sop-pb-code">EP-PB-01</span><span class="sop-pb-name">Suspected Endpoint Compromise</span><span class="sop-pb-arrow">›</span></a>
+      <a class="sop-pb-row" href="ep-pb-02.html"><span class="sop-pb-code">EP-PB-02</span><span class="sop-pb-name">Malware Execution on Endpoint</span><span class="sop-pb-arrow">›</span></a>
+      <a class="sop-pb-row" href="ep-pb-03.html"><span class="sop-pb-code">EP-PB-03</span><span class="sop-pb-name">Lateral Movement Activity</span><span class="sop-pb-arrow">›</span></a>
+      <a class="sop-pb-row" href="ep-pb-04.html"><span class="sop-pb-code">EP-PB-04</span><span class="sop-pb-name">Endpoint Persistence Mechanisms</span><span class="sop-pb-arrow">›</span></a>
+    </div>
+  </div>
+
+  <!-- 5. Roles & Responsibilities -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 5</div>
+    <div class="sop-section-title">Roles &amp; Responsibilities</div>
+    <table class="sop-roles">
+      <thead><tr><th>Role</th><th>Responsibilities</th></tr></thead>
+      <tbody>
+        <tr><td>Tier 1 SOC Analyst</td><td>Alert validation, initial triage, ticket creation</td></tr>
+        <tr><td>Tier 2 SOC Analyst</td><td>Investigation, containment actions, root-cause analysis</td></tr>
+        <tr><td>Tier 3 / IR Lead</td><td>Incident command, recovery decisions, escalation</td></tr>
+        <tr><td>MDR Provider</td><td>24/7 monitoring, enrichment, response recommendations</td></tr>
+        <tr><td>Endpoint / IT Teams</td><td>Reimage, patching, recovery, user coordination</td></tr>
+        <tr><td>Local IT</td><td>Physical access, device handling, user support</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 6. Operating Procedure -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 6</div>
+    <div class="sop-section-title">Operating Procedure (High-Level)</div>
+
+    <div class="sop-phase">
+      <div class="sop-phase-title"><div class="sop-phase-num">1</div>Detection &amp; Alert Intake</div>
+      <p>Endpoint threats may be detected via EDR/XDR alerts, SIEM correlations, MDR escalations, threat hunting activities, or reports from IT and users. All alerts must be logged in the incident management platform.</p>
+    </div>
+
+    <div class="sop-phase">
+      <div class="sop-phase-title"><div class="sop-phase-num">2</div>Initial Triage &amp; Classification</div>
+      <p>The SOC must determine endpoint type (user, server, VDI), user context (standard, privileged, VIP), threat class (malware, ransomware, exploit, persistence), execution status (blocked, active, contained), and potential lateral movement indicators. Classification must follow the applicable EP-PB-xx playbook.</p>
+    </div>
+
+    <div class="sop-phase">
+      <div class="sop-phase-title"><div class="sop-phase-num">3</div>Investigation &amp; Analysis</div>
+      <p>Mandatory investigation steps include: process tree and command-line analysis, file and hash reputation review, detection of persistence artefacts, network connections initiated by the endpoint, and correlation with identity and network telemetry. Evidence must be preserved for audit, IR, and potential legal review.</p>
+    </div>
+
+    <div class="sop-phase">
+      <div class="sop-phase-title"><div class="sop-phase-num">4</div>Containment &amp; Mitigation</div>
+      <p>Containment actions may include endpoint isolation, process termination or quarantine, blocking indicators across the environment, preventive rule deployment, and temporary user access restriction. For ransomware or active exploitation, <strong>immediate isolation is mandatory</strong>.</p>
+    </div>
+
+    <div class="sop-phase">
+      <div class="sop-phase-title"><div class="sop-phase-num">5</div>Escalation &amp; Communication</div>
+      <p>Escalation is mandatory when: ransomware is suspected or confirmed, lateral movement indicators are present, privileged accounts are involved, or multiple endpoints show correlated activity. Communication must follow the SOC escalation and incident communication procedures.</p>
+    </div>
+
+    <div class="sop-phase">
+      <div class="sop-phase-title"><div class="sop-phase-num">6</div>Recovery &amp; Lessons Learned</div>
+      <p>For confirmed endpoint incidents: decide between reimage vs clean-up, validate endpoint patch and configuration state, confirm no residual persistence remains, and update detections and prevention policies where gaps are identified. Lessons learned must be documented for continuous improvement.</p>
+    </div>
+  </div>
+
+  <!-- 7. Severity -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 7</div>
+    <div class="sop-section-title">Severity Classification &amp; Response</div>
+    <table class="sop-table">
+      <thead><tr><th>Severity</th><th>Description</th><th>Response</th></tr></thead>
+      <tbody>
+        <tr class="sev-row-critical"><td><span class="sev-badge sev-p1">P1 – Critical</span></td><td>Ransomware or widespread endpoint compromise</td><td>Immediate IR Lead engagement</td></tr>
+        <tr class="sev-row-high"><td><span class="sev-badge sev-p2">P2 – High</span></td><td>Active malware with lateral movement risk</td><td>SOC + Regional Cyber</td></tr>
+        <tr class="sev-row-medium"><td><span class="sev-badge sev-p3">P3 – Medium</span></td><td>Isolated malware, blocked or contained</td><td>SOC-led</td></tr>
+        <tr class="sev-row-low"><td><span class="sev-badge sev-p4">P4 – Low</span></td><td>Benign or informational alert</td><td>Log &amp; close</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 8. Tooling -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 8</div>
+    <div class="sop-section-title">Tooling &amp; Evidence Handling</div>
+    <div class="tag-grid">
+      <span class="tag">🛡️ EDR / XDR platform</span>
+      <span class="tag">📊 SIEM</span>
+      <span class="tag">💻 Endpoint management tools</span>
+      <span class="tag">🔬 Forensic analysis utilities</span>
+      <span class="tag">🎫 Ticketing platform (RTIR / Manage Engine)</span>
+    </div>
+    <p style="margin-top:10px;">All artefacts must be retained per Incident Response and Evidence Handling policies.</p>
+  </div>
+
+  <!-- 9. Exceptions -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 9</div>
+    <div class="sop-section-title">Exceptions</div>
+    <p>Any deviation from this SOP must be justified based on operational constraints, approved by the SOC Manager or IR Lead, and documented in the incident record.</p>
+  </div>
+
+  <!-- 10. Compliance -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 10</div>
+    <div class="sop-section-title">Compliance &amp; Audit</div>
+    <div class="tag-grid">
+      <span class="tag">✅ NIST CSF 2.0</span>
+      <span class="tag">✅ ISO 27035</span>
+      <span class="tag">✅ Endpoint security audit requirements</span>
+      <span class="tag">✅ MDR contractual oversight</span>
+    </div>
+    <p style="margin-top:10px;">Audit evidence includes tickets, EDR telemetry, analyst notes, and remediation records.</p>
+  </div>
+
+  <!-- 11. Review & Approval -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 11</div>
+    <div class="sop-section-title">Review &amp; Approval</div>
+    <table class="sop-review">
+      <thead><tr><th>Role</th><th>Name</th><th>Date</th></tr></thead>
+      <tbody>
+        <tr><td>SOP Owner</td><td>Paulo Ferreira</td><td>24 December 2025</td></tr>
+        <tr><td>Approver</td><td style="color:#aaa;">Pending</td><td style="color:#aaa;">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sop-nav">
+    <a href="sops.html">← Back to SOPs</a>
+    <a href="sop-id-01.html">SOP-ID-01: Identity Threat Operations →</a>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>SOP-EP-01 v1.0 Draft · Published 24 December 2025 · Paulo Ferreira</span>
+    <span><a href="sops.html" style="color:var(--sop);text-decoration:none;">← Back to SOPs</a></span>
+  </div>
+</div>
+</body>
+</html>

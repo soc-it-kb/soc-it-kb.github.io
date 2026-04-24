@@ -5,11 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SOPs — Cyber Security Knowledge Base</title>
 <link rel="stylesheet" href="shared.css">
+<style>
+  :root { --sop:#4A5568; --sop-light:#F0F2F5; --sop-border:#CBD5E0; }
+  .kb-entry-list { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; overflow:hidden; }
+  .kb-entry { display:flex; align-items:center; padding:0.85rem 1.1rem; border-bottom:0.5px solid #f0f0ec; text-decoration:none; color:inherit; transition:background 0.1s; gap:12px; }
+  .kb-entry:last-child { border-bottom:none; }
+  .kb-entry:hover { background:#f9f9f7; }
+  .sop-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; padding:2px 8px; border-radius:6px; white-space:nowrap; flex-shrink:0; background:var(--sop-light); color:var(--sop); border:0.5px solid var(--sop-border); }
+  .kb-entry-name { font-size:14px; color:#1a1a1a; flex:1; line-height:1.4; }
+  .kb-entry-meta { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+  .kb-entry-date   { font-size:12px; color:#aaa; white-space:nowrap; }
+  .kb-entry-author { font-size:12px; color:#888; white-space:nowrap; }
+  .kb-entry-arrow  { color:#ccc; font-size:14px; }
+  .sop-badge-draft { font-size:11px; font-weight:600; padding:2px 7px; border-radius:8px; background:#FAEEDA; color:#854F0B; white-space:nowrap; }
+  .sop-what-box { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1.75rem; }
+  .sop-what-box p { font-size:14px; color:#555; line-height:1.7; margin-bottom:0; }
+  .nist-box { background:var(--sop-light); border:0.5px solid var(--sop-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:1.75rem; }
+  .nist-box-title { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--sop); margin-bottom:8px; }
+  .nist-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .nist-pill { font-size:12px; font-weight:600; background:#fff; color:var(--sop); border:0.5px solid var(--sop-border); padding:3px 10px; border-radius:6px; }
+  .stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin-bottom:1.75rem; }
+  .stat-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .stat-num   { font-size:28px; font-weight:700; color:var(--sop); line-height:1; margin-bottom:4px; }
+  .stat-label { font-size:12px; color:#888; }
+  @media(max-width:600px){ .kb-entry-author{display:none;} }
+</style>
 </head>
 <body>
-
 <nav class="kb-topnav">
-  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
   <a href="index.html">Home</a>
   <a href="runbooks.html">Runbooks</a>
   <a href="playbooks.html">Playbooks</a>
@@ -18,112 +42,84 @@
   <a href="tools-references.html">Tools &amp; References</a>
   <a href="governance.html">Governance</a>
 </nav>
-
 <div class="page-wrapper">
 
-  <div class="kb-page-hero">
-    <span class="kb-page-hero-icon">📐</span>
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#2D3748 0%,#4A5568 100%);">
+    <span class="kb-page-hero-icon">📄</span>
     <h1>Standard Operating Procedures</h1>
-    <p>Authoritative SOPs governing how the Security Operations Centre detects, triages, escalates, responds to, and recovers from cybersecurity incidents. SOPs define mandatory processes, roles, decision points, and control requirements.</p>
+    <p>Cross-domain SOC operating procedures defining roles, responsibilities, process flows, and governance for each threat category. SOPs sit above Playbooks and Runbooks — they define the operating standards; Playbooks and Runbooks execute them.</p>
     <div class="kb-page-hero-meta">
-      <span class="kb-meta-pill">Governance layer</span>
+      <span class="kb-meta-pill">Governance</span>
       <span class="kb-meta-pill">All tiers</span>
-      <span class="kb-meta-pill">Mandatory</span>
+      <span class="kb-meta-pill">NIST CSF 2.0</span>
+      <span class="kb-meta-pill">ISO 27035</span>
     </div>
   </div>
 
-  <div class="kb-warning">
-    <strong>SOPs are mandatory.</strong> Deviations require a documented exception. SOPs are reviewed annually or following major incidents.
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">SOPs published</div></div>
+    <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">v1.0 Draft</div></div>
+    <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Threat domain SOPs</div></div>
+    <div class="stat-card"><div class="stat-num">1</div><div class="stat-label">Governance SOP</div></div>
   </div>
 
-  <div class="kb-section">
-    <div class="kb-section-title">Scope</div>
-    <div class="kb-info-box">
-      <p>These SOPs apply to all teams involved in security operations and incident response:</p>
-      <ul class="kb-bullet-list">
-        <li>Global SOC</li>
-        <li>Regional SOCs</li>
-        <li>MDR partner (where contractually applicable)</li>
-        <li>Local IT / Cyber teams engaged in incident response</li>
-      </ul>
+  <div class="sop-what-box">
+    <p>SOPs establish mandatory operating standards for the SOC — who does what, in what order, under what authority. They govern the execution of <a href="playbooks.html" style="color:var(--sop);">Playbooks</a> and <a href="runbooks.html" style="color:var(--sop);">Runbooks</a>, and define escalation, communication, and compliance obligations. All current SOPs are at v1.0 Draft pending formal approval.</p>
+  </div>
+
+  <div class="nist-box">
+    <div class="nist-box-title">🏛️ Compliance alignment</div>
+    <div class="nist-pills">
+      <span class="nist-pill">NIST CSF 2.0 — Detect</span>
+      <span class="nist-pill">NIST CSF 2.0 — Respond</span>
+      <span class="nist-pill">NIST CSF 2.0 — Recover</span>
+      <span class="nist-pill">ISO 27035 — Incident Management</span>
+      <span class="nist-pill">ISO 27001 — Access Control</span>
     </div>
   </div>
 
+  <!-- Threat domain SOPs -->
   <div class="kb-section">
-    <div class="kb-section-title">SOP catalogue</div>
-    <div class="kb-table-wrap">
-      <table class="kb-table">
-        <thead>
-          <tr>
-            <th>SOP ID</th>
-            <th>SOP Name</th>
-            <th>NIST CSF Function</th>
-            <th>Aligned Playbooks</th>
-            <th>Status</th>
-            <th>Owner</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>SOP-EM-01</code></td>
-            <td>Email Threat Operations</td>
-            <td>Detect / Respond</td>
-            <td>EM-PB-01 → EM-PB-05</td>
-            <td><span class="badge badge-draft">Draft</span></td>
-            <td>SOC Manager</td>
-          </tr>
-          <tr>
-            <td><code>SOP-ID-01</code></td>
-            <td>Identity Threat Operations</td>
-            <td>Protect / Detect / Respond</td>
-            <td>ID-PB-01 → ID-PB-05</td>
-            <td><span class="badge badge-draft">Draft</span></td>
-            <td>IAM Lead</td>
-          </tr>
-          <tr>
-            <td><code>SOP-EP-01</code></td>
-            <td>Endpoint Threat Operations</td>
-            <td>Detect / Respond / Recover</td>
-            <td>EP-PB-01 → EP-PB-05</td>
-            <td><span class="badge badge-draft">Draft</span></td>
-            <td>EDR Lead</td>
-          </tr>
-          <tr>
-            <td><code>SOP-NW-01</code></td>
-            <td>Network Threat Operations</td>
-            <td>Detect / Respond</td>
-            <td>NW-PB-01 → NW-PB-05</td>
-            <td><span class="badge badge-draft">Draft</span></td>
-            <td>Network Security Lead</td>
-          </tr>
-          <tr>
-            <td><code>SOP-IM-01</code></td>
-            <td>Incident Severity Classification &amp; Escalation</td>
-            <td>Govern</td>
-            <td>All</td>
-            <td><span class="badge badge-draft">Draft</span></td>
-            <td>SOC Manager</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="kb-section-title">Threat domain SOPs</div>
+    <div class="kb-entry-list">
+      <a class="kb-entry" href="sop-em-01.html">
+        <span class="sop-code">SOP-EM-01</span>
+        <span class="kb-entry-name">Email Threat Operations</span>
+        <span class="kb-entry-meta"><span class="sop-badge-draft">Draft</span><span class="kb-entry-date">5 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="sop-id-01.html">
+        <span class="sop-code">SOP-ID-01</span>
+        <span class="kb-entry-name">Identity Threat Operations</span>
+        <span class="kb-entry-meta"><span class="sop-badge-draft">Draft</span><span class="kb-entry-date">24 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="sop-nw-01.html">
+        <span class="sop-code">SOP-NW-01</span>
+        <span class="kb-entry-name">Network Threat Operations</span>
+        <span class="kb-entry-meta"><span class="sop-badge-draft">Draft</span><span class="kb-entry-date">5 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="sop-ep-01.html">
+        <span class="sop-code">SOP-EP-01</span>
+        <span class="kb-entry-name">Endpoint Threat Operations</span>
+        <span class="kb-entry-meta"><span class="sop-badge-draft">Draft</span><span class="kb-entry-date">24 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
     </div>
   </div>
 
-  <div class="kb-section">
-    <div class="kb-section-title">Governance notes</div>
-    <div class="kb-info-box">
-      <ul class="kb-bullet-list">
-        <li>SOPs are mandatory for all in-scope teams — compliance is not optional</li>
-        <li>Any deviation from an SOP must be documented with a formal exception request</li>
-        <li>SOPs are reviewed annually as a minimum, or immediately following a major incident</li>
-        <li>Updates to SOPs must go through the change control process defined in Governance &amp; Change Log</li>
-      </ul>
+  <!-- Governance SOPs -->
+  <div class="kb-section" style="margin-top:1.5rem;">
+    <div class="kb-section-title">Governance SOPs</div>
+    <div class="kb-entry-list">
+      <a class="kb-entry" href="sop-im-01.html">
+        <span class="sop-code">SOP-IM-01</span>
+        <span class="kb-entry-name">Incident Severity Classification &amp; Escalation</span>
+        <span class="kb-entry-meta"><span class="sop-badge-draft">Draft</span><span class="kb-entry-date">2 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
     </div>
   </div>
 
   <div class="kb-footer">
-    <span><span class="live-dot"></span>Published 5 January 2026 &nbsp;·&nbsp; Paulo Ferreira</span>
-    <span><a href="index.html" style="color:#297086;text-decoration:none;">← Back to home</a></span>
+    <span><span class="live-dot"></span>5 SOPs published · v1.0 Draft · Cyber Security Knowledge Base</span>
+    <span><a href="index.html" style="color:var(--sop);text-decoration:none;">← Back to home</a></span>
   </div>
 
 </div>

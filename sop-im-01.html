@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOP-IM-01: Incident Severity Classification & Escalation — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --sop:#4A5568; --sop-light:#F0F2F5; --sop-border:#CBD5E0; --sop-dark:#2D3748; }
+  .sop-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid var(--sop-border); border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .sop-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .sop-meta-item strong { color:#1a1a1a; }
+  .sop-meta-sep { color:var(--sop-border); }
+  .sop-badge.draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .sop-section { background:#fff; border:0.5px solid var(--sop-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .sop-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--sop); margin-bottom:4px; }
+  .sop-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .sop-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .sop-section p:last-child { margin-bottom:0; }
+  .sop-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .sop-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .sop-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--sop); flex-shrink:0; margin-top:5px; }
+  .sop-two-col { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .sop-sub-box { background:var(--sop-light); border:0.5px solid var(--sop-border); border-radius:8px; padding:0.9rem 1rem; }
+  .sop-sub-box h4 { font-size:13px; font-weight:600; color:var(--sop-dark); margin-bottom:8px; }
+  .sop-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .sop-table th { background:var(--sop-light); color:var(--sop); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--sop-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .sop-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; }
+  .sop-table tr:nth-child(even) td { background:#fafafa; }
+  .sop-roles { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .sop-roles th { background:var(--sop-light); color:var(--sop); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--sop-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .sop-roles td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.5; }
+  .sop-roles tr:nth-child(even) td { background:#fafafa; }
+  .sop-roles td:first-child { font-weight:600; color:var(--sop-dark); white-space:nowrap; }
+  .sop-phase { margin-bottom:1.25rem; }
+  .sop-phase:last-child { margin-bottom:0; }
+  .sop-phase-title { font-size:13px; font-weight:600; color:var(--sop-dark); margin-bottom:8px; padding-bottom:5px; border-bottom:0.5px solid var(--sop-border); display:flex; align-items:center; gap:8px; }
+  .sop-phase-num { width:22px; height:22px; border-radius:50%; background:var(--sop); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  /* Severity level cards */
+  .sev-cards { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+  .sev-card { border-radius:10px; padding:1rem 1.1rem; }
+  .sev-card.critical { background:#FAECE7; border:0.5px solid #F5C0B0; }
+  .sev-card.high     { background:#FEF0E6; border:0.5px solid #F5C89A; }
+  .sev-card.medium   { background:#FAEEDA; border:0.5px solid #FAC775; }
+  .sev-card.low      { background:#f9f9f7; border:0.5px solid #e0e0dc; }
+  .sev-card h4 { font-size:13px; font-weight:700; margin-bottom:4px; }
+  .sev-card.critical h4 { color:#993C1D; }
+  .sev-card.high     h4 { color:#8B4A0E; }
+  .sev-card.medium   h4 { color:#854F0B; }
+  .sev-card.low      h4 { color:#555; }
+  .sev-card p { font-size:13px; color:#555; margin:0; line-height:1.4; }
+  /* Escalation rules */
+  .esc-row { display:flex; align-items:flex-start; gap:12px; padding:0.75rem 1rem; border-radius:8px; margin-bottom:6px; }
+  .esc-row.medium   { background:#FAEEDA; }
+  .esc-row.high     { background:#FEF0E6; }
+  .esc-row.critical { background:#FAECE7; }
+  .esc-label { font-size:11px; font-weight:700; padding:2px 8px; border-radius:8px; white-space:nowrap; flex-shrink:0; margin-top:2px; }
+  .esc-row.medium   .esc-label { background:#FAC775; color:#5C3109; }
+  .esc-row.high     .esc-label { background:#F5C89A; color:#5C3109; }
+  .esc-row.critical .esc-label { background:#F5C0B0; color:#6B2316; }
+  .esc-text { font-size:13px; line-height:1.5; }
+  .esc-row.medium   .esc-text { color:#6b3f0a; }
+  .esc-row.high     .esc-text { color:#6b3f0a; }
+  .esc-row.critical .esc-text { color:#7a2e10; }
+  /* Definition list */
+  .def-list { display:flex; flex-direction:column; gap:8px; margin-top:4px; }
+  .def-item { background:var(--sop-light); border:0.5px solid var(--sop-border); border-radius:8px; padding:0.75rem 1rem; }
+  .def-term { font-size:13px; font-weight:600; color:var(--sop-dark); margin-bottom:3px; }
+  .def-desc { font-size:13px; color:#555; line-height:1.5; }
+  /* Related content */
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .rel-box { background:var(--sop-light); border:0.5px solid var(--sop-border); border-radius:8px; padding:0.9rem 1rem; }
+  .rel-box h4 { font-size:12px; font-weight:600; color:var(--sop); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; }
+  .rel-link { display:flex; align-items:center; gap:8px; text-decoration:none; color:#444; font-size:13px; padding:4px 0; }
+  .rel-link:hover { color:var(--sop); }
+  .rel-link::before { content:'›'; color:var(--sop); font-weight:700; }
+  .sop-review { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .sop-review th { background:var(--sop-light); color:var(--sop); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--sop-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .sop-review td { padding:8px 14px; border:0.5px solid #e8e8e4; color:#444; }
+  .sop-review td:first-child { font-weight:600; color:var(--sop-dark); }
+  .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tag { font-size:12px; background:var(--sop-light); color:var(--sop); border:0.5px solid var(--sop-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--sop); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .sop-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .sop-nav a { font-size:13px; color:var(--sop); text-decoration:none; }
+  @media(max-width:640px){ .sop-two-col,.sev-cards,.rel-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html" class="active">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="sops.html">SOPs</a><span>›</span><span>SOP-IM-01</span></div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#2D3748 0%,#4A5568 100%);">
+    <span class="kb-page-hero-icon">📄</span>
+    <h1>SOP-IM-01: Incident Severity Classification &amp; Escalation</h1>
+    <p>Standardised method used by the SOC to classify, prioritise, and escalate security incidents based on business impact and risk — ensuring consistent handling across all SOC tiers and correct playbook activation.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Cross-domain</span>
+      <span class="kb-meta-pill">All tiers</span>
+      <span class="kb-meta-pill">Governance</span>
+    </div>
+  </div>
+
+  <div class="sop-meta-bar">
+    <div class="sop-meta-item">📋 <strong>SOP ID:</strong> SOP-IM-01</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item"><span class="sop-badge draft">Draft</span></div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">👤 <strong>Owner:</strong> Global SOC Manager</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">📅 <strong>Published:</strong> 2 January 2026</div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 1</div>
+    <div class="sop-section-title">Purpose</div>
+    <p>This SOP defines the standardised method used by the SOC to classify, prioritise, and escalate security incidents based on business impact and risk, ensuring consistent handling across all SOC tiers.</p>
+    <p>This SOP supports consistent runbook execution, correct playbook activation, and timely escalation and decision-making.</p>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 2</div>
+    <div class="sop-section-title">Scope</div>
+    <div class="sop-two-col">
+      <div class="sop-sub-box">
+        <h4>Applies to</h4>
+        <ul class="sop-bullet">
+          <li>All SOC analysts (Tier 1, 2, and 3 / IR)</li>
+          <li>All confirmed security incidents managed by the SOC</li>
+        </ul>
+      </div>
+      <div class="sop-sub-box">
+        <h4>Does NOT cover</h4>
+        <ul class="sop-bullet">
+          <li>Alert triage steps → covered by Runbooks</li>
+          <li>Incident response actions → covered by Playbooks</li>
+          <li>Tool-specific actions → covered by Work Instructions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 3</div>
+    <div class="sop-section-title">Definitions</div>
+    <div class="def-list">
+      <div class="def-item"><div class="def-term">Incident</div><div class="def-desc">A confirmed security event impacting confidentiality, integrity, or availability.</div></div>
+      <div class="def-item"><div class="def-term">Severity</div><div class="def-desc">A business-impact-based classification used to prioritise response, playbook activation, and escalation.</div></div>
+      <div class="def-item"><div class="def-term">Escalation</div><div class="def-desc">Formal transfer of incident ownership or visibility to a higher tier or role.</div></div>
+      <div class="def-item"><div class="def-term">Incident Manager</div><div class="def-desc">Role assigned to manage High or Critical incidents — responsible for coordination, communication, and resolution.</div></div>
+    </div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 4</div>
+    <div class="sop-section-title">Procedure</div>
+
+    <div class="sop-phase">
+      <div class="sop-phase-title"><div class="sop-phase-num">1</div>Incident Severity Overview</div>
+      <p>All confirmed incidents must be assigned a severity level as early as possible. Severity must be reassessed throughout the incident lifecycle as new information becomes available. Severity assignment directly influences which playbook is activated, escalation requirements, and communication obligations.</p>
+    </div>
+
+    <div class="sop-phase">
+      <div class="sop-phase-title"><div class="sop-phase-num">2</div>Severity Levels</div>
+      <div class="sev-cards">
+        <div class="sev-card critical"><h4>🔴 Critical</h4><p>Widespread impact, core services affected, regulatory or reputational risk</p></div>
+        <div class="sev-card high"><h4>🟠 High</h4><p>Significant impact — multiple users or systems affected</p></div>
+        <div class="sev-card medium"><h4>🟡 Medium</h4><p>Limited impact to a single user or system</p></div>
+        <div class="sev-card low"><h4>⚪ Low</h4><p>No material impact — informational or benign</p></div>
+      </div>
+    </div>
+
+    <div class="sop-phase">
+      <div class="sop-phase-title"><div class="sop-phase-num">3</div>Severity Assignment Criteria</div>
+      <p>Analysts must consider the following when assigning severity:</p>
+      <ul class="sop-bullet">
+        <li>Number of users or systems affected</li>
+        <li>Type and sensitivity of data involved</li>
+        <li>Presence of an active threat or attacker</li>
+        <li>Business criticality of impacted assets</li>
+      </ul>
+      <div style="margin-top:10px;background:#FAECE7;border:0.5px solid #F5C0B0;border-radius:8px;padding:0.75rem 1rem;font-size:13px;color:#7a2e10;">
+        ⚠️ <strong>When in doubt, default to the higher severity and escalate.</strong> Downgrading is always easier than under-responding.
+      </div>
+    </div>
+
+    <div class="sop-phase">
+      <div class="sop-phase-title"><div class="sop-phase-num">4</div>Roles &amp; Responsibilities</div>
+      <table class="sop-roles">
+        <thead><tr><th>Role</th><th>Responsibilities</th></tr></thead>
+        <tbody>
+          <tr><td>Tier 1 SOC</td><td>Assign initial severity during triage</td></tr>
+          <tr><td>Tier 2 SOC</td><td>Validate or adjust severity based on investigation findings</td></tr>
+          <tr><td>Incident Manager</td><td>Approve High / Critical severity; own communication and coordination</td></tr>
+          <tr><td>SOC Lead</td><td>Oversight, governance, and post-incident review</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sop-phase">
+      <div class="sop-phase-title"><div class="sop-phase-num">5</div>Escalation Rules</div>
+      <div class="esc-row medium">
+        <span class="esc-label">Medium</span>
+        <div class="esc-text">May be handled at Tier 1 unless escalation criteria within the relevant Runbook or Playbook are met.</div>
+      </div>
+      <div class="esc-row high">
+        <span class="esc-label">High</span>
+        <div class="esc-text">Must be escalated to Tier 2 immediately.</div>
+      </div>
+      <div class="esc-row critical">
+        <span class="esc-label">Critical</span>
+        <div class="esc-text">Requires Incident Manager assignment, Playbook activation, and Management notification immediately.</div>
+      </div>
+      <p style="margin-top:10px;font-size:13px;color:#888;">Specific escalation criteria are defined within the relevant Runbooks and Playbooks for each threat category.</p>
+    </div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 5</div>
+    <div class="sop-section-title">Exceptions</div>
+    <p>Any deviation from this SOP must be documented in the incident record, include justification, and be approved by the SOC Lead or Incident Commander.</p>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 6</div>
+    <div class="sop-section-title">Compliance &amp; Audit</div>
+    <div class="tag-grid">
+      <span class="tag">✅ Incident tickets with severity history</span>
+      <span class="tag">✅ Escalation timestamps</span>
+      <span class="tag">✅ Activated playbook records</span>
+      <span class="tag">✅ Post-incident reports</span>
+    </div>
+    <p style="margin-top:10px;">This SOP supports internal assurance and external audit activities.</p>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 7</div>
+    <div class="sop-section-title">Review &amp; Approval</div>
+    <table class="sop-review">
+      <thead><tr><th>Role</th><th>Name</th><th>Date</th></tr></thead>
+      <tbody>
+        <tr><td>SOP Owner</td><td>Paulo Ferreira</td><td>2 January 2026</td></tr>
+        <tr><td>Approver</td><td style="color:#aaa;">Pending</td><td style="color:#aaa;">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Related Content</div>
+    <div class="sop-section-title">Related Playbooks &amp; Runbooks</div>
+    <div class="rel-grid">
+      <div class="rel-box">
+        <h4>Playbooks</h4>
+        <a class="rel-link" href="em-pb-01.html">Phishing Incident Response</a>
+        <a class="rel-link" href="id-pb-01.html">Account Compromise</a>
+        <a class="rel-link" href="em-pb-05.html">Ransomware Activity</a>
+      </div>
+      <div class="rel-box">
+        <h4>Runbooks</h4>
+        <a class="rel-link" href="em-rb-03.html">Analyse Attachments</a>
+        <a class="rel-link" href="id-rb-03.html">Review Sign-In Logs</a>
+        <a class="rel-link" href="ep-rb-01.html">Endpoint Investigation</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sop-nav">
+    <a href="sop-nw-01.html">← SOP-NW-01: Network Threat Operations</a>
+    <a href="sops.html">← Back to SOPs</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>SOP-IM-01 v1.0 Draft · Published 2 January 2026 · Paulo Ferreira</span>
+    <span><a href="sops.html" style="color:var(--sop);text-decoration:none;">← Back to SOPs</a></span>
+  </div>
+</div>
+</body>
+</html>
