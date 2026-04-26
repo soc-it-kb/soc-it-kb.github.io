@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-EP-WI-Win-04: Logging, Telemetry &amp; Monitoring Readiness — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --wi:#8B4A0E; --wi-light:#FEF0E6; --wi-border:#F5C89A; --wi-dark:#5C2E06; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .wi-badge-it { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:var(--wi-light); color:var(--wi); border:0.5px solid var(--wi-border); }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .wi-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:8px; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0; }
+  .h-prereqs { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .h-prereq { font-size:12px; background:var(--wi-light); color:var(--wi); border:0.5px solid var(--wi-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .h-steps { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .h-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .h-step-num { width:24px; height:24px; border-radius:50%; background:var(--wi-light); color:var(--wi); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .h-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; flex:1; }
+  .h-checks { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-check { display:flex; align-items:center; gap:10px; background:#E1F5EE; border:0.5px solid #82D4B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#1a6b47; }
+  .h-check::before { content:"✅"; font-size:13px; flex-shrink:0; }
+  .h-rollback { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-rollback-item { display:flex; align-items:flex-start; gap:10px; background:#FAEEDA; border:0.5px solid #FAC775; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#6b3f0a; }
+  .h-rollback-item::before { content:"↩️"; font-size:13px; flex-shrink:0; }
+  .h-tips { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-tip { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#444; }
+  .h-tip::before { content:"💡"; font-size:13px; flex-shrink:0; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html" class="active">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="work-instructions.html">Work Instructions</a><span>›</span><span>IT-EP-WI-Win-04</span></div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#5C2E06 0%,#8B4A0E 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>IT-EP-WI-Win-04: Logging, Telemetry &amp; Monitoring Readiness</h1>
+    <p>Ensure Windows endpoints produce sufficient telemetry to support SOC monitoring, investigations, and incident response.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">💻 Endpoint hardening</span>
+      <span class="kb-meta-pill">Windows baseline</span>
+      <span class="kb-meta-pill">IT operations</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> IT-EP-WI-Win-04</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 12 January 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-it">IT procedure</span></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <div class="h-prereqs"><span class="h-prereq">Administrative access</span>
+<span class="h-prereq">Logging storage available and accessible</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <div class="h-steps"><div class="h-step"><div class="h-step-num">1</div><div class="h-step-text">Enable Windows Security Event Logging</div></div>
+<div class="h-step"><div class="h-step-num">2</div><div class="h-step-text">Enable PowerShell script block and module logging</div></div>
+<div class="h-step"><div class="h-step-num">3</div><div class="h-step-text">Confirm endpoint protection telemetry is enabled</div></div>
+<div class="h-step"><div class="h-step-num">4</div><div class="h-step-text">Verify logs are accessible to the monitoring platform or SIEM</div></div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <div class="h-checks"><div class="h-check">Security events are being generated</div>
+<div class="h-check">PowerShell activity is logged</div>
+<div class="h-check">SOC visibility confirmed in monitoring platform</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <div class="h-rollback"><div class="h-rollback-item">Reduce log verbosity only if performance issues arise</div>
+<div class="h-rollback-item">Escalate to Cyber Security team before disabling any logs</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <div class="h-tips"><div class="h-tip">Logging gaps severely impact investigations — treat as a security control</div>
+<div class="h-tip">Always test telemetry visibility after configuration changes</div></div>
+  </div>
+
+  <div class="wi-nav"><a href="it-ep-wi-win-03.html">← IT-EP-WI-Win-03</a><a href="it-ep-wi-win-05.html">IT-EP-WI-Win-05 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-EP-WI-Win-04 · Published 12 January 2026 · Paulo Ferreira</span>
+    <span><a href="work-instructions.html" style="color:var(--wi);text-decoration:none;">← Back to Work Instructions</a></span>
+  </div>
+</div>
+</body>
+</html>

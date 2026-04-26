@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NW-WI-03: Block East-West Traffic — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --wi:#2D5A2D; --wi-light:#EDF6ED; --wi-border:#A8D5A8; --wi-dark:#1A3A1A; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .wi-badge-action { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .wi-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .wi-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:4px; }
+  .wi-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tag { font-size:12px; background:var(--wi-light); color:var(--wi); border:0.5px solid var(--wi-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .wi-roles { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .wi-roles th { background:var(--wi-light); color:var(--wi); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--wi-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .wi-roles td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; }
+  .wi-roles tr:nth-child(even) td { background:#fafafa; }
+  .wi-roles td:first-child { font-weight:600; color:#2D3748; white-space:nowrap; }
+  .wi-phase { margin-bottom:1.5rem; }
+  .wi-phase:last-child { margin-bottom:0; }
+  .wi-phase-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:0.5px solid #e0e0dc; }
+  .wi-phase-num { width:26px; height:26px; border-radius:50%; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .wi-phase-title { font-size:14px; font-weight:600; color:#2D3748; }
+  .wi-steps { display:flex; flex-direction:column; gap:6px; }
+  .wi-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .wi-step-num { width:22px; height:22px; border-radius:50%; background:var(--wi-light); color:var(--wi); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .wi-step-body { flex:1; }
+  .wi-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; }
+  .wi-step-note { font-size:12px; color:#888; margin-top:4px; line-height:1.4; font-style:italic; }
+  .wi-observe { list-style:none; margin-top:6px; display:flex; flex-direction:column; gap:4px; }
+  .wi-observe li { font-size:13px; color:#555; display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+  .wi-observe li::before { content:'→'; color:var(--wi); font-weight:600; flex-shrink:0; }
+  /* Strategy cards */
+  .strategy-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+  .strategy-card { background:var(--wi-light); border:0.5px solid var(--wi-border); border-radius:8px; padding:0.85rem 1rem; }
+  .strategy-card h4 { font-size:12px; font-weight:600; color:var(--wi-dark); margin-bottom:4px; }
+  .strategy-card p { font-size:12px; color:#444; margin:0; line-height:1.4; }
+  .strategy-card.preferred { border-left:3px solid var(--wi); }
+  .precheck-box { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:10px; padding:1rem 1.25rem; margin-top:4px; }
+  .precheck-box-title { font-size:12px; font-weight:600; color:#993C1D; margin-bottom:8px; }
+  .precheck-list { display:flex; flex-direction:column; gap:5px; }
+  .precheck-item { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:#7a2e10; line-height:1.5; }
+  .precheck-item::before { content:'🚫'; font-size:13px; flex-shrink:0; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-info p { font-size:13px; color:var(--wi-dark); margin:0; line-height:1.5; }
+  .outcome-box { background:var(--wi-light); border:0.5px solid var(--wi-border); border-radius:10px; padding:1rem 1.25rem; }
+  .outcome-box p { font-size:13px; color:var(--wi); line-height:1.6; margin-bottom:0; }
+  .esc-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .esc-item { display:flex; align-items:flex-start; gap:10px; background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#7a2e10; }
+  .esc-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+  .mistakes-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .mistake-item { display:flex; align-items:flex-start; gap:10px; background:#FAEEDA; border:0.5px solid #FAC775; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#6b3f0a; }
+  .mistake-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .rel-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .rel-box h4 { font-size:12px; font-weight:600; color:var(--wi); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; }
+  .rel-link { display:flex; align-items:center; gap:8px; text-decoration:none; color:#444; font-size:13px; padding:4px 0; }
+  .rel-link:hover { color:var(--wi); }
+  .rel-link::before { content:'›'; color:var(--wi); font-weight:700; }
+  .rel-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--wi-light); color:var(--wi); border:0.5px solid var(--wi-border); padding:1px 6px; border-radius:4px; margin-right:4px; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+  @media(max-width:640px){ .rel-grid,.strategy-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html" class="active">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="work-instructions.html">Work Instructions</a><span>›</span><span>NW-WI-03</span></div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A3A1A 0%,#2D5A2D 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>NW-WI-03: Block East-West Traffic</h1>
+    <p>Tool-agnostic procedure for restricting internal (east-west) network traffic to stop lateral movement, internal scanning, and ransomware propagation — reducing blast radius during active incidents once approved.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">🌐 Network threats</span>
+      <span class="kb-meta-pill">Tier 1 / 2</span>
+      <span class="kb-meta-pill">Requires approval</span>
+      <span class="kb-meta-pill">High-impact action</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> NW-WI-03</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 8 January 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-action">✅ Requires approval</span></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 1</div>
+    <div class="wi-section-title">Purpose</div>
+    <p>Provide a consistent, tool-agnostic procedure to restrict or block east-west (internal) network traffic to stop internal reconnaissance and scanning, prevent lateral movement, reduce blast radius during active incidents, and contain ransomware spread and credential abuse.</p>
+    <div class="callout-info">
+      <p>📌 <strong>Scope boundary:</strong> This WI does not authorise containment decisions. It defines how to implement internal blocking safely once approved. East-west blocking is a high-impact action — always use the minimum necessary scope.</p>
+    </div>
+    <div class="callout-warn" style="margin-top:8px;">
+      <p>⚠️ East-west blocking is complementary to — not a replacement for — endpoint isolation. If the threat is on an endpoint, consider <a href="ep-rb-02.html" style="color:#6b3f0a;">EP-RB-02: Isolate Endpoint</a> in parallel.</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 2</div>
+    <div class="wi-section-title">When to Use</div>
+    <div class="tag-grid">
+      <span class="tag">NW-PB-03 Internal Scanning</span>
+      <span class="tag">EP-PB-03 Lateral Movement</span>
+      <span class="tag">EP-PB-05 Ransomware Activity</span>
+      <span class="tag">NW-PB-02 C2 internal pivot risk</span>
+      <span class="tag">NW-RB-03 Block East-West Traffic</span>
+      <span class="tag">SOC Tier-2 lead</span>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 3</div>
+    <div class="wi-section-title">Who Performs This</div>
+    <table class="wi-roles">
+      <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
+      <tbody>
+        <tr><td>Tier-1 Analyst</td><td>Execute scoped block after approval</td></tr>
+        <tr><td>Tier-2 Analyst</td><td>Approve scope and validate business impact</td></tr>
+        <tr><td>Network Operations</td><td>Implement or validate internal controls</td></tr>
+        <tr><td>MDR Partner</td><td>May recommend containment scope</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 4</div>
+    <div class="wi-section-title">Inputs Required</div>
+    <div class="tag-grid">
+      <span class="tag">🖥️ Source host(s) — IP / hostname / segment</span>
+      <span class="tag">🎯 Destination host(s) or segment(s)</span>
+      <span class="tag">🔌 Protocol / ports observed</span>
+      <span class="tag">🎫 Incident reference ID</span>
+      <span class="tag">📐 Approved scope and duration</span>
+      <span class="tag">🔧 Approved enforcement point</span>
+      <span class="tag">✅ Explicit approval record</span>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 5</div>
+    <div class="wi-section-title">Pre-Checks &amp; Safety Notes</div>
+    <div class="precheck-box">
+      <div class="precheck-box-title">🚫 Mandatory constraints</div>
+      <div class="precheck-list">
+        <div class="precheck-item">Do NOT apply broad segment isolation without Tier-2 and Network Operations approval</div>
+        <div class="precheck-item">Do NOT block management, backup, or monitoring networks without explicit validation</div>
+        <div class="precheck-item">Do NOT use east-west blocking as a replacement for endpoint isolation</div>
+        <div class="precheck-item">Prefer source-based host restrictions over broad segment blocks wherever possible</div>
+      </div>
+    </div>
+    <div class="callout-warn" style="margin-top:8px;">
+      <p>⚠️ Broad segment isolation can disrupt critical services, authentication, and backup operations. Always confirm with Network Ops if significant business impact is possible before proceeding.</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 6</div>
+    <div class="wi-section-title">Step-by-Step Actions</div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">1</div><div class="wi-phase-title">Validate Scope &amp; Targets</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Review the approved scope — source(s), destination(s), protocols, and ports. Confirm all identifiers match what was observed in network activity and that scope aligns exactly with the approval.</div><div class="wi-step-note">If any ambiguity exists — pause and escalate before proceeding.</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">2</div><div class="wi-phase-title">Select Blocking Strategy</div></div>
+      <div class="strategy-grid">
+        <div class="strategy-card preferred"><h4>✅ Host-to-host (preferred)</h4><p>Most precise — restricts a specific source to a specific destination</p></div>
+        <div class="strategy-card"><h4>Host-to-segment</h4><p>Blocks one host from reaching an entire segment</p></div>
+        <div class="strategy-card"><h4>Protocol-specific</h4><p>Block a protocol only — e.g. SMB/RPC — across hosts or segments</p></div>
+        <div class="strategy-card"><h4>Segment-to-segment</h4><p>Broadest — use only when all traffic between segments is approved for blocking</p></div>
+      </div>
+      <div class="callout-info" style="margin-top:10px;">
+        <p>📌 Always use the minimum scope that achieves containment. Segment-to-segment blocks require Tier-2 + Network Operations approval.</p>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">3</div><div class="wi-phase-title">Implement East-West Blocking Control</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Using the approved internal control, apply the restriction. Common controls include:</div>
+            <ul class="wi-observe">
+              <li>Internal firewall deny rule (host or segment)</li>
+              <li>Network segmentation policy</li>
+              <li>NAC quarantine profile</li>
+              <li>Protocol-specific ACL (e.g. deny SMB from source)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">Record: rule or policy name/ID, source and destination scope, duration, timestamp, operator</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">4</div><div class="wi-phase-title">Validate Containment Effectiveness</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Verify:</div>
+            <ul class="wi-observe">
+              <li>Blocked traffic is now denied — deny events appear in logs</li>
+              <li>No new internal scanning or lateral movement attempts succeed</li>
+              <li>Management, monitoring, and backup traffic is unaffected</li>
+            </ul>
+          </div>
+        </div>
+        <div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">If activity persists — do not widen scope. Escalate to Tier-2 for reassessment.</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">5</div><div class="wi-phase-title">Coordinate with Endpoint Containment</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Confirm alignment with endpoint isolation status (EP-RB-02). Ensure the network block complements but does not conflict with endpoint containment controls.</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">6</div><div class="wi-phase-title">Monitor for Secondary Behaviour</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Post-block, monitor for:</div>
+            <ul class="wi-observe">
+              <li>Alternate protocols or paths used to circumvent the block</li>
+              <li>Credential abuse attempts from the contained host(s)</li>
+              <li>New C2 indicators or callback attempts</li>
+              <li>Ransomware propagation signals from other hosts</li>
+            </ul>
+          </div>
+        </div>
+        <div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">Escalate immediately if new indicators appear — the threat may have already spread before containment</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">7</div><div class="wi-phase-title">Preserve Evidence &amp; Document</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Retain logs showing pre-block activity and block enforcement. Do not remove rules or logs without explicit Tier-2 instruction.</div></div></div>
+        <div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">Update the incident record with: scope and strategy applied, control and rule references, timestamp, validation outcome, observed business impact. Set a review date if the block is temporary. Attach screenshots or logs.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 7</div>
+    <div class="wi-section-title">Expected Outcome</div>
+    <div class="outcome-box">
+      <p>✅ Internal reconnaissance or lateral movement blocked<br>
+      ✅ Blast radius reduced — threat contained to the minimum necessary scope<br>
+      ✅ Endpoint isolation and network block aligned<br>
+      ✅ Clear audit trail with rule reference, scope, and timestamp</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 8</div>
+    <div class="wi-section-title">Common Mistakes to Avoid</div>
+    <div class="mistakes-list">
+      <div class="mistake-item">Blocking an entire segment when a host-level block is sufficient — always use minimum scope</div>
+      <div class="mistake-item">Failing to check management and backup traffic dependencies before applying broad blocks</div>
+      <div class="mistake-item">Expanding scope without Tier-2 approval when activity persists</div>
+      <div class="mistake-item">Treating east-west blocking as a substitute for endpoint isolation — they are complementary controls</div>
+      <div class="mistake-item">Leaving temporary blocks without a review date — stale rules accumulate and become security risks</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 9</div>
+    <div class="wi-section-title">Escalation Conditions</div>
+    <div class="esc-list">
+      <div class="esc-item">Blocking causes service disruption — authentication, backup, or monitoring affected</div>
+      <div class="esc-item">Multiple segments require isolation — scope is beyond what was approved</div>
+      <div class="esc-item">Lateral movement or ransomware propagation persists post-block</div>
+      <div class="esc-item">Ransomware indicators are escalating rapidly — incident may require IR Lead engagement</div>
+      <div class="esc-item">Critical systems — DC, backup servers, monitoring — are within the affected scope</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 10</div>
+    <div class="wi-section-title">Related Playbooks &amp; Runbooks</div>
+    <div class="rel-grid">
+      <div class="rel-box">
+        <h4>Playbooks</h4>
+        <a class="rel-link" href="nw-pb-03.html"><span class="rel-code">NW-PB-03</span>Internal Scanning</a>
+        <a class="rel-link" href="ep-pb-03.html"><span class="rel-code">EP-PB-03</span>Lateral Movement</a>
+        <a class="rel-link" href="ep-pb-05.html"><span class="rel-code">EP-PB-05</span>Ransomware Activity</a>
+      </div>
+      <div class="rel-box">
+        <h4>Runbooks &amp; WIs</h4>
+        <a class="rel-link" href="nw-rb-03.html"><span class="rel-code">NW-RB-03</span>Block East-West Traffic</a>
+        <a class="rel-link" href="ep-rb-02.html"><span class="rel-code">EP-RB-02</span>Isolate Endpoint</a>
+        <a class="rel-link" href="nw-wi-01.html"><span class="rel-code">NW-WI-01</span>Analyse Network Traffic</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-nav">
+    <a href="nw-wi-02.html">← NW-WI-02: Block IP / Domain</a>
+    <a href="work-instructions.html">← Back to Work Instructions</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>NW-WI-03 · Published 8 January 2026 · Paulo Ferreira</span>
+    <span><a href="work-instructions.html" style="color:var(--wi);text-decoration:none;">← Back to Work Instructions</a></span>
+  </div>
+</div>
+</body>
+</html>

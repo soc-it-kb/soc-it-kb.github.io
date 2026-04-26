@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NW-WI-02: Block IP / Domain Indicators — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --wi:#2D5A2D; --wi-light:#EDF6ED; --wi-border:#A8D5A8; --wi-dark:#1A3A1A; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .wi-badge-action { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .wi-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .wi-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:4px; }
+  .wi-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tag { font-size:12px; background:var(--wi-light); color:var(--wi); border:0.5px solid var(--wi-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .wi-roles { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .wi-roles th { background:var(--wi-light); color:var(--wi); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--wi-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .wi-roles td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; }
+  .wi-roles tr:nth-child(even) td { background:#fafafa; }
+  .wi-roles td:first-child { font-weight:600; color:#2D3748; white-space:nowrap; }
+  .wi-phase { margin-bottom:1.5rem; }
+  .wi-phase:last-child { margin-bottom:0; }
+  .wi-phase-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:0.5px solid #e0e0dc; }
+  .wi-phase-num { width:26px; height:26px; border-radius:50%; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .wi-phase-title { font-size:14px; font-weight:600; color:#2D3748; }
+  .wi-steps { display:flex; flex-direction:column; gap:6px; }
+  .wi-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .wi-step-num { width:22px; height:22px; border-radius:50%; background:var(--wi-light); color:var(--wi); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .wi-step-body { flex:1; }
+  .wi-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; }
+  .wi-step-note { font-size:12px; color:#888; margin-top:4px; line-height:1.4; font-style:italic; }
+  .wi-observe { list-style:none; margin-top:6px; display:flex; flex-direction:column; gap:4px; }
+  .wi-observe li { font-size:13px; color:#555; display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+  .wi-observe li::before { content:'→'; color:var(--wi); font-weight:600; flex-shrink:0; }
+  /* Control method table */
+  .ctrl-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; }
+  .ctrl-table th { background:var(--wi-light); color:var(--wi); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--wi-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .ctrl-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; }
+  .ctrl-table tr:nth-child(even) td { background:#fafafa; }
+  /* Scope cards */
+  .scope-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+  .scope-card { border-radius:8px; padding:0.9rem 1rem; }
+  .scope-card.temp { background:#FAEEDA; border:0.5px solid #FAC775; }
+  .scope-card.perm { background:var(--wi-light); border:0.5px solid var(--wi-border); }
+  .scope-card h4 { font-size:12px; font-weight:600; margin-bottom:4px; }
+  .scope-card.temp h4 { color:#854F0B; }
+  .scope-card.perm h4 { color:var(--wi); }
+  .scope-card p { font-size:13px; margin:0; }
+  .scope-card.temp p { color:#6b3f0a; }
+  .scope-card.perm p { color:#1a6b47; }
+  .precheck-box { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:10px; padding:1rem 1.25rem; margin-top:4px; }
+  .precheck-box-title { font-size:12px; font-weight:600; color:#993C1D; margin-bottom:8px; }
+  .precheck-list { display:flex; flex-direction:column; gap:5px; }
+  .precheck-item { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:#7a2e10; line-height:1.5; }
+  .precheck-item::before { content:'🚫'; font-size:13px; flex-shrink:0; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-info p { font-size:13px; color:var(--wi-dark); margin:0; line-height:1.5; }
+  .outcome-box { background:var(--wi-light); border:0.5px solid var(--wi-border); border-radius:10px; padding:1rem 1.25rem; }
+  .outcome-box p { font-size:13px; color:var(--wi); line-height:1.6; margin-bottom:0; }
+  .esc-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .esc-item { display:flex; align-items:flex-start; gap:10px; background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#7a2e10; }
+  .esc-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+  .mistakes-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .mistake-item { display:flex; align-items:flex-start; gap:10px; background:#FAEEDA; border:0.5px solid #FAC775; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#6b3f0a; }
+  .mistake-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .rel-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .rel-box h4 { font-size:12px; font-weight:600; color:var(--wi); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; }
+  .rel-link { display:flex; align-items:center; gap:8px; text-decoration:none; color:#444; font-size:13px; padding:4px 0; }
+  .rel-link:hover { color:var(--wi); }
+  .rel-link::before { content:'›'; color:var(--wi); font-weight:700; }
+  .rel-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--wi-light); color:var(--wi); border:0.5px solid var(--wi-border); padding:1px 6px; border-radius:4px; margin-right:4px; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+  @media(max-width:640px){ .rel-grid,.scope-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html" class="active">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="work-instructions.html">Work Instructions</a><span>›</span><span>NW-WI-02</span></div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A3A1A 0%,#2D5A2D 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>NW-WI-02: Block IP / Domain Indicators</h1>
+    <p>Tool-agnostic procedure for applying network blocks against malicious IP addresses, domains, and URLs — stopping C2 communication, preventing exfiltration, and containing active network threats once approved.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">🌐 Network threats</span>
+      <span class="kb-meta-pill">Tier 1 / 2</span>
+      <span class="kb-meta-pill">Requires approval</span>
+      <span class="kb-meta-pill">Containment action</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> NW-WI-02</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 7 January 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-action">✅ Requires approval</span></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 1</div>
+    <div class="wi-section-title">Purpose</div>
+    <p>Provide a consistent, tool-agnostic procedure to block malicious network indicators (IP addresses, domains, URLs) to stop C2 communication, prevent data exfiltration, contain active network threats, and reduce attacker reach and persistence.</p>
+    <div class="callout-info">
+      <p>📌 <strong>Scope boundary:</strong> This WI does not authorise blocking decisions. It defines how to apply blocks safely once approved by Tier-2 or via SOAR. Analysis is performed via <a href="nw-wi-01.html" style="color:var(--wi);">NW-WI-01</a> first.</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 2</div>
+    <div class="wi-section-title">When to Use</div>
+    <div class="tag-grid">
+      <span class="tag">NW-PB-01 Suspicious Network Activity</span>
+      <span class="tag">NW-PB-02 C2 Traffic</span>
+      <span class="tag">NW-PB-03 Internal Scanning</span>
+      <span class="tag">NW-PB-04 Data Exfiltration</span>
+      <span class="tag">NW-PB-05 DoS</span>
+      <span class="tag">EP-PB-01/02/03 network containment required</span>
+      <span class="tag">NW-RB-02 Block IP / Domain</span>
+      <span class="tag">SOC Tier-2 lead</span>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 3</div>
+    <div class="wi-section-title">Who Performs This</div>
+    <table class="wi-roles">
+      <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
+      <tbody>
+        <tr><td>Tier-1 Analyst</td><td>Execute block after approval</td></tr>
+        <tr><td>Tier-2 Analyst</td><td>Approve scope and validate business impact</td></tr>
+        <tr><td>Network Operations</td><td>May implement or validate firewall/DNS controls</td></tr>
+        <tr><td>MDR Partner</td><td>May recommend indicators</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 4</div>
+    <div class="wi-section-title">Inputs Required</div>
+    <div class="tag-grid">
+      <span class="tag">🖥️ Indicator type and value</span>
+      <span class="tag">🎫 Incident reference ID</span>
+      <span class="tag">📐 Approved block scope</span>
+      <span class="tag">⏱️ Duration (temporary / permanent)</span>
+      <span class="tag">🔧 Approved enforcement point</span>
+      <span class="tag">✅ Explicit approval record</span>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 5</div>
+    <div class="wi-section-title">Pre-Checks &amp; Safety Notes</div>
+    <div class="precheck-box">
+      <div class="precheck-box-title">🚫 Mandatory constraints</div>
+      <div class="precheck-list">
+        <div class="precheck-item">Do NOT block shared cloud or CDN infrastructure without explicit approval</div>
+        <div class="precheck-item">Do NOT expand scope beyond what is approved</div>
+        <div class="precheck-item">Do NOT apply permanent blocks without documented approval</div>
+        <div class="precheck-item">Prefer domain blocking over IP blocking where possible</div>
+      </div>
+    </div>
+    <div class="callout-warn" style="margin-top:8px;">
+      <p>⚠️ If the indicator is a widely shared CDN, cloud provider, or partner IP — pause and escalate. Broad blocks can cause significant business disruption.</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 6</div>
+    <div class="wi-section-title">Step-by-Step Actions</div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">1</div><div class="wi-phase-title">Validate the Indicator</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Review the indicator value carefully — confirm exact IP, domain, or URL. Verify it matches what was observed in network logs, NDR alerts, or MDR escalation and that the indicator type aligns with the approved action.</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">2</div><div class="wi-phase-title">Confirm Blocking Method &amp; Scope</div></div>
+      <table class="ctrl-table">
+        <thead><tr><th>Indicator type</th><th>Typical blocking control</th></tr></thead>
+        <tbody>
+          <tr><td>IP address</td><td>Firewall deny rule / NDR block policy</td></tr>
+          <tr><td>Domain</td><td>DNS filtering / Proxy / Secure Web Gateway</td></tr>
+          <tr><td>URL</td><td>Proxy / Secure Web Gateway</td></tr>
+        </tbody>
+      </table>
+      <div class="scope-grid" style="margin-top:10px;">
+        <div class="scope-card temp"><h4>⏱️ Temporary block</h4><p>Incident-scoped — set review date at closure</p></div>
+        <div class="scope-card perm"><h4>🔒 Permanent block</h4><p>Threat-intel validated — requires documented approval</p></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">3</div><div class="wi-phase-title">Apply the Block</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Add the indicator to the approved control — deny/block list or sinkhole for domains</div></div></div>
+        <div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">Record: rule or policy name, timestamp, operator, scope, and duration</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">4</div><div class="wi-phase-title">Validate Block Effectiveness</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Confirm:</div>
+            <ul class="wi-observe">
+              <li>Connections to the indicator are now blocked</li>
+              <li>Block events are appearing in logs</li>
+              <li>No successful connections persist</li>
+            </ul>
+          </div>
+        </div>
+        <div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">If traffic continues — do not widen scope automatically. Escalate to Tier-2 for reassessment.</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">5</div><div class="wi-phase-title">Monitor for Secondary Indicators</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">After blocking, watch for attacker adaptation:</div>
+            <ul class="wi-observe">
+              <li>Alternate IPs or domains used by the same threat actor</li>
+              <li>Protocol switching to bypass the block</li>
+              <li>Resumed beaconing from a different source host</li>
+            </ul>
+          </div>
+        </div>
+        <div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">Report any new indicators immediately — rapid infrastructure rotation signals an active and capable attacker</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">6</div><div class="wi-phase-title">Preserve Evidence &amp; Document</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Do not remove logs or telemetry. Maintain the block until reviewed by Tier-2.</div></div></div>
+        <div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">Update the incident record with: indicator(s) blocked, control and scope, timestamp, validation outcome, and any observed side effects. Attach screenshots or log excerpts.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 7</div>
+    <div class="wi-section-title">Expected Outcome</div>
+    <div class="outcome-box">
+      <p>✅ Malicious network communication blocked at the approved enforcement point<br>
+      ✅ C2, exfiltration, or malicious inbound traffic stopped<br>
+      ✅ Clear audit trail with rule reference, scope, and timestamp</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 8</div>
+    <div class="wi-section-title">Common Mistakes to Avoid</div>
+    <div class="mistakes-list">
+      <div class="mistake-item">Blocking shared cloud or CDN infrastructure without validating that only the malicious use is affected</div>
+      <div class="mistake-item">Blocking IPs where domain-level blocking is safer and more precise</div>
+      <div class="mistake-item">Applying permanent blocks without documented Tier-2 approval</div>
+      <div class="mistake-item">Expanding scope without reassessment — one indicator does not justify blocking related infrastructure</div>
+      <div class="mistake-item">Failing to document the rule details — blocks without records cannot be reviewed or removed safely</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 9</div>
+    <div class="wi-section-title">Escalation Conditions</div>
+    <div class="esc-list">
+      <div class="esc-item">Blocking causes unexpected business disruption</div>
+      <div class="esc-item">Indicator appears to be shared or widely used infrastructure</div>
+      <div class="esc-item">Multiple systems are affected and scope needs reassessment</div>
+      <div class="esc-item">New indicators emerge rapidly after blocking — active attacker infrastructure rotation</div>
+      <div class="esc-item">Blocking fails to stop the activity</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 10</div>
+    <div class="wi-section-title">Related Playbooks &amp; Runbooks</div>
+    <div class="rel-grid">
+      <div class="rel-box">
+        <h4>Playbooks</h4>
+        <a class="rel-link" href="nw-pb-02.html"><span class="rel-code">NW-PB-02</span>C2 Traffic</a>
+        <a class="rel-link" href="nw-pb-04.html"><span class="rel-code">NW-PB-04</span>Data Exfiltration</a>
+        <a class="rel-link" href="nw-pb-01.html"><span class="rel-code">NW-PB-01</span>Suspicious Network Activity</a>
+      </div>
+      <div class="rel-box">
+        <h4>Runbooks &amp; WIs</h4>
+        <a class="rel-link" href="nw-rb-02.html"><span class="rel-code">NW-RB-02</span>Block IP / Domain</a>
+        <a class="rel-link" href="nw-wi-01.html"><span class="rel-code">NW-WI-01</span>Analyse Network Traffic</a>
+        <a class="rel-link" href="ep-rb-02.html"><span class="rel-code">EP-RB-02</span>Isolate Endpoint</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-nav">
+    <a href="nw-wi-01.html">← NW-WI-01: Analyse Network Traffic</a>
+    <a href="work-instructions.html">← Back to Work Instructions</a>
+    <a href="nw-wi-03.html">NW-WI-03: Block East-West Traffic →</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>NW-WI-02 · Published 7 January 2026 · Paulo Ferreira</span>
+    <span><a href="work-instructions.html" style="color:var(--wi);text-decoration:none;">← Back to Work Instructions</a></span>
+  </div>
+</div>
+</body>
+</html>

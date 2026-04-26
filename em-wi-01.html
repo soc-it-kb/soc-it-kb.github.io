@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EM-WI-01: Analyse Email Headers — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root {
+    --wi:#4A5568; --wi-light:#F0F2F5; --wi-border:#CBD5E0; --wi-dark:#2D3748;
+    --wi-teal:#0F6E56; --wi-teal-light:#E1F5EE; --wi-teal-border:#82D4B0;
+  }
+
+  /* ── META BAR ── */
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:var(--wi-border); }
+  .wi-badge-readonly { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:var(--wi-teal-light); color:var(--wi-teal); border:0.5px solid var(--wi-teal-border); }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+
+  /* ── SECTION WRAPPER ── */
+  .wi-section { background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .wi-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:4px; }
+  .wi-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .wi-section p:last-child { margin-bottom:0; }
+
+  /* ── BULLET LISTS ── */
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .wi-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:5px; }
+
+  /* ── SCOPE BOX ── */
+  .wi-two-col { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .wi-sub-box { background:var(--wi-light); border:0.5px solid var(--wi-border); border-radius:8px; padding:0.9rem 1rem; }
+  .wi-sub-box h4 { font-size:13px; font-weight:600; color:var(--wi-dark); margin-bottom:8px; }
+
+  /* ── QUICK REFERENCE CARD ── */
+  .qr-card { background:var(--wi-dark); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1.25rem; }
+  .qr-card-title { font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:12px; }
+  .qr-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:8px; }
+  .qr-item { background:rgba(255,255,255,0.07); border:0.5px solid rgba(255,255,255,0.12); border-radius:8px; padding:0.75rem 1rem; }
+  .qr-field { font-family:'SF Mono','Fira Code',monospace; font-size:12px; font-weight:700; color:#4ade80; margin-bottom:4px; }
+  .qr-desc  { font-size:12px; color:rgba(255,255,255,0.7); line-height:1.4; }
+
+  /* ── ROLES TABLE ── */
+  .wi-roles { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .wi-roles th { background:var(--wi-light); color:var(--wi); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--wi-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .wi-roles td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; }
+  .wi-roles tr:nth-child(even) td { background:#fafafa; }
+  .wi-roles td:first-child { font-weight:600; color:var(--wi-dark); white-space:nowrap; }
+
+  /* ── PRE-CHECK BOX ── */
+  .precheck-box { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:10px; padding:1rem 1.25rem; margin-top:4px; }
+  .precheck-box-title { font-size:12px; font-weight:600; color:#993C1D; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+  .precheck-list { display:flex; flex-direction:column; gap:5px; }
+  .precheck-item { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:#7a2e10; line-height:1.5; }
+  .precheck-item::before { content:'🚫'; font-size:13px; flex-shrink:0; }
+
+  /* ── STEP PROCEDURE ── */
+  .wi-phase { margin-bottom:1.5rem; }
+  .wi-phase:last-child { margin-bottom:0; }
+  .wi-phase-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:0.5px solid var(--wi-border); }
+  .wi-phase-num { width:26px; height:26px; border-radius:50%; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .wi-phase-title { font-size:14px; font-weight:600; color:var(--wi-dark); }
+  .wi-steps { display:flex; flex-direction:column; gap:6px; }
+  .wi-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .wi-step-num { width:22px; height:22px; border-radius:50%; background:var(--wi-light); color:var(--wi); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .wi-step-body { flex:1; }
+  .wi-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; }
+  .wi-step-note { font-size:12px; color:#888; margin-top:4px; line-height:1.4; font-style:italic; }
+  .wi-step-warn { font-size:12px; color:#854F0B; background:#FAEEDA; border-radius:6px; padding:4px 8px; margin-top:6px; line-height:1.4; display:inline-block; }
+  .wi-observe { list-style:none; margin-top:6px; display:flex; flex-direction:column; gap:4px; }
+  .wi-observe li { font-size:13px; color:#555; display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+  .wi-observe li::before { content:'→'; color:var(--wi); font-weight:600; flex-shrink:0; }
+
+  /* ── RELAY CHAIN EXPLAINER ── */
+  .relay-chain { background:var(--wi-dark); border-radius:10px; padding:1rem 1.25rem; margin-top:10px; font-family:'SF Mono','Fira Code',monospace; }
+  .relay-chain-label { font-size:11px; font-weight:600; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:8px; }
+  .relay-hop { display:flex; align-items:center; gap:10px; padding:5px 0; border-bottom:0.5px solid rgba(255,255,255,0.07); }
+  .relay-hop:last-child { border-bottom:none; }
+  .relay-hop-num { font-size:11px; color:rgba(255,255,255,0.35); width:20px; flex-shrink:0; }
+  .relay-hop-name { font-size:12px; color:#93c5fd; flex:1; }
+  .relay-hop-tag { font-size:11px; padding:2px 7px; border-radius:4px; }
+  .relay-hop-tag.origin  { background:rgba(74,222,128,0.15); color:#4ade80; }
+  .relay-hop-tag.relay   { background:rgba(147,197,253,0.1); color:rgba(147,197,253,0.7); }
+  .relay-hop-tag.final   { background:rgba(251,191,36,0.15); color:#fbbf24; }
+  .relay-arrow { color:rgba(255,255,255,0.2); font-size:11px; padding:0 4px; }
+  .relay-read-dir { font-size:11px; color:rgba(255,255,255,0.4); margin-top:8px; display:flex; align-items:center; gap:6px; }
+
+  /* ── AUTH RESULTS TABLE ── */
+  .auth-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; }
+  .auth-table th { background:var(--wi-light); color:var(--wi); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--wi-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .auth-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; }
+  .auth-table tr:nth-child(even) td { background:#fafafa; }
+  .auth-result { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; padding:2px 7px; border-radius:5px; }
+  .res-pass     { background:#E1F5EE; color:#0F6E56; }
+  .res-fail     { background:#FAECE7; color:#993C1D; }
+  .res-softfail { background:#FAEEDA; color:#854F0B; }
+  .res-neutral  { background:#f0f0ec; color:#555; }
+  .res-none     { background:#f5f5f3; color:#888; }
+
+  /* ── VERDICT CARDS ── */
+  .verdict-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:8px; margin-top:8px; }
+  .verdict-card { border-radius:10px; padding:0.8rem 1rem; text-align:center; }
+  .verdict-card.legitimate { background:#E1F5EE; border:0.5px solid #82D4B0; }
+  .verdict-card.suspicious { background:#FAEEDA; border:0.5px solid #FAC775; }
+  .verdict-card.likely     { background:#FEF0E6; border:0.5px solid #F5C89A; }
+  .verdict-card.confirmed  { background:#FAECE7; border:0.5px solid #F5C0B0; }
+  .verdict-card h4 { font-size:12px; font-weight:700; margin-bottom:4px; }
+  .verdict-card.legitimate h4 { color:#0F6E56; }
+  .verdict-card.suspicious h4 { color:#854F0B; }
+  .verdict-card.likely     h4 { color:#8B4A0E; }
+  .verdict-card.confirmed  h4 { color:#993C1D; }
+  .verdict-card p { font-size:11px; margin:0; line-height:1.4; }
+  .verdict-card.legitimate p { color:#1a6b47; }
+  .verdict-card.suspicious p { color:#6b3f0a; }
+  .verdict-card.likely     p { color:#7a3a0a; }
+  .verdict-card.confirmed  p { color:#7a2e10; }
+
+  /* ── CALLOUT BOXES ── */
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-info p { font-size:13px; color:var(--wi-dark); margin:0; line-height:1.5; }
+
+  /* ── OUTCOME ── */
+  .outcome-box { background:var(--wi-teal-light); border:0.5px solid var(--wi-teal-border); border-radius:10px; padding:1rem 1.25rem; }
+  .outcome-box p { font-size:13px; color:var(--wi-teal); line-height:1.6; margin-bottom:0; }
+
+  /* ── ESCALATION ── */
+  .esc-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .esc-item { display:flex; align-items:flex-start; gap:10px; background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#7a2e10; }
+  .esc-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+
+  /* ── RELATED CONTENT ── */
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .rel-box { background:var(--wi-light); border:0.5px solid var(--wi-border); border-radius:8px; padding:0.9rem 1rem; }
+  .rel-box h4 { font-size:12px; font-weight:600; color:var(--wi); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; }
+  .rel-link { display:flex; align-items:center; gap:8px; text-decoration:none; color:#444; font-size:13px; padding:4px 0; }
+  .rel-link:hover { color:var(--wi); }
+  .rel-link::before { content:'›'; color:var(--wi); font-weight:700; }
+  .rel-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:#fff; color:var(--wi); border:0.5px solid var(--wi-border); padding:1px 6px; border-radius:4px; margin-right:4px; }
+
+  /* ── MISTAKES ── */
+  .mistakes-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .mistake-item { display:flex; align-items:flex-start; gap:10px; background:#FAEEDA; border:0.5px solid #FAC775; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#6b3f0a; }
+  .mistake-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+
+  /* ── TAG GRID ── */
+  .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tag { font-size:12px; background:var(--wi-light); color:var(--wi); border:0.5px solid var(--wi-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+  .wi-nav a:hover { text-decoration:underline; }
+  @media(max-width:640px){ .wi-two-col,.rel-grid,.verdict-grid{grid-template-columns:1fr;} .qr-grid{grid-template-columns:1fr 1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html" class="active">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="work-instructions.html">Work Instructions</a><span>›</span>
+    <span>EM-WI-01</span>
+  </div>
+
+  <!-- Quick Reference Card — shown before everything else -->
+  <div class="qr-card">
+    <div class="qr-card-title">⚡ Quick reference — key header fields</div>
+    <div class="qr-grid">
+      <div class="qr-item">
+        <div class="qr-field">Received:</div>
+        <div class="qr-desc">Relay chain — read bottom → top. Bottom entry = true origin.</div>
+      </div>
+      <div class="qr-item">
+        <div class="qr-field">From:</div>
+        <div class="qr-desc">Display name + address. Easily spoofed — never trust alone.</div>
+      </div>
+      <div class="qr-item">
+        <div class="qr-field">Return-Path:</div>
+        <div class="qr-desc">Bounce address. Should match sender domain. Mismatch = red flag.</div>
+      </div>
+      <div class="qr-item">
+        <div class="qr-field">Reply-To:</div>
+        <div class="qr-desc">Where replies go. External redirect here is a BEC indicator.</div>
+      </div>
+      <div class="qr-item">
+        <div class="qr-field">Authentication-Results:</div>
+        <div class="qr-desc">SPF / DKIM / DMARC outcomes. Read all three together.</div>
+      </div>
+      <div class="qr-item">
+        <div class="qr-field">Message-ID:</div>
+        <div class="qr-desc">Unique message identifier. Format reveals sending platform.</div>
+      </div>
+      <div class="qr-item">
+        <div class="qr-field">X-Originating-IP:</div>
+        <div class="qr-desc">Sending client IP (if present). Check against geo and reputation.</div>
+      </div>
+      <div class="qr-item">
+        <div class="qr-field">X-Mailer / User-Agent:</div>
+        <div class="qr-desc">Sending application. Mass-mail tools or unusual clients are suspicious.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#2D3748 0%,#4A5568 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>EM-WI-01: Analyse Email Headers</h1>
+    <p>Tool-agnostic procedure for analysing email message headers to identify true origin, detect spoofing and impersonation, validate authentication results, and produce defensible technical evidence.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">📧 Email threats</span>
+      <span class="kb-meta-pill">Tier 1 / 2</span>
+      <span class="kb-meta-pill">Investigation only</span>
+      <span class="kb-meta-pill">No blocking / removal</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> EM-WI-01</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 8 January 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-action">✅ Requires approval</span></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="pb-meta-item"><span class="badge badge-active">Active</span></div>
+    <div class="wi-meta-sep">·</div>  
+    <div class="wi-meta-item"><span class="wi-badge-readonly">🔍 Investigation only</span></div>
+   </div>
+
+  <!-- 1. Purpose -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 1</div>
+    <div class="wi-section-title">Purpose</div>
+    <p>Provide a consistent, tool-agnostic procedure to analyze email message headers in order to identify the true sender and message origin, detect spoofing or impersonation, validate authentication results, and produce defensible technical evidence for escalation or closure.</p>
+    <div class="callout-info">
+      <p>📌 <strong>Scope boundary:</strong> This Work Instruction covers investigation and evidence collection only. No blocking, removal, or user notification actions are performed here — those are executed via the relevant Runbooks and Playbooks.</p>
+    </div>
+  </div>
+
+  <!-- 2. When to Use -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 2</div>
+    <div class="wi-section-title">When to Use This Work Instruction</div>
+    <p>Use this WI when instructed by any of the following:</p>
+    <div class="tag-grid">
+      <span class="tag">EM-PB-01 Phishing</span>
+      <span class="tag">EM-PB-02 Malware Delivery</span>
+      <span class="tag">EM-PB-04 BEC</span>
+      <span class="tag">EM-PB-06 Threatening Email</span>
+      <span class="tag">User-reported suspicious email</span>
+      <span class="tag">MDR email escalation</span>
+    </div>
+  </div>
+
+  <!-- 3. Who Performs This -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 3</div>
+    <div class="wi-section-title">Who Performs This</div>
+    <table class="wi-roles">
+      <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
+      <tbody>
+        <tr><td>Tier-1 Analyst</td><td>Initial header analysis and evidence capture</td></tr>
+        <tr><td>Tier-2 Analyst</td><td>Validation, advanced interpretation, and verdict confirmation</td></tr>
+        <tr><td>MDR Partner</td><td>May provide parallel analysis — share findings for correlation</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 4. Inputs Required -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 4</div>
+    <div class="wi-section-title">Inputs Required</div>
+    <p>Before starting, confirm availability of all of the following:</p>
+    <div class="tag-grid">
+      <span class="tag">📧 Full raw email headers (original, unmodified)</span>
+      <span class="tag">📎 Email sample or Message-ID</span>
+      <span class="tag">🎫 Incident or alert reference ID</span>
+    </div>
+    <div class="callout-warn" style="margin-top:10px;">
+      <p>⚠️ <strong>Partial headers or screenshots are not sufficient.</strong> If you cannot obtain the full raw headers, document this and escalate before proceeding.</p>
+    </div>
+  </div>
+
+  <!-- 5. Pre-Checks & Safety Notes -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 5</div>
+    <div class="wi-section-title">Pre-Checks &amp; Safety Notes</div>
+    <p>Before beginning analysis, confirm the following safety constraints:</p>
+    <div class="precheck-box">
+      <div class="precheck-box-title">🚫 Mandatory constraints — do not proceed if any are violated</div>
+      <div class="precheck-list">
+        <div class="precheck-item">Do NOT modify the email in any way</div>
+        <div class="precheck-item">Do NOT reply to or forward the email</div>
+        <div class="precheck-item">Do NOT rely on the display name or visible "From" field — these are trivially spoofed</div>
+        <div class="precheck-item">Do NOT click any links or open any attachments during header analysis</div>
+      </div>
+    </div>
+    <div class="callout-info" style="margin-top:10px;">
+      <p>📌 This WI is <strong>read-only and observational</strong>. Treat all headers as forensic evidence — handle with care.</p>
+    </div>
+  </div>
+
+  <!-- 6. Step-by-Step Actions -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 6</div>
+    <div class="wi-section-title">Step-by-Step Actions</div>
+
+    <!-- 6.1 -->
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">1</div><div class="wi-phase-title">Confirm Header Completeness</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Confirm the headers are full, unmodified, and include all <code style="font-family:monospace;font-size:12px;background:#f5f5f3;padding:1px 5px;border-radius:4px;">Received:</code> entries</div>
+          </div>
+        </div>
+        <div class="wi-step">
+          <div class="wi-step-num">2</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Verify the headers include authentication results, Message-IDs, and full routing information</div>
+            <div class="wi-step-note">If headers are incomplete → request full headers before continuing. Do not analyse partial data.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6.2 -->
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">2</div><div class="wi-phase-title">Identify the Message Origin</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Locate the <strong>bottom-most</strong> <code style="font-family:monospace;font-size:12px;background:#f5f5f3;padding:1px 5px;border-radius:4px;">Received:</code> header entry</div>
+            <div class="wi-step-warn">⚠️ Top entries show final delivery, not origin. Always read from the bottom up.</div>
+          </div>
+        </div>
+        <div class="wi-step">
+          <div class="wi-step-num">2</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Record the originating source:</div>
+            <ul class="wi-observe">
+              <li>Sending mail server hostname</li>
+              <li>Sending IP address</li>
+              <li>Timestamp of origination</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Relay chain visual -->
+      <div class="relay-chain">
+        <div class="relay-chain-label">📬 Relay chain — reading direction</div>
+        <div class="relay-hop">
+          <span class="relay-hop-num">1</span>
+          <span class="relay-hop-name">from attacker-server.xyz (203.0.113.42)</span>
+          <span class="relay-hop-tag origin">⬅ Read first — true origin</span>
+        </div>
+        <div class="relay-hop" style="padding-left:16px;">
+          <span class="relay-arrow">↓</span>
+        </div>
+        <div class="relay-hop">
+          <span class="relay-hop-num">2</span>
+          <span class="relay-hop-name">by mail-gateway.provider.com</span>
+          <span class="relay-hop-tag relay">Relay hop</span>
+        </div>
+        <div class="relay-hop" style="padding-left:16px;">
+          <span class="relay-arrow">↓</span>
+        </div>
+        <div class="relay-hop">
+          <span class="relay-hop-num">3</span>
+          <span class="relay-hop-name">by mx.recipient-org.com (final delivery)</span>
+          <span class="relay-hop-tag final">Final delivery</span>
+        </div>
+        <div class="relay-read-dir">↑ Headers appear in reverse order in the email — bottom entry is earliest</div>
+      </div>
+    </div>
+
+    <!-- 6.3 -->
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">3</div><div class="wi-phase-title">Analyse the Mail Relay Chain</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Review all <code style="font-family:monospace;font-size:12px;background:#f5f5f3;padding:1px 5px;border-radius:4px;">Received:</code> headers <strong>bottom → top</strong> and validate logical hop order and timestamp progression</div>
+          </div>
+        </div>
+        <div class="wi-step">
+          <div class="wi-step-num">2</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Flag any of the following anomalies:</div>
+            <ul class="wi-observe">
+              <li>Unexpected or unrecognised relay hosts in the chain</li>
+              <li>Geographic inconsistencies — e.g. claimed EU origin with Asian relay</li>
+              <li>Timestamps out of sequence or with impossible time gaps</li>
+              <li>Open relay behaviour (public mail servers routing internal-looking messages)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6.4 -->
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">4</div><div class="wi-phase-title">Review Sender Identity Fields</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Compare all four sender-related fields side by side:</div>
+            <ul class="wi-observe">
+              <li><code style="font-family:monospace;font-size:12px;">From:</code> — the display address (easily spoofed)</li>
+              <li><code style="font-family:monospace;font-size:12px;">Return-Path:</code> — bounce destination (should match sender domain)</li>
+              <li><code style="font-family:monospace;font-size:12px;">Reply-To:</code> — where replies are directed (external redirect = red flag)</li>
+              <li><code style="font-family:monospace;font-size:12px;">Sender:</code> — actual sending entity if different from From</li>
+            </ul>
+          </div>
+        </div>
+        <div class="wi-step">
+          <div class="wi-step-num">2</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Flag any of the following:</div>
+            <ul class="wi-observe">
+              <li>Domains differ unexpectedly between From and Return-Path</li>
+              <li>Reply-To redirects to an external or unrelated domain</li>
+              <li>Free mail provider (Gmail, Outlook.com) used to impersonate a corporate domain</li>
+              <li>Look-alike or typo-squatted domain in any field</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6.5 -->
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">5</div><div class="wi-phase-title">Review Authentication Results (SPF / DKIM / DMARC)</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Locate the <code style="font-family:monospace;font-size:12px;background:#f5f5f3;padding:1px 5px;border-radius:4px;">Authentication-Results:</code> header and record each result</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Auth results table -->
+      <table class="auth-table" style="margin-top:10px;">
+        <thead>
+          <tr><th>Protocol</th><th>Result</th><th>What it means</th><th>Investigation action</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>SPF</td><td><span class="auth-result res-pass">pass</span></td><td>Sending IP is authorised for the domain</td><td>Check domain still matches expected sender</td></tr>
+          <tr><td>SPF</td><td><span class="auth-result res-fail">fail</span></td><td>Sending IP not authorised — strong spoofing indicator</td><td>Escalate if domain is a trusted org</td></tr>
+          <tr><td>SPF</td><td><span class="auth-result res-softfail">softfail</span></td><td>IP not authorised but policy is non-enforcing</td><td>Treat as suspicious — correlate with other signals</td></tr>
+          <tr><td>SPF</td><td><span class="auth-result res-none">none</span></td><td>Domain has no SPF record published</td><td>Lower confidence — check DKIM and DMARC</td></tr>
+          <tr><td>DKIM</td><td><span class="auth-result res-pass">pass</span></td><td>Message content unchanged — signing domain verified</td><td>Note the <em>d=</em> signing domain — confirm it matches sender</td></tr>
+          <tr><td>DKIM</td><td><span class="auth-result res-fail">fail</span></td><td>Signature invalid — message may have been tampered</td><td>Treat as suspicious</td></tr>
+          <tr><td>DKIM</td><td><span class="auth-result res-none">none</span></td><td>No DKIM signature present</td><td>Not necessarily malicious — note absence</td></tr>
+          <tr><td>DMARC</td><td><span class="auth-result res-pass">pass</span></td><td>SPF or DKIM aligned with From domain</td><td>Still check domain alignment manually</td></tr>
+          <tr><td>DMARC</td><td><span class="auth-result res-fail">fail</span></td><td>Neither SPF nor DKIM aligned with From domain</td><td>Strong spoofing indicator — escalate</td></tr>
+          <tr><td>DMARC</td><td><span class="auth-result res-none">none</span></td><td>Domain has no DMARC policy</td><td>Easier to spoof — rely on other signals</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout-warn" style="margin-top:10px;">
+        <p>⚠️ <strong>Authentication pass ≠ legitimacy.</strong> A message can pass SPF and DKIM while still being malicious — if the attacker controls the sending domain. Always verify that the passing domain is the <em>expected</em> domain, not a look-alike.</p>
+      </div>
+    </div>
+
+    <!-- 6.6 -->
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">6</div><div class="wi-phase-title">Identify Spoofing &amp; Impersonation Indicators</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Look for and document each of the following indicators:</div>
+            <ul class="wi-observe">
+              <li>Free mail provider used to impersonate an organisation (e.g. ceo.company@gmail.com)</li>
+              <li>Look-alike or typo-squatted domain (e.g. <em>company-inc.com</em> vs <em>company.com</em>)</li>
+              <li>Missing, absent, or malformed authentication headers</li>
+              <li>DKIM signed by a domain unrelated to the From: domain</li>
+              <li>Unusual X-Mailer or User-Agent indicating bulk-mail tooling</li>
+            </ul>
+          </div>
+        </div>
+        <div class="wi-step">
+          <div class="wi-step-num">2</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Document each indicator clearly with the exact header field and value observed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6.7 -->
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">7</div><div class="wi-phase-title">Correlate with Message Context</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Correlate header findings with the following contextual signals:</div>
+            <ul class="wi-observe">
+              <li>Email content — does urgency, tone, or requests align with spoofing indicators?</li>
+              <li>Targeting — single user, executive, finance, or broadcast to many?</li>
+              <li>Sender behaviour — first contact, new domain, unusual sending time?</li>
+            </ul>
+          </div>
+        </div>
+        <div class="wi-step">
+          <div class="wi-step-num">2</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Header legitimacy must align with content legitimacy — a legitimate header does not absolve suspicious content</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6.8 -->
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">8</div><div class="wi-phase-title">Assess Header Verdict</div></div>
+      <div class="verdict-grid">
+        <div class="verdict-card legitimate"><h4>✅ Legitimate</h4><p>All fields consistent, auth passes, domain aligns, no anomalies</p></div>
+        <div class="verdict-card suspicious"><h4>⚠️ Suspicious</h4><p>Minor anomalies present — escalate to Tier-2 for validation</p></div>
+        <div class="verdict-card likely"><h4>🟠 Likely Malicious</h4><p>Multiple indicators present — invoke relevant playbook</p></div>
+        <div class="verdict-card confirmed"><h4>🔴 Confirmed Malicious</h4><p>Clear spoofing or impersonation — escalate immediately</p></div>
+      </div>
+      <div class="callout-info" style="margin-top:10px;">
+        <p>📌 Document the <strong>technical rationale</strong> for the classification — list specific header fields, values observed, and the reasoning. Unsupported verdicts cannot be used for escalation or closure.</p>
+      </div>
+    </div>
+
+    <!-- 6.9 -->
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">9</div><div class="wi-phase-title">Summarise Findings</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Prepare a concise summary for the incident ticket including:</div>
+            <ul class="wi-observe">
+              <li>Originating IP address and mail server hostname</li>
+              <li>Authentication results — SPF / DKIM / DMARC with domain alignment notes</li>
+              <li>Sender field assessment — From, Return-Path, Reply-To comparison</li>
+              <li>Spoofing or relay anomalies identified</li>
+              <li>Verdict classification and confidence level</li>
+              <li>Recommended next action (close / escalate / invoke playbook)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="wi-step">
+          <div class="wi-step-num">2</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Attach the raw headers to the ticket — do not rely on summary notes alone</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end section 6 -->
+
+  <!-- 7. Expected Outcome -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 7</div>
+    <div class="wi-section-title">Expected Outcome</div>
+    <div class="outcome-box">
+      <p>✅ Clear understanding of email origin, routing, and relay chain<br>
+      ✅ Authentication results recorded and interpreted with domain alignment validated<br>
+      ✅ Spoofing and impersonation indicators documented or ruled out<br>
+      ✅ Defensible technical record suitable for escalation or closure</p>
+    </div>
+  </div>
+
+  <!-- 8. Common Mistakes -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 8</div>
+    <div class="wi-section-title">Common Mistakes to Avoid</div>
+    <div class="mistakes-list">
+      <div class="mistake-item">Trusting the display name or visible "From" field — these can be set to anything</div>
+      <div class="mistake-item">Reading <code style="font-family:monospace;font-size:12px;">Received:</code> headers top → bottom — always read bottom → top; top shows delivery, not origin</div>
+      <div class="mistake-item">Treating SPF <code style="font-family:monospace;font-size:12px;">pass</code> as proof of legitimacy — the passing domain must also match the expected sender domain</div>
+      <div class="mistake-item">Ignoring <code style="font-family:monospace;font-size:12px;">Reply-To</code> manipulation — a legitimate-looking From with an attacker-controlled Reply-To is a classic BEC indicator</div>
+      <div class="mistake-item">Skipping DKIM signing domain alignment — DKIM <code style="font-family:monospace;font-size:12px;">pass</code> with a d= domain that doesn't match the sender is still suspicious</div>
+      <div class="mistake-item">Analysing partial or screenshot-based headers — partial data produces unreliable verdicts</div>
+    </div>
+  </div>
+
+  <!-- 9. Escalation Conditions -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 9</div>
+    <div class="wi-section-title">Escalation Conditions</div>
+    <p>Immediately escalate to Tier-2 or invoke the relevant playbook if any of the following are confirmed:</p>
+    <div class="esc-list">
+      <div class="esc-item">Spoofing or impersonation confirmed in header analysis</div>
+      <div class="esc-item">Authentication failures (SPF fail / DMARC fail) against a trusted or recognised domain</div>
+      <div class="esc-item">Header evidence aligns with phishing or BEC content</div>
+      <div class="esc-item">Multiple recipients identified — potential campaign</div>
+      <div class="esc-item">Legal, HR, Finance, or executive targets identified in recipient list</div>
+    </div>
+  </div>
+
+  <!-- 10. Related Content -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 10</div>
+    <div class="wi-section-title">Related Playbooks &amp; Runbooks</div>
+    <div class="rel-grid">
+      <div class="rel-box">
+        <h4>Playbooks</h4>
+        <a class="rel-link" href="em-pb-01.html"><span class="rel-code">EM-PB-01</span>Phishing Incident Response</a>
+        <a class="rel-link" href="em-pb-04.html"><span class="rel-code">EM-PB-04</span>Business Email Compromise</a>
+        <a class="rel-link" href="em-pb-06.html"><span class="rel-code">EM-PB-06</span>Threatening / Harassing Email</a>
+      </div>
+      <div class="rel-box">
+        <h4>Runbooks</h4>
+        <a class="rel-link" href="em-rb-04.html"><span class="rel-code">EM-RB-04</span>Remove Phishing Emails</a>
+        <a class="rel-link" href="em-rb-05.html"><span class="rel-code">EM-RB-05</span>Block Sender / Domain</a>
+        <a class="rel-link" href="em-rb-03.html"><span class="rel-code">EM-RB-03</span>Analyse Attachments</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-nav">
+    <a href="work-instructions.html">← Back to Work Instructions</a>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>EM-WI-01 · Published 8 January 2026 · Paulo Ferreira</span>
+    <span><a href="work-instructions.html" style="color:var(--wi);text-decoration:none;">← Back to Work Instructions</a></span>
+  </div>
+
+</div>
+</body>
+</html>
