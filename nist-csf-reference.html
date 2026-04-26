@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIST CSF 2.0 Reference — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root {
+    --nist:#1A4A7A; --nist-light:#E8F0FA; --nist-border:#B5CCE8;
+    --gov:#6B3FA0; --gov-light:#F3EEF9; --gov-border:#C9B3E8;
+    --id:#185FA5;  --id-light:#E6F1FB;  --id-border:#B5D4F4;
+    --pr:#0F6E56;  --pr-light:#E1F5EE;  --pr-border:#82D4B0;
+    --de:#297086;  --de-light:#E0F4F8;  --de-border:#82C8D8;
+    --rs:#8B4A0E;  --rs-light:#FEF0E6;  --rs-border:#F5C89A;
+    --rc:#2D5A2D;  --rc-light:#EDF6ED;  --rc-border:#A8D5A8;
+  }
+
+  /* Hero override */
+  .nist-hero { background:linear-gradient(135deg,#0D2B50 0%,#1A4A7A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .nist-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:8px; }
+  .nist-hero h1 { font-size:24px; font-weight:700; margin-bottom:8px; line-height:1.25; }
+  .nist-hero p { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .nist-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .nist-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  /* Intro section */
+  .nist-intro { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1.5rem; }
+  .nist-intro p { font-size:14px; color:#444; line-height:1.75; margin-bottom:10px; }
+  .nist-intro p:last-child { margin-bottom:0; }
+
+  /* Stats row */
+  .nist-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .nist-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .nist-stat-num   { font-size:26px; font-weight:700; color:var(--nist); line-height:1; margin-bottom:4px; }
+  .nist-stat-label { font-size:12px; color:#888; }
+
+  /* Version timeline */
+  .version-bar { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:1.5rem; }
+  .version-card { border-radius:10px; padding:1rem 1.1rem; }
+  .version-card.v1  { background:#f5f5f3; border:0.5px solid #e0e0dc; }
+  .version-card.v11 { background:#f5f5f3; border:0.5px solid #e0e0dc; }
+  .version-card.v2  { background:var(--nist-light); border:0.5px solid var(--nist-border); }
+  .version-card h4  { font-size:13px; font-weight:700; margin-bottom:4px; }
+  .version-card.v2 h4 { color:var(--nist); }
+  .version-card p   { font-size:12px; color:#666; margin:0; line-height:1.5; }
+  .version-card.v2 p { color:var(--nist); }
+
+  /* Components section */
+  .components-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:1.5rem; }
+  .component-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.25rem; }
+  .component-card h4 { font-size:14px; font-weight:600; color:var(--nist); margin-bottom:6px; }
+  .component-card p  { font-size:13px; color:#555; line-height:1.6; margin:0; }
+
+  /* Section titles */
+  .nist-section-title { font-size:14px; font-weight:700; color:var(--nist); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px; margin-top:1.5rem; }
+  .nist-section-title:first-of-type { margin-top:0; }
+
+  /* Function cards */
+  .fn-card { border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .fn-card.gov { background:var(--gov-light); border:0.5px solid var(--gov-border); }
+  .fn-card.id  { background:var(--id-light);  border:0.5px solid var(--id-border); }
+  .fn-card.pr  { background:var(--pr-light);  border:0.5px solid var(--pr-border); }
+  .fn-card.de  { background:var(--de-light);  border:0.5px solid var(--de-border); }
+  .fn-card.rs  { background:var(--rs-light);  border:0.5px solid var(--rs-border); }
+  .fn-card.rc  { background:var(--rc-light);  border:0.5px solid var(--rc-border); }
+
+  .fn-header { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+  .fn-badge  { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:3px 9px; border-radius:6px; }
+  .fn-badge.gov { background:var(--gov); color:#fff; }
+  .fn-badge.id  { background:var(--id);  color:#fff; }
+  .fn-badge.pr  { background:var(--pr);  color:#fff; }
+  .fn-badge.de  { background:var(--de);  color:#fff; }
+  .fn-badge.rs  { background:var(--rs);  color:#fff; }
+  .fn-badge.rc  { background:var(--rc);  color:#fff; }
+  .fn-new-badge { font-size:10px; font-weight:700; background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; padding:2px 7px; border-radius:8px; }
+
+  .fn-title { font-size:17px; font-weight:700; }
+  .fn-card.gov .fn-title { color:var(--gov); }
+  .fn-card.id  .fn-title { color:var(--id); }
+  .fn-card.pr  .fn-title { color:var(--pr); }
+  .fn-card.de  .fn-title { color:var(--de); }
+  .fn-card.rs  .fn-title { color:var(--rs); }
+  .fn-card.rc  .fn-title { color:var(--rc); }
+
+  .fn-desc { font-size:14px; color:#444; line-height:1.7; margin-bottom:10px; }
+
+  /* Categories within function */
+  .fn-cats { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .fn-cat  { font-size:12px; font-weight:500; padding:3px 10px; border-radius:6px; }
+  .fn-card.gov .fn-cat { background:rgba(107,63,160,0.1); color:var(--gov); }
+  .fn-card.id  .fn-cat { background:rgba(24,95,165,0.1);  color:var(--id); }
+  .fn-card.pr  .fn-cat { background:rgba(15,110,86,0.1);  color:var(--pr); }
+  .fn-card.de  .fn-cat { background:rgba(41,112,134,0.1); color:var(--de); }
+  .fn-card.rs  .fn-cat { background:rgba(139,74,14,0.1);  color:var(--rs); }
+  .fn-card.rc  .fn-cat { background:rgba(45,90,45,0.1);   color:var(--rc); }
+
+  /* KB alignment per function */
+  .fn-kb { font-size:12px; color:#888; border-top:0.5px solid rgba(0,0,0,0.06); padding-top:8px; margin-top:2px; }
+  .fn-kb strong { color:#555; }
+
+  /* Tiers section */
+  .tiers-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px; margin-bottom:1.5rem; }
+  .tier-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem 1.1rem; }
+  .tier-num  { font-size:22px; font-weight:700; color:var(--nist); line-height:1; margin-bottom:4px; }
+  .tier-name { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:4px; }
+  .tier-desc { font-size:12px; color:#666; line-height:1.5; }
+
+  /* What changed */
+  .change-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:1.5rem; }
+  .change-card { border-radius:10px; padding:1rem 1.1rem; }
+  .change-card.new { background:var(--nist-light); border:0.5px solid var(--nist-border); }
+  .change-card.new h4 { font-size:13px; font-weight:600; color:var(--nist); margin-bottom:5px; }
+  .change-card.new p  { font-size:13px; color:#444; margin:0; line-height:1.5; }
+
+  /* Profiles section */
+  .profiles-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:1.5rem; }
+  .profile-card { border-radius:10px; padding:1rem 1.1rem; }
+  .profile-card.current { background:#f5f5f3; border:0.5px solid #e0e0dc; }
+  .profile-card.target  { background:var(--nist-light); border:0.5px solid var(--nist-border); }
+  .profile-card h4 { font-size:13px; font-weight:600; margin-bottom:5px; }
+  .profile-card.current h4 { color:#555; }
+  .profile-card.target  h4 { color:var(--nist); }
+  .profile-card p { font-size:13px; color:#555; margin:0; line-height:1.5; }
+
+  /* KB alignment summary */
+  .alignment-table { width:100%; border-collapse:collapse; font-size:13px; margin-bottom:1.5rem; }
+  .alignment-table th { background:var(--nist-light); color:var(--nist); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--nist-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .alignment-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; }
+  .alignment-table tr:nth-child(even) td { background:#fafafa; }
+
+  /* Official resources */
+  .resource-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:1.5rem; }
+  .resource-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:10px; padding:1rem 1.1rem; text-decoration:none; color:inherit; display:flex; align-items:flex-start; gap:10px; transition:border-color 0.15s; }
+  .resource-card:hover { border-color:var(--nist); }
+  .resource-icon { font-size:20px; flex-shrink:0; }
+  .resource-title { font-size:13px; font-weight:600; color:var(--nist); margin-bottom:3px; }
+  .resource-desc  { font-size:12px; color:#666; line-height:1.4; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--nist); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+
+  @media(max-width:640px){
+    .version-bar,.components-grid,.tiers-grid,.change-grid,.profiles-grid,.resource-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="tools-references.html">Tools &amp; References</a><span>›</span>
+    <span>NIST CSF 2.0</span>
+  </div>
+
+  <div class="nist-hero">
+    <div class="nist-hero-eyebrow">Framework Reference</div>
+    <h1>NIST Cybersecurity Framework 2.0</h1>
+    <p>The National Institute of Standards and Technology Cybersecurity Framework (CSF) 2.0 is the globally adopted voluntary framework used by this knowledge base as its primary cyber security reference structure. Published in February 2024, it organises cybersecurity outcomes across six core functions applicable to organisations of any size, sector, or geography.</p>
+    <div class="nist-hero-pills">
+      <span class="nist-hero-pill">Released February 2024</span>
+      <span class="nist-hero-pill">6 Functions</span>
+      <span class="nist-hero-pill">22 Categories</span>
+      <span class="nist-hero-pill">106 Subcategories</span>
+      <span class="nist-hero-pill">Voluntary &amp; sector-agnostic</span>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="nist-stats">
+    <div class="nist-stat"><div class="nist-stat-num">6</div><div class="nist-stat-label">Core functions</div></div>
+    <div class="nist-stat"><div class="nist-stat-num">22</div><div class="nist-stat-label">Categories</div></div>
+    <div class="nist-stat"><div class="nist-stat-num">106</div><div class="nist-stat-label">Subcategories</div></div>
+    <div class="nist-stat"><div class="nist-stat-num">4</div><div class="nist-stat-label">Implementation tiers</div></div>
+    <div class="nist-stat"><div class="nist-stat-num">2024</div><div class="nist-stat-label">Current version</div></div>
+  </div>
+
+  <!-- What is the CSF -->
+  <div class="nist-intro">
+    <p>The NIST CSF is not a compliance checklist — it is a <strong>risk-based outcomes framework</strong>. It describes <em>what</em> an organisation should achieve, not <em>how</em> to achieve it. This makes it technology-neutral, vendor-agnostic, and applicable whether you are a global enterprise, a regional NGO, or a small business with limited resources.</p>
+    <p>The framework consists of three components that work together: the <strong>CSF Core</strong> (the hierarchy of functions, categories, and subcategories describing desired outcomes), <strong>Organisational Profiles</strong> (mechanisms to describe current and target security posture), and <strong>Implementation Tiers</strong> (a scale characterising the rigour of an organisation's risk governance practices).</p>
+    <p>All SOPs and relevant playbooks in this knowledge base include explicit NIST CSF 2.0 function and category alignment references, enabling teams to trace every operational procedure back to the framework outcomes it supports.</p>
+  </div>
+
+  <!-- Version history -->
+  <div class="nist-section-title">Version history</div>
+  <div class="version-bar">
+    <div class="version-card v1">
+      <h4>CSF 1.0 — 2014</h4>
+      <p>Original release. Five functions: Identify, Protect, Detect, Respond, Recover. Focused on critical infrastructure. 23 categories, 108 subcategories.</p>
+    </div>
+    <div class="version-card v11">
+      <h4>CSF 1.1 — 2018</h4>
+      <p>Incremental update. Added supply chain risk management and identity management guidance. Expanded authentication and vulnerability disclosure guidance.</p>
+    </div>
+    <div class="version-card v2">
+      <h4>CSF 2.0 — February 2024</h4>
+      <p>Major update. Added sixth function: <strong>Govern</strong>. Expanded scope to all organisations, not just critical infrastructure. Strengthened supply chain risk management. 22 categories, 106 subcategories.</p>
+    </div>
+  </div>
+
+  <!-- Three components -->
+  <div class="nist-section-title">Framework components</div>
+  <div class="components-grid">
+    <div class="component-card">
+      <h4>🏗️ CSF Core</h4>
+      <p>The central hierarchy of Functions, Categories, and Subcategories. Describes desired cybersecurity outcomes at three levels of detail — from broad strategic objectives down to specific operational outcomes. Technology-neutral and sector-agnostic.</p>
+    </div>
+    <div class="component-card">
+      <h4>📊 Organisational Profiles</h4>
+      <p>A mechanism for describing an organisation's <strong>current</strong> cybersecurity posture and its <strong>target</strong> posture. The gap between the two becomes the improvement roadmap. Profiles are customised to each organisation's context, risk appetite, and resources.</p>
+    </div>
+    <div class="component-card">
+      <h4>📈 Implementation Tiers</h4>
+      <p>A four-level scale (Partial → Risk Informed → Repeatable → Adaptive) that characterises the rigour of an organisation's cybersecurity risk governance and management practices. Tiers are not maturity levels — they help contextualise priorities.</p>
+    </div>
+  </div>
+
+  <!-- The six functions -->
+  <div class="nist-section-title">The six core functions</div>
+
+  <!-- GOVERN -->
+  <div class="fn-card gov">
+    <div class="fn-header">
+      <span class="fn-badge gov">GV</span>
+      <span class="fn-title">Govern</span>
+      <span class="fn-new-badge">New in v2.0</span>
+    </div>
+    <div class="fn-desc">Establish, communicate, and monitor the organisation's cybersecurity risk management strategy, expectations, and policy. Govern is the central function — it informs and shapes all other functions. It encompasses roughly 30% of all subcategories, reflecting NIST's strong emphasis on governance as a security control.</div>
+    <div class="fn-cats">
+      <span class="fn-cat">GV.OC — Organisational Context</span>
+      <span class="fn-cat">GV.RM — Risk Management Strategy</span>
+      <span class="fn-cat">GV.RR — Roles, Responsibilities &amp; Authorities</span>
+      <span class="fn-cat">GV.PO — Policy</span>
+      <span class="fn-cat">GV.OV — Oversight</span>
+      <span class="fn-cat">GV.SC — Supply Chain Risk Management</span>
+    </div>
+    <div class="fn-kb"><strong>KB alignment:</strong> SOPs (SOP-IM-01, SOP-EP-01, SOP-ID-01, SOP-EM-01, SOP-NW-01) all support GV.RM and GV.RR by defining roles, responsibilities, escalation authorities, and risk-based decision frameworks.</div>
+  </div>
+
+  <!-- IDENTIFY -->
+  <div class="fn-card id">
+    <div class="fn-header">
+      <span class="fn-badge id">ID</span>
+      <span class="fn-title">Identify</span>
+    </div>
+    <div class="fn-desc">Understand the organisation's current cybersecurity risks to systems, people, assets, data, and capabilities. The Identify function provides the foundation for prioritising cybersecurity efforts in alignment with the organisation's risk management strategy and mission needs.</div>
+    <div class="fn-cats">
+      <span class="fn-cat">ID.AM — Asset Management</span>
+      <span class="fn-cat">ID.RA — Risk Assessment</span>
+      <span class="fn-cat">ID.IM — Improvement</span>
+    </div>
+    <div class="fn-kb"><strong>KB alignment:</strong> Tier-1 Checklists (ID-01 through ID-05, EM-01 through EM-05) support ID.RA by providing structured risk assessment workflows at the alert triage level.</div>
+  </div>
+
+  <!-- PROTECT -->
+  <div class="fn-card pr">
+    <div class="fn-header">
+      <span class="fn-badge pr">PR</span>
+      <span class="fn-title">Protect</span>
+    </div>
+    <div class="fn-desc">Use safeguards to manage cybersecurity risks and support the ability to deliver critical services. The Protect function covers the controls and measures that limit the impact of a potential cybersecurity event — prevention, access control, data security, and resilience.</div>
+    <div class="fn-cats">
+      <span class="fn-cat">PR.AA — Identity Management, Authentication &amp; Access Control</span>
+      <span class="fn-cat">PR.AT — Awareness &amp; Training</span>
+      <span class="fn-cat">PR.DS — Data Security</span>
+      <span class="fn-cat">PR.PS — Platform Security</span>
+      <span class="fn-cat">PR.IR — Technology Infrastructure Resilience</span>
+    </div>
+    <div class="fn-kb"><strong>KB alignment:</strong> Endpoint hardening WIs (IT-EP-WI-Win-01 through Win-05, PAW-01 through PAW-07) directly support PR.AA, PR.DS, and PR.PS. Identity SOPs support PR.AA.</div>
+  </div>
+
+  <!-- DETECT -->
+  <div class="fn-card de">
+    <div class="fn-header">
+      <span class="fn-badge de">DE</span>
+      <span class="fn-title">Detect</span>
+    </div>
+    <div class="fn-desc">Find and analyse possible cybersecurity attacks and compromises. The Detect function enables timely discovery of anomalies, indicators of compromise, and adverse events — supporting rapid response before damage escalates.</div>
+    <div class="fn-cats">
+      <span class="fn-cat">DE.CM — Continuous Monitoring</span>
+      <span class="fn-cat">DE.AE — Adverse Event Analysis</span>
+    </div>
+    <div class="fn-kb"><strong>KB alignment:</strong> All Runbooks and investigation-only Work Instructions (EM-WI-01, ID-WI-01, ID-WI-04, NW-WI-01) directly support DE.CM and DE.AE. All SOPs reference these categories explicitly.</div>
+  </div>
+
+  <!-- RESPOND -->
+  <div class="fn-card rs">
+    <div class="fn-header">
+      <span class="fn-badge rs">RS</span>
+      <span class="fn-title">Respond</span>
+    </div>
+    <div class="fn-desc">Take action regarding a detected cybersecurity incident. The Respond function covers incident management, analysis, mitigation, and communication — ensuring that incidents are contained and managed effectively to limit their impact.</div>
+    <div class="fn-cats">
+      <span class="fn-cat">RS.MA — Incident Management</span>
+      <span class="fn-cat">RS.AN — Incident Analysis</span>
+      <span class="fn-cat">RS.CO — Incident Response Reporting &amp; Communication</span>
+      <span class="fn-cat">RS.MI — Incident Mitigation</span>
+    </div>
+    <div class="fn-kb"><strong>KB alignment:</strong> All Playbooks (EM-PB, ID-PB, NW-PB, EP-PB series) and containment Work Instructions (EP-WI-02, EP-WI-03, EM-WI-04, EM-WI-05, NW-WI-02, NW-WI-03, ID-WI-02, ID-WI-05) directly support RS.MA, RS.AN, and RS.MI.</div>
+  </div>
+
+  <!-- RECOVER -->
+  <div class="fn-card rc">
+    <div class="fn-header">
+      <span class="fn-badge rc">RC</span>
+      <span class="fn-title">Recover</span>
+    </div>
+    <div class="fn-desc">Restore assets and operations that were impacted by a cybersecurity incident. The Recover function supports timely restoration of normal operations, reducing the long-term impact of incidents and incorporating lessons learned into future improvements.</div>
+    <div class="fn-cats">
+      <span class="fn-cat">RC.RP — Incident Recovery Plan Execution</span>
+      <span class="fn-cat">RC.CO — Incident Recovery Communication</span>
+    </div>
+    <div class="fn-kb"><strong>KB alignment:</strong> EP-WI-04 (Validate Persistence Removal &amp; Recovery Readiness) and the recovery phases of all EP and EM Playbooks support RC.RP. Post-incident lessons-learned requirements across all SOPs support RC.CO.</div>
+  </div>
+
+  <!-- Implementation tiers -->
+  <div class="nist-section-title">Implementation tiers</div>
+  <div class="tiers-grid">
+    <div class="tier-card">
+      <div class="tier-num">1</div>
+      <div class="tier-name">Partial</div>
+      <div class="tier-desc">Cybersecurity risk management is ad hoc. Limited awareness of risk. No formal policies or processes in place.</div>
+    </div>
+    <div class="tier-card">
+      <div class="tier-num">2</div>
+      <div class="tier-name">Risk Informed</div>
+      <div class="tier-desc">Risk management practices exist but may not be organisation-wide. Awareness of cyber risk exists at leadership level but is not consistently applied.</div>
+    </div>
+    <div class="tier-card">
+      <div class="tier-num">3</div>
+      <div class="tier-name">Repeatable</div>
+      <div class="tier-desc">Formally approved risk management practices that are expressed as policy. Organisation-wide awareness and consistent application across teams.</div>
+    </div>
+    <div class="tier-card">
+      <div class="tier-num">4</div>
+      <div class="tier-name">Adaptive</div>
+      <div class="tier-desc">Cybersecurity risk management is continuously improved based on lessons learned, threat intelligence, and evolving organisational needs.</div>
+    </div>
+  </div>
+
+  <!-- Profiles -->
+  <div class="nist-section-title">Organisational profiles</div>
+  <div class="profiles-grid">
+    <div class="profile-card current">
+      <h4>📍 Current Profile</h4>
+      <p>Documents the cybersecurity outcomes an organisation is achieving today. An honest assessment of existing policies, processes, and controls mapped to CSF subcategories. Requires input from IT, security, legal, compliance, and leadership.</p>
+    </div>
+    <div class="profile-card target">
+      <h4>🎯 Target Profile</h4>
+      <p>Describes the desired cybersecurity outcomes reflecting the organisation's risk management goals, regulatory obligations, and available resources. The gap between Current and Target becomes the improvement roadmap and budget justification.</p>
+    </div>
+  </div>
+
+  <!-- What changed in 2.0 -->
+  <div class="nist-section-title">Key changes in CSF 2.0 vs 1.1</div>
+  <div class="change-grid">
+    <div class="change-card new">
+      <h4>➕ New Govern function</h4>
+      <p>The biggest change. Govern was added as the sixth function, pulling governance, risk management strategy, roles, and supply chain risk into a dedicated function. It now comprises ~30% of all subcategories.</p>
+    </div>
+    <div class="change-card new">
+      <h4>🌍 Expanded scope</h4>
+      <p>CSF 1.x was originally designed for US critical infrastructure. CSF 2.0 explicitly applies to all organisations — any size, any sector, any country. NGOs, SMBs, and not-for-profits are explicitly included audiences.</p>
+    </div>
+    <div class="change-card new">
+      <h4>🔗 Supply chain risk</h4>
+      <p>Supply chain risk management (GV.SC) is the most detailed category in the framework with 10 subcategories. CSF 2.0 treats third-party and supply chain risk as a primary governance concern, not an afterthought.</p>
+    </div>
+    <div class="change-card new">
+      <h4>📋 Implementation examples</h4>
+      <p>CSF 2.0 introduces Implementation Examples — concise, action-oriented steps for achieving each subcategory's outcome. These make the framework significantly more actionable for smaller organisations.</p>
+    </div>
+  </div>
+
+  <!-- KB alignment summary table -->
+  <div class="nist-section-title">How this KB maps to NIST CSF 2.0</div>
+  <table class="alignment-table">
+    <thead>
+      <tr><th>CSF Function</th><th>Primary KB content</th><th>Document types</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong style="color:var(--gov);">GV — Govern</strong></td><td>Escalation procedures, severity classification, roles &amp; responsibilities, exceptions processes</td><td>SOPs, Governance page</td></tr>
+      <tr><td><strong style="color:var(--id);">ID — Identify</strong></td><td>Alert triage, risk assessment workflows, anomaly identification</td><td>Tier-1 Checklists, investigation-only WIs</td></tr>
+      <tr><td><strong style="color:var(--pr);">PR — Protect</strong></td><td>Endpoint hardening, privilege control, disk encryption, logging readiness, PAW configuration</td><td>IT hardening WIs (Win &amp; PAW series)</td></tr>
+      <tr><td><strong style="color:var(--de);">DE — Detect</strong></td><td>Continuous monitoring, header analysis, sign-in review, network traffic analysis, OAuth review</td><td>Runbooks, investigation WIs</td></tr>
+      <tr><td><strong style="color:var(--rs);">RS — Respond</strong></td><td>Incident response, containment, eradication, blocking, account reset, OAuth revocation</td><td>Playbooks, containment WIs</td></tr>
+      <tr><td><strong style="color:var(--rc);">RC — Recover</strong></td><td>Persistence validation, recovery readiness, endpoint reconnection decisions, lessons learned</td><td>EP-WI-04, Playbook recovery phases</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Official resources -->
+  <div class="nist-section-title">Official NIST resources</div>
+  <div class="resource-grid">
+    <a class="resource-card" href="https://www.nist.gov/cyberframework" target="_blank" rel="noopener">
+      <div class="resource-icon">🏛️</div>
+      <div><div class="resource-title">NIST CSF Official Website</div><div class="resource-desc">Primary NIST Cybersecurity Framework page — framework document, quick start guides, and supplementary resources</div></div>
+    </a>
+    <a class="resource-card" href="https://csf.tools/reference/nist-cybersecurity-framework/v2-0/" target="_blank" rel="noopener">
+      <div class="resource-icon">🔍</div>
+      <div><div class="resource-title">CSF 2.0 Reference Tool</div><div class="resource-desc">Interactive searchable reference for all Functions, Categories, Subcategories, and Implementation Examples</div></div>
+    </a>
+    <a class="resource-card" href="https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.29.pdf" target="_blank" rel="noopener">
+      <div class="resource-icon">📄</div>
+      <div><div class="resource-title">CSF 2.0 Full Document (PDF)</div><div class="resource-desc">The complete NIST CSF 2.0 publication — NIST.CSWP.29, published February 2024</div></div>
+    </a>
+    <a class="resource-card" href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.1299.pdf" target="_blank" rel="noopener">
+      <div class="resource-icon">📘</div>
+      <div><div class="resource-title">CSF 2.0 Resource &amp; Overview Guide</div><div class="resource-desc">NIST SP 1299 — supplementary overview guide explaining how to use the framework</div></div>
+    </a>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>NIST CSF 2.0 Reference · Published February 2024 · Paulo Ferreira</span>
+    <span><a href="tools-references.html" style="color:var(--nist);text-decoration:none;">← Back to Tools &amp; References</a></span>
+  </div>
+
+</div>
+</body>
+</html>
