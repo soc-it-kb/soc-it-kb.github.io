@@ -28,7 +28,7 @@
 <body>
 
 <nav class="kb-topnav">
-  <a class="kb-topnav-brand" href="index.html">knowledge Base</a>
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
   <a href="index.html">Home</a>
   <a href="runbooks.html">Runbooks</a>
   <a href="playbooks.html">Playbooks</a>
@@ -326,8 +326,78 @@
     </div>
   </div>
 
+  <!-- NIST CSF 2.0 Reference -->
+  <div class="kb-section">
+    <div class="kb-section-title">Framework references</div>
+
+    <!-- NIST CSF 2.0 featured card -->
+    <div style="background:linear-gradient(135deg,#0D2B50 0%,#1A4A7A 100%);border-radius:12px;padding:1.4rem 1.6rem;margin-bottom:10px;color:#fff;">
+      <div style="display:flex;align-items:flex-start;gap:16px;">
+        <div style="font-size:32px;flex-shrink:0;">🏛️</div>
+        <div style="flex:1;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;opacity:0.55;margin-bottom:5px;">Primary framework — adopted standard</div>
+          <div style="font-size:18px;font-weight:700;margin-bottom:6px;">NIST Cybersecurity Framework 2.0</div>
+          <div style="font-size:13px;opacity:0.8;line-height:1.6;margin-bottom:12px;">The globally adopted voluntary framework used as the primary reference structure for all content in this knowledge base. Released February 2024. Applicable to organisations of any size, sector, or geography — including NGOs, not-for-profits, and SMBs.</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+            <span style="background:rgba(255,255,255,0.15);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;">6 Core Functions</span>
+            <span style="background:rgba(255,255,255,0.15);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;">22 Categories</span>
+            <span style="background:rgba(255,255,255,0.15);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;">106 Subcategories</span>
+            <span style="background:rgba(255,255,255,0.15);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;">Govern · Identify · Protect · Detect · Respond · Recover</span>
+          </div>
+          <a href="nist-csf-reference.html" style="display:inline-block;background:rgba(255,255,255,0.15);border:0.5px solid rgba(255,255,255,0.3);color:#fff;font-size:13px;font-weight:600;padding:7px 16px;border-radius:8px;text-decoration:none;">View full NIST CSF 2.0 reference →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- NIST CSF function quick reference -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:10px;">
+      <div style="background:#F3EEF9;border:0.5px solid #C9B3E8;border-radius:10px;padding:0.85rem 1rem;">
+        <div style="font-family:'SF Mono','Fira Code',monospace;font-size:11px;font-weight:700;color:#6B3FA0;margin-bottom:4px;">GV — Govern</div>
+        <div style="font-size:12px;color:#555;line-height:1.4;">Strategy, policy, roles, supply chain risk management</div>
+      </div>
+      <div style="background:#E6F1FB;border:0.5px solid #B5D4F4;border-radius:10px;padding:0.85rem 1rem;">
+        <div style="font-family:'SF Mono','Fira Code',monospace;font-size:11px;font-weight:700;color:#185FA5;margin-bottom:4px;">ID — Identify</div>
+        <div style="font-size:12px;color:#555;line-height:1.4;">Asset management, risk assessment, improvement</div>
+      </div>
+      <div style="background:#E1F5EE;border:0.5px solid #82D4B0;border-radius:10px;padding:0.85rem 1rem;">
+        <div style="font-family:'SF Mono','Fira Code',monospace;font-size:11px;font-weight:700;color:#0F6E56;margin-bottom:4px;">PR — Protect</div>
+        <div style="font-size:12px;color:#555;line-height:1.4;">Access control, data security, platform security, resilience</div>
+      </div>
+      <div style="background:#E0F4F8;border:0.5px solid #82C8D8;border-radius:10px;padding:0.85rem 1rem;">
+        <div style="font-family:'SF Mono','Fira Code',monospace;font-size:11px;font-weight:700;color:#297086;margin-bottom:4px;">DE — Detect</div>
+        <div style="font-size:12px;color:#555;line-height:1.4;">Continuous monitoring, adverse event analysis</div>
+      </div>
+      <div style="background:#FEF0E6;border:0.5px solid #F5C89A;border-radius:10px;padding:0.85rem 1rem;">
+        <div style="font-family:'SF Mono','Fira Code',monospace;font-size:11px;font-weight:700;color:#8B4A0E;margin-bottom:4px;">RS — Respond</div>
+        <div style="font-size:12px;color:#555;line-height:1.4;">Incident management, analysis, mitigation, communication</div>
+      </div>
+      <div style="background:#EDF6ED;border:0.5px solid #A8D5A8;border-radius:10px;padding:0.85rem 1rem;">
+        <div style="font-family:'SF Mono','Fira Code',monospace;font-size:11px;font-weight:700;color:#2D5A2D;margin-bottom:4px;">RC — Recover</div>
+        <div style="font-size:12px;color:#555;line-height:1.4;">Recovery plan execution, incident recovery communication</div>
+      </div>
+    </div>
+
+    <!-- Other framework references -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+      <a href="https://attack.mitre.org/" target="_blank" rel="noopener" style="background:#fff;border:0.5px solid #e0e0dc;border-radius:10px;padding:1rem 1.1rem;text-decoration:none;color:inherit;display:flex;align-items:flex-start;gap:10px;transition:border-color 0.15s;" onmouseover="this.style.borderColor='#297086'" onmouseout="this.style.borderColor='#e0e0dc'">
+        <div style="font-size:20px;flex-shrink:0;">⚔️</div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#297086;margin-bottom:3px;">MITRE ATT&amp;CK Framework</div>
+          <div style="font-size:12px;color:#666;line-height:1.4;">Adversary tactics and techniques knowledge base. Used throughout this KB for technique-level playbook and runbook mapping.</div>
+        </div>
+      </a>
+      <a href="https://www.iso.org/standard/78973.html" target="_blank" rel="noopener" style="background:#fff;border:0.5px solid #e0e0dc;border-radius:10px;padding:1rem 1.1rem;text-decoration:none;color:inherit;display:flex;align-items:flex-start;gap:10px;transition:border-color 0.15s;" onmouseover="this.style.borderColor='#297086'" onmouseout="this.style.borderColor='#e0e0dc'">
+        <div style="font-size:20px;flex-shrink:0;">📋</div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#297086;margin-bottom:3px;">ISO 27035 — Incident Management</div>
+          <div style="font-size:12px;color:#666;line-height:1.4;">International standard for information security incident management. Aligned with all five SOPs in this knowledge base.</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
   <div class="kb-footer">
-    <span><span class="live-dot"></span>Published 7 January 2026 &nbsp;·&nbsp; IT Operations</span>
+    <span><span class="live-dot"></span>Published 7 January 2026 &nbsp;·&nbsp; Paulo Ferreira</span>
     <span><a href="index.html" style="color:#297086;text-decoration:none;">← Back to home</a></span>
   </div>
 
