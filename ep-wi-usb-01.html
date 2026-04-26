@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EP-WI-USB-01: Handle USB Mass Storage with Suspected Malicious Files — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --wi:#8B4A0E; --wi-light:#FEF0E6; --wi-border:#F5C89A; --wi-dark:#5C2E06; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .wi-badge-action { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .wi-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .wi-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:4px; }
+  .wi-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tag { font-size:12px; background:var(--wi-light); color:var(--wi); border:0.5px solid var(--wi-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .wi-roles { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .wi-roles th { background:var(--wi-light); color:var(--wi); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--wi-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .wi-roles td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; }
+  .wi-roles tr:nth-child(even) td { background:#fafafa; }
+  .wi-roles td:first-child { font-weight:600; color:#2D3748; white-space:nowrap; }
+  .wi-phase { margin-bottom:1.5rem; }
+  .wi-phase:last-child { margin-bottom:0; }
+  .wi-phase-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:0.5px solid #e0e0dc; }
+  .wi-phase-num { width:26px; height:26px; border-radius:50%; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .wi-phase-title { font-size:14px; font-weight:600; color:#2D3748; }
+  .wi-steps { display:flex; flex-direction:column; gap:6px; }
+  .wi-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .wi-step-num { width:22px; height:22px; border-radius:50%; background:var(--wi-light); color:var(--wi); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .wi-step-body { flex:1; }
+  .wi-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; }
+  .wi-step-note { font-size:12px; color:#888; margin-top:4px; line-height:1.4; font-style:italic; }
+  .wi-observe { list-style:none; margin-top:6px; display:flex; flex-direction:column; gap:4px; }
+  .wi-observe li { font-size:13px; color:#555; display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+  .wi-observe li::before { content:'→'; color:var(--wi); font-weight:600; flex-shrink:0; }
+  /* Analysis path table */
+  .analysis-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; }
+  .analysis-table th { background:var(--wi-light); color:var(--wi); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--wi-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .analysis-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; }
+  .analysis-table tr:nth-child(even) td { background:#fafafa; }
+  /* Disposal table */
+  .disp-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:8px; }
+  .disp-card { border-radius:8px; padding:0.8rem 1rem; text-align:center; }
+  .disp-card.retain  { background:var(--wi-light); border:0.5px solid var(--wi-border); }
+  .disp-card.destroy { background:#FAECE7; border:0.5px solid #F5C0B0; }
+  .disp-card.legal   { background:#E6F1FB; border:0.5px solid #B5D4F4; }
+  .disp-card h4 { font-size:12px; font-weight:600; margin-bottom:3px; }
+  .disp-card.retain  h4 { color:var(--wi); }
+  .disp-card.destroy h4 { color:#993C1D; }
+  .disp-card.legal   h4 { color:#185FA5; }
+  .disp-card p { font-size:11px; margin:0; line-height:1.4; }
+  .disp-card.retain  p { color:#6b3a0a; }
+  .disp-card.destroy p { color:#7a2e10; }
+  .disp-card.legal   p { color:#185FA5; }
+  .precheck-box { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:10px; padding:1rem 1.25rem; margin-top:4px; }
+  .precheck-box-title { font-size:12px; font-weight:600; color:#993C1D; margin-bottom:8px; }
+  .precheck-list { display:flex; flex-direction:column; gap:5px; }
+  .precheck-item { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:#7a2e10; line-height:1.5; }
+  .precheck-item::before { content:'🚫'; font-size:13px; flex-shrink:0; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-info p { font-size:13px; color:var(--wi-dark); margin:0; line-height:1.5; }
+  .outcome-box { background:var(--wi-light); border:0.5px solid var(--wi-border); border-radius:10px; padding:1rem 1.25rem; }
+  .outcome-box p { font-size:13px; color:var(--wi); line-height:1.6; margin-bottom:0; }
+  .esc-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .esc-item { display:flex; align-items:flex-start; gap:10px; background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#7a2e10; }
+  .esc-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+  .mistakes-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .mistake-item { display:flex; align-items:flex-start; gap:10px; background:#FAEEDA; border:0.5px solid #FAC775; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#6b3f0a; }
+  .mistake-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .rel-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .rel-box h4 { font-size:12px; font-weight:600; color:var(--wi); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; }
+  .rel-link { display:flex; align-items:center; gap:8px; text-decoration:none; color:#444; font-size:13px; padding:4px 0; }
+  .rel-link:hover { color:var(--wi); }
+  .rel-link::before { content:'›'; color:var(--wi); font-weight:700; }
+  .rel-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--wi-light); color:var(--wi); border:0.5px solid var(--wi-border); padding:1px 6px; border-radius:4px; margin-right:4px; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+  @media(max-width:640px){ .rel-grid,.disp-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html" class="active">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="work-instructions.html">Work Instructions</a><span>›</span><span>EP-WI-USB-01</span></div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#5C2E06 0%,#8B4A0E 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>EP-WI-USB-01: Handle USB Mass Storage with Suspected Malicious Files</h1>
+    <p>Consistent, safe, and forensically sound procedure for handling USB devices suspected of containing malicious content — preventing execution, preserving evidence, and supporting investigations.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">💻 Endpoint threats</span>
+      <span class="kb-meta-pill">Tier 1 / 2</span>
+      <span class="kb-meta-pill">Requires approval</span>
+      <span class="kb-meta-pill">Forensic handling</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> EP-WI-USB-01</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 9 January 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-action">✅ Requires approval</span></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 1</div>
+    <div class="wi-section-title">Purpose</div>
+    <p>Provide a consistent, safe, and forensically sound procedure for handling USB mass storage devices suspected of containing malicious content — preventing execution, preserving evidence, and supporting investigations involving malware delivery or insider threats.</p>
+    <div class="callout-info">
+      <p>📌 <strong>Scope boundary:</strong> This WI does not authorise USB usage. It defines how to safely handle and analyse USB media once discovered. Any analysis requires Tier-2 approval.</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 2</div>
+    <div class="wi-section-title">When to Use</div>
+    <div class="tag-grid">
+      <span class="tag">User reports suspicious USB device</span>
+      <span class="tag">Malware detected after USB insertion</span>
+      <span class="tag">USB found unattended or unexpectedly connected</span>
+      <span class="tag">EP-PB-01 Suspected Compromise</span>
+      <span class="tag">EP-PB-02 Malware Execution</span>
+      <span class="tag">Insider threat or forensic investigation</span>
+      <span class="tag">MDR / EDR removable media alert</span>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 3</div>
+    <div class="wi-section-title">Who Performs This</div>
+    <table class="wi-roles">
+      <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
+      <tbody>
+        <tr><td>Tier-1 Analyst</td><td>Initial safe handling and containment</td></tr>
+        <tr><td>Tier-2 Analyst</td><td>Approval, deeper analysis, forensic decisions</td></tr>
+        <tr><td>IT / Desktop Support</td><td>Physical handling if required</td></tr>
+        <tr><td>MDR Partner</td><td>Malware analysis support</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 4</div>
+    <div class="wi-section-title">Inputs Required</div>
+    <div class="tag-grid">
+      <span class="tag">🖥️ Endpoint hostname / device ID</span>
+      <span class="tag">👤 User involved (if applicable)</span>
+      <span class="tag">🎫 Incident reference ID</span>
+      <span class="tag">📦 Physical access confirmed</span>
+      <span class="tag">✅ Approval to proceed</span>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 5</div>
+    <div class="wi-section-title">Pre-Checks &amp; Safety Notes</div>
+    <div class="precheck-box">
+      <div class="precheck-box-title">🚫 Critical safety rules — no exceptions</div>
+      <div class="precheck-list">
+        <div class="precheck-item">Never open files directly from the USB on any production endpoint</div>
+        <div class="precheck-item">Never allow autorun or auto-mount execution</div>
+        <div class="precheck-item">Do not reuse the USB on multiple systems</div>
+        <div class="precheck-item">Assume the USB is hostile until proven otherwise</div>
+      </div>
+    </div>
+    <div class="callout-warn" style="margin-top:8px;">
+      <p>⚠️ If the USB is currently connected to a production endpoint and malware is suspected — pause and escalate to Tier-2 immediately before removing the device.</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 6</div>
+    <div class="wi-section-title">Step-by-Step Actions</div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">1</div><div class="wi-phase-title">Secure the Endpoint</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">If USB is currently connected — do not interact with files. Disconnect endpoint from network if instructed. Follow EP-WI-02 if malware execution is suspected or EDR alerts are present. Document exact state before USB removal.</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">2</div><div class="wi-phase-title">Safely Remove &amp; Label the USB Device</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Safely eject the USB without browsing contents. Physically label the device with: Incident ID, date/time, and finder/user.</div></div></div>
+        <div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">Store in secure SOC or IT storage. Do not reconnect to any standard endpoint.</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">3</div><div class="wi-phase-title">Preserve Evidence</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Record and preserve:</div>
+            <ul class="wi-observe">
+              <li>USB make, model, and capacity</li>
+              <li>Serial number (if visible)</li>
+              <li>Where and how it was discovered</li>
+              <li>Endpoint and user context</li>
+            </ul>
+            <div class="wi-step-note">Take photos if physical condition is relevant to the investigation.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">4</div><div class="wi-phase-title">Decide Analysis Path (Tier-2 Approval Required)</div></div>
+      <table class="analysis-table">
+        <thead><tr><th>Analysis path</th><th>When to use</th></tr></thead>
+        <tbody>
+          <tr><td>No analysis — retain as evidence only</td><td>Legal / HR involvement or low-priority incident</td></tr>
+          <tr><td>Controlled malware analysis</td><td>Malware suspected — isolated analysis system only</td></tr>
+          <tr><td>External forensic analysis</td><td>High-severity or insider threat investigation</td></tr>
+        </tbody>
+      </table>
+      <div class="callout-warn" style="margin-top:10px;">
+        <p>⚠️ Tier-1 must not proceed to analysis without Tier-2 approval. Do not select the analysis path yourself.</p>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">5</div><div class="wi-phase-title">Controlled Analysis (If Approved)</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Use a dedicated, isolated analysis system with no network access and no production credentials. Disable autorun and script execution. Mount USB in read-only mode where possible.</div>
+          </div>
+        </div>
+        <div class="wi-step">
+          <div class="wi-step-num">2</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Identify file names and extensions, creation/modification timestamps, and hidden or executable files.</div>
+            <div class="wi-step-note">Do not double-click or execute any files — ever.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">6</div><div class="wi-phase-title">Malware Identification (If In Scope)</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Extract file hashes only — no execution. Submit hashes to approved malware analysis processes. Correlate with endpoint detections, network indicators, and threat intelligence.</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">7</div><div class="wi-phase-title">Correlate with Endpoint Activity</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Check whether the USB was previously mounted, files were copied to the endpoint, or processes executed from removable media paths.</div><div class="wi-step-note">If endpoint execution occurred — escalate to EP-PB-01 / EP-PB-02 immediately.</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">8</div><div class="wi-phase-title">Containment &amp; Cleanup (If Required)</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">If malicious files were copied or executed — follow EP-WI-03 (Remove Malware Artefacts) and EP-WI-04 (Validate Persistence Removal). Do not return the USB to service.</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">9</div><div class="wi-phase-title">Disposal or Retention</div></div>
+      <div class="disp-grid">
+        <div class="disp-card retain"><h4>🔒 Retain as evidence</h4><p>Ongoing investigation — keep in secure storage with chain of custody</p></div>
+        <div class="disp-card destroy"><h4>🔥 Destroy securely</h4><p>Per policy — document destruction method and date</p></div>
+        <div class="disp-card legal"><h4>⚖️ Hand to Legal / HR</h4><p>Insider threat or disciplinary matter — transfer with chain of custody record</p></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">10</div><div class="wi-phase-title">Document Actions</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Update incident record with: discovery details, handling steps, analysis outcome (if any), endpoint impact assessment, and final disposition. Attach photos, logs, and analysis notes.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 7</div>
+    <div class="wi-section-title">Expected Outcome</div>
+    <div class="outcome-box">
+      <p>✅ USB-borne threat risk contained<br>
+      ✅ No malicious files executed unintentionally<br>
+      ✅ Evidence preserved with chain of custody maintained<br>
+      ✅ Endpoint impact fully assessed and documented</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 8</div>
+    <div class="wi-section-title">Common Mistakes to Avoid</div>
+    <div class="mistakes-list">
+      <div class="mistake-item">Opening files to "see what they are" — this executes malware and destroys forensic integrity</div>
+      <div class="mistake-item">Using personal or production machines for analysis — always use a dedicated isolated system</div>
+      <div class="mistake-item">Letting the user keep or reuse a suspicious USB device</div>
+      <div class="mistake-item">Skipping endpoint correlation — files may have already been executed before the USB was reported</div>
+      <div class="mistake-item">Losing physical chain of custody — label and document every transfer of the device</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 9</div>
+    <div class="wi-section-title">Escalation Conditions</div>
+    <div class="esc-list">
+      <div class="esc-item">Executables are present on the USB</div>
+      <div class="esc-item">Malware execution is suspected or confirmed on the connected endpoint</div>
+      <div class="esc-item">USB was connected to multiple endpoints</div>
+      <div class="esc-item">USB targets privileged or sensitive systems</div>
+      <div class="esc-item">Legal, HR, or insider threat implications are present</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 10</div>
+    <div class="wi-section-title">Related Playbooks &amp; Runbooks</div>
+    <div class="rel-grid">
+      <div class="rel-box">
+        <h4>Playbooks</h4>
+        <a class="rel-link" href="ep-pb-01.html"><span class="rel-code">EP-PB-01</span>Suspected Compromise</a>
+        <a class="rel-link" href="ep-pb-02.html"><span class="rel-code">EP-PB-02</span>Malware Execution</a>
+        <a class="rel-link" href="ep-pb-04.html"><span class="rel-code">EP-PB-04</span>Persistence Mechanisms</a>
+      </div>
+      <div class="rel-box">
+        <h4>Runbooks &amp; WIs</h4>
+        <a class="rel-link" href="ep-rb-01.html"><span class="rel-code">EP-RB-01</span>Endpoint Investigation</a>
+        <a class="rel-link" href="ep-wi-02.html"><span class="rel-code">EP-WI-02</span>Isolate Endpoint</a>
+        <a class="rel-link" href="ep-wi-03.html"><span class="rel-code">EP-WI-03</span>Remove Malware Artefacts</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-nav">
+    <a href="ep-wi-04.html">← EP-WI-04: Validate Persistence Removal</a>
+    <a href="work-instructions.html">← Back to Work Instructions</a>
+    <a href="it-ep-wi-win-01.html">IT-EP-WI-Win-01: Local Admin Hardening →</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>EP-WI-USB-01 · Published 9 January 2026 · Paulo Ferreira</span>
+    <span><a href="work-instructions.html" style="color:var(--wi);text-decoration:none;">← Back to Work Instructions</a></span>
+  </div>
+</div>
+</body>
+</html>

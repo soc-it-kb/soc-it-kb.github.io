@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ID-WI-01: Review Sign-in Activity — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --wi:#185FA5; --wi-light:#E6F1FB; --wi-border:#B5D4F4; --wi-dark:#0F3460; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .wi-badge-readonly { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:var(--wi-light); color:var(--wi); border:0.5px solid var(--wi-border); }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .wi-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .wi-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:4px; }
+  .wi-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tag { font-size:12px; background:var(--wi-light); color:var(--wi); border:0.5px solid var(--wi-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .wi-roles { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .wi-roles th { background:var(--wi-light); color:var(--wi); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--wi-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .wi-roles td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; }
+  .wi-roles tr:nth-child(even) td { background:#fafafa; }
+  .wi-roles td:first-child { font-weight:600; color:#2D3748; white-space:nowrap; }
+  .wi-phase { margin-bottom:1.5rem; }
+  .wi-phase:last-child { margin-bottom:0; }
+  .wi-phase-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:0.5px solid #e0e0dc; }
+  .wi-phase-num { width:26px; height:26px; border-radius:50%; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .wi-phase-title { font-size:14px; font-weight:600; color:#2D3748; }
+  .wi-steps { display:flex; flex-direction:column; gap:6px; }
+  .wi-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .wi-step-num { width:22px; height:22px; border-radius:50%; background:var(--wi-light); color:var(--wi); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .wi-step-body { flex:1; }
+  .wi-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; }
+  .wi-step-note { font-size:12px; color:#888; margin-top:4px; line-height:1.4; font-style:italic; }
+  .wi-observe { list-style:none; margin-top:6px; display:flex; flex-direction:column; gap:4px; }
+  .wi-observe li { font-size:13px; color:#555; display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+  .wi-observe li::before { content:'→'; color:var(--wi); font-weight:600; flex-shrink:0; }
+  /* Anomaly reference cards */
+  .anomaly-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-top:8px; }
+  .anomaly-card { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:8px; padding:0.75rem 1rem; }
+  .anomaly-card h4 { font-size:12px; font-weight:600; color:#993C1D; margin-bottom:3px; }
+  .anomaly-card p  { font-size:12px; color:#7a2e10; margin:0; line-height:1.4; }
+  /* Confidence cards */
+  .conf-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:8px; }
+  .conf-card { border-radius:8px; padding:0.8rem 1rem; text-align:center; }
+  .conf-card.benign     { background:#E1F5EE; border:0.5px solid #82D4B0; }
+  .conf-card.suspicious { background:#FAEEDA; border:0.5px solid #FAC775; }
+  .conf-card.likely     { background:#FAECE7; border:0.5px solid #F5C0B0; }
+  .conf-card h4 { font-size:12px; font-weight:700; margin-bottom:3px; }
+  .conf-card.benign h4     { color:#0F6E56; }
+  .conf-card.suspicious h4 { color:#854F0B; }
+  .conf-card.likely h4     { color:#993C1D; }
+  .conf-card p { font-size:12px; margin:0; line-height:1.4; }
+  .conf-card.benign p     { color:#1a6b47; }
+  .conf-card.suspicious p { color:#6b3f0a; }
+  .conf-card.likely p     { color:#7a2e10; }
+  .precheck-box { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:10px; padding:1rem 1.25rem; margin-top:4px; }
+  .precheck-box-title { font-size:12px; font-weight:600; color:#993C1D; margin-bottom:8px; }
+  .precheck-list { display:flex; flex-direction:column; gap:5px; }
+  .precheck-item { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:#7a2e10; line-height:1.5; }
+  .precheck-item::before { content:'🚫'; font-size:13px; flex-shrink:0; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-info p { font-size:13px; color:var(--wi-dark); margin:0; line-height:1.5; }
+  .outcome-box { background:var(--wi-light); border:0.5px solid var(--wi-border); border-radius:10px; padding:1rem 1.25rem; }
+  .outcome-box p { font-size:13px; color:var(--wi); line-height:1.6; margin-bottom:0; }
+  .esc-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .esc-item { display:flex; align-items:flex-start; gap:10px; background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#7a2e10; }
+  .esc-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+  .mistakes-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .mistake-item { display:flex; align-items:flex-start; gap:10px; background:#FAEEDA; border:0.5px solid #FAC775; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#6b3f0a; }
+  .mistake-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .rel-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .rel-box h4 { font-size:12px; font-weight:600; color:var(--wi); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; }
+  .rel-link { display:flex; align-items:center; gap:8px; text-decoration:none; color:#444; font-size:13px; padding:4px 0; }
+  .rel-link:hover { color:var(--wi); }
+  .rel-link::before { content:'›'; color:var(--wi); font-weight:700; }
+  .rel-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--wi-light); color:var(--wi); border:0.5px solid var(--wi-border); padding:1px 6px; border-radius:4px; margin-right:4px; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+  @media(max-width:640px){ .rel-grid,.conf-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html" class="active">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="work-instructions.html">Work Instructions</a><span>›</span><span>ID-WI-01</span></div>
+
+  <!-- Anomaly reference — shown before hero for quick access -->
+  <div style="background:#2D3748;border-radius:12px;padding:1.1rem 1.5rem;margin-bottom:1.25rem;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;">⚡ Key anomaly signals — flag any of these immediately</div>
+    <div class="anomaly-grid">
+      <div class="anomaly-card"><h4>Impossible travel</h4><p>Two distant sign-ins within an unrealistic timeframe</p></div>
+      <div class="anomaly-card"><h4>No MFA challenge</h4><p>Successful sign-in where MFA is required but not recorded</p></div>
+      <div class="anomaly-card"><h4>Legacy auth</h4><p>IMAP / POP / SMTP / Basic Auth — bypasses MFA entirely</p></div>
+      <div class="anomaly-card"><h4>High-risk IP</h4><p>TOR, VPN, hosting provider, or known malicious ASN</p></div>
+      <div class="anomaly-card"><h4>MFA fatigue</h4><p>Multiple MFA prompts — especially if one was approved</p></div>
+      <div class="anomaly-card"><h4>Unknown device</h4><p>New, unregistered, or non-compliant device</p></div>
+    </div>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#0F3460 0%,#185FA5 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>ID-WI-01: Review Sign-In Activity</h1>
+    <p>Tool-agnostic procedure for reviewing user sign-in logs to identify account compromise, anomalous authentication, MFA abuse, and suspicious access patterns — investigation only, no containment actions.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">🔐 Identity threats</span>
+      <span class="kb-meta-pill">Tier 1 / 2</span>
+      <span class="kb-meta-pill">Investigation only</span>
+      <span class="kb-meta-pill">No containment actions</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> ID-WI-01</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 7 January 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-readonly">🔍 Investigation only</span></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 1</div>
+    <div class="wi-section-title">Purpose</div>
+    <p>Provide a consistent, tool-agnostic procedure for reviewing user sign-in activity to identify account compromise, anomalous authentication behaviour, MFA abuse or bypass, and suspicious locations, devices, or access patterns.</p>
+    <div class="callout-info">
+      <p>📌 <strong>Scope boundary:</strong> This WI supports initial triage and evidence collection only. No credential resets, session revocations, or containment actions are performed here.</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 2</div>
+    <div class="wi-section-title">When to Use</div>
+    <div class="tag-grid">
+      <span class="tag">ID-PB-01 Account Compromise</span>
+      <span class="tag">ID-PB-03 MFA Fatigue</span>
+      <span class="tag">ID-PB-06 Impossible Travel</span>
+      <span class="tag">ID-PB-07 Password Spray</span>
+      <span class="tag">ID-PB-05 Privileged Account</span>
+      <span class="tag">EP-PB-01/02 credential exposure suspected</span>
+      <span class="tag">NW-PB-02/03 identity correlation required</span>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 3</div>
+    <div class="wi-section-title">Who Performs This</div>
+    <table class="wi-roles">
+      <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
+      <tbody>
+        <tr><td>Tier-1 Analyst</td><td>Initial review and evidence collection</td></tr>
+        <tr><td>Tier-2 Analyst</td><td>Validation, escalation, and containment decision</td></tr>
+        <tr><td>MDR Partner</td><td>May provide parallel analysis</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 4</div>
+    <div class="wi-section-title">Inputs Required</div>
+    <div class="tag-grid">
+      <span class="tag">👤 Username / User ID</span>
+      <span class="tag">🎫 Incident reference ID</span>
+      <span class="tag">🕐 Time window (default: last 7 days)</span>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 5</div>
+    <div class="wi-section-title">Pre-Checks &amp; Safety Notes</div>
+    <div class="precheck-box">
+      <div class="precheck-box-title">🚫 Mandatory constraints — this WI is read-only</div>
+      <div class="precheck-list">
+        <div class="precheck-item">Do NOT reset credentials during this WI</div>
+        <div class="precheck-item">Do NOT revoke sessions unless explicitly instructed by a runbook</div>
+        <div class="precheck-item">Do NOT notify the user during review</div>
+        <div class="precheck-item">Assume activity may still be ongoing — treat as live</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 6</div>
+    <div class="wi-section-title">Step-by-Step Actions</div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">1</div><div class="wi-phase-title">Identify Relevant Sign-In Records</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Locate authentication logs for the target user and filter by user identifier and the relevant timeframe</div></div></div>
+        <div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">Ensure you include both successful and failed sign-ins, and MFA challenges if logged</div><div class="wi-step-note">Focus primarily on successful sign-ins — failed attempts show the attacker was trying; successful ones show they got in.</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">2</div><div class="wi-phase-title">Review Authentication Outcomes</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">For each sign-in event record: timestamp, result, authentication method, and failure reason if applicable. Flag:</div>
+            <ul class="wi-observe">
+              <li>Multiple failures followed by success</li>
+              <li>Successful sign-in after repeated MFA denials</li>
+              <li>Successful sign-in without MFA where MFA is expected</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">3</div><div class="wi-phase-title">Review Source Location &amp; Network Indicators</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">For each event, record source IP, geographic location, and ASN or network provider. Flag:</div>
+            <ul class="wi-observe">
+              <li>Location unusual for the user</li>
+              <li>Multiple distant locations within a short timeframe (impossible travel)</li>
+              <li>Source is anonymised — TOR, VPN, hosting provider, or proxy</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">4</div><div class="wi-phase-title">Review Device &amp; Client Context</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Record device ID/name, compliance/trust state, and client application. Flag:</div>
+            <ul class="wi-observe">
+              <li>New or unknown device</li>
+              <li>Legacy or weak authentication protocols (IMAP, POP, Basic Auth)</li>
+              <li>Client application that doesn't match the user's normal behaviour</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">5</div><div class="wi-phase-title">Review MFA Behaviour</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">If MFA is enabled, record number of prompts, approval vs denial, and MFA method. Flag:</div>
+            <ul class="wi-observe">
+              <li>High volume of MFA prompts in short period</li>
+              <li>MFA approved from a suspicious or unexpected location</li>
+              <li>MFA absent where expected — possible token theft (see ID-WI — Token Theft)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">6</div><div class="wi-phase-title">Correlate with Other Signals</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Check for correlation with phishing reports (EM-PB-xx), OAuth consent events (ID-PB-04), endpoint alerts (EP-PB-xx), and network anomalies (NW-PB-xx). Record any correlation references.</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">7</div><div class="wi-phase-title">Summarise Findings &amp; Assign Confidence</div></div>
+      <div class="conf-grid">
+        <div class="conf-card benign"><h4>✅ Benign</h4><p>All activity consistent with user pattern — no anomalies</p></div>
+        <div class="conf-card suspicious"><h4>⚠️ Suspicious</h4><p>Anomalies present — escalate to Tier-2</p></div>
+        <div class="conf-card likely"><h4>🔴 Likely Compromised</h4><p>Multiple indicators — invoke relevant playbook</p></div>
+      </div>
+      <div class="callout-info" style="margin-top:10px;">
+        <p>📌 Document the specific indicators, timestamps, and source values that support the classification — do not assign confidence without technical rationale.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 7</div>
+    <div class="wi-section-title">Expected Outcome</div>
+    <div class="outcome-box">
+      <p>✅ Clear picture of the user's recent authentication activity<br>
+      ✅ Evidence to support escalation or closure with confidence classification<br>
+      ✅ No containment actions performed — investigation only</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 8</div>
+    <div class="wi-section-title">Common Mistakes to Avoid</div>
+    <div class="mistakes-list">
+      <div class="mistake-item">Focusing only on failed sign-ins — successful sign-ins are where the compromise shows</div>
+      <div class="mistake-item">Assuming VPN usage is benign without confirmation from the user or IT</div>
+      <div class="mistake-item">Overlooking legacy authentication protocol usage — IMAP/POP/Basic Auth bypass MFA entirely</div>
+      <div class="mistake-item">Not correlating sign-in anomalies with phishing or endpoint events</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 9</div>
+    <div class="wi-section-title">Escalation Conditions</div>
+    <div class="esc-list">
+      <div class="esc-item">Successful sign-in from a suspicious or impossible location</div>
+      <div class="esc-item">MFA abuse indicators present — fatigue, bypass, or missing challenge</div>
+      <div class="esc-item">Impossible travel pattern detected</div>
+      <div class="esc-item">Sign-in activity correlates with phishing or endpoint compromise</div>
+      <div class="esc-item">Privileged or admin account involved</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 10</div>
+    <div class="wi-section-title">Related Playbooks &amp; Runbooks</div>
+    <div class="rel-grid">
+      <div class="rel-box">
+        <h4>Playbooks</h4>
+        <a class="rel-link" href="id-pb-01.html"><span class="rel-code">ID-PB-01</span>Account Compromise</a>
+        <a class="rel-link" href="id-pb-03.html"><span class="rel-code">ID-PB-03</span>MFA Fatigue</a>
+        <a class="rel-link" href="id-pb-07.html"><span class="rel-code">ID-PB-07</span>Password Spray</a>
+      </div>
+      <div class="rel-box">
+        <h4>Runbooks</h4>
+        <a class="rel-link" href="id-rb-03.html"><span class="rel-code">ID-RB-03</span>Review Sign-In Logs</a>
+        <a class="rel-link" href="id-rb-01.html"><span class="rel-code">ID-RB-01</span>Account Reset</a>
+        <a class="rel-link" href="id-wi-02.html"><span class="rel-code">ID-WI-02</span>Reset Compromised Account</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-nav">
+    <a href="em-wi-05.html">← EM-WI-05: Block Sender / Domain</a>
+    <a href="work-instructions.html">← Back to Work Instructions</a>
+    <a href="id-wi-02.html">ID-WI-02: Reset Compromised Account →</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>ID-WI-01 · Published 7 January 2026 · Paulo Ferreira</span>
+    <span><a href="work-instructions.html" style="color:var(--wi);text-decoration:none;">← Back to Work Instructions</a></span>
+  </div>
+</div>
+</body>
+</html>

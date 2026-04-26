@@ -5,9 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Work Instructions — Cyber Security Knowledge Base</title>
 <link rel="stylesheet" href="shared.css">
+<style>
+  .kb-entry-list { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; overflow:hidden; }
+  .kb-entry { display:flex; align-items:center; padding:0.85rem 1.1rem; border-bottom:0.5px solid #f0f0ec; text-decoration:none; color:inherit; transition:background 0.1s; gap:12px; }
+  .kb-entry:last-child { border-bottom:none; }
+  .kb-entry:hover { background:#f9f9f7; }
+  .wi-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; padding:2px 8px; border-radius:6px; white-space:nowrap; flex-shrink:0; }
+  .wi-code.email    { background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .wi-code.identity { background:#E6F1FB; color:#185FA5; border:0.5px solid #B5D4F4; }
+  .wi-code.network  { background:#EDF6ED; color:#2D5A2D; border:0.5px solid #A8D5A8; }
+  .wi-code.endpoint { background:#FEF0E6; color:#8B4A0E; border:0.5px solid #F5C89A; }
+  .kb-entry-name { font-size:14px; color:#1a1a1a; flex:1; line-height:1.4; }
+  .kb-entry-meta { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+  .kb-entry-date   { font-size:12px; color:#aaa; white-space:nowrap; }
+  .kb-entry-author { font-size:12px; color:#888; white-space:nowrap; }
+  .kb-entry-arrow  { color:#ccc; font-size:14px; }
+  .wi-badge { font-size:11px; font-weight:600; padding:2px 7px; border-radius:8px; white-space:nowrap; }
+  .wi-badge.readonly { background:#E6F1FB; color:#185FA5; }
+  .wi-badge.action   { background:#FAECE7; color:#993C1D; }
+  .wi-badge.it       { background:#FEF0E6; color:#8B4A0E; }
+  .wi-badge.validation { background:#E1F5EE; color:#0F6E56; }
+  .wi-what-box { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1.75rem; }
+  .wi-what-box p { font-size:14px; color:#555; line-height:1.7; margin-bottom:0; }
+  .stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:10px; margin-bottom:1.75rem; }
+  .stat-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .stat-num   { font-size:26px; font-weight:700; line-height:1; margin-bottom:4px; }
+  .stat-label { font-size:11px; color:#888; }
+  .legend-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:1.75rem; }
+  .legend-item { display:flex; align-items:center; gap:6px; font-size:12px; color:#555; background:#fff; border:0.5px solid #e0e0dc; border-radius:8px; padding:5px 10px; }
+  .legend-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .kb-section { margin-bottom:1.5rem; }
+  @media(max-width:600px){ .kb-entry-author{display:none;} .kb-entry-meta{gap:5px;} }
+</style>
 </head>
 <body>
-
 <nav class="kb-topnav">
   <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
   <a href="index.html">Home</a>
@@ -18,84 +49,111 @@
   <a href="tools-references.html">Tools &amp; References</a>
   <a href="governance.html">Governance</a>
 </nav>
-
 <div class="page-wrapper">
 
-  <div class="kb-page-hero">
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#2D3748 0%,#4A5568 100%);">
     <span class="kb-page-hero-icon">🔧</span>
     <h1>Work Instructions</h1>
-    <p>Precise, step-by-step, tool-specific instructions used during SOC operations and incident response. Work instructions support containment, investigation, eradication, and recovery actions and are designed to be SOAR-ready.</p>
+    <p>Detailed, tool-agnostic step-by-step procedures for specific SOC and IT actions. Work Instructions define precisely how to perform a technical action — not when or whether to perform it.</p>
     <div class="kb-page-hero-meta">
-      <span class="kb-meta-pill">Tool-specific steps</span>
-      <span class="kb-meta-pill">All tiers</span>
-      <span class="kb-meta-pill">SOAR-ready</span>
+      <span class="kb-meta-pill">Tool-agnostic</span>
+      <span class="kb-meta-pill">SOC &amp; IT</span>
+      <span class="kb-meta-pill">Investigation, containment &amp; hardening</span>
     </div>
   </div>
 
-  <div class="kb-notice">
-    <strong>How to use work instructions:</strong> Work instructions are referenced from within Runbooks and Playbooks when a specific tool action is required. They provide the exact click-by-click steps — follow them in sequence and record outcomes as directed.
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" style="color:#1a1a1a;">26</div><div class="stat-label">Total WIs</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#0F6E56;">3</div><div class="stat-label">Email</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#185FA5;">4</div><div class="stat-label">Identity</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#2D5A2D;">3</div><div class="stat-label">Network</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#8B4A0E;">16</div><div class="stat-label">Endpoint</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#993C1D;">5</div><div class="stat-label">Investigation only</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#854F0B;">9</div><div class="stat-label">Require approval</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#444;">12</div><div class="stat-label">IT hardening</div></div>
   </div>
 
+  <div class="wi-what-box">
+    <p>Work Instructions are invoked by <a href="playbooks.html" style="color:#297086;">Playbooks</a> and <a href="runbooks.html" style="color:#0F6E56;">Runbooks</a>. SOC WIs are either <strong>investigation only</strong> (read-only) or <strong>require approval</strong> (containment action). IT hardening WIs are standalone configuration procedures for IT operations.</p>
+  </div>
+
+  <div class="legend-row">
+    <div class="legend-item"><div class="legend-dot" style="background:#185FA5;"></div>Investigation / validation only</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#993C1D;"></div>Requires Tier-2 approval</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#8B4A0E;"></div>IT procedure — hardening &amp; configuration</div>
+  </div>
+
+  <!-- EMAIL -->
   <div class="kb-section">
-    <div class="kb-section-title">Email related work instructions</div>
-    <div class="kb-category">
-      <div class="kb-category-header">
-        <div class="kb-category-title">
-          📧 Email tools
-          <span class="kb-category-badge">3 work instructions</span>
-        </div>
-        <a class="kb-see-all" href="#">See all</a>
-      </div>
-      <div class="kb-entry-list">
-        <a class="kb-entry" href="#">
-          <span class="kb-entry-code">EM-WI-01</span>
-          <span class="kb-entry-name">Analyse Email Headers</span>
-          <span class="kb-entry-meta"><span class="kb-entry-date">8 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
-        </a>
-        <a class="kb-entry" href="#">
-          <span class="kb-entry-code">EM-WI-04</span>
-          <span class="kb-entry-name">Remove Malicious Emails from Mailboxes</span>
-          <span class="kb-entry-meta"><span class="kb-entry-date">7 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
-        </a>
-        <a class="kb-entry" href="#">
-          <span class="kb-entry-code">EM-WI-05</span>
-          <span class="kb-entry-name">Block Sender / Domain</span>
-          <span class="kb-entry-meta"><span class="kb-entry-date">7 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
-        </a>
-      </div>
+    <div class="kb-section-title">📧 Email threat work instructions</div>
+    <div class="kb-entry-list">
+      <a class="kb-entry" href="em-wi-01.html"><span class="wi-code email">EM-WI-01</span><span class="kb-entry-name">Analyse Email Headers</span><span class="kb-entry-meta"><span class="wi-badge readonly">Investigation only</span><span class="kb-entry-date">8 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="em-wi-04.html"><span class="wi-code email">EM-WI-04</span><span class="kb-entry-name">Remove Malicious Emails from Mailboxes</span><span class="kb-entry-meta"><span class="wi-badge action">Requires approval</span><span class="kb-entry-date">7 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="em-wi-05.html"><span class="wi-code email">EM-WI-05</span><span class="kb-entry-name">Block Sender / Domain</span><span class="kb-entry-meta"><span class="wi-badge action">Requires approval</span><span class="kb-entry-date">7 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
     </div>
   </div>
 
+  <!-- IDENTITY -->
   <div class="kb-section">
-    <div class="kb-section-title">About work instructions</div>
-    <div class="kb-info-box">
-      <p>Work instructions are the most granular level of operational documentation in this knowledge base. They are designed to be:</p>
-      <ul class="kb-bullet-list">
-        <li><strong>Tool-agnostic where possible</strong> — steps describe the action and expected outcome, not just menu paths that change with software updates</li>
-        <li><strong>SOAR-ready</strong> — structured to be translated directly into automated playbook actions</li>
-        <li><strong>Linked to runbooks and playbooks</strong> — each WI is called from a specific step in a parent Runbook or Playbook</li>
-        <li><strong>Evidence-focused</strong> — each step notes what should be recorded for the incident record</li>
-      </ul>
+    <div class="kb-section-title">🔐 Identity threat work instructions</div>
+    <div class="kb-entry-list">
+      <a class="kb-entry" href="id-wi-01.html"><span class="wi-code identity">ID-WI-01</span><span class="kb-entry-name">Review Sign-In Activity</span><span class="kb-entry-meta"><span class="wi-badge readonly">Investigation only</span><span class="kb-entry-date">7 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="id-wi-02.html"><span class="wi-code identity">ID-WI-02</span><span class="kb-entry-name">Reset Compromised Account</span><span class="kb-entry-meta"><span class="wi-badge action">Requires approval</span><span class="kb-entry-date">8 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="id-wi-04.html"><span class="wi-code identity">ID-WI-04</span><span class="kb-entry-name">Review OAuth Applications</span><span class="kb-entry-meta"><span class="wi-badge readonly">Investigation only</span><span class="kb-entry-date">7 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="id-wi-05.html"><span class="wi-code identity">ID-WI-05</span><span class="kb-entry-name">Revoke OAuth Consent</span><span class="kb-entry-meta"><span class="wi-badge action">Requires approval</span><span class="kb-entry-date">8 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
     </div>
   </div>
 
+  <!-- NETWORK -->
   <div class="kb-section">
-    <div class="kb-section-title">Related content</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
-      <a href="runbooks.html" style="background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:1rem 1.25rem;text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;">
-        <span style="font-size:20px;">📋</span>
-        <div><div style="font-size:13px;font-weight:600;color:#1a1a1a;">Runbooks</div><div style="font-size:12px;color:#888;">Alert triage procedures</div></div>
-      </a>
-      <a href="playbooks.html" style="background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:1rem 1.25rem;text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px;">
-        <span style="font-size:20px;">🔄</span>
-        <div><div style="font-size:13px;font-weight:600;color:#1a1a1a;">Playbooks</div><div style="font-size:12px;color:#888;">Incident response workflows</div></div>
-      </a>
+    <div class="kb-section-title">🌐 Network threat work instructions</div>
+    <div class="kb-entry-list">
+      <a class="kb-entry" href="nw-wi-01.html"><span class="wi-code network">NW-WI-01</span><span class="kb-entry-name">Analyse Network Traffic</span><span class="kb-entry-meta"><span class="wi-badge readonly">Investigation only</span><span class="kb-entry-date">8 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="nw-wi-02.html"><span class="wi-code network">NW-WI-02</span><span class="kb-entry-name">Block IP / Domain Indicators</span><span class="kb-entry-meta"><span class="wi-badge action">Requires approval</span><span class="kb-entry-date">7 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="nw-wi-03.html"><span class="wi-code network">NW-WI-03</span><span class="kb-entry-name">Block East-West Traffic</span><span class="kb-entry-meta"><span class="wi-badge action">Requires approval</span><span class="kb-entry-date">8 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+    </div>
+  </div>
+
+  <!-- ENDPOINT SOC -->
+  <div class="kb-section">
+    <div class="kb-section-title">💻 Endpoint threat work instructions — SOC</div>
+    <div class="kb-entry-list">
+      <a class="kb-entry" href="ep-wi-02.html"><span class="wi-code endpoint">EP-WI-02</span><span class="kb-entry-name">Isolate Endpoint Safely</span><span class="kb-entry-meta"><span class="wi-badge action">Requires approval</span><span class="kb-entry-date">7 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="ep-wi-03.html"><span class="wi-code endpoint">EP-WI-03</span><span class="kb-entry-name">Remove Malware Artefacts</span><span class="kb-entry-meta"><span class="wi-badge action">Requires approval</span><span class="kb-entry-date">8 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="ep-wi-04.html"><span class="wi-code endpoint">EP-WI-04</span><span class="kb-entry-name">Validate Persistence Removal &amp; Recovery Readiness</span><span class="kb-entry-meta"><span class="wi-badge validation">Validation only</span><span class="kb-entry-date">8 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="ep-wi-usb-01.html"><span class="wi-code endpoint">EP-WI-USB-01</span><span class="kb-entry-name">Handle USB Mass Storage with Suspected Malicious Files</span><span class="kb-entry-meta"><span class="wi-badge action">Requires approval</span><span class="kb-entry-date">9 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+    </div>
+  </div>
+
+  <!-- ENDPOINT WIN HARDENING -->
+  <div class="kb-section">
+    <div class="kb-section-title">💻 Endpoint hardening — Windows baseline</div>
+    <div class="kb-entry-list">
+      <a class="kb-entry" href="it-ep-wi-win-01.html"><span class="wi-code endpoint">IT-EP-WI-Win-01</span><span class="kb-entry-name">Local Administrator &amp; Privilege Hardening</span><span class="kb-entry-meta"><span class="wi-badge it">IT procedure</span><span class="kb-entry-date">12 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="it-ep-wi-win-02.html"><span class="wi-code endpoint">IT-EP-WI-Win-02</span><span class="kb-entry-name">Disk Encryption &amp; Secure Boot Configuration</span><span class="kb-entry-meta"><span class="wi-badge it">IT procedure</span><span class="kb-entry-date">12 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="it-ep-wi-win-03.html"><span class="wi-code endpoint">IT-EP-WI-Win-03</span><span class="kb-entry-name">Endpoint Protection &amp; ASR Baseline</span><span class="kb-entry-meta"><span class="wi-badge it">IT procedure</span><span class="kb-entry-date">12 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="it-ep-wi-win-04.html"><span class="wi-code endpoint">IT-EP-WI-Win-04</span><span class="kb-entry-name">Logging, Telemetry &amp; Monitoring Readiness</span><span class="kb-entry-meta"><span class="wi-badge it">IT procedure</span><span class="kb-entry-date">12 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="it-ep-wi-win-05.html"><span class="wi-code endpoint">IT-EP-WI-Win-05</span><span class="kb-entry-name">User Security Configuration</span><span class="kb-entry-meta"><span class="wi-badge it">IT procedure</span><span class="kb-entry-date">12 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+    </div>
+  </div>
+
+  <!-- PAW -->
+  <div class="kb-section">
+    <div class="kb-section-title">💻 Endpoint hardening — Privileged Access Workstation (PAW)</div>
+    <div class="kb-entry-list">
+      <a class="kb-entry" href="it-ep-wi-paw-01.html"><span class="wi-code endpoint">IT-EP-WI-PAW-01</span><span class="kb-entry-name">PAW Build &amp; Device Designation</span><span class="kb-entry-meta"><span class="wi-badge it">IT procedure</span><span class="kb-entry-date">15 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="it-ep-wi-paw-02.html"><span class="wi-code endpoint">IT-EP-WI-PAW-02</span><span class="kb-entry-name">Account Separation &amp; Logon Restrictions</span><span class="kb-entry-meta"><span class="wi-badge it">IT procedure</span><span class="kb-entry-date">15 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="it-ep-wi-paw-03.html"><span class="wi-code endpoint">IT-EP-WI-PAW-03</span><span class="kb-entry-name">Credential Protection &amp; Authentication Hardening</span><span class="kb-entry-meta"><span class="wi-badge it">IT procedure</span><span class="kb-entry-date">15 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="it-ep-wi-paw-04.html"><span class="wi-code endpoint">IT-EP-WI-PAW-04</span><span class="kb-entry-name">Endpoint Protection &amp; Attack Surface Reduction</span><span class="kb-entry-meta"><span class="wi-badge it">IT procedure</span><span class="kb-entry-date">15 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="it-ep-wi-paw-05.html"><span class="wi-code endpoint">IT-EP-WI-PAW-05</span><span class="kb-entry-name">Software, Usage &amp; Network Restrictions</span><span class="kb-entry-meta"><span class="wi-badge it">IT procedure</span><span class="kb-entry-date">15 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="it-ep-wi-paw-06.html"><span class="wi-code endpoint">IT-EP-WI-PAW-06</span><span class="kb-entry-name">Logging, Telemetry &amp; SOC Visibility</span><span class="kb-entry-meta"><span class="wi-badge it">IT procedure</span><span class="kb-entry-date">15 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
+      <a class="kb-entry" href="it-ep-wi-paw-07.html"><span class="wi-code endpoint">IT-EP-WI-PAW-07</span><span class="kb-entry-name">PAW Lifecycle, Rebuild &amp; Incident Handling</span><span class="kb-entry-meta"><span class="wi-badge it">IT procedure</span><span class="kb-entry-date">15 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span></a>
     </div>
   </div>
 
   <div class="kb-footer">
-    <span><span class="live-dot"></span>Published 7 January 2026 &nbsp;·&nbsp; Paulo Ferreira</span>
-    <span><a href="index.html" style="color:#297086;text-decoration:none;">← Back to home</a></span>
+    <span><span class="live-dot"></span>Published · 26 April 2026 · Paulo Ferreira</span>
+    <span><a href="index.html" style="color:#4A5568;text-decoration:none;">← Back to home</a></span>
   </div>
 
 </div>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EM-WI-04: Remove Malicious Emails from Mailboxes — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --wi:#0F6E56; --wi-light:#E1F5EE; --wi-border:#82D4B0; --wi-dark:#0E414F; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .wi-badge-action { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .wi-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .wi-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:4px; }
+  .wi-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .wi-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:5px; }
+  .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tag { font-size:12px; background:var(--wi-light); color:var(--wi); border:0.5px solid var(--wi-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .wi-roles { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .wi-roles th { background:var(--wi-light); color:var(--wi); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--wi-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .wi-roles td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; }
+  .wi-roles tr:nth-child(even) td { background:#fafafa; }
+  .wi-roles td:first-child { font-weight:600; color:#2D3748; white-space:nowrap; }
+  .wi-phase { margin-bottom:1.5rem; }
+  .wi-phase:last-child { margin-bottom:0; }
+  .wi-phase-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:0.5px solid #e0e0dc; }
+  .wi-phase-num { width:26px; height:26px; border-radius:50%; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .wi-phase-title { font-size:14px; font-weight:600; color:#2D3748; }
+  .wi-steps { display:flex; flex-direction:column; gap:6px; }
+  .wi-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .wi-step-num { width:22px; height:22px; border-radius:50%; background:var(--wi-light); color:var(--wi); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .wi-step-body { flex:1; }
+  .wi-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; }
+  .wi-step-note { font-size:12px; color:#888; margin-top:4px; line-height:1.4; font-style:italic; }
+  .wi-observe { list-style:none; margin-top:6px; display:flex; flex-direction:column; gap:4px; }
+  .wi-observe li { font-size:13px; color:#555; display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+  .wi-observe li::before { content:'→'; color:var(--wi); font-weight:600; flex-shrink:0; }
+  .precheck-box { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:10px; padding:1rem 1.25rem; margin-top:4px; }
+  .precheck-box-title { font-size:12px; font-weight:600; color:#993C1D; margin-bottom:8px; }
+  .precheck-list { display:flex; flex-direction:column; gap:5px; }
+  .precheck-item { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:#7a2e10; line-height:1.5; }
+  .precheck-item::before { content:'🚫'; font-size:13px; flex-shrink:0; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-info p { font-size:13px; color:var(--wi-dark); margin:0; line-height:1.5; }
+  .outcome-box { background:var(--wi-light); border:0.5px solid var(--wi-border); border-radius:10px; padding:1rem 1.25rem; }
+  .outcome-box p { font-size:13px; color:var(--wi); line-height:1.6; margin-bottom:0; }
+  .esc-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .esc-item { display:flex; align-items:flex-start; gap:10px; background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#7a2e10; }
+  .esc-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+  .mistakes-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .mistake-item { display:flex; align-items:flex-start; gap:10px; background:#FAEEDA; border:0.5px solid #FAC775; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#6b3f0a; }
+  .mistake-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .rel-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .rel-box h4 { font-size:12px; font-weight:600; color:var(--wi); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; }
+  .rel-link { display:flex; align-items:center; gap:8px; text-decoration:none; color:#444; font-size:13px; padding:4px 0; }
+  .rel-link:hover { color:var(--wi); }
+  .rel-link::before { content:'›'; color:var(--wi); font-weight:700; }
+  .rel-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--wi-light); color:var(--wi); border:0.5px solid var(--wi-border); padding:1px 6px; border-radius:4px; margin-right:4px; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+  @media(max-width:640px){ .rel-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html" class="active">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="work-instructions.html">Work Instructions</a><span>›</span><span>EM-WI-04</span></div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#0E414F 0%,#297086 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>EM-WI-04: Remove Malicious Emails from Mailboxes</h1>
+    <p>Tool-agnostic procedure for safely removing confirmed malicious emails from user mailboxes — preventing interaction, stopping credential harvesting or malware execution, and reducing dwell time.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">📧 Email threats</span>
+      <span class="kb-meta-pill">Tier 1 / 2</span>
+      <span class="kb-meta-pill">Requires approval</span>
+      <span class="kb-meta-pill">Containment action</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> EM-WI-04</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 7 January 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-action">✅ Requires approval</span></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 1</div>
+    <div class="wi-section-title">Purpose</div>
+    <p>Provide a consistent, tool-agnostic procedure to safely remove confirmed malicious emails from user mailboxes — preventing interaction, stopping credential harvesting or malware execution, containing active campaigns, and reducing dwell time.</p>
+    <div class="callout-info">
+      <p>📌 <strong>Scope boundary:</strong> This WI does not authorise email removal. It defines how to remove emails correctly once approved by Tier-2 or via SOAR.</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 2</div>
+    <div class="wi-section-title">When to Use</div>
+    <p>Use this WI only when authorised by a playbook or explicitly instructed by:</p>
+    <div class="tag-grid">
+      <span class="tag">EM-PB-01 Phishing</span>
+      <span class="tag">EM-PB-02 Malware Delivery</span>
+      <span class="tag">EM-PB-04 BEC</span>
+      <span class="tag">EM-RB-04 Remove Phishing Emails</span>
+      <span class="tag">SOC Tier-2 lead</span>
+      <span class="tag">SOAR approval gate</span>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 3</div>
+    <div class="wi-section-title">Who Performs This</div>
+    <table class="wi-roles">
+      <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
+      <tbody>
+        <tr><td>Tier-1 Analyst</td><td>Execute removal after approval</td></tr>
+        <tr><td>Tier-2 Analyst</td><td>Approve scope and validate indicators</td></tr>
+        <tr><td>Email / Messaging Team</td><td>May execute or validate bulk actions</td></tr>
+        <tr><td>MDR Partner</td><td>May recommend removal scope</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 4</div>
+    <div class="wi-section-title">Inputs Required</div>
+    <div class="tag-grid">
+      <span class="tag">🎫 Incident reference ID</span>
+      <span class="tag">🆔 Message ID (preferred)</span>
+      <span class="tag">📤 Sender address</span>
+      <span class="tag">📋 Subject line</span>
+      <span class="tag">🕐 Timestamp</span>
+      <span class="tag">📐 Approved scope (single / list / org-wide)</span>
+      <span class="tag">✅ Explicit approval record</span>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 5</div>
+    <div class="wi-section-title">Pre-Checks &amp; Safety Notes</div>
+    <div class="precheck-box">
+      <div class="precheck-box-title">🚫 Mandatory constraints</div>
+      <div class="precheck-list">
+        <div class="precheck-item">Do NOT remove emails without Tier-2 approval</div>
+        <div class="precheck-item">Do NOT expand scope beyond what is explicitly approved</div>
+        <div class="precheck-item">Do NOT notify users before removal unless instructed</div>
+        <div class="precheck-item">Do NOT rely on subject line alone as the removal identifier</div>
+      </div>
+    </div>
+    <div class="callout-warn" style="margin-top:8px;">
+      <p>⚠️ Prefer search-based removal using Message-ID over subject-only searches. Subject lines are not unique and can match legitimate emails.</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 6</div>
+    <div class="wi-section-title">Step-by-Step Actions</div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">1</div><div class="wi-phase-title">Validate Email Indicators</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Review the approved indicators — Message-ID (preferred), or sender + subject + timestamp combination</div></div></div>
+        <div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">Confirm indicators uniquely identify the malicious email and match the reported sample or gateway analysis</div><div class="wi-step-note">If ambiguity exists — pause and escalate before proceeding.</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">2</div><div class="wi-phase-title">Identify Target Mailboxes</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Confirm the approved scope — single user, defined list, or all mailboxes in tenant</div></div></div>
+        <div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">Ensure the scope matches exactly what was approved — do not expand unilaterally</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">3</div><div class="wi-phase-title">Execute Email Removal</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Search for the malicious email using the approved indicators</div>
+          </div>
+        </div>
+        <div class="wi-step">
+          <div class="wi-step-num">2</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Remove from all of the following locations:</div>
+            <ul class="wi-observe">
+              <li>Inbox</li>
+              <li>Junk / Spam folder</li>
+              <li>Any other folders where the message may have been moved</li>
+            </ul>
+          </div>
+        </div>
+        <div class="wi-step"><div class="wi-step-num">3</div><div class="wi-step-body"><div class="wi-step-text">Confirm deletion completed successfully and record method, timestamp, and operator</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">4</div><div class="wi-phase-title">Validate Removal</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Re-run the search using the same indicators and confirm zero results remain across all target mailboxes and folders</div></div></div>
+        <div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">If instances persist — do not retry repeatedly. Escalate to Tier-2.</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">5</div><div class="wi-phase-title">Preserve Evidence</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Ensure at least one copy of the email is retained in:</div>
+            <ul class="wi-observe">
+              <li>SOC evidence store</li>
+              <li>Secure designated mailbox</li>
+              <li>Exported sample per policy</li>
+            </ul>
+          </div>
+        </div>
+        <div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">Do NOT delete preserved evidence when cleaning up</div></div></div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">6</div><div class="wi-phase-title">Monitor for Follow-On Activity</div></div>
+      <div class="wi-steps">
+        <div class="wi-step">
+          <div class="wi-step-num">1</div>
+          <div class="wi-step-body">
+            <div class="wi-step-text">Post-removal, monitor for:</div>
+            <ul class="wi-observe">
+              <li>Additional phishing reports from other users</li>
+              <li>User credential compromise indicators</li>
+              <li>Link click or attachment open events before removal</li>
+              <li>Similar emails with variant indicators</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wi-phase">
+      <div class="wi-phase-header"><div class="wi-phase-num">7</div><div class="wi-phase-title">Document Actions</div></div>
+      <div class="wi-steps">
+        <div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Update the incident record with indicators used, scope of mailboxes affected, removal timestamp, validation outcome, and any exceptions</div></div></div>
+        <div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">Attach screenshots, logs, or admin confirmation where available</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 7</div>
+    <div class="wi-section-title">Expected Outcome</div>
+    <div class="outcome-box">
+      <p>✅ Malicious email removed from all approved mailboxes and folders<br>
+      ✅ Risk of user interaction reduced<br>
+      ✅ Evidence preserved — at least one copy retained<br>
+      ✅ Clear audit trail documented in the incident record</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 8</div>
+    <div class="wi-section-title">Common Mistakes to Avoid</div>
+    <div class="mistakes-list">
+      <div class="mistake-item">Removing emails based on subject line only — subjects are not unique and can match legitimate messages</div>
+      <div class="mistake-item">Expanding scope beyond the approved target list without Tier-2 authorisation</div>
+      <div class="mistake-item">Forgetting Junk or Deleted folders — the email may have been auto-moved before removal</div>
+      <div class="mistake-item">Failing to preserve at least one evidence copy before removal</div>
+      <div class="mistake-item">Not validating that removal was successful — always re-run the search</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 9</div>
+    <div class="wi-section-title">Escalation Conditions</div>
+    <div class="esc-list">
+      <div class="esc-item">Email removal fails or results are partial after execution</div>
+      <div class="esc-item">Additional campaign variants are discovered during removal</div>
+      <div class="esc-item">Users report having interacted with the email before removal completed</div>
+      <div class="esc-item">Business-critical or legitimate mail appears to be impacted</div>
+      <div class="esc-item">Sender or domain appears to be widely used legitimate infrastructure</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Section 10</div>
+    <div class="wi-section-title">Related Playbooks &amp; Runbooks</div>
+    <div class="rel-grid">
+      <div class="rel-box">
+        <h4>Playbooks</h4>
+        <a class="rel-link" href="em-pb-01.html"><span class="rel-code">EM-PB-01</span>Phishing</a>
+        <a class="rel-link" href="em-pb-02.html"><span class="rel-code">EM-PB-02</span>Malware Delivery</a>
+        <a class="rel-link" href="em-pb-04.html"><span class="rel-code">EM-PB-04</span>BEC</a>
+      </div>
+      <div class="rel-box">
+        <h4>Runbooks</h4>
+        <a class="rel-link" href="em-rb-04.html"><span class="rel-code">EM-RB-04</span>Remove Phishing Emails</a>
+        <a class="rel-link" href="em-rb-03.html"><span class="rel-code">EM-RB-03</span>Analyse Attachments</a>
+        <a class="rel-link" href="em-rb-05.html"><span class="rel-code">EM-RB-05</span>Block Sender / Domain</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-nav">
+    <a href="em-wi-01.html">← EM-WI-01: Analyse Email Headers</a>
+    <a href="work-instructions.html">← Back to Work Instructions</a>
+    <a href="em-wi-05.html">EM-WI-05: Block Sender / Domain →</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>EM-WI-04 · Published 7 January 2026 · Paulo Ferreira</span>
+    <span><a href="work-instructions.html" style="color:var(--wi);text-decoration:none;">← Back to Work Instructions</a></span>
+  </div>
+</div>
+</body>
+</html>
