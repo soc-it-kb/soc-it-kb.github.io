@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EP-INV-Win-01: Windows Endpoint Investigation — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --ep:#8B4A0E; --ep-light:#FEF0E6; --ep-border:#F5C89A; --ep-dark:#5C2E06; }
+
+  /* ── TIER-1 CHECKLIST ── */
+  .t1-hero { background:linear-gradient(135deg,#5C2E06 0%,#8B4A0E 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.25rem; color:#fff; }
+  .t1-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.65; margin-bottom:6px; }
+  .t1-hero h2 { font-size:20px; font-weight:700; margin-bottom:8px; }
+  .t1-hero p { font-size:14px; opacity:0.8; line-height:1.5; margin:0; }
+  .t1-hero-pills { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .t1-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .t1-trigger { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-trigger-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ep); margin-bottom:6px; }
+  .t1-trigger-examples { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .t1-trigger-example { font-size:12px; background:var(--ep-light); color:var(--ep); border:0.5px solid var(--ep-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+
+  .t1-checklist-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-checklist-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ep); margin-bottom:10px; }
+  .t1-check-item { display:flex; align-items:center; gap:12px; padding:0.7rem 0; border-bottom:0.5px solid #f5f5f3; }
+  .t1-check-item:last-child { border-bottom:none; }
+  .t1-check-num { width:26px; height:26px; border-radius:50%; background:var(--ep-light); color:var(--ep); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .t1-check-q { font-size:14px; color:#1a1a1a; flex:1; line-height:1.45; }
+  .t1-check-q .flag { font-size:11px; font-weight:600; background:#FAECE7; color:#993C1D; padding:2px 7px; border-radius:8px; margin-left:6px; vertical-align:middle; }
+  .t1-yn { display:flex; gap:6px; flex-shrink:0; }
+  .t1-y { width:36px; height:30px; border-radius:6px; background:#FAEEDA; border:1.5px solid #FAC775; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#854F0B; }
+  .t1-n { width:36px; height:30px; border-radius:6px; background:#f5f5f3; border:1.5px solid #e0e0dc; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#888; }
+
+  .t1-decision { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-decision-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ep); margin-bottom:10px; }
+  .t1-decision-row { display:flex; align-items:flex-start; gap:12px; padding:0.65rem 0.9rem; border-radius:10px; margin-bottom:6px; }
+  .t1-decision-row:last-child { margin-bottom:0; }
+  .t1-decision-row.green { background:#E1F5EE; }
+  .t1-decision-row.amber { background:#FAEEDA; }
+  .t1-decision-row.red   { background:#FAECE7; }
+  .t1-decision-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+  .t1-decision-text { font-size:13px; line-height:1.5; }
+  .t1-decision-row.green .t1-decision-text { color:#1a6b47; }
+  .t1-decision-row.amber .t1-decision-text { color:#6b3f0a; }
+  .t1-decision-row.red   .t1-decision-text { color:#7a2e10; }
+  .t1-decision-text strong { font-weight:700; }
+
+  .t1-tip { background:#1a1a1a; border-radius:12px; padding:1.1rem 1.4rem; display:flex; align-items:flex-start; gap:12px; margin-bottom:1.5rem; }
+  .t1-tip-icon { font-size:22px; flex-shrink:0; }
+  .t1-tip-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#4ade80; margin-bottom:4px; }
+  .t1-tip-text  { font-size:13px; color:rgba(255,255,255,0.85); line-height:1.5; }
+
+  /* ── DIVIDER ── */
+  .inv-divider { display:flex; align-items:center; gap:12px; margin:2rem 0 1.5rem; }
+  .inv-divider-line { flex:1; height:0.5px; background:#e0e0dc; }
+  .inv-divider-label { font-size:12px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:0.08em; white-space:nowrap; }
+
+  /* ── INVESTIGATION PHASES ── */
+  .inv-phase { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; margin-bottom:10px; overflow:hidden; }
+  .inv-phase-header { background:var(--ep-light); border-bottom:0.5px solid var(--ep-border); padding:0.9rem 1.4rem; display:flex; align-items:center; gap:12px; }
+  .inv-phase-num { width:30px; height:30px; border-radius:50%; background:var(--ep); color:#fff; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .inv-phase-title { font-size:15px; font-weight:600; color:var(--ep-dark); flex:1; }
+  .inv-phase-badge { font-size:11px; font-weight:600; padding:2px 8px; border-radius:8px; background:rgba(139,74,14,0.12); color:var(--ep); }
+  .inv-phase-body { padding:1.1rem 1.4rem; }
+
+  /* Artefact locations */
+  .artefact-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; }
+  .artefact-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.8rem 1rem; }
+  .artefact-card-title { font-size:12px; font-weight:600; color:var(--ep-dark); margin-bottom:6px; }
+  .artefact-path { font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:#555; background:#f0f0ec; padding:2px 6px; border-radius:4px; margin-bottom:3px; display:block; word-break:break-all; }
+  .artefact-desc { font-size:12px; color:#888; line-height:1.4; }
+
+  /* Step actions */
+  .inv-steps { display:flex; flex-direction:column; gap:6px; }
+  .inv-step { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .inv-step-num { width:20px; height:20px; border-radius:50%; background:var(--ep-light); color:var(--ep); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+  .inv-step-text { font-size:13px; color:#333; line-height:1.5; flex:1; }
+  .inv-step-note { font-size:12px; color:#888; margin-top:3px; font-style:italic; }
+
+  /* Flag items */
+  .flag-list { display:flex; flex-direction:column; gap:5px; margin-top:8px; }
+  .flag-item { display:flex; align-items:flex-start; gap:8px; background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:7px; padding:0.55rem 0.8rem; font-size:13px; color:#7a2e10; line-height:1.4; }
+  .flag-item::before { content:'🚩'; font-size:12px; flex-shrink:0; }
+
+  /* ── EVENT ID REFERENCE TABLES ── */
+  .ev-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .ev-table th { background:var(--ep-light); color:var(--ep); font-weight:600; padding:7px 10px; text-align:left; border:0.5px solid var(--ep-border); font-size:11px; text-transform:uppercase; letter-spacing:0.05em; }
+  .ev-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; }
+  .ev-table tr:nth-child(even) td { background:#fafafa; }
+  .ev-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:2px 6px; border-radius:5px; white-space:nowrap; }
+  .ev-id.critical { background:#FAECE7; color:#993C1D; }
+  .ev-id.high     { background:#FEF0E6; color:#8B4A0E; }
+  .ev-id.medium   { background:#FAEEDA; color:#854F0B; }
+  .ev-id.info     { background:#f0f0ec; color:#555; }
+
+  /* ── LOLBINS REFERENCE ── */
+  .lolbin-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px; }
+  .lolbin-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.8rem 1rem; }
+  .lolbin-name { font-family:'SF Mono','Fira Code',monospace; font-size:12px; font-weight:700; color:var(--ep); margin-bottom:4px; }
+  .lolbin-desc { font-size:12px; color:#666; line-height:1.4; }
+  .lolbin-risk { font-size:10px; font-weight:600; padding:2px 6px; border-radius:6px; margin-top:5px; display:inline-block; }
+  .lolbin-risk.high   { background:#FAECE7; color:#993C1D; }
+  .lolbin-risk.medium { background:#FAEEDA; color:#854F0B; }
+
+  /* ── PERSISTENCE LOCATIONS ── */
+  .persist-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .persist-table th { background:var(--ep-light); color:var(--ep); font-weight:600; padding:7px 10px; text-align:left; border:0.5px solid var(--ep-border); font-size:11px; text-transform:uppercase; letter-spacing:0.05em; }
+  .persist-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; }
+  .persist-table tr:nth-child(even) td { background:#fafafa; }
+  .persist-path { font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:#444; word-break:break-all; }
+
+  /* ── VERDICT ── */
+  .verdict-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-top:8px; }
+  .verdict-card { border-radius:10px; padding:0.9rem 1rem; text-align:center; }
+  .verdict-card.clean     { background:#E1F5EE; border:0.5px solid #82D4B0; }
+  .verdict-card.suspicious{ background:#FAEEDA; border:0.5px solid #FAC775; }
+  .verdict-card.likely    { background:#FEF0E6; border:0.5px solid #F5C89A; }
+  .verdict-card.confirmed { background:#FAECE7; border:0.5px solid #F5C0B0; }
+  .verdict-card h4 { font-size:12px; font-weight:700; margin-bottom:4px; }
+  .verdict-card.clean      h4 { color:#0F6E56; }
+  .verdict-card.suspicious h4 { color:#854F0B; }
+  .verdict-card.likely     h4 { color:#8B4A0E; }
+  .verdict-card.confirmed  h4 { color:#993C1D; }
+  .verdict-card p { font-size:11px; margin:0; line-height:1.4; }
+  .verdict-card.clean      p { color:#1a6b47; }
+  .verdict-card.suspicious p { color:#6b3f0a; }
+  .verdict-card.likely     p { color:#7a3a0a; }
+  .verdict-card.confirmed  p { color:#7a2e10; }
+
+  /* ── CALLOUTS ── */
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .callout-info { background:var(--ep-light); border:0.5px solid var(--ep-border); border-left:3px solid var(--ep); border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-info p { font-size:13px; color:var(--ep-dark); margin:0; line-height:1.5; }
+
+  /* ── RELATED CONTENT ── */
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .rel-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .rel-box h4 { font-size:12px; font-weight:600; color:var(--ep); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; }
+  .rel-link { display:flex; align-items:center; gap:8px; text-decoration:none; color:#444; font-size:13px; padding:4px 0; }
+  .rel-link:hover { color:var(--ep); }
+  .rel-link::before { content:'›'; color:var(--ep); font-weight:700; }
+  .rel-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--ep-light); color:var(--ep); border:0.5px solid var(--ep-border); padding:1px 6px; border-radius:4px; margin-right:4px; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--ep); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+
+  @media(max-width:640px){ .artefact-grid,.rel-grid,.lolbin-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="playbooks.html">Playbooks</a><span>›</span>
+    <span>EP-INV-Win-01</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#5C2E06 0%,#8B4A0E 100%);">
+    <span class="kb-page-hero-icon">🔍</span>
+    <h1>EP-INV-Win-01: Windows Endpoint Investigation</h1>
+    <p>Structured investigation guide for Windows workstations — covering initial triage through persistence analysis, network correlation, identity review, and final verdict. Includes a Tier-1 quick checklist followed by a full Tier-2 deep-dive investigation framework.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">💻 Endpoint threats</span>
+      <span class="kb-meta-pill">Windows workstations</span>
+      <span class="kb-meta-pill">Tier 1 &amp; 2</span>
+      <span class="kb-meta-pill">Tool-agnostic</span>
+      <span class="kb-meta-pill">Published 27 April 2026</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       TIER-1 QUICK CHECKLIST
+  ════════════════════════════════════════ -->
+
+  <div class="t1-hero">
+    <div class="t1-hero-eyebrow">Tier-1 Quick Checklist</div>
+    <h2>EP-01: Suspicious Endpoint Activity</h2>
+    <p>Use this checklist when an EDR alert, MDR escalation, or user report suggests a Windows workstation may be compromised. Answer each question and follow the decision logic.</p>
+    <div class="t1-hero-pills">
+      <span class="t1-hero-pill">💻 Endpoint</span>
+      <span class="t1-hero-pill">Tier 1</span>
+      <span class="t1-hero-pill">Windows workstations</span>
+    </div>
+  </div>
+
+  <div class="t1-trigger">
+    <div class="t1-trigger-label">🔔 When to use this checklist</div>
+    <p style="font-size:14px;color:#333;margin-bottom:8px;">EDR / XDR alert / MDR escalation / user report of unusual endpoint behaviour.</p>
+    <div class="t1-trigger-examples">
+      <span class="t1-trigger-example">EDR malware detection</span>
+      <span class="t1-trigger-example">Unusual process activity</span>
+      <span class="t1-trigger-example">Suspicious PowerShell execution</span>
+      <span class="t1-trigger-example">Unexpected network connections</span>
+      <span class="t1-trigger-example">User reports something strange</span>
+      <span class="t1-trigger-example">MDR endpoint escalation</span>
+    </div>
+  </div>
+
+  <div class="t1-checklist-card">
+    <div class="t1-checklist-label">Step 1 — Answer each question YES or NO</div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">1</div>
+      <div class="t1-check-q">Is there an active EDR or XDR alert on this endpoint?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">2</div>
+      <div class="t1-check-q">Is a suspicious or unknown process currently running?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">3</div>
+      <div class="t1-check-q">Has malware been executed or confirmed by EDR? <span class="flag">Tier-3 immediate</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">4</div>
+      <div class="t1-check-q">Is there unusual outbound network traffic from this endpoint?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">5</div>
+      <div class="t1-check-q">Was a suspicious email opened or attachment executed on this device?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">6</div>
+      <div class="t1-check-q">Is the user privileged, VIP, or in a sensitive role (Finance, HR, Exec)? <span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">7</div>
+      <div class="t1-check-q">Are multiple endpoints showing similar indicators? <span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">8</div>
+      <div class="t1-check-q">Is there any sign of ransomware — encrypted files, ransom note, volume shadow copy deletion?<span class="flag">Tier-3 immediate</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+  </div>
+
+  <div class="t1-decision">
+    <div class="t1-decision-label">Step 2 — Apply decision logic</div>
+    <div class="t1-decision-row green">
+      <div class="t1-decision-icon">✅</div>
+      <div class="t1-decision-text"><strong>All NO</strong> — Document findings, monitor, and close if no further indicators emerge.</div>
+    </div>
+    <div class="t1-decision-row amber">
+      <div class="t1-decision-icon">⚠️</div>
+      <div class="t1-decision-text"><strong>Any YES to questions 1, 2, 4, or 5</strong> — Escalate to Tier-2 with evidence attached. Do not reboot the endpoint.</div>
+    </div>
+    <div class="t1-decision-row red">
+      <div class="t1-decision-icon">🔴</div>
+      <div class="t1-decision-text"><strong>YES to question 3 or 8</strong> — Escalate to Tier-3 immediately. Invoke <a href="ep-pb-02.html" style="color:#993C1D;">EP-PB-02</a> or <a href="ep-pb-05.html" style="color:#993C1D;">EP-PB-05</a>. Do not reboot.</div>
+    </div>
+    <div class="t1-decision-row red">
+      <div class="t1-decision-icon">🔴</div>
+      <div class="t1-decision-text"><strong>YES to question 6 or 7</strong> — Mark as High Priority and escalate immediately regardless of other answers.</div>
+    </div>
+  </div>
+
+  <div class="t1-tip">
+    <div class="t1-tip-icon">💡</div>
+    <div>
+      <div class="t1-tip-label">Analyst Tip</div>
+      <div class="t1-tip-text">Never reboot a suspected compromised endpoint before investigation — rebooting destroys volatile memory evidence (running processes, network connections, encryption keys) that cannot be recovered. Isolate first via <a href="ep-wi-02.html" style="color:#4ade80;">EP-WI-02</a>, then investigate.</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       TIER-2 DEEP-DIVE DIVIDER
+  ════════════════════════════════════════ -->
+
+  <div class="inv-divider">
+    <div class="inv-divider-line"></div>
+    <div class="inv-divider-label">🔍 Tier-2 Deep-Dive Investigation</div>
+    <div class="inv-divider-line"></div>
+  </div>
+
+  <div class="callout-info" style="margin-bottom:1.25rem;">
+    <p>📌 The following investigation framework applies once the endpoint is isolated or under observation. Work through each phase in order — do not skip phases. All findings must be documented in the incident record as you go.</p>
+  </div>
+
+  <!-- ── PHASE 1: TRIAGE ── -->
+  <div class="inv-phase">
+    <div class="inv-phase-header">
+      <div class="inv-phase-num">1</div>
+      <div class="inv-phase-title">Initial Triage &amp; Context</div>
+      <span class="inv-phase-badge">Establish baseline</span>
+    </div>
+    <div class="inv-phase-body">
+      <div class="inv-steps">
+        <div class="inv-step"><div class="inv-step-num">1</div><div class="inv-step-text">Confirm endpoint identity — hostname, asset tag, assigned user, department, and last seen time in EDR/asset inventory</div></div>
+        <div class="inv-step"><div class="inv-step-num">2</div><div class="inv-step-text">Confirm isolation status — is the endpoint already isolated? If not, isolate now via <a href="ep-wi-02.html" style="color:var(--ep);">EP-WI-02</a> before proceeding</div></div>
+        <div class="inv-step"><div class="inv-step-num">3</div><div class="inv-step-text">Record the investigation start time, incident reference, and analyst name in the ticket</div></div>
+        <div class="inv-step"><div class="inv-step-num">4</div><div class="inv-step-text">Pull the initial EDR alert details — detection name, severity, timestamp, process involved, and file path</div></div>
+        <div class="inv-step"><div class="inv-step-num">5</div><div class="inv-step-text">Check the user's recent activity — when did they last log in? Any recent phishing reports? Any MFA anomalies?</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 2: VOLATILE DATA ── -->
+  <div class="inv-phase">
+    <div class="inv-phase-header">
+      <div class="inv-phase-num">2</div>
+      <div class="inv-phase-title">Volatile Data &amp; Running State</div>
+      <span class="inv-phase-badge">Collect before reboot</span>
+    </div>
+    <div class="inv-phase-body">
+      <p style="font-size:13px;color:#666;margin-bottom:10px;">Volatile data exists only while the endpoint is running. Capture this first — it is lost on reboot.</p>
+      <div class="inv-steps">
+        <div class="inv-step"><div class="inv-step-num">1</div><div class="inv-step-text">Review running processes in EDR — look for unknown, unsigned, or unusually named processes</div></div>
+        <div class="inv-step"><div class="inv-step-num">2</div><div class="inv-step-text">Review active network connections — note any connections to unknown external IPs or unusual ports</div></div>
+        <div class="inv-step"><div class="inv-step-num">3</div><div class="inv-step-text">Check parent-child process relationships — legitimate processes spawning cmd.exe, PowerShell, or wscript.exe is a major red flag</div></div>
+        <div class="inv-step"><div class="inv-step-num">4</div><div class="inv-step-text">Review loaded DLLs for any suspicious unsigned or recently created libraries injected into legitimate processes</div></div>
+        <div class="inv-step"><div class="inv-step-num">5</div><div class="inv-step-text">Document all findings with timestamps and screenshots before proceeding</div></div>
+      </div>
+      <div class="flag-list">
+        <div class="flag-item">Process spawned from an unexpected parent — e.g. Word.exe → cmd.exe → PowerShell.exe</div>
+        <div class="flag-item">Process running from temp folders — <span style="font-family:monospace;font-size:12px;">%TEMP%</span>, <span style="font-family:monospace;font-size:12px;">%APPDATA%</span>, or <span style="font-family:monospace;font-size:12px;">C:\Users\Public\</span></div>
+        <div class="flag-item">Network connection from a process that should not be making outbound connections (e.g. notepad.exe connecting externally)</div>
+        <div class="flag-item">Unsigned process running with a name similar to a legitimate system process (e.g. <span style="font-family:monospace;font-size:12px;">svchost.exe</span> in the wrong location)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 3: EVENT LOGS ── -->
+  <div class="inv-phase">
+    <div class="inv-phase-header">
+      <div class="inv-phase-num">3</div>
+      <div class="inv-phase-title">Windows Event Log Analysis</div>
+      <span class="inv-phase-badge">Key Event IDs</span>
+    </div>
+    <div class="inv-phase-body">
+      <p style="font-size:13px;color:#666;margin-bottom:10px;">Event logs are stored at <span style="font-family:monospace;font-size:12px;">C:\Windows\System32\winevt\Logs\</span> in <span style="font-family:monospace;font-size:12px;">.evtx</span> format. Focus on Security, System, PowerShell, and Sysmon logs where available.</p>
+
+      <p style="font-size:12px;font-weight:600;color:var(--ep);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Authentication &amp; account events</p>
+      <table class="ev-table" style="margin-bottom:12px;">
+        <thead><tr><th>Event ID</th><th>Description</th><th>Investigation significance</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ev-id high">4624</span></td><td>Successful logon</td><td>Check logon type — Type 10 = RDP, Type 3 = network. Note source IP and username.</td></tr>
+          <tr><td><span class="ev-id high">4625</span></td><td>Failed logon</td><td>Multiple failures before 4624 = brute force. Note failure reason and source IP.</td></tr>
+          <tr><td><span class="ev-id medium">4634</span></td><td>Logoff</td><td>Correlate with 4624 to establish session duration.</td></tr>
+          <tr><td><span class="ev-id high">4648</span></td><td>Logon using explicit credentials</td><td>Credential use with different account — lateral movement or privilege abuse indicator.</td></tr>
+          <tr><td><span class="ev-id high">4672</span></td><td>Special privileges assigned at logon</td><td>Admin-level access — always investigate for privileged users.</td></tr>
+          <tr><td><span class="ev-id medium">4720</span></td><td>User account created</td><td>Unexpected account creation = persistence or backdoor.</td></tr>
+          <tr><td><span class="ev-id high">4732</span></td><td>Member added to local Administrators group</td><td>Privilege escalation — investigate immediately.</td></tr>
+          <tr><td><span class="ev-id medium">4740</span></td><td>User account locked out</td><td>Repeated lockouts indicate brute force or credential stuffing.</td></tr>
+        </tbody>
+      </table>
+
+      <p style="font-size:12px;font-weight:600;color:var(--ep);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Process &amp; execution events</p>
+      <table class="ev-table" style="margin-bottom:12px;">
+        <thead><tr><th>Event ID</th><th>Description</th><th>Investigation significance</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ev-id high">4688</span></td><td>New process created</td><td>Note process name, parent process, and command-line arguments. Requires process auditing enabled.</td></tr>
+          <tr><td><span class="ev-id high">4689</span></td><td>Process terminated</td><td>Correlate with 4688 — very short-lived processes are suspicious.</td></tr>
+          <tr><td><span class="ev-id critical">4698</span></td><td>Scheduled task created</td><td>Common persistence mechanism — review task name, trigger, and action carefully.</td></tr>
+          <tr><td><span class="ev-id critical">7045</span></td><td>New service installed</td><td>Malware persistence via service installation. Review service binary path.</td></tr>
+          <tr><td><span class="ev-id high">7034</span></td><td>Service crashed unexpectedly</td><td>May indicate a malicious service failing or being terminated.</td></tr>
+        </tbody>
+      </table>
+
+      <p style="font-size:12px;font-weight:600;color:var(--ep);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Tamper &amp; evasion events</p>
+      <table class="ev-table" style="margin-bottom:12px;">
+        <thead><tr><th>Event ID</th><th>Description</th><th>Investigation significance</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ev-id critical">1102</span></td><td>Security audit log cleared</td><td>Almost always malicious — attacker covering tracks. Escalate immediately.</td></tr>
+          <tr><td><span class="ev-id critical">104</span></td><td>System log cleared</td><td>As above — log clearing is a strong compromise indicator.</td></tr>
+          <tr><td><span class="ev-id high">4719</span></td><td>System audit policy changed</td><td>Attacker disabling logging. Investigate urgently.</td></tr>
+          <tr><td><span class="ev-id high">4657</span></td><td>Registry value modified</td><td>Check which key was modified — autorun locations are high priority.</td></tr>
+        </tbody>
+      </table>
+
+      <p style="font-size:12px;font-weight:600;color:var(--ep);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">PowerShell events (Microsoft-Windows-PowerShell/Operational)</p>
+      <table class="ev-table">
+        <thead><tr><th>Event ID</th><th>Description</th><th>Investigation significance</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ev-id critical">4104</span></td><td>Script block logging — script content captured</td><td>Full script content logged. Look for encoded commands, download cradles, or known offensive tooling.</td></tr>
+          <tr><td><span class="ev-id high">4103</span></td><td>Module logging — pipeline execution details</td><td>Module-level activity. Useful for identifying what PowerShell modules were invoked.</td></tr>
+          <tr><td><span class="ev-id medium">400 / 600</span></td><td>PowerShell engine started / stopped</td><td>Note host application — powershell.exe vs pwsh.exe vs a non-standard host is significant.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── PHASE 4: PERSISTENCE ── -->
+  <div class="inv-phase">
+    <div class="inv-phase-header">
+      <div class="inv-phase-num">4</div>
+      <div class="inv-phase-title">Persistence Mechanism Review</div>
+      <span class="inv-phase-badge">Check all locations</span>
+    </div>
+    <div class="inv-phase-body">
+      <p style="font-size:13px;color:#666;margin-bottom:10px;">Malware establishes persistence to survive reboots and credential changes. Check every location below — missing one means reinfection after remediation.</p>
+
+      <table class="persist-table">
+        <thead><tr><th>Persistence type</th><th>Location / key to check</th><th>What to look for</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Registry autoruns</strong></td>
+            <td>
+              <span class="persist-path">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</span>
+              <span class="persist-path">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce</span>
+              <span class="persist-path">HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</span>
+            </td>
+            <td>Unknown entries, entries pointing to temp folders, encoded commands</td>
+          </tr>
+          <tr>
+            <td><strong>Scheduled tasks</strong></td>
+            <td>
+              <span class="persist-path">C:\Windows\System32\Tasks\</span>
+              <span class="persist-path">C:\Windows\SysWOW64\Tasks\</span>
+              <span class="persist-path">Event ID 4698 (task created)</span>
+            </td>
+            <td>Recently created tasks, tasks with encoded actions, tasks running from temp paths</td>
+          </tr>
+          <tr>
+            <td><strong>Services</strong></td>
+            <td>
+              <span class="persist-path">HKLM\SYSTEM\CurrentControlSet\Services\</span>
+              <span class="persist-path">Event ID 7045 (service installed)</span>
+            </td>
+            <td>Unknown service names, services pointing to unusual binary paths, recently installed services</td>
+          </tr>
+          <tr>
+            <td><strong>Startup folders</strong></td>
+            <td>
+              <span class="persist-path">C:\Users\[user]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\</span>
+              <span class="persist-path">C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\</span>
+            </td>
+            <td>Unknown .lnk, .bat, .vbs, or .ps1 files</td>
+          </tr>
+          <tr>
+            <td><strong>WMI subscriptions</strong></td>
+            <td>
+              <span class="persist-path">WMI EventFilter + EventConsumer + FilterToConsumerBinding</span>
+            </td>
+            <td>Fileless persistence — hard to detect without WMI query or EDR. Common in advanced attacks.</td>
+          </tr>
+          <tr>
+            <td><strong>DLL hijacking / side-loading</strong></td>
+            <td>
+              <span class="persist-path">Application directories alongside legitimate executables</span>
+            </td>
+            <td>Malicious DLL with same name as legitimate DLL loaded by a trusted application</td>
+          </tr>
+          <tr>
+            <td><strong>LSASS / credential stores</strong></td>
+            <td>
+              <span class="persist-path">HKLM\SECURITY\Policy\Secrets</span>
+              <span class="persist-path">C:\Windows\NTDS\ (domain controllers only)</span>
+            </td>
+            <td>Evidence of credential dumping — check for lsass.exe memory access in EDR</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout-warn">
+        <p>⚠️ If any persistence mechanism is found — do not remove it yet. Document its exact location, value, and creation timestamp first, then follow <a href="ep-wi-03.html" style="color:#6b3f0a;">EP-WI-03</a> for approved removal.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 5: LOLBINS ── -->
+  <div class="inv-phase">
+    <div class="inv-phase-header">
+      <div class="inv-phase-num">5</div>
+      <div class="inv-phase-title">LOLBin &amp; Living-off-the-Land Activity</div>
+      <span class="inv-phase-badge">Trusted tools abused</span>
+    </div>
+    <div class="inv-phase-body">
+      <p style="font-size:13px;color:#666;margin-bottom:10px;">LOLBins (Living-off-the-Land Binaries) are legitimate Windows tools abused by attackers to blend in and evade detection. Look for these in process trees, command-line logs, and PowerShell events.</p>
+      <div class="lolbin-grid">
+        <div class="lolbin-card">
+          <div class="lolbin-name">powershell.exe</div>
+          <div class="lolbin-desc">Download cradles, encoded commands (-EncodedCommand), bypass execution policy, remote execution</div>
+          <span class="lolbin-risk high">High risk</span>
+        </div>
+        <div class="lolbin-card">
+          <div class="lolbin-name">cmd.exe</div>
+          <div class="lolbin-desc">Spawned by Office apps, scripts, or services — review parent process and command-line arguments</div>
+          <span class="lolbin-risk high">High risk</span>
+        </div>
+        <div class="lolbin-card">
+          <div class="lolbin-name">certutil.exe</div>
+          <div class="lolbin-desc">File download (-urlcache), base64 decode (-decode) — frequently used for malware staging</div>
+          <span class="lolbin-risk high">High risk</span>
+        </div>
+        <div class="lolbin-card">
+          <div class="lolbin-name">mshta.exe</div>
+          <div class="lolbin-desc">Executes HTML application files (.hta) — used to run VBScript or JScript payloads</div>
+          <span class="lolbin-risk high">High risk</span>
+        </div>
+        <div class="lolbin-card">
+          <div class="lolbin-name">wscript.exe / cscript.exe</div>
+          <div class="lolbin-desc">Windows Script Host — executes .vbs and .js files. Often used in phishing payload delivery</div>
+          <span class="lolbin-risk high">High risk</span>
+        </div>
+        <div class="lolbin-card">
+          <div class="lolbin-name">regsvr32.exe</div>
+          <div class="lolbin-desc">COM script execution via /s /n /u /i — can execute remote scripts without touching disk (Squiblydoo)</div>
+          <span class="lolbin-risk high">High risk</span>
+        </div>
+        <div class="lolbin-card">
+          <div class="lolbin-name">rundll32.exe</div>
+          <div class="lolbin-desc">Executes DLL exports — used to run malicious DLLs or call specific export functions</div>
+          <span class="lolbin-risk high">High risk</span>
+        </div>
+        <div class="lolbin-card">
+          <div class="lolbin-name">wmic.exe</div>
+          <div class="lolbin-desc">Remote execution, process creation, persistence via WMI — often used for lateral movement</div>
+          <span class="lolbin-risk high">High risk</span>
+        </div>
+        <div class="lolbin-card">
+          <div class="lolbin-name">bitsadmin.exe</div>
+          <div class="lolbin-desc">Background Intelligent Transfer — used to download malware payloads and maintain persistence</div>
+          <span class="lolbin-risk medium">Medium risk</span>
+        </div>
+        <div class="lolbin-card">
+          <div class="lolbin-name">msiexec.exe</div>
+          <div class="lolbin-desc">MSI installer — can be used to execute remote MSI packages and DLL payloads</div>
+          <span class="lolbin-risk medium">Medium risk</span>
+        </div>
+        <div class="lolbin-card">
+          <div class="lolbin-name">net.exe / net1.exe</div>
+          <div class="lolbin-desc">User and group enumeration, share mapping — reconnaissance and lateral movement</div>
+          <span class="lolbin-risk medium">Medium risk</span>
+        </div>
+        <div class="lolbin-card">
+          <div class="lolbin-name">schtasks.exe</div>
+          <div class="lolbin-desc">Scheduled task creation and management — persistence and remote execution</div>
+          <span class="lolbin-risk medium">Medium risk</span>
+        </div>
+      </div>
+      <div class="callout-warn" style="margin-top:10px;">
+        <p>⚠️ Context matters — these tools run legitimately every day. The key signals are: unexpected parent process, unusual command-line arguments, execution from a temp/user directory, or execution at an unusual time.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 6: FILE SYSTEM ── -->
+  <div class="inv-phase">
+    <div class="inv-phase-header">
+      <div class="inv-phase-num">6</div>
+      <div class="inv-phase-title">File System &amp; Artefact Review</div>
+      <span class="inv-phase-badge">Execution &amp; staging evidence</span>
+    </div>
+    <div class="inv-phase-body">
+      <div class="artefact-grid">
+        <div class="artefact-card">
+          <div class="artefact-card-title">📁 Prefetch files</div>
+          <span class="artefact-path">C:\Windows\Prefetch\*.pf</span>
+          <div class="artefact-desc">Records of executed applications. Proves a binary ran on the system even if it has been deleted.</div>
+        </div>
+        <div class="artefact-card">
+          <div class="artefact-card-title">📋 Recent files (LNK)</div>
+          <span class="artefact-path">C:\Users\[user]\AppData\Roaming\Microsoft\Windows\Recent\</span>
+          <div class="artefact-desc">Recently opened files — reveals what the user (or attacker) accessed. Check for unusual file types.</div>
+        </div>
+        <div class="artefact-card">
+          <div class="artefact-card-title">🗂️ Temp directories</div>
+          <span class="artefact-path">C:\Users\[user]\AppData\Local\Temp\</span>
+          <span class="artefact-path">C:\Windows\Temp\</span>
+          <div class="artefact-desc">Common malware staging location. Look for executables, scripts, or archives dropped here.</div>
+        </div>
+        <div class="artefact-card">
+          <div class="artefact-card-title">📦 Downloads folder</div>
+          <span class="artefact-path">C:\Users\[user]\Downloads\</span>
+          <div class="artefact-desc">Check for suspicious executables, ISO files, archives, or Office documents with macros.</div>
+        </div>
+        <div class="artefact-card">
+          <div class="artefact-card-title">📜 PowerShell history</div>
+          <span class="artefact-path">C:\Users\[user]\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt</span>
+          <div class="artefact-desc">All commands typed in PowerShell. Look for download cradles, encoded commands, or credential access attempts.</div>
+        </div>
+        <div class="artefact-card">
+          <div class="artefact-card-title">🖥️ Shimcache / Amcache</div>
+          <span class="artefact-path">HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\AppCompatCache</span>
+          <span class="artefact-path">C:\Windows\appcompat\Programs\Amcache.hve</span>
+          <div class="artefact-desc">Records of all executables that have run or been present on the system — useful for deleted malware.</div>
+        </div>
+        <div class="artefact-card">
+          <div class="artefact-card-title">🔌 USB device history</div>
+          <span class="artefact-path">HKLM\SYSTEM\CurrentControlSet\Enum\USBSTOR</span>
+          <div class="artefact-desc">All USB storage devices ever connected. Useful for data exfiltration investigations.</div>
+        </div>
+        <div class="artefact-card">
+          <div class="artefact-card-title">🌐 Browser artefacts</div>
+          <span class="artefact-path">C:\Users\[user]\AppData\Local\[Browser]\User Data\Default\History</span>
+          <div class="artefact-desc">Browser history, downloads, and cached credentials. Relevant for phishing link analysis.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 7: NETWORK CORRELATION ── -->
+  <div class="inv-phase">
+    <div class="inv-phase-header">
+      <div class="inv-phase-num">7</div>
+      <div class="inv-phase-title">Network Activity Correlation</div>
+      <span class="inv-phase-badge">C2 &amp; exfiltration signals</span>
+    </div>
+    <div class="inv-phase-body">
+      <div class="inv-steps">
+        <div class="inv-step"><div class="inv-step-num">1</div><div class="inv-step-text">Review all outbound connections from the endpoint in the EDR/NDR — note destination IPs, domains, ports, and protocols</div></div>
+        <div class="inv-step"><div class="inv-step-num">2</div><div class="inv-step-text">Enrich suspicious destination IPs and domains — check reputation, registration date, hosting provider, and known malicious associations</div></div>
+        <div class="inv-step"><div class="inv-step-num">3</div><div class="inv-step-text">Look for beaconing patterns — regular periodic connections at fixed intervals strongly suggest C2 communication</div></div>
+        <div class="inv-step"><div class="inv-step-num">4</div><div class="inv-step-text">Check DNS query logs — high-entropy subdomains or unusually long queries may indicate DNS tunnelling</div></div>
+        <div class="inv-step"><div class="inv-step-num">5</div><div class="inv-step-text">Check for connections to known file sharing, cloud storage, or paste sites — potential exfiltration channels</div></div>
+        <div class="inv-step"><div class="inv-step-num">6</div><div class="inv-step-text">Review for internal scanning — connections from this endpoint to many other internal IPs on SMB (445), RDP (3389), or WinRM (5985) ports suggest lateral movement</div></div>
+      </div>
+      <div class="flag-list">
+        <div class="flag-item">Beaconing — regular outbound connections every N seconds/minutes to the same destination</div>
+        <div class="flag-item">HTTPS/TLS traffic to a newly registered domain or IP with no prior history</div>
+        <div class="flag-item">Large outbound data transfer to an unknown destination — possible exfiltration</div>
+        <div class="flag-item">Internal port scanning from this endpoint — SMB (445), RDP (3389), WinRM (5985/5986)</div>
+        <div class="flag-item">DNS queries to high-entropy subdomains — possible DNS tunnelling C2</div>
+      </div>
+      <p style="font-size:13px;color:#888;margin-top:10px;">→ If network indicators are found, invoke <a href="nw-wi-01.html" style="color:var(--ep);">NW-WI-01</a> for deeper network traffic analysis.</p>
+    </div>
+  </div>
+
+  <!-- ── PHASE 8: IDENTITY CORRELATION ── -->
+  <div class="inv-phase">
+    <div class="inv-phase-header">
+      <div class="inv-phase-num">8</div>
+      <div class="inv-phase-title">Identity &amp; Credential Correlation</div>
+      <span class="inv-phase-badge">Lateral movement signals</span>
+    </div>
+    <div class="inv-phase-body">
+      <div class="inv-steps">
+        <div class="inv-step"><div class="inv-step-num">1</div><div class="inv-step-text">Review the user's sign-in logs in the identity provider — any logins from unusual locations or devices around the same time as the endpoint alert?</div></div>
+        <div class="inv-step"><div class="inv-step-num">2</div><div class="inv-step-text">Check for credential access indicators on the endpoint — lsass.exe memory access, Mimikatz signatures, or SAM database access</div></div>
+        <div class="inv-step"><div class="inv-step-num">3</div><div class="inv-step-text">Check for pass-the-hash or pass-the-ticket indicators — Event ID 4648 (explicit credentials used) or logon Type 3 from the endpoint to other internal systems</div></div>
+        <div class="inv-step"><div class="inv-step-num">4</div><div class="inv-step-text">Review other endpoints for logons using the same username around the same timeframe — lateral movement from this endpoint</div></div>
+        <div class="inv-step"><div class="inv-step-num">5</div><div class="inv-step-text">Check for new local accounts or privilege escalation — Event IDs 4720, 4732</div></div>
+      </div>
+      <p style="font-size:13px;color:#888;margin-top:10px;">→ If credential compromise is suspected, invoke <a href="id-wi-01.html" style="color:var(--ep);">ID-WI-01</a> (Review Sign-In Activity) and <a href="id-wi-02.html" style="color:var(--ep);">ID-WI-02</a> (Reset Compromised Account).</p>
+    </div>
+  </div>
+
+  <!-- ── PHASE 9: VERDICT ── -->
+  <div class="inv-phase">
+    <div class="inv-phase-header">
+      <div class="inv-phase-num">9</div>
+      <div class="inv-phase-title">Investigation Verdict &amp; Recommendation</div>
+      <span class="inv-phase-badge">Document &amp; decide</span>
+    </div>
+    <div class="inv-phase-body">
+      <p style="font-size:13px;color:#666;margin-bottom:10px;">Based on all phases, assign a verdict and document the technical rationale clearly. The verdict drives the next action.</p>
+      <div class="verdict-grid">
+        <div class="verdict-card clean"><h4>✅ Clean</h4><p>No indicators found across all phases. Document and close with monitoring note.</p></div>
+        <div class="verdict-card suspicious"><h4>⚠️ Suspicious</h4><p>Anomalies present but not confirmed malicious. Continue monitoring or escalate for deeper review.</p></div>
+        <div class="verdict-card likely"><h4>🟠 Likely Compromised</h4><p>Multiple indicators present. Invoke EP-PB-01/02, keep isolated, proceed to eradication.</p></div>
+        <div class="verdict-card confirmed"><h4>🔴 Confirmed Compromise</h4><p>Clear evidence of malware execution or attacker activity. Full IR response — EP-PB-02/05.</p></div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <p style="font-size:13px;font-weight:600;color:#2D3748;margin-bottom:6px;">Next action by verdict:</p>
+        <div class="inv-steps">
+          <div class="inv-step"><div class="inv-step-num" style="background:#E1F5EE;color:#0F6E56;">✅</div><div class="inv-step-text">Clean → Document findings, remove isolation if approved, close ticket</div></div>
+          <div class="inv-step"><div class="inv-step-num" style="background:#FAEEDA;color:#854F0B;">⚠️</div><div class="inv-step-text">Suspicious → Escalate to Tier-2/3 for review, maintain isolation, continue monitoring</div></div>
+          <div class="inv-step"><div class="inv-step-num" style="background:#FEF0E6;color:#8B4A0E;">🟠</div><div class="inv-step-text">Likely Compromised → Invoke EP-PB-01, proceed to <a href="ep-wi-03.html" style="color:var(--ep);">EP-WI-03</a> (Remove Malware Artefacts)</div></div>
+          <div class="inv-step"><div class="inv-step-num" style="background:#FAECE7;color:#993C1D;">🔴</div><div class="inv-step-text">Confirmed → Invoke EP-PB-02 or EP-PB-05, notify Tier-3/IR Lead, full eradication and recovery cycle</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── COMMON MISTAKES ── -->
+  <div class="kb-section" style="margin-top:1.5rem;">
+    <div class="kb-section-title">Common investigation mistakes to avoid</div>
+    <div style="display:flex;flex-direction:column;gap:5px;">
+      <div style="display:flex;align-items:flex-start;gap:10px;background:#FAEEDA;border:0.5px solid #FAC775;border-radius:8px;padding:0.65rem 0.9rem;font-size:13px;color:#6b3f0a;"><span style="flex-shrink:0;">⚠️</span>Rebooting the endpoint before collecting volatile data — destroys running process list, network connections, and in-memory artefacts</div>
+      <div style="display:flex;align-items:flex-start;gap:10px;background:#FAEEDA;border:0.5px solid #FAC775;border-radius:8px;padding:0.65rem 0.9rem;font-size:13px;color:#6b3f0a;"><span style="flex-shrink:0;">⚠️</span>Treating an EDR alert as the full picture — the alert is the starting point, not the conclusion</div>
+      <div style="display:flex;align-items:flex-start;gap:10px;background:#FAEEDA;border:0.5px solid #FAC775;border-radius:8px;padding:0.65rem 0.9rem;font-size:13px;color:#6b3f0a;"><span style="flex-shrink:0;">⚠️</span>Removing malware before fully documenting all persistence locations — misses related mechanisms and causes reinfection</div>
+      <div style="display:flex;align-items:flex-start;gap:10px;background:#FAEEDA;border:0.5px solid #FAC775;border-radius:8px;padding:0.65rem 0.9rem;font-size:13px;color:#6b3f0a;"><span style="flex-shrink:0;">⚠️</span>Skipping identity and network correlation — endpoint compromise almost always has identity and network dimensions</div>
+      <div style="display:flex;align-items:flex-start;gap:10px;background:#FAEEDA;border:0.5px solid #FAC775;border-radius:8px;padding:0.65rem 0.9rem;font-size:13px;color:#6b3f0a;"><span style="flex-shrink:0;">⚠️</span>Assuming a clean EDR scan means the endpoint is clean — fileless malware and LOLBin abuse may not trigger detections</div>
+      <div style="display:flex;align-items:flex-start;gap:10px;background:#FAEEDA;border:0.5px solid #FAC775;border-radius:8px;padding:0.65rem 0.9rem;font-size:13px;color:#6b3f0a;"><span style="flex-shrink:0;">⚠️</span>Notifying the user before isolation is confirmed — alerts the attacker if credentials are already compromised</div>
+    </div>
+  </div>
+
+  <!-- ── RELATED CONTENT ── -->
+  <div class="kb-section">
+    <div class="kb-section-title">Related playbooks, runbooks &amp; work instructions</div>
+    <div class="rel-grid">
+      <div class="rel-box">
+        <h4>Playbooks</h4>
+        <a class="rel-link" href="ep-pb-01.html"><span class="rel-code">EP-PB-01</span>Suspected Endpoint Compromise</a>
+        <a class="rel-link" href="ep-pb-02.html"><span class="rel-code">EP-PB-02</span>Malware Execution</a>
+        <a class="rel-link" href="ep-pb-03.html"><span class="rel-code">EP-PB-03</span>Lateral Movement</a>
+        <a class="rel-link" href="ep-pb-04.html"><span class="rel-code">EP-PB-04</span>Persistence Mechanisms</a>
+        <a class="rel-link" href="ep-pb-05.html"><span class="rel-code">EP-PB-05</span>Ransomware Activity</a>
+      </div>
+      <div class="rel-box">
+        <h4>Runbooks &amp; Work Instructions</h4>
+        <a class="rel-link" href="ep-rb-01.html"><span class="rel-code">EP-RB-01</span>Endpoint Investigation</a>
+        <a class="rel-link" href="ep-wi-02.html"><span class="rel-code">EP-WI-02</span>Isolate Endpoint Safely</a>
+        <a class="rel-link" href="ep-wi-03.html"><span class="rel-code">EP-WI-03</span>Remove Malware Artefacts</a>
+        <a class="rel-link" href="ep-wi-04.html"><span class="rel-code">EP-WI-04</span>Validate Persistence Removal</a>
+        <a class="rel-link" href="nw-wi-01.html"><span class="rel-code">NW-WI-01</span>Analyse Network Traffic</a>
+        <a class="rel-link" href="id-wi-01.html"><span class="rel-code">ID-WI-01</span>Review Sign-In Activity</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>EP-INV-Win-01 · Published 27 April 2026 · Paulo Ferreira</span>
+    <span><a href="playbooks.html" style="color:var(--ep);text-decoration:none;">← Back to Playbooks</a></span>
+  </div>
+
+</div>
+</body>
+</html>
