@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Threat Intelligence — Attack Surface Management</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+
+  .asm-page-hero { background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .asm-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .asm-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .asm-page-hero p  { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .asm-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .asm-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .asm-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .asm-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:4px; }
+  .asm-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .asm-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .asm-section p:last-child { margin-bottom:0; }
+
+  .asm-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .asm-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .asm-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--asm); flex-shrink:0; margin-top:5px; }
+
+  /* TI lifecycle */
+  .ti-lifecycle { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-top:4px; }
+  .ti-phase { background:var(--asm-light); border:0.5px solid var(--asm-border); border-radius:8px; padding:0.8rem 0.6rem; text-align:center; }
+  .ti-phase-num { width:24px; height:24px; border-radius:50%; background:var(--asm); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; margin:0 auto 6px; }
+  .ti-phase-text { font-size:11px; font-weight:600; color:var(--asm-dark); line-height:1.3; }
+
+  /* Intelligence types */
+  .ti-types { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .ti-type-card { border-radius:10px; padding:1rem 1.1rem; }
+  .ti-type-card.strategic  { background:#E6F1FB; border:0.5px solid #B5D4F4; }
+  .ti-type-card.tactical   { background:#FAECE7; border:0.5px solid #F5C0B0; }
+  .ti-type-card.operational{ background:#EDF6ED; border:0.5px solid #A8D5A8; }
+  .ti-type-card.technical  { background:#FAEEDA; border:0.5px solid #FAC775; }
+  .ti-type-card h4 { font-size:13px; font-weight:600; margin-bottom:5px; }
+  .ti-type-card.strategic   h4 { color:#0F3460; }
+  .ti-type-card.tactical    h4 { color:#993C1D; }
+  .ti-type-card.operational h4 { color:#1A3A1A; }
+  .ti-type-card.technical   h4 { color:#854F0B; }
+  .ti-type-card p { font-size:13px; margin:0; line-height:1.5; }
+  .ti-type-card.strategic   p { color:#0F3460; }
+  .ti-type-card.tactical    p { color:#7a2e10; }
+  .ti-type-card.operational p { color:#1A3A1A; }
+  .ti-type-card.technical   p { color:#6b3f0a; }
+
+  /* SOC integration */
+  .soc-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:4px; }
+  .soc-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1rem; }
+  .soc-card h4 { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:5px; display:flex; align-items:center; gap:6px; }
+  .soc-card p  { font-size:12px; color:#555; line-height:1.5; margin:0; }
+
+  /* Sources */
+  .sources-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .source-card { background:var(--asm-light); border:0.5px solid var(--asm-border); border-radius:8px; padding:0.85rem 1rem; }
+  .source-card-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--asm); margin-bottom:5px; }
+  .source-items { display:flex; flex-wrap:wrap; gap:5px; }
+  .source-item { font-size:12px; background:#fff; border:0.5px solid var(--asm-border); color:var(--asm-dark); padding:2px 8px; border-radius:6px; }
+
+  /* TIP indicators */
+  .tip-banner { background:var(--asm-dark); border-radius:12px; padding:1.1rem 1.4rem; display:flex; align-items:flex-start; gap:12px; margin-bottom:10px; }
+  .tip-banner-icon { font-size:22px; flex-shrink:0; }
+  .tip-banner-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:4px; }
+  .tip-banner-text  { font-size:13px; color:rgba(255,255,255,0.85); line-height:1.5; }
+
+  /* Maturity */
+  .maturity-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:4px; }
+  .maturity-card { border-radius:10px; padding:0.9rem 1rem; }
+  .maturity-card.current { background:#FAEEDA; border:0.5px solid #FAC775; }
+  .maturity-card.near    { background:var(--asm-light); border:0.5px solid var(--asm-border); }
+  .maturity-card.future  { background:#f9f9f7; border:0.5px solid #e8e8e4; }
+  .maturity-card h4 { font-size:12px; font-weight:600; margin-bottom:5px; }
+  .maturity-card.current h4 { color:#854F0B; }
+  .maturity-card.near    h4 { color:var(--asm); }
+  .maturity-card.future  h4 { color:#555; }
+  .maturity-card p { font-size:12px; margin:0; line-height:1.4; }
+  .maturity-card.current p { color:#6b3f0a; }
+  .maturity-card.near    p { color:var(--asm-dark); }
+  .maturity-card.future  p { color:#666; }
+
+  /* Related */
+  .related-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-top:4px; }
+  .related-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.8rem 1rem; text-decoration:none; color:inherit; display:flex; align-items:center; gap:8px; transition:background 0.1s; }
+  .related-card:hover { background:var(--asm-light); }
+  .related-card-text { font-size:13px; color:#333; font-weight:500; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .asm-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .asm-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+  @media(max-width:640px){ .ti-types,.soc-grid,.maturity-grid,.sources-grid{grid-template-columns:1fr;} .ti-lifecycle{grid-template-columns:1fr 1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="asm.html">ASM</a><span>›</span><span>Threat Intelligence</span></div>
+
+  <div class="asm-page-hero">
+    <div class="asm-page-hero-eyebrow">ASM · Threat Intelligence</div>
+    <h1>🧠 Threat Intelligence</h1>
+    <p>Actionable intelligence about adversaries, tactics, techniques, and active exploitation that informs prioritisation decisions across all ASM domains and feeds directly into SOC detection and response operations.</p>
+    <div class="asm-page-hero-pills">
+      <span class="asm-page-hero-pill">NIST CSF 2.0 — Identify &amp; Detect</span>
+      <span class="asm-page-hero-pill">MITRE ATT&amp;CK aligned</span>
+      <span class="asm-page-hero-pill">SOC integration</span>
+      <span class="asm-page-hero-pill">Risk-driven prioritisation</span>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 1</div>
+    <div class="asm-section-title">Purpose</div>
+    <p>Threat Intelligence (TI) transforms raw data about cyber threats into actionable knowledge that security teams can use to make better, faster decisions. In the context of ASM, threat intelligence answers a critical question: <em>which of our vulnerabilities and exposure gaps are being actively targeted right now?</em></p>
+    <p>This page establishes the foundational concepts, intelligence types, recommended sources, and SOC integration points for the Threat Intelligence capability. Formal SOPs and Work Instructions will be developed as the capability matures.</p>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 2</div>
+    <div class="asm-section-title">The Intelligence Lifecycle</div>
+    <p>Threat intelligence follows a structured production cycle. Each phase feeds the next — skipping phases produces raw data, not actionable intelligence.</p>
+    <div class="ti-lifecycle">
+      <div class="ti-phase"><div class="ti-phase-num">1</div><div class="ti-phase-text">Planning &amp; Direction</div></div>
+      <div class="ti-phase"><div class="ti-phase-num">2</div><div class="ti-phase-text">Collection</div></div>
+      <div class="ti-phase"><div class="ti-phase-num">3</div><div class="ti-phase-text">Processing</div></div>
+      <div class="ti-phase"><div class="ti-phase-num">4</div><div class="ti-phase-text">Analysis &amp; Production</div></div>
+      <div class="ti-phase"><div class="ti-phase-num">5</div><div class="ti-phase-text">Dissemination &amp; Feedback</div></div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 3</div>
+    <div class="asm-section-title">Intelligence Types</div>
+    <p>Effective threat intelligence programmes produce intelligence at four levels — each serving a different audience and decision type.</p>
+    <div class="ti-types">
+      <div class="ti-type-card strategic">
+        <h4>📊 Strategic Intelligence</h4>
+        <p>High-level threat landscape trends, geopolitical context, and sector-specific threats. Used by leadership for resource allocation and risk acceptance decisions. Long time horizon.</p>
+      </div>
+      <div class="ti-type-card tactical">
+        <h4>⚔️ Tactical Intelligence</h4>
+        <p>Adversary tactics, techniques, and procedures (TTPs) mapped to MITRE ATT&amp;CK. Used by SOC analysts and detection engineers to improve detection rules and response playbooks.</p>
+      </div>
+      <div class="ti-type-card operational">
+        <h4>🎯 Operational Intelligence</h4>
+        <p>Specific details about planned or active campaigns targeting the sector or organisation. Enables proactive defensive posture changes before an attack is launched.</p>
+      </div>
+      <div class="ti-type-card technical">
+        <h4>🔩 Technical Intelligence</h4>
+        <p>Machine-consumable indicators of compromise (IOCs) — IPs, domains, hashes, URLs. Feeds directly into SIEM, EDR, and firewall block lists for automated detection and blocking.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 4</div>
+    <div class="asm-section-title">How Threat Intelligence Informs ASM</div>
+    <p>Threat intelligence is the connective tissue between ASM domains — it answers <em>which vulnerabilities matter most right now</em> based on what attackers are actively doing.</p>
+    <div class="soc-grid">
+      <div class="soc-card">
+        <h4>🔍 Vulnerability prioritisation</h4>
+        <p>Vulnerabilities with active exploitation (CISA KEV, threat actor campaigns) are elevated regardless of CVSS score. Intelligence-driven triage replaces score-only prioritisation.</p>
+      </div>
+      <div class="soc-card">
+        <h4>🩹 Patch urgency</h4>
+        <p>Active exploitation in the wild triggers emergency patching (IT-PM-SOP-02) immediately — bypassing standard change windows. Intelligence confirms when a CVE is being weaponised.</p>
+      </div>
+      <div class="soc-card">
+        <h4>🔒 Baseline hardening</h4>
+        <p>TTP analysis reveals which misconfigurations attackers are exploiting in campaigns. Baseline controls are updated to harden against observed attacker behaviour.</p>
+      </div>
+      <div class="soc-card">
+        <h4>📋 Playbook improvement</h4>
+        <p>New adversary TTPs mapped to MITRE ATT&amp;CK trigger updates to SOC playbooks, detection rules, and runbooks. Intelligence drives continuous improvement of response capability.</p>
+      </div>
+      <div class="soc-card">
+        <h4>🛡️ Detection enrichment</h4>
+        <p>Technical IOCs (IPs, domains, hashes) are ingested into SIEM and EDR to create alerts before an attacker reaches the endpoint. Threat intel feeds become detection controls.</p>
+      </div>
+      <div class="soc-card">
+        <h4>📊 Risk decisions</h4>
+        <p>Strategic intelligence informs risk acceptance decisions — whether a specific threat actor targets the sector, what their typical objectives are, and what controls are most effective.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 5</div>
+    <div class="asm-section-title">Recommended Intelligence Sources</div>
+    <div class="sources-grid">
+      <div class="source-card">
+        <div class="source-card-label">🆓 Free &amp; Open Sources</div>
+        <div class="source-items">
+          <span class="source-item">CISA KEV Catalogue</span>
+          <span class="source-item">MITRE ATT&amp;CK</span>
+          <span class="source-item">NVD / CVE</span>
+          <span class="source-item">AlienVault OTX</span>
+          <span class="source-item">Abuse.ch feeds</span>
+          <span class="source-item">CISA Advisories</span>
+          <span class="source-item">MS-ISAC</span>
+        </div>
+      </div>
+      <div class="source-card">
+        <div class="source-card-label">🏛️ Sector &amp; Government</div>
+        <div class="source-items">
+          <span class="source-item">NCSC (UK)</span>
+          <span class="source-item">CISA (US)</span>
+          <span class="source-item">ENISA (EU)</span>
+          <span class="source-item">Sector ISACs</span>
+          <span class="source-item">Regional CERTs</span>
+        </div>
+      </div>
+      <div class="source-card">
+        <div class="source-card-label">🔧 Technical Feeds</div>
+        <div class="source-items">
+          <span class="source-item">Shodan</span>
+          <span class="source-item">GreyNoise</span>
+          <span class="source-item">VirusTotal</span>
+          <span class="source-item">URLhaus</span>
+          <span class="source-item">Feodo Tracker</span>
+          <span class="source-item">ThreatFox</span>
+        </div>
+      </div>
+      <div class="source-card">
+        <div class="source-card-label">💼 Commercial (Optional)</div>
+        <div class="source-items">
+          <span class="source-item">Recorded Future</span>
+          <span class="source-item">Mandiant TI</span>
+          <span class="source-item">CrowdStrike Intel</span>
+          <span class="source-item">Microsoft TI</span>
+          <span class="source-item">MISP platform</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 6</div>
+    <div class="asm-section-title">CISA KEV — The Most Actionable Free Source</div>
+    <p>The CISA Known Exploited Vulnerabilities (KEV) catalogue is the single most actionable free threat intelligence source available. It lists CVEs that have been confirmed as actively exploited in the wild — meaning real attackers are using them right now.</p>
+    <ul class="asm-bullet">
+      <li>Any CVE on the KEV list should be treated as an emergency patch priority regardless of CVSS score</li>
+      <li>Cross-reference your vulnerability scanner output against the KEV list as part of every triage cycle</li>
+      <li>KEV is updated frequently — subscribe to CISA alerts or automate the comparison</li>
+      <li>Available free at: <strong>cisa.gov/known-exploited-vulnerabilities-catalog</strong></li>
+    </ul>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 7</div>
+    <div class="asm-section-title">SOC Integration Points</div>
+    <p>Threat intelligence has no value unless it is operationalised. The following integration points connect TI directly to SOC operations in this knowledge base:</p>
+    <div class="related-grid">
+      <a class="related-card" href="tools-references.html"><span>⚔️</span><span class="related-card-text">MITRE ATT&amp;CK Mapping</span></a>
+      <a class="related-card" href="nist-csf-reference.html"><span>🏛️</span><span class="related-card-text">NIST CSF 2.0 — DE.AE</span></a>
+      <a class="related-card" href="playbooks.html"><span>📋</span><span class="related-card-text">Threat-informed Playbooks</span></a>
+      <a class="related-card" href="runbooks.html"><span>📖</span><span class="related-card-text">Detection Runbooks</span></a>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 8</div>
+    <div class="asm-section-title">Capability Maturity Roadmap</div>
+    <p>Threat intelligence capability development is a progressive journey. The current focus is on consuming free and open-source intelligence to support prioritisation decisions.</p>
+    <div class="maturity-grid">
+      <div class="maturity-card current">
+        <h4>⚡ Current — Consume</h4>
+        <p>Use CISA KEV, MITRE ATT&amp;CK, and open feeds to inform vulnerability prioritisation and patch urgency decisions</p>
+      </div>
+      <div class="maturity-card near">
+        <h4>🎯 Near-term — Integrate</h4>
+        <p>Ingest technical IOC feeds into SIEM and EDR. Build TI-driven detection rules. Establish a formal TI review cadence.</p>
+      </div>
+      <div class="maturity-card future">
+        <h4>🔭 Future — Produce</h4>
+        <p>Generate organisation-specific intelligence, build threat actor profiles relevant to the sector, and share intelligence with sector peers.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Documentation status</div>
+    <div class="asm-section-title">Planned SOPs &amp; Work Instructions</div>
+    <p>Formal TI SOPs and Work Instructions are planned as the capability matures. The following documents are on the roadmap:</p>
+    <ul class="asm-bullet">
+      <li>IT-TI-SOP-01 — Threat Intelligence Programme &amp; Governance</li>
+      <li>IT-TI-WI-01 — IOC Feed Ingestion &amp; Management</li>
+      <li>IT-TI-WI-02 — Vulnerability Prioritisation Using Threat Intel</li>
+      <li>IT-TI-WI-03 — Threat Actor Profiling &amp; Campaign Tracking</li>
+    </ul>
+  </div>
+
+  <div class="asm-nav">
+    <a href="asm-patch-management.html">← Patch Management</a>
+    <a href="asm.html">← Back to ASM</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Threat Intelligence · ASM · Published 27 April 2026 · Paulo Ferreira</span>
+    <span><a href="asm.html" style="color:var(--asm);text-decoration:none;">← Back to ASM</a></span>
+  </div>
+</div>
+</body>
+</html>

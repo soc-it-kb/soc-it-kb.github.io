@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patch Management — Attack Surface Management</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+
+  .asm-page-hero { background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .asm-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .asm-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .asm-page-hero p  { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .asm-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .asm-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .asm-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .asm-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:4px; }
+  .asm-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .asm-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .asm-section p:last-child { margin-bottom:0; }
+
+  .asm-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .asm-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .asm-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--asm); flex-shrink:0; margin-top:5px; }
+
+  /* Why it matters banner */
+  .why-banner { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .why-banner-title { font-size:12px; font-weight:700; color:#993C1D; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.06em; }
+  .why-banner p { font-size:14px; color:#7a2e10; line-height:1.7; margin:0; }
+
+  /* Capability cards */
+  .capability-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:4px; }
+  .capability-card { background:var(--asm-light); border:0.5px solid var(--asm-border); border-radius:10px; padding:0.9rem 1rem; }
+  .capability-card h4 { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:5px; }
+  .capability-card p  { font-size:12px; color:#555; line-height:1.5; margin:0; }
+
+  /* SOP list */
+  .sop-list { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .sop-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .sop-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:2px 7px; border-radius:5px; white-space:nowrap; flex-shrink:0; }
+  .sop-name { font-size:13px; color:#333; flex:1; }
+  .sop-type { font-size:11px; font-weight:600; padding:2px 7px; border-radius:8px; background:#E1F5EE; color:#0F6E56; white-space:nowrap; }
+  .sop-type.emergency { background:#FAECE7; color:#993C1D; }
+  .sop-type.exception { background:#FAEEDA; color:#854F0B; }
+
+  /* WI list */
+  .wi-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .wi-row { display:flex; align-items:center; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 1rem; }
+  .wi-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:2px 7px; border-radius:5px; white-space:nowrap; flex-shrink:0; }
+  .wi-name { font-size:13px; color:#333; flex:1; }
+  .wi-badge { font-size:11px; font-weight:600; padding:2px 7px; border-radius:8px; }
+  .wi-badge.approved { background:#E1F5EE; color:#0F6E56; }
+  .wi-badge.planned  { background:#FAEEDA; color:#854F0B; }
+
+  /* Risk model */
+  .risk-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .risk-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.1rem; }
+  .risk-card h4 { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+  .risk-card p  { font-size:13px; color:#555; line-height:1.5; margin:0; }
+
+  /* Roles table */
+  .roles-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .roles-table th { background:var(--asm-light); color:var(--asm); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--asm-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .roles-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; }
+  .roles-table tr:nth-child(even) td { background:#fafafa; }
+  .roles-table td:first-child { font-weight:600; color:var(--asm-dark); }
+
+  /* Metrics */
+  .metrics-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:8px; margin-top:4px; }
+  .metric-card { background:var(--asm-light); border:0.5px solid var(--asm-border); border-radius:10px; padding:0.85rem 1rem; text-align:center; }
+  .metric-card h4 { font-size:12px; font-weight:600; color:var(--asm); margin-bottom:3px; }
+  .metric-card p  { font-size:12px; color:#555; margin:0; line-height:1.4; }
+
+  /* Framework tags */
+  .fw-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .fw-tag { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+
+  /* How to use */
+  .howto-steps { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .howto-step { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#333; }
+  .howto-num { width:22px; height:22px; border-radius:50%; background:var(--asm); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+  /* Related */
+  .related-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-top:4px; }
+  .related-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.8rem 1rem; text-decoration:none; color:inherit; display:flex; align-items:center; gap:8px; transition:background 0.1s; }
+  .related-card:hover { background:var(--asm-light); }
+  .related-card-text { font-size:13px; color:#333; font-weight:500; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .asm-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .asm-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+  @media(max-width:640px){ .capability-grid,.risk-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="asm.html">ASM</a><span>›</span><span>Patch Management</span></div>
+
+  <div class="asm-page-hero">
+    <div class="asm-page-hero-eyebrow">ASM · Patch Management</div>
+    <h1>🩹 Patch Management</h1>
+    <p>Governed patching lifecycle ensuring systems are protected against known vulnerabilities, exposure windows are minimised, and operational resilience is maintained across all environments. A core resilience control — not just an IT maintenance activity.</p>
+    <div class="asm-page-hero-pills">
+      <span class="asm-page-hero-pill">NIST CSF 2.0 — Protect</span>
+      <span class="asm-page-hero-pill">CIS Critical Controls</span>
+      <span class="asm-page-hero-pill">ISO 27001</span>
+      <span class="asm-page-hero-pill">Routine · Emergency · Zero-day</span>
+    </div>
+  </div>
+
+  <!-- Why it matters -->
+  <div class="why-banner">
+    <div class="why-banner-title">⚠️ Why patch management matters</div>
+    <p>Unpatched systems remain the leading cause of successful cyber attacks, ransomware incidents, and service outages. A consistent and governed patch management capability enables the organisation to reduce exposure to known and weaponised vulnerabilities, contain the blast radius of incidents, support rapid recovery and rebuild scenarios, and maintain compliance — even in low-maturity and constrained environments.</p>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 1</div>
+    <div class="asm-section-title">Scope</div>
+    <p>Patch Management applies to all endpoints (laptops and desktops), servers (physical, virtual, and cloud-based), infrastructure and platform components, and security tooling and supporting services. It covers routine, emergency, and zero-day patching across centrally and locally managed systems.</p>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 2</div>
+    <div class="asm-section-title">Capability Overview</div>
+    <div class="capability-grid">
+      <div class="capability-card"><h4>📋 Governance &amp; Standards</h4><p>Defines rules, roles, SLAs, and decision authority. The Core SOP is the primary reference.</p></div>
+      <div class="capability-card"><h4>🔧 Operational Execution</h4><p>Step-by-step instructions for endpoint and server patching activities.</p></div>
+      <div class="capability-card"><h4>🚨 Emergency Response</h4><p>Rapid, controlled response to zero-day vulnerabilities and active exploitation.</p></div>
+      <div class="capability-card"><h4>✅ Validation &amp; Assurance</h4><p>Evidence-based confirmation that patching was effective and complete.</p></div>
+      <div class="capability-card"><h4>⚠️ Risk Management</h4><p>Controlled exception handling where patching is not immediately possible.</p></div>
+      <div class="capability-card"><h4>📊 Metrics &amp; Oversight</h4><p>Compliance rates, SLA adherence, and exception tracking for management visibility.</p></div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 3</div>
+    <div class="asm-section-title">Core SOPs</div>
+    <div class="sop-list">
+      <div class="sop-row"><span class="sop-code">IT-PM-SOP-01</span><span class="sop-name">Patch Management — Core Standard Operating Procedure</span><span class="sop-type">Core SOP</span></div>
+      <div class="sop-row"><span class="sop-code">IT-PM-SOP-02</span><span class="sop-name">Patch Management — Emergency / Zero-Day SOP</span><span class="sop-type emergency">Emergency</span></div>
+      <div class="sop-row"><span class="sop-code">IT-PM-SOP-03</span><span class="sop-name">Patch Exception &amp; Risk Acceptance SOP</span><span class="sop-type exception">Exception</span></div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 4</div>
+    <div class="asm-section-title">Work Instructions &amp; Checklists</div>
+    <div class="wi-list">
+      <div class="wi-row"><span class="wi-code">IT-EP-WI-Win-01–05</span><span class="wi-name">Windows Endpoint Hardening &amp; Patching Readiness</span><span class="wi-badge approved">Published</span></div>
+      <div class="wi-row"><span class="wi-code">IT-PM-WI-EP-01</span><span class="wi-name">Endpoint Patch Management — Work Instructions</span><span class="wi-badge planned">Planned</span></div>
+      <div class="wi-row"><span class="wi-code">IT-PM-WI-SRV-01</span><span class="wi-name">Server Patch Management — Work Instructions</span><span class="wi-badge planned">Planned</span></div>
+      <div class="wi-row"><span class="wi-code">IT-PM-CHK-EP-01</span><span class="wi-name">Patch Compliance Validation Checklist — Endpoints</span><span class="wi-badge planned">Planned</span></div>
+      <div class="wi-row"><span class="wi-code">IT-PM-CHK-SRV-01</span><span class="wi-name">Patch Compliance Validation Checklist — Servers</span><span class="wi-badge planned">Planned</span></div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 5</div>
+    <div class="asm-section-title">Risk-Based Prioritisation Model</div>
+    <p>Patch prioritisation follows a risk-driven model. Emergency patching may bypass standard change windows when justified by risk.</p>
+    <div class="risk-grid">
+      <div class="risk-card"><h4>🔴 Vulnerability severity &amp; exploitability</h4><p>CVSS score combined with known active exploitation (KEV) determines urgency. Critical CVEs with public exploits are treated as emergency patches.</p></div>
+      <div class="risk-card"><h4>🖥️ Asset criticality &amp; exposure</h4><p>Internet-facing and mission-critical systems carry stricter SLAs. Internal-only low-criticality assets may follow standard timelines.</p></div>
+      <div class="risk-card"><h4>🧠 Threat intelligence</h4><p>Active exploitation in the wild — confirmed by threat intel feeds — triggers emergency patching regardless of CVSS score.</p></div>
+      <div class="risk-card"><h4>⚙️ Business &amp; operational impact</h4><p>Patch compatibility, downtime requirements, and service dependencies are assessed before deployment to minimise operational disruption.</p></div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 6</div>
+    <div class="asm-section-title">Roles &amp; Ownership</div>
+    <table class="roles-table">
+      <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
+      <tbody>
+        <tr><td>Global Cyber Security Team</td><td>Governance, standards, oversight, and emergency escalation</td></tr>
+        <tr><td>IT Operations (Global / Regional / Local)</td><td>Patch execution and validation</td></tr>
+        <tr><td>Asset / System Owners</td><td>Business impact assessment and risk ownership</td></tr>
+        <tr><td>Risk &amp; Governance Functions</td><td>Risk acceptance approval and audit oversight</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 7</div>
+    <div class="asm-section-title">Metrics &amp; Oversight</div>
+    <p>Metrics are reviewed monthly and escalated where compliance is below threshold.</p>
+    <div class="metrics-grid">
+      <div class="metric-card"><h4>Patch compliance rate</h4><p>Endpoints &amp; servers by severity</p></div>
+      <div class="metric-card"><h4>SLA adherence</h4><p>% patched within target windows</p></div>
+      <div class="metric-card"><h4>Critical exposure</h4><p>Outstanding Critical and High patches</p></div>
+      <div class="metric-card"><h4>Failure rate</h4><p>Patch failures and rollbacks</p></div>
+      <div class="metric-card"><h4>Exception age</h4><p>Volume and age of active exceptions</p></div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 8</div>
+    <div class="asm-section-title">Exception Handling</div>
+    <p>Where patches cannot be applied: a formal Patch Exception &amp; Risk Acceptance process (IT-PM-SOP-03) must be followed, compensating controls must be implemented, and exceptions are time-bound with regular review. Untracked or expired exceptions are not permitted.</p>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 9</div>
+    <div class="asm-section-title">Framework Alignment</div>
+    <div class="fw-tags">
+      <span class="fw-tag">✅ NIST CSF 2.0 — PR.PS Platform Security</span>
+      <span class="fw-tag">✅ CIS Critical Security Controls — Control 7</span>
+      <span class="fw-tag">✅ ISO/IEC 27001 — A.12 Operations Security</span>
+      <span class="fw-tag">✅ Incident Response &amp; Resilience practices</span>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">How to use</div>
+    <div class="asm-section-title">Navigation Guide</div>
+    <div class="howto-steps">
+      <div class="howto-step"><div class="howto-num">1</div>Start with <strong>IT-PM-SOP-01</strong> to understand governance, SLAs, and roles</div>
+      <div class="howto-step"><div class="howto-num">2</div>Use the <strong>Work Instructions</strong> to execute patching activities on endpoints and servers</div>
+      <div class="howto-step"><div class="howto-num">3</div>Apply <strong>Validation Checklists</strong> after every patch cycle to confirm effectiveness</div>
+      <div class="howto-step"><div class="howto-num">4</div>Use <strong>IT-PM-SOP-02</strong> during critical or zero-day scenarios requiring emergency response</div>
+      <div class="howto-step"><div class="howto-num">5</div>Follow <strong>IT-PM-SOP-03</strong> when patching cannot be applied within the SLA window</div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Related</div>
+    <div class="asm-section-title">Related ASM Domains</div>
+    <div class="related-grid">
+      <a class="related-card" href="asm-vulnerability-management.html"><span>🔍</span><span class="related-card-text">Vulnerability Management</span></a>
+      <a class="related-card" href="asm-security-baselines.html"><span>🔒</span><span class="related-card-text">Security Baselines</span></a>
+      <a class="related-card" href="asm-threat-intel.html"><span>🧠</span><span class="related-card-text">Threat Intelligence</span></a>
+      <a class="related-card" href="playbooks.html"><span>📋</span><span class="related-card-text">Incident Response Playbooks</span></a>
+    </div>
+  </div>
+
+  <div class="asm-nav">
+    <a href="asm-vulnerability-management.html">← Vulnerability Management</a>
+    <a href="asm.html">← Back to ASM</a>
+    <a href="asm-threat-intel.html">Threat Intelligence →</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Patch Management · ASM · Published 14 January 2026 · Paulo Ferreira</span>
+    <span><a href="asm.html" style="color:var(--asm);text-decoration:none;">← Back to ASM</a></span>
+  </div>
+</div>
+</body>
+</html>

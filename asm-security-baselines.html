@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Baselines — Attack Surface Management</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+
+  .asm-page-hero { background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .asm-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .asm-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .asm-page-hero p  { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .asm-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .asm-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  /* Section cards */
+  .asm-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .asm-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:4px; }
+  .asm-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .asm-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .asm-section p:last-child { margin-bottom:0; }
+
+  /* Bullet */
+  .asm-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .asm-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .asm-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--asm); flex-shrink:0; margin-top:5px; }
+
+  /* Principles grid */
+  .principles-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:4px; }
+  .principle-card { background:var(--asm-light); border:0.5px solid var(--asm-border); border-radius:10px; padding:0.9rem 1rem; }
+  .principle-card h4 { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:4px; }
+  .principle-card p  { font-size:12px; color:#555; line-height:1.5; margin:0; }
+
+  /* Domain split */
+  .domain-split { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .domain-box { background:var(--asm-light); border:0.5px solid var(--asm-border); border-radius:10px; padding:1rem 1.1rem; }
+  .domain-box h4 { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+
+  /* SOP catalogue */
+  .sop-list { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .sop-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .sop-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:2px 7px; border-radius:5px; white-space:nowrap; flex-shrink:0; }
+  .sop-name { font-size:13px; color:#333; flex:1; }
+  .sop-status { font-size:11px; font-weight:600; padding:2px 7px; border-radius:8px; background:#E1F5EE; color:#0F6E56; white-space:nowrap; }
+
+  /* WI catalogue */
+  .wi-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .wi-row { display:flex; align-items:center; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 1rem; text-decoration:none; color:inherit; transition:background 0.1s; }
+  .wi-row:hover { background:var(--asm-light); }
+  .wi-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:2px 7px; border-radius:5px; white-space:nowrap; flex-shrink:0; }
+  .wi-name { font-size:13px; color:#333; flex:1; }
+  .wi-arrow { color:#ccc; }
+
+  /* Framework table */
+  .fw-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .fw-table th { background:var(--asm-light); color:var(--asm); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--asm-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .fw-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; }
+  .fw-table tr:nth-child(even) td { background:#fafafa; }
+
+  /* Validation / governance boxes */
+  .gov-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:4px; }
+  .gov-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.1rem; }
+  .gov-card h4 { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:6px; }
+  .gov-card p  { font-size:13px; color:#555; line-height:1.5; margin:0; }
+
+  /* Audience */
+  .audience-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:4px; }
+  .audience-card { background:var(--asm-light); border:0.5px solid var(--asm-border); border-radius:8px; padding:0.85rem 1rem; }
+  .audience-card h4 { font-size:12px; font-weight:600; color:var(--asm-dark); margin-bottom:4px; }
+  .audience-card p  { font-size:12px; color:#555; line-height:1.4; margin:0; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .asm-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .asm-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+  @media(max-width:640px){ .principles-grid,.domain-split,.fw-grid,.gov-grid,.audience-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="asm.html">ASM</a><span>›</span><span>Security Baselines</span></div>
+
+  <div class="asm-page-hero">
+    <div class="asm-page-hero-eyebrow">ASM · Security Baselines</div>
+    <h1>🔒 Security Baselines</h1>
+    <p>Minimum recommended security configurations for all endpoints and servers. The secure-by-default foundation that limits attack surface before any vulnerability exists — bridging Cyber Security and IT Operations.</p>
+    <div class="asm-page-hero-pills">
+      <span class="asm-page-hero-pill">CIS Benchmarks Level 1</span>
+      <span class="asm-page-hero-pill">NIST CSF 2.0 — Protect</span>
+      <span class="asm-page-hero-pill">ISO 27001</span>
+      <span class="asm-page-hero-pill">Tool-agnostic</span>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 1</div>
+    <div class="asm-section-title">Purpose</div>
+    <p>The Security Baselines domain defines the minimum recommended security configurations that should be applied to all endpoints and servers. These baselines ensure that devices are deployed and operated in a secure-by-default state, reducing risk, limiting attack surface, and supporting rapid incident response and recovery.</p>
+    <p>This domain bridges Cyber Security and IT Operations, providing clear, actionable guidance that local, regional and global IT teams can consistently apply regardless of location or maturity level.</p>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 2</div>
+    <div class="asm-section-title">Scope</div>
+    <div class="domain-split">
+      <div class="domain-box">
+        <h4>💻 Applies to</h4>
+        <ul class="asm-bullet">
+          <li>All institution-managed endpoints (workstations and laptops)</li>
+          <li>All on-premises and cloud-hosted servers</li>
+          <li>All users with administrative or privileged access</li>
+        </ul>
+      </div>
+      <div class="domain-box">
+        <h4>📋 Compliance expectation</h4>
+        <p style="font-size:13px;color:#555;line-height:1.5;margin:0;">Unless explicitly approved through the exception process, all devices must comply with the defined minimum baselines. Unapproved deviations are considered non-compliant.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 3</div>
+    <div class="asm-section-title">Baseline Principles</div>
+    <div class="principles-grid">
+      <div class="principle-card"><h4>🎯 Minimum viable hardening</h4><p>Focused on high-impact, low-risk controls that can be applied broadly without operational disruption</p></div>
+      <div class="principle-card"><h4>📋 CIS-aligned</h4><p>Based on CIS Benchmarks Level 1 as the default minimum — universally recognised and audit-ready</p></div>
+      <div class="principle-card"><h4>🔧 Tool-agnostic</h4><p>SOPs define what must be implemented — Work Instructions define how, per platform and tooling</p></div>
+      <div class="principle-card"><h4>🌍 Operationally realistic</h4><p>Designed for distributed and resource-constrained environments at any maturity level</p></div>
+      <div class="principle-card"><h4>🛡️ SOC-supportive</h4><p>Enables detection, response, and recovery activities through consistent telemetry and configuration</p></div>
+      <div class="principle-card"><h4>🔄 Living documents</h4><p>Evolve with the threat landscape, incident learnings, and CIS benchmark updates</p></div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 4</div>
+    <div class="asm-section-title">Baseline Domains</div>
+    <div class="domain-split">
+      <div class="domain-box">
+        <h4>💻 Endpoint Security Baselines</h4>
+        <ul class="asm-bullet">
+          <li>Windows Workstations</li>
+          <li>macOS Workstations (where applicable)</li>
+          <li>Linux Workstations (where applicable)</li>
+          <li>Privileged Access Workstations (PAW)</li>
+        </ul>
+        <p style="font-size:12px;color:#888;margin-top:8px;line-height:1.4;">Covers: OS hardening · Local administrator controls · Endpoint protection · Disk encryption · Logging and telemetry</p>
+      </div>
+      <div class="domain-box">
+        <h4>🖥️ Server Security Baselines</h4>
+        <ul class="asm-bullet">
+          <li>Windows Servers</li>
+          <li>Linux Servers</li>
+          <li>Domain Controllers (hardening addendum)</li>
+          <li>Virtualisation hosts and critical infrastructure</li>
+        </ul>
+        <p style="font-size:12px;color:#888;margin-top:8px;line-height:1.4;">Covers: OS hardening · Service exposure reduction · Administrative access controls · Logging and monitoring</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 5</div>
+    <div class="asm-section-title">SOP Catalogue</div>
+    <p>Standard Operating Procedures define <em>what</em> should be implemented and <em>why</em>. Platform-specific but tool-agnostic — stable reference documents used for governance, audits, and oversight.</p>
+    <div class="sop-list">
+      <div class="sop-row"><span class="sop-code">IT-EP-SOP-Win-01</span><span class="sop-name">Endpoint Security Baseline — Windows</span><span class="sop-status">Approved</span></div>
+      <div class="sop-row"><span class="sop-code">IT-EP-SOP-PAW-01</span><span class="sop-name">Privileged Access Workstation Addendum — Windows</span><span class="sop-status">Approved</span></div>
+      <div class="sop-row"><span class="sop-code">IT-SRV-SOP-Win-01</span><span class="sop-name">Server Security Baseline — Windows</span><span class="sop-status">Approved</span></div>
+      <div class="sop-row"><span class="sop-code">IT-SRV-SOP-DC-01</span><span class="sop-name">Domain Controller Hardening Addendum — Windows</span><span class="sop-status">Approved</span></div>
+      <div class="sop-row"><span class="sop-code">IT-SRV-SOP-LNX-01</span><span class="sop-name">Server Security Baseline — Linux</span><span class="sop-status">Approved</span></div>
+      <div class="sop-row"><span class="sop-code">IT-SRV-SOP-LNX-02</span><span class="sop-name">Linux Identity &amp; SSH Hardening Addendum</span><span class="sop-status">Approved</span></div>
+      <div class="sop-row"><span class="sop-code">IT-GOV-SOP-01</span><span class="sop-name">Baseline Exception &amp; Risk Acceptance</span><span class="sop-status">Approved</span></div>
+      <div class="sop-row"><span class="sop-code">IT-GOV-SOP-02</span><span class="sop-name">Baseline Drift &amp; Periodic Validation</span><span class="sop-status">Approved</span></div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 6</div>
+    <div class="asm-section-title">Work Instructions — Published</div>
+    <p>Work Instructions define <em>how</em> to implement and validate baselines — step-by-step, designed for local IT execution.</p>
+    <div class="wi-list">
+      <a class="wi-row" href="it-ep-wi-win-01.html"><span class="wi-code">IT-EP-WI-Win-01</span><span class="wi-name">Local Administrator &amp; Privilege Hardening</span><span class="wi-arrow">›</span></a>
+      <a class="wi-row" href="it-ep-wi-win-02.html"><span class="wi-code">IT-EP-WI-Win-02</span><span class="wi-name">Disk Encryption &amp; Secure Boot Configuration</span><span class="wi-arrow">›</span></a>
+      <a class="wi-row" href="it-ep-wi-win-03.html"><span class="wi-code">IT-EP-WI-Win-03</span><span class="wi-name">Endpoint Protection &amp; ASR Baseline</span><span class="wi-arrow">›</span></a>
+      <a class="wi-row" href="it-ep-wi-win-04.html"><span class="wi-code">IT-EP-WI-Win-04</span><span class="wi-name">Logging, Telemetry &amp; Monitoring Readiness</span><span class="wi-arrow">›</span></a>
+      <a class="wi-row" href="it-ep-wi-win-05.html"><span class="wi-code">IT-EP-WI-Win-05</span><span class="wi-name">User Security Configuration</span><span class="wi-arrow">›</span></a>
+      <a class="wi-row" href="it-ep-wi-paw-01.html"><span class="wi-code">IT-EP-WI-PAW-01</span><span class="wi-name">PAW Build &amp; Device Designation</span><span class="wi-arrow">›</span></a>
+      <a class="wi-row" href="it-ep-wi-paw-02.html"><span class="wi-code">IT-EP-WI-PAW-02</span><span class="wi-name">Account Separation &amp; Logon Restrictions</span><span class="wi-arrow">›</span></a>
+      <a class="wi-row" href="it-ep-wi-paw-03.html"><span class="wi-code">IT-EP-WI-PAW-03</span><span class="wi-name">Credential Protection &amp; Authentication Hardening</span><span class="wi-arrow">›</span></a>
+      <a class="wi-row" href="it-ep-wi-paw-04.html"><span class="wi-code">IT-EP-WI-PAW-04</span><span class="wi-name">Endpoint Protection &amp; Attack Surface Reduction</span><span class="wi-arrow">›</span></a>
+      <a class="wi-row" href="it-ep-wi-paw-05.html"><span class="wi-code">IT-EP-WI-PAW-05</span><span class="wi-name">Software, Usage &amp; Network Restrictions</span><span class="wi-arrow">›</span></a>
+      <a class="wi-row" href="it-ep-wi-paw-06.html"><span class="wi-code">IT-EP-WI-PAW-06</span><span class="wi-name">Logging, Telemetry &amp; SOC Visibility</span><span class="wi-arrow">›</span></a>
+      <a class="wi-row" href="it-ep-wi-paw-07.html"><span class="wi-code">IT-EP-WI-PAW-07</span><span class="wi-name">PAW Lifecycle, Rebuild &amp; Incident Handling</span><span class="wi-arrow">›</span></a>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 7</div>
+    <div class="asm-section-title">Standards &amp; Framework Alignment</div>
+    <table class="fw-table">
+      <thead><tr><th>Framework</th><th>Alignment</th><th>Relevance</th></tr></thead>
+      <tbody>
+        <tr><td><strong>CIS Benchmarks</strong></td><td>Level 1 — minimum default</td><td>Primary technical baseline reference. Level 2 for high-risk systems.</td></tr>
+        <tr><td><strong>NIST CSF 2.0</strong></td><td>PR.AA, PR.DS, PR.PS</td><td>Identity management, data security, platform security controls.</td></tr>
+        <tr><td><strong>ISO/IEC 27001</strong></td><td>Annex A — technical controls</td><td>Supports audit readiness and regulatory compliance.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 8</div>
+    <div class="asm-section-title">Validation, Exceptions &amp; Governance</div>
+    <div class="gov-grid">
+      <div class="gov-card">
+        <h4>✅ Validation</h4>
+        <p>Configuration verification checklists, automated or manual validation steps, and SOC or IT-led spot checks. Evidence retained for audit.</p>
+      </div>
+      <div class="gov-card">
+        <h4>⚠️ Exceptions</h4>
+        <p>Where a control cannot be implemented: document justification, record compensating controls, obtain approval, set review date. See IT-GOV-SOP-01.</p>
+      </div>
+      <div class="gov-card">
+        <h4>🔄 Change management</h4>
+        <p>Baselines are living documents. Changes tracked in the Baseline Change Log and communicated to stakeholders. Annual review minimum.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">Section 9</div>
+    <div class="asm-section-title">Ownership &amp; Governance</div>
+    <div class="gov-grid">
+      <div class="gov-card"><h4>👤 Document Owner</h4><p>IT Operations / Cyber Security</p></div>
+      <div class="gov-card"><h4>🔄 Review Cycle</h4><p>Annual or upon major change</p></div>
+      <div class="gov-card"><h4>✅ Approval Authority</h4><p>Cyber Security Governance Board</p></div>
+    </div>
+  </div>
+
+  <div class="asm-section">
+    <div class="asm-section-num">How to use</div>
+    <div class="asm-section-title">Audience Guide</div>
+    <div class="audience-grid">
+      <div class="audience-card"><h4>💻 IT Teams</h4><p>Use SOPs to understand requirements and published WIs to implement them</p></div>
+      <div class="audience-card"><h4>🔐 SOC Teams</h4><p>Use baselines to validate posture, investigate incidents, and support recovery</p></div>
+      <div class="audience-card"><h4>📋 Audit &amp; GRC</h4><p>Use SOPs and framework mappings for assurance and reporting</p></div>
+    </div>
+  </div>
+
+  <div class="asm-nav">
+    <a href="asm.html">← Back to ASM</a>
+    <a href="asm-vulnerability-management.html">Vulnerability Management →</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Security Baselines · ASM · Published 23 January 2026 · Paulo Ferreira</span>
+    <span><a href="asm.html" style="color:var(--asm);text-decoration:none;">← Back to ASM</a></span>
+  </div>
+</div>
+</body>
+</html>

@@ -8,65 +8,63 @@
 <style>
   .kb-hero {
     background: linear-gradient(135deg, #0E414F 0%, #297086 100%);
-    border-radius: 14px;
-    padding: 2.5rem 2rem 2rem;
-    margin-bottom: 1.75rem;
-    position: relative;
-    overflow: hidden;
+    border-radius: 14px; padding: 2.5rem 2rem 2rem;
+    margin-bottom: 1.75rem; position: relative; overflow: hidden;
   }
-  .kb-hero::before {
-    content:''; position:absolute; top:-40px; right:-40px;
-    width:200px; height:200px; border-radius:50%;
-    background:rgba(255,255,255,0.04);
-  }
-  .kb-hero::after {
-    content:''; position:absolute; bottom:-60px; right:60px;
-    width:140px; height:140px; border-radius:50%;
-    background:rgba(255,255,255,0.03);
-  }
-  .kb-hero-badge {
-    display:inline-flex; align-items:center; gap:6px;
-    background:rgba(255,255,255,0.12);
-    border:0.5px solid rgba(255,255,255,0.2);
-    border-radius:20px; padding:4px 12px;
-    font-size:12px; color:rgba(255,255,255,0.85); margin-bottom:1rem;
-  }
+  .kb-hero::before { content:''; position:absolute; top:-40px; right:-40px; width:200px; height:200px; border-radius:50%; background:rgba(255,255,255,0.04); }
+  .kb-hero::after  { content:''; position:absolute; bottom:-60px; right:60px; width:140px; height:140px; border-radius:50%; background:rgba(255,255,255,0.03); }
+  .kb-hero-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.12); border:0.5px solid rgba(255,255,255,0.2); border-radius:20px; padding:4px 12px; font-size:12px; color:rgba(255,255,255,0.85); margin-bottom:1rem; }
   .kb-hero-badge .dot { width:8px; height:8px; border-radius:50%; background:#4ade80; display:inline-block; }
   .kb-hero h1 { font-size:24px; font-weight:600; color:#fff; margin-bottom:0.6rem; line-height:1.3; }
   .kb-hero p  { font-size:14px; color:rgba(255,255,255,0.75); line-height:1.7; max-width:640px; }
   .kb-hero-subnav { display:flex; gap:8px; flex-wrap:wrap; margin-top:1.5rem; }
-  .kb-hero-subnav a {
-    background:rgba(255,255,255,0.1);
-    border:0.5px solid rgba(255,255,255,0.2);
-    color:rgba(255,255,255,0.9); padding:6px 14px;
-    border-radius:20px; font-size:13px; text-decoration:none;
-    transition:background 0.15s;
-  }
+  .kb-hero-subnav a { background:rgba(255,255,255,0.1); border:0.5px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.9); padding:6px 14px; border-radius:20px; font-size:13px; text-decoration:none; transition:background 0.15s; }
   .kb-hero-subnav a:hover { background:rgba(255,255,255,0.22); }
+  .kb-hero-subnav a.asm { background:rgba(91,45,142,0.4); border-color:rgba(180,140,230,0.4); }
+  .kb-hero-subnav a.asm:hover { background:rgba(91,45,142,0.6); }
 
-  .kb-how-box {
-    background:#fff; border:0.5px solid #e0e0dc;
-    border-radius:12px; padding:1.25rem 1.5rem;
-  }
+  /* Stats */
+  .stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); gap:10px; margin-bottom:1.75rem; }
+  .stat-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .stat-num   { font-size:24px; font-weight:700; line-height:1; margin-bottom:4px; }
+  .stat-label { font-size:11px; color:#888; }
+
+  .kb-how-box { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; }
   .kb-how-box p { font-size:14px; color:#555; margin-bottom:1rem; line-height:1.7; }
 
+  /* Cards */
   .kb-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px; }
-  .kb-card {
-    background:#fff; border:0.5px solid #e0e0dc; border-radius:12px;
-    padding:1.25rem; text-decoration:none; color:inherit; display:block;
-    transition:border-color 0.15s, transform 0.12s, box-shadow 0.12s;
-  }
+  .kb-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem; text-decoration:none; color:inherit; display:block; transition:border-color 0.15s, transform 0.12s, box-shadow 0.12s; }
   .kb-card:hover { border-color:#297086; transform:translateY(-2px); box-shadow:0 4px 16px rgba(41,112,134,0.08); }
+  .kb-card.asm-card:hover { border-color:#5B2D8E; box-shadow:0 4px 16px rgba(91,45,142,0.1); }
   .kb-card-icon { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:0.8rem; font-size:18px; }
   .icon-teal   { background:#E1F5EE; }
   .icon-blue   { background:#E6F1FB; }
   .icon-amber  { background:#FAEEDA; }
   .icon-coral  { background:#FAECE7; }
   .icon-purple { background:#EEEDFE; }
+  .icon-asm    { background:#F3EEF9; }
+  .icon-navy   { background:#E8F0FA; }
   .icon-gray   { background:#f1efe8; }
   .kb-card h3  { font-size:15px; font-weight:600; margin-bottom:5px; color:#1a1a1a; }
   .kb-card .kb-card-q { font-size:12px; font-style:italic; color:#297086; margin-bottom:8px; font-weight:500; }
+  .kb-card.asm-card .kb-card-q { color:#5B2D8E; }
   .kb-card p   { font-size:13px; color:#666; line-height:1.55; }
+
+  /* ASM highlight */
+  .asm-highlight { background:linear-gradient(135deg,#F3EEF9 0%,#EAE0F5 100%); border:0.5px solid #C9B3E8; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1.75rem; display:flex; align-items:flex-start; gap:16px; }
+  .asm-highlight-icon { font-size:32px; flex-shrink:0; }
+  .asm-highlight-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#5B2D8E; margin-bottom:5px; opacity:0.7; }
+  .asm-highlight-title { font-size:17px; font-weight:700; color:#3A1A5C; margin-bottom:6px; }
+  .asm-highlight-desc  { font-size:13px; color:#4A2A7A; line-height:1.6; margin-bottom:10px; }
+  .asm-highlight-pills { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .asm-highlight-pill  { font-size:11px; font-weight:600; background:rgba(91,45,142,0.1); color:#5B2D8E; border:0.5px solid #C9B3E8; padding:3px 10px; border-radius:20px; }
+  .asm-domain-links { display:flex; flex-wrap:wrap; gap:6px; }
+  .asm-domain-link { font-size:12px; font-weight:600; padding:4px 12px; border-radius:8px; text-decoration:none; }
+  .asm-domain-link.sb { background:#F3EEF9; color:#5B2D8E; border:0.5px solid #C9B3E8; }
+  .asm-domain-link.vm { background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; }
+  .asm-domain-link.pm { background:#E6F1FB; color:#185FA5; border:0.5px solid #B5D4F4; }
+  .asm-domain-link.ti { background:#EDF6ED; color:#2D5A2D; border:0.5px solid #A8D5A8; }
 
   .kb-tiers { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; }
   .kb-tier { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
@@ -85,21 +83,18 @@
   .kb-ci-pills { display:flex; flex-wrap:wrap; gap:6px; }
   .kb-ci-pill { font-size:12px; background:#f5f5f3; border:0.5px solid #e0e0dc; border-radius:12px; padding:3px 10px; color:#666; }
 
-  @media(max-width:600px){ .kb-ci{flex-direction:column;} }
+  @media(max-width:600px){ .kb-ci{flex-direction:column;} .asm-highlight{flex-direction:column;} }
 </style>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta name="referrer" content="no-referrer">
 </head>
 <body>
-
 <nav class="kb-topnav">
-  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
   <a href="index.html" class="active">Home</a>
   <a href="runbooks.html">Runbooks</a>
   <a href="playbooks.html">Playbooks</a>
   <a href="sops.html">SOPs</a>
   <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
   <a href="tools-references.html">Tools &amp; References</a>
   <a href="governance.html">Governance</a>
 </nav>
@@ -108,32 +103,70 @@
 
   <div class="kb-hero">
     <div class="kb-hero-badge"><span class="dot"></span> Active knowledge base</div>
-    <h1>IT Operations &amp; Cyber Security Knowledge Base</h1>
-    <p>The authoritative operational reference for SOC analysts, incident responders, and IT teams — structured to support detection, analysis, response, and recovery at all skill levels.</p>
+    <h1>Cyber Security Knowledge Base</h1>
+    <p>The authoritative operational reference for SOC analysts, incident responders, and IT teams — structured to support detection, analysis, response, and recovery at all skill levels. Freely available as a reference for NGOs, not-for-profit organisations, and SMBs.</p>
     <div class="kb-hero-subnav">
       <a href="runbooks.html">Runbooks</a>
       <a href="playbooks.html">Playbooks</a>
       <a href="sops.html">SOPs</a>
       <a href="work-instructions.html">Work Instructions</a>
+      <a href="asm.html" class="asm">⬡ ASM</a>
       <a href="tools-references.html">Tools &amp; References</a>
       <a href="governance.html">Governance</a>
     </div>
   </div>
 
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" style="color:#297086;">102</div><div class="stat-label">Total pages</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#0F6E56;">24</div><div class="stat-label">Playbooks</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#0F6E56;">23</div><div class="stat-label">Runbooks</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#8B4A0E;">26</div><div class="stat-label">Work instructions</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#4A5568;">5</div><div class="stat-label">SOPs</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#5B2D8E;">5</div><div class="stat-label">ASM pages</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#6B3FA0;">10</div><div class="stat-label">Tier-1 checklists</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#1A4A7A;">1</div><div class="stat-label">NIST CSF ref</div></div>
+  </div>
+
+  <!-- Purpose -->
   <div class="kb-section">
     <div class="kb-section-title">Purpose &amp; how to use</div>
     <div class="kb-how-box">
-      <p>This knowledge base replaces static documents with structured, searchable, and continuously maintained content. Use it to execute triage, manage incidents end-to-end, and access governance artefacts — all aligned to SOC tiers and the incident lifecycle.</p>
+      <p>This knowledge base replaces static documents with structured, searchable, and continuously maintained content. Use it to execute triage, manage incidents end-to-end, harden and manage your attack surface, and access governance artefacts — all aligned to SOC tiers, NIST CSF 2.0, and Zero Trust principles.</p>
       <ul class="kb-bullet-list">
         <li>Execute alert triage and response using Runbooks</li>
         <li>Manage end-to-end incidents using Playbooks</li>
         <li>Follow standardised processes defined in SOPs</li>
         <li>Perform tool-specific actions using Work Instructions</li>
-        <li>Access tools, references, and governance artefacts</li>
+        <li>Manage attack surface through the ASM section — baselines, vulnerability management, patching, and threat intel</li>
+        <li>Access framework references, MITRE ATT&amp;CK mappings, and NIST CSF 2.0 guidance</li>
       </ul>
     </div>
   </div>
 
+  <!-- ASM Highlight -->
+  <div class="asm-highlight">
+    <div class="asm-highlight-icon">⬡</div>
+    <div style="flex:1;">
+      <div class="asm-highlight-label">New section</div>
+      <div class="asm-highlight-title">Attack Surface Management</div>
+      <div class="asm-highlight-desc">A new dedicated ASM section brings together Security Baselines, Vulnerability Management, Patch Management, and Threat Intelligence under a unified, Zero Trust-aligned capability. Governs how the organisation identifies, understands, and reduces its exploitable exposure.</div>
+      <div class="asm-highlight-pills">
+        <span class="asm-highlight-pill">Zero Trust aligned</span>
+        <span class="asm-highlight-pill">NIST CSF 2.0</span>
+        <span class="asm-highlight-pill">CIS Benchmarks</span>
+        <span class="asm-highlight-pill">Asset-centric security</span>
+      </div>
+      <div class="asm-domain-links">
+        <a class="asm-domain-link sb" href="asm-security-baselines.html">🔒 Security Baselines</a>
+        <a class="asm-domain-link vm" href="asm-vulnerability-management.html">🔍 Vulnerability Management</a>
+        <a class="asm-domain-link pm" href="asm-patch-management.html">🩹 Patch Management</a>
+        <a class="asm-domain-link ti" href="asm-threat-intel.html">🧠 Threat Intelligence</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content structure -->
   <div class="kb-section">
     <div class="kb-section-title">Content structure</div>
     <div class="kb-cards">
@@ -141,70 +174,85 @@
         <div class="kb-card-icon icon-teal">📋</div>
         <h3>Runbooks</h3>
         <div class="kb-card-q">"An alert has fired — what do I do next?"</div>
-        <p>Trigger-based, step-by-step guidance for SOC analysts handling detections and alerts during initial triage.</p>
+        <p>Trigger-based, step-by-step guidance for SOC analysts handling detections during initial triage. 23 runbooks across email, identity, network, and endpoint.</p>
       </a>
       <a class="kb-card" href="playbooks.html">
         <div class="kb-card-icon icon-blue">🔄</div>
         <h3>Playbooks</h3>
         <div class="kb-card-q">"This is an incident — how do we manage it?"</div>
-        <p>End-to-end incident response workflows, decision points, escalation paths, and coordination activities.</p>
+        <p>End-to-end incident response workflows, decision points, escalation paths, and coordination activities. 24 playbooks including endpoint investigation.</p>
       </a>
       <a class="kb-card" href="sops.html">
         <div class="kb-card-icon icon-amber">📐</div>
-        <h3>Standard operating procedures</h3>
+        <h3>Standard Operating Procedures</h3>
         <div class="kb-card-q">"How is this process meant to work?"</div>
-        <p>Governance, roles, responsibilities, escalation rules, and compliance requirements for SOC operations.</p>
+        <p>Governance, roles, responsibilities, escalation rules, and compliance requirements for SOC operations. NIST CSF 2.0 aligned.</p>
       </a>
       <a class="kb-card" href="work-instructions.html">
         <div class="kb-card-icon icon-coral">🔧</div>
-        <h3>Work instructions</h3>
+        <h3>Work Instructions</h3>
         <div class="kb-card-q">"Where exactly do I click?"</div>
-        <p>Precise, tool-agnostic execution steps for containment, investigation, eradication, and recovery. SOAR-ready.</p>
+        <p>Tool-agnostic execution steps for containment, investigation, eradication, recovery, and IT hardening. 26 WIs covering SOC and IT operations.</p>
+      </a>
+      <a class="kb-card asm-card" href="asm.html">
+        <div class="kb-card-icon icon-asm">⬡</div>
+        <h3>Attack Surface Management</h3>
+        <div class="kb-card-q">"What is our exploitable exposure right now?"</div>
+        <p>Security Baselines, Vulnerability Management, Patch Management, and Threat Intelligence — unified under a Zero Trust-aligned ASM capability.</p>
       </a>
       <a class="kb-card" href="tools-references.html">
         <div class="kb-card-icon icon-purple">🛠️</div>
-        <h3>Tools &amp; references</h3>
-        <div class="kb-card-q">"Where do I access the platform?"</div>
-        <p>Central access to SOC platforms, architecture references, severity models, and MITRE ATT&amp;CK mappings.</p>
+        <h3>Tools &amp; References</h3>
+        <div class="kb-card-q">"What framework does this map to?"</div>
+        <p>MITRE ATT&amp;CK mappings, NIST CSF 2.0 reference, tool capability matrix, and framework alignment references.</p>
+      </a>
+      <a class="kb-card" href="nist-csf-reference.html">
+        <div class="kb-card-icon icon-navy">🏛️</div>
+        <h3>NIST CSF 2.0 Reference</h3>
+        <div class="kb-card-q">"Which framework function does this support?"</div>
+        <p>Full reference for the adopted cyber security framework — six functions, categories, implementation tiers, and KB alignment mapping.</p>
       </a>
       <a class="kb-card" href="governance.html">
         <div class="kb-card-icon icon-gray">📊</div>
-        <h3>Governance &amp; change log</h3>
+        <h3>Governance &amp; Change Log</h3>
         <div class="kb-card-q">"What changed and when?"</div>
-        <p>Transparency, traceability, and continuous improvement of SOC procedures and contribution process.</p>
+        <p>Site inventory, full change log, review schedule, contribution process, and planned improvements.</p>
       </a>
     </div>
   </div>
 
+  <!-- Tiers -->
   <div class="kb-section">
-    <div class="kb-section-title">Roles &amp; responsibilities</div>
+    <div class="kb-section-title">Roles &amp; audience</div>
     <div class="kb-tiers">
-      <div class="kb-tier"><div class="kb-tier-badge t1">Tier 1</div><h4>SOC analyst</h4><p>Alert triage and initial response</p></div>
-      <div class="kb-tier"><div class="kb-tier-badge t2">Tier 2</div><h4>SOC analyst</h4><p>Investigation and coordination</p></div>
-      <div class="kb-tier"><div class="kb-tier-badge t3">Tier 3 / IR</div><h4>Incident response</h4><p>Complex and high-severity incidents</p></div>
-      <div class="kb-tier"><div class="kb-tier-badge ti">IT teams</div><h4>Platform owners</h4><p>Execution and remediation support</p></div>
+      <div class="kb-tier"><div class="kb-tier-badge t1">Tier 1</div><h4>SOC Analyst</h4><p>Alert triage, Tier-1 checklists, and initial response</p></div>
+      <div class="kb-tier"><div class="kb-tier-badge t2">Tier 2</div><h4>SOC Analyst</h4><p>Investigation, coordination, and containment approval</p></div>
+      <div class="kb-tier"><div class="kb-tier-badge t3">Tier 3 / IR</div><h4>Incident Response</h4><p>Complex and high-severity incident management</p></div>
+      <div class="kb-tier"><div class="kb-tier-badge ti">IT Teams</div><h4>IT Operations</h4><p>Hardening, patching, and remediation execution</p></div>
     </div>
   </div>
 
+  <!-- Continuous improvement -->
   <div class="kb-section">
     <div class="kb-section-title">Continuous improvement</div>
     <div class="kb-ci">
       <div class="kb-ci-icon">♻️</div>
       <div class="kb-ci-text">
         <h3>This knowledge base is a living system</h3>
-        <p>Content is reviewed regularly, updated following incidents and lessons learned, and designed to evolve alongside tooling and automation (SOAR). Feedback and improvement suggestions should follow the governance and contribution process.</p>
+        <p>Content is reviewed regularly, updated following incidents and lessons learned, and designed to evolve alongside tooling and the threat landscape. Freely available as a public reference for NGOs, not-for-profit organisations, and SMBs that lack the resources to build security documentation from scratch.</p>
         <div class="kb-ci-pills">
           <span class="kb-ci-pill">Regular review cycles</span>
           <span class="kb-ci-pill">Post-incident updates</span>
-          <span class="kb-ci-pill">Framework aligned</span>
-          <span class="kb-ci-pill">SOAR-ready</span>
+          <span class="kb-ci-pill">NIST CSF 2.0 aligned</span>
+          <span class="kb-ci-pill">Zero Trust principles</span>
+          <span class="kb-ci-pill">Publicly accessible</span>
         </div>
       </div>
     </div>
   </div>
 
   <div class="kb-footer">
-    <span><span class="live-dot"></span>Published · 24 April 2026 &nbsp;·&nbsp; Paulo Ferreira</span>
+    <span><span class="live-dot"></span>Last updated 27 April 2026 · Cyber Security Knowledge Base</span>
     <span>Authoritative operational reference</span>
   </div>
 
