@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-VM-SOP-01: Vulnerability Management — Process &amp; Procedures — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+  .sop-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .sop-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .sop-meta-item strong { color:#1a1a1a; }
+  .sop-meta-sep { color:#e0e0dc; }
+  .sop-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .sop-badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .sop-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .sop-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:4px; }
+  .sop-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .sop-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .sop-section p:last-child { margin-bottom:0; }
+  .sop-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; margin-top:4px; }
+  .sop-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .sop-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--asm); flex-shrink:0; margin-top:5px; }
+  .sop-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .sop-table th { background:var(--asm-light); color:var(--asm); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--asm-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .sop-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; }
+  .sop-table tr:nth-child(even) td { background:#fafafa; }
+  .sop-table td:first-child { font-weight:600; color:var(--asm-dark); }
+  .sop-principles { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .sop-principle { background:var(--asm-light); border:0.5px solid var(--asm-border); border-radius:8px; padding:0.85rem 1rem; }
+  .sop-principle h4 { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:4px; }
+  .sop-principle p { font-size:12px; color:#555; line-height:1.5; margin:0; }
+  .sop-req-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .sop-req-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.85rem 1rem; }
+  .sop-req-card h4 { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:6px; }
+  .sop-callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .sop-callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .sop-callout-info { background:var(--asm-light); border:0.5px solid var(--asm-border); border-left:3px solid var(--asm); border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .sop-callout-info p { font-size:13px; color:var(--asm-dark); margin:0; line-height:1.5; }
+  .sop-steps { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .sop-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .sop-step-num { width:24px; height:24px; border-radius:50%; background:var(--asm); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .sop-step-body { flex:1; }
+  .sop-step-title { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:3px; }
+  .sop-step-desc  { font-size:13px; color:#444; line-height:1.5; }
+  .sla-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:8px; margin-top:4px; }
+  .sla-card { border-radius:8px; padding:0.85rem 1rem; text-align:center; }
+  .sla-card.critical { background:#FAECE7; border:0.5px solid #F5C0B0; }
+  .sla-card.high     { background:#FEF0E6; border:0.5px solid #F5C89A; }
+  .sla-card.medium   { background:#FAEEDA; border:0.5px solid #FAC775; }
+  .sla-card.low      { background:#f5f5f3; border:0.5px solid #e0e0dc; }
+  .sla-card h4 { font-size:13px; font-weight:700; margin-bottom:4px; }
+  .sla-card.critical h4 { color:#993C1D; }
+  .sla-card.high     h4 { color:#8B4A0E; }
+  .sla-card.medium   h4 { color:#854F0B; }
+  .sla-card.low      h4 { color:#555; }
+  .sla-card p { font-size:12px; margin:0; }
+  .sla-card.critical p { color:#7a2e10; }
+  .sla-card.high     p { color:#6b3a0a; }
+  .sla-card.medium   p { color:#6b3f0a; }
+  .sla-card.low      p { color:#666; }
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .rel-box  { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .rel-box h4 { font-size:12px; font-weight:600; color:var(--asm); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; }
+  .rel-link { display:flex; align-items:center; gap:8px; text-decoration:none; color:#444; font-size:13px; padding:4px 0; }
+  .rel-link:hover { color:var(--asm); }
+  .rel-link::before { content:'›'; color:var(--asm); font-weight:700; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .sop-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .sop-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+  @media(max-width:640px){ .sop-principles,.sop-req-grid,.rel-grid,.sop-principles{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-vulnerability-management.html">Vulnerability Management</a><span>›</span>
+    <span>IT-VM-SOP-01</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%);">
+    <span class="kb-page-hero-icon">📋</span>
+    <h1>IT-VM-SOP-01: Vulnerability Management — Process &amp; Procedures</h1>
+    <p>Consistent, risk-based, and auditable vulnerability management process to identify, assess, prioritise, remediate, and validate security vulnerabilities across all in-scope systems.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">ASM · IT Operations</span>
+      <span class="kb-meta-pill">Published 13 January 2026</span>
+    </div>
+  </div>
+
+  <div class="sop-meta-bar">
+    <div class="sop-meta-item">📋 <strong>SOP ID:</strong> IT-VM-SOP-01</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">📅 <strong>Published:</strong> 13 January 2026</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">🔄 <strong>Version:</strong> v1.0</div>
+  </div>
+
+
+  <div class="sop-section"><div class="sop-section-num">Section 1</div><div class="sop-section-title">Purpose</div>
+  <p>This SOP establishes a consistent, risk-based, and auditable Vulnerability Management process to identify, assess, prioritise, remediate, and validate security vulnerabilities across all in-scope information systems. Vulnerabilities are addressed in a timely manner, aligned with business risk, and governed through clear ownership and accountability.</p></div>
+
+  <div class="sop-section"><div class="sop-section-num">Section 2</div><div class="sop-section-title">Scope</div>
+  <ul class="sop-bullet">
+    <li>End-user endpoints (workstations, laptops)</li>
+    <li>Servers (on-premises and cloud)</li>
+    <li>Network devices and security appliances</li>
+    <li>Operating systems, applications, and middleware</li>
+    <li>Internet-facing services and externally exposed assets</li>
+  </ul>
+  <p style="font-size:13px;color:#888;margin-top:8px;">Out of scope: Zero-days prior to public disclosure (handled under Incident Response), assets under approved risk acceptance, unsupported legacy with documented exceptions.</p></div>
+
+  <div class="sop-section"><div class="sop-section-num">Section 3</div><div class="sop-section-title">Vulnerability Management Lifecycle</div>
+  <div class="sop-steps">
+    <div class="sop-step"><div class="sop-step-num">1</div><div class="sop-step-body"><div class="sop-step-title">Asset Discovery &amp; Coverage Validation</div><div class="sop-step-desc">Maintain authoritative asset inventory. Validate scanning and telemetry coverage. Identify and document visibility gaps.</div></div></div>
+    <div class="sop-step"><div class="sop-step-num">2</div><div class="sop-step-body"><div class="sop-step-title">Vulnerability Identification</div><div class="sop-step-desc">Authenticated vulnerability scanning, EDR/XDR telemetry, configuration checks, threat intelligence and vendor advisories, penetration testing.</div></div></div>
+    <div class="sop-step"><div class="sop-step-num">3</div><div class="sop-step-body"><div class="sop-step-title">Assessment &amp; Enrichment</div><div class="sop-step-desc">Enrich with CVSS severity, asset criticality, exposure level, known exploitation status, and business impact. Risk assessed using risk-based approach — not CVSS alone.</div></div></div>
+    <div class="sop-step"><div class="sop-step-num">4</div><div class="sop-step-body"><div class="sop-step-title">Risk-Based Prioritisation</div><div class="sop-step-desc">Threat intelligence and active exploitation status override raw CVSS scoring. Critical = actively exploited or externally exposed with high business impact.</div></div></div>
+    <div class="sop-step"><div class="sop-step-num">5</div><div class="sop-step-body"><div class="sop-step-title">Remediation Planning &amp; Execution</div><div class="sop-step-desc">Define action (patch, config change, control), assign owner, define SLA, reference change management. Emergency remediation may follow emergency change procedures.</div></div></div>
+    <div class="sop-step"><div class="sop-step-num">6</div><div class="sop-step-body"><div class="sop-step-title">Validation &amp; Closure</div><div class="sop-step-desc">Validate via re-scan or control verification. Confirm vulnerability no longer present. Close with evidence.</div></div></div>
+    <div class="sop-step"><div class="sop-step-num">7</div><div class="sop-step-body"><div class="sop-step-title">Exception &amp; Risk Acceptance</div><div class="sop-step-desc">Document risk, identify compensating controls, define expiry date, obtain business owner approval. All exceptions reviewed periodically.</div></div></div>
+  </div></div>
+
+  <div class="sop-section"><div class="sop-section-num">Section 4</div><div class="sop-section-title">Remediation SLAs</div>
+  <div class="sla-grid">
+    <div class="sla-card critical"><h4>Critical</h4><p>≤ 7 days</p></div>
+    <div class="sla-card high"><h4>High</h4><p>≤ 30 days</p></div>
+    <div class="sla-card medium"><h4>Medium</h4><p>≤ 90 days</p></div>
+    <div class="sla-card low"><h4>Low</h4><p>Best effort / scheduled</p></div>
+  </div>
+  <div class="sop-callout-warn" style="margin-top:10px;"><p>⚠️ Stricter SLAs apply to internet-facing or mission-critical assets.</p></div>
+  </div>
+
+  <div class="sop-section"><div class="sop-section-num">Section 5</div><div class="sop-section-title">Roles &amp; Responsibilities</div>
+  <table class="sop-table"><thead><tr><th>Role</th><th>Responsibility</th></tr></thead><tbody>
+    <tr><td>Cyber Security Operations</td><td>Own vulnerability lifecycle, prioritisation, reporting</td></tr>
+    <tr><td>IT Operations</td><td>Implement remediation actions</td></tr>
+    <tr><td>Asset Owners</td><td>Accept or remediate risk for owned systems</td></tr>
+    <tr><td>SOC / MDR</td><td>Identify exploited vulnerabilities and threat context</td></tr>
+    <tr><td>GRC / Risk Team</td><td>Manage exceptions, risk acceptance, audits</td></tr>
+    <tr><td>Management</td><td>Risk decisions, enforcement, resource allocation</td></tr>
+  </tbody></table></div>
+
+  <div class="sop-section"><div class="sop-section-num">Section 6</div><div class="sop-section-title">Process Integration</div>
+  <table class="sop-table"><thead><tr><th>Process</th><th>Integration point</th></tr></thead><tbody>
+    <tr><td>Incident Response</td><td>Exploited vulnerabilities trigger IR workflow</td></tr>
+    <tr><td>Patch Management</td><td>Primary remediation mechanism — feeds IT-PM-SOP-01</td></tr>
+    <tr><td>Configuration Management</td><td>Baseline and hardening gaps</td></tr>
+    <tr><td>Change Management</td><td>Controlled remediation through approved change process</td></tr>
+    <tr><td>Risk Management</td><td>Exceptions and risk acceptance governance</td></tr>
+  </tbody></table></div>
+
+  <div class="sop-section"><div class="sop-section-num">Section 7</div><div class="sop-section-title">Metrics &amp; Governance</div>
+  <p>Metrics monitored: MTTR, vulnerabilities by severity, SLA compliance, coverage percentage, re-opened vulnerabilities, top recurring root causes. Reviewed annually or following major incidents.</p></div>
+
+
+  <div class="sop-nav"><a href="it-srv-sop-lnx-02.html">← IT-SRV-SOP-LNX-02</a><a href="it-pm-sop-01.html">IT-PM-SOP-01 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-VM-SOP-01 · v1.0 · Paulo Ferreira</span>
+    <span><a href="asm-security-baselines.html" style="color:var(--asm);text-decoration:none;">← Back to Security Baselines</a></span>
+  </div>
+</div>
+</body>
+</html>

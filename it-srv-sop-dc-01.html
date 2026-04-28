@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-SRV-SOP-DC-01: Domain Controller Hardening Addendum — Windows — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+  .sop-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .sop-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .sop-meta-item strong { color:#1a1a1a; }
+  .sop-meta-sep { color:#e0e0dc; }
+  .sop-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .sop-badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .sop-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .sop-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:4px; }
+  .sop-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .sop-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .sop-section p:last-child { margin-bottom:0; }
+  .sop-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; margin-top:4px; }
+  .sop-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .sop-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--asm); flex-shrink:0; margin-top:5px; }
+  .sop-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .sop-table th { background:var(--asm-light); color:var(--asm); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--asm-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .sop-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; }
+  .sop-table tr:nth-child(even) td { background:#fafafa; }
+  .sop-table td:first-child { font-weight:600; color:var(--asm-dark); }
+  .sop-principles { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .sop-principle { background:var(--asm-light); border:0.5px solid var(--asm-border); border-radius:8px; padding:0.85rem 1rem; }
+  .sop-principle h4 { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:4px; }
+  .sop-principle p { font-size:12px; color:#555; line-height:1.5; margin:0; }
+  .sop-req-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .sop-req-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.85rem 1rem; }
+  .sop-req-card h4 { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:6px; }
+  .sop-callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .sop-callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .sop-callout-info { background:var(--asm-light); border:0.5px solid var(--asm-border); border-left:3px solid var(--asm); border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .sop-callout-info p { font-size:13px; color:var(--asm-dark); margin:0; line-height:1.5; }
+  .sop-steps { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .sop-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .sop-step-num { width:24px; height:24px; border-radius:50%; background:var(--asm); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .sop-step-body { flex:1; }
+  .sop-step-title { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:3px; }
+  .sop-step-desc  { font-size:13px; color:#444; line-height:1.5; }
+  .sla-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:8px; margin-top:4px; }
+  .sla-card { border-radius:8px; padding:0.85rem 1rem; text-align:center; }
+  .sla-card.critical { background:#FAECE7; border:0.5px solid #F5C0B0; }
+  .sla-card.high     { background:#FEF0E6; border:0.5px solid #F5C89A; }
+  .sla-card.medium   { background:#FAEEDA; border:0.5px solid #FAC775; }
+  .sla-card.low      { background:#f5f5f3; border:0.5px solid #e0e0dc; }
+  .sla-card h4 { font-size:13px; font-weight:700; margin-bottom:4px; }
+  .sla-card.critical h4 { color:#993C1D; }
+  .sla-card.high     h4 { color:#8B4A0E; }
+  .sla-card.medium   h4 { color:#854F0B; }
+  .sla-card.low      h4 { color:#555; }
+  .sla-card p { font-size:12px; margin:0; }
+  .sla-card.critical p { color:#7a2e10; }
+  .sla-card.high     p { color:#6b3a0a; }
+  .sla-card.medium   p { color:#6b3f0a; }
+  .sla-card.low      p { color:#666; }
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .rel-box  { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .rel-box h4 { font-size:12px; font-weight:600; color:var(--asm); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; }
+  .rel-link { display:flex; align-items:center; gap:8px; text-decoration:none; color:#444; font-size:13px; padding:4px 0; }
+  .rel-link:hover { color:var(--asm); }
+  .rel-link::before { content:'›'; color:var(--asm); font-weight:700; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .sop-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .sop-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+  @media(max-width:640px){ .sop-principles,.sop-req-grid,.rel-grid,.sop-principles{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-security-baselines.html">Security Baselines</a><span>›</span>
+    <span>IT-SRV-SOP-DC-01</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%);">
+    <span class="kb-page-hero-icon">📋</span>
+    <h1>IT-SRV-SOP-DC-01: Domain Controller Hardening Addendum — Windows</h1>
+    <p>Additional security requirements for Windows Domain Controllers — the highest-value assets in the environment where compromise typically results in full domain takeover.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">ASM · IT Operations</span>
+      <span class="kb-meta-pill">Published 16 January 2026</span>
+    </div>
+  </div>
+
+  <div class="sop-meta-bar">
+    <div class="sop-meta-item">📋 <strong>SOP ID:</strong> IT-SRV-SOP-DC-01</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">📅 <strong>Published:</strong> 16 January 2026</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">🔄 <strong>Version:</strong> v1.0</div>
+  </div>
+
+
+  <div class="sop-section"><div class="sop-section-num">Section 1</div><div class="sop-section-title">Purpose</div>
+  <p>This addendum defines recommended additional security requirements for Windows Domain Controllers (DCs). Domain Controllers represent the highest-value assets in the environment — compromise typically results in full domain takeover.</p>
+  <div class="sop-callout-warn"><p>🔴 This addendum supplements IT-SRV-SOP-Win-01 — it does not replace it. All DC controls assume the full Windows Server baseline is already in place.</p></div>
+  </div>
+
+  <div class="sop-section"><div class="sop-section-num">Section 2</div><div class="sop-section-title">Threat Model — Why DCs Are Different</div>
+  <p>Domain Controllers are targeted for credential theft (NTDS.dit, LSASS), privilege escalation and persistence, lateral movement and domain dominance, and disabling security controls and logging. Controls in this addendum assume breach elsewhere and protect the identity core.</p></div>
+
+  <div class="sop-section"><div class="sop-section-num">Section 3</div><div class="sop-section-title">Mandatory DC Hardening Requirements</div>
+  <div class="sop-req-grid">
+    <div class="sop-req-card"><h4>🔒 Dedicated Role &amp; Isolation</h4><ul class="sop-bullet"><li>DCs should not host additional roles or applications</li><li>No user workloads, databases, or unapproved third-party agents</li><li>Virtual DCs must be isolated from non-Tier-0 workloads</li></ul></div>
+    <div class="sop-req-card"><h4>👑 Tier-0 Administrative Model</h4><ul class="sop-bullet"><li>Only Tier-0 accounts may administer DCs</li><li>Domain Admin usage restricted to emergency or approved operations</li><li>No dual-use accounts — separate admin accounts required</li><li>Privileged access logged and monitored</li></ul></div>
+    <div class="sop-req-card"><h4>🔐 Credential Protection</h4><ul class="sop-bullet"><li>LSASS protected process enabled</li><li>Credential Guard enabled where supported</li><li>NTLM usage restricted or audited</li><li>No cached credentials for non-Tier-0 users</li></ul></div>
+    <div class="sop-req-card"><h4>🌐 Network Security</h4><ul class="sop-bullet"><li>DCs restricted to management and server network segments</li><li>No direct internet access</li><li>Firewall rules limited to required AD ports only</li><li>Administrative access restricted to hardened admin workstations</li></ul></div>
+    <div class="sop-req-card"><h4>📊 Logging &amp; SOC Visibility</h4><ul class="sop-bullet"><li>Directory Services logs enabled and forwarded</li><li>Security event logs (authentication, privilege use)</li><li>PowerShell logging enabled</li><li>EDR telemetry accessible to SOC in near-real time</li></ul></div>
+    <div class="sop-req-card"><h4>🔄 Backup &amp; Recovery</h4><ul class="sop-bullet"><li>System State backups enabled and tested</li><li>Backups protected from domain admin access</li><li>Offline recovery procedures documented</li></ul></div>
+  </div></div>
+
+  <div class="sop-section"><div class="sop-section-num">Section 4</div><div class="sop-section-title">Operational Restrictions — Explicitly Prohibited</div>
+  <ul class="sop-bullet">
+    <li>Browsing the internet from DCs</li>
+    <li>Email access from DCs</li>
+    <li>Installing non-security software</li>
+    <li>Using DCs as jump hosts</li>
+    <li>Using DCs for troubleshooting unrelated systems</li>
+  </ul></div>
+
+  <div class="sop-section"><div class="sop-section-num">Section 5</div><div class="sop-section-title">Incident Response &amp; Governance</div>
+  <p>During incidents involving DCs: SOC must be notified immediately, changes to DCs require Cyber Security approval, memory and forensic data collection takes priority, and rebuild is preferred over in-place remediation where compromise is suspected.</p>
+  <p style="margin-top:8px;"><strong>Exceptions</strong> to this addendum are high-risk by default and require Cyber Security Governance Board approval with short expiry dates and compensating controls.</p>
+  <p><strong>Owner:</strong> Cyber Security / Identity Services &nbsp;·&nbsp; <strong>Review Cycle:</strong> Annual or post-incident</p></div>
+
+
+  <div class="sop-nav"><a href="it-srv-sop-win-01.html">← IT-SRV-SOP-Win-01</a><a href="it-srv-sop-lnx-01.html">IT-SRV-SOP-LNX-01 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-SRV-SOP-DC-01 · v1.0 · Paulo Ferreira</span>
+    <span><a href="asm-security-baselines.html" style="color:var(--asm);text-decoration:none;">← Back to Security Baselines</a></span>
+  </div>
+</div>
+</body>
+</html>
