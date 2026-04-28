@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIS Benchmark Alignment Matrix — Security Baselines</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+
+  .asm-page-hero { background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .asm-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .asm-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .asm-page-hero p  { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .asm-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .asm-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  /* Purpose box */
+  .purpose-box { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1.25rem; }
+  .purpose-box p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .purpose-box p:last-child { margin-bottom:0; }
+
+  /* Legend */
+  .legend-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:1.25rem; }
+  .legend-item { display:flex; align-items:center; gap:6px; font-size:13px; font-weight:500; padding:5px 12px; border-radius:8px; }
+  .legend-item.mandatory    { background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; }
+  .legend-item.recommended  { background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .legend-item.na           { background:#f5f5f3; color:#666;    border:0.5px solid #e0e0dc; }
+
+  /* Asset type pills */
+  .asset-pills { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:1.25rem; }
+  .asset-pill { font-size:12px; font-weight:600; padding:4px 12px; border-radius:8px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); }
+
+  /* Section header */
+  .matrix-section { margin-bottom:1.5rem; }
+  .matrix-section-title { font-size:14px; font-weight:700; color:var(--asm); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+
+  /* Matrix table */
+  .matrix-table { width:100%; border-collapse:collapse; font-size:12px; background:#fff; border-radius:12px; overflow:hidden; border:0.5px solid var(--asm-border); }
+  .matrix-table th { background:var(--asm-dark); color:#fff; font-weight:600; padding:8px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; border-right:0.5px solid rgba(255,255,255,0.1); white-space:nowrap; }
+  .matrix-table th:first-child { width:22%; min-width:160px; }
+  .matrix-table td { padding:8px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:middle; }
+  .matrix-table td:first-child { font-weight:600; color:#2D3748; font-size:12px; background:#fafafa; }
+  .matrix-table td:last-child { font-size:11px; color:#888; font-style:italic; }
+  .matrix-table tr:nth-child(even) td { background:#fafafa; }
+  .matrix-table tr:nth-child(even) td:first-child { background:#f0f0ec; }
+
+  /* Status badges in table */
+  .s-m  { display:inline-block; font-size:10px; font-weight:700; padding:2px 7px; border-radius:6px; background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; white-space:nowrap; }
+  .s-r  { display:inline-block; font-size:10px; font-weight:700; padding:2px 7px; border-radius:6px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; white-space:nowrap; }
+  .s-na { display:inline-block; font-size:10px; font-weight:700; padding:2px 7px; border-radius:6px; background:#f5f5f3; color:#888;    border:0.5px solid #e0e0dc; white-space:nowrap; }
+
+  /* Governance box */
+  .gov-box { background:var(--asm-light); border:0.5px solid var(--asm-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:1.25rem; }
+  .gov-box-title { font-size:12px; font-weight:700; color:var(--asm); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+  .gov-items { display:flex; flex-direction:column; gap:5px; }
+  .gov-item { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:var(--asm-dark); line-height:1.5; }
+  .gov-item::before { content:'→'; color:var(--asm); font-weight:600; flex-shrink:0; }
+
+  /* Related */
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .rel-box  { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .rel-box h4 { font-size:12px; font-weight:600; color:var(--asm); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; }
+  .rel-link { display:flex; align-items:center; gap:8px; text-decoration:none; color:#444; font-size:13px; padding:4px 0; }
+  .rel-link:hover { color:var(--asm); }
+  .rel-link::before { content:'›'; color:var(--asm); font-weight:700; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .asm-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .asm-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+
+  @media(max-width:800px){ .matrix-table { font-size:11px; } .matrix-table th, .matrix-table td { padding:6px 7px; } .rel-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-security-baselines.html">Security Baselines</a><span>›</span>
+    <span>CIS Benchmark Alignment Matrix</span>
+  </div>
+
+  <div class="asm-page-hero">
+    <div class="asm-page-hero-eyebrow">ASM · Security Baselines · Reference</div>
+    <h1>CIS Benchmark Alignment Matrix</h1>
+    <p>Single authoritative reference mapping CIS Benchmark Level 1 controls to the approved Security Baselines — SOPs, Work Instructions, and Validation Checklists — across all covered asset types. Designed for IT teams, Cyber Security, and audit and assurance functions.</p>
+    <div class="asm-page-hero-pills">
+      <span class="asm-page-hero-pill">CIS Benchmarks Level 1</span>
+      <span class="asm-page-hero-pill">Implementation-agnostic</span>
+      <span class="asm-page-hero-pill">Audit &amp; assurance reference</span>
+      <span class="asm-page-hero-pill">Published 16 January 2026</span>
+    </div>
+  </div>
+
+  <!-- Purpose -->
+  <div class="purpose-box">
+    <p>This matrix gives IT and Cyber teams a clear, shared reference showing what is mandatory versus recommended across each asset type. It demonstrates explicit CIS alignment for audits and assurance, and prevents control drift or misinterpretation.</p>
+    <p>This matrix is <strong>implementation-agnostic</strong> — use it alongside the relevant SOPs and Work Instructions for detailed implementation guidance.</p>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend-row">
+    <div class="legend-item mandatory">🔴 Mandatory — implement unless an approved exception exists</div>
+    <div class="legend-item recommended">⚠️ Recommended — strongly advised where technically and operationally feasible</div>
+    <div class="legend-item na">— N/A — control does not apply to this asset type</div>
+  </div>
+
+  <!-- Asset types -->
+  <div class="asset-pills">
+    <span class="asset-pill">💻 Windows Endpoints</span>
+    <span class="asset-pill">🖥️ Windows Servers</span>
+    <span class="asset-pill">🏛️ Domain Controllers (Tier-0)</span>
+    <span class="asset-pill">🔐 PAW</span>
+    <span class="asset-pill">🐧 Linux Servers</span>
+  </div>
+
+  <!-- Section 1: Account & Access Control -->
+  <div class="matrix-section">
+    <div class="matrix-section-title">🔐 1 — Account &amp; Access Control</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>CIS Control</th>
+          <th>Win Endpoint</th>
+          <th>Win Server</th>
+          <th>Domain Controller</th>
+          <th>PAW</th>
+          <th>Linux Server</th>
+          <th>SOP Reference</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Disable Guest Account</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>Endpoint / Server Baseline SOPs</td></tr>
+        <tr><td>Restrict Local Admin</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>Endpoint, Server, PAW SOPs</td></tr>
+        <tr><td>No Shared Admin Accounts</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>Privileged Access &amp; DC Addendum</td></tr>
+        <tr><td>Least Privilege Enforcement</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>All baseline SOPs</td></tr>
+        <tr><td>Account Lockout Policy</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>Identity controls</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 2: Authentication & Credential Protection -->
+  <div class="matrix-section">
+    <div class="matrix-section-title">🔑 2 — Authentication &amp; Credential Protection</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>CIS Control</th>
+          <th>Win Endpoint</th>
+          <th>Win Server</th>
+          <th>Domain Controller</th>
+          <th>PAW</th>
+          <th>Linux Server</th>
+          <th>SOP Reference</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>MFA for Privileged Access</td><td><span class="s-r">Recommended</span></td><td><span class="s-r">Recommended</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-r">Recommended</span></td><td>PAW &amp; DC Addendum</td></tr>
+        <tr><td>Disable NTLM / Legacy Auth</td><td><span class="s-r">Recommended</span></td><td><span class="s-r">Recommended</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-na">N/A</span></td><td>DC &amp; PAW Addendum</td></tr>
+        <tr><td>Protect LSASS / Credentials</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-na">N/A</span></td><td>Endpoint, Server, DC SOPs</td></tr>
+        <tr><td>Disable Root Login (Linux)</td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-m">Mandatory</span></td><td>Linux Server SOP + LNX-02</td></tr>
+        <tr><td>SSH Key-Based Auth (Linux)</td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-m">Mandatory</span></td><td>IT-SRV-SOP-LNX-02</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 3: OS Hardening -->
+  <div class="matrix-section">
+    <div class="matrix-section-title">💻 3 — OS Hardening &amp; Configuration</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>CIS Control</th>
+          <th>Win Endpoint</th>
+          <th>Win Server</th>
+          <th>Domain Controller</th>
+          <th>PAW</th>
+          <th>Linux Server</th>
+          <th>SOP Reference</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Supported OS Only</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>All baselines</td></tr>
+        <tr><td>Secure Boot</td><td><span class="s-m">Mandatory</span></td><td><span class="s-r">Recommended</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-r">Recommended</span></td><td>Endpoint / Server SOPs</td></tr>
+        <tr><td>Disable Legacy Protocols</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>All baselines</td></tr>
+        <tr><td>Remove Unused Services</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>Server &amp; Linux SOPs</td></tr>
+        <tr><td>Kernel / Sysctl Hardening</td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-m">Mandatory</span></td><td>IT-SRV-SOP-LNX-01</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 4: Endpoint Protection -->
+  <div class="matrix-section">
+    <div class="matrix-section-title">🛡️ 4 — Endpoint Protection &amp; Integrity</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>CIS Control</th>
+          <th>Win Endpoint</th>
+          <th>Win Server</th>
+          <th>Domain Controller</th>
+          <th>PAW</th>
+          <th>Linux Server</th>
+          <th>SOP Reference</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Anti-Malware / EDR Installed</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-r">Recommended</span></td><td>Endpoint / Server / PAW SOPs</td></tr>
+        <tr><td>Tamper Protection Enabled</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-r">Recommended</span></td><td>Endpoint / DC / PAW</td></tr>
+        <tr><td>ASR / Attack Surface Reduction</td><td><span class="s-m">Mandatory</span></td><td><span class="s-r">Recommended</span></td><td><span class="s-r">Recommended</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-na">N/A</span></td><td>IT-EP-SOP-Win-01, PAW-01</td></tr>
+        <tr><td>SELinux / AppArmor Enforcing</td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-m">Mandatory</span></td><td>IT-SRV-SOP-LNX-01</td></tr>
+        <tr><td>File Integrity Monitoring</td><td><span class="s-r">Recommended</span></td><td><span class="s-r">Recommended</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>Linux &amp; DC Controls</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 5: Logging & Monitoring -->
+  <div class="matrix-section">
+    <div class="matrix-section-title">📊 5 — Logging &amp; Monitoring</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>CIS Control</th>
+          <th>Win Endpoint</th>
+          <th>Win Server</th>
+          <th>Domain Controller</th>
+          <th>PAW</th>
+          <th>Linux Server</th>
+          <th>SOP Reference</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Security Event Logging</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>All baselines</td></tr>
+        <tr><td>PowerShell Logging</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-na">N/A</span></td><td>Windows-based SOPs</td></tr>
+        <tr><td>Authentication Logging</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>All baselines</td></tr>
+        <tr><td>auditd / Command Logging</td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-m">Mandatory</span></td><td>IT-SRV-SOP-LNX-01</td></tr>
+        <tr><td>Central Log Visibility (SOC)</td><td><span class="s-r">Recommended</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>SOC Integration</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 6: Network Security -->
+  <div class="matrix-section">
+    <div class="matrix-section-title">🌐 6 — Network Security</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>CIS Control</th>
+          <th>Win Endpoint</th>
+          <th>Win Server</th>
+          <th>Domain Controller</th>
+          <th>PAW</th>
+          <th>Linux Server</th>
+          <th>SOP Reference</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Host-Based Firewall Enabled</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>All baselines</td></tr>
+        <tr><td>Restrict Inbound Ports</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>Server &amp; DC SOPs</td></tr>
+        <tr><td>No Direct Internet Access</td><td><span class="s-r">Recommended</span></td><td><span class="s-r">Recommended</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-r">Recommended</span></td><td>DC &amp; PAW Addendum</td></tr>
+        <tr><td>Admin Access via Mgmt Network</td><td><span class="s-r">Recommended</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>Server / DC / Linux SOPs</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 7: Data Protection -->
+  <div class="matrix-section">
+    <div class="matrix-section-title">🔒 7 — Data Protection &amp; Recovery</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>CIS Control</th>
+          <th>Win Endpoint</th>
+          <th>Win Server</th>
+          <th>Domain Controller</th>
+          <th>PAW</th>
+          <th>Linux Server</th>
+          <th>SOP Reference</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Disk Encryption</td><td><span class="s-m">Mandatory</span></td><td><span class="s-r">Recommended</span></td><td><span class="s-r">Recommended</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-r">Recommended</span></td><td>Endpoint / PAW SOPs</td></tr>
+        <tr><td>Secure Backup</td><td><span class="s-r">Recommended</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-r">Recommended</span></td><td><span class="s-m">Mandatory</span></td><td>Server / DC SOPs</td></tr>
+        <tr><td>Backup Restore Testing</td><td><span class="s-r">Recommended</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-r">Recommended</span></td><td><span class="s-m">Mandatory</span></td><td>Recovery SOPs</td></tr>
+        <tr><td>Backup Protected from Admin Access</td><td><span class="s-na">N/A</span></td><td><span class="s-r">Recommended</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-na">N/A</span></td><td><span class="s-r">Recommended</span></td><td>IT-SRV-SOP-DC-01</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 8: Usage Restrictions -->
+  <div class="matrix-section">
+    <div class="matrix-section-title">⚙️ 8 — Usage Restrictions &amp; Operational Controls</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>CIS Control</th>
+          <th>Win Endpoint</th>
+          <th>Win Server</th>
+          <th>Domain Controller</th>
+          <th>PAW</th>
+          <th>Linux Server</th>
+          <th>SOP Reference</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Restrict Admin Usage</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>Privileged Access SOP</td></tr>
+        <tr><td>No Email / Browsing on Tier-0</td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-na">N/A</span></td><td>DC &amp; PAW Addendum</td></tr>
+        <tr><td>Change Control for Baseline</td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td><span class="s-m">Mandatory</span></td><td>Drift &amp; Validation SOP</td></tr>
+        <tr><td>sudo Scoped &amp; Logged (Linux)</td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-na">N/A</span></td><td><span class="s-m">Mandatory</span></td><td>IT-SRV-SOP-LNX-02</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Governance notes -->
+  <div class="gov-box">
+    <div class="gov-box-title">📋 Governance notes</div>
+    <div class="gov-items">
+      <div class="gov-item">All Mandatory controls should be implemented unless an approved exception exists via IT-GOV-SOP-01</div>
+      <div class="gov-item">Recommended controls should be implemented wherever technically and operationally feasible</div>
+      <div class="gov-item">Exceptions follow the Baseline Exception &amp; Risk Acceptance SOP (IT-GOV-SOP-01)</div>
+      <div class="gov-item">Validation is enforced via asset-specific Baseline Validation Checklists</div>
+      <div class="gov-item">Baseline drift is managed via IT-GOV-SOP-02: Baseline Drift &amp; Periodic Validation</div>
+    </div>
+  </div>
+
+  <!-- Related documents -->
+  <div style="background:#fff;border:0.5px solid var(--asm-border);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1rem;">
+    <div style="font-size:12px;font-weight:700;color:var(--asm);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;">Related documents</div>
+    <div class="rel-grid">
+      <div class="rel-box">
+        <h4>SOPs</h4>
+        <a class="rel-link" href="it-ep-sop-win-01.html">IT-EP-SOP-Win-01 — Windows Endpoint Baseline</a>
+        <a class="rel-link" href="it-ep-sop-paw-01.html">IT-EP-SOP-PAW-01 — PAW Addendum</a>
+        <a class="rel-link" href="it-srv-sop-win-01.html">IT-SRV-SOP-Win-01 — Windows Server Baseline</a>
+        <a class="rel-link" href="it-srv-sop-dc-01.html">IT-SRV-SOP-DC-01 — DC Hardening Addendum</a>
+        <a class="rel-link" href="it-srv-sop-lnx-01.html">IT-SRV-SOP-LNX-01 — Linux Server Baseline</a>
+        <a class="rel-link" href="it-srv-sop-lnx-02.html">IT-SRV-SOP-LNX-02 — Linux SSH Hardening</a>
+      </div>
+      <div class="rel-box">
+        <h4>Governance</h4>
+        <a class="rel-link" href="it-gov-sop-01.html">IT-GOV-SOP-01 — Exception &amp; Risk Acceptance</a>
+        <a class="rel-link" href="it-gov-sop-02.html">IT-GOV-SOP-02 — Baseline Drift &amp; Validation</a>
+        <a class="rel-link" href="asm-security-baselines.html">Security Baselines — Domain Page</a>
+        <a class="rel-link" href="nist-csf-reference.html">NIST CSF 2.0 Reference</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="asm-nav">
+    <a href="asm-security-baselines.html">← Back to Security Baselines</a>
+    <a href="asm.html">← Back to ASM</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>CIS Benchmark Alignment Matrix · Published 16 January 2026 · Paulo Ferreira</span>
+    <span><a href="asm-security-baselines.html" style="color:var(--asm);text-decoration:none;">← Back to Security Baselines</a></span>
+  </div>
+</div>
+</body>
+</html>

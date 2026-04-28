@@ -6,7 +6,6 @@
 <title>Governance &amp; Change Log — Cyber Security Knowledge Base</title>
 <link rel="stylesheet" href="shared.css">
 <style>
-  /* Change log */
   .kb-change-entry { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem 1.25rem; display:flex; gap:14px; align-items:flex-start; }
   .kb-change-entry + .kb-change-entry { margin-top:8px; }
   .kb-change-date { font-size:12px; color:#aaa; white-space:nowrap; min-width:80px; padding-top:2px; }
@@ -18,8 +17,8 @@
   .kb-change-tag.new    { background:#E1F5EE; color:#0F6E56; border-color:#82D4B0; }
   .kb-change-tag.update { background:#E6F1FB; color:#185FA5; border-color:#B5D4F4; }
   .kb-change-tag.site   { background:#F3EEF9; color:#6B3FA0; border-color:#C9B3E8; }
+  .kb-change-tag.asm    { background:#F3EEF9; color:#5B2D8E; border-color:#C9B3E8; }
 
-  /* Process steps */
   .process-steps { display:flex; flex-direction:column; gap:0; }
   .process-step { display:flex; gap:14px; align-items:flex-start; padding:0.9rem 0; border-bottom:0.5px solid #f0f0ec; }
   .process-step:last-child { border-bottom:none; }
@@ -27,27 +26,22 @@
   .step-body h4 { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:3px; }
   .step-body p  { font-size:13px; color:#666; line-height:1.5; }
 
-  /* Site inventory */
-  .inventory-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1rem; }
+  .inventory-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin-bottom:1rem; }
   .inv-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
   .inv-num   { font-size:28px; font-weight:700; line-height:1; margin-bottom:4px; }
   .inv-label { font-size:12px; color:#888; }
 
-  /* Review schedule */
   .review-table { width:100%; border-collapse:collapse; font-size:13px; }
   .review-table th { background:#F0F2F5; color:#4A5568; font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid #CBD5E0; font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
   .review-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; }
   .review-table tr:nth-child(even) td { background:#fafafa; }
 
-  /* Status badge */
   .status-badge { font-size:11px; font-weight:600; padding:2px 8px; border-radius:8px; }
   .status-draft    { background:#FAEEDA; color:#854F0B; }
   .status-live     { background:#E1F5EE; color:#0F6E56; }
-  .status-pending  { background:#E6F1FB; color:#185FA5; }
+  .status-approved { background:#E6F1FB; color:#185FA5; }
+  .status-pending  { background:#F3EEF9; color:#5B2D8E; }
 </style>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta name="referrer" content="no-referrer">
 </head>
 <body>
 <nav class="kb-topnav">
@@ -67,40 +61,49 @@
   <div class="kb-page-hero">
     <span class="kb-page-hero-icon">📊</span>
     <h1>Governance &amp; Change Log</h1>
-    <p>Ensuring transparency, traceability, and continuous improvement of SOC procedures. This page records all changes to knowledge base content, the current site inventory, and defines the contribution and review process.</p>
+    <p>Ensuring transparency, traceability, and continuous improvement of SOC and IT Operations procedures. This page records all changes to knowledge base content, the current site inventory, and defines the contribution and review process.</p>
     <div class="kb-page-hero-meta">
       <span class="kb-meta-pill">Transparency</span>
       <span class="kb-meta-pill">Traceability</span>
       <span class="kb-meta-pill">Continuous improvement</span>
-      <span class="kb-meta-pill">Last updated 26 April 2026</span>
+      <span class="kb-meta-pill">Last updated 28 April 2026</span>
     </div>
   </div>
 
   <!-- Site inventory -->
   <div class="kb-section">
-    <div class="kb-section-title">Current site inventory — as of 26 April 2026</div>
+    <div class="kb-section-title">Current site inventory — as of 28 April 2026</div>
     <div class="inventory-grid">
-      <div class="inv-card"><div class="inv-num" style="color:#297086;">97</div><div class="inv-label">Total pages</div></div>
-      <div class="inv-card"><div class="inv-num" style="color:#0F6E56;">24</div><div class="inv-label">Playbooks</div></div>
+      <div class="inv-card"><div class="inv-num" style="color:#297086;">140</div><div class="inv-label">Total pages</div></div>
+      <div class="inv-card"><div class="inv-num" style="color:#0F6E56;">23</div><div class="inv-label">Playbooks</div></div>
       <div class="inv-card"><div class="inv-num" style="color:#0F6E56;">23</div><div class="inv-label">Runbooks</div></div>
       <div class="inv-card"><div class="inv-num" style="color:#6B3FA0;">10</div><div class="inv-label">Tier-1 checklists</div></div>
-      <div class="inv-card"><div class="inv-num" style="color:#4A5568;">5</div><div class="inv-label">SOPs</div></div>
-      <div class="inv-card"><div class="inv-num" style="color:#8B4A0E;">26</div><div class="inv-label">Work instructions</div></div>
+      <div class="inv-card"><div class="inv-num" style="color:#4A5568;">5</div><div class="inv-label">SOC SOPs</div></div>
+      <div class="inv-card"><div class="inv-num" style="color:#8B4A0E;">14</div><div class="inv-label">SOC Work Instructions</div></div>
+      <div class="inv-card"><div class="inv-num" style="color:#8B4A0E;">1</div><div class="inv-label">EP Investigation</div></div>
+      <div class="inv-card"><div class="inv-num" style="color:#5B2D8E;">6</div><div class="inv-label">ASM domain pages</div></div>
+      <div class="inv-card"><div class="inv-num" style="color:#5B2D8E;">12</div><div class="inv-label">ASM SOPs</div></div>
+      <div class="inv-card"><div class="inv-num" style="color:#5B2D8E;">37</div><div class="inv-label">ASM Work Instructions</div></div>
       <div class="inv-card"><div class="inv-num" style="color:#1A4A7A;">9</div><div class="inv-label">Core pages</div></div>
     </div>
 
     <div class="kb-table-wrap">
       <table class="review-table">
-        <thead><tr><th>Content type</th><th>Count</th><th>Threat domains covered</th><th>Status</th></tr></thead>
+        <thead><tr><th>Content type</th><th>Count</th><th>Coverage</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>Playbooks</td><td>24</td><td>Email (7), Identity (7), Network (5), Endpoint (4), IM (1)</td><td><span class="status-badge status-live">Live</span></td></tr>
-          <tr><td>Runbooks</td><td>23</td><td>Email (9), Identity (4), Network (5), Endpoint (4), EM-RB-06 series (4-part)</td><td><span class="status-badge status-live">Live</span></td></tr>
+          <tr><td>Playbooks</td><td>23</td><td>Email (7), Identity (7), Network (5), Endpoint (4)</td><td><span class="status-badge status-live">Live</span></td></tr>
+          <tr><td>Runbooks</td><td>23</td><td>Email (9 inc. EM-RB-06 series), Identity (5), Network (5), Endpoint (4)</td><td><span class="status-badge status-live">Live</span></td></tr>
           <tr><td>Tier-1 Checklists</td><td>10</td><td>Identity (5), Email (5)</td><td><span class="status-badge status-live">Live</span></td></tr>
-          <tr><td>SOPs</td><td>5</td><td>Email, Identity, Network, Endpoint, Incident Management</td><td><span class="status-badge status-live">Live</span></td></tr>
-          <tr><td>Work Instructions — SOC</td><td>13</td><td>Email (3), Identity (4), Network (3), Endpoint (3 SOC + 1 USB)</td><td><span class="status-badge status-live">Live</span></td></tr>
-          <tr><td>Work Instructions — IT hardening</td><td>12</td><td>Windows baseline (5), PAW (7)</td><td><span class="status-badge status-live">Live</span></td></tr>
+          <tr><td>SOC SOPs</td><td>5</td><td>Email, Identity, Network, Endpoint, Incident Management</td><td><span class="status-badge status-approved">Approved</span></td></tr>
+          <tr><td>SOC Work Instructions</td><td>14</td><td>Email (3), Identity (4), Network (3), Endpoint (3 SOC + 1 USB)</td><td><span class="status-badge status-live">Live</span></td></tr>
+          <tr><td>EP Investigation page</td><td>1</td><td>Windows workstations — Tier-1 checklist + full Tier-2 investigation</td><td><span class="status-badge status-live">Live</span></td></tr>
+          <tr><td>ASM domain pages</td><td>6</td><td>ASM index, Security Baselines, VM, Patch Management, Threat Intel, CIS Matrix</td><td><span class="status-badge status-live">Live</span></td></tr>
+          <tr><td>ASM SOPs</td><td>12</td><td>Endpoint (Win + PAW), Server (Win + DC + LNX + LNX-02), GOV (2), VM (1), PM (3)</td><td><span class="status-badge status-approved">Approved</span></td></tr>
+          <tr><td>ASM Work Instructions — Endpoint</td><td>12</td><td>Windows baseline (5), PAW (7)</td><td><span class="status-badge status-live">Live</span></td></tr>
+          <tr><td>ASM Work Instructions — Server</td><td>19</td><td>Windows Server (6), Domain Controller (6), Linux Server (7)</td><td><span class="status-badge status-live">Live</span></td></tr>
+          <tr><td>ASM Work Instructions — VM &amp; PM</td><td>6</td><td>VM (4), Patch Management (2)</td><td><span class="status-badge status-live">Live</span></td></tr>
           <tr><td>NIST CSF 2.0 reference</td><td>1</td><td>Cross-domain framework reference</td><td><span class="status-badge status-live">Live</span></td></tr>
-          <tr><td>MITRE ATT&amp;CK mapping</td><td>1</td><td>All tactics — Initial Access through Impact</td><td><span class="status-badge status-live">Live</span></td></tr>
+          <tr><td>CIS Benchmark Alignment Matrix</td><td>1</td><td>All 5 asset types — 8 control domains</td><td><span class="status-badge status-live">Live</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -114,10 +117,11 @@
         <li>All content changes must be reviewed and approved before publication</li>
         <li>SOPs are mandatory — deviations require a documented exception approved by the SOC Manager</li>
         <li>Content is reviewed at minimum annually, and following any major incident or significant tooling change</li>
-        <li>All playbooks, runbooks, and SOPs must reference the NIST CSF 2.0 function they support</li>
+        <li>All playbooks, runbooks, and SOPs reference the NIST CSF 2.0 function they support</li>
         <li>All Work Instructions are tool-agnostic — platform-specific procedures are maintained separately</li>
-        <li>This knowledge base is publicly accessible and intended as a reference for SOC teams, NGOs, not-for-profit organisations, and SMBs that lack the resources to build documentation from scratch</li>
-        <li>Feedback and improvement suggestions are welcomed and should follow the contribution process below</li>
+        <li>ASM SOPs and WIs are implementation-agnostic — they define what should be done, not which tool to use</li>
+        <li>This knowledge base is publicly accessible and intended as a reference for SOC teams, NGOs, not-for-profit organisations, and SMBs</li>
+        <li>Feedback and improvement suggestions should follow the contribution process below</li>
       </ul>
     </div>
   </div>
@@ -129,38 +133,23 @@
       <div class="process-steps">
         <div class="process-step">
           <div class="step-num">1</div>
-          <div class="step-body">
-            <h4>Identify the change</h4>
-            <p>Raise a change request — this could be a gap identified during an incident, a lessons learned action, a new threat type, or a tooling update.</p>
-          </div>
+          <div class="step-body"><h4>Identify the change</h4><p>Raise a change request — gap identified during an incident, lessons learned action, new threat type, tooling update, or baseline change.</p></div>
         </div>
         <div class="process-step">
           <div class="step-num">2</div>
-          <div class="step-body">
-            <h4>Draft the content</h4>
-            <p>Draft the new or updated procedure following the existing format and naming convention (e.g. EM-RB-XX for email runbooks, IT-EP-WI-Win-XX for Windows hardening WIs). Use existing published content as a template.</p>
-          </div>
+          <div class="step-body"><h4>Draft the content</h4><p>Draft following the existing format and naming convention. Use published content as a template.</p></div>
         </div>
         <div class="process-step">
           <div class="step-num">3</div>
-          <div class="step-body">
-            <h4>Peer review</h4>
-            <p>The draft is reviewed by at least one other SOC analyst or subject matter expert. Feedback is incorporated before escalating for approval.</p>
-          </div>
+          <div class="step-body"><h4>Peer review</h4><p>Review by at least one other SOC analyst or subject matter expert. Feedback incorporated before escalating for approval.</p></div>
         </div>
         <div class="process-step">
           <div class="step-num">4</div>
-          <div class="step-body">
-            <h4>SOC Manager approval</h4>
-            <p>The SOC Manager reviews and approves the content. For SOPs and significant procedural changes, CISO-level sign-off may be required.</p>
-          </div>
+          <div class="step-body"><h4>SOC Manager / IT Operations approval</h4><p>SOC Manager approves SOC content. IT Operations or Cyber Security Governance Board approves ASM SOPs. CISO-level sign-off for significant procedural changes.</p></div>
         </div>
         <div class="process-step">
           <div class="step-num">5</div>
-          <div class="step-body">
-            <h4>Publish &amp; log</h4>
-            <p>Content is published to the knowledge base via GitHub Pages and a change log entry is created below recording the change, owner, and date.</p>
-          </div>
+          <div class="step-body"><h4>Publish &amp; log</h4><p>Published to the knowledge base via GitHub Pages with a signed commit. Change log entry created below.</p></div>
         </div>
       </div>
     </div>
@@ -173,12 +162,14 @@
       <table class="review-table">
         <thead><tr><th>Content type</th><th>Review frequency</th><th>Trigger for out-of-cycle review</th><th>Owner</th></tr></thead>
         <tbody>
-          <tr><td>SOPs</td><td>Annual</td><td>Major incident, regulatory change, tooling change</td><td>SOC Manager</td></tr>
+          <tr><td>SOC SOPs</td><td>Annual</td><td>Major incident, regulatory change, tooling change</td><td>SOC Manager</td></tr>
+          <tr><td>ASM SOPs</td><td>Annual</td><td>CIS benchmark updates, major incident, architecture change</td><td>IT Operations / Cyber Security</td></tr>
           <tr><td>Playbooks</td><td>Annual</td><td>New threat type, significant incident, tooling change</td><td>SOC Lead / Author</td></tr>
           <tr><td>Runbooks</td><td>Annual</td><td>Tooling change, process gap identified during incident</td><td>SOC Lead / Author</td></tr>
           <tr><td>Work Instructions</td><td>Annual</td><td>Tooling change, platform update, lessons learned</td><td>IT / SOC Author</td></tr>
           <tr><td>Tier-1 Checklists</td><td>Annual</td><td>New attack patterns, threat landscape shift</td><td>SOC Lead / Author</td></tr>
-          <tr><td>NIST CSF / Framework refs</td><td>On framework update</td><td>NIST publishes a new version or amendment</td><td>SOC Manager</td></tr>
+          <tr><td>CIS Benchmark Matrix</td><td>On CIS update</td><td>CIS publishes new benchmark version</td><td>IT Operations / Cyber Security</td></tr>
+          <tr><td>NIST CSF / Framework refs</td><td>On framework update</td><td>NIST publishes new version or amendment</td><td>SOC Manager</td></tr>
         </tbody>
       </table>
     </div>
@@ -188,167 +179,168 @@
   <div class="kb-section">
     <div class="kb-section-title">Change log — most recent first</div>
 
-    <!-- April 2026 -->
+    <!-- 28 April 2026 -->
     <div class="kb-change-entry">
-      <div class="kb-change-date">26 Apr 2026</div>
+      <div class="kb-change-date">28 Apr 2026</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">CIS Benchmark Alignment Matrix — published</div>
+        <div class="kb-change-desc">Single authoritative reference mapping CIS Benchmark Level 1 controls to all Security Baseline SOPs and WIs across five asset types (Windows Endpoint, Windows Server, Domain Controller, PAW, Linux Server) and eight control domains. Linked from Security Baselines domain page.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag asm">ASM</span><span class="kb-change-tag">Security Baselines</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">28 Apr 2026</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">Patch Management Work Instructions — IT-GOV-WI-PM-01 and PM-02 published</div>
+        <div class="kb-change-desc">Two patch management WIs published: Endpoint Patch Management (7-step workflow, SLA grid, drift management) and Server Patch Management (8-step workflow with pre-patch validation, rollback requirements, production system controls). Both operationalise IT-PM-SOP-01.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag asm">ASM</span><span class="kb-change-tag">Patch Management</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">28 Apr 2026</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">Vulnerability Management Work Instructions — IT-GOV-WI-VM-01 through VM-04 published</div>
+        <div class="kb-change-desc">Four VM WIs published: Vulnerability Scan Execution, Vulnerability Triage &amp; Prioritisation (including CISA KEV cross-reference), Remediation Validation, and Risk Acceptance &amp; Exception Handling. Phased step template with Required Access and Expected Outcome sections.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag asm">ASM</span><span class="kb-change-tag">Vulnerability Management</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">28 Apr 2026</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">Server Work Instructions — 19 WIs published (Windows Server, DC, Linux)</div>
+        <div class="kb-change-desc">19 server hardening WIs published across three platforms: Windows Server (Win-01 through Win-06), Domain Controller (DC-01 through DC-06 with Tier-0 banner), and Linux Server (LNX-01 through LNX-07). DC WIs include a dedicated Tier-0 banner identifying them as restricted to senior administrators only.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag asm">ASM</span><span class="kb-change-tag">Security Baselines</span><span class="kb-change-tag">Server</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">28 Apr 2026</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">ASM SOPs — all 12 published</div>
+        <div class="kb-change-desc">12 ASM SOPs published across four categories: Security Baselines (IT-EP-SOP-Win-01, IT-EP-SOP-PAW-01, IT-SRV-SOP-Win-01, IT-SRV-SOP-DC-01, IT-SRV-SOP-LNX-01, IT-SRV-SOP-LNX-02, IT-GOV-SOP-01, IT-GOV-SOP-02), Vulnerability Management (IT-VM-SOP-01), and Patch Management (IT-PM-SOP-01, IT-PM-SOP-02, IT-PM-SOP-03). All approved status. ASM purple colour identity.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag asm">ASM</span><span class="kb-change-tag">SOP</span><span class="kb-change-tag">Approved</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <!-- 27 April 2026 -->
+    <div class="kb-change-entry">
+      <div class="kb-change-date">27 Apr 2026</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">ASM section — Phase 1 published (5 domain pages)</div>
+        <div class="kb-change-desc">Full ASM section launched with ASM index page, Security Baselines, Vulnerability Management, Patch Management, and Threat Intelligence domain pages. Deep purple colour identity (#5B2D8E). Zero Trust alignment, NIST CSF 2.0, and CIS Benchmarks referenced throughout. Nav updated across all pages.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag asm">ASM</span><span class="kb-change-tag site">Site</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">27 Apr 2026</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">EP-INV-Win-01: Windows Endpoint Investigation page — published</div>
+        <div class="kb-change-desc">Comprehensive single-page investigation guide for Windows workstations covering Tier-1 quick checklist (8 questions, 4-tier decision logic) and full Tier-2 deep-dive across 9 investigation phases: triage, volatile data, event log analysis (4 tables, 18 Event IDs), persistence review, LOLBins reference (12 cards), file system artefacts, network correlation, identity correlation, and verdict with next-action steps.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">Endpoint</span><span class="kb-change-tag">Investigation</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">27 Apr 2026</div>
       <div class="kb-change-body">
         <div class="kb-change-title">NIST CSF 2.0 reference page — published</div>
-        <div class="kb-change-desc">Comprehensive NIST CSF 2.0 framework reference page added covering all six functions, categories, implementation tiers, organisational profiles, version history, and KB alignment mapping. Includes links to official NIST resources.</div>
+        <div class="kb-change-desc">Comprehensive NIST CSF 2.0 framework reference page covering all six functions, 22 categories, implementation tiers, organisational profiles, version history, and KB alignment mapping. Tools &amp; References page updated with NIST CSF featured card and six-function quick reference grid.</div>
         <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">Framework Reference</span><span class="kb-change-tag">Paulo Ferreira</span></div>
       </div>
     </div>
 
     <div class="kb-change-entry">
-      <div class="kb-change-date">26 Apr 2026</div>
+      <div class="kb-change-date">27 Apr 2026</div>
       <div class="kb-change-body">
-        <div class="kb-change-title">Tools &amp; References page — updated with framework references section</div>
-        <div class="kb-change-desc">Added NIST CSF 2.0 featured card, six-function quick reference grid, MITRE ATT&CK link, and ISO 27035 reference. Fixed nav brand and footer references.</div>
-        <div class="kb-change-tags"><span class="kb-change-tag update">Update</span><span class="kb-change-tag">Tools &amp; References</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+        <div class="kb-change-title">Endpoint Work Instructions — 17 WIs published (Win + PAW)</div>
+        <div class="kb-change-desc">Four SOC endpoint WIs (EP-WI-02 Isolate Endpoint, EP-WI-03 Remove Malware Artefacts, EP-WI-04 Validate Persistence Removal, EP-WI-USB-01 Handle USB Media), five Windows baseline WIs (IT-EP-WI-Win-01 through Win-05), and seven PAW WIs (IT-EP-WI-PAW-01 through PAW-07) published. Work Instructions index updated.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">Work Instruction</span><span class="kb-change-tag">Endpoint</span><span class="kb-change-tag">PAW</span><span class="kb-change-tag">Paulo Ferreira</span></div>
       </div>
     </div>
 
     <div class="kb-change-entry">
-      <div class="kb-change-date">26 Apr 2026</div>
+      <div class="kb-change-date">27 Apr 2026</div>
       <div class="kb-change-body">
-        <div class="kb-change-title">Endpoint Work Instructions — 17 WIs published</div>
-        <div class="kb-change-desc">Four SOC endpoint WIs (EP-WI-02 Isolate Endpoint, EP-WI-03 Remove Malware Artefacts, EP-WI-04 Validate Persistence Removal, EP-WI-USB-01 Handle USB Media), five Windows baseline hardening WIs (IT-EP-WI-Win-01 through Win-05), and seven PAW hardening WIs (IT-EP-WI-PAW-01 through PAW-07) published. Work Instructions index updated to 26 total WIs.</div>
-        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">Work Instruction</span><span class="kb-change-tag">Endpoint</span><span class="kb-change-tag">IT Hardening</span><span class="kb-change-tag">PAW</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+        <div class="kb-change-title">SOC SOPs — all five formally approved</div>
+        <div class="kb-change-desc">All five SOC SOPs (SOP-EM-01, SOP-ID-01, SOP-NW-01, SOP-EP-01, SOP-IM-01) updated to Approved status. Previously Draft.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag update">Update</span><span class="kb-change-tag">SOP</span><span class="kb-change-tag">Approved</span><span class="kb-change-tag">Paulo Ferreira</span></div>
       </div>
     </div>
 
     <div class="kb-change-entry">
-      <div class="kb-change-date">26 Apr 2026</div>
+      <div class="kb-change-date">27 Apr 2026</div>
       <div class="kb-change-body">
-        <div class="kb-change-title">Network Work Instructions — NW-WI-01, NW-WI-02, NW-WI-03 published</div>
-        <div class="kb-change-desc">Three network threat work instructions covering network traffic analysis (investigation only), IP/domain indicator blocking (requires approval), and east-west traffic blocking (requires approval).</div>
-        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">Work Instruction</span><span class="kb-change-tag">Network</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+        <div class="kb-change-title">SSH signed commits configured — all commits now Verified on GitHub</div>
+        <div class="kb-change-desc">SSH key generated and added to GitHub as both Authentication and Signing key. Git configured with gpg.format ssh and commit.gpgsign true. All subsequent commits show green Verified badge. CSP meta tags added to HTML pages.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag site">Site</span><span class="kb-change-tag">Security</span><span class="kb-change-tag">Paulo Ferreira</span></div>
       </div>
     </div>
 
     <div class="kb-change-entry">
-      <div class="kb-change-date">26 Apr 2026</div>
-      <div class="kb-change-body">
-        <div class="kb-change-title">Identity Work Instructions — ID-WI-01, ID-WI-02, ID-WI-04, ID-WI-05 published</div>
-        <div class="kb-change-desc">Four identity work instructions covering sign-in activity review (investigation only), compromised account reset (requires approval), OAuth application review (investigation only), and OAuth consent revocation (requires approval). ID-WI-02 includes reset sequence banner enforcing correct order: revoke sessions → reset password → invalidate tokens.</div>
-        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">Work Instruction</span><span class="kb-change-tag">Identity</span><span class="kb-change-tag">Paulo Ferreira</span></div>
-      </div>
-    </div>
-
-    <div class="kb-change-entry">
-      <div class="kb-change-date">26 Apr 2026</div>
-      <div class="kb-change-body">
-        <div class="kb-change-title">Email Work Instructions — EM-WI-04, EM-WI-05 published</div>
-        <div class="kb-change-desc">Two email containment work instructions: EM-WI-04 Remove Malicious Emails from Mailboxes and EM-WI-05 Block Sender/Domain — both requiring Tier-2 approval before execution.</div>
-        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">Work Instruction</span><span class="kb-change-tag">Email</span><span class="kb-change-tag">Paulo Ferreira</span></div>
-      </div>
-    </div>
-
-    <div class="kb-change-entry">
-      <div class="kb-change-date">26 Apr 2026</div>
-      <div class="kb-change-body">
-        <div class="kb-change-title">SOP pages — rebuilt with dedicated SOP template</div>
-        <div class="kb-change-desc">All five SOPs rebuilt using a new dedicated template in slate/grey-blue (#4A5568) to distinguish them as cross-domain governance documents. Template includes purpose, scope, NIST CSF alignment, aligned playbooks (linked), roles &amp; responsibilities, six operating procedure phases, severity table, tooling, exceptions, compliance, and review/approval. SOP-IM-01 includes severity level cards and escalation rules.</div>
-        <div class="kb-change-tags"><span class="kb-change-tag update">Update</span><span class="kb-change-tag">SOP</span><span class="kb-change-tag">Paulo Ferreira</span></div>
-      </div>
-    </div>
-
-    <div class="kb-change-entry">
-      <div class="kb-change-date">26 Apr 2026</div>
-      <div class="kb-change-body">
-        <div class="kb-change-title">Tier-1 Checklists — 10 checklists published (all categories)</div>
-        <div class="kb-change-desc">Ten Tier-1 quick checklists published for lower-skill first-responder IT staff: five Identity (ID-01 Suspicious Auth, ID-02 Privileged Account Abuse, ID-03 MFA Fatigue, ID-04 OAuth Abuse, ID-05 Token Theft) and five Email (EM-01 Phishing, EM-02 BEC, EM-03 Malicious Attachment, EM-04 Internal Phishing, EM-05 Auto-Forwarding). Each includes YES/NO questions, traffic-light decision logic, mandatory evidence capture, and analyst tips.</div>
-        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">Tier-1 Checklist</span><span class="kb-change-tag">Identity</span><span class="kb-change-tag">Email</span><span class="kb-change-tag">Paulo Ferreira</span></div>
-      </div>
-    </div>
-
-    <div class="kb-change-entry">
-      <div class="kb-change-date">26 Apr 2026</div>
-      <div class="kb-change-body">
-        <div class="kb-change-title">Endpoint playbooks and runbooks — published</div>
-        <div class="kb-change-desc">Four endpoint playbooks (EP-PB-01 through EP-PB-04) and four endpoint runbooks (EP-RB-01 through EP-RB-04) published. Network runbooks (NW-RB-01 through NW-RB-05) and identity runbooks (ID-RB-01 through ID-RB-05) published. Runbooks index updated to 23 total runbooks.</div>
-        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">Playbook</span><span class="kb-change-tag">Runbook</span><span class="kb-change-tag">Endpoint</span><span class="kb-change-tag">Network</span><span class="kb-change-tag">Identity</span><span class="kb-change-tag">Paulo Ferreira</span></div>
-      </div>
-    </div>
-
-    <div class="kb-change-entry">
-      <div class="kb-change-date">26 Apr 2026</div>
+      <div class="kb-change-date">27 Apr 2026</div>
       <div class="kb-change-body">
         <div class="kb-change-title">Site migrated to GitHub Pages — publicly accessible</div>
-        <div class="kb-change-desc">Knowledge base migrated from SharePoint to GitHub Pages static HTML site. Site is now publicly accessible as a reference resource for SOC teams, NGOs, not-for-profit organisations, and SMBs. GitHub repository secured with branch protection, HTTPS enforcement, and signed commits configured.</div>
+        <div class="kb-change-desc">Knowledge base migrated from SharePoint to GitHub Pages static HTML site. Publicly accessible as a reference resource for SOC teams, NGOs, not-for-profits, and SMBs. Branch protection, HTTPS enforcement, and signed commits configured.</div>
         <div class="kb-change-tags"><span class="kb-change-tag site">Site</span><span class="kb-change-tag">Security</span><span class="kb-change-tag">Paulo Ferreira</span></div>
       </div>
     </div>
 
     <!-- January 2026 -->
     <div class="kb-change-entry">
+      <div class="kb-change-date">16 Jan 2026</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">ASM SOPs — server and governance SOPs created (SharePoint)</div>
+        <div class="kb-change-desc">IT-SRV-SOP-Win-01, IT-SRV-SOP-DC-01, IT-SRV-SOP-LNX-01, IT-SRV-SOP-LNX-02, IT-EP-SOP-PAW-01, IT-GOV-SOP-01, IT-GOV-SOP-02 created on SharePoint.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag asm">ASM</span><span class="kb-change-tag">SOP</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">14 Jan 2026</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">Patch Management SOPs and Vulnerability Management SOP created (SharePoint)</div>
+        <div class="kb-change-desc">IT-PM-SOP-01 (Core), IT-PM-SOP-02 (Emergency/Zero-Day), IT-PM-SOP-03 (Exception &amp; Risk Acceptance), and IT-VM-SOP-01 created on SharePoint.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag asm">ASM</span><span class="kb-change-tag">Patch Management</span><span class="kb-change-tag">VM</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
+      <div class="kb-change-date">12 Jan 2026</div>
+      <div class="kb-change-body">
+        <div class="kb-change-title">IT-EP-SOP-Win-01 and endpoint WIs created (SharePoint)</div>
+        <div class="kb-change-desc">Windows Endpoint Security Baseline SOP and IT-EP-WI-Win-01 through Win-05 work instructions created on SharePoint.</div>
+        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag asm">ASM</span><span class="kb-change-tag">Security Baselines</span><span class="kb-change-tag">Paulo Ferreira</span></div>
+      </div>
+    </div>
+
+    <div class="kb-change-entry">
       <div class="kb-change-date">8 Jan 2026</div>
       <div class="kb-change-body">
-        <div class="kb-change-title">EM-WI-01: Analyse Email Headers — published</div>
-        <div class="kb-change-desc">First work instruction published. Covers step-by-step email header analysis including quick reference card, SPF/DKIM/DMARC interpretation table, relay chain visual, and four-colour verdict classification. Investigation only — no containment actions.</div>
+        <div class="kb-change-title">EM-WI-01: Analyse Email Headers — published (SharePoint)</div>
+        <div class="kb-change-desc">First SOC work instruction created. SPF/DKIM/DMARC interpretation, relay chain visual, four-colour verdict classification.</div>
         <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">Work Instruction</span><span class="kb-change-tag">Email</span><span class="kb-change-tag">Paulo Ferreira</span></div>
-      </div>
-    </div>
-
-    <div class="kb-change-entry">
-      <div class="kb-change-date">6 Jan 2026</div>
-      <div class="kb-change-body">
-        <div class="kb-change-title">EM-RB-06-01 to 06-04: Threatening email runbook series — published</div>
-        <div class="kb-change-desc">Four-part runbook series supporting EM-PB-06: triage &amp; validation, threat &amp; credibility analysis, containment &amp; mailbox remediation, and escalation, communication &amp; closure.</div>
-        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">Runbook</span><span class="kb-change-tag">Email</span><span class="kb-change-tag">Paulo Ferreira</span></div>
-      </div>
-    </div>
-
-    <div class="kb-change-entry">
-      <div class="kb-change-date">6 Jan 2026</div>
-      <div class="kb-change-body">
-        <div class="kb-change-title">EM-PB-06: Threatening / Harassing Email Campaign playbook — published</div>
-        <div class="kb-change-desc">End-to-end playbook for managing threatening or harassing email campaigns targeting multiple recipients, with legal, HR, and law enforcement coordination guidance.</div>
-        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">Playbook</span><span class="kb-change-tag">Email</span><span class="kb-change-tag">Paulo Ferreira</span></div>
       </div>
     </div>
 
     <div class="kb-change-entry">
       <div class="kb-change-date">5 Jan 2026</div>
       <div class="kb-change-body">
-        <div class="kb-change-title">SOP catalogue — initial five SOPs published</div>
-        <div class="kb-change-desc">Five SOPs drafted: SOP-EM-01 (Email Threat Operations), SOP-ID-01 (Identity Threat Operations), SOP-NW-01 (Network Threat Operations), SOP-EP-01 (Endpoint Threat Operations), and SOP-IM-01 (Incident Severity Classification &amp; Escalation). All NIST CSF 2.0 aligned. Draft status pending formal approval.</div>
+        <div class="kb-change-title">SOC SOP catalogue — five SOPs created (SharePoint)</div>
+        <div class="kb-change-desc">SOP-EM-01, SOP-ID-01, SOP-NW-01, SOP-EP-01, and SOP-IM-01 created. NIST CSF 2.0 aligned. Now formally Approved.</div>
         <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">SOP</span><span class="kb-change-tag">Paulo Ferreira</span></div>
       </div>
     </div>
 
     <!-- December 2025 -->
     <div class="kb-change-entry">
-      <div class="kb-change-date">24 Dec 2025</div>
-      <div class="kb-change-body">
-        <div class="kb-change-title">SOP-EP-01, SOP-ID-01 — initial drafts created</div>
-        <div class="kb-change-desc">Endpoint and identity threat operations SOPs drafted. Both aligned to NIST CSF 2.0 and ISO 27035.</div>
-        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">SOP</span><span class="kb-change-tag">Paulo Ferreira</span></div>
-      </div>
-    </div>
-
-    <div class="kb-change-entry">
-      <div class="kb-change-date">23 Dec 2025</div>
-      <div class="kb-change-body">
-        <div class="kb-change-title">Network and additional identity playbooks — published</div>
-        <div class="kb-change-desc">Five network threat playbooks (NW-PB-01 through NW-PB-05), identity playbook ID-PB-07 (Password Spray / Credential Stuffing), and EM-PB-05 (Ransomware Activity via Email) published.</div>
-        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">Playbook</span><span class="kb-change-tag">Network</span><span class="kb-change-tag">Identity</span><span class="kb-change-tag">Paulo Ferreira</span></div>
-      </div>
-    </div>
-
-    <div class="kb-change-entry">
-      <div class="kb-change-date">20 Dec 2025</div>
-      <div class="kb-change-body">
-        <div class="kb-change-title">Tier-1 Checklists — initial identity checklists created (SharePoint)</div>
-        <div class="kb-change-desc">Five identity Tier-1 checklists (ID-01 through ID-05) created in SharePoint as structured quick-reference guides for first-responder IT staff.</div>
-        <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">Tier-1 Checklist</span><span class="kb-change-tag">Identity</span><span class="kb-change-tag">Paulo Ferreira</span></div>
-      </div>
-    </div>
-
-    <div class="kb-change-entry">
       <div class="kb-change-date">22 Dec 2025</div>
       <div class="kb-change-body">
-        <div class="kb-change-title">Initial email and identity playbook &amp; runbook release</div>
-        <div class="kb-change-desc">First major content release — email playbooks EM-PB-01 through EM-PB-05 (7 total including EM-PB-06 later), identity playbooks ID-PB-01 through ID-PB-06, email runbooks EM-RB-03 through EM-RB-07, and identity runbooks ID-RB-01 through ID-RB-05 published.</div>
+        <div class="kb-change-title">Initial email and identity playbook &amp; runbook release (SharePoint)</div>
+        <div class="kb-change-desc">First major content release — email playbooks EM-PB-01 through EM-PB-07, identity playbooks ID-PB-01 through ID-PB-07, email runbooks EM-RB-03 through EM-RB-07 (inc. EM-RB-06 four-part series), and identity runbooks ID-RB-01 through ID-RB-05 published.</div>
         <div class="kb-change-tags"><span class="kb-change-tag new">New</span><span class="kb-change-tag">Playbook</span><span class="kb-change-tag">Runbook</span><span class="kb-change-tag">Email</span><span class="kb-change-tag">Identity</span><span class="kb-change-tag">Paulo Ferreira</span></div>
       </div>
     </div>
@@ -356,30 +348,29 @@
     <div class="kb-change-entry">
       <div class="kb-change-date">18 Dec 2025</div>
       <div class="kb-change-body">
-        <div class="kb-change-title">Knowledge base site created</div>
-        <div class="kb-change-desc">Initial knowledge base structure established on SharePoint. Home page, section index pages, shared design system (shared.css), governance framework, and tools &amp; references page created. Colour-coded threat domain identity system established: Email (teal), Identity (blue), Network (forest green), Endpoint (amber), SOPs/WIs (slate).</div>
+        <div class="kb-change-title">Knowledge base created (SharePoint)</div>
+        <div class="kb-change-desc">Initial KB structure established on SharePoint. Home page, section index pages, shared design system, governance framework, and colour-coded threat domain identity established: Email (teal), Identity (blue), Network (forest green), Endpoint (amber), SOPs/WIs (slate), ASM (deep purple).</div>
         <div class="kb-change-tags"><span class="kb-change-tag site">Site</span><span class="kb-change-tag">Governance</span><span class="kb-change-tag">Paulo Ferreira</span></div>
       </div>
     </div>
 
   </div>
 
-  <!-- Upcoming / planned -->
+  <!-- Planned improvements -->
   <div class="kb-section">
     <div class="kb-section-title">Planned improvements</div>
     <div class="kb-info-box">
       <ul class="kb-bullet-list">
-        <li>Endpoint Tier-1 Checklists — no endpoint-specific Tier-1 checklists exist yet; planned as next expansion</li>
+        <li>Endpoint Tier-1 Checklists — no endpoint-specific Tier-1 checklists exist yet; planned as next SOC expansion</li>
         <li>Network Tier-1 Checklists — planned to mirror the identity and email checklist sets</li>
-        <li>GitHub Pages security hardening — Cloudflare WAF integration and HTTP security headers (CSP, HSTS, X-Frame-Options) pending configuration</li>
-        <li>Signed commits — GPG or SSH commit signing to be configured on the GitHub repository</li>
+        <li>GitHub Pages security hardening — Cloudflare WAF integration and HTTP security headers (CSP, HSTS, X-Frame-Options) pending custom domain decision</li>
         <li>Annual review cycle — first formal annual review scheduled December 2026</li>
       </ul>
     </div>
   </div>
 
   <div class="kb-footer">
-    <span><span class="live-dot"></span>Last updated 26 April 2026 · Paulo Ferreira · Knowledge Base</span>
+    <span><span class="live-dot"></span>Last updated 28 April 2026 · Paulo Ferreira · Knowledge Base</span>
     <span><a href="index.html" style="color:#297086;text-decoration:none;">← Back to home</a></span>
   </div>
 
