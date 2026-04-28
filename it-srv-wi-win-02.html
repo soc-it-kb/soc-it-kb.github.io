@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-SRV-WI-Win-02: OS Hardening &amp; Service Reduction — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .wi-badge-it { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .wi-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:8px; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0; }
+  .h-prereqs { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .h-prereq { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .h-steps { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .h-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .h-step-num { width:24px; height:24px; border-radius:50%; background:var(--asm-light); color:var(--asm); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .h-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; flex:1; }
+  .h-checks { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-check { display:flex; align-items:center; gap:10px; background:#E1F5EE; border:0.5px solid #82D4B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#1a6b47; }
+  .h-check::before { content:"✅"; font-size:13px; flex-shrink:0; }
+  .h-rollback { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-rollback-item { display:flex; align-items:flex-start; gap:10px; background:#FAEEDA; border:0.5px solid #FAC775; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#6b3f0a; }
+  .h-rollback-item::before { content:"↩️"; font-size:13px; flex-shrink:0; }
+  .h-tips { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-tip { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#444; }
+  .h-tip::before { content:"💡"; font-size:13px; flex-shrink:0; }
+  .dc-banner { background:var(--asm-dark); border-radius:10px; padding:0.9rem 1.1rem; margin-bottom:1.25rem; display:flex; align-items:flex-start; gap:10px; }
+  .dc-banner-icon { font-size:20px; flex-shrink:0; }
+  .dc-banner-text { font-size:13px; color:rgba(255,255,255,0.85); line-height:1.5; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-security-baselines.html">Security Baselines</a><span>›</span>
+    <span>IT-SRV-WI-Win-02</span>
+  </div>
+
+  
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>IT-SRV-WI-Win-02: OS Hardening &amp; Service Reduction</h1>
+    <p>Minimise attack surface by disabling unnecessary roles, features, services, and legacy protocols on Windows servers.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">🖥️ Server hardening</span>
+      <span class="kb-meta-pill">Windows Server</span>
+      <span class="kb-meta-pill">IT operations</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> IT-SRV-WI-Win-02</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 12 January 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-it">IT procedure</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <div class="h-prereqs"><span class="h-prereq">Administrative access</span>
+<span class="h-prereq">Server role and function confirmed</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <div class="h-steps"><div class="h-step"><div class="h-step-num">1</div><div class="h-step-text">Review installed Windows roles and features</div></div>
+<div class="h-step"><div class="h-step-num">2</div><div class="h-step-text">Remove unused roles and features</div></div>
+<div class="h-step"><div class="h-step-num">3</div><div class="h-step-text">Disable unnecessary services</div></div>
+<div class="h-step"><div class="h-step-num">4</div><div class="h-step-text">Disable legacy and insecure protocols (e.g. SMBv1)</div></div>
+<div class="h-step"><div class="h-step-num">5</div><div class="h-step-text">Restrict script execution to approved use cases</div></div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <div class="h-checks"><div class="h-check">Only required roles and services enabled</div>
+<div class="h-check">Legacy protocols disabled</div>
+<div class="h-check">Server functionality validated post-hardening</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <div class="h-rollback"><div class="h-rollback-item">Re-enable required services if business impact occurs</div>
+<div class="h-rollback-item">Document and approve all deviations</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <div class="h-tips"><div class="h-tip">Always validate server role before hardening</div>
+<div class="h-tip">Test changes in non-production where possible</div></div>
+  </div>
+
+  <div class="wi-nav"><a href="it-srv-wi-win-01.html">← IT-SRV-WI-Win-01</a><a href="it-srv-wi-win-03.html">IT-SRV-WI-Win-03 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-SRV-WI-Win-02 · Published 12 January 2026 · Paulo Ferreira</span>
+    <span><a href="asm-security-baselines.html" style="color:var(--asm);text-decoration:none;">← Back to Security Baselines</a></span>
+  </div>
+</div>
+</body>
+</html>

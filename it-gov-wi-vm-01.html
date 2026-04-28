@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-GOV-WI-VM-01: Vulnerability Scan Execution — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .wi-badge-it { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .wi-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:8px; }
+  .h-prereqs { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .h-prereq { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  /* Phase-based steps */
+  .vm-phases { display:flex; flex-direction:column; gap:10px; margin-top:4px; }
+  .vm-phase { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1rem; }
+  .vm-phase-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; padding-bottom:6px; border-bottom:0.5px solid #e0e0dc; }
+  .vm-phase-num { width:24px; height:24px; border-radius:50%; background:var(--asm); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .vm-phase-title { font-size:13px; font-weight:600; color:var(--asm-dark); }
+  .vm-phase-steps { display:flex; flex-direction:column; gap:4px; }
+  .vm-step { font-size:13px; color:#444; line-height:1.5; display:flex; align-items:flex-start; gap:8px; }
+  .vm-step::before { content:'→'; color:var(--asm); font-weight:600; flex-shrink:0; }
+  .h-checks { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-check { display:flex; align-items:center; gap:10px; background:#E1F5EE; border:0.5px solid #82D4B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#1a6b47; }
+  .h-check::before { content:"✅"; font-size:13px; flex-shrink:0; }
+  .h-tips { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-tip { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#444; }
+  .h-tip::before { content:"💡"; font-size:13px; flex-shrink:0; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-vulnerability-management.html">Vulnerability Management</a><span>›</span>
+    <span>IT-GOV-WI-VM-01</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>IT-GOV-WI-VM-01: Vulnerability Scan Execution</h1>
+    <p>Define the standard steps for executing vulnerability scans in a consistent, authenticated, and controlled manner — ensuring reliable detection and minimal operational impact.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">🔍 Vulnerability Management</span>
+      <span class="kb-meta-pill">IT operations</span>
+      <span class="kb-meta-pill">Published 13 January 2026</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> IT-GOV-WI-VM-01</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 13 January 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-it">Vulnerability Management Procedure</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Required access</div>
+    <div class="h-prereqs"><span class="h-prereq">Vulnerability scanning platform access</span>
+<span class="h-prereq">Credentialed scan accounts where applicable</span>
+<span class="h-prereq">Asset inventory or scope definition</span>
+<span class="h-prereq">Change approval if required for production systems</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <div class="vm-phases"><div class="vm-phase">
+          <div class="vm-phase-header"><div class="vm-phase-num">1</div><div class="vm-phase-title">Confirm Scan Scope</div></div>
+          <div class="vm-phase-steps"><div class="vm-step">Validate in-scope assets against asset inventory</div>
+<div class="vm-step">Exclude approved exceptions from scan scope</div>
+<div class="vm-step">Confirm scan window for production systems</div></div>
+        </div>
+<div class="vm-phase">
+          <div class="vm-phase-header"><div class="vm-phase-num">2</div><div class="vm-phase-title">Validate Scan Configuration</div></div>
+          <div class="vm-phase-steps"><div class="vm-step">Confirm authenticated scanning is enabled where possible</div>
+<div class="vm-step">Verify latest signatures and plugins are applied</div>
+<div class="vm-step">Confirm safe checks are enabled for production environments</div></div>
+        </div>
+<div class="vm-phase">
+          <div class="vm-phase-header"><div class="vm-phase-num">3</div><div class="vm-phase-title">Execute Scan</div></div>
+          <div class="vm-phase-steps"><div class="vm-step">Launch scan according to schedule or on demand</div>
+<div class="vm-step">Monitor for failures or excessive system load</div>
+<div class="vm-step">Abort scan if system stability is impacted</div></div>
+        </div>
+<div class="vm-phase">
+          <div class="vm-phase-header"><div class="vm-phase-num">4</div><div class="vm-phase-title">Monitor Scan Completion</div></div>
+          <div class="vm-phase-steps"><div class="vm-step">Confirm successful scan completion</div>
+<div class="vm-step">Identify unreachable or failed assets</div>
+<div class="vm-step">Document all scanning blind spots</div></div>
+        </div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Expected outcome</div>
+    <div class="h-checks"><div class="h-check">Completed scan with results available</div>
+<div class="h-check">Identified vulnerabilities mapped to assets</div>
+<div class="h-check">Failed or unreachable assets documented</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <div class="h-tips"><div class="h-tip">Avoid unauthenticated scans where credentials are available — authenticated scans detect significantly more</div>
+<div class="h-tip">Ensure scan service accounts are not expired before launching</div>
+<div class="h-tip">Document scanning blind spots immediately — coverage gaps are a risk in themselves</div></div>
+  </div>
+
+  <div class="wi-nav"><span></span><a href="it-gov-wi-vm-02.html">IT-GOV-WI-VM-02 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-GOV-WI-VM-01 · Published 13 January 2026 · Paulo Ferreira</span>
+    <span><a href="asm-vulnerability-management.html" style="color:var(--asm);text-decoration:none;">← Back to Vulnerability Management</a></span>
+  </div>
+</div>
+</body>
+</html>

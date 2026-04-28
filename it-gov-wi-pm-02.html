@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-GOV-WI-PM-02: Server Patch Management — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .wi-badge-it { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .wi-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:8px; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0 0 8px 0; }
+  .wi-section p:last-child { margin:0; }
+  .h-prereqs { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .h-prereq { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  /* Workflow steps */
+  .pm-steps { display:flex; flex-direction:column; gap:10px; margin-top:4px; }
+  .pm-step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; overflow:hidden; }
+  .pm-step-header { display:flex; align-items:center; gap:10px; padding:0.8rem 1rem; background:var(--asm-light); border-bottom:0.5px solid var(--asm-border); }
+  .pm-step-num { width:26px; height:26px; border-radius:50%; background:var(--asm); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .pm-step-title { font-size:13px; font-weight:600; color:var(--asm-dark); }
+  .pm-step-body { padding:0.8rem 1rem; display:flex; flex-direction:column; gap:4px; }
+  .pm-step-item { font-size:13px; color:#444; line-height:1.5; display:flex; align-items:flex-start; gap:8px; }
+  .pm-step-item::before { content:'→'; color:var(--asm); font-weight:600; flex-shrink:0; }
+  .pm-step-note { font-size:12px; color:#888; font-style:italic; margin-top:4px; }
+  /* Callouts */
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:8px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .callout-info { background:var(--asm-light); border:0.5px solid var(--asm-border); border-left:3px solid var(--asm); border-radius:8px; padding:0.9rem 1rem; margin-top:8px; }
+  .callout-info p { font-size:13px; color:var(--asm-dark); margin:0; line-height:1.5; }
+  /* Scope / audience tags */
+  .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tag { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  /* SLA cards */
+  .sla-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:8px; margin-top:4px; }
+  .sla-card { border-radius:8px; padding:0.75rem 0.9rem; text-align:center; }
+  .sla-card.critical { background:#FAECE7; border:0.5px solid #F5C0B0; }
+  .sla-card.high     { background:#FEF0E6; border:0.5px solid #F5C89A; }
+  .sla-card.medium   { background:#FAEEDA; border:0.5px solid #FAC775; }
+  .sla-card.low      { background:#f5f5f3; border:0.5px solid #e0e0dc; }
+  .sla-card h4 { font-size:12px; font-weight:700; margin-bottom:3px; }
+  .sla-card.critical h4 { color:#993C1D; }
+  .sla-card.high     h4 { color:#8B4A0E; }
+  .sla-card.medium   h4 { color:#854F0B; }
+  .sla-card.low      h4 { color:#555; }
+  .sla-card p { font-size:11px; margin:0; color:#666; }
+  /* Outcome / tips */
+  .h-checks { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-check { display:flex; align-items:center; gap:10px; background:#E1F5EE; border:0.5px solid #82D4B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#1a6b47; }
+  .h-check::before { content:"✅"; font-size:13px; flex-shrink:0; }
+  .h-tips { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-tip { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#444; }
+  .h-tip::before { content:"💡"; font-size:13px; flex-shrink:0; }
+  /* Related docs */
+  .rel-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .rel-item { display:flex; align-items:center; gap:8px; font-size:13px; color:#444; }
+  .rel-item::before { content:'›'; color:var(--asm); font-weight:700; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+  @media(max-width:640px){ .sla-grid{grid-template-columns:1fr 1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-patch-management.html">Patch Management</a><span>›</span>
+    <span>IT-GOV-WI-PM-02</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>IT-GOV-WI-PM-02: Server Patch Management</h1>
+    <p>Step-by-step process for planning, deploying, validating, and governing security patches on servers — maintaining service availability and recoverability while reducing vulnerability exposure.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">🩹 Patch Management</span>
+      <span class="kb-meta-pill">Servers</span>
+      <span class="kb-meta-pill">IT operations</span>
+      <span class="kb-meta-pill">Published 14 January 2026</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> IT-GOV-WI-PM-02</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 14 January 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-it">Patch Management Procedure</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Scope</div>
+    <div class="tag-grid">
+      <span class="tag">Windows and Linux servers — physical and virtual</span>
+      <span class="tag">On-premises, hosted, and cloud-based servers</span>
+      <span class="tag">Production and non-production infrastructure</span>
+      <span class="tag">Centrally and locally managed servers</span>
+    </div>
+    <p style="font-size:13px;color:#888;margin-top:8px;">This WI does not cover end-user endpoints or network devices — see IT-GOV-WI-PM-01.</p>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Required access &amp; prerequisites</div>
+    <div class="h-prereqs">
+      <span class="h-prereq">Administrative access to server or management platform</span>
+      <span class="h-prereq">Server inventory (hostname, OS, role, environment)</span>
+      <span class="h-prereq">Business criticality and service dependencies confirmed</span>
+      <span class="h-prereq">Approved maintenance window confirmed</span>
+      <span class="h-prereq">Backup or snapshot completed and verified</span>
+    </div>
+    <div class="callout-warn" style="margin-top:10px;">
+      <p>⚠️ Production systems must not be patched without a verified rollback option — backup restore, snapshot revert, or service failover.</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Patch prioritisation SLAs</div>
+    <div class="sla-grid">
+      <div class="sla-card critical"><h4>Critical</h4><p>≤ 72 hours</p></div>
+      <div class="sla-card high"><h4>High</h4><p>≤ 14 days</p></div>
+      <div class="sla-card medium"><h4>Medium</h4><p>≤ 30 days</p></div>
+      <div class="sla-card low"><h4>Low</h4><p>≤ 90 days</p></div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Server patch management workflow</div>
+    <div class="pm-steps">
+
+      <div class="pm-step">
+        <div class="pm-step-header"><div class="pm-step-num">1</div><div class="pm-step-title">Identify Applicable Patches</div></div>
+        <div class="pm-step-body">
+          <div class="pm-step-item">Review available patches for OS, installed services and roles, and middleware and runtimes</div>
+          <div class="pm-step-item">Identify patches addressing Critical / High severity and actively exploited vulnerabilities</div>
+          <div class="pm-step-item">Confirm applicability to server role and OS version before proceeding</div>
+        </div>
+      </div>
+
+      <div class="pm-step">
+        <div class="pm-step-header"><div class="pm-step-num">2</div><div class="pm-step-title">Assess Risk &amp; Criticality</div></div>
+        <div class="pm-step-body">
+          <div class="pm-step-item">Classify patch severity: Critical / High / Medium / Low</div>
+          <div class="pm-step-item">Identify server criticality: Production/Non-Production, Tier-0/1/2 services</div>
+          <div class="pm-step-item">Assess exposure: internet-facing, privileged or authentication systems</div>
+          <div class="pm-step-item">Confirm required SLA based on severity and server role</div>
+        </div>
+      </div>
+
+      <div class="pm-step">
+        <div class="pm-step-header"><div class="pm-step-num">3</div><div class="pm-step-title">Plan Deployment</div></div>
+        <div class="pm-step-body">
+          <div class="pm-step-item">Confirm approved maintenance window</div>
+          <div class="pm-step-item">Coordinate with application owners and business owners where required</div>
+          <div class="pm-step-item">Define deployment method: automated or manual/controlled</div>
+          <div class="pm-step-item">Confirm rollback approach: backup restore, snapshot revert, or service failover</div>
+        </div>
+      </div>
+
+      <div class="pm-step">
+        <div class="pm-step-header"><div class="pm-step-num">4</div><div class="pm-step-title">Pre-Patch Validation</div></div>
+        <div class="pm-step-body">
+          <div class="pm-step-item">Confirm last backup or snapshot completed successfully</div>
+          <div class="pm-step-item">Validate server health and available disk space</div>
+          <div class="pm-step-item">Ensure monitoring and alerting are active</div>
+          <div class="pm-step-item">Confirm access for post-patch validation is in place</div>
+        </div>
+      </div>
+
+      <div class="pm-step">
+        <div class="pm-step-header"><div class="pm-step-num">5</div><div class="pm-step-title">Deploy Patches</div></div>
+        <div class="pm-step-body">
+          <div class="pm-step-item">Initiate patch installation during approved maintenance window</div>
+          <div class="pm-step-item">Monitor installation status: Successful / Pending reboot / Failed</div>
+          <div class="pm-step-item">Reboot server if required — observe system behaviour during restart</div>
+        </div>
+      </div>
+
+      <div class="pm-step">
+        <div class="pm-step-header"><div class="pm-step-num">6</div><div class="pm-step-title">Post-Patch Validation</div></div>
+        <div class="pm-step-body">
+          <div class="pm-step-item">Confirm server boots successfully and required services are running</div>
+          <div class="pm-step-item">Verify application functionality where applicable</div>
+          <div class="pm-step-item">Confirm OS version and patch level</div>
+          <div class="pm-step-item">Review logs for unexpected errors or alerts</div>
+          <div class="pm-step-note">Validation is mandatory — do not close the task without confirming service health.</div>
+        </div>
+      </div>
+
+      <div class="pm-step">
+        <div class="pm-step-header"><div class="pm-step-num">7</div><div class="pm-step-title">Handle Failures &amp; Exceptions</div></div>
+        <div class="pm-step-body">
+          <div class="pm-step-item">Attempt controlled remediation if patching fails or causes instability</div>
+          <div class="pm-step-item">Roll back using approved recovery method if required</div>
+          <div class="pm-step-item">Escalate to platform or application owner</div>
+          <div class="pm-step-item">Initiate Patch Exception &amp; Risk Acceptance (IT-PM-SOP-03) if patch cannot be applied</div>
+          <div class="pm-step-note">Unresolved failures must not remain untracked.</div>
+        </div>
+      </div>
+
+      <div class="pm-step">
+        <div class="pm-step-header"><div class="pm-step-num">8</div><div class="pm-step-title">Record &amp; Report</div></div>
+        <div class="pm-step-body">
+          <div class="pm-step-item">Record patch outcome: Compliant / Failed / Deferred / Exception granted</div>
+          <div class="pm-step-item">Update tracking and reporting systems</div>
+          <div class="pm-step-item">Flag overdue Critical or High risk servers for escalation</div>
+          <div class="pm-step-item">Notify stakeholders of completion or rollback status</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Emergency / zero-day patching</div>
+    <div class="callout-warn">
+      <p>⚠️ For Critical or actively exploited vulnerabilities: emergency patching may bypass standard windows, business disruption may be accepted where risk justifies it. Backup and rollback remain mandatory — post-deployment validation is required without exception. Follow IT-PM-SOP-02 for the full emergency patching workflow.</p>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Patch drift management</div>
+    <div class="h-tips">
+      <div class="h-tip">Patch drift may occur due to snapshot reverts, missed maintenance windows, or configuration conflicts</div>
+      <div class="h-tip">When drift is detected: re-apply missing patches, investigate root cause, escalate repeat drift, apply compensating controls if required</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Expected outcome</div>
+    <div class="h-checks">
+      <div class="h-check">Servers remain protected against known vulnerabilities</div>
+      <div class="h-check">Production risk reduced and controlled within SLA</div>
+      <div class="h-check">Recovery and rollback are predictable and tested</div>
+      <div class="h-check">Patch compliance is measurable and auditable</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Related documents</div>
+    <div class="rel-list">
+      <div class="rel-item"><a href="it-pm-sop-01.html" style="color:var(--asm);">IT-PM-SOP-01 — Patch Management Core SOP</a></div>
+      <div class="rel-item"><a href="it-pm-sop-02.html" style="color:var(--asm);">IT-PM-SOP-02 — Emergency / Zero-Day Patch Management SOP</a></div>
+      <div class="rel-item"><a href="it-pm-sop-03.html" style="color:var(--asm);">IT-PM-SOP-03 — Patch Exception &amp; Risk Acceptance SOP</a></div>
+      <div class="rel-item"><a href="it-gov-wi-pm-01.html" style="color:var(--asm);">IT-GOV-WI-PM-01 — Endpoint Patch Management</a></div>
+    </div>
+  </div>
+
+  <div class="wi-nav"><a href="it-gov-wi-pm-01.html">← IT-GOV-WI-PM-01: Endpoint Patch Management</a><span></span></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-GOV-WI-PM-02 · Published 14 January 2026 · Paulo Ferreira</span>
+    <span><a href="asm-patch-management.html" style="color:var(--asm);text-decoration:none;">← Back to Patch Management</a></span>
+  </div>
+</div>
+</body>
+</html>

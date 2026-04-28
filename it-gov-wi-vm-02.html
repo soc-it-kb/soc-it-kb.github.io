@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-GOV-WI-VM-02: Vulnerability Triage &amp; Prioritisation — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .wi-badge-it { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .wi-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:8px; }
+  .h-prereqs { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .h-prereq { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  /* Phase-based steps */
+  .vm-phases { display:flex; flex-direction:column; gap:10px; margin-top:4px; }
+  .vm-phase { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1rem; }
+  .vm-phase-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; padding-bottom:6px; border-bottom:0.5px solid #e0e0dc; }
+  .vm-phase-num { width:24px; height:24px; border-radius:50%; background:var(--asm); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .vm-phase-title { font-size:13px; font-weight:600; color:var(--asm-dark); }
+  .vm-phase-steps { display:flex; flex-direction:column; gap:4px; }
+  .vm-step { font-size:13px; color:#444; line-height:1.5; display:flex; align-items:flex-start; gap:8px; }
+  .vm-step::before { content:'→'; color:var(--asm); font-weight:600; flex-shrink:0; }
+  .h-checks { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-check { display:flex; align-items:center; gap:10px; background:#E1F5EE; border:0.5px solid #82D4B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#1a6b47; }
+  .h-check::before { content:"✅"; font-size:13px; flex-shrink:0; }
+  .h-tips { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-tip { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#444; }
+  .h-tip::before { content:"💡"; font-size:13px; flex-shrink:0; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-vulnerability-management.html">Vulnerability Management</a><span>›</span>
+    <span>IT-GOV-WI-VM-02</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>IT-GOV-WI-VM-02: Vulnerability Triage &amp; Prioritisation</h1>
+    <p>Ensure vulnerabilities are accurately assessed, enriched, and prioritised based on risk — not raw severity score alone.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">🔍 Vulnerability Management</span>
+      <span class="kb-meta-pill">IT operations</span>
+      <span class="kb-meta-pill">Published 13 January 2026</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> IT-GOV-WI-VM-02</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 13 January 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-it">Vulnerability Management Procedure</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Required access</div>
+    <div class="h-prereqs"><span class="h-prereq">Vulnerability findings from scan output</span>
+<span class="h-prereq">Asset criticality data</span>
+<span class="h-prereq">Threat intelligence and exploitation context</span>
+<span class="h-prereq">Ticketing or tracking system</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <div class="vm-phases"><div class="vm-phase">
+          <div class="vm-phase-header"><div class="vm-phase-num">1</div><div class="vm-phase-title">Initial Review</div></div>
+          <div class="vm-phase-steps"><div class="vm-step">Remove obvious false positives</div>
+<div class="vm-step">Group duplicate findings across assets</div></div>
+        </div>
+<div class="vm-phase">
+          <div class="vm-phase-header"><div class="vm-phase-num">2</div><div class="vm-phase-title">Enrich Vulnerabilities</div></div>
+          <div class="vm-phase-steps"><div class="vm-step">Confirm CVE reference and CVSS score</div>
+<div class="vm-step">Identify asset criticality for each affected system</div>
+<div class="vm-step">Determine exposure level — external or internal</div>
+<div class="vm-step">Check known exploitation status — cross-reference CISA KEV</div></div>
+        </div>
+<div class="vm-phase">
+          <div class="vm-phase-header"><div class="vm-phase-num">3</div><div class="vm-phase-title">Assign Risk Priority</div></div>
+          <div class="vm-phase-steps"><div class="vm-step">Override CVSS where active exploitation is confirmed — treat as Critical regardless of score</div>
+<div class="vm-step">Apply Critical / High / Medium / Low classification</div></div>
+        </div>
+<div class="vm-phase">
+          <div class="vm-phase-header"><div class="vm-phase-num">4</div><div class="vm-phase-title">Create Remediation Tickets</div></div>
+          <div class="vm-phase-steps"><div class="vm-step">Assign remediation owner</div>
+<div class="vm-step">Define SLA based on severity classification</div>
+<div class="vm-step">Link to change or patch reference where applicable</div></div>
+        </div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Expected outcome</div>
+    <div class="h-checks"><div class="h-check">Prioritised vulnerability list with risk classification</div>
+<div class="h-check">Clear remediation ownership assigned</div>
+<div class="h-check">Risk-aligned remediation plan with SLAs defined</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <div class="h-tips"><div class="h-tip">Do not rely solely on CVSS score — a Medium CVE on an internet-facing critical system may warrant Critical priority</div>
+<div class="h-tip">Always escalate vulnerabilities with confirmed exploitation in the wild immediately</div>
+<div class="h-tip">Suppress recurring false positives with documented justification — do not leave them creating noise</div></div>
+  </div>
+
+  <div class="wi-nav"><a href="it-gov-wi-vm-01.html">← IT-GOV-WI-VM-01</a><a href="it-gov-wi-vm-03.html">IT-GOV-WI-VM-03 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-GOV-WI-VM-02 · Published 13 January 2026 · Paulo Ferreira</span>
+    <span><a href="asm-vulnerability-management.html" style="color:var(--asm);text-decoration:none;">← Back to Vulnerability Management</a></span>
+  </div>
+</div>
+</body>
+</html>
