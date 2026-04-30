@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Risk — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .grc-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .grc-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--grc); margin-bottom:4px; }
+  .grc-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .grc-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .grc-section p:last-child { margin-bottom:0; }
+
+  /* Supplier assessment types */
+  .supplier-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:4px; }
+  .supplier-card { border-radius:10px; padding:1rem 1.1rem; }
+  .supplier-card.saas   { background:#F3EEF9; border:0.5px solid #C9B3E8; }
+  .supplier-card.onprem { background:#FEF0E6; border:0.5px solid #F5C89A; }
+  .supplier-card.gen    { background:var(--grc-light); border:0.5px solid var(--grc-border); }
+  .supplier-card h4 { font-size:13px; font-weight:600; margin-bottom:6px; }
+  .supplier-card.saas   h4 { color:#3A1A5C; }
+  .supplier-card.onprem h4 { color:#5C2E06; }
+  .supplier-card.gen    h4 { color:var(--grc-dark); }
+  .supplier-card p { font-size:12px; margin:0; line-height:1.5; }
+  .supplier-card.saas   p { color:#4A2A7A; }
+  .supplier-card.onprem p { color:#6b3a0a; }
+  .supplier-card.gen    p { color:var(--grc-dark); }
+
+  /* Doc list */
+  .doc-list { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .doc-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; text-decoration:none; color:inherit; transition:background 0.1s; }
+  .doc-row:hover { background:var(--grc-light); }
+  .doc-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--grc-light); color:var(--grc); border:0.5px solid var(--grc-border); padding:2px 7px; border-radius:5px; white-space:nowrap; flex-shrink:0; }
+  .doc-name { font-size:13px; color:#333; flex:1; }
+  .doc-type { font-size:11px; color:#888; white-space:nowrap; }
+  .doc-badge { font-size:11px; font-weight:600; padding:2px 7px; border-radius:8px; white-space:nowrap; }
+  .doc-badge.approved { background:#E1F5EE; color:#0F6E56; }
+  .doc-badge.wip      { background:#FAEEDA; color:#854F0B; }
+
+  /* Register cards */
+  .reg-list { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .reg-row { display:flex; align-items:center; gap:12px; background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:8px; padding:0.75rem 1rem; text-decoration:none; color:inherit; transition:background 0.1s; }
+  .reg-row:hover { background:#D0ECEC; }
+  .reg-icon { font-size:16px; flex-shrink:0; }
+  .reg-name { font-size:13px; font-weight:600; color:var(--grc-dark); flex:1; }
+  .reg-desc { font-size:12px; color:#666; }
+
+  /* Process steps */
+  .process-steps { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .process-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .process-num { width:24px; height:24px; border-radius:50%; background:var(--grc); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .process-text { font-size:13px; color:#333; line-height:1.5; flex:1; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .grc-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .grc-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+  @media(max-width:640px){ .supplier-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="grc.html">GRC Hub</a><span>›</span><span>Risk</span></div>
+
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · Risk</div>
+    <h1>⚠️ Risk</h1>
+    <p>Supplier security assessments, risk acceptance, policy exceptions, and the processes for identifying, assessing, and governing cyber and operational risk across the organisation and its supply chain.</p>
+    <div class="grc-page-hero-pills">
+      <span class="grc-page-hero-pill">Supplier assurance</span>
+      <span class="grc-page-hero-pill">Risk acceptance</span>
+      <span class="grc-page-hero-pill">Policy exceptions</span>
+      <span class="grc-page-hero-pill">Third-party risk</span>
+    </div>
+  </div>
+
+  <!-- Supplier assessment types -->
+  <div class="grc-section">
+    <div class="grc-section-num">Supplier Security Assessment</div>
+    <div class="grc-section-title">Assessment Types</div>
+    <p>The supplier security assessment programme covers three categories of supplier — each with a dedicated policy, procedure (SOP), questionnaire, scored assessment record, and reviewer work instructions.</p>
+    <div class="supplier-grid">
+      <div class="supplier-card saas">
+        <h4>☁️ SaaS / Cloud Suppliers</h4>
+        <p>Cloud-hosted applications and platforms. Assessment focuses on data residency, access controls, shared responsibility model, and cloud security posture.</p>
+      </div>
+      <div class="supplier-card onprem">
+        <h4>🖥️ On-Prem Application Support</h4>
+        <p>Vendors and support partners with access to on-premises systems. Assessment focuses on remote access controls, credential management, and support scope.</p>
+      </div>
+      <div class="supplier-card gen">
+        <h4>🏢 General Suppliers</h4>
+        <p>All other suppliers with access to systems, data, or facilities. Baseline assessment covering fundamental security hygiene and contractual obligations.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Policies -->
+  <div class="grc-section">
+    <div class="grc-section-num">Policies</div>
+    <div class="grc-section-title">Supplier Assessment Policies</div>
+    <div class="doc-list">
+      <div class="doc-row"><span class="doc-code">GRC-POL-01</span><span class="doc-name">SaaS / Cloud Supplier Security Assessment Policy</span><span class="doc-badge approved">Approved</span></div>
+      <div class="doc-row"><span class="doc-code">GRC-POL-02</span><span class="doc-name">On-Prem Applications Support Supplier Security Assessment Policy</span><span class="doc-badge approved">Approved</span></div>
+      <div class="doc-row"><span class="doc-code">GRC-POL-03</span><span class="doc-name">General Supplier Security Assessment Policy</span><span class="doc-badge approved">Approved</span></div>
+    </div>
+  </div>
+
+  <!-- SOPs -->
+  <div class="grc-section">
+    <div class="grc-section-num">Procedures</div>
+    <div class="grc-section-title">Supplier Assessment SOPs</div>
+    <div class="doc-list">
+      <div class="doc-row"><span class="doc-code">GRC-SOP-01</span><span class="doc-name"><a href="grc-sop-01.html" style="color:var(--grc);text-decoration:none;">SaaS / Cloud Supplier Security Assessment Procedure</a></span><span class="doc-badge approved">Approved</span></div>
+      <div class="doc-row"><span class="doc-code">GRC-SOP-02</span><span class="doc-name"><a href="grc-sop-02.html" style="color:var(--grc);text-decoration:none;">On-Prem Application Supplier Security Assessment Procedure</a></span><span class="doc-badge approved">Approved</span></div>
+      <div class="doc-row"><span class="doc-code">GRC-SOP-03</span><span class="doc-name"><a href="grc-sop-03.html" style="color:var(--grc);text-decoration:none;">General Supplier Security Assessment Procedure</a></span><span class="doc-badge approved">Approved</span></div>
+    </div>
+  </div>
+
+  <!-- Forms -->
+  <div class="grc-section">
+    <div class="grc-section-num">Forms &amp; questionnaires</div>
+    <div class="grc-section-title">Assessment Questionnaires &amp; Scored Records</div>
+    <div class="doc-list">
+      <div class="doc-row"><span class="doc-code">GRC-FRM-08</span><span class="doc-name"><a href="grc-frm-08.html" style="color:var(--grc);text-decoration:none;">On-Prem Application Vendor &amp; Support Partner Security Assessment Questionnaire</a></span><span class="doc-badge approved">Approved</span></div>
+      <div class="doc-row"><span class="doc-code">GRC-FRM-09</span><span class="doc-name"><a href="grc-frm-09.html" style="color:var(--grc);text-decoration:none;">On-Prem Application Support Supplier Scored Assessment Record</a></span><span class="doc-badge approved">Approved</span></div>
+      <div class="doc-row"><span class="doc-code">GRC-FRM-10</span><span class="doc-name"><a href="grc-frm-10.html" style="color:var(--grc);text-decoration:none;">General Supplier Security Assessment Questionnaire</a></span><span class="doc-badge approved">Approved</span></div>
+      <div class="doc-row"><span class="doc-code">GRC-FRM-11</span><span class="doc-name"><a href="grc-frm-11.html" style="color:var(--grc);text-decoration:none;">General Supplier Scored Assessment Record</a></span><span class="doc-badge approved">Approved</span></div>
+      <div class="doc-row"><span class="doc-code">GRC-FRM-xx</span><span class="doc-name">Additional forms — in development</span><span class="doc-badge wip">Coming soon</span></div>
+    </div>
+  </div>
+
+  <!-- Work Instructions -->
+  <div class="grc-section">
+    <div class="grc-section-num">Work Instructions</div>
+    <div class="grc-section-title">Reviewer Work Instructions</div>
+    <div class="doc-list">
+      <div class="doc-row"><span class="doc-code">GRC-WI-03</span><span class="doc-name"><a href="grc-wi-03.html" style="color:var(--grc);text-decoration:none;">Reviewer Work Instructions for On-Prem Application Support Suppliers</a></span><span class="doc-badge approved">Approved</span></div>
+      <div class="doc-row"><span class="doc-code">GRC-WI-04</span><span class="doc-name"><a href="grc-wi-04.html" style="color:var(--grc);text-decoration:none;">Reviewer Work Instructions for General Suppliers</a></span><span class="doc-badge approved">Approved</span></div>
+    </div>
+  </div>
+
+  <!-- Assessment process -->
+  <div class="grc-section">
+    <div class="grc-section-num">Process overview</div>
+    <div class="grc-section-title">Supplier Assessment Lifecycle</div>
+    <div class="process-steps">
+      <div class="process-step"><div class="process-num">1</div><div class="process-text"><strong>Identify supplier category</strong> — SaaS/Cloud, On-Prem Support, or General. Select the appropriate policy, SOP, and questionnaire.</div></div>
+      <div class="process-step"><div class="process-num">2</div><div class="process-text"><strong>Issue questionnaire</strong> — Send the appropriate assessment questionnaire (GRC-FRM) to the supplier for completion.</div></div>
+      <div class="process-step"><div class="process-num">3</div><div class="process-text"><strong>Review &amp; score</strong> — Reviewer uses the applicable Work Instruction (GRC-WI) and Scored Assessment Record (GRC-FRM) to evaluate supplier responses.</div></div>
+      <div class="process-step"><div class="process-num">4</div><div class="process-text"><strong>Risk decision</strong> — Based on scoring outcome: approve, approve with conditions, request remediation, or escalate for risk acceptance.</div></div>
+      <div class="process-step"><div class="process-num">5</div><div class="process-text"><strong>Document &amp; track</strong> — Record outcome in the Risk Acceptance Log. Schedule re-assessment date. Communicate result to relevant stakeholders.</div></div>
+    </div>
+  </div>
+
+  <!-- Risk registers -->
+  <div class="grc-section">
+    <div class="grc-section-num">Registers</div>
+    <div class="grc-section-title">Risk Registers &amp; Trackers</div>
+    <div class="reg-list">
+      <a class="reg-row" href="grc-register-risk-log.html"><div class="reg-icon">🎯</div><div class="reg-name">Risk Acceptance Log</div><div class="reg-desc">Formal record of all accepted risks with owner, compensating controls, and expiry</div></a>
+      <a class="reg-row" href="grc-register-exceptions.html"><div class="reg-icon">⚠️</div><div class="reg-name">Baseline Exceptions Register</div><div class="reg-desc">Approved deviations from security baseline controls with justification and review dates</div></a>
+      <a class="reg-row" href="grc-register-policy-exceptions.html"><div class="reg-icon">📄</div><div class="reg-name">Policy Exception Register</div><div class="reg-desc">Approved exceptions to GRC policies with compensating controls and expiry dates</div></a>
+    </div>
+  </div>
+
+  <div class="grc-nav">
+    <a href="grc-governance.html">← Governance</a>
+    <a href="grc.html">← Back to GRC Hub</a>
+    <a href="grc-compliance.html">Compliance →</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC · Risk · Paulo Ferreira</span>
+    <span><a href="grc.html" style="color:var(--grc);text-decoration:none;">← Back to GRC Hub</a></span>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core Concepts &amp; References — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --cc:#1A4A7A; --cc-light:#E8F0FA; --cc-border:#B5CCE8; --cc-dark:#0D2B50; }
+
+  /* Hero */
+  .cc-hero { background:linear-gradient(135deg,#0D2B50 0%,#1A4A7A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .cc-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .cc-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .cc-hero p  { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .cc-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .cc-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  /* Required reading banner */
+  .req-banner { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.5rem; display:flex; align-items:flex-start; gap:10px; }
+  .req-banner-icon { font-size:20px; flex-shrink:0; }
+  .req-banner-text { font-size:13px; color:#7a2e10; line-height:1.5; }
+  .req-banner-text strong { color:#5C1A0A; }
+
+  /* Table of contents */
+  .toc { background:#fff; border:0.5px solid var(--cc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1.5rem; }
+  .toc-title { font-size:12px; font-weight:700; color:var(--cc); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px; }
+  .toc-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .toc-item { display:flex; align-items:center; gap:8px; text-decoration:none; color:#444; font-size:13px; padding:6px 10px; border-radius:7px; border:0.5px solid #e8e8e4; background:#f9f9f7; transition:background 0.1s; }
+  .toc-item:hover { background:var(--cc-light); color:var(--cc); }
+  .toc-num { width:22px; height:22px; border-radius:50%; background:var(--cc); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+  /* Who / when / principles */
+  .meta-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:1.5rem; }
+  .meta-card { background:#fff; border:0.5px solid var(--cc-border); border-radius:12px; padding:1rem 1.1rem; }
+  .meta-card-title { font-size:12px; font-weight:700; color:var(--cc); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; }
+  .meta-bullet { list-style:none; display:flex; flex-direction:column; gap:5px; }
+  .meta-bullet li { font-size:13px; color:#444; display:flex; align-items:flex-start; gap:7px; line-height:1.4; }
+  .meta-bullet li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--cc); flex-shrink:0; margin-top:4px; }
+
+  /* Section anchors */
+  .cc-section { background:#fff; border:0.5px solid var(--cc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; scroll-margin-top:80px; }
+  .cc-section-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--cc); margin-bottom:4px; }
+  .cc-section-title { font-size:18px; font-weight:700; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .cc-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .cc-section p:last-child { margin-bottom:0; }
+
+  /* Tier cards */
+  .tier-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+  .tier-card { border-radius:10px; padding:1.1rem 1.2rem; }
+  .tier-card.t0 { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; }
+  .tier-card.t1 { background:#FEF0E6; border:0.5px solid #F5C89A; border-left:3px solid #8B4A0E; }
+  .tier-card.t2 { background:var(--cc-light); border:0.5px solid var(--cc-border); border-left:3px solid var(--cc); }
+  .tier-card.t3 { background:#f5f5f3; border:0.5px solid #e0e0dc; border-left:3px solid #aaa; }
+  .tier-card-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+  .tier-badge { font-size:11px; font-weight:700; padding:2px 8px; border-radius:6px; white-space:nowrap; }
+  .tier-card.t0 .tier-badge { background:#993C1D; color:#fff; }
+  .tier-card.t1 .tier-badge { background:#8B4A0E; color:#fff; }
+  .tier-card.t2 .tier-badge { background:var(--cc); color:#fff; }
+  .tier-card.t3 .tier-badge { background:#888; color:#fff; }
+  .tier-card-name { font-size:14px; font-weight:700; }
+  .tier-card.t0 .tier-card-name { color:#7a2e10; }
+  .tier-card.t1 .tier-card-name { color:#5C2E06; }
+  .tier-card.t2 .tier-card-name { color:var(--cc-dark); }
+  .tier-card.t3 .tier-card-name { color:#555; }
+  .tier-card-desc { font-size:12px; margin-bottom:8px; }
+  .tier-card.t0 .tier-card-desc { color:#7a2e10; }
+  .tier-card.t1 .tier-card-desc { color:#6b3a0a; }
+  .tier-card.t2 .tier-card-desc { color:var(--cc-dark); }
+  .tier-card.t3 .tier-card-desc { color:#666; }
+  .tier-includes { font-size:12px; margin-bottom:6px; }
+  .tier-card.t0 .tier-includes { color:#7a2e10; }
+  .tier-card.t1 .tier-includes { color:#6b3a0a; }
+  .tier-card.t2 .tier-includes { color:var(--cc-dark); }
+  .tier-card.t3 .tier-includes { color:#666; }
+  .tier-item { display:flex; align-items:flex-start; gap:6px; font-size:12px; line-height:1.4; margin-bottom:3px; }
+  .tier-item::before { content:'→'; font-weight:600; flex-shrink:0; }
+  .tier-card.t0 .tier-item::before { color:#993C1D; }
+  .tier-card.t1 .tier-item::before { color:#8B4A0E; }
+  .tier-card.t2 .tier-item::before { color:var(--cc); }
+  .tier-card.t3 .tier-item::before { color:#888; }
+
+  /* Data tables */
+  .cc-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; }
+  .cc-table th { background:var(--cc-light); color:var(--cc); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--cc-border); font-size:11px; text-transform:uppercase; letter-spacing:0.05em; }
+  .cc-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; }
+  .cc-table tr:nth-child(even) td { background:#fafafa; }
+  .cc-table td:first-child { font-weight:600; color:#2D3748; }
+  .allowed   { color:#0F6E56; font-weight:600; }
+  .notallowed { color:#993C1D; font-weight:600; }
+
+  /* Account type cards */
+  .acct-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+  .acct-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.1rem; }
+  .acct-card h4 { font-size:13px; font-weight:700; color:var(--cc-dark); margin-bottom:6px; }
+  .acct-card p  { font-size:13px; color:#555; line-height:1.5; margin-bottom:6px; }
+  .acct-card p:last-child { margin-bottom:0; }
+
+  /* PAW table */
+  .paw-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; }
+  .paw-table th { background:var(--cc-light); color:var(--cc); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--cc-border); font-size:11px; text-transform:uppercase; }
+  .paw-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; }
+  .paw-table tr:nth-child(even) td { background:#fafafa; }
+
+  /* Allowed / prohibited lists */
+  .allow-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+  .allow-box { border-radius:10px; padding:1rem 1.1rem; }
+  .allow-box.yes { background:#E1F5EE; border:0.5px solid #82D4B0; }
+  .allow-box.no  { background:#FAECE7; border:0.5px solid #F5C0B0; }
+  .allow-box h4  { font-size:12px; font-weight:700; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em; }
+  .allow-box.yes h4 { color:#0F6E56; }
+  .allow-box.no  h4 { color:#993C1D; }
+  .allow-item { font-size:13px; display:flex; align-items:flex-start; gap:7px; margin-bottom:5px; line-height:1.4; }
+  .allow-box.yes .allow-item { color:#1a6b47; }
+  .allow-box.no  .allow-item { color:#7a2e10; }
+  .allow-box.yes .allow-item::before { content:'✅'; font-size:12px; flex-shrink:0; }
+  .allow-box.no  .allow-item::before { content:'🚫'; font-size:12px; flex-shrink:0; }
+
+  /* Callouts */
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .callout-info { background:var(--cc-light); border:0.5px solid var(--cc-border); border-left:3px solid var(--cc); border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-info p { font-size:13px; color:var(--cc-dark); margin:0; line-height:1.5; }
+
+  /* Error cards */
+  .error-list { display:flex; flex-direction:column; gap:5px; margin-top:8px; }
+  .error-item { display:flex; align-items:flex-start; gap:10px; background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#7a2e10; }
+  .error-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+
+  /* Practical examples */
+  .example-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+  .example-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.1rem; }
+  .example-card h4 { font-size:13px; font-weight:600; color:var(--cc-dark); margin-bottom:8px; }
+  .example-item { font-size:13px; color:#555; display:flex; align-items:flex-start; gap:7px; margin-bottom:4px; line-height:1.4; }
+  .example-item::before { content:'→'; color:var(--cc); font-weight:600; flex-shrink:0; }
+
+  /* Principles grid */
+  .principles-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; margin-top:8px; }
+  .principle-card { background:var(--cc-light); border:0.5px solid var(--cc-border); border-radius:8px; padding:0.85rem 1rem; text-align:center; }
+  .principle-card h4 { font-size:12px; font-weight:700; color:var(--cc-dark); margin-bottom:4px; }
+  .principle-card p  { font-size:11px; color:#555; margin:0; line-height:1.4; }
+
+  /* Back to top */
+  .back-top { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:var(--cc); text-decoration:none; float:right; margin-top:-2rem; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--cc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  @media(max-width:640px){ .tier-grid,.acct-grid,.allow-grid,.example-grid,.toc-grid,.meta-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html" class="active">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>  
+</nav>
+<div class="page-wrapper">
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="tools-references.html">Tools &amp; References</a><span>›</span>
+    <span>Core Concepts &amp; References</span>
+  </div>
+
+  <div class="cc-hero">
+    <div class="cc-hero-eyebrow">Core Concepts &amp; References</div>
+    <h1>Infrastructure Tiers, Accounts &amp; Privileged Access</h1>
+    <p>Foundational IT operations and cyber security concepts, models, and shared terminology used across all SOPs, Work Instructions, Checklists, Runbooks, and Playbooks. Use this content to ensure consistent interpretation and application across IT Operations and Cyber Security teams.</p>
+    <div class="cc-hero-pills">
+      <span class="cc-hero-pill">Required reading</span>
+      <span class="cc-hero-pill">Tier model</span>
+      <span class="cc-hero-pill">Privileged access</span>
+      <span class="cc-hero-pill">Published 20 January 2026</span>
+    </div>
+  </div>
+
+  <!-- Required reading banner -->
+  <div class="req-banner">
+    <div class="req-banner-icon">📌</div>
+    <div class="req-banner-text"><strong>Required reading before performing privileged administration tasks.</strong> All SOPs and Work Instructions in this knowledge base assume familiarity with the Infrastructure Tier Model, account types, and PAW requirements defined on this page.</div>
+  </div>
+
+  <!-- Table of contents -->
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <div class="toc-grid">
+      <a class="toc-item" href="#tier-model"><div class="toc-num">1</div>Infrastructure Tier Model</a>
+      <a class="toc-item" href="#account-types"><div class="toc-num">2</div>Administrative Account Types</a>
+      <a class="toc-item" href="#paw"><div class="toc-num">3</div>Privileged Access Workstations (PAW)</a>
+      <a class="toc-item" href="#access-rules"><div class="toc-num">4</div>Tier-Based Access Rules &amp; Boundaries</a>
+      <a class="toc-item" href="#tier-alignment"><div class="toc-num">5</div>Tier Alignment with SOPs, WIs &amp; Checklists</a>
+      <a class="toc-item" href="#principles"><div class="toc-num">6</div>Security Principles</a>
+    </div>
+  </div>
+
+  <!-- Who / when / maintained by -->
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="meta-card-title">👥 Who this is for</div>
+      <ul class="meta-bullet">
+        <li>Infrastructure &amp; Platform teams</li>
+        <li>Endpoint &amp; Workplace IT</li>
+        <li>Network and Identity teams</li>
+        <li>Application and Service owners</li>
+        <li>SOC &amp; Incident Response</li>
+        <li>Regional &amp; Local IT teams</li>
+      </ul>
+    </div>
+    <div class="meta-card">
+      <div class="meta-card-title">📋 When to use this page</div>
+      <ul class="meta-bullet">
+        <li>When an SOP or WI references a tier, privileged access, or trust boundary</li>
+        <li>When onboarding new IT or SOC staff</li>
+        <li>When validating access, patching, hardening, or incident procedures</li>
+        <li>When preparing for audits or lessons learned</li>
+      </ul>
+    </div>
+    <div class="meta-card">
+      <div class="meta-card-title">⚙️ Governance</div>
+      <ul class="meta-bullet">
+        <li>Maintained by Cyber Security Operations</li>
+        <li>Changes reviewed for global impact</li>
+        <li>Updates may require changes to linked SOPs and WIs</li>
+        <li>Review cycle: annual or on major architecture change</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 1 — INFRASTRUCTURE TIER MODEL
+  ══════════════════════════════════════════ -->
+  <div class="cc-section" id="tier-model">
+    <div class="cc-section-eyebrow">Section 1</div>
+    <div class="cc-section-title">Infrastructure Tier Model</div>
+    <p>The Infrastructure Tier Model separates the environment into distinct trust boundaries to reduce privilege escalation, lateral movement, and the blast radius during security incidents. It is the foundational concept referenced across all SOPs, WIs, checklists, runbooks, and playbooks.</p>
+    <div class="callout-info">
+      <p>📌 <strong>Core rule:</strong> Access must never flow from a lower tier to a higher tier. A Tier-2 device cannot administer Tier-0 or Tier-1 systems under any circumstances.</p>
+    </div>
+    <div class="tier-grid" style="margin-top:12px;">
+      <div class="tier-card t0">
+        <div class="tier-card-header"><span class="tier-badge">Tier 0</span><span class="tier-card-name">Identity &amp; Security Control Plane</span></div>
+        <div class="tier-card-desc">Highest trust level. Systems that define identity, authentication, and trust. Total environment compromise if breached.</div>
+        <div class="tier-includes"><strong>Includes:</strong></div>
+        <div class="tier-item">Active Directory Domain Controllers</div>
+        <div class="tier-item">Entra ID / Azure AD tenant</div>
+        <div class="tier-item">ADFS, PKI, Certificate Authorities</div>
+        <div class="tier-item">Privileged Access Management systems</div>
+        <div class="tier-item">Security platforms with identity control</div>
+        <div style="margin-top:8px;font-size:12px;color:#7a2e10;"><strong>Expectations:</strong> Dedicated Tier-0 admin accounts only · Access from hardened workstations only · MFA enforced · No email, browsing, or productivity tools · Strict monitoring</div>
+      </div>
+      <div class="tier-card t1">
+        <div class="tier-card-header"><span class="tier-badge">Tier 1</span><span class="tier-card-name">Server &amp; Application Infrastructure</span></div>
+        <div class="tier-card-desc">High business impact. Depends on Tier-0 for identity. Separate administration from Tier-0 and Tier-2.</div>
+        <div class="tier-includes"><strong>Includes:</strong></div>
+        <div class="tier-item">Application and database servers</div>
+        <div class="tier-item">File, print, and virtualisation platforms</div>
+        <div class="tier-item">Backup and recovery systems</div>
+        <div class="tier-item">Internal business applications</div>
+        <div style="margin-top:8px;font-size:12px;color:#6b3a0a;"><strong>Expectations:</strong> Tier-1 admin accounts only · No admin access from Tier-2 devices · Restricted internet access · Hardened baseline · Strict patching</div>
+      </div>
+      <div class="tier-card t2">
+        <div class="tier-card-header"><span class="tier-badge">Tier 2</span><span class="tier-card-name">End-User Computing</span></div>
+        <div class="tier-card-desc">Largest attack surface. Most exposed to phishing and malware. Lowest internal trust level.</div>
+        <div class="tier-includes"><strong>Includes:</strong></div>
+        <div class="tier-item">User laptops and desktops</div>
+        <div class="tier-item">VDI user sessions</div>
+        <div class="tier-item">Standard user accounts</div>
+        <div class="tier-item">Productivity and collaboration tools</div>
+        <div style="margin-top:8px;font-size:12px;color:var(--cc-dark);"><strong>Expectations:</strong> No admin access to Tier-0 or Tier-1 · Endpoint protection (AV/EDR) · Least privilege · Regular patching and hardening</div>
+      </div>
+      <div class="tier-card t3">
+        <div class="tier-card-header"><span class="tier-badge">Tier 3</span><span class="tier-card-name">External / Untrusted (Conceptual)</span></div>
+        <div class="tier-card-desc">Treated as untrusted by default. Includes internet, third-party systems, BYOD, and partner environments.</div>
+        <div class="tier-includes"><strong>Includes:</strong></div>
+        <div class="tier-item">Internet and external services</div>
+        <div class="tier-item">Third-party and partner systems</div>
+        <div class="tier-item">BYOD devices</div>
+        <div style="margin-top:8px;font-size:12px;color:#666;"><strong>Expectations:</strong> Access only via secure gateways · Strong authentication and conditional access · Assume untrusted by default</div>
+      </div>
+    </div>
+    <div class="callout-warn" style="margin-top:12px;">
+      <p>⚠️ All operational procedures assume you know which tier you are operating in, you are using the correct account, and you are working from an approved device. If unsure — stop and re-read this page before proceeding.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 2 — ADMINISTRATIVE ACCOUNT TYPES
+  ══════════════════════════════════════════ -->
+  <div class="cc-section" id="account-types">
+    <div class="cc-section-eyebrow">Section 2</div>
+    <div class="cc-section-title">Administrative Account Types</div>
+    <p>Administrative access is tier-specific and role-specific. Accounts must never be reused across tiers. Misuse of administrative accounts is one of the most common causes of major security incidents.</p>
+
+    <table class="cc-table" style="margin-bottom:12px;">
+      <thead><tr><th>Account Type</th><th>Description</th><th>Tier scope</th></tr></thead>
+      <tbody>
+        <tr><td>Standard User Account</td><td>Day-to-day user activity — email, browsing, collaboration, business applications</td><td>Tier 2 only</td></tr>
+        <tr><td>Privileged Admin Account</td><td>Administrative tasks only — system administration, configuration changes, security operations</td><td>Tier-specific</td></tr>
+        <tr><td>Tier-Scoped Admin Account</td><td>Dedicated admin account per tier — Tier-0, Tier-1, or Tier-2 admin</td><td>One tier only</td></tr>
+        <tr><td>Service / System Account</td><td>Non-interactive automated operations by applications or services</td><td>Least privilege</td></tr>
+      </tbody>
+    </table>
+
+    <div class="acct-grid">
+      <div class="acct-card">
+        <h4>👤 Standard User Account</h4>
+        <p>Used for email, browsing, collaboration, and business applications only. No administrative privileges. No access to Tier-0 or Tier-1 systems. High exposure to phishing and malware.</p>
+      </div>
+      <div class="acct-card">
+        <h4>🔐 Privileged Admin Account</h4>
+        <p>Used exclusively for system administration, configuration changes, and security operations. Separate from standard user account. No email or internet browsing. MFA enforced. Used only when required.</p>
+      </div>
+      <div class="acct-card">
+        <h4>🏛️ Tier-Scoped Admin Account</h4>
+        <p>Dedicated admin accounts per tier. Never reused across tiers. Never logged in from lower-tier devices. Strong authentication enforced. A Tier-0 admin account must never be used on a Tier-2 device.</p>
+      </div>
+      <div class="acct-card">
+        <h4>⚙️ Service / System Account</h4>
+        <p>Used by applications or services for automated tasks. Least privilege. No interactive login. Password rotation or managed identity. Regular review with defined ownership.</p>
+      </div>
+    </div>
+
+    <div class="error-list" style="margin-top:12px;">
+      <div class="error-item">Using a standard user account for admin tasks</div>
+      <div class="error-item">Reusing the same admin account across tiers</div>
+      <div class="error-item">Logging into Tier-0 with a Tier-1 or Tier-2 device</div>
+      <div class="error-item">Using service accounts interactively</div>
+    </div>
+    <div class="callout-info" style="margin-top:10px;">
+      <p>📌 Many SOPs and WIs explicitly state "use the appropriate tier-scoped admin account." If unsure which account to use — stop and consult this page.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 3 — PAW
+  ══════════════════════════════════════════ -->
+  <div class="cc-section" id="paw">
+    <div class="cc-section-eyebrow">Section 3</div>
+    <div class="cc-section-title">Privileged Access Workstations (PAW)</div>
+    <p>A PAW is a dedicated, hardened workstation used exclusively for privileged administration. PAWs reduce the risk of credential theft and lateral movement by enforcing clean separation between admin and standard user activity.</p>
+    <p>Most major breaches involve admin credentials stolen from compromised user devices, or privileged sessions running on Tier-2 systems. PAWs directly eliminate this attack path.</p>
+
+    <table class="paw-table" style="margin-bottom:12px;">
+      <thead><tr><th>Activity</th><th>PAW Required</th></tr></thead>
+      <tbody>
+        <tr><td>Tier-0 administration (Domain Controllers, identity systems)</td><td><span style="color:#993C1D;font-weight:700;">Yes — mandatory</span></td></tr>
+        <tr><td>Tier-1 server administration</td><td><span style="color:#993C1D;font-weight:700;">Yes</span></td></tr>
+        <tr><td>Security platform administration</td><td><span style="color:#993C1D;font-weight:700;">Yes</span></td></tr>
+        <tr><td>Standard user tasks</td><td><span style="color:#0F6E56;font-weight:700;">No</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="allow-grid">
+      <div class="allow-box yes">
+        <h4>✅ Allowed on a PAW</h4>
+        <div class="allow-item">Administrative tools and management consoles</div>
+        <div class="allow-item">Security platforms and monitoring tools</div>
+        <div class="allow-item">Required system utilities</div>
+        <div class="allow-item">Approved admin portals (web access)</div>
+      </div>
+      <div class="allow-box no">
+        <h4>🚫 Not allowed on a PAW</h4>
+        <div class="allow-item">Email clients</div>
+        <div class="allow-item">Web browsing (except approved admin portals)</div>
+        <div class="allow-item">Office and productivity applications</div>
+        <div class="allow-item">Messaging or collaboration tools</div>
+        <div class="allow-item">Personal use of any kind</div>
+      </div>
+    </div>
+
+    <div class="callout-warn" style="margin-top:12px;">
+      <p>⚠️ Tier-0 PAWs must never access Tier-1 or Tier-2 user services. PAWs are treated as high-trust assets and must follow stricter patching and monitoring standards than standard endpoints. See <a href="it-ep-sop-paw-01.html" style="color:#6b3f0a;">IT-EP-SOP-PAW-01</a> and <a href="it-ep-wi-paw-01.html" style="color:#6b3f0a;">IT-EP-WI-PAW-01 through PAW-07</a> for implementation details.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 4 — ACCESS RULES & BOUNDARIES
+  ══════════════════════════════════════════ -->
+  <div class="cc-section" id="access-rules">
+    <div class="cc-section-eyebrow">Section 4</div>
+    <div class="cc-section-title">Tier-Based Access Rules &amp; Boundaries</div>
+    <p>These rules define what access is permitted and prohibited between infrastructure tiers. They are enforced through technical controls, SOPs and WIs, and monitoring and audits.</p>
+    <div class="callout-info">
+      <p>📌 <strong>Core rule:</strong> Access can only flow from higher trust tiers to lower trust tiers — never the reverse.</p>
+    </div>
+
+    <table class="cc-table" style="margin-top:12px;margin-bottom:12px;">
+      <thead><tr><th>From</th><th>To</th><th>Allowed</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Tier-0</td><td>Tier-0</td><td><span class="allowed">✅ Yes</span></td><td>Tier-0 admin accounts on hardened PAWs only</td></tr>
+        <tr><td>Tier-0</td><td>Tier-1</td><td><span class="allowed">✅ Yes (controlled)</span></td><td>Requires Tier-0 account and hardened workstation</td></tr>
+        <tr><td>Tier-1</td><td>Tier-1</td><td><span class="allowed">✅ Yes</span></td><td>Tier-1 admin accounts only</td></tr>
+        <tr><td>Tier-1</td><td>Tier-2</td><td><span class="allowed">✅ Yes</span></td><td>Standard management and support activities</td></tr>
+        <tr><td>Tier-2</td><td>Tier-1</td><td><span class="notallowed">🚫 No</span></td><td>Standard user devices must not administer servers</td></tr>
+        <tr><td>Tier-2</td><td>Tier-0</td><td><span class="notallowed">🚫 No</span></td><td>Strictly prohibited under all circumstances</td></tr>
+      </tbody>
+    </table>
+
+    <div class="error-list">
+      <div class="error-item">Logging into Tier-0 from a Tier-2 device</div>
+      <div class="error-item">Using Tier-2 credentials on servers</div>
+      <div class="error-item">Running admin sessions from user workstations</div>
+      <div class="error-item">Reusing credentials across tiers</div>
+      <div class="error-item">Emergency "temporary" access becoming permanent</div>
+      <div class="error-item">Jump servers misclassified as Tier-2</div>
+      <div class="error-item">VPN access bypassing tier restrictions</div>
+    </div>
+    <div class="callout-warn" style="margin-top:10px;">
+      <p>⚠️ Tier boundaries affect patch management, incident response, change activities, and remote access solutions. If access feels "blocked" — it is usually by design.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 5 — TIER ALIGNMENT WITH DOCS
+  ══════════════════════════════════════════ -->
+  <div class="cc-section" id="tier-alignment">
+    <div class="cc-section-eyebrow">Section 5</div>
+    <div class="cc-section-title">Tier Alignment with SOPs, WIs &amp; Checklists</div>
+    <p>All SOPs, Work Instructions, and Checklists in this knowledge base assume tier awareness by default. Understanding how tiers shape procedures prevents security control bypass, audit findings, and increased breach impact.</p>
+
+    <div class="acct-grid" style="margin-bottom:12px;">
+      <div class="acct-card">
+        <h4>📋 SOPs define what must be done</h4>
+        <p>Assume correct tier, account, and device usage. Reference tier-specific constraints without prescribing which tool to use.</p>
+      </div>
+      <div class="acct-card">
+        <h4>🔧 Work Instructions define how</h4>
+        <p>Explicitly reference tier-specific constraints at each step. Call out when a Tier-0 account or PAW is required before proceeding.</p>
+      </div>
+      <div class="acct-card">
+        <h4>✅ Checklists validate compliance</h4>
+        <p>Confirm correct access paths and tools were used. Validate tier compliance as part of operational assurance.</p>
+      </div>
+      <div class="acct-card">
+        <h4>📖 Runbooks &amp; Playbooks reference tiers</h4>
+        <p>Tier-0 incidents escalate immediately. Containment steps and recovery paths vary by tier. Tier-2 infections are treated as assumed breach.</p>
+      </div>
+    </div>
+
+    <div class="example-grid">
+      <div class="example-card">
+        <h4>🩹 Patch Management example</h4>
+        <div class="example-item">Tier-0: Controlled windows, dedicated admin access, PAW required</div>
+        <div class="example-item">Tier-1: Scheduled maintenance windows, PAW usage, pre-patch validation</div>
+        <div class="example-item">Tier-2: Automated patching, endpoint controls, standard admin account</div>
+      </div>
+      <div class="example-card">
+        <h4>🚨 Incident Response example</h4>
+        <div class="example-item">Tier-0 incidents escalate immediately to SOC and Identity Services</div>
+        <div class="example-item">Tier-2 infections treated as assumed breach of user credentials</div>
+        <div class="example-item">Containment steps, isolation methods, and rebuild procedures vary by tier</div>
+      </div>
+    </div>
+
+    <div class="callout-info" style="margin-top:12px;">
+      <p>📌 If an SOP or WI feels restrictive or unclear: (1) identify the tier involved, (2) confirm the account type required, (3) verify the workstation being used, (4) re-read the relevant section on this page.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 6 — SECURITY PRINCIPLES
+  ══════════════════════════════════════════ -->
+  <div class="cc-section" id="principles">
+    <div class="cc-section-eyebrow">Section 6</div>
+    <div class="cc-section-title">Security Principles Used Across the Knowledge Base</div>
+    <p>These principles are assumed by default across all SOPs, WIs, runbooks, and playbooks. They drive how procedures are written and why certain controls exist.</p>
+    <div class="principles-grid">
+      <div class="principle-card">
+        <h4>🔐 Least Privilege</h4>
+        <p>Every account and process has only the minimum access required to perform its function — nothing more</p>
+      </div>
+      <div class="principle-card">
+        <h4>👥 Separation of Duties</h4>
+        <p>No single person should have unchecked ability to perform high-impact actions without oversight or approval</p>
+      </div>
+      <div class="principle-card">
+        <h4>💥 Assume Breach</h4>
+        <p>Design controls assuming attackers are already inside the environment — limit lateral movement and blast radius</p>
+      </div>
+      <div class="principle-card">
+        <h4>🛡️ Defence in Depth</h4>
+        <p>Multiple overlapping controls — no single control is relied upon exclusively to prevent or detect an attack</p>
+      </div>
+      <div class="principle-card">
+        <h4>🚧 Explicit Boundaries</h4>
+        <p>Trust boundaries between tiers are explicit and enforced — not implicit or assumed based on network location</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Core Concepts &amp; References · Published 20 January 2026 · Paulo Ferreira</span>
+    <span><a href="tools-references.html" style="color:var(--cc);text-decoration:none;">← Back to Tools &amp; References</a></span>
+  </div>
+
+</div>
+</body>
+</html>

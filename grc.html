@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Governance, Risk &amp; Compliance Hub — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+
+  .grc-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:8px; }
+  .grc-hero h1 { font-size:24px; font-weight:700; margin-bottom:8px; line-height:1.25; }
+  .grc-hero p  { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .grc-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  /* Important banner */
+  .grc-important { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.5rem; display:flex; align-items:flex-start; gap:10px; }
+  .grc-important-icon { font-size:18px; flex-shrink:0; }
+  .grc-important-text { font-size:13px; color:#6b3f0a; line-height:1.6; }
+  .grc-important-text strong { color:#5C3109; }
+
+  /* Stats */
+  .grc-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .grc-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .grc-stat-num   { font-size:26px; font-weight:700; color:var(--grc); line-height:1; margin-bottom:4px; }
+  .grc-stat-label { font-size:12px; color:#888; }
+
+  /* Domain cards */
+  .domain-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:1.5rem; }
+  .domain-card { border-radius:14px; padding:1.4rem 1.5rem; text-decoration:none; color:inherit; display:block; transition:transform 0.15s, box-shadow 0.15s; }
+  .domain-card:hover { transform:translateY(-2px); box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+  .domain-card.gov  { background:linear-gradient(135deg,#E6F4F4 0%,#D0ECEC 100%); border:0.5px solid var(--grc-border); }
+  .domain-card.risk { background:linear-gradient(135deg,#FAECE7 0%,#F5DDD7 100%); border:0.5px solid #F5C0B0; }
+  .domain-card.comp { background:linear-gradient(135deg,#E6F1FB 0%,#D6E8F8 100%); border:0.5px solid #B5D4F4; }
+  .domain-card-icon  { font-size:28px; margin-bottom:10px; }
+  .domain-card-code  { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:2px 8px; border-radius:6px; margin-bottom:8px; display:inline-block; }
+  .domain-card.gov  .domain-card-code { background:rgba(14,92,92,0.12); color:var(--grc); }
+  .domain-card.risk .domain-card-code { background:rgba(153,60,29,0.1); color:#993C1D; }
+  .domain-card.comp .domain-card-code { background:rgba(24,95,165,0.1); color:#185FA5; }
+  .domain-card-title { font-size:16px; font-weight:700; margin-bottom:6px; }
+  .domain-card.gov  .domain-card-title { color:var(--grc-dark); }
+  .domain-card.risk .domain-card-title { color:#5C2E06; }
+  .domain-card.comp .domain-card-title { color:#0F3460; }
+  .domain-card-desc { font-size:13px; line-height:1.6; margin-bottom:10px; }
+  .domain-card.gov  .domain-card-desc { color:#1A5C5C; }
+  .domain-card.risk .domain-card-desc { color:#7a2e10; }
+  .domain-card.comp .domain-card-desc { color:#0F3460; }
+  .domain-card-footer { display:flex; align-items:center; justify-content:space-between; font-size:12px; font-weight:600; }
+  .domain-card.gov  .domain-card-footer { color:var(--grc); }
+  .domain-card.risk .domain-card-footer { color:#993C1D; }
+  .domain-card.comp .domain-card-footer { color:#185FA5; }
+
+  /* What this hub covers */
+  .grc-intro { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1.5rem; }
+  .grc-intro p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .grc-intro p:last-child { margin-bottom:0; }
+
+  /* Use cases */
+  .usecase-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:1.5rem; }
+  .usecase-card { background:#fff; border:0.5px solid var(--grc-border); border-radius:10px; padding:1rem 1.1rem; }
+  .usecase-card h4 { font-size:13px; font-weight:600; color:var(--grc-dark); margin-bottom:5px; display:flex; align-items:center; gap:6px; }
+  .usecase-card p  { font-size:12px; color:#555; line-height:1.5; margin:0; }
+
+  /* Register quick access */
+  .register-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:4px; }
+  .register-card { background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:8px; padding:0.8rem 1rem; text-decoration:none; color:inherit; display:flex; align-items:center; gap:8px; transition:background 0.1s; }
+  .register-card:hover { background:#D0ECEC; }
+  .register-icon { font-size:16px; flex-shrink:0; }
+  .register-name { font-size:12px; font-weight:600; color:var(--grc-dark); line-height:1.3; }
+
+  /* Principles */
+  .principles-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; }
+  .principle-card { background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:8px; padding:0.85rem 1rem; text-align:center; }
+  .principle-card h4 { font-size:12px; font-weight:700; color:var(--grc-dark); margin-bottom:4px; }
+  .principle-card p  { font-size:11px; color:#555; margin:0; line-height:1.4; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  @media(max-width:640px){ .domain-grid,.usecase-grid,.register-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+</nav>
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span>GRC Hub</span></div>
+
+  <div class="grc-hero">
+    <div class="grc-hero-eyebrow">Hub overview</div>
+    <h1>Governance, Risk &amp; Compliance Hub</h1>
+    <p>The central location for approved Governance, Risk and Compliance documents, registers, templates, and supporting materials. Use this hub to locate the latest approved GRC documents, access templates and working tools, review live registers, and find guidance for governance and assurance activities.</p>
+    <div class="grc-hero-pills">
+      <span class="grc-hero-pill">Policy management</span>
+      <span class="grc-hero-pill">Supplier assurance</span>
+      <span class="grc-hero-pill">Risk registers</span>
+      <span class="grc-hero-pill">Compliance monitoring</span>
+      <span class="grc-hero-pill">Audit response</span>
+    </div>
+  </div>
+
+  <!-- Important notice -->
+  <div class="grc-important">
+    <div class="grc-important-icon">📌</div>
+    <div class="grc-important-text"><strong>Always use the latest approved version of a document from this hub.</strong> Local copies should not be treated as authoritative unless formally issued for review or approval. Check the Document Review Register for current version status.</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="grc-stats">
+    <div class="grc-stat"><div class="grc-stat-num">3</div><div class="grc-stat-label">Policies</div></div>
+    <div class="grc-stat"><div class="grc-stat-num">3</div><div class="grc-stat-label">SOPs</div></div>
+    <div class="grc-stat"><div class="grc-stat-num">4</div><div class="grc-stat-label">Forms</div></div>
+    <div class="grc-stat"><div class="grc-stat-num">2</div><div class="grc-stat-label">Work Instructions</div></div>
+    <div class="grc-stat"><div class="grc-stat-num">9</div><div class="grc-stat-label">Registers &amp; trackers</div></div>
+    <div class="grc-stat"><div class="grc-stat-num">3</div><div class="grc-stat-label">Domains</div></div>
+  </div>
+
+  <!-- Domain cards -->
+  <div class="kb-section">
+    <div class="kb-section-title">GRC domains</div>
+    <div class="domain-grid">
+
+      <a class="domain-card gov" href="grc-governance.html">
+        <div class="domain-card-icon">🏛️</div>
+        <div class="domain-card-code">GRC-GOV</div>
+        <div class="domain-card-title">Governance</div>
+        <div class="domain-card-desc">Policies, document management, regulatory obligations, and the frameworks that define how GRC is governed across the organisation.</div>
+        <div class="domain-card-footer"><span>Policies · Document Register · Obligations</span><span>→</span></div>
+      </a>
+
+      <a class="domain-card risk" href="grc-risk.html">
+        <div class="domain-card-icon">⚠️</div>
+        <div class="domain-card-code">GRC-RISK</div>
+        <div class="domain-card-title">Risk</div>
+        <div class="domain-card-desc">Supplier security assessments, risk acceptance log, policy exceptions, and the processes for identifying, assessing, and managing cyber and operational risk.</div>
+        <div class="domain-card-footer"><span>Supplier Assessment · Risk Register · Exceptions</span><span>→</span></div>
+      </a>
+
+      <a class="domain-card comp" href="grc-compliance.html">
+        <div class="domain-card-icon">✅</div>
+        <div class="domain-card-code">GRC-COMP</div>
+        <div class="domain-card-title">Compliance</div>
+        <div class="domain-card-desc">Baseline compliance tracking, control library, validation runs, drift remediation, and the registers that evidence ongoing compliance posture.</div>
+        <div class="domain-card-footer"><span>Baseline Catalog · Control Library · Validation</span><span>→</span></div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Use cases -->
+  <div class="kb-section">
+    <div class="kb-section-title">How to use this hub</div>
+    <div class="usecase-grid">
+      <div class="usecase-card"><h4>📋 Policy management</h4><p>Locate the latest approved policies under Governance. Always use the version published here — not local copies.</p></div>
+      <div class="usecase-card"><h4>🏢 Supplier assurance</h4><p>Use the Risk domain for supplier security assessments — questionnaires, scored assessment records, and reviewer work instructions.</p></div>
+      <div class="usecase-card"><h4>⚠️ Risk &amp; exceptions</h4><p>Log and track risk acceptances, policy exceptions, and baseline exceptions via the Risk domain registers.</p></div>
+      <div class="usecase-card"><h4>✅ Compliance monitoring</h4><p>Review baseline compliance status, validation runs, and drift remediation via the Compliance domain registers.</p></div>
+      <div class="usecase-card"><h4>🔍 Audit &amp; assurance</h4><p>Use registers and validation run records as audit evidence. All entries include owner, date, and approval status.</p></div>
+      <div class="usecase-card"><h4>📅 Review &amp; actions</h4><p>Check the Document Review Register for upcoming review dates and pending approvals across all GRC documents.</p></div>
+    </div>
+  </div>
+
+  <!-- Register quick access -->
+  <div class="kb-section">
+    <div class="kb-section-title">Register &amp; tracker quick access</div>
+    <div class="register-grid">
+      <a class="register-card" href="grc-register-baseline-catalog.html"><div class="register-icon">📦</div><div class="register-name">Baseline Catalog</div></a>
+      <a class="register-card" href="grc-register-control-library.html"><div class="register-icon">📚</div><div class="register-name">Baseline Control Library</div></a>
+      <a class="register-card" href="grc-register-exceptions.html"><div class="register-icon">⚠️</div><div class="register-name">Baseline Exceptions Register</div></a>
+      <a class="register-card" href="grc-register-validation.html"><div class="register-icon">✅</div><div class="register-name">Baseline Validation Runs</div></a>
+      <a class="register-card" href="grc-register-document-review.html"><div class="register-icon">📋</div><div class="register-name">Document Review Register</div></a>
+      <a class="register-card" href="grc-register-drift.html"><div class="register-icon">🔄</div><div class="register-name">Drift &amp; Remediation Register</div></a>
+      <a class="register-card" href="grc-register-policy-exceptions.html"><div class="register-icon">📄</div><div class="register-name">Policy Exception Register</div></a>
+      <a class="register-card" href="grc-register-regulatory.html"><div class="register-icon">⚖️</div><div class="register-name">Regulatory Obligations Register</div></a>
+      <a class="register-card" href="grc-register-risk-log.html"><div class="register-icon">🎯</div><div class="register-name">Risk Acceptance Log</div></a>
+    </div>
+  </div>
+
+  <!-- GRC Principles -->
+  <div class="kb-section">
+    <div class="kb-section-title">GRC principles</div>
+    <div class="principles-grid">
+      <div class="principle-card"><h4>📋 Documented &amp; approved</h4><p>All GRC decisions are documented, owned, and formally approved before being treated as authoritative</p></div>
+      <div class="principle-card"><h4>⏱️ Time-bound</h4><p>All exceptions, risk acceptances, and supplier assessments have defined review dates — nothing is open-ended</p></div>
+      <div class="principle-card"><h4>👤 Owned</h4><p>Every register entry, policy, and exception has a named owner accountable for its currency and accuracy</p></div>
+      <div class="principle-card"><h4>🔍 Auditable</h4><p>All GRC activities generate evidence suitable for internal and external audit review</p></div>
+      <div class="principle-card"><h4>🔄 Continuously reviewed</h4><p>GRC documents are living — reviewed on schedule and updated following incidents, changes, or audit findings</p></div>
+    </div>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC Hub · Published 12 March 2026 · Paulo Ferreira</span>
+    <span><a href="index.html" style="color:var(--grc);text-decoration:none;">← Back to home</a></span>
+  </div>
+
+</div>
+</body>
+</html>

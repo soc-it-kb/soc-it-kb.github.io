@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Governance — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .grc-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .grc-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--grc); margin-bottom:4px; }
+  .grc-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .grc-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .grc-section p:last-child { margin-bottom:0; }
+
+  /* Document list */
+  .doc-list { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .doc-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; text-decoration:none; color:inherit; transition:background 0.1s; }
+  .doc-row:hover { background:var(--grc-light); }
+  .doc-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--grc-light); color:var(--grc); border:0.5px solid var(--grc-border); padding:2px 7px; border-radius:5px; white-space:nowrap; flex-shrink:0; }
+  .doc-name { font-size:13px; color:#333; flex:1; }
+  .doc-badge { font-size:11px; font-weight:600; padding:2px 7px; border-radius:8px; white-space:nowrap; }
+  .doc-badge.approved { background:#E1F5EE; color:#0F6E56; }
+  .doc-badge.wip      { background:#FAEEDA; color:#854F0B; }
+  .doc-arrow { color:#ccc; }
+
+  /* Register cards */
+  .reg-list { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .reg-row { display:flex; align-items:center; gap:12px; background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:8px; padding:0.75rem 1rem; text-decoration:none; color:inherit; transition:background 0.1s; }
+  .reg-row:hover { background:#D0ECEC; }
+  .reg-icon { font-size:16px; flex-shrink:0; }
+  .reg-name { font-size:13px; font-weight:600; color:var(--grc-dark); flex:1; }
+  .reg-desc { font-size:12px; color:#666; }
+
+  /* Audience */
+  .audience-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .audience-card { background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:8px; padding:0.85rem 1rem; }
+  .audience-card h4 { font-size:12px; font-weight:600; color:var(--grc-dark); margin-bottom:4px; }
+  .audience-card p  { font-size:12px; color:#555; line-height:1.4; margin:0; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .grc-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .grc-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+  @media(max-width:640px){ .audience-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="grc.html">GRC Hub</a><span>›</span><span>Governance</span></div>
+
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · Governance</div>
+    <h1>🏛️ Governance</h1>
+    <p>Policies, document management, regulatory obligations, and the frameworks that define how GRC activities are governed across the organisation. The foundation for consistent, auditable, and accountable security and compliance practice.</p>
+    <div class="grc-page-hero-pills">
+      <span class="grc-page-hero-pill">Policy management</span>
+      <span class="grc-page-hero-pill">Document control</span>
+      <span class="grc-page-hero-pill">Regulatory obligations</span>
+      <span class="grc-page-hero-pill">Audit readiness</span>
+    </div>
+  </div>
+
+  <div class="grc-section">
+    <div class="grc-section-num">Policies</div>
+    <div class="grc-section-title">GRC Policy Catalogue</div>
+    <p>Approved policies defining the organisation's requirements for supplier security assessment. All policies are owned, versioned, and subject to annual review.</p>
+    <div class="doc-list">
+      <div class="doc-row"><span class="doc-code">GRC-POL-01</span><span class="doc-name"><a href="grc-pol-01.html" style="color:var(--grc);text-decoration:none;">Supplier Security Assessment Policy</a></span><span class="doc-badge approved">Approved</span></div>
+      <div class="doc-row"><span class="doc-code">GRC-POL-02</span><span class="doc-name"><a href="grc-pol-02.html" style="color:var(--grc);text-decoration:none;">On-Prem Applications Support Supplier Security Assessment Policy</a></span><span class="doc-badge approved">Approved</span></div>
+      <div class="doc-row"><span class="doc-code">GRC-POL-03</span><span class="doc-name"><a href="grc-pol-03.html" style="color:var(--grc);text-decoration:none;">General Supplier Security Assessment Policy</a></span><span class="doc-badge approved">Approved</span></div>
+    </div>
+  </div>
+
+  <div class="grc-section">
+    <div class="grc-section-num">Registers</div>
+    <div class="grc-section-title">Governance Registers</div>
+    <div class="reg-list">
+      <a class="reg-row" href="grc-register-document-review.html"><div class="reg-icon">📋</div><div class="reg-name">Document Review Register</div><div class="reg-desc">Tracks review dates, approval status, and owners for all GRC documents</div></a>
+      <a class="reg-row" href="grc-register-regulatory.html"><div class="reg-icon">⚖️</div><div class="reg-name">Regulatory Obligations Register</div><div class="reg-desc">Catalogue of applicable regulatory, legal, and contractual obligations</div></a>
+    </div>
+  </div>
+
+  <div class="grc-section">
+    <div class="grc-section-num">Audience</div>
+    <div class="grc-section-title">Who uses this domain</div>
+    <div class="audience-grid">
+      <div class="audience-card"><h4>👔 Leadership &amp; Management</h4><p>Policy ownership, approval authority, and governance oversight</p></div>
+      <div class="audience-card"><h4>📋 GRC &amp; Compliance Teams</h4><p>Document control, review scheduling, and regulatory mapping</p></div>
+      <div class="audience-card"><h4>🔍 Audit &amp; Assurance</h4><p>Policy evidence, document version history, and obligation tracking</p></div>
+      <div class="audience-card"><h4>🔐 Cyber Security</h4><p>Policy authoring, review, and alignment with security standards</p></div>
+    </div>
+  </div>
+
+  <div class="grc-nav">
+    <a href="grc.html">← Back to GRC Hub</a>
+    <a href="grc-risk.html">Risk →</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC · Governance · Paulo Ferreira</span>
+    <span><a href="grc.html" style="color:var(--grc);text-decoration:none;">← Back to GRC Hub</a></span>
+  </div>
+</div>
+</body>
+</html>
