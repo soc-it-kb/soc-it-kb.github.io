@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NW-02: Internal Reconnaissance / Lateral Movement — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --c:#2D5A2D; --cl:#EDF6ED; --cb:#A8D5A8; --cd:#1A3A1A; }
+  .t1-hero { background:linear-gradient(135deg,#1A3A1A 0%,#2D5A2D 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.25rem; color:#fff; }
+  .t1-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.65; margin-bottom:6px; }
+  .t1-hero h2 { font-size:20px; font-weight:700; margin-bottom:8px; }
+  .t1-hero p { font-size:14px; opacity:0.8; line-height:1.5; margin:0; }
+  .t1-hero-pills { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .t1-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .t1-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-card-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--c); margin-bottom:8px; }
+  .t1-trigger-desc { font-size:14px; color:#333; margin-bottom:8px; line-height:1.5; }
+  .t1-trigger-tags { display:flex; flex-wrap:wrap; gap:6px; }
+  .t1-trigger-tag { font-size:12px; background:var(--cl); color:var(--c); border:0.5px solid var(--cb); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .t1-check-item { display:flex; align-items:center; gap:12px; padding:0.7rem 0; border-bottom:0.5px solid #f5f5f3; }
+  .t1-check-item:last-child { border-bottom:none; }
+  .t1-check-num { width:26px; height:26px; border-radius:50%; background:var(--cl); color:var(--c); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .t1-check-q { font-size:14px; color:#1a1a1a; flex:1; line-height:1.45; }
+  .t1-check-q .flag { font-size:11px; font-weight:600; background:#FAECE7; color:#993C1D; padding:2px 7px; border-radius:8px; margin-left:6px; vertical-align:middle; white-space:nowrap; }
+  .t1-yn { display:flex; gap:6px; flex-shrink:0; }
+  .t1-y { width:36px; height:30px; border-radius:6px; background:#FAEEDA; border:1.5px solid #FAC775; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#854F0B; }
+  .t1-n { width:36px; height:30px; border-radius:6px; background:#f5f5f3; border:1.5px solid #e0e0dc; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#888; }
+  .t1-decision-row { display:flex; align-items:flex-start; gap:12px; padding:0.65rem 0.9rem; border-radius:10px; margin-bottom:6px; }
+  .t1-decision-row:last-child { margin-bottom:0; }
+  .t1-decision-row.green { background:#E1F5EE; }
+  .t1-decision-row.amber { background:#FAEEDA; }
+  .t1-decision-row.red   { background:#FAECE7; }
+  .t1-decision-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+  .t1-decision-text { font-size:13px; line-height:1.5; }
+  .t1-decision-row.green .t1-decision-text { color:#1a6b47; }
+  .t1-decision-row.amber .t1-decision-text { color:#6b3f0a; }
+  .t1-decision-row.red   .t1-decision-text { color:#7a2e10; }
+  .t1-decision-text strong { font-weight:700; }
+  .t1-ev-item { display:flex; align-items:center; gap:10px; background:var(--cl); border:0.5px solid var(--cb); border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:var(--cd); margin-bottom:5px; }
+  .t1-ev-item::before { content:"📋"; font-size:13px; flex-shrink:0; }
+  .t1-tip { background:#1a1a1a; border-radius:12px; padding:1.1rem 1.4rem; display:flex; align-items:flex-start; gap:12px; margin-bottom:1.5rem; }
+  .t1-tip-icon { font-size:22px; flex-shrink:0; }
+  .t1-tip-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#4ade80; margin-bottom:4px; }
+  .t1-tip-text  { font-size:13px; color:rgba(255,255,255,0.85); line-height:1.5; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--c); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .t1-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .t1-nav a { font-size:13px; color:var(--c); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="runbooks.html">Runbooks</a><span>›</span>
+    <span>NW-02</span>
+  </div>
+
+  <div class="t1-hero">
+    <div class="t1-hero-eyebrow">Tier-1 Quick Checklist · 🌐 Network threats</div>
+    <h2>NW-02: Internal Reconnaissance / Lateral Movement</h2>
+    <p>Answer each question YES or NO and apply the decision logic. Escalate with evidence attached — do not reboot or alter the endpoint before escalating.</p>
+    <div class="t1-hero-pills">
+      <span class="t1-hero-pill">🌐 Network threats</span>
+      <span class="t1-hero-pill">Tier 1</span>
+      <span class="t1-hero-pill">Published 28 April 2026</span>
+    </div>
+  </div>
+
+  <div class="t1-card">
+    <div class="t1-card-label">🔔 When to use this checklist</div>
+    <div class="t1-trigger-desc">SIEM or NDR alert suggesting an endpoint or account is scanning internal hosts, attempting to access multiple systems, or exhibiting lateral movement behaviour.</div>
+    <div class="t1-trigger-tags">
+      <span class="t1-trigger-tag">Internal port scanning alert</span>
+      <span class="t1-trigger-tag">SMB connection to multiple hosts</span>
+      <span class="t1-trigger-tag">RDP connection anomaly</span>
+      <span class="t1-trigger-tag">Pass-the-hash indicator</span>
+      <span class="t1-trigger-tag">Unusual internal authentication attempts</span>
+      <span class="t1-trigger-tag">SIEM lateral movement rule</span>
+    </div>
+  </div>
+
+  <div class="t1-card">
+    <div class="t1-card-label">Step 1 — Answer each question YES or NO</div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">1</div>
+      <div class="t1-check-q">Is a single endpoint scanning multiple internal IPs or ports (SMB 445, RDP 3389, WinRM 5985)?<span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">2</div>
+      <div class="t1-check-q">Are there authentication attempts from this endpoint against multiple other systems?<span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">3</div>
+      <div class="t1-check-q">Is there evidence of pass-the-hash, pass-the-ticket, or credential relay?<span class="flag">Escalate immediately</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">4</div>
+      <div class="t1-check-q">Has a new account been created or added to an admin group?<span class="flag">Escalate immediately</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">5</div>
+      <div class="t1-check-q">Is the source endpoint a user workstation that should not be initiating server connections?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">6</div>
+      <div class="t1-check-q">Is the activity occurring outside business hours or in an unusual pattern?<span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">7</div>
+      <div class="t1-check-q">Is a Tier-0 or Tier-1 asset involved — either as source or target?<span class="flag">Escalate immediately</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">8</div>
+      <div class="t1-check-q">Are multiple user accounts involved from the same endpoint?<span class="flag">Escalate immediately</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+  </div>
+
+  <div class="t1-card">
+    <div class="t1-card-label">Step 2 — Apply decision logic</div>
+    <div class="t1-decision-row green">
+      <div class="t1-decision-icon">✅</div>
+      <div class="t1-decision-text"><strong>Single connection, legitimate business use case confirmed</strong> — Document and close with monitoring note.</div>
+    </div>
+    <div class="t1-decision-row amber">
+      <div class="t1-decision-icon">⚠️</div>
+      <div class="t1-decision-text"><strong>YES to questions 1, 2, or 5</strong> — Escalate to Tier-2. Isolate source endpoint. Invoke <a href='ep-pb-03.html' style='color:#1A3A1A;'>EP-PB-03</a>.</div>
+    </div>
+    <div class="t1-decision-row red">
+      <div class="t1-decision-icon">🔴</div>
+      <div class="t1-decision-text"><strong>YES to question 3, 4, or 8</strong> — Escalate to Tier-3 immediately. Invoke <a href='nw-pb-03.html' style='color:#1A3A1A;'>NW-PB-03</a>. Isolate source. Consider east-west block via <a href='nw-wi-03.html' style='color:#1A3A1A;'>NW-WI-03</a>.</div>
+    </div>
+    <div class="t1-decision-row red">
+      <div class="t1-decision-icon">🔴</div>
+      <div class="t1-decision-text"><strong>YES to question 6 or 7</strong> — Escalate immediately. Tier-0/1 involvement or after-hours activity significantly raises severity.</div>
+    </div>
+  </div>
+
+  <div class="t1-card">
+    <div class="t1-card-label">Step 3 — Capture evidence before escalating</div>
+    <div class="t1-ev-item">Source endpoint hostname and user</div>
+    <div class="t1-ev-item">Destination IPs and hostnames targeted</div>
+    <div class="t1-ev-item">Ports and protocols used in scanning</div>
+    <div class="t1-ev-item">Authentication logs showing attempted or successful logons</div>
+    <div class="t1-ev-item">Timestamps and duration of activity</div>
+    <div class="t1-ev-item">Any new accounts or group membership changes observed</div>
+  </div>
+
+  <div class="t1-tip">
+    <div class="t1-tip-icon">💡</div>
+    <div>
+      <div class="t1-tip-label">Analyst Tip</div>
+      <div class="t1-tip-text">Internal scanning is almost always intentional — legitimate tools don't randomly connect to dozens of internal hosts on port 445. The key question is whether the source endpoint has a business reason to connect to those destinations. A user workstation connecting to 20 servers in 5 minutes almost certainly indicates either a compromised endpoint or an attacker using stolen credentials.</div>
+    </div>
+  </div>
+
+  <div class="t1-nav"><a href="tier1-nw-01.html">← NW-01</a><a href="tier1-nw-03.html">NW-03 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>NW-02 · Published 28 April 2026 · Paulo Ferreira</span>
+    <span><a href="runbooks.html" style="color:var(--c);text-decoration:none;">← Back to Runbooks</a></span>
+  </div>
+</div>
+</body>
+</html>

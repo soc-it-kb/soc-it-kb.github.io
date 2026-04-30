@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-POL-01: Supplier Security Assessment Policy — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+
+  .pol-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .pol-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--grc); margin-bottom:4px; }
+  .pol-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .pol-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .pol-section p:last-child { margin-bottom:0; }
+
+  .pol-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; margin-top:4px; }
+  .pol-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .pol-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--grc); flex-shrink:0; margin-top:5px; }
+
+  .roles-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .roles-table th { background:var(--grc-light); color:var(--grc); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--grc-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .roles-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; }
+  .roles-table tr:nth-child(even) td { background:#fafafa; }
+  .roles-table td:first-child { font-weight:600; color:var(--grc-dark); }
+
+  .outcomes-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .outcome-card { border-radius:8px; padding:0.75rem 1rem; display:flex; align-items:center; gap:8px; font-size:13px; font-weight:500; }
+  .outcome-card.approved  { background:#E1F5EE; border:0.5px solid #82D4B0; color:#0F6E56; }
+  .outcome-card.cond      { background:var(--grc-light); border:0.5px solid var(--grc-border); color:var(--grc-dark); }
+  .outcome-card.escalate  { background:#FAEEDA; border:0.5px solid #FAC775; color:#854F0B; }
+  .outcome-card.escalate2 { background:#FEF0E6; border:0.5px solid #F5C89A; color:#8B4A0E; }
+  .outcome-card.notapproved { background:#FAECE7; border:0.5px solid #F5C0B0; color:#993C1D; }
+
+  .review-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:4px; }
+  .review-card { border-radius:8px; padding:0.8rem 1rem; text-align:center; }
+  .review-card.critical { background:#FAECE7; border:0.5px solid #F5C0B0; }
+  .review-card.medium   { background:#FAEEDA; border:0.5px solid #FAC775; }
+  .review-card.low      { background:var(--grc-light); border:0.5px solid var(--grc-border); }
+  .review-card h4 { font-size:12px; font-weight:700; margin-bottom:4px; }
+  .review-card.critical h4 { color:#993C1D; }
+  .review-card.medium   h4 { color:#854F0B; }
+  .review-card.low      h4 { color:var(--grc); }
+  .review-card p { font-size:13px; font-weight:600; margin:0; }
+  .review-card.critical p { color:#7a2e10; }
+  .review-card.medium   p { color:#6b3f0a; }
+  .review-card.low      p { color:var(--grc-dark); }
+
+  .nist-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .nist-tag  { font-size:12px; background:var(--grc-light); color:var(--grc); border:0.5px solid var(--grc-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .pol-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .pol-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+  @media(max-width:640px){ .outcomes-grid,.review-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="grc.html">GRC Hub</a><span>›</span>
+    <a href="grc-governance.html">Governance</a><span>›</span>
+    <span>GRC-POL-01</span>
+  </div>
+
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · Policy</div>
+    <h1>GRC-POL-01: Supplier Security Assessment Policy</h1>
+    <p>Minimum requirements for assessing the security, privacy, resilience, and governance capability of all in-scope suppliers.</p>
+    <div class="grc-page-hero-pills">
+      <span class="grc-page-hero-pill">All supplier types</span>
+      <span class="grc-page-hero-pill">Overarching policy</span>
+      <span class="grc-page-hero-pill">NIST CSF 2.0</span>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">📋 <strong>Policy ID:</strong> GRC-POL-01</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔄 <strong>Version:</strong> v1.0</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-approved">Approved</span></div>
+  </div>
+
+  <div class="pol-section">
+    <div class="pol-section-num">Purpose</div>
+    <div class="pol-section-title">Purpose</div>
+    <p>This policy defines the minimum requirements for assessing the security, privacy, resilience, and governance capability of suppliers that provide services, systems, or processing activities to the Institution. The purpose of the policy is to ensure that supplier risk is identified, assessed, treated, and governed in a consistent and proportionate manner before onboarding, during contract life, and when material change occurs.</p>
+  </div>
+
+  <div class="pol-section">
+    <div class="pol-section-num">Scope</div>
+    <div class="pol-section-title">Scope</div>
+    <ul class="pol-bullet">
+      <li>Suppliers that process organisational or personal data</li>
+      <li>Suppliers providing SaaS, hosted, managed, or outsourced services</li>
+      <li>Suppliers that connect to organisational systems or networks</li>
+      <li>Suppliers with remote, logical, physical, or privileged access</li>
+      <li>Suppliers that support business-critical processes or regulated activities</li>
+      <li>Applies to new suppliers, contract renewals, material service changes, and periodic reassessments</li>
+    </ul>
+  </div>
+
+  <div class="pol-section">
+    <div class="pol-section-num">Policy statements</div>
+    <div class="pol-section-title">The Institution shall</div>
+    <ul class="pol-bullet">
+      <li>Perform supplier security assessments before onboarding in-scope suppliers</li>
+      <li>Apply a proportionate, risk-based approach based on service criticality, data sensitivity, and access profile</li>
+      <li>Require suppliers to provide accurate responses and supporting evidence where appropriate</li>
+      <li>Review supplier security, privacy, resilience, and third-party dependency controls before approval</li>
+      <li>Maintain records of assessment outcomes, conditions, and residual risks</li>
+      <li>Require reassessment at defined intervals or on material change</li>
+      <li>Escalate material control deficiencies for risk treatment or formal risk acceptance</li>
+    </ul>
+  </div>
+
+  <div class="pol-section">
+    <div class="pol-section-num">Minimum assessment areas</div>
+    <div class="pol-section-title">At a minimum, the assessment shall consider</div>
+    <ul class="pol-bullet">
+      <li>Service scope and supplier role</li>
+      <li>Governance and assurance</li>
+      <li>Identity and access management</li>
+      <li>Privacy and data protection</li>
+      <li>Encryption and secrets management</li>
+      <li>Logging and monitoring</li>
+      <li>Vulnerability and patch management</li>
+      <li>Secure development where applicable</li>
+      <li>Incident response and breach handling</li>
+      <li>Resilience, backup, and disaster recovery</li>
+      <li>Sub-processors and supply chain dependencies</li>
+      <li>Contractual safeguards and exit arrangements</li>
+    </ul>
+  </div>
+
+  <div class="pol-section">
+    <div class="pol-section-num">Roles &amp; responsibilities</div>
+    <div class="pol-section-title">Roles &amp; Responsibilities</div>
+    <table class="roles-table">
+      <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
+      <tbody>
+      <tr><td>GRC</td><td>Own the policy, define the assessment standard, and oversee adherence</td></tr>
+      <tr><td>Security / Third-Party Risk</td><td>Review assessments, identify gaps, score responses, and recommend outcomes</td></tr>
+      <tr><td>Application Owner / Business Owner</td><td>Confirm criticality and accept residual risk where authorised</td></tr>
+      <tr><td>Procurement</td><td>Trigger assessments during sourcing, onboarding, and renewal</td></tr>
+      <tr><td>Privacy / DPO</td><td>Review privacy and cross-border transfer considerations where required</td></tr>
+      <tr><td>Legal</td><td>Ensure contractual protections align with identified risks</td></tr>
+      <tr><td>Supplier</td><td>Provide accurate responses, evidence, and remediation commitments</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pol-section">
+    <div class="pol-section-num">Assessment outcomes</div>
+    <div class="pol-section-title">Permitted Outcomes</div>
+    <div class="outcomes-grid">
+      <div class="outcome-card approved">✅ Approved</div>
+      <div class="outcome-card cond">⚠️ Approved with Conditions</div>
+      <div class="outcome-card escalate">🔴 Escalate for Risk Acceptance</div>
+      <div class="outcome-card notapproved">🚫 Not Approved</div>
+    </div>
+    <div class="callout-warn" style="margin-top:10px;">
+      <p>⚠️ No supplier shall be onboarded where risk remains above tolerance without appropriate approval.</p>
+    </div>
+  </div>
+
+  <div class="pol-section">
+    <div class="pol-section-num">Review frequency</div>
+    <div class="pol-section-title">Reassessment Schedule</div>
+    <div class="review-grid">
+      <div class="review-card critical"><h4>Critical / High-risk</h4><p>Every 12 months</p></div>
+      <div class="review-card medium"><h4>Medium-risk</h4><p>Every 24 months</p></div>
+      <div class="review-card low"><h4>Low-risk</h4><p>Every 36 months or on material change</p></div>
+    </div>
+  </div>
+
+  <div class="pol-section">
+    <div class="pol-section-num">Compliance</div>
+    <div class="pol-section-title">Policy Compliance</div>
+    <p>Non-compliance with this policy shall be recorded, risk-assessed, and escalated through the relevant governance route.</p>
+  </div>
+
+  <div class="pol-section">
+    <div class="pol-section-num">Framework alignment</div>
+    <div class="pol-section-title">NIST CSF 2.0 Alignment</div>
+    <div class="nist-tags">
+      <span class="nist-tag">✅ GV — Govern</span>
+      <span class="nist-tag">✅ ID — Identify</span>
+      <span class="nist-tag">✅ PR — Protect</span>
+      <span class="nist-tag">✅ DE — Detect</span>
+      <span class="nist-tag">✅ RS — Respond</span>
+      <span class="nist-tag">✅ RC — Recover</span>
+    </div>
+  </div>
+
+  <div class="pol-nav"><span></span><a href="grc-pol-02.html">GRC-POL-02 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC-POL-01 · v1.0 · Approved · Paulo Ferreira</span>
+    <span><a href="grc-governance.html" style="color:var(--grc);text-decoration:none;">← Back to Governance</a></span>
+  </div>
+</div>
+</body>
+</html>

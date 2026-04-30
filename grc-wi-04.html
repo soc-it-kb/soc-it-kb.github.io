@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-WI-04: Reviewer Work Instructions — General Suppliers — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+
+  .wi-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .wi-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--grc); margin-bottom:4px; }
+  .wi-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .wi-section p:last-child { margin-bottom:0; }
+
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .wi-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--grc); flex-shrink:0; margin-top:5px; }
+
+  /* Focus areas */
+  .focus-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .focus-card { background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:8px; padding:0.8rem 1rem; font-size:13px; color:var(--grc-dark); display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+  .focus-card::before { content:'🔍'; font-size:13px; flex-shrink:0; }
+
+  /* Review method sections */
+  .review-cards { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .review-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.1rem; }
+  .review-card h4 { font-size:13px; font-weight:600; color:var(--grc-dark); margin-bottom:8px; }
+
+  /* Gaps — red flags */
+  .gap-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .gap-item { display:flex; align-items:flex-start; gap:10px; background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#7a2e10; }
+  .gap-item::before { content:'🚩'; font-size:13px; flex-shrink:0; }
+
+  /* Evidence */
+  .ev-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .ev-item { display:flex; align-items:flex-start; gap:10px; background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:var(--grc-dark); }
+  .ev-item::before { content:'📄'; font-size:13px; flex-shrink:0; }
+
+  /* Questions */
+  .q-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .q-item { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#333; font-style:italic; }
+  .q-item::before { content:'❓'; font-size:13px; flex-shrink:0; }
+
+  /* Pitfalls */
+  .pitfall-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .pitfall-item { display:flex; align-items:flex-start; gap:10px; background:#FAEEDA; border:0.5px solid #FAC775; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#6b3f0a; }
+  .pitfall-item::before { content:'⚠️'; font-size:13px; flex-shrink:0; }
+
+  /* Compensating controls */
+  .comp-list { display:flex; flex-direction:column; gap:5px; margin-top:8px; }
+  .comp-item { display:flex; align-items:flex-start; gap:10px; background:#E1F5EE; border:0.5px solid #82D4B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#1a6b47; }
+  .comp-item::before { content:'🛡️'; font-size:13px; flex-shrink:0; }
+
+  /* Outcomes */
+  .outcomes-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .outcome-card { border-radius:8px; padding:0.7rem 1rem; font-size:13px; font-weight:500; display:flex; align-items:center; gap:8px; }
+  .outcome-approved    { background:#E1F5EE; border:0.5px solid #82D4B0; color:#0F6E56; }
+  .outcome-cond        { background:var(--grc-light); border:0.5px solid var(--grc-border); color:var(--grc-dark); }
+  .outcome-escalate    { background:#FAEEDA; border:0.5px solid #FAC775; color:#854F0B; }
+  .outcome-escalate2   { background:#FEF0E6; border:0.5px solid #F5C89A; color:#8B4A0E; }
+  .outcome-notapproved { background:#FAECE7; border:0.5px solid #F5C0B0; color:#993C1D; }
+
+  /* NIST tags */
+  .nist-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .nist-tag { font-size:12px; background:var(--grc-light); color:var(--grc); border:0.5px solid var(--grc-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+
+  /* Related docs */
+  .rel-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .rel-item { display:flex; align-items:center; gap:8px; text-decoration:none; font-size:13px; color:var(--grc-dark); padding:5px 0; }
+  .rel-item::before { content:'›'; color:var(--grc); font-weight:700; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+  @media(max-width:640px){ .focus-grid,.review-cards,.outcomes-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="grc.html">GRC Hub</a><span>›</span>
+    <a href="grc-risk.html">Risk</a><span>›</span>
+    <span>GRC-WI-04</span>
+  </div>
+
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · Work Instruction · Reviewer Guidance</div>
+    <h1>GRC-WI-04: Reviewer Work Instructions — General Suppliers</h1>
+    <p>Practical guidance for assessing suppliers providing goods, licences, equipment, accessories, professional services, and other products outside the SaaS and on-prem application support models.</p>
+    <div class="grc-page-hero-pills">
+      <span class="grc-page-hero-pill">General suppliers</span>
+      <span class="grc-page-hero-pill">Reviewer guidance</span>
+      <span class="grc-page-hero-pill">GRC-SOP-03</span>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">🔧 <strong>WI ID:</strong> GRC-WI-04</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📄 <strong>SOP:</strong> <a href="grc-sop-03.html" style="color:var(--grc);">GRC-SOP-03</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📊 <strong>Scoring form:</strong> GRC-FRM-11</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-approved">Approved</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Reviewer focus areas</div>
+    <div class="wi-section-title">Focus especially on</div>
+    <div class="focus-grid">
+      <div class="focus-card">Whether the supplier is truly low-risk or whether hidden hosting or support elements exist</div>
+      <div class="focus-card">Whether products, licences, and components are authentic and supportable</div>
+      <div class="focus-card">Whether the supplier may handle sensitive information, site access, or network-connected equipment</div>
+      <div class="focus-card">Whether fulfilment relies on third parties or resellers that are not clearly disclosed</div>
+      <div class="focus-card">Whether there is a credible route for product security advisories, recalls, defects, and issue escalation</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Pre-review checks</div>
+    <div class="wi-section-title">Confirm before scoring</div>
+    <ul class="wi-bullet">
+      <li>The exact products or services being supplied are known</li>
+      <li>The business owner is identified</li>
+      <li>Whether any information handling is expected</li>
+      <li>Whether site access or installation activity is expected</li>
+      <li>Whether any supplied item connects to organisational networks or systems</li>
+      <li>Whether this supplier should remain under the general supplier track or be redirected</li>
+    </ul>
+    <p style="font-size:13px;color:#888;margin-top:8px;">If this information is incomplete — return for clarification before scoring.</p>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Review method</div>
+    <div class="wi-section-title">Completeness, Evidence &amp; Gap Identification</div>
+    <div class="review-cards">
+      <div class="review-card">
+        <h4>📋 Completeness check — questionnaire should explain</h4>
+        <ul class="wi-bullet">
+      <li>What is actually being supplied</li>
+      <li>Whether any hidden service component exists</li>
+      <li>Whether products are authentic and traceable</li>
+      <li>Whether confidentiality and information handling are addressed</li>
+      <li>Whether third parties or resellers are involved</li>
+      <li>Whether there is a route for notifying product or security issues</li>
+        </ul>
+      </div>
+      <div class="review-card">
+        <h4>📄 Acceptable evidence</h4>
+        <div class="ev-list">
+      <div class="ev-item">Authorised reseller confirmation</div>
+      <div class="ev-item">Licence entitlement documentation</div>
+      <div class="ev-item">Product authenticity or provenance statements</div>
+      <div class="ev-item">Confidentiality terms or NDA clauses</div>
+      <div class="ev-item">Security advisory or patch communication examples</div>
+      <div class="ev-item">Site access and delivery control procedures</div>
+      <div class="ev-item">Disposal or return process summaries</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:10px;">
+      <p style="font-size:13px;font-weight:600;color:var(--grc-dark);margin-bottom:6px;">🚩 Gap indicators — look for:</p>
+      <div class="gap-list">
+      <div class="gap-item">Vague statements about 'supply only' where installation or configuration support is actually involved</div>
+      <div class="gap-item">Unclear origin of hardware, software, or replacement parts</div>
+      <div class="gap-item">Lack of clarity on who really fulfils or services the order</div>
+      <div class="gap-item">Products that connect to the network but with no patch or advisory model</div>
+      <div class="gap-item">Field engineers or delivery personnel with site access but no control explanation</div>
+      <div class="gap-item">Returns or repairs involving storage media with no data protection arrangement</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Outcome determination</div>
+    <div class="wi-section-title">Scoring &amp; Outcomes</div>
+    <p>Use GRC-FRM-11 and apply the 0–5 scale based on control existence, maturity and consistency, evidence strength, and appropriateness for the risk level.</p>
+    <div class="outcomes-grid">
+      <div class="outcome-card outcome-approved">✅ Approved</div>
+      <div class="outcome-card outcome-cond">⚠️ Approved with Conditions</div>
+      <div class="outcome-card outcome-escalate2">🟠 Escalate for Further Assessment</div>
+      <div class="outcome-card outcome-escalate">🔴 Escalate for Risk Acceptance</div>
+      <div class="outcome-card outcome-notapproved">🚫 Not Approved</div>
+    </div>
+    <p style="font-size:13px;color:#888;margin-top:8px;font-style:italic;">Do not keep the supplier on this track if the responses indicate hosted services or privileged support activity — redirect to the appropriate specialist model.</p>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Reviewer judgement</div>
+    <div class="wi-section-title">Apply stronger scrutiny where</div>
+    <ul class="wi-bullet">
+      <li>Provides network-connected equipment, appliances, or embedded technology</li>
+      <li>Supplies firmware, drivers, scripts, or utilities</li>
+      <li>Handles floorplans, site details, asset data, or sensitive operational information</li>
+      <li>Accesses restricted premises, comms rooms, CCTV areas, or security-sensitive sites</li>
+      <li>Relies heavily on resellers, field engineers, or third-party logistics chains</li>
+      <li>May receive returned devices or storage media containing data</li>
+    </ul>
+    <p style="font-size:13px;font-weight:600;color:var(--grc-dark);margin-top:10px;margin-bottom:6px;">🛡️ Internal compensating controls to consider:</p>
+    <div class="comp-list">
+      <div class="comp-item">Internal network isolation of supplied equipment</div>
+      <div class="comp-item">Internal licence verification and asset management</div>
+      <div class="comp-item">Internal escort requirements for site visits</div>
+      <div class="comp-item">Internal sanitisation before return or disposal</div>
+      <div class="comp-item">Internal testing before deployment of supplied software or firmware</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Suggested follow-up questions</div>
+    <div class="wi-section-title">Use where responses are weak</div>
+    <div class="q-list">
+      <div class="q-item">Please confirm whether any hosted or remote managed service element is included.</div>
+      <div class="q-item">Please identify whether supplied equipment will connect to our network or require software updates.</div>
+      <div class="q-item">Please explain how you verify product authenticity and avoid counterfeit parts.</div>
+      <div class="q-item">Please identify all resellers, subcontractors, field engineers, or logistics partners involved.</div>
+      <div class="q-item">Please confirm how security advisories, product recalls, or end-of-support notices are communicated.</div>
+      <div class="q-item">Please explain how returned equipment, media, or failed components are handled where customer data may exist.</div>
+      <div class="q-item">Please confirm whether your personnel require access to restricted sites or sensitive information.</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Common pitfalls</div>
+    <div class="wi-section-title">Avoid</div>
+    <div class="pitfall-list">
+      <div class="pitfall-item">Treating all goods suppliers as low risk by default</div>
+      <div class="pitfall-item">Overlooking embedded software, firmware, or network connectivity</div>
+      <div class="pitfall-item">Accepting reseller status without confirming authenticity and traceability</div>
+      <div class="pitfall-item">Ignoring site access risk for installers, couriers, or field engineers</div>
+      <div class="pitfall-item">Overlooking confidentiality risk for drawings, asset records, and operational details</div>
+      <div class="pitfall-item">Failing to redirect suppliers into the correct specialist assessment track when needed</div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">NIST CSF 2.0 alignment</div>
+    <div class="wi-section-title">Framework alignment</div>
+    <div class="nist-tags">
+      <span class="nist-tag">✅ GV — Govern: supplier oversight and decision-making</span>
+      <span class="nist-tag">✅ ID — Identify: supplier type, fulfilment model, dependencies, and risk indicators</span>
+      <span class="nist-tag">✅ PR — Protect: confidentiality, product integrity, and site access controls</span>
+      <span class="nist-tag">✅ DE — Detect: issue escalation, advisory awareness, and defect notification</span>
+      <span class="nist-tag">✅ RS — Respond: incident notification and corrective action expectations</span>
+      <span class="nist-tag">✅ RC — Recover: supportability, replacement, and continuity considerations</span>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-num">Related documents</div>
+    <div class="wi-section-title">Linked documents</div>
+    <div class="rel-list">
+      <a class="rel-item" href="grc-sop-03.html">GRC-SOP-03 — General Supplier Security Assessment Procedure</a>
+      <a class="rel-item" href="grc-pol-03.html">GRC-POL-03 — General Supplier Security Assessment Policy</a>
+    </div>
+  </div>
+
+  <div class="wi-nav"><a href="grc-wi-03.html">← GRC-WI-03</a><span></span></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC-WI-04 · Approved · Paulo Ferreira</span>
+    <span><a href="grc-risk.html" style="color:var(--grc);text-decoration:none;">← Back to Risk</a></span>
+  </div>
+</div>
+</body>
+</html>

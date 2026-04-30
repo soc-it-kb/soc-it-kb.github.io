@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-FRM-08: On-Prem Application Vendor &amp; Support Partner Security Assessment Questionnaire</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-hero-ey { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-hero h1 { font-size:20px; font-weight:700; margin-bottom:6px; }
+  .grc-hero p  { font-size:14px; opacity:0.8; line-height:1.5; margin:0; }
+  .grc-hero-pills { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .grc-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.8rem 1.2rem; margin-bottom:1.25rem; }
+  .meta-item { font-size:13px; color:#666; display:flex; align-items:center; gap:5px; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .instr-box { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
+  .instr-box p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.6; }
+  .frm-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; overflow:hidden; margin-bottom:10px; }
+  .frm-section-header { background:var(--grc-dark); color:#fff; padding:0.75rem 1.25rem; display:flex; align-items:center; gap:10px; }
+  .frm-section-header h3 { font-size:14px; font-weight:600; margin:0; }
+  .frm-section-header span { font-size:11px; opacity:0.6; }
+  .frm-table { width:100%; border-collapse:collapse; font-size:12px; }
+  .frm-table th { background:var(--grc-light); color:var(--grc); font-weight:600; padding:8px 10px; text-align:left; border:0.5px solid var(--grc-border); font-size:11px; text-transform:uppercase; letter-spacing:0.04em; white-space:nowrap; }
+  .frm-table td { padding:8px 10px; border:0.5px solid #e8e8e4; color:#333; vertical-align:top; }
+  .frm-table tr:nth-child(even) td { background:#fafafa; }
+  .frm-table td.ref { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; color:var(--grc); white-space:nowrap; background:var(--grc-light); }
+  .frm-table td.question { font-size:13px; color:#1a1a1a; line-height:1.4; }
+  .frm-table td.resp { width:18%; }
+  .frm-table td.evid { width:14%; }
+  .frm-table td.notes { width:16%; }
+  .frm-input { width:100%; min-height:36px; font-size:12px; border:0.5px solid #d0d0cc; border-radius:5px; padding:4px 7px; color:#333; resize:vertical; background:#fff; font-family:inherit; }
+  .frm-input:focus { outline:none; border-color:var(--grc); }
+  /* Details table */
+  .details-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .details-table td { padding:8px 12px; border:0.5px solid #e8e8e4; }
+  .details-table td:first-child { font-weight:600; color:var(--grc-dark); background:var(--grc-light); width:35%; }
+  .details-table tr:nth-child(even) td:first-child { background:#d8efef; }
+  .details-table td:last-child input, .details-table td:last-child select { width:100%; border:none; background:transparent; font-size:13px; color:#333; font-family:inherit; }
+  /* Declaration */
+  .decl-box { background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:10px; padding:1.1rem 1.4rem; margin-bottom:1.25rem; }
+  .decl-box p { font-size:13px; color:var(--grc-dark); line-height:1.6; margin-bottom:10px; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .frm-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .frm-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+  @media print { .kb-topnav, .breadcrumb, .frm-nav, .kb-footer { display:none; } body { font-size:11px; } .frm-input { border:0.5px solid #ccc; } }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="grc.html">GRC Hub</a><span>›</span>
+    <a href="grc-risk.html">Risk</a><span>›</span>
+    <span>GRC-FRM-08</span>
+  </div>
+
+  <div class="grc-hero">
+    <div class="grc-hero-ey">GRC · Form · Questionnaire</div>
+    <h1>GRC-FRM-08: On-Prem Application Vendor &amp; Support Partner Security Assessment Questionnaire</h1>
+    <p>For vendors and support partners providing support, maintenance, development, upgrade, administration, or troubleshooting services for internally hosted applications.</p>
+    <div class="grc-hero-pills">
+      <span class="grc-hero-pill">On-prem support</span>
+      <span class="grc-hero-pill">14 sections · 68 questions</span>
+      <span class="grc-hero-pill">GRC-SOP-02</span>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">📋 <strong>Form ID:</strong> GRC-FRM-08</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔗 <strong>SOP:</strong> <a href="grc-sop-02.html" style="color:var(--grc);">GRC-SOP-02</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📊 <strong>Scored by:</strong> <a href="grc-frm-09.html" style="color:var(--grc);">GRC-FRM-09</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-approved">Approved</span></div>
+  </div>
+
+  <div class="instr-box">
+    <p>📌 <strong>Completion instructions:</strong> Complete each question using: <strong>Yes | Partial | No | N/A | Narrative Response | Evidence Reference</strong>. Where a control is not fully implemented, provide current status, compensating controls, remediation target date, and accountable owner.</p>
+  </div>
+
+  <!-- Supplier and service details -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>Supplier and Service Details</h3></div>
+    <table class="details-table">
+      <tr><td>Supplier name</td><td><input type="text" placeholder="Enter supplier name"></td></tr>
+      <tr><td>Service / support contract name</td><td><input type="text" placeholder="Enter contract name"></td></tr>
+      <tr><td>Application supported</td><td><input type="text" placeholder="Enter application name"></td></tr>
+      <tr><td>Application owner</td><td><input type="text" placeholder="Enter application owner name"></td></tr>
+      <tr><td>Supplier contact</td><td><input type="text" placeholder="Enter supplier contact name"></td></tr>
+      <tr><td>Assessment owner</td><td><input type="text" placeholder="Enter reviewer name"></td></tr>
+      <tr><td>Assessment date</td><td><input type="date"></td></tr>
+      <tr><td>Type of support provided</td><td><input type="text" placeholder="Incident / Break-fix / Maintenance / Upgrade / Managed / Development / Other"></td></tr>
+      <tr><td>Support model</td><td><input type="text" placeholder="Remote / On-site / Hybrid"></td></tr>
+      <tr><td>Support hours</td><td><input type="text" placeholder="Business hours / Extended / 24x7 / Other"></td></tr>
+      <tr><td>Will supplier access production systems?</td><td><input type="text" placeholder="Yes / No"></td></tr>
+      <tr><td>Will supplier access non-production systems?</td><td><input type="text" placeholder="Yes / No"></td></tr>
+      <tr><td>Will supplier access databases or data stores?</td><td><input type="text" placeholder="Yes / No"></td></tr>
+      <tr><td>Will supplier access logs, backups, or exports?</td><td><input type="text" placeholder="Yes / No"></td></tr>
+      <tr><td>Will supplier use subcontractors or partner engineers?</td><td><input type="text" placeholder="Yes / No"></td></tr>
+    </table>
+  </div>
+
+  <div class="frm-section">
+    <div class="frm-section-header">
+      <h3>Service Scope and Support Model</h3>
+      <span>SP-xx</span>
+    </div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:7%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">SP-01</td>
+          <td class="question">Describe the support service provided, including whether support is incident-based, proactive, managed, project-based, or upgrade-related.</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">SP-02</td>
+          <td class="question">Identify which application components may be accessed during support.</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">SP-03</td>
+          <td class="question">Confirm whether support access is remote, on-site, or hybrid, and how access is initiated and approved.</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">SP-04</td>
+          <td class="question">Confirm whether support applies to production, non-production, or both.</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">SP-05</td>
+          <td class="question">Confirm whether support personnel may access live organisational data, sensitive records, logs, or exported data.</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">SP-06</td>
+          <td class="question">Describe whether named engineers are assigned or whether support may be provided by a broader support pool.</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header">
+      <h3>Governance, Risk and Assurance</h3>
+      <span>GV-xx</span>
+    </div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:7%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">GV-01</td>
+          <td class="question">Is there a named individual accountable for information security and the support service provided to us?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">GV-02</td>
+          <td class="question">Do you maintain formal information security policies and standards relevant to support operations and privileged access?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">GV-03</td>
+          <td class="question">Do you maintain a formal risk management process covering customer support activities and engineer access?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">GV-04</td>
+          <td class="question">How are control deviations or support-related exceptions approved and tracked?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">GV-05</td>
+          <td class="question">List current certifications or independent assurance reports relevant to support operations.</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">GV-06</td>
+          <td class="question">Have you experienced any material security incidents in the last 24 months relevant to remote support, privileged access, or customer environments?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header">
+      <h3>Personnel Security and Support Staff Assurance</h3>
+      <span>PS-xx</span>
+    </div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:7%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">PS-01</td>
+          <td class="question">Are background screening checks performed for staff or contractors supporting customer environments?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">PS-02</td>
+          <td class="question">Do contracts or equivalent terms include confidentiality and customer data handling obligations?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">PS-03</td>
+          <td class="question">Is security awareness training mandatory at induction and at least annually?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">PS-04</td>
+          <td class="question">Do engineers and support personnel receive role-specific training for secure support practices and privileged access?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">PS-05</td>
+          <td class="question">Is there a formal joiner, mover, leaver process ensuring timely removal of engineer access?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">PS-06</td>
+          <td class="question">Are third-party contractors or partner engineers subject to equivalent screening and control requirements?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header">
+      <h3>Remote Access and Privileged Access Management</h3>
+      <span>RA-xx</span>
+    </div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:7%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">RA-01</td>
+          <td class="question">Describe how remote access to customer environments is established.</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">RA-02</td>
+          <td class="question">Is MFA enforced for all remote access and privileged access used to support customer systems?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">RA-03</td>
+          <td class="question">Are engineer administrative accounts separate from standard user accounts?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">RA-04</td>
+          <td class="question">Is customer environment access granted on a named-user basis and restricted to authorised personnel only?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">RA-05</td>
+          <td class="question">Is access enabled only when required — just-in-time, time-bound, approval-based, or ticket-linked access?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">RA-06</td>
+          <td class="question">Are privileged actions in customer environments logged and attributable to an individual engineer?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">RA-07</td>
+          <td class="question">Are shared accounts prohibited or tightly controlled and monitored where unavoidable?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">RA-08</td>
+          <td class="question">Is remote support access reviewed periodically and removed when no longer required?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">RA-09</td>
+          <td class="question">Are break-glass or emergency access arrangements controlled, logged, and periodically reviewed?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header">
+      <h3>Support Operations, Change and Maintenance</h3>
+      <span>OM-xx</span>
+    </div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:7%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">OM-01</td>
+          <td class="question">Describe how support requests are logged, authorised, and tracked.</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">OM-02</td>
+          <td class="question">Are changes to customer-hosted applications formally assessed, tested, approved, and documented before implementation?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">OM-03</td>
+          <td class="question">Are emergency fixes or urgent changes subject to retrospective review and approval?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">OM-04</td>
+          <td class="question">Are changes first tested in non-production where feasible before being applied to production?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">OM-05</td>
+          <td class="question">Are maintenance windows, outage risks, rollback steps, and customer communications defined for planned support activities?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">OM-06</td>
+          <td class="question">Do you maintain secure configuration guidance or hardening recommendations for the supported application?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header">
+      <h3>Data Handling During Support</h3>
+      <span>DH-xx</span>
+    </div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:7%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">DH-01</td>
+          <td class="question">May support personnel view, query, export, copy, or otherwise access live organisational data during troubleshooting or maintenance?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">DH-02</td>
+          <td class="question">Are there controls to minimise access to live data — masking, redaction, supervised access, or use of test data where possible?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">DH-03</td>
+          <td class="question">Are customer data extracts, screenshots, log files, or diagnostic files protected and deleted when no longer required?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">DH-04</td>
+          <td class="question">Is customer data prohibited from being stored on engineer endpoints, local devices, email, removable media, or unauthorised platforms?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">DH-05</td>
+          <td class="question">If diagnostic data must leave the customer environment, how is it transferred, encrypted, stored, and deleted?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">DH-06</td>
+          <td class="question">Are non-production environments prevented from using live production data unless explicitly authorised and protected?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header">
+      <h3>Logging, Monitoring and Session Control</h3>
+      <span>LM-xx</span>
+    </div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:7%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">LM-01</td>
+          <td class="question">Are remote support sessions, administrative logons, privileged commands, configuration changes, and support actions logged?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">LM-02</td>
+          <td class="question">Can support actions be linked to an individual engineer, support case, or approved ticket?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">LM-03</td>
+          <td class="question">Are support tool logs retained for a defined period and protected from tampering or deletion?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">LM-04</td>
+          <td class="question">Are privileged or remote access logs reviewed periodically for misuse or anomalous behaviour?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">LM-05</td>
+          <td class="question">Are session recording, command logging, or equivalent enhanced controls used for high-risk support where appropriate?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header">
+      <h3>Vulnerability, Patching and Secure Support Tooling</h3>
+      <span>VP-xx</span>
+    </div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:7%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">VP-01</td>
+          <td class="question">Do you maintain a vulnerability management process covering support tooling, remote access platforms, engineer endpoints, and software components provided to us?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">VP-02</td>
+          <td class="question">Are security updates and patches for the supported application communicated in a timely manner, with risk and implementation guidance?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">VP-03</td>
+          <td class="question">If you provide patches, hotfixes, scripts, or binaries, are they tested, version-controlled, and integrity-protected before release?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">VP-04</td>
+          <td class="question">Are engineer workstations and support platforms protected by anti-malware, EDR, disk encryption, and secure configuration controls?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">VP-05</td>
+          <td class="question">Do you conduct security testing of product updates, support tools, or scripts before customer deployment?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header">
+      <h3>Incident Response and Security Event Handling</h3>
+      <span>IR-xx</span>
+    </div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:7%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">IR-01</td>
+          <td class="question">Do you maintain a documented incident response process covering compromise of support accounts, engineer devices, remote support tooling, or customer-connected systems?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">IR-02</td>
+          <td class="question">What are your notification timelines if a security incident may affect our internally hosted application, data, or support connection to our environment?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">IR-03</td>
+          <td class="question">Are support-related security incidents classified, investigated, and tracked through corrective actions to closure?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">IR-04</td>
+          <td class="question">Are incident response processes tested periodically?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">IR-05</td>
+          <td class="question">Do you maintain procedures for rapid suspension of engineer access if compromise or misuse is suspected?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header">
+      <h3>Business Continuity and Support Resilience</h3>
+      <span>BC-xx</span>
+    </div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:7%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">BC-01</td>
+          <td class="question">Do you maintain business continuity arrangements for your support service?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">BC-02</td>
+          <td class="question">Do you have resilience arrangements for ticketing, remote support tooling, support communications, and engineer availability?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">BC-03</td>
+          <td class="question">Are there backup support arrangements if named engineers, key specialists, or regional teams are unavailable?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">BC-04</td>
+          <td class="question">Are your support continuity arrangements tested or exercised periodically?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">BC-05</td>
+          <td class="question">If your service includes recovery support, describe your role in restoration or rebuild of the supported application.</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header">
+      <h3>Subcontractors, Partners and Third-Party Support Chains</h3>
+      <span>TP-xx</span>
+    </div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:7%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">TP-01</td>
+          <td class="question">Do you use subcontractors, partner engineers, offshore support teams, or third-party specialists to support our application?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">TP-02</td>
+          <td class="question">If yes, identify who they are, what role they perform, and whether they may access our environment or data.</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">TP-03</td>
+          <td class="question">Are subcontractors and partners subject to equivalent security, confidentiality, access, and oversight requirements?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">TP-04</td>
+          <td class="question">Will we be notified before changes are made to the support chain or subcontracted support model?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">TP-05</td>
+          <td class="question">Are offshore or cross-border support arrangements used, and if so from which countries may support access originate?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header">
+      <h3>Privacy, Confidentiality and Legal Obligations</h3>
+      <span>PC-xx</span>
+    </div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:7%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">PC-01</td>
+          <td class="question">Do you have confidentiality obligations and data handling requirements that apply to support of customer-hosted applications?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">PC-02</td>
+          <td class="question">If personal data may be accessed during support, what privacy and legal safeguards apply to that access?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">PC-03</td>
+          <td class="question">Are there restrictions preventing customer information being used for any purpose other than contracted support and maintenance?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">PC-04</td>
+          <td class="question">Can you support audit, investigation, or evidence preservation requirements if a security issue affects the supported application?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">PC-05</td>
+          <td class="question">Are contractual terms available covering security, confidentiality, breach notification, liability, and support access conditions?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header">
+      <h3>Physical and On-Site Support Security</h3>
+      <span>PH-xx</span>
+    </div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:7%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">PH-01</td>
+          <td class="question">If on-site support is provided, are engineers required to comply with customer site security rules and access restrictions?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">PH-02</td>
+          <td class="question">Are removable media, portable devices, tools, and diagnostics equipment controlled during on-site support?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">PH-03</td>
+          <td class="question">Are supplier laptops or support devices used on customer premises securely configured and protected?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">PH-04</td>
+          <td class="question">Are procedures in place to prevent unauthorised connection of devices to customer networks or systems during on-site activity?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header">
+      <h3>Exit, Access Removal and Contract End</h3>
+      <span>EX-xx</span>
+    </div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:7%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">EX-01</td>
+          <td class="question">At contract end or service termination, how is all supplier access to customer systems, VPNs, jump hosts, support tools, and documentation removed?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">EX-02</td>
+          <td class="question">How are retained data, logs, extracts, tickets, or troubleshooting artefacts containing customer information securely deleted or archived?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">EX-03</td>
+          <td class="question">Can you support orderly knowledge transfer, handover, or transition to another support provider if required?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">EX-04</td>
+          <td class="question">Are there contractual commitments covering access removal, confidentiality survival, and post-contract data handling?</td>
+          <td class="resp"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="evid"><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="notes"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Supplier declaration -->
+  <div class="decl-box">
+    <p><strong>Supplier Declaration:</strong> The supplier confirms that the responses provided are accurate to the best of its knowledge and that any material change affecting the support model, engineer access, subcontractors, incident notification capability, or data handling will be notified without undue delay.</p>
+    <table class="details-table">
+      <tr><td>Authorised representative</td><td><input type="text" placeholder="Full name"></td></tr>
+      <tr><td>Role title</td><td><input type="text" placeholder="Job title"></td></tr>
+      <tr><td>Date</td><td><input type="date"></td></tr>
+    </table>
+  </div>
+
+  <div class="frm-nav">
+    <a href="grc-risk.html">← Back to Risk</a>
+    <a href="grc-frm-09.html">GRC-FRM-09: Scored Assessment Record →</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC-FRM-08 · Approved · Paulo Ferreira</span>
+    <span><a href="grc-risk.html" style="color:var(--grc);text-decoration:none;">← Back to Risk</a></span>
+  </div>
+</div>
+</body>
+</html>

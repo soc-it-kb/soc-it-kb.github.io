@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EP-05: USB / Removable Media Alert — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --c:#8B4A0E; --cl:#FEF0E6; --cb:#F5C89A; --cd:#5C2E06; }
+  .t1-hero { background:linear-gradient(135deg,#5C2E06 0%,#8B4A0E 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.25rem; color:#fff; }
+  .t1-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.65; margin-bottom:6px; }
+  .t1-hero h2 { font-size:20px; font-weight:700; margin-bottom:8px; }
+  .t1-hero p { font-size:14px; opacity:0.8; line-height:1.5; margin:0; }
+  .t1-hero-pills { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .t1-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .t1-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-card-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--c); margin-bottom:8px; }
+  .t1-trigger-desc { font-size:14px; color:#333; margin-bottom:8px; line-height:1.5; }
+  .t1-trigger-tags { display:flex; flex-wrap:wrap; gap:6px; }
+  .t1-trigger-tag { font-size:12px; background:var(--cl); color:var(--c); border:0.5px solid var(--cb); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .t1-check-item { display:flex; align-items:center; gap:12px; padding:0.7rem 0; border-bottom:0.5px solid #f5f5f3; }
+  .t1-check-item:last-child { border-bottom:none; }
+  .t1-check-num { width:26px; height:26px; border-radius:50%; background:var(--cl); color:var(--c); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .t1-check-q { font-size:14px; color:#1a1a1a; flex:1; line-height:1.45; }
+  .t1-check-q .flag { font-size:11px; font-weight:600; background:#FAECE7; color:#993C1D; padding:2px 7px; border-radius:8px; margin-left:6px; vertical-align:middle; white-space:nowrap; }
+  .t1-yn { display:flex; gap:6px; flex-shrink:0; }
+  .t1-y { width:36px; height:30px; border-radius:6px; background:#FAEEDA; border:1.5px solid #FAC775; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#854F0B; }
+  .t1-n { width:36px; height:30px; border-radius:6px; background:#f5f5f3; border:1.5px solid #e0e0dc; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#888; }
+  .t1-decision-row { display:flex; align-items:flex-start; gap:12px; padding:0.65rem 0.9rem; border-radius:10px; margin-bottom:6px; }
+  .t1-decision-row:last-child { margin-bottom:0; }
+  .t1-decision-row.green { background:#E1F5EE; }
+  .t1-decision-row.amber { background:#FAEEDA; }
+  .t1-decision-row.red   { background:#FAECE7; }
+  .t1-decision-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+  .t1-decision-text { font-size:13px; line-height:1.5; }
+  .t1-decision-row.green .t1-decision-text { color:#1a6b47; }
+  .t1-decision-row.amber .t1-decision-text { color:#6b3f0a; }
+  .t1-decision-row.red   .t1-decision-text { color:#7a2e10; }
+  .t1-decision-text strong { font-weight:700; }
+  .t1-ev-item { display:flex; align-items:center; gap:10px; background:var(--cl); border:0.5px solid var(--cb); border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:var(--cd); margin-bottom:5px; }
+  .t1-ev-item::before { content:"📋"; font-size:13px; flex-shrink:0; }
+  .t1-tip { background:#1a1a1a; border-radius:12px; padding:1.1rem 1.4rem; display:flex; align-items:flex-start; gap:12px; margin-bottom:1.5rem; }
+  .t1-tip-icon { font-size:22px; flex-shrink:0; }
+  .t1-tip-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#4ade80; margin-bottom:4px; }
+  .t1-tip-text  { font-size:13px; color:rgba(255,255,255,0.85); line-height:1.5; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--c); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .t1-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .t1-nav a { font-size:13px; color:var(--c); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="runbooks.html">Runbooks</a><span>›</span>
+    <span>EP-05</span>
+  </div>
+
+  <div class="t1-hero">
+    <div class="t1-hero-eyebrow">Tier-1 Quick Checklist · 💻 Endpoint threats</div>
+    <h2>EP-05: USB / Removable Media Alert</h2>
+    <p>Answer each question YES or NO and apply the decision logic. Escalate with evidence attached — do not reboot or alter the endpoint before escalating.</p>
+    <div class="t1-hero-pills">
+      <span class="t1-hero-pill">💻 Endpoint threats</span>
+      <span class="t1-hero-pill">Tier 1</span>
+      <span class="t1-hero-pill">Published 28 April 2026</span>
+    </div>
+  </div>
+
+  <div class="t1-card">
+    <div class="t1-card-label">🔔 When to use this checklist</div>
+    <div class="t1-trigger-desc">EDR alert, DLP notification, or user report of a USB or removable media device connected to a Windows endpoint — particularly where malware execution, data access, or policy violation is suspected.</div>
+    <div class="t1-trigger-tags">
+      <span class="t1-trigger-tag">EDR removable media alert</span>
+      <span class="t1-trigger-tag">DLP USB detection</span>
+      <span class="t1-trigger-tag">User reports suspicious USB found</span>
+      <span class="t1-trigger-tag">Malware detected after USB insertion</span>
+      <span class="t1-trigger-tag">Unexpected USB connected to server</span>
+      <span class="t1-trigger-tag">Autorun execution detected</span>
+    </div>
+  </div>
+
+  <div class="t1-card">
+    <div class="t1-card-label">Step 1 — Answer each question YES or NO</div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">1</div>
+      <div class="t1-check-q">Has malware been detected on or after USB insertion?<span class="flag">Escalate immediately</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">2</div>
+      <div class="t1-check-q">Did autorun or auto-execute trigger when the USB was connected?<span class="flag">Escalate immediately</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">3</div>
+      <div class="t1-check-q">Was the USB found unattended or connected without the user's knowledge?<span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">4</div>
+      <div class="t1-check-q">Did the user open or execute files directly from the USB?<span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">5</div>
+      <div class="t1-check-q">Is the USB connected to a privileged system, server, or Tier-0 asset?<span class="flag">Escalate immediately</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">6</div>
+      <div class="t1-check-q">Is there evidence of data being copied from the endpoint to the USB?<span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">7</div>
+      <div class="t1-check-q">Has the USB been connected to multiple endpoints?<span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">8</div>
+      <div class="t1-check-q">Is the affected user in a sensitive role or does this involve HR/Legal implications?<span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+  </div>
+
+  <div class="t1-card">
+    <div class="t1-card-label">Step 2 — Apply decision logic</div>
+    <div class="t1-decision-row green">
+      <div class="t1-decision-icon">✅</div>
+      <div class="t1-decision-text"><strong>USB connected, no malware, no policy violation, known user</strong> — Document, remind user of USB policy, monitor, close.</div>
+    </div>
+    <div class="t1-decision-row amber">
+      <div class="t1-decision-icon">⚠️</div>
+      <div class="t1-decision-text"><strong>YES to questions 3, 4, 6, or 7</strong> — Escalate to Tier-2. Secure the USB device. Follow <a href='ep-wi-usb-01.html' style='color:#6b3f0a;'>EP-WI-USB-01</a> for safe handling.</div>
+    </div>
+    <div class="t1-decision-row red">
+      <div class="t1-decision-icon">🔴</div>
+      <div class="t1-decision-text"><strong>YES to question 1, 2, or 5</strong> — Escalate to Tier-3 immediately. Invoke <a href='ep-pb-01.html' style='color:#993C1D;'>EP-PB-01</a>. Isolate endpoint. Do not reuse the USB on any other system.</div>
+    </div>
+    <div class="t1-decision-row red">
+      <div class="t1-decision-icon">🔴</div>
+      <div class="t1-decision-text"><strong>YES to question 8</strong> — Notify HR/Legal. Preserve chain of custody. Do not allow user access to the USB.</div>
+    </div>
+  </div>
+
+  <div class="t1-card">
+    <div class="t1-card-label">Step 3 — Capture evidence before escalating</div>
+    <div class="t1-ev-item">Endpoint hostname and assigned user</div>
+    <div class="t1-ev-item">USB make, model, and serial number if visible</div>
+    <div class="t1-ev-item">EDR alert details and timeline</div>
+    <div class="t1-ev-item">Files accessed or executed from the USB</div>
+    <div class="t1-ev-item">Evidence of data copied to or from the USB</div>
+    <div class="t1-ev-item">Physical location and circumstances of USB discovery</div>
+  </div>
+
+  <div class="t1-tip">
+    <div class="t1-tip-icon">💡</div>
+    <div>
+      <div class="t1-tip-label">Analyst Tip</div>
+      <div class="t1-tip-text">Never open files from a suspicious USB to 'see what's on it' — this executes the content and potentially infects the analysis machine. Always physically label and secure the USB before doing anything else. The USB is evidence — treat it with the same care as any other forensic artefact.</div>
+    </div>
+  </div>
+
+  <div class="t1-nav"><a href="tier1-ep-04.html">← EP-04</a><span></span></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>EP-05 · Published 28 April 2026 · Paulo Ferreira</span>
+    <span><a href="runbooks.html" style="color:var(--c);text-decoration:none;">← Back to Runbooks</a></span>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-SOP-03: General Supplier Security Assessment Procedure — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+
+  .sop-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .sop-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--grc); margin-bottom:4px; }
+  .sop-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .sop-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .sop-section p:last-child { margin-bottom:0; }
+
+  .sop-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; margin-top:4px; }
+  .sop-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .sop-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--grc); flex-shrink:0; margin-top:5px; }
+
+  .proc-steps { display:flex; flex-direction:column; gap:8px; margin-top:4px; }
+  .proc-step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; overflow:hidden; }
+  .proc-step-header { display:flex; align-items:center; gap:10px; padding:0.75rem 1rem; background:var(--grc-light); border-bottom:0.5px solid var(--grc-border); }
+  .proc-step-num { width:26px; height:26px; border-radius:50%; background:var(--grc); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .proc-step-title { font-size:13px; font-weight:600; color:var(--grc-dark); }
+  .proc-step-body { padding:0.8rem 1rem; display:flex; flex-direction:column; gap:4px; }
+  .proc-step-item { font-size:13px; color:#444; display:flex; align-items:flex-start; gap:8px; line-height:1.5; }
+  .proc-step-item::before { content:'→'; color:var(--grc); font-weight:600; flex-shrink:0; }
+
+  .trigger-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .trigger-tag { font-size:12px; background:var(--grc-light); color:var(--grc); border:0.5px solid var(--grc-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+
+  .outcomes-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .outcome-card { border-radius:8px; padding:0.7rem 1rem; font-size:13px; font-weight:500; display:flex; align-items:center; gap:8px; }
+  .outcome-approved   { background:#E1F5EE; border:0.5px solid #82D4B0; color:#0F6E56; }
+  .outcome-cond       { background:var(--grc-light); border:0.5px solid var(--grc-border); color:var(--grc-dark); }
+  .outcome-escalate   { background:#FAEEDA; border:0.5px solid #FAC775; color:#854F0B; }
+  .outcome-escalate2  { background:#FEF0E6; border:0.5px solid #F5C89A; color:#8B4A0E; }
+  .outcome-notapproved{ background:#FAECE7; border:0.5px solid #F5C0B0; color:#993C1D; }
+
+  .esc-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .esc-item { display:flex; align-items:flex-start; gap:10px; background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#7a2e10; }
+  .esc-item::before { content:'🚩'; font-size:13px; flex-shrink:0; }
+
+  .evidence-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .evidence-item { display:flex; align-items:flex-start; gap:10px; background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:var(--grc-dark); }
+  .evidence-item::before { content:'📄'; font-size:13px; flex-shrink:0; }
+
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .rel-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.85rem 1rem; }
+  .rel-card h4 { font-size:12px; font-weight:600; color:var(--grc); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:7px; }
+  .rel-link { display:flex; align-items:center; gap:8px; text-decoration:none; color:#444; font-size:13px; padding:3px 0; }
+  .rel-link:hover { color:var(--grc); }
+  .rel-link::before { content:'›'; color:var(--grc); font-weight:700; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .sop-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .sop-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+  @media(max-width:640px){ .outcomes-grid,.rel-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="grc.html">GRC Hub</a><span>›</span>
+    <a href="grc-risk.html">Risk</a><span>›</span>
+    <span>GRC-SOP-03</span>
+  </div>
+
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · Procedure</div>
+    <h1>GRC-SOP-03: General Supplier Security Assessment Procedure</h1>
+    <p>Steps for initiating, reviewing, scoring, approving, and tracking security assessments for suppliers outside the SaaS and on-prem application support models.</p>
+    <div class="grc-page-hero-pills">
+      <span class="grc-page-hero-pill">General suppliers</span>
+      <span class="grc-page-hero-pill">Proportionate</span>
+      <span class="grc-page-hero-pill">GRC-POL-03</span>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">📋 <strong>SOP ID:</strong> GRC-SOP-03</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔄 <strong>Version:</strong> v1.0</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📄 <strong>Policy:</strong> <a href="grc-pol-03.html" style="color:var(--grc);">GRC-POL-03</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-approved">Approved</span></div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Procedure triggers</div>
+    <div class="sop-section-title">When to initiate this procedure</div>
+    <div class="trigger-tags">
+      <span class="trigger-tag">Onboarding a new general supplier</span>
+      <span class="trigger-tag">Purchasing technology hardware, accessories, or packaged software</span>
+      <span class="trigger-tag">Procuring non-hosted software licences</span>
+      <span class="trigger-tag">Engaging a supplier for professional services, implementation, or project support</span>
+      <span class="trigger-tag">Renewing an existing in-scope supplier</span>
+      <span class="trigger-tag">Introducing a supplier with site access, information handling responsibilities, or product integration implications</span>
+      <span class="trigger-tag">Carrying out a scheduled reassessment</span>
+    </div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Procedure steps</div>
+    <div class="sop-section-title">Step-by-step process</div>
+    <div class="proc-steps">
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">1</div><div class="proc-step-title">Establish Supplier Profile</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Record supplier name, product/service type, business owner, criticality, data handling, site access requirement, network connectivity, subcontractor use, and whether a higher-risk model applies</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">2</div><div class="proc-step-title">Triage Assessment Track</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Determine whether the supplier should remain under the general supplier model or be redirected to the cloud/SaaS or on-prem application support assessment model</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">3</div><div class="proc-step-title">Issue Questionnaire</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Issue GRC-FRM-10 — General Supplier Security Assessment Questionnaire to the supplier</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">4</div><div class="proc-step-title">Review Responses and Evidence</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Review responses for completeness, consistency, and suitability for the product or service being supplied</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">5</div><div class="proc-step-title">Identify Gaps and Clarifications</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Request clarification where responses are vague, contradictory, or indicate higher-risk features</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">6</div><div class="proc-step-title">Complete Scored Assessment</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Complete GRC-FRM-11 — General Supplier Scored Assessment Record</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">7</div><div class="proc-step-title">Determine Outcome</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Recommend outcome based on scored assessment — see outcomes section below</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">8</div><div class="proc-step-title">Record Conditions and Follow-Up</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Where needed, record contractual requirements, product security conditions, delivery and site controls, disposal/return requirements, and reassessment dates</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Assessment outcomes</div>
+    <div class="sop-section-title">Permitted Outcomes</div>
+    <div class="outcomes-grid">
+      <div class="outcome-card outcome-approved">✅ Approved</div>
+      <div class="outcome-card outcome-cond">⚠️ Approved with Conditions</div>
+      <div class="outcome-card outcome-escalate2">🟠 Escalate for Further Assessment</div>
+      <div class="outcome-card outcome-escalate">🔴 Escalate for Risk Acceptance</div>
+      <div class="outcome-card outcome-notapproved">🚫 Not Approved</div>
+    </div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Mandatory escalation criteria</div>
+    <div class="sop-section-title">Escalate if any of the following apply</div>
+    <div class="esc-list">
+      <div class="esc-item">The supplier hosts, processes, or stores organisational data in its own environment</div>
+      <div class="esc-item">The supplier requires privileged or administrative access to organisational systems</div>
+      <div class="esc-item">The supplier provides remote support into production systems</div>
+      <div class="esc-item">The supplier's products connect directly to organisational networks with material cyber exposure</div>
+      <div class="esc-item">The supplier cannot explain supply chain provenance or authenticity for critical products</div>
+      <div class="esc-item">The supplier may access restricted sites, sensitive information, or physical security systems without adequate controls</div>
+      <div class="esc-item">The supplier uses subcontractors with unclear oversight for sensitive services</div>
+    </div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Evidence expectations</div>
+    <div class="sop-section-title">Evidence may include</div>
+    <div class="evidence-list">
+      <div class="evidence-item">Corporate security policy summary</div>
+      <div class="evidence-item">Confidentiality or NDA terms</div>
+      <div class="evidence-item">Product authenticity or authorised reseller confirmation</div>
+      <div class="evidence-item">Software licensing documentation</div>
+      <div class="evidence-item">Patch and security advisory process descriptions</div>
+      <div class="evidence-item">Delivery chain controls or logistics assurance summaries</div>
+      <div class="evidence-item">Site access and engineer conduct requirements</div>
+      <div class="evidence-item">Disposal, return, and residual data handling commitments</div>
+    </div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Documents used</div>
+    <div class="sop-section-title">Assessment Documents</div>
+    <div class="rel-grid">
+      <div class="rel-card">
+        <h4>Questionnaire</h4>
+        <div class="rel-link">GRC-FRM-10 — General Supplier Security Assessment Questionnaire</div>
+      </div>
+      <div class="rel-card">
+        <h4>Scored Assessment Record</h4>
+        <div class="rel-link">GRC-FRM-11 — General Supplier Scored Assessment Record</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Records &amp; maintenance</div>
+    <div class="sop-section-title">Records Management &amp; Review</div>
+    <p>Assessment records shall be retained in the appropriate register in accordance with internal retention requirements. This procedure shall be reviewed annually or after material changes to supplier assessment requirements.</p>
+  </div>
+
+  <div class="sop-nav"><a href="grc-sop-02.html">← GRC-SOP-02</a><span></span></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC-SOP-03 · v1.0 · Approved · Paulo Ferreira</span>
+    <span><a href="grc-risk.html" style="color:var(--grc);text-decoration:none;">← Back to Risk</a></span>
+  </div>
+</div>
+</body>
+</html>

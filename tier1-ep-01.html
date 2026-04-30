@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EP-01: Suspicious Endpoint Activity — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --c:#8B4A0E; --cl:#FEF0E6; --cb:#F5C89A; --cd:#5C2E06; }
+  .t1-hero { background:linear-gradient(135deg,#5C2E06 0%,#8B4A0E 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.25rem; color:#fff; }
+  .t1-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.65; margin-bottom:6px; }
+  .t1-hero h2 { font-size:20px; font-weight:700; margin-bottom:8px; }
+  .t1-hero p { font-size:14px; opacity:0.8; line-height:1.5; margin:0; }
+  .t1-hero-pills { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .t1-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .t1-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .t1-card-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--c); margin-bottom:8px; }
+  .t1-trigger-desc { font-size:14px; color:#333; margin-bottom:8px; line-height:1.5; }
+  .t1-trigger-tags { display:flex; flex-wrap:wrap; gap:6px; }
+  .t1-trigger-tag { font-size:12px; background:var(--cl); color:var(--c); border:0.5px solid var(--cb); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .t1-check-item { display:flex; align-items:center; gap:12px; padding:0.7rem 0; border-bottom:0.5px solid #f5f5f3; }
+  .t1-check-item:last-child { border-bottom:none; }
+  .t1-check-num { width:26px; height:26px; border-radius:50%; background:var(--cl); color:var(--c); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .t1-check-q { font-size:14px; color:#1a1a1a; flex:1; line-height:1.45; }
+  .t1-check-q .flag { font-size:11px; font-weight:600; background:#FAECE7; color:#993C1D; padding:2px 7px; border-radius:8px; margin-left:6px; vertical-align:middle; white-space:nowrap; }
+  .t1-yn { display:flex; gap:6px; flex-shrink:0; }
+  .t1-y { width:36px; height:30px; border-radius:6px; background:#FAEEDA; border:1.5px solid #FAC775; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#854F0B; }
+  .t1-n { width:36px; height:30px; border-radius:6px; background:#f5f5f3; border:1.5px solid #e0e0dc; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#888; }
+  .t1-decision-row { display:flex; align-items:flex-start; gap:12px; padding:0.65rem 0.9rem; border-radius:10px; margin-bottom:6px; }
+  .t1-decision-row:last-child { margin-bottom:0; }
+  .t1-decision-row.green { background:#E1F5EE; }
+  .t1-decision-row.amber { background:#FAEEDA; }
+  .t1-decision-row.red   { background:#FAECE7; }
+  .t1-decision-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+  .t1-decision-text { font-size:13px; line-height:1.5; }
+  .t1-decision-row.green .t1-decision-text { color:#1a6b47; }
+  .t1-decision-row.amber .t1-decision-text { color:#6b3f0a; }
+  .t1-decision-row.red   .t1-decision-text { color:#7a2e10; }
+  .t1-decision-text strong { font-weight:700; }
+  .t1-ev-item { display:flex; align-items:center; gap:10px; background:var(--cl); border:0.5px solid var(--cb); border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:var(--cd); margin-bottom:5px; }
+  .t1-ev-item::before { content:"📋"; font-size:13px; flex-shrink:0; }
+  .t1-tip { background:#1a1a1a; border-radius:12px; padding:1.1rem 1.4rem; display:flex; align-items:flex-start; gap:12px; margin-bottom:1.5rem; }
+  .t1-tip-icon { font-size:22px; flex-shrink:0; }
+  .t1-tip-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#4ade80; margin-bottom:4px; }
+  .t1-tip-text  { font-size:13px; color:rgba(255,255,255,0.85); line-height:1.5; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--c); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .t1-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .t1-nav a { font-size:13px; color:var(--c); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="runbooks.html">Runbooks</a><span>›</span>
+    <span>EP-01</span>
+  </div>
+
+  <div class="t1-hero">
+    <div class="t1-hero-eyebrow">Tier-1 Quick Checklist · 💻 Endpoint threats</div>
+    <h2>EP-01: Suspicious Endpoint Activity</h2>
+    <p>Answer each question YES or NO and apply the decision logic. Escalate with evidence attached — do not reboot or alter the endpoint before escalating.</p>
+    <div class="t1-hero-pills">
+      <span class="t1-hero-pill">💻 Endpoint threats</span>
+      <span class="t1-hero-pill">Tier 1</span>
+      <span class="t1-hero-pill">Published 28 April 2026</span>
+    </div>
+  </div>
+
+  <div class="t1-card">
+    <div class="t1-card-label">🔔 When to use this checklist</div>
+    <div class="t1-trigger-desc">EDR / XDR alert, MDR escalation, or user report suggesting a Windows workstation may be compromised.</div>
+    <div class="t1-trigger-tags">
+      <span class="t1-trigger-tag">EDR malware detection</span>
+      <span class="t1-trigger-tag">Unusual process activity</span>
+      <span class="t1-trigger-tag">Suspicious PowerShell execution</span>
+      <span class="t1-trigger-tag">Unexpected network connections</span>
+      <span class="t1-trigger-tag">User reports something strange</span>
+      <span class="t1-trigger-tag">MDR endpoint escalation</span>
+    </div>
+  </div>
+
+  <div class="t1-card">
+    <div class="t1-card-label">Step 1 — Answer each question YES or NO</div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">1</div>
+      <div class="t1-check-q">Is there an active EDR or XDR alert on this endpoint?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">2</div>
+      <div class="t1-check-q">Is a suspicious or unknown process currently running?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">3</div>
+      <div class="t1-check-q">Has malware been executed or confirmed by EDR?<span class="flag">Escalate immediately</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">4</div>
+      <div class="t1-check-q">Is there unusual outbound network traffic from this endpoint?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">5</div>
+      <div class="t1-check-q">Was a suspicious email opened or attachment executed on this device?</div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">6</div>
+      <div class="t1-check-q">Is the user privileged, VIP, or in a sensitive role (Finance, HR, Exec)?<span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">7</div>
+      <div class="t1-check-q">Are multiple endpoints showing similar indicators?<span class="flag">High priority</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+    <div class="t1-check-item">
+      <div class="t1-check-num">8</div>
+      <div class="t1-check-q">Is there any sign of ransomware — encrypted files, ransom note, volume shadow copy deletion?<span class="flag">Escalate immediately</span></div>
+      <div class="t1-yn"><div class="t1-y">YES</div><div class="t1-n">NO</div></div>
+    </div>
+  </div>
+
+  <div class="t1-card">
+    <div class="t1-card-label">Step 2 — Apply decision logic</div>
+    <div class="t1-decision-row green">
+      <div class="t1-decision-icon">✅</div>
+      <div class="t1-decision-text"><strong>All NO</strong> — Document findings, monitor, and close if no further indicators emerge.</div>
+    </div>
+    <div class="t1-decision-row amber">
+      <div class="t1-decision-icon">⚠️</div>
+      <div class="t1-decision-text"><strong>YES to questions 1, 2, 4, or 5</strong> — Escalate to Tier-2 with evidence attached. Do not reboot the endpoint.</div>
+    </div>
+    <div class="t1-decision-row red">
+      <div class="t1-decision-icon">🔴</div>
+      <div class="t1-decision-text"><strong>YES to question 3 or 8</strong> — Escalate to Tier-3 immediately. Invoke <a href='ep-pb-02.html' style='color:#993C1D;'>EP-PB-02</a> or <a href='ep-pb-05.html' style='color:#993C1D;'>EP-PB-05</a>. Do not reboot.</div>
+    </div>
+    <div class="t1-decision-row red">
+      <div class="t1-decision-icon">🔴</div>
+      <div class="t1-decision-text"><strong>YES to question 6 or 7</strong> — Mark as High Priority and escalate immediately regardless of other answers.</div>
+    </div>
+  </div>
+
+  <div class="t1-card">
+    <div class="t1-card-label">Step 3 — Capture evidence before escalating</div>
+    <div class="t1-ev-item">Endpoint hostname and assigned user</div>
+    <div class="t1-ev-item">EDR alert name, severity, and timestamp</div>
+    <div class="t1-ev-item">Screenshot of alert or process details</div>
+    <div class="t1-ev-item">Last seen time and isolation status</div>
+  </div>
+
+  <div class="t1-tip">
+    <div class="t1-tip-icon">💡</div>
+    <div>
+      <div class="t1-tip-label">Analyst Tip</div>
+      <div class="t1-tip-text">Never reboot a suspected compromised endpoint before investigation — rebooting destroys volatile memory evidence (running processes, network connections, encryption keys) that cannot be recovered. Isolate first via EP-WI-02, then investigate.</div>
+    </div>
+  </div>
+
+  <div class="t1-nav"><span></span><a href="tier1-ep-02.html">EP-02 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>EP-01 · Published 28 April 2026 · Paulo Ferreira</span>
+    <span><a href="runbooks.html" style="color:var(--c);text-decoration:none;">← Back to Runbooks</a></span>
+  </div>
+</div>
+</body>
+</html>
