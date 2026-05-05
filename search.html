@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' https://cdnjs.cloudflare.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  .search-hero{background:linear-gradient(135deg,#0E414F 0%,#297086 100%);border-radius:16px;padding:2rem 2rem 1.75rem;margin-bottom:1.5rem;color:#fff;}
+  .search-hero h1{font-size:22px;font-weight:700;margin-bottom:6px;}
+  .search-hero p{font-size:14px;opacity:0.75;margin-bottom:1.25rem;}
+  .search-bar-wrap{position:relative;}
+  .search-bar-input{width:100%;padding:0.9rem 3.5rem 0.9rem 1.1rem;font-size:16px;border:none;border-radius:10px;outline:none;color:#1a1a1a;font-family:inherit;box-sizing:border-box;}
+  .search-bar-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:18px;pointer-events:none;}
+  .search-count{font-size:12px;opacity:0.65;margin-top:8px;min-height:18px;}
+  .search-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.25rem;}
+  .filter-btn{font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:1.5px solid #e0e0dc;background:#fff;color:#666;cursor:pointer;transition:all 0.15s;}
+  .filter-btn:hover{border-color:#297086;color:#297086;}
+  .filter-btn.active{background:#297086;color:#fff;border-color:#297086;}
+  .filter-btn.active.asm{background:#5B2D8E;border-color:#5B2D8E;}
+  .filter-btn.active.grc{background:#0E5C5C;border-color:#0E5C5C;}
+  .filter-btn.active.ref{background:#1A4A7A;border-color:#1A4A7A;}
+  .result-group{margin-bottom:1.25rem;}
+  .result-group-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#aaa;margin-bottom:8px;padding-bottom:5px;border-bottom:0.5px solid #f0f0ec;}
+  .result-card{background:#fff;border:0.5px solid #e0e0dc;border-radius:10px;padding:0.85rem 1rem;text-decoration:none;color:inherit;display:flex;align-items:flex-start;gap:12px;transition:box-shadow 0.15s,border-color 0.15s;margin-bottom:6px;}
+  .result-card:hover{box-shadow:0 2px 12px rgba(0,0,0,0.07);border-color:#d0d0d0;}
+  .result-section-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+  .dot-SOC{background:#297086;}.dot-ASM{background:#5B2D8E;}.dot-GRC{background:#0E5C5C;}.dot-Reference{background:#1A4A7A;}
+  .result-body{flex:1;min-width:0;}
+  .result-id{font-family:'SF Mono','Fira Code',monospace;font-size:11px;font-weight:600;margin-bottom:3px;}
+  .result-id.SOC{color:#297086;}.result-id.ASM{color:#5B2D8E;}.result-id.GRC{color:#0E5C5C;}.result-id.Reference{color:#1A4A7A;}
+  .result-title{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:3px;line-height:1.3;}
+  .result-desc{font-size:13px;color:#666;line-height:1.4;}
+  .result-meta{display:flex;gap:8px;margin-top:5px;flex-wrap:wrap;}
+  .result-tag{font-size:11px;padding:1px 7px;border-radius:5px;}
+  .result-tag.SOC{background:#E6F4F7;color:#297086;}.result-tag.ASM{background:#F3EEF9;color:#5B2D8E;}.result-tag.GRC{background:#E6F4F4;color:#0E5C5C;}.result-tag.Reference{background:#E8F0FA;color:#1A4A7A;}
+  .result-arrow{color:#ccc;font-size:18px;flex-shrink:0;align-self:center;}
+  .state-box{text-align:center;padding:3rem 2rem;}
+  .state-icon{font-size:48px;margin-bottom:12px;}
+  .state-title{font-size:17px;font-weight:600;color:#2D3748;margin-bottom:6px;}
+  .state-desc{font-size:13px;color:#888;line-height:1.5;max-width:420px;margin:0 auto 1.25rem;}
+  .quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:4px;}
+  .quick-card{background:#fff;border:0.5px solid #e0e0dc;border-radius:8px;padding:0.75rem 0.9rem;text-decoration:none;color:inherit;display:flex;align-items:center;gap:8px;transition:background 0.1s;}
+  .quick-card:hover{background:#f5f5f3;}
+  .quick-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .quick-label{font-size:12px;font-weight:500;color:#444;}
+  .no-results{text-align:center;padding:2rem;}
+  .no-results p{font-size:14px;color:#888;}
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="search-hero">
+    <h1>🔍 Search the Knowledge Base</h1>
+    <p>Search across 169 pages — playbooks, runbooks, checklists, SOPs, work instructions, ASM baselines, and GRC documents.</p>
+    <div class="search-bar-wrap">
+      <input class="search-bar-input" id="searchInput" type="text" placeholder="Search by keyword, document ID, or topic…" autocomplete="off" autofocus>
+      <span class="search-bar-icon">🔍</span>
+    </div>
+    <div class="search-count" id="searchCount"></div>
+  </div>
+
+  <div class="search-filters">
+    <button class="filter-btn active" data-filter="all">All sections</button>
+    <button class="filter-btn" data-filter="SOC">SOC</button>
+    <button class="filter-btn asm" data-filter="ASM">ASM</button>
+    <button class="filter-btn grc" data-filter="GRC">GRC</button>
+    <button class="filter-btn ref" data-filter="Reference">Reference</button>
+  </div>
+
+  <div id="resultsContainer">
+    <div id="initialState">
+      <div class="state-box">
+        <div class="state-icon">📚</div>
+        <div class="state-title">What are you looking for?</div>
+        <div class="state-desc">Type a keyword, document ID, or topic above. Results appear instantly as you type.</div>
+      </div>
+      <div class="kb-section">
+        <div class="kb-section-title">Quick access</div>
+        <div class="quick-grid">
+          <a class="quick-card" href="playbooks.html"><div class="quick-dot" style="background:#297086;"></div><div class="quick-label">Playbooks</div></a>
+          <a class="quick-card" href="runbooks.html"><div class="quick-dot" style="background:#0F6E56;"></div><div class="quick-label">Runbooks</div></a>
+          <a class="quick-card" href="sops.html"><div class="quick-dot" style="background:#4A5568;"></div><div class="quick-label">SOC SOPs</div></a>
+          <a class="quick-card" href="work-instructions.html"><div class="quick-dot" style="background:#8B4A0E;"></div><div class="quick-label">Work Instructions</div></a>
+          <a class="quick-card" href="asm.html"><div class="quick-dot" style="background:#5B2D8E;"></div><div class="quick-label">ASM</div></a>
+          <a class="quick-card" href="grc.html"><div class="quick-dot" style="background:#0E5C5C;"></div><div class="quick-label">GRC Hub</div></a>
+          <a class="quick-card" href="core-concepts.html"><div class="quick-dot" style="background:#1A4A7A;"></div><div class="quick-label">Core Concepts</div></a>
+          <a class="quick-card" href="nist-csf-reference.html"><div class="quick-dot" style="background:#1A4A7A;"></div><div class="quick-label">NIST CSF 2.0</div></a>
+        </div>
+      </div>
+    </div>
+    <div id="searchResults" style="display:none;"></div>
+    <div id="noResults" style="display:none;" class="no-results">
+      <p>No results found — try a different keyword or document ID.</p>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script>
+<script>
+(function(){
+  var allPages=[], lunrIndex=null, activeFilter='all';
+
+  fetch('search-index.json')
+    .then(function(r){return r.json();})
+    .then(function(data){
+      allPages=data;
+      lunrIndex=lunr(function(){
+        this.ref('id');
+        this.field('id',{boost:10});
+        this.field('title',{boost:8});
+        this.field('sub',{boost:3});
+        this.field('desc',{boost:2});
+        this.field('tags',{boost:4});
+        allPages.forEach(function(p){this.add(p);},this);
+      });
+      // Check for URL param
+      var urlQ=new URLSearchParams(window.location.search).get('q');
+      if(urlQ){document.getElementById('searchInput').value=urlQ;runSearch(urlQ);}
+    })
+    .catch(function(){
+      document.getElementById('searchCount').textContent='Search index unavailable.';
+    });
+
+  var input=document.getElementById('searchInput');
+  var countEl=document.getElementById('searchCount');
+  var resultsEl=document.getElementById('searchResults');
+  var noResEl=document.getElementById('noResults');
+  var initEl=document.getElementById('initialState');
+
+  document.querySelectorAll('.filter-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
+      this.classList.add('active');
+      activeFilter=this.dataset.filter;
+      var q=input.value.trim();
+      if(q) runSearch(q);
+    });
+  });
+
+  input.addEventListener('input',function(){
+    var q=this.value.trim();
+    if(!q){
+      initEl.style.display='';resultsEl.style.display='none';
+      noResEl.style.display='none';countEl.textContent='';return;
+    }
+    runSearch(q);
+  });
+
+  input.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){
+      var first=resultsEl.querySelector('.result-card');
+      if(first) window.location.href=first.href;
+    }
+  });
+
+  function runSearch(q){
+    if(!lunrIndex) return;
+    initEl.style.display='none';
+    var results=[];
+    try{results=lunrIndex.search(q);}catch(e){}
+    if(results.length===0 && q.length>=2){
+      try{results=lunrIndex.search(q+'*');}catch(e){}
+    }
+    var matched=results.map(function(r){return allPages.find(function(p){return p.id===r.ref;});}).filter(Boolean);
+    if(activeFilter!=='all') matched=matched.filter(function(p){return p.section===activeFilter;});
+
+    if(matched.length===0){
+      resultsEl.style.display='none';noResEl.style.display='';
+      countEl.textContent='No results found.';return;
+    }
+    noResEl.style.display='none';resultsEl.style.display='';
+    countEl.textContent=matched.length+' result'+(matched.length!==1?'s':'')+' found';
+
+    var groups={};
+    matched.forEach(function(p){
+      var key=p.section+' — '+p.sub;
+      if(!groups[key]) groups[key]={section:p.section,sub:p.sub,pages:[]};
+      groups[key].pages.push(p);
+    });
+
+    resultsEl.innerHTML=Object.values(groups).map(function(g){
+      return '<div class="result-group"><div class="result-group-label">'+g.section+' · '+g.sub+'</div>'+
+        g.pages.map(function(p){
+          return '<a class="result-card" href="'+p.url+'">'
+            +'<div class="result-section-dot dot-'+p.section+'"></div>'
+            +'<div class="result-body">'
+            +'<div class="result-id '+p.section+'">'+p.id+'</div>'
+            +'<div class="result-title">'+p.title+'</div>'
+            +'<div class="result-desc">'+p.desc+'</div>'
+            +'<div class="result-meta">'
+            +'<span class="result-tag '+p.section+'">'+p.section+'</span>'
+            +'<span class="result-tag '+p.section+'">'+p.sub+'</span>'
+            +'</div></div>'
+            +'<div class="result-arrow">›</div></a>';
+        }).join('')+'</div>';
+    }).join('');
+  }
+})();
+</script>
+</body>
+</html>
