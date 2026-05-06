@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Threat Intelligence — ASM</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+  .asm-page-hero { background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .asm-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .asm-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .asm-page-hero p  { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .asm-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .asm-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .asm-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .asm-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:4px; }
+  .asm-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .asm-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .doc-grid { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .doc-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; text-decoration:none; color:inherit; transition:background 0.1s; }
+  .doc-row:hover { background:var(--asm-light); }
+  .doc-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:2px 7px; border-radius:5px; white-space:nowrap; flex-shrink:0; }
+  .doc-name { font-size:13px; color:#333; flex:1; }
+  .doc-badge { font-size:11px; font-weight:600; padding:2px 7px; border-radius:8px; }
+  .doc-badge.draft { background:#FAEEDA; color:#854F0B; }
+  .lifecycle-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:4px; }
+  .lifecycle-card { background:var(--asm-light); border:0.5px solid var(--asm-border); border-radius:8px; padding:0.85rem 1rem; text-align:center; }
+  .lifecycle-card h4 { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:4px; }
+  .lifecycle-card p  { font-size:12px; color:#555; line-height:1.4; margin:0; }
+  .principles-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .principle-card { background:var(--asm-light); border:0.5px solid var(--asm-border); border-radius:8px; padding:0.85rem 1rem; }
+  .principle-card h4 { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:4px; }
+  .principle-card p  { font-size:12px; color:#555; line-height:1.5; margin:0; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .asm-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .asm-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+  @media(max-width:640px){ .lifecycle-grid,.principles-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <span>Threat Intelligence</span>
+  </div>
+
+  <div class="asm-page-hero">
+    <div class="asm-page-hero-eyebrow">ASM · Threat Intelligence</div>
+    <h1>🔍 Threat Intelligence</h1>
+    <p>Operational threat intelligence — sourcing, processing, and actioning intelligence to improve SOC detection, accelerate vulnerability prioritisation, and enable proactive threat hunting. Built for a maturing TI capability consuming open-source and selected commercial feeds.</p>
+    <div class="asm-page-hero-pills">
+      <span class="asm-page-hero-pill">3 SOPs</span>
+      <span class="asm-page-hero-pill">5 Work Instructions</span>
+      <span class="asm-page-hero-pill">IOC management</span>
+      <span class="asm-page-hero-pill">Threat hunting</span>
+      <span class="asm-page-hero-pill">MITRE ATT&amp;CK aligned</span>
+    </div>
+  </div>
+
+  <!-- Principles -->
+  <div class="asm-section">
+    <div class="asm-section-num">Overview</div>
+    <div class="asm-section-title">TI Programme Principles</div>
+    <div class="principles-grid">
+      <div class="principle-card"><h4>🎯 Intelligence must be actionable</h4><p>TI that cannot be acted upon through detection, blocking, or risk decision has no operational value</p></div>
+      <div class="principle-card"><h4>📊 Relevance over volume</h4><p>A few high-quality relevant indicators beat thousands of unvalidated feed entries</p></div>
+      <div class="principle-card"><h4>🔄 Drives decisions</h4><p>TI actively influences SOC priorities, VM remediation, and patching — not a separate silo</p></div>
+      <div class="principle-card"><h4>✅ Validate before deploy</h4><p>No unvalidated IOC is ever deployed to a blocking control — quality gates are mandatory</p></div>
+    </div>
+  </div>
+
+  <!-- TI Lifecycle -->
+  <div class="asm-section">
+    <div class="asm-section-num">TI Lifecycle</div>
+    <div class="asm-section-title">Intelligence Lifecycle — Direction to Feedback</div>
+    <div class="lifecycle-grid">
+      <div class="lifecycle-card"><h4>1 · Direction</h4><p>Define intelligence requirements — what threats matter to this organisation and sector</p></div>
+      <div class="lifecycle-card"><h4>2 · Collection</h4><p>Consume from approved feeds, advisories, ISACs, and internal telemetry</p></div>
+      <div class="lifecycle-card"><h4>3 · Processing</h4><p>Deduplicate, normalise, validate, and enrich raw intelligence</p></div>
+      <div class="lifecycle-card"><h4>4 · Analysis</h4><p>Assess relevance, correlate with known vulnerabilities and active campaigns</p></div>
+      <div class="lifecycle-card"><h4>5 · Dissemination</h4><p>Route intelligence to the right consumer — SOC, VM, IT Ops, management</p></div>
+      <div class="lifecycle-card"><h4>6 · Action &amp; Feedback</h4><p>Deploy IOCs, update detections, escalate patches — feed outcomes back</p></div>
+    </div>
+  </div>
+
+  <!-- SOPs -->
+  <div class="asm-section">
+    <div class="asm-section-num">SOPs</div>
+    <div class="asm-section-title">Threat Intelligence Standard Operating Procedures</div>
+    <div class="doc-grid">
+      <a class="doc-row" href="it-ti-sop-01.html"><span class="doc-code">IT-TI-SOP-01</span><span class="doc-name">Threat Intelligence Programme — Governance &amp; Lifecycle</span><span class="doc-badge draft">Draft</span></a>
+      <a class="doc-row" href="it-ti-sop-02.html"><span class="doc-code">IT-TI-SOP-02</span><span class="doc-name">Indicator of Compromise (IOC) Management</span><span class="doc-badge draft">Draft</span></a>
+      <a class="doc-row" href="it-ti-sop-03.html"><span class="doc-code">IT-TI-SOP-03</span><span class="doc-name">Threat Intelligence — Vulnerability &amp; Patch Prioritisation</span><span class="doc-badge draft">Draft</span></a>
+    </div>
+  </div>
+
+  <!-- WIs -->
+  <div class="asm-section">
+    <div class="asm-section-num">Work Instructions</div>
+    <div class="asm-section-title">Threat Intelligence Work Instructions</div>
+    <div class="doc-grid">
+      <a class="doc-row" href="it-ti-wi-01.html"><span class="doc-code">IT-TI-WI-01</span><span class="doc-name">Consuming &amp; Evaluating TI Feeds and Sources</span><span class="doc-badge draft">Draft</span></a>
+      <a class="doc-row" href="it-ti-wi-02.html"><span class="doc-code">IT-TI-WI-02</span><span class="doc-name">IOC Ingestion &amp; Validation</span><span class="doc-badge draft">Draft</span></a>
+      <a class="doc-row" href="it-ti-wi-03.html"><span class="doc-code">IT-TI-WI-03</span><span class="doc-name">IOC Actioning &amp; Deployment</span><span class="doc-badge draft">Draft</span></a>
+      <a class="doc-row" href="it-ti-wi-04.html"><span class="doc-code">IT-TI-WI-04</span><span class="doc-name">Threat Actor &amp; Campaign Profiling</span><span class="doc-badge draft">Draft</span></a>
+      <a class="doc-row" href="it-ti-wi-05.html"><span class="doc-code">IT-TI-WI-05</span><span class="doc-name">TI-Driven Threat Hunting Triggers</span><span class="doc-badge draft">Draft</span></a>
+    </div>
+  </div>
+
+  <!-- Integration -->
+  <div class="asm-section">
+    <div class="asm-section-num">Integration</div>
+    <div class="asm-section-title">TI Integration with Other Processes</div>
+    <p>Threat intelligence does not operate in isolation — it feeds directly into SOC operations, vulnerability management, patch prioritisation, and threat hunting.</p>
+    <div class="doc-grid">
+      <a class="doc-row" href="it-vm-sop-01.html"><span class="doc-code">IT-VM-SOP-01</span><span class="doc-name">Vulnerability Management — TI provides exploitation context for prioritisation</span></a>
+      <a class="doc-row" href="it-pm-sop-02.html"><span class="doc-code">IT-PM-SOP-02</span><span class="doc-name">Emergency Patching — CISA KEV and active exploitation trigger emergency SLA</span></a>
+      <a class="doc-row" href="it-gov-wi-vm-02.html"><span class="doc-code">IT-GOV-WI-VM-02</span><span class="doc-name">Vulnerability Triage — TI enrichment applied at Step 3</span></a>
+      <a class="doc-row" href="asm-cis-matrix.html"><span class="doc-code">CIS Matrix</span><span class="doc-name">CIS Benchmark Alignment — TI informs which controls to prioritise hardening</span></a>
+    </div>
+  </div>
+
+  <div class="asm-nav">
+    <a href="asm.html">← Back to ASM</a>
+    <a href="asm-security-baselines.html">Security Baselines →</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>ASM · Threat Intelligence · Published 5 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm.html" style="color:var(--asm);text-decoration:none;">← Back to ASM</a></span>
+  </div>
+</div>
+<script src="download-utils.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-TI-SOP-02: Indicator of Compromise (IOC) Management — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+  .sop-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .sop-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .sop-meta-item strong { color:#1a1a1a; }
+  .sop-meta-sep { color:#e0e0dc; }
+  .sop-badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .sop-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .sop-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .sop-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:4px; }
+  .sop-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .sop-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .sop-section p:last-child { margin-bottom:0; }
+  .sop-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; margin-top:4px; }
+  .sop-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .sop-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--asm); flex-shrink:0; margin-top:5px; }
+  .sop-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .sop-table th { background:var(--asm-light); color:var(--asm); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--asm-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .sop-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; }
+  .sop-table tr:nth-child(even) td { background:#fafafa; }
+  .sop-table td:first-child { font-weight:600; color:var(--asm-dark); }
+  .sop-principles { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .sop-principle { background:var(--asm-light); border:0.5px solid var(--asm-border); border-radius:8px; padding:0.85rem 1rem; }
+  .sop-principle h4 { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:4px; }
+  .sop-principle p { font-size:12px; color:#555; line-height:1.5; margin:0; }
+  .sop-steps { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .sop-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .sop-step-num { width:24px; height:24px; border-radius:50%; background:var(--asm); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .sop-step-body { flex:1; }
+  .sop-step-title { font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:3px; }
+  .sop-step-desc { font-size:13px; color:#444; line-height:1.5; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .callout-info { background:var(--asm-light); border:0.5px solid var(--asm-border); border-left:3px solid var(--asm); border-radius:8px; padding:0.9rem 1rem; margin-top:10px; }
+  .callout-info p { font-size:13px; color:var(--asm-dark); margin:0; line-height:1.5; }
+  .nist-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .nist-tag { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .sop-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .sop-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+  @media(max-width:640px){ .sop-principles{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-threat-intelligence.html">Threat Intelligence</a><span>›</span>
+    <span>IT-TI-SOP-02</span>
+  </div>
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%);">
+    <span class="kb-page-hero-icon">📋</span>
+    <h1>IT-TI-SOP-02: Indicator of Compromise (IOC) Management</h1>
+    <p>Defines how Indicators of Compromise are ingested, validated, enriched, actioned across security controls, and retired when no longer relevant.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">ASM · Threat Intelligence</span>
+      <span class="kb-meta-pill">Draft</span>
+      <span class="kb-meta-pill">Published 5 May 2026</span>
+    </div>
+  </div>
+  <div class="sop-meta-bar">
+    <div class="sop-meta-item">📋 <strong>SOP ID:</strong> IT-TI-SOP-02</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">📅 <strong>Published:</strong> 5 May 2026</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">🔄 <strong>Version:</strong> v1.0</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item"><span class="sop-badge-draft">Draft</span></div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 1</div>
+    <div class="sop-section-title">Purpose</div>
+    <p>This SOP defines the end-to-end process for managing Indicators of Compromise — from ingestion through validation, enrichment, deployment to controls, monitoring, and retirement. It ensures that only validated, relevant IOCs are deployed to security controls, and that stale or false-positive indicators are removed promptly.</p>
+    <div class="callout-warn"><p>⚠️ Deploying unvalidated IOCs to production controls can cause false positives, service disruption, and alert fatigue. All IOCs must be validated before deployment.</p></div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 2</div>
+    <div class="sop-section-title">IOC Types Covered</div>
+    <table class="sop-table">
+      <thead><tr><th>IOC type</th><th>Examples</th><th>Typical deployment target</th></tr></thead>
+      <tbody>
+        <tr><td>IP addresses</td><td>C2 IPs, scanning sources, malicious infrastructure</td><td>Firewall block rules, SIEM detection</td></tr>
+        <tr><td>Domains / URLs</td><td>Phishing domains, C2 domains, malware distribution</td><td>DNS blocking, proxy / web filter, SIEM</td></tr>
+        <tr><td>File hashes</td><td>MD5, SHA1, SHA256 of malware samples</td><td>EDR custom IOCs, SIEM file hash detection</td></tr>
+        <tr><td>Email indicators</td><td>Sender addresses, subject patterns, malicious attachments</td><td>Email gateway rules, SIEM</td></tr>
+        <tr><td>TTPs</td><td>MITRE ATT&amp;CK technique IDs, behaviour patterns</td><td>Detection rule development, threat hunting</td></tr>
+        <tr><td>CVEs with active exploitation</td><td>CISA KEV entries, vendor-confirmed active exploitation</td><td>VM prioritisation, emergency patching</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 3</div>
+    <div class="sop-section-title">IOC Lifecycle</div>
+    <div class="sop-steps">
+      <div class="sop-step"><div class="sop-step-num">1</div><div class="sop-step-body"><div class="sop-step-title">Ingestion</div><div class="sop-step-desc">Receive IOCs from approved sources — feeds, advisories, incident response, or manual submission. Log source, date, and context for every IOC.</div></div></div>
+      <div class="sop-step"><div class="sop-step-num">2</div><div class="sop-step-body"><div class="sop-step-title">Deduplication</div><div class="sop-step-desc">Check for existing IOCs before processing. Remove duplicates. Update existing entries with new source or context rather than creating duplicates.</div></div></div>
+      <div class="sop-step"><div class="sop-step-num">3</div><div class="sop-step-body"><div class="sop-step-title">Validation</div><div class="sop-step-desc">Verify the IOC is malicious and not a false positive. Cross-reference with VirusTotal, threat intel platforms, and internal telemetry. Assign confidence score: High / Medium / Low.</div></div></div>
+      <div class="sop-step"><div class="sop-step-num">4</div><div class="sop-step-body"><div class="sop-step-title">Enrichment</div><div class="sop-step-desc">Add context — threat actor, malware family, campaign, first/last seen, MITRE ATT&amp;CK mapping, affected sector. Richer context improves triage speed during incidents.</div></div></div>
+      <div class="sop-step"><div class="sop-step-num">5</div><div class="sop-step-body"><div class="sop-step-title">Prioritisation</div><div class="sop-step-desc">Assess relevance to the organisation's environment and sector. High-confidence, relevant IOCs from active campaigns are prioritised for immediate deployment.</div></div></div>
+      <div class="sop-step"><div class="sop-step-num">6</div><div class="sop-step-body"><div class="sop-step-title">Deployment</div><div class="sop-step-desc">Deploy to appropriate controls per IT-TI-WI-03. Document deployment targets, timestamps, and any exceptions. Follow change management for production control changes.</div></div></div>
+      <div class="sop-step"><div class="sop-step-num">7</div><div class="sop-step-body"><div class="sop-step-title">Monitoring</div><div class="sop-step-desc">Monitor deployed IOCs for hits. Investigate any matches. Track false positive rate. Review IOC effectiveness periodically.</div></div></div>
+      <div class="sop-step"><div class="sop-step-num">8</div><div class="sop-step-body"><div class="sop-step-title">Retirement</div><div class="sop-step-desc">Retire IOCs that are expired, superseded, or generating excessive false positives. Document retirement reason. Remove from controls within defined SLA.</div></div></div>
+    </div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 4</div>
+    <div class="sop-section-title">Confidence Scoring</div>
+    <table class="sop-table">
+      <thead><tr><th>Score</th><th>Criteria</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td>High</td><td>Multiple trusted sources, recent, confirmed malicious, campaign-linked</td><td>Deploy to blocking controls immediately</td></tr>
+        <tr><td>Medium</td><td>Single trusted source or limited corroboration, plausible context</td><td>Deploy to detection/alerting — review before blocking</td></tr>
+        <tr><td>Low</td><td>Unverified source, limited context, age unclear</td><td>Log and monitor — do not deploy to blocking controls</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 5</div>
+    <div class="sop-section-title">IOC Retention &amp; Expiry</div>
+    <table class="sop-table">
+      <thead><tr><th>IOC type</th><th>Default retention</th><th>Review trigger</th></tr></thead>
+      <tbody>
+        <tr><td>IP addresses</td><td>30 days active — review before renewal</td><td>No hits in 14 days, or false positives detected</td></tr>
+        <tr><td>Domains</td><td>90 days active — review before renewal</td><td>Domain resolves to legitimate service, or no hits in 30 days</td></tr>
+        <tr><td>File hashes</td><td>12 months — low false positive risk</td><td>Hash confirmed benign by vendor, or no hits in 6 months</td></tr>
+        <tr><td>Email indicators</td><td>60 days active — review before renewal</td><td>Pattern matching legitimate traffic</td></tr>
+        <tr><td>CVEs</td><td>Until patched or risk accepted</td><td>Patch applied, exception granted, or vendor advisory revised</td></tr>
+      </tbody>
+    </table>
+    <div class="callout-warn"><p>⚠️ Stale IOCs — particularly IP addresses — generate false positives and alert fatigue. IP space is recycled frequently. Always review IP-based blocks before renewing past 30 days.</p></div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 6</div>
+    <div class="sop-section-title">Roles &amp; Responsibilities</div>
+    <table class="sop-table">
+      <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
+      <tbody>
+        <tr><td>SOC Analyst (Tier 2/3)</td><td>Process, validate, enrich, and deploy IOCs. Review and retire stale indicators.</td></tr>
+        <tr><td>SOC Analyst (Tier 1)</td><td>Submit IOCs discovered during triage. Consume deployed IOCs during alert investigation.</td></tr>
+        <tr><td>SOC Lead</td><td>Approve deployment of IOCs to blocking controls. Review false positive reports.</td></tr>
+        <tr><td>IT Operations</td><td>Implement firewall and DNS blocks as directed. Confirm deployment success.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 7</div>
+    <div class="sop-section-title">NIST CSF 2.0 Alignment</div>
+    <div class="nist-tags">
+      <span class="nist-tag">ID.RA — Risk Assessment: IOC-driven risk context</span>
+      <span class="nist-tag">PR.PS — Platform Security: IOC deployment to controls</span>
+      <span class="nist-tag">DE.AE — Adverse Event Analysis: IOC-driven detection</span>
+      <span class="nist-tag">RS.AN — Incident Analysis: IOC context during response</span>
+    </div>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 8</div>
+    <div class="sop-section-title">Governance &amp; Review</div>
+    <p><strong>Owner:</strong> Cyber Security / SOC Lead &nbsp;·&nbsp; <strong>Review Cycle:</strong> Annual or following a significant false positive incident &nbsp;·&nbsp; <strong>IOC register:</strong> Reviewed monthly</p>
+  </div>
+
+  <div class="sop-nav"><a href="it-ti-sop-01.html">← IT-TI-SOP-01</a><a href="it-ti-sop-03.html">IT-TI-SOP-03 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-TI-SOP-02 · v1.0 · Draft · Paulo Ferreira</span>
+    <span><a href="asm-threat-intelligence.html" style="color:var(--asm);text-decoration:none;">← Back to Threat Intelligence</a></span>
+  </div>
+</div>
+<script src="download-utils.js"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-TI-WI-01: Consuming & Evaluating TI Feeds and Sources — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .wi-badge-it { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .wi-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:8px; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.75; margin:0 0 8px 0; }
+  .h-prereqs { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .h-prereq { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .h-steps { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .h-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .h-step-num { width:24px; height:24px; border-radius:50%; background:var(--asm-light); color:var(--asm); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .h-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; flex:1; }
+  .h-checks { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-check { display:flex; align-items:center; gap:10px; background:#E1F5EE; border:0.5px solid #82D4B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#1a6b47; }
+  .h-check::before { content:"✅"; font-size:13px; flex-shrink:0; }
+  .h-tips { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-tip { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#444; }
+  .h-tip::before { content:"💡"; font-size:13px; flex-shrink:0; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:8px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .callout-info { background:var(--asm-light); border:0.5px solid var(--asm-border); border-left:3px solid var(--asm); border-radius:8px; padding:0.9rem 1rem; margin-top:8px; }
+  .callout-info p { font-size:13px; color:var(--asm-dark); margin:0; line-height:1.5; }
+  .ref-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .ref-table th { background:var(--asm-light); color:var(--asm); font-weight:600; padding:7px 10px; text-align:left; border:0.5px solid var(--asm-border); font-size:11px; text-transform:uppercase; }
+  .ref-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; }
+  .ref-table tr:nth-child(even) td { background:#fafafa; }
+  .ref-table td:first-child { font-weight:600; color:var(--asm-dark); }
+  .nist-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .nist-tag { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-threat-intelligence.html">Threat Intelligence</a><span>›</span>
+    <span>IT-TI-WI-01</span>
+  </div>
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>IT-TI-WI-01: Consuming & Evaluating TI Feeds and Sources</h1>
+    <p>Step-by-step instructions for assessing, onboarding, and maintaining threat intelligence feeds and sources — ensuring only relevant, quality sources are consumed.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">ASM · Threat Intelligence</span>
+      <span class="kb-meta-pill">IT procedure</span>
+      <span class="kb-meta-pill">Published 5 May 2026</span>
+    </div>
+  </div>
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> IT-TI-WI-01</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 5 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-it">TI procedure</span></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-draft">Draft</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <div class="h-prereqs"><span class="h-prereq">Access to TI platform or feed aggregator</span>
+<span class="h-prereq">List of current approved sources</span>
+<span class="h-prereq">Understanding of organisation's sector and technology stack</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <div class="h-steps"><div class="h-step"><div class="h-step-num">1</div><div class="h-step-text">Identify candidate source — feed, advisory service, ISAC membership, or commercial platform</div></div>
+<div class="h-step"><div class="h-step-num">2</div><div class="h-step-text">Assess source quality: check publishing frequency, indicator volume, false positive reputation, and sector relevance</div></div>
+<div class="h-step"><div class="h-step-num">3</div><div class="h-step-text">Check for overlap with existing sources to avoid duplicate ingestion and noise</div></div>
+<div class="h-step"><div class="h-step-num">4</div><div class="h-step-text">Evaluate format: confirm the source provides structured data (STIX/TAXII, CSV, JSON, MISP) or has an accessible API</div></div>
+<div class="h-step"><div class="h-step-num">5</div><div class="h-step-text">Run a trial period (2–4 weeks) — ingest in monitoring-only mode, do not deploy to blocking controls</div></div>
+<div class="h-step"><div class="h-step-num">6</div><div class="h-step-text">Review trial results: measure hit rate, false positive rate, and relevance to your environment</div></div>
+<div class="h-step"><div class="h-step-num">7</div><div class="h-step-text">If approved — add to the authorised source register, configure automated ingestion, and document refresh frequency</div></div>
+<div class="h-step"><div class="h-step-num">8</div><div class="h-step-text">If not approved — document the reason and do not onboard. Review the candidate source again in 6 months if circumstances change</div></div>
+<div class="h-step"><div class="h-step-num">9</div><div class="h-step-text">Review all active sources quarterly — retire sources that are stale, low-quality, or no longer relevant</div></div></div>
+  </div>
+
+
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <div class="h-checks"><div class="h-check">Source is documented in the authorised source register with owner and review date</div>
+<div class="h-check">Ingestion pipeline confirmed working — indicators flowing correctly</div>
+<div class="h-check">Trial results reviewed and documented before full onboarding</div>
+<div class="h-check">Refresh frequency configured and tested</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <div class="h-tips"><div class="h-tip">More feeds does not mean better intelligence — five high-quality, relevant feeds beat fifty noisy ones every time</div>
+<div class="h-tip">Always trial in monitoring-only mode first. Blocking based on an untested feed can disrupt legitimate services</div>
+<div class="h-tip">CISA KEV, Abuse.ch (URLhaus, MalwareBazaar, ThreatFox), and AlienVault OTX are excellent free starting points</div>
+<div class="h-tip">Check if your EDR or SIEM vendor already provides a TI feed — avoid duplicating what you already have</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">NIST CSF 2.0 alignment</div>
+    <div class="nist-tags"><span class="nist-tag">GV — Govern: TI source governance</span>
+<span class="nist-tag">ID.RA — Risk Assessment: threat context sourcing</span></div>
+  </div>
+
+  <div class="wi-nav"><span></span><a href="it-ti-wi-02.html">IT-TI-WI-02 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-TI-WI-01 · Published 5 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-threat-intelligence.html" style="color:var(--asm);text-decoration:none;">← Back to Threat Intelligence</a></span>
+  </div>
+</div>
+<script src="download-utils.js"></script>
+</body>
+</html>

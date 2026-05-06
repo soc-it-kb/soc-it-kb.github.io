@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-TI-WI-03: IOC Actioning & Deployment — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .wi-badge-it { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .wi-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:8px; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.75; margin:0 0 8px 0; }
+  .h-prereqs { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .h-prereq { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .h-steps { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .h-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .h-step-num { width:24px; height:24px; border-radius:50%; background:var(--asm-light); color:var(--asm); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .h-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; flex:1; }
+  .h-checks { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-check { display:flex; align-items:center; gap:10px; background:#E1F5EE; border:0.5px solid #82D4B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#1a6b47; }
+  .h-check::before { content:"✅"; font-size:13px; flex-shrink:0; }
+  .h-tips { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-tip { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#444; }
+  .h-tip::before { content:"💡"; font-size:13px; flex-shrink:0; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:8px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .callout-info { background:var(--asm-light); border:0.5px solid var(--asm-border); border-left:3px solid var(--asm); border-radius:8px; padding:0.9rem 1rem; margin-top:8px; }
+  .callout-info p { font-size:13px; color:var(--asm-dark); margin:0; line-height:1.5; }
+  .ref-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .ref-table th { background:var(--asm-light); color:var(--asm); font-weight:600; padding:7px 10px; text-align:left; border:0.5px solid var(--asm-border); font-size:11px; text-transform:uppercase; }
+  .ref-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; }
+  .ref-table tr:nth-child(even) td { background:#fafafa; }
+  .ref-table td:first-child { font-weight:600; color:var(--asm-dark); }
+  .nist-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .nist-tag { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-threat-intelligence.html">Threat Intelligence</a><span>›</span>
+    <span>IT-TI-WI-03</span>
+  </div>
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>IT-TI-WI-03: IOC Actioning & Deployment</h1>
+    <p>Step-by-step instructions for deploying validated Indicators of Compromise to security controls — including firewall, DNS, EDR, email gateway, and SIEM — and confirming deployment success.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">ASM · Threat Intelligence</span>
+      <span class="kb-meta-pill">IT procedure</span>
+      <span class="kb-meta-pill">Published 5 May 2026</span>
+    </div>
+  </div>
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> IT-TI-WI-03</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 5 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-it">TI procedure</span></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-draft">Draft</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <div class="h-prereqs"><span class="h-prereq">Validated IOC with confidence score — from IT-TI-WI-02</span>
+<span class="h-prereq">SOC Lead approval for blocking controls</span>
+<span class="h-prereq">Access to relevant control platform (firewall, DNS, EDR, SIEM, email gateway)</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <div class="h-steps"><div class="h-step"><div class="h-step-num">1</div><div class="h-step-text">Confirm IOC confidence score and deployment decision — High confidence deploys to blocking, Medium to detection/alerting only, Low to logging only</div></div>
+<div class="h-step"><div class="h-step-num">2</div><div class="h-step-text">Select the appropriate control(s) based on IOC type — see deployment target table below</div></div>
+<div class="h-step"><div class="h-step-num">3</div><div class="h-step-text">For blocking deployments — obtain SOC Lead approval before proceeding</div></div>
+<div class="h-step"><div class="h-step-num">4</div><div class="h-step-text">Follow change management process for production control changes where required</div></div>
+<div class="h-step"><div class="h-step-num">5</div><div class="h-step-text">Deploy the IOC to each selected control. For EDR custom IOC lists — add hash, verify sync to all agents. For DNS blocking — add domain to block list, test resolution returns NXDOMAIN. For firewall — add IP block rule, confirm rule ordering and logging</div></div>
+<div class="h-step"><div class="h-step-num">6</div><div class="h-step-text">Test the deployment — attempt to resolve the blocked domain or connect to the blocked IP from a test endpoint to confirm the block is active</div></div>
+<div class="h-step"><div class="h-step-num">7</div><div class="h-step-text">Monitor the deployed IOC for 24–48 hours after deployment — check for false positives or unexpected service disruption</div></div>
+<div class="h-step"><div class="h-step-num">8</div><div class="h-step-text">Document deployment: control(s) deployed to, timestamp, approver, test results, and monitoring outcome</div></div>
+<div class="h-step"><div class="h-step-num">9</div><div class="h-step-text">Set a calendar reminder for IOC expiry review — remove or renew at expiry per IT-TI-SOP-02</div></div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">IOC deployment targets</div>
+    <table class="ref-table">
+      <thead><tr><th>IOC type</th><th>High confidence</th><th>Medium confidence</th><th>Low confidence</th></tr></thead>
+      <tbody>
+        <tr><td>Malicious IP</td><td>Firewall block + SIEM alert</td><td>SIEM alert only</td><td>Log only</td></tr>
+        <tr><td>Malicious domain</td><td>DNS block + SIEM alert</td><td>SIEM alert + proxy monitoring</td><td>Log only</td></tr>
+        <tr><td>Malicious URL</td><td>Web filter block + SIEM alert</td><td>SIEM alert only</td><td>Log only</td></tr>
+        <tr><td>File hash</td><td>EDR custom IOC block + SIEM alert</td><td>EDR alert only</td><td>Log only</td></tr>
+        <tr><td>Email sender/domain</td><td>Email gateway block + SIEM alert</td><td>Email gateway quarantine</td><td>Log only</td></tr>
+        <tr><td>TTP / behaviour</td><td>SIEM detection rule</td><td>SIEM detection rule (low fidelity)</td><td>Hunting hypothesis</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <div class="h-checks"><div class="h-check">Deployment tested and confirmed active</div>
+<div class="h-check">No false positives detected in first 24–48 hours</div>
+<div class="h-check">Deployment documented in IOC register with timestamps</div>
+<div class="h-check">Expiry review reminder set</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <div class="h-tips"><div class="h-tip">Always test a block after deploying — a misconfigured rule that silently fails gives you false confidence</div>
+<div class="h-tip">For IP blocks, check whether the IP is currently in use by a CDN or shared hosting before deploying — use tools like Shodan or a reverse DNS lookup</div>
+<div class="h-tip">Deploy to detection first on Medium confidence IOCs — if you see hits, consider escalating to blocking</div>
+<div class="h-tip">Document your rollback procedure before deploying — if the block causes service disruption you need to be able to remove it quickly</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">NIST CSF 2.0 alignment</div>
+    <div class="nist-tags"><span class="nist-tag">PR.PS — Platform Security: IOC deployment to controls</span>
+<span class="nist-tag">DE.CM — Continuous Monitoring: IOC-driven detection</span></div>
+  </div>
+
+  <div class="wi-nav"><a href="it-ti-wi-02.html">← IT-TI-WI-02</a><a href="it-ti-wi-04.html">IT-TI-WI-04 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-TI-WI-03 · Published 5 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-threat-intelligence.html" style="color:var(--asm);text-decoration:none;">← Back to Threat Intelligence</a></span>
+  </div>
+</div>
+<script src="download-utils.js"></script>
+</body>
+</html>

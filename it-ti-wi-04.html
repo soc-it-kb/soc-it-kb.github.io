@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-TI-WI-04: Threat Actor & Campaign Profiling — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .wi-badge-it { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .wi-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:8px; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.75; margin:0 0 8px 0; }
+  .h-prereqs { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .h-prereq { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .h-steps { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .h-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .h-step-num { width:24px; height:24px; border-radius:50%; background:var(--asm-light); color:var(--asm); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .h-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; flex:1; }
+  .h-checks { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-check { display:flex; align-items:center; gap:10px; background:#E1F5EE; border:0.5px solid #82D4B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#1a6b47; }
+  .h-check::before { content:"✅"; font-size:13px; flex-shrink:0; }
+  .h-tips { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-tip { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#444; }
+  .h-tip::before { content:"💡"; font-size:13px; flex-shrink:0; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:8px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .callout-info { background:var(--asm-light); border:0.5px solid var(--asm-border); border-left:3px solid var(--asm); border-radius:8px; padding:0.9rem 1rem; margin-top:8px; }
+  .callout-info p { font-size:13px; color:var(--asm-dark); margin:0; line-height:1.5; }
+  .ref-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .ref-table th { background:var(--asm-light); color:var(--asm); font-weight:600; padding:7px 10px; text-align:left; border:0.5px solid var(--asm-border); font-size:11px; text-transform:uppercase; }
+  .ref-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; }
+  .ref-table tr:nth-child(even) td { background:#fafafa; }
+  .ref-table td:first-child { font-weight:600; color:var(--asm-dark); }
+  .nist-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .nist-tag { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-threat-intelligence.html">Threat Intelligence</a><span>›</span>
+    <span>IT-TI-WI-04</span>
+  </div>
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>IT-TI-WI-04: Threat Actor & Campaign Profiling</h1>
+    <p>Step-by-step instructions for building and maintaining threat actor profiles and campaign records relevant to the organisation — providing SOC analysts with the context needed to triage faster and hunt more effectively.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">ASM · Threat Intelligence</span>
+      <span class="kb-meta-pill">IT procedure</span>
+      <span class="kb-meta-pill">Published 5 May 2026</span>
+    </div>
+  </div>
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> IT-TI-WI-04</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 5 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-it">TI procedure</span></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-draft">Draft</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <div class="h-prereqs"><span class="h-prereq">Access to MITRE ATT&CK Navigator or equivalent</span>
+<span class="h-prereq">Threat intel platform or structured notes repository</span>
+<span class="h-prereq">Understanding of organisation's sector and key technology assets</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <div class="h-steps"><div class="h-step"><div class="h-step-num">1</div><div class="h-step-text">Identify the threat actor or campaign — from an incident, TI feed, vendor advisory, or ISAC report</div></div>
+<div class="h-step"><div class="h-step-num">2</div><div class="h-step-text">Research the actor using MITRE ATT&CK, open-source reporting, and commercial TI — document name, aliases, suspected origin, and primary motivation (financial, espionage, hacktivism, ransomware)</div></div>
+<div class="h-step"><div class="h-step-num">3</div><div class="h-step-text">Document known TTPs using MITRE ATT&CK technique IDs — initial access methods, persistence mechanisms, lateral movement techniques, and exfiltration approaches</div></div>
+<div class="h-step"><div class="h-step-num">4</div><div class="h-step-text">Map known targeting — which sectors, geographies, and organisation types does this actor target? Are they known to target your sector or technology stack?</div></div>
+<div class="h-step"><div class="h-step-num">5</div><div class="h-step-text">Document known tooling — malware families, offensive tools, and infrastructure patterns (IP ranges, domain registration patterns, TLS certificate characteristics)</div></div>
+<div class="h-step"><div class="h-step-num">6</div><div class="h-step-text">Assess relevance to your organisation — is this actor likely to target you? Score: High / Medium / Low relevance</div></div>
+<div class="h-step"><div class="h-step-num">7</div><div class="h-step-text">Extract actionable IOCs from the profile and process through IT-TI-WI-02 for validation and deployment</div></div>
+<div class="h-step"><div class="h-step-num">8</div><div class="h-step-text">Identify detection gaps — are there TTPs in this actor's profile that your current detections would not catch? Raise as detection improvement tasks</div></div>
+<div class="h-step"><div class="h-step-num">9</div><div class="h-step-text">Store the profile in a structured, searchable format. Link to related IOCs, incidents, and detection rules</div></div>
+<div class="h-step"><div class="h-step-num">10</div><div class="h-step-text">Review and update the profile when new reporting is published — mark last reviewed date</div></div></div>
+  </div>
+
+
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <div class="h-checks"><div class="h-check">Profile covers motivation, TTPs, tooling, targeting, and relevance assessment</div>
+<div class="h-check">MITRE ATT&CK techniques documented with technique IDs</div>
+<div class="h-check">IOCs extracted and submitted to IT-TI-WI-02 for processing</div>
+<div class="h-check">Detection gaps identified and raised as tasks</div>
+<div class="h-check">Profile stored and linked to related IOCs</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <div class="h-tips"><div class="h-tip">Start with actors known to target your sector — MITRE ATT&CK Groups and CISA advisories are excellent starting points</div>
+<div class="h-tip">MITRE ATT&CK Navigator is free and lets you visualise an actor's TTP coverage against your detection capabilities</div>
+<div class="h-tip">Threat actor names vary across vendors — Fancy Bear, APT28, Sofacy, Strontium are all the same group. Document aliases to avoid confusion</div>
+<div class="h-tip">A profile that says 'this actor is not relevant to us' is still valuable — it prevents wasted effort during incidents</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">NIST CSF 2.0 alignment</div>
+    <div class="nist-tags"><span class="nist-tag">ID.RA — Risk Assessment: threat actor context</span>
+<span class="nist-tag">DE.AE — Adverse Event Analysis: TTP-based detection</span></div>
+  </div>
+
+  <div class="wi-nav"><a href="it-ti-wi-03.html">← IT-TI-WI-03</a><a href="it-ti-wi-05.html">IT-TI-WI-05 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-TI-WI-04 · Published 5 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-threat-intelligence.html" style="color:var(--asm);text-decoration:none;">← Back to Threat Intelligence</a></span>
+  </div>
+</div>
+<script src="download-utils.js"></script>
+</body>
+</html>

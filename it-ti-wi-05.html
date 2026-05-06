@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-TI-WI-05: TI-Driven Threat Hunting Triggers — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .wi-badge-it { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .wi-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:8px; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.75; margin:0 0 8px 0; }
+  .h-prereqs { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .h-prereq { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .h-steps { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .h-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .h-step-num { width:24px; height:24px; border-radius:50%; background:var(--asm-light); color:var(--asm); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .h-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; flex:1; }
+  .h-checks { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-check { display:flex; align-items:center; gap:10px; background:#E1F5EE; border:0.5px solid #82D4B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#1a6b47; }
+  .h-check::before { content:"✅"; font-size:13px; flex-shrink:0; }
+  .h-tips { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-tip { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#444; }
+  .h-tip::before { content:"💡"; font-size:13px; flex-shrink:0; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:8px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .callout-info { background:var(--asm-light); border:0.5px solid var(--asm-border); border-left:3px solid var(--asm); border-radius:8px; padding:0.9rem 1rem; margin-top:8px; }
+  .callout-info p { font-size:13px; color:var(--asm-dark); margin:0; line-height:1.5; }
+  .ref-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .ref-table th { background:var(--asm-light); color:var(--asm); font-weight:600; padding:7px 10px; text-align:left; border:0.5px solid var(--asm-border); font-size:11px; text-transform:uppercase; }
+  .ref-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; }
+  .ref-table tr:nth-child(even) td { background:#fafafa; }
+  .ref-table td:first-child { font-weight:600; color:var(--asm-dark); }
+  .nist-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .nist-tag { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-threat-intelligence.html">Threat Intelligence</a><span>›</span>
+    <span>IT-TI-WI-05</span>
+  </div>
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>IT-TI-WI-05: TI-Driven Threat Hunting Triggers</h1>
+    <p>Step-by-step instructions for translating threat intelligence into proactive threat hunting hypotheses — enabling the SOC to search for threats that automated detections may have missed.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">ASM · Threat Intelligence</span>
+      <span class="kb-meta-pill">IT procedure</span>
+      <span class="kb-meta-pill">Published 5 May 2026</span>
+    </div>
+  </div>
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> IT-TI-WI-05</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 5 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-it">TI procedure</span></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-draft">Draft</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <div class="h-prereqs"><span class="h-prereq">Validated TI — threat actor profile, campaign report, or IOC set</span>
+<span class="h-prereq">Access to SIEM, EDR, and relevant log sources</span>
+<span class="h-prereq">MITRE ATT&CK reference for TTP mapping</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <div class="h-steps"><div class="h-step"><div class="h-step-num">1</div><div class="h-step-text">Identify the TI trigger — new threat actor profile, active campaign report, high-profile vulnerability with known exploitation, or anomaly observed in internal telemetry</div></div>
+<div class="h-step"><div class="h-step-num">2</div><div class="h-step-text">Extract the key TTPs from the TI — what initial access method, persistence mechanism, or lateral movement technique does this threat use?</div></div>
+<div class="h-step"><div class="h-step-num">3</div><div class="h-step-text">Map TTPs to MITRE ATT&CK technique IDs — use ATT&CK Navigator to visualise coverage gaps</div></div>
+<div class="h-step"><div class="h-step-num">4</div><div class="h-step-text">Formulate a hunting hypothesis: 'If this threat actor is present in our environment, what evidence would we expect to see in our logs?' — be specific about the data source and expected artefact</div></div>
+<div class="h-step"><div class="h-step-num">5</div><div class="h-step-text">Identify the data sources needed — SIEM logs, EDR telemetry, DNS logs, proxy logs, authentication logs. Confirm the data is available and adequately retained</div></div>
+<div class="h-step"><div class="h-step-num">6</div><div class="h-step-text">Build the hunt query — start broad to understand baseline, then narrow to anomalous behaviour. Document the query logic and expected output</div></div>
+<div class="h-step"><div class="h-step-num">7</div><div class="h-step-text">Execute the hunt across the relevant time window. Note: hunting for a campaign that started 3 months ago requires log retention that covers that period</div></div>
+<div class="h-step"><div class="h-step-num">8</div><div class="h-step-text">Triage results — distinguish between true positives, benign anomalies, and false positives. Document findings regardless of outcome</div></div>
+<div class="h-step"><div class="h-step-num">9</div><div class="h-step-text">If compromise is found — invoke the relevant incident response playbook immediately</div></div>
+<div class="h-step"><div class="h-step-num">10</div><div class="h-step-text">If no compromise found — document the hunt as completed, note the baseline established, and record as evidence of proactive security activity</div></div>
+<div class="h-step"><div class="h-step-num">11</div><div class="h-step-text">If hunt reveals a detection gap — raise a detection improvement task to create or tune a SIEM rule covering the TTP</div></div></div>
+  </div>
+
+
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <div class="h-checks"><div class="h-check">Hypothesis clearly documented before hunting begins</div>
+<div class="h-check">Data sources confirmed available and adequately retained</div>
+<div class="h-check">Hunt query documented with logic and expected output</div>
+<div class="h-check">All results triaged and documented — including no-compromise outcomes</div>
+<div class="h-check">Detection gaps identified and raised as tasks</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <div class="h-tips"><div class="h-tip">A hunt that finds nothing is still valuable — it either confirms you are not compromised, or reveals a data visibility gap that needs fixing</div>
+<div class="h-tip">Always document your hypothesis before you start hunting — it keeps the hunt focused and makes the outcome meaningful</div>
+<div class="h-tip">Short log retention is a hunting killer — if your SIEM only retains 7 days of logs and a campaign started 4 weeks ago, you cannot hunt for it. Use TI findings to justify longer retention</div>
+<div class="h-tip">Start with the highest-confidence TI — a CISA advisory or confirmed active campaign is a better hunt trigger than a low-confidence feed indicator</div>
+<div class="h-tip">Involve Tier-2 and Tier-3 analysts in hunting — it builds skills and improves detection coverage over time</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">NIST CSF 2.0 alignment</div>
+    <div class="nist-tags"><span class="nist-tag">DE.AE — Adverse Event Analysis: TI-driven hunting</span>
+<span class="nist-tag">DE.CM — Continuous Monitoring: proactive threat detection</span>
+<span class="nist-tag">RS.AN — Incident Analysis: hunting-driven discovery</span></div>
+  </div>
+
+  <div class="wi-nav"><a href="it-ti-wi-04.html">← IT-TI-WI-04</a><span></span></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-TI-WI-05 · Published 5 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-threat-intelligence.html" style="color:var(--asm);text-decoration:none;">← Back to Threat Intelligence</a></span>
+  </div>
+</div>
+<script src="download-utils.js"></script>
+</body>
+</html>

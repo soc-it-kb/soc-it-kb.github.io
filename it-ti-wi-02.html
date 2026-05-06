@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-TI-WI-02: IOC Ingestion & Validation — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .wi-badge-it { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); }
+  .wi-badge-draft { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .wi-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:8px; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.75; margin:0 0 8px 0; }
+  .h-prereqs { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .h-prereq { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .h-steps { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .h-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .h-step-num { width:24px; height:24px; border-radius:50%; background:var(--asm-light); color:var(--asm); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .h-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; flex:1; }
+  .h-checks { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-check { display:flex; align-items:center; gap:10px; background:#E1F5EE; border:0.5px solid #82D4B0; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#1a6b47; }
+  .h-check::before { content:"✅"; font-size:13px; flex-shrink:0; }
+  .h-tips { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .h-tip { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:#444; }
+  .h-tip::before { content:"💡"; font-size:13px; flex-shrink:0; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.9rem 1rem; margin-top:8px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .callout-info { background:var(--asm-light); border:0.5px solid var(--asm-border); border-left:3px solid var(--asm); border-radius:8px; padding:0.9rem 1rem; margin-top:8px; }
+  .callout-info p { font-size:13px; color:var(--asm-dark); margin:0; line-height:1.5; }
+  .ref-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .ref-table th { background:var(--asm-light); color:var(--asm); font-weight:600; padding:7px 10px; text-align:left; border:0.5px solid var(--asm-border); font-size:11px; text-transform:uppercase; }
+  .ref-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; }
+  .ref-table tr:nth-child(even) td { background:#fafafa; }
+  .ref-table td:first-child { font-weight:600; color:var(--asm-dark); }
+  .nist-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .nist-tag { font-size:12px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-threat-intelligence.html">Threat Intelligence</a><span>›</span>
+    <span>IT-TI-WI-02</span>
+  </div>
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>IT-TI-WI-02: IOC Ingestion & Validation</h1>
+    <p>Step-by-step instructions for ingesting, deduplicating, validating, and scoring Indicators of Compromise before they are considered for deployment to security controls.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">ASM · Threat Intelligence</span>
+      <span class="kb-meta-pill">IT procedure</span>
+      <span class="kb-meta-pill">Published 5 May 2026</span>
+    </div>
+  </div>
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">🔧 <strong>WI ID:</strong> IT-TI-WI-02</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 5 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-it">TI procedure</span></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="wi-badge-draft">Draft</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <div class="h-prereqs"><span class="h-prereq">IOC from approved source, incident, or analyst submission</span>
+<span class="h-prereq">Access to validation tools (VirusTotal, MISP, threat intel platform)</span>
+<span class="h-prereq">IOC tracking register or TI platform</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <div class="h-steps"><div class="h-step"><div class="h-step-num">1</div><div class="h-step-text">Receive IOC — note source, type (IP/domain/hash/email/TTP), and any available context</div></div>
+<div class="h-step"><div class="h-step-num">2</div><div class="h-step-text">Check for duplicates in the IOC register — if already present, update context and last-seen date rather than creating a new entry</div></div>
+<div class="h-step"><div class="h-step-num">3</div><div class="h-step-text">Validate the IOC using VirusTotal or your TI platform — check detection ratio, first/last seen, and community comments</div></div>
+<div class="h-step"><div class="h-step-num">4</div><div class="h-step-text">Cross-reference with at least one additional source — a second corroborating source increases confidence significantly</div></div>
+<div class="h-step"><div class="h-step-num">5</div><div class="h-step-text">Check if the IOC overlaps with known legitimate services (e.g. CDN IPs, shared hosting) — these require extra caution before blocking</div></div>
+<div class="h-step"><div class="h-step-num">6</div><div class="h-step-text">Assign confidence score: High (multiple trusted sources, recent, confirmed malicious), Medium (single source, plausible context), Low (unverified or aged)</div></div>
+<div class="h-step"><div class="h-step-num">7</div><div class="h-step-text">Enrich with available context: threat actor, malware family, campaign name, MITRE ATT&CK technique, affected sector, first/last seen</div></div>
+<div class="h-step"><div class="h-step-num">8</div><div class="h-step-text">Set expiry date based on IOC type — refer to IT-TI-SOP-02 retention table</div></div>
+<div class="h-step"><div class="h-step-num">9</div><div class="h-step-text">Record in IOC register with all metadata. Mark as Validated and ready for prioritisation</div></div></div>
+  </div>
+
+
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <div class="h-checks"><div class="h-check">IOC validated against at least one external source</div>
+<div class="h-check">Confidence score assigned and documented</div>
+<div class="h-check">Expiry date set</div>
+<div class="h-check">Duplicate check completed</div>
+<div class="h-check">Context and enrichment recorded in IOC register</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <div class="h-tips"><div class="h-tip">Never deploy a Low confidence IOC to blocking controls — it will generate false positives and erode trust in the TI programme</div>
+<div class="h-tip">IP addresses shared across CDNs (Cloudflare, Akamai, Fastly) are very high false positive risk — always check before blocking</div>
+<div class="h-tip">VirusTotal is a starting point, not the final answer — a 1/70 detection on VirusTotal for a domain could still be a true positive if the context is right</div>
+<div class="h-tip">Always record why you assigned a confidence score — future analysts need to understand the reasoning</div></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">NIST CSF 2.0 alignment</div>
+    <div class="nist-tags"><span class="nist-tag">ID.RA — Risk Assessment: IOC validation</span>
+<span class="nist-tag">DE.AE — Adverse Event Analysis: indicator quality</span></div>
+  </div>
+
+  <div class="wi-nav"><a href="it-ti-wi-01.html">← IT-TI-WI-01</a><a href="it-ti-wi-03.html">IT-TI-WI-03 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-TI-WI-02 · Published 5 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-threat-intelligence.html" style="color:var(--asm);text-decoration:none;">← Back to Threat Intelligence</a></span>
+  </div>
+</div>
+<script src="download-utils.js"></script>
+</body>
+</html>
