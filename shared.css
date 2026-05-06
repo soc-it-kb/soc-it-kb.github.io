@@ -374,3 +374,218 @@ body {
   .kb-entry-author { display: none; }
   .kb-entry-meta { gap: 6px; }
 }
+
+/* ── Download / Print Toolbar ── */
+.doc-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.doc-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 0.5px solid #e0e0dc;
+  background: #fff;
+  color: #555;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  font-family: inherit;
+}
+.doc-toolbar-btn:hover {
+  background: #f5f5f3;
+  border-color: #ccc;
+  color: #1a1a1a;
+}
+.doc-toolbar-btn.btn-print:hover {
+  background: #E6F4F7;
+  border-color: #297086;
+  color: #297086;
+}
+.doc-toolbar-btn.btn-md:hover {
+  background: #F3EEF9;
+  border-color: #5B2D8E;
+  color: #5B2D8E;
+}
+
+/* ── Print Styles ── */
+@media print {
+  /* Hide navigation and UI chrome */
+  .kb-topnav,
+  .doc-toolbar,
+  .breadcrumb,
+  .kb-footer,
+  .sop-nav,
+  .wi-nav,
+  .pol-nav,
+  .frm-nav,
+  .grc-nav,
+  .asm-nav,
+  .t1-nav,
+  .cc-nav,
+  .search-filters,
+  .frm-input,
+  button,
+  input[type="text"],
+  input[type="date"],
+  input[type="number"],
+  textarea {
+    display: none !important;
+  }
+
+  /* Page setup */
+  @page {
+    size: A4;
+    margin: 18mm 16mm 18mm 16mm;
+  }
+
+  body {
+    background: #fff !important;
+    font-size: 11pt;
+    color: #000;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page-wrapper {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Hero — keep background colour for identity */
+  .kb-page-hero,
+  .grc-page-hero,
+  .grc-hero,
+  .t1-hero,
+  .cc-hero,
+  .asm-page-hero {
+    border-radius: 6px !important;
+    padding: 12pt 14pt !important;
+    margin-bottom: 12pt !important;
+    page-break-inside: avoid;
+  }
+
+  .kb-page-hero h1,
+  .grc-page-hero h1,
+  .grc-hero h1,
+  .t1-hero h2,
+  .cc-hero h1 {
+    font-size: 16pt !important;
+  }
+
+  /* Meta bar */
+  .meta-bar,
+  .sop-meta-bar,
+  .wi-meta-bar {
+    border-radius: 4px !important;
+    padding: 6pt 8pt !important;
+    margin-bottom: 8pt !important;
+    page-break-inside: avoid;
+  }
+
+  /* Sections */
+  .sop-section,
+  .pol-section,
+  .wi-section,
+  .grc-section,
+  .frm-section,
+  .t1-card,
+  .cc-section {
+    border-radius: 4px !important;
+    padding: 8pt 10pt !important;
+    margin-bottom: 8pt !important;
+    page-break-inside: avoid;
+    border: 0.5pt solid #ccc !important;
+  }
+
+  /* Tables */
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 9pt !important;
+    page-break-inside: auto;
+  }
+  th, td {
+    padding: 5pt 7pt !important;
+    border: 0.5pt solid #ccc !important;
+  }
+  tr { page-break-inside: avoid; }
+
+  /* Grids — stack to single column for print */
+  .sop-principles,
+  .sop-req-grid,
+  .tier-grid,
+  .acct-grid,
+  .allow-grid,
+  .example-grid,
+  .outcomes-grid,
+  .review-grid,
+  .threshold-grid,
+  .domain-grid,
+  .audience-grid,
+  .supplier-grid,
+  .comp-grid,
+  .rel-grid,
+  .focus-grid,
+  .review-cards {
+    display: block !important;
+  }
+
+  .sop-principles > *,
+  .sop-req-grid > *,
+  .tier-grid > *,
+  .acct-grid > *,
+  .allow-grid > *,
+  .example-grid > *,
+  .outcomes-grid > *,
+  .review-grid > *,
+  .threshold-grid > *,
+  .domain-grid > *,
+  .audience-grid > *,
+  .supplier-grid > *,
+  .comp-grid > *,
+  .rel-grid > *,
+  .focus-grid > *,
+  .review-cards > * {
+    margin-bottom: 6pt !important;
+    page-break-inside: avoid;
+  }
+
+  /* Print header watermark */
+  .page-wrapper::before {
+    content: 'Cyber Security Knowledge Base — soc-it-kb.github.io';
+    display: block;
+    font-size: 8pt;
+    color: #999;
+    text-align: right;
+    padding-bottom: 6pt;
+    border-bottom: 0.5pt solid #e0e0dc;
+    margin-bottom: 10pt;
+  }
+
+  /* Links — show URL in parentheses where useful */
+  a[href]:not(.result-card):not(.quick-card)::after {
+    content: none;
+  }
+
+  /* Avoid orphaned headings */
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+  }
+
+  /* SLA cards — keep colour for print */
+  .sla-card.critical, .threshold-card.t4 { background: #FAECE7 !important; }
+  .sla-card.high     { background: #FEF0E6 !important; }
+  .sla-card.medium, .threshold-card.t3 { background: #FAEEDA !important; }
+  .sla-card.low, .threshold-card.t1 { background: #E1F5EE !important; }
+  .threshold-card.t2 { background: #E6F4F4 !important; }
+}
