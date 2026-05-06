@@ -323,18 +323,20 @@
   };
 
   // ── Toolbar injection ──────────────────────────────────────────────────
-  // Automatically inject the toolbar after the breadcrumb on page load
 
-  document.addEventListener('DOMContentLoaded', function() {
+  function injectToolbar() {
     var wrapper = document.querySelector('.page-wrapper');
     if (!wrapper) return;
 
-    // Only inject on document pages (pages with a meta-bar or hero)
+    // Prevent double injection
+    if (wrapper.querySelector('.doc-toolbar')) return;
+
+    // Only inject on document pages
     var hasMeta = wrapper.querySelector('.meta-bar, .sop-meta-bar, .wi-meta-bar');
     var hasHero = wrapper.querySelector('.kb-page-hero, .grc-page-hero, .grc-hero, .t1-hero, .cc-hero');
     if (!hasMeta && !hasHero) return;
 
-    // Don't inject on register pages or hub/index pages
+    // Skip hub, index, and register pages
     var url = window.location.pathname;
     var skipPatterns = ['grc-register-', 'grc.html', 'grc-governance', 'grc-risk', 'grc-compliance',
                         'asm.html', 'asm-security', 'asm-vulnerability', 'asm-patch', 'asm-threat',
@@ -361,6 +363,13 @@
     } else {
       wrapper.insertBefore(toolbar, wrapper.firstChild);
     }
-  });
+  }
+
+  // Run immediately if DOM already loaded, otherwise wait
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectToolbar);
+  } else {
+    injectToolbar();
+  }
 
 })();
