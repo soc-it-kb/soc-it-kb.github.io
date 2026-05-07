@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GRC-FRM-10: General Supplier Security Assessment Questionnaire</title>
+<title>GRC-FRM-10: General Supplier Security Assessment Questionnaire — GRC Hub</title>
 <link rel="stylesheet" href="shared.css">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -22,19 +22,18 @@
   .meta-sep { color:#e0e0dc; }
   .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
   .instr-box { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
-  .instr-box p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.6; }
-  .redirect-box { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
-  .redirect-box p { font-size:13px; color:#7a2e10; margin:0; line-height:1.6; }
+  .instr-box p { font-size:13px; color:#6b3f0a; margin:0 0 6px 0; line-height:1.6; }
+  .instr-box p:last-child { margin:0; }
   .frm-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; overflow:hidden; margin-bottom:10px; }
-  .frm-section-header { background:var(--grc-dark); color:#fff; padding:0.75rem 1.25rem; display:flex; align-items:center; gap:10px; }
+  .frm-section-header { background:var(--grc-dark); color:#fff; padding:0.75rem 1.25rem; }
   .frm-section-header h3 { font-size:14px; font-weight:600; margin:0; }
   .frm-table { width:100%; border-collapse:collapse; font-size:12px; }
   .frm-table th { background:var(--grc-light); color:var(--grc); font-weight:600; padding:8px 10px; text-align:left; border:0.5px solid var(--grc-border); font-size:11px; text-transform:uppercase; letter-spacing:0.04em; white-space:nowrap; }
   .frm-table td { padding:8px 10px; border:0.5px solid #e8e8e4; color:#333; vertical-align:top; }
   .frm-table tr:nth-child(even) td { background:#fafafa; }
-  .frm-table td.ref { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; color:var(--grc); white-space:nowrap; background:var(--grc-light); }
+  .frm-table td.ref { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; color:var(--grc); white-space:nowrap; background:var(--grc-light); width:6%; }
   .frm-table td.question { font-size:13px; color:#1a1a1a; line-height:1.4; }
-  .frm-input { width:100%; min-height:36px; font-size:12px; border:0.5px solid #d0d0cc; border-radius:5px; padding:4px 7px; color:#333; resize:vertical; background:#fff; font-family:inherit; }
+  .frm-input { width:100%; min-height:36px; font-size:12px; border:0.5px solid #d0d0cc; border-radius:5px; padding:4px 7px; color:#333; resize:vertical; background:#fff; font-family:inherit; box-sizing:border-box; }
   .frm-input:focus { outline:none; border-color:var(--grc); }
   .details-table { width:100%; border-collapse:collapse; font-size:13px; }
   .details-table td { padding:8px 12px; border:0.5px solid #e8e8e4; }
@@ -48,7 +47,7 @@
   .breadcrumb span { color:#ccc; }
   .frm-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
   .frm-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
-  @media print { .kb-topnav, .breadcrumb, .frm-nav, .kb-footer { display:none; } body { font-size:11px; } .frm-input { border:0.5px solid #ccc; } }
+  @media print { .kb-topnav,.breadcrumb,.frm-nav,.kb-footer{display:none;} .frm-input{border:0.5pt solid #ccc;} }
 </style>
 </head>
 <script src="download-utils.js"></script>
@@ -64,8 +63,8 @@
   <a href="asm.html">ASM</a>
   <a href="tools-references.html">Tools &amp; References</a>
   <a href="governance.html">Governance</a>
-  <a href="grc.html">GRC</a>
-    <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">Search</a></div>
 </nav>
 <div class="page-wrapper">
   <div class="breadcrumb">
@@ -99,11 +98,9 @@
   </div>
 
   <div class="instr-box">
-    <p>📌 <strong>Completion instructions:</strong> Complete each question using: <strong>Yes | Partial | No | N/A | Narrative Response | Evidence Reference</strong>. Where a control is not fully implemented, provide current status, compensating controls, remediation target date, and accountable owner.</p>
-  </div>
-
-  <div class="redirect-box">
-    <p>⚠️ <strong>Assessment track check:</strong> This questionnaire is for general suppliers only. If the supplier discloses hosted service elements, remote support into systems, or privileged administration — redirect to the appropriate specialist model (<a href="grc-sop-01.html" style="color:#7a2e10;">GRC-SOP-01</a> for SaaS/Cloud or <a href="grc-sop-02.html" style="color:#7a2e10;">GRC-SOP-02</a> for On-Prem Application Support).</p>
+    <p>📌 <strong>Completion instructions:</strong> Complete each question using: <strong>Yes | Partial | No | N/A | Narrative Response | Evidence Reference</strong></p>
+    <p>Where a control is not fully implemented, provide: current status, compensating controls, remediation target date, and accountable owner.</p>
+    <p>Where possible, attach supporting evidence such as policies, certifications, audit reports, penetration test summaries, or architecture diagrams.</p>
   </div>
 
   <div class="frm-section">
@@ -114,13 +111,13 @@
       <tr><td>Business owner</td><td><input type="text" placeholder="Enter business owner name"></td></tr>
       <tr><td>Supplier contact</td><td><input type="text" placeholder="Enter supplier contact name"></td></tr>
       <tr><td>Assessment owner</td><td><input type="text" placeholder="Enter reviewer name"></td></tr>
-      <tr><td>Assessment date</td><td><input type="date"></td></tr>
+      <tr><td>Assessment date</td><td><input type="text" placeholder=""></td></tr>
       <tr><td>Supplier type</td><td><input type="text" placeholder="Hardware / Accessories / Software Licence / Maintenance / Professional Services / Non-IT / Other"></td></tr>
       <tr><td>Does the supplier host any service for us?</td><td><input type="text" placeholder="Yes / No"></td></tr>
       <tr><td>Does the supplier support internally hosted applications?</td><td><input type="text" placeholder="Yes / No"></td></tr>
       <tr><td>Will the supplier connect equipment or devices to our environment?</td><td><input type="text" placeholder="Yes / No"></td></tr>
       <tr><td>Will the supplier access our premises?</td><td><input type="text" placeholder="Yes / No"></td></tr>
-      <tr><td>Will the supplier handle organisational information?</td><td><input type="text" placeholder="Yes / No"></td></tr>
+      <tr><td>Will the supplier handle Institutional information?</td><td><input type="text" placeholder="Yes / No"></td></tr>
       <tr><td>Will subcontractors or third parties be used?</td><td><input type="text" placeholder="Yes / No"></td></tr>
     </table>
   </div>
@@ -129,7 +126,7 @@
     <div class="frm-section-header"><h3>Supplier Profile and Service Scope</h3></div>
     <table class="frm-table">
       <thead><tr>
-        <th style="width:7%">Ref</th>
+        <th style="width:6%">Ref</th>
         <th>Question</th>
         <th style="width:18%">Supplier Response</th>
         <th style="width:13%">Evidence Reference</th>
@@ -138,43 +135,43 @@
       <tbody>
         <tr>
           <td class="ref">SP-01</td>
-          <td class="question">Describe the products or services you will provide and their intended use within our organisation.</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="question">Describe the products or services you will provide and their intended use within our Institution.</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">SP-02</td>
           <td class="question">Confirm whether you provide only goods / licences / services, or whether any hosting, remote administration, or managed service element is included.</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">SP-03</td>
           <td class="question">Confirm whether any equipment, software, appliances, or tools supplied by you will connect to our networks, endpoints, printers, CCTV, telephony, or other systems.</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">SP-04</td>
           <td class="question">Confirm whether your personnel require site access, installation access, or interaction with our operational teams.</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">SP-05</td>
-          <td class="question">Confirm whether you may receive, view, or handle any organisational information, documentation, configuration details, credentials, floorplans, asset data, or personal data.</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="question">Confirm whether you may receive, view, or handle any Institutional information, documentation, configuration details, credentials, floorplans, asset data, or personal data.</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">SP-06</td>
           <td class="question">Identify whether subcontractors, logistics partners, field engineers, or authorised resellers will be involved in delivery or service fulfilment.</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
@@ -185,7 +182,7 @@
     <div class="frm-section-header"><h3>Governance, Assurance and Business Integrity</h3></div>
     <table class="frm-table">
       <thead><tr>
-        <th style="width:7%">Ref</th>
+        <th style="width:6%">Ref</th>
         <th>Question</th>
         <th style="width:18%">Supplier Response</th>
         <th style="width:13%">Evidence Reference</th>
@@ -195,35 +192,35 @@
         <tr>
           <td class="ref">GV-01</td>
           <td class="question">Is there a named individual or function responsible for information security or confidentiality within your organisation?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">GV-02</td>
           <td class="question">Do you maintain basic information security, confidentiality, or acceptable handling policies relevant to your products or services?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">GV-03</td>
           <td class="question">Do you have current certifications, assurance reports, or other evidence of security or quality management relevant to the services provided?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">GV-04</td>
           <td class="question">Have you experienced any material security, fraud, supply chain, or integrity-related incidents in the last 24 months relevant to the products or services being supplied?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">GV-05</td>
           <td class="question">Do you have a process for escalating security, delivery, or integrity concerns affecting customer products or services?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
@@ -234,7 +231,7 @@
     <div class="frm-section-header"><h3>Information Handling and Confidentiality</h3></div>
     <table class="frm-table">
       <thead><tr>
-        <th style="width:7%">Ref</th>
+        <th style="width:6%">Ref</th>
         <th>Question</th>
         <th style="width:18%">Supplier Response</th>
         <th style="width:13%">Evidence Reference</th>
@@ -243,36 +240,36 @@
       <tbody>
         <tr>
           <td class="ref">IH-01</td>
-          <td class="question">Will you receive or handle any non-public organisational information as part of delivery, installation, support, or service fulfilment?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td class="question">Will you receive or handle any non-public Institutional information as part of delivery, installation, support, or service fulfilment?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">IH-02</td>
           <td class="question">Are confidentiality obligations, NDAs, or equivalent contractual protections in place for staff and contractors who may access customer information?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">IH-03</td>
           <td class="question">Are customer documents, configuration details, pricing, floorplans, contact data, asset data, or other sensitive information protected from unauthorised disclosure?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">IH-04</td>
           <td class="question">If information is exchanged with us, how is it transferred, stored, and deleted when no longer required?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">IH-05</td>
           <td class="question">Are customer details prohibited from being used for unauthorised marketing, profiling, or secondary purposes?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
@@ -283,7 +280,7 @@
     <div class="frm-section-header"><h3>Product Security, Authenticity and Supply Chain</h3></div>
     <table class="frm-table">
       <thead><tr>
-        <th style="width:7%">Ref</th>
+        <th style="width:6%">Ref</th>
         <th>Question</th>
         <th style="width:18%">Supplier Response</th>
         <th style="width:13%">Evidence Reference</th>
@@ -293,35 +290,35 @@
         <tr>
           <td class="ref">PS-01</td>
           <td class="question">Are products, components, licences, or software supplied through authorised and traceable channels?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">PS-02</td>
           <td class="question">Can you confirm the authenticity and provenance of hardware, accessories, software licences, or replacement parts supplied to us?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">PS-03</td>
           <td class="question">Are there controls to reduce the risk of counterfeit, tampered, substituted, or unauthorised products entering the delivery chain?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">PS-04</td>
           <td class="question">If software, firmware, or embedded components are supplied, do you provide guidance on versions, supportability, and security update availability?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">PS-05</td>
           <td class="question">Do you notify customers of product recalls, critical defects, security advisories, or end-of-support conditions in a timely manner?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
@@ -332,7 +329,7 @@
     <div class="frm-section-header"><h3>Delivery, Installation and Site Access</h3></div>
     <table class="frm-table">
       <thead><tr>
-        <th style="width:7%">Ref</th>
+        <th style="width:6%">Ref</th>
         <th>Question</th>
         <th style="width:18%">Supplier Response</th>
         <th style="width:13%">Evidence Reference</th>
@@ -342,35 +339,35 @@
         <tr>
           <td class="ref">DA-01</td>
           <td class="question">Do delivery personnel, installers, or field engineers follow customer site rules, access restrictions, and escort requirements where applicable?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">DA-02</td>
           <td class="question">Are deliveries, installations, and on-site activities logged, scheduled, and controlled to reduce operational and security risk?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">DA-03</td>
           <td class="question">Are portable devices, removable media, tools, and diagnostic equipment used on site controlled and appropriately secured?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">DA-04</td>
           <td class="question">Are there procedures to prevent unauthorised connection of supplier devices or tools to customer networks or equipment?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">DA-05</td>
           <td class="question">If equipment is installed or replaced, do you confirm configuration, serial number, asset integrity, and handover details to the customer?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
@@ -381,7 +378,7 @@
     <div class="frm-section-header"><h3>Licensing, Updates and Supportability</h3></div>
     <table class="frm-table">
       <thead><tr>
-        <th style="width:7%">Ref</th>
+        <th style="width:6%">Ref</th>
         <th>Question</th>
         <th style="width:18%">Supplier Response</th>
         <th style="width:13%">Evidence Reference</th>
@@ -391,35 +388,35 @@
         <tr>
           <td class="ref">LU-01</td>
           <td class="question">If you supply software licences or packaged software, can you confirm the licensing is legitimate, supportable, and sourced through authorised channels?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">LU-02</td>
           <td class="question">Do you provide guidance on patching, version currency, support expiry, and security update availability for products or software supplied?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">LU-03</td>
           <td class="question">If you provide product updates, drivers, firmware, utilities, or scripts, are these obtained or distributed through controlled and integrity-protected means?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">LU-04</td>
           <td class="question">Do you inform customers where supplied products are approaching end-of-life or end-of-support?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">LU-05</td>
           <td class="question">If a vulnerability affects a supplied product, component, or software package, do you notify customers and provide remediation guidance?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
@@ -430,7 +427,7 @@
     <div class="frm-section-header"><h3>Third Parties, Resellers and Service Dependencies</h3></div>
     <table class="frm-table">
       <thead><tr>
-        <th style="width:7%">Ref</th>
+        <th style="width:6%">Ref</th>
         <th>Question</th>
         <th style="width:18%">Supplier Response</th>
         <th style="width:13%">Evidence Reference</th>
@@ -440,35 +437,35 @@
         <tr>
           <td class="ref">TP-01</td>
           <td class="question">Do you use subcontractors, logistics providers, field service partners, or authorised resellers to fulfil our order or service?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">TP-02</td>
           <td class="question">If yes, identify who they are and what role they perform.</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">TP-03</td>
           <td class="question">Are third parties subject to contractual, confidentiality, and security expectations appropriate to the service provided?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">TP-04</td>
           <td class="question">Will we be notified if material changes are made to the fulfilment chain or service delivery model?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">TP-05</td>
           <td class="question">Do you have contingency arrangements if a key distributor, logistics provider, or service dependency fails?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
@@ -479,7 +476,7 @@
     <div class="frm-section-header"><h3>Incident Notification and Issue Escalation</h3></div>
     <table class="frm-table">
       <thead><tr>
-        <th style="width:7%">Ref</th>
+        <th style="width:6%">Ref</th>
         <th>Question</th>
         <th style="width:18%">Supplier Response</th>
         <th style="width:13%">Evidence Reference</th>
@@ -489,28 +486,28 @@
         <tr>
           <td class="ref">IR-01</td>
           <td class="question">Do you have a process to notify customers if a security, supply chain, product integrity, or confidentiality issue may affect the goods or services supplied?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">IR-02</td>
           <td class="question">What are your notification timelines for serious incidents, product defects, recalls, or security advisories affecting supplied products or services?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">IR-03</td>
           <td class="question">Do you maintain escalation routes for urgent customer issues involving security, authenticity, safety, or confidentiality?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">IR-04</td>
           <td class="question">If a delivered product is suspected to be counterfeit, tampered with, defective, or malicious, what action will you take?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
@@ -521,7 +518,7 @@
     <div class="frm-section-header"><h3>Disposal, Returns and Contract End</h3></div>
     <table class="frm-table">
       <thead><tr>
-        <th style="width:7%">Ref</th>
+        <th style="width:6%">Ref</th>
         <th>Question</th>
         <th style="width:18%">Supplier Response</th>
         <th style="width:13%">Evidence Reference</th>
@@ -531,34 +528,35 @@
         <tr>
           <td class="ref">EX-01</td>
           <td class="question">If products, devices, storage media, or equipment are returned, repaired, replaced, or disposed of, are there controls to protect any residual customer data or configuration?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">EX-02</td>
           <td class="question">If licensed software or documentation is withdrawn at contract end, are there clear arrangements for deactivation, return, or destruction where applicable?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">EX-03</td>
           <td class="question">Are there procedures for secure disposal or sanitisation where supplied items may contain storage, configuration, or customer information?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">EX-04</td>
           <td class="question">Are confidentiality and information handling obligations maintained after contract end?</td>
-          <td><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
       </tbody>
     </table>
   </div>
+
 
   <div class="decl-box">
     <p><strong>Supplier Declaration:</strong> The supplier confirms that the responses provided are accurate to the best of its knowledge and that any material change affecting product authenticity, service delivery, confidentiality, site access, or third-party fulfilment will be notified without undue delay.</p>
@@ -569,14 +567,13 @@
     </table>
   </div>
 
-  <div class="frm-nav">
-    <a href="grc-risk.html">← Back to Risk</a>
-    <a href="grc-frm-11.html">GRC-FRM-11: Scored Assessment Record →</a>
-  </div>
+  <div class="frm-nav"><a href="grc-frm-08.html">← GRC-FRM-08</a><span></span></div>
   <div class="kb-footer">
-    <span><span class="live-dot"></span>GRC-FRM-10 · Approved · Paulo Ferreira</span>
+    <span><span class="live-dot"></span>GRC-FRM-10 · 44 questions · Approved · Paulo Ferreira</span>
     <span><a href="grc-risk.html" style="color:var(--grc);text-decoration:none;">← Back to Risk</a></span>
   </div>
 </div>
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
 </body>
 </html>

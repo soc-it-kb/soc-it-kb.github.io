@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GRC-FRM-08: On-Prem Application Vendor & Support Partner Security Assessment Questionnaire — GRC Hub</title>
+<title>GRC-FRM-06: SaaS / Cloud Supplier Security Assessment Questionnaire — GRC Hub</title>
 <link rel="stylesheet" href="shared.css">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -50,9 +50,7 @@
   @media print { .kb-topnav,.breadcrumb,.frm-nav,.kb-footer{display:none;} .frm-input{border:0.5pt solid #ccc;} }
 </style>
 </head>
-<script src="download-utils.js"></script>
-<script src="lang-switcher.js"></script>
-</body>
+<body>
 <nav class="kb-topnav">
   <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
   <a href="index.html">Home</a>
@@ -71,28 +69,28 @@
     <a href="index.html">Home</a><span>›</span>
     <a href="grc.html">GRC Hub</a><span>›</span>
     <a href="grc-risk.html">Risk</a><span>›</span>
-    <span>GRC-FRM-08</span>
+    <span>GRC-FRM-06</span>
   </div>
 
   <div class="grc-hero">
     <div class="grc-hero-ey">GRC · Form · Questionnaire</div>
-    <h1>GRC-FRM-08: On-Prem Application Vendor & Support Partner Security Assessment Questionnaire</h1>
-    <p>For vendors and support partners providing support, maintenance, development, upgrade, administration, or troubleshooting services for internally hosted applications.</p>
+    <h1>GRC-FRM-06: SaaS / Cloud Supplier Security Assessment Questionnaire</h1>
+    <p>For suppliers providing SaaS, hosted, managed, or cloud services that process organisational data or provide critical business functionality.</p>
     <div class="grc-hero-pills">
-      <span class="grc-hero-pill">On-prem support</span>
-      <span class="grc-hero-pill">14 sections · 77 questions</span>
-      <span class="grc-hero-pill">GRC-SOP-02</span>
+      <span class="grc-hero-pill">SaaS / Cloud</span>
+      <span class="grc-hero-pill">17 sections · 89 questions</span>
+      <span class="grc-hero-pill">GRC-SOP-01</span>
     </div>
   </div>
 
   <div class="meta-bar">
-    <div class="meta-item">📋 <strong>Form ID:</strong> GRC-FRM-08</div>
+    <div class="meta-item">📋 <strong>Form ID:</strong> GRC-FRM-06</div>
     <div class="meta-sep">·</div>
     <div class="meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
     <div class="meta-sep">·</div>
-    <div class="meta-item">🔗 <strong>SOP:</strong> <a href="grc-sop-02.html" style="color:var(--grc);">GRC-SOP-02</a></div>
+    <div class="meta-item">🔗 <strong>SOP:</strong> <a href="grc-sop-01.html" style="color:var(--grc);">GRC-SOP-01</a></div>
     <div class="meta-sep">·</div>
-    <div class="meta-item">📊 <strong>Scored by:</strong> <a href="grc-frm-09.html" style="color:var(--grc);">GRC-FRM-09</a></div>
+    <div class="meta-item">📊 <strong>Scored by:</strong> <a href="grc-frm-07.html" style="color:var(--grc);">GRC-FRM-07</a></div>
     <div class="meta-sep">·</div>
     <div class="meta-item"><span class="badge-approved">Approved</span></div>
   </div>
@@ -107,22 +105,14 @@
     <div class="frm-section-header"><h3>Supplier and Service Details</h3></div>
     <table class="details-table">
       <tr><td>Supplier name</td><td><input type="text" placeholder="Enter supplier name"></td></tr>
-      <tr><td>Service / support contract name</td><td><input type="text" placeholder="Enter contract name"></td></tr>
-      <tr><td>Application supported</td><td><input type="text" placeholder="Enter application name"></td></tr>
-      <tr><td>Application owner</td><td><input type="text" placeholder="Enter application owner name"></td></tr>
-      <tr><td>Supplier contact</td><td><input type="text" placeholder="Enter supplier contact name"></td></tr>
+      <tr><td>Service / product name</td><td><input type="text" placeholder="Enter service or product name"></td></tr>
       <tr><td>Assessment owner</td><td><input type="text" placeholder="Enter reviewer name"></td></tr>
       <tr><td>Assessment date</td><td><input type="text" placeholder=""></td></tr>
-      <tr><td>Type of support provided</td><td><input type="text" placeholder="Incident / Break-fix / Maintenance / Upgrade / Managed Support / Development / Other"></td></tr>
-      <tr><td>Support model</td><td><input type="text" placeholder="Remote / On-site / Hybrid"></td></tr>
-      <tr><td>Support hours</td><td><input type="text" placeholder="Business hours / Extended / 24x7 / Other"></td></tr>
-      <tr><td>Will supplier access production systems?</td><td><input type="text" placeholder="Yes / No"></td></tr>
-      <tr><td>Will supplier access non-production systems?</td><td><input type="text" placeholder="Yes / No"></td></tr>
     </table>
   </div>
 
   <div class="frm-section">
-    <div class="frm-section-header"><h3>Service Scope and Support Model</h3></div>
+    <div class="frm-section-header"><h3>Supplier Profile and Service Scope</h3></div>
     <table class="frm-table">
       <thead><tr>
         <th style="width:6%">Ref</th>
@@ -134,42 +124,42 @@
       <tbody>
         <tr>
           <td class="ref">SP-01</td>
-          <td class="question">Describe the support service provided, including whether support is incident-based, proactive, managed, project-based, or upgrade-related.</td>
+          <td class="question">Describe the service being provided, including the business purpose, delivery model, and whether the service is on-premises, hosted, managed service, or SaaS.</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">SP-02</td>
-          <td class="question">Identify which application components may be accessed during support, for example application servers, web servers, databases, middleware, file shares, integrations, or management consoles.</td>
+          <td class="question">State whether you will act as controller, processor, sub-processor, or another role in relation to our data.</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">SP-03</td>
-          <td class="question">Confirm whether support access is remote, on-site, or hybrid, and describe how access is initiated and approved.</td>
+          <td class="question">List the categories of data you will process for us, including personal data, special category data, confidential information, credentials, logs, and metadata.</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">SP-04</td>
-          <td class="question">Confirm whether support applies to production only, non-production only, or both.</td>
+          <td class="question">Identify the countries in which our data will be stored, processed, backed up, or remotely accessed.</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">SP-05</td>
-          <td class="question">Confirm whether supplier personnel may access live organisational data, sensitive records, logs, database content, or exported data during support activities.</td>
+          <td class="question">Describe any integrations with our systems, APIs, identity services, or third-party platforms.</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">SP-06</td>
-          <td class="question">Describe whether named engineers are assigned or whether support may be provided by a broader support pool.</td>
+          <td class="question">State whether any of our data will be used for analytics, service improvement, model training, or product development.</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
@@ -190,42 +180,42 @@
       <tbody>
         <tr>
           <td class="ref">GV-01</td>
-          <td class="question">Is there a named individual accountable for information security within your organisation and for the support service provided to us?</td>
+          <td class="question">Is there a named individual accountable for information security for the service? Please provide role title and reporting line.</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">GV-02</td>
-          <td class="question">Do you maintain formal information security policies and standards relevant to support operations, privileged access, remote access, and incident handling?</td>
+          <td class="question">Do you maintain formal information security policies and standards, and how often are they reviewed and approved?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">GV-03</td>
-          <td class="question">Do you maintain a formal risk management process covering customer support activities, engineer access, and security exceptions?</td>
+          <td class="question">Do you maintain a formal risk assessment or risk register for the service and supporting environment?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">GV-04</td>
-          <td class="question">How are control deviations or support-related exceptions approved, recorded, and tracked to closure?</td>
+          <td class="question">How are security exceptions or control deviations approved, recorded, and tracked to closure?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">GV-05</td>
-          <td class="question">Please list current certifications or independent assurance reports relevant to your support operations, including scope and expiry date.</td>
+          <td class="question">Please list current certifications or independent assurance reports relevant to the service, including scope and expiry date.</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">GV-06</td>
-          <td class="question">Have you experienced any material security incidents in the last 24 months that are relevant to remote support, privileged access, customer environments, or internal support tooling?</td>
+          <td class="question">Have you experienced any material security, privacy, or resilience incidents in the last 24 months that are relevant to the service being offered?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
@@ -234,7 +224,7 @@
     </table>
   </div>
   <div class="frm-section">
-    <div class="frm-section-header"><h3>Personnel Security and Support Staff Assurance</h3></div>
+    <div class="frm-section-header"><h3>Personnel Security and Awareness</h3></div>
     <table class="frm-table">
       <thead><tr>
         <th style="width:6%">Ref</th>
@@ -246,42 +236,35 @@
       <tbody>
         <tr>
           <td class="ref">PS-01</td>
-          <td class="question">Are background screening checks performed for staff or contractors who may support customer environments, subject to local legal requirements?</td>
+          <td class="question">Are background screening checks performed for personnel with access to customer data or production systems, subject to legal and local requirements?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">PS-02</td>
-          <td class="question">Do contracts or equivalent terms include confidentiality, acceptable use, and customer data handling obligations?</td>
+          <td class="question">Do employment contracts or equivalent terms include confidentiality and acceptable use obligations?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">PS-03</td>
-          <td class="question">Is security awareness training mandatory at induction and at least annually?</td>
+          <td class="question">Is mandatory security and privacy awareness training provided at induction and at least annually thereafter?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">PS-04</td>
-          <td class="question">Do engineers and support personnel receive role-specific training for secure support practices, privileged access, remote administration, and handling of customer data?</td>
+          <td class="question">Do staff in privileged, engineering, or support roles receive role-specific security training?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">PS-05</td>
-          <td class="question">Is there a formal joiner, mover, leaver process ensuring timely removal of engineer access to customer support tools and customer environments?</td>
-          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
-        </tr>
-        <tr>
-          <td class="ref">PS-06</td>
-          <td class="question">Are third-party contractors or partner engineers subject to equivalent screening and control requirements?</td>
+          <td class="question">Is there a defined joiner, mover, leaver process, including timely revocation of access on exit or role change?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
@@ -290,7 +273,7 @@
     </table>
   </div>
   <div class="frm-section">
-    <div class="frm-section-header"><h3>Remote Access and Privileged Access Management</h3></div>
+    <div class="frm-section-header"><h3>Asset, Architecture and Change Management</h3></div>
     <table class="frm-table">
       <thead><tr>
         <th style="width:6%">Ref</th>
@@ -301,64 +284,36 @@
       </tr></thead>
       <tbody>
         <tr>
-          <td class="ref">RA-01</td>
-          <td class="question">Describe how remote access to customer environments is established, including VPN, jump server, bastion host, remote support tooling, or other methods.</td>
+          <td class="ref">AR-01</td>
+          <td class="question">Do you maintain an inventory of systems, applications, cloud services, repositories, and key assets supporting the service?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">RA-02</td>
-          <td class="question">Is multi-factor authentication enforced for all remote access and privileged access used to support customer systems?</td>
+          <td class="ref">AR-02</td>
+          <td class="question">Please provide a high-level architecture summary showing major components, trust boundaries, hosting locations, and critical dependencies.</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">RA-03</td>
-          <td class="question">Are engineer administrative accounts separate from standard user accounts?</td>
+          <td class="ref">AR-03</td>
+          <td class="question">Are development, test, staging, and production environments segregated?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">RA-04</td>
-          <td class="question">Is customer environment access granted on a named-user basis and restricted to authorised personnel only?</td>
+          <td class="ref">AR-04</td>
+          <td class="question">Are changes to production systems formally assessed, approved, tested, and documented before release?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">RA-05</td>
-          <td class="question">Is access enabled only when required — just-in-time, time-bound, approval-based, or ticket-linked access?</td>
-          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
-        </tr>
-        <tr>
-          <td class="ref">RA-06</td>
-          <td class="question">Are privileged actions in customer environments logged and attributable to an individual engineer?</td>
-          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
-        </tr>
-        <tr>
-          <td class="ref">RA-07</td>
-          <td class="question">Are shared accounts prohibited or tightly controlled and monitored where unavoidable?</td>
-          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
-        </tr>
-        <tr>
-          <td class="ref">RA-08</td>
-          <td class="question">Is remote support access reviewed periodically and removed when no longer required?</td>
-          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
-        </tr>
-        <tr>
-          <td class="ref">RA-09</td>
-          <td class="question">Are break-glass or emergency access arrangements controlled, logged, and periodically reviewed?</td>
+          <td class="ref">AR-05</td>
+          <td class="question">Do you maintain secure configuration baselines or hardened build standards for relevant platforms?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
@@ -367,7 +322,7 @@
     </table>
   </div>
   <div class="frm-section">
-    <div class="frm-section-header"><h3>Support Operations, Change and Maintenance</h3></div>
+    <div class="frm-section-header"><h3>Identity and Access Management</h3></div>
     <table class="frm-table">
       <thead><tr>
         <th style="width:6%">Ref</th>
@@ -378,43 +333,43 @@
       </tr></thead>
       <tbody>
         <tr>
-          <td class="ref">OM-01</td>
-          <td class="question">Describe how support requests are logged, authorised, and tracked, including ticketing and approval requirements.</td>
+          <td class="ref">IA-01</td>
+          <td class="question">Is multi-factor authentication enforced for all privileged access, remote access, and administrative access to systems supporting the service?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">OM-02</td>
-          <td class="question">Are changes to customer-hosted applications formally assessed, tested, approved, and documented before implementation?</td>
+          <td class="ref">IA-02</td>
+          <td class="question">Do you support customer single sign-on using SAML or OIDC, and role-based access control for customer administrators and users?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">OM-03</td>
-          <td class="question">Are emergency fixes or urgent changes subject to retrospective review and approval?</td>
+          <td class="ref">IA-03</td>
+          <td class="question">Are privileged accounts separate from standard user accounts?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">OM-04</td>
-          <td class="question">Are changes first tested in non-production where feasible before being applied to production?</td>
+          <td class="ref">IA-04</td>
+          <td class="question">Are access rights approved on a least-privilege basis and reviewed periodically?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">OM-05</td>
-          <td class="question">Are maintenance windows, outage risks, rollback steps, and customer communications defined for planned support activities?</td>
+          <td class="ref">IA-05</td>
+          <td class="question">Are service accounts, API keys, and machine credentials controlled, monitored, and rotated?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">OM-06</td>
-          <td class="question">Do you maintain secure configuration guidance or hardening recommendations for the supported application?</td>
+          <td class="ref">IA-06</td>
+          <td class="question">Are break-glass or emergency access accounts controlled, logged, and periodically tested?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
@@ -423,7 +378,7 @@
     </table>
   </div>
   <div class="frm-section">
-    <div class="frm-section-header"><h3>Data Handling During Support</h3></div>
+    <div class="frm-section-header"><h3>Data Protection and Privacy</h3></div>
     <table class="frm-table">
       <thead><tr>
         <th style="width:6%">Ref</th>
@@ -434,43 +389,50 @@
       </tr></thead>
       <tbody>
         <tr>
-          <td class="ref">DH-01</td>
-          <td class="question">May support personnel view, query, export, copy, or otherwise access live organisational data during troubleshooting or maintenance? If yes, explain under what conditions.</td>
+          <td class="ref">DP-01</td>
+          <td class="question">Do you maintain records of processing activities or equivalent documentation for the service?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">DH-02</td>
-          <td class="question">Are there controls to minimise access to live data — masking, redaction, supervised access, or use of test data where possible?</td>
+          <td class="ref">DP-02</td>
+          <td class="question">Do you support data subject rights requests, including access, rectification, erasure, restriction, and objection, where applicable?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">DH-03</td>
-          <td class="question">Are customer data extracts, screenshots, log files, or diagnostic files classified, protected, and deleted when no longer required?</td>
+          <td class="ref">DP-03</td>
+          <td class="question">Please describe your data retention, archival, and secure deletion processes for customer data, backups, and logs.</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">DH-04</td>
-          <td class="question">Is customer data prohibited from being stored on engineer endpoints, local devices, email, removable media, or unauthorised collaboration platforms?</td>
+          <td class="ref">DP-04</td>
+          <td class="question">Do you transfer personal data outside the UK or EEA? If yes, please identify destinations and transfer mechanisms used.</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">DH-05</td>
-          <td class="question">If diagnostic data must leave the customer environment, how is it transferred, encrypted, stored, and deleted?</td>
+          <td class="ref">DP-05</td>
+          <td class="question">Have you completed privacy impact assessments, DPIAs, or equivalent privacy risk reviews where required for the service?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">DH-06</td>
-          <td class="question">Are non-production environments prevented from using live production data unless explicitly authorised and protected?</td>
+          <td class="ref">DP-06</td>
+          <td class="question">How do you ensure data minimisation, purpose limitation, and privacy by design within the service?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">DP-07</td>
+          <td class="question">Is customer data used for any purpose beyond delivering the contracted service, and can such uses be disabled or contractually restricted?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
@@ -479,7 +441,56 @@
     </table>
   </div>
   <div class="frm-section">
-    <div class="frm-section-header"><h3>Logging, Monitoring and Session Control</h3></div>
+    <div class="frm-section-header"><h3>Encryption, Key Management and Secrets</h3></div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:6%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">EK-01</td>
+          <td class="question">Is customer data encrypted in transit using current TLS standards or equivalent secure protocols?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">EK-02</td>
+          <td class="question">Is customer data encrypted at rest for databases, file storage, backups, and logs where appropriate?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">EK-03</td>
+          <td class="question">Who manages encryption keys, and how are keys protected, rotated, and access-controlled?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">EK-04</td>
+          <td class="question">Are secrets, tokens, and credentials stored in a managed secrets solution rather than hard-coded or manually shared?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">EK-05</td>
+          <td class="question">Are certificates centrally managed and monitored for expiry or misconfiguration?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>Logging, Monitoring and Detection</h3></div>
     <table class="frm-table">
       <thead><tr>
         <th style="width:6%">Ref</th>
@@ -491,35 +502,35 @@
       <tbody>
         <tr>
           <td class="ref">LM-01</td>
-          <td class="question">Are remote support sessions, administrative logons, privileged commands, configuration changes, and support actions logged?</td>
+          <td class="question">Are authentication events, privileged actions, administrative changes, data exports, and security-relevant events logged?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">LM-02</td>
-          <td class="question">Can support actions be linked to an individual engineer, support case, or approved ticket?</td>
+          <td class="question">Are logs retained for a defined period, protected against tampering, and regularly reviewed?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">LM-03</td>
-          <td class="question">Are support tool logs retained for a defined period and protected from tampering or deletion?</td>
+          <td class="question">Do you operate centralised security monitoring, SIEM, or equivalent alerting for the service and supporting environment?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">LM-04</td>
-          <td class="question">Are privileged or remote access logs reviewed periodically for misuse, unauthorised activity, or anomalous behaviour?</td>
+          <td class="question">Is security monitoring performed 24x7 for critical services, either internally or through a third party?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">LM-05</td>
-          <td class="question">Are session recording, command logging, or equivalent enhanced controls used for high-risk administrative support where appropriate?</td>
+          <td class="question">Can customer administrators access audit logs relevant to their tenant or service instance?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
@@ -528,7 +539,7 @@
     </table>
   </div>
   <div class="frm-section">
-    <div class="frm-section-header"><h3>Vulnerability, Patching and Secure Support Tooling</h3></div>
+    <div class="frm-section-header"><h3>Vulnerability, Patch and Configuration Management</h3></div>
     <table class="frm-table">
       <thead><tr>
         <th style="width:6%">Ref</th>
@@ -540,35 +551,35 @@
       <tbody>
         <tr>
           <td class="ref">VP-01</td>
-          <td class="question">Do you maintain a vulnerability management process covering your support tooling, remote access platforms, engineer endpoints, and any software components provided to us?</td>
+          <td class="question">Do you perform routine internal and external vulnerability scanning for systems supporting the service?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">VP-02</td>
-          <td class="question">Are security updates and patches for the supported application communicated to customers in a timely manner, with risk and implementation guidance?</td>
+          <td class="question">Please state vulnerability remediation SLAs for critical, high, medium, and low findings.</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">VP-03</td>
-          <td class="question">If you provide application patches, hotfixes, scripts, or binaries, are they tested, version-controlled, and integrity-protected before release?</td>
+          <td class="question">Are operating systems, applications, cloud services, containers, and third-party libraries patched or remediated through a formal process?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">VP-04</td>
-          <td class="question">Are engineer workstations and support platforms protected by anti-malware, EDR, disk encryption, and secure configuration controls?</td>
+          <td class="question">Are configuration compliance checks or baseline reviews performed to identify drift from secure configurations?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">VP-05</td>
-          <td class="question">Do you conduct security testing of product updates, support tools, or scripts before customer deployment?</td>
+          <td class="question">Do you conduct independent penetration testing at least annually and after significant changes?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
@@ -577,7 +588,112 @@
     </table>
   </div>
   <div class="frm-section">
-    <div class="frm-section-header"><h3>Incident Response and Security Event Handling</h3></div>
+    <div class="frm-section-header"><h3>Secure Development and Application Security</h3></div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:6%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">SD-01</td>
+          <td class="question">Do you maintain a documented secure development lifecycle applicable to the service?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">SD-02</td>
+          <td class="question">Are code changes peer-reviewed before release to production?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">SD-03</td>
+          <td class="question">Do you use application security testing such as SAST, DAST, software composition analysis, or secrets scanning?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">SD-04</td>
+          <td class="question">Are developers trained in secure coding relevant to the languages and technologies used?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">SD-05</td>
+          <td class="question">Is production data prevented from use in non-production environments, or masked where use is necessary?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">SD-06</td>
+          <td class="question">Do you maintain an inventory of software components, dependencies, or SBOM-equivalent records for the service?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>SaaS Security, Hosting and Tenant Isolation</h3></div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:6%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">SS-01</td>
+          <td class="question">Is the service single-tenant, multi-tenant, or available in both models?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">SS-02</td>
+          <td class="question">How is logical separation between customers enforced and tested in the service?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">SS-03</td>
+          <td class="question">Please describe the hosting model, including cloud provider or data centre arrangements and regional resilience design.</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">SS-04</td>
+          <td class="question">What customer-facing security features are available, such as MFA, SSO, IP allow-listing, session controls, API security controls, or administrator role segregation?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">SS-05</td>
+          <td class="question">Can customer data be exported in a usable format on demand and at termination of service?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>Incident Response and Breach Management</h3></div>
     <table class="frm-table">
       <thead><tr>
         <th style="width:6%">Ref</th>
@@ -589,35 +705,35 @@
       <tbody>
         <tr>
           <td class="ref">IR-01</td>
-          <td class="question">Do you maintain a documented incident response process covering compromise of support accounts, engineer devices, remote support tooling, or customer-connected systems?</td>
+          <td class="question">Do you maintain a documented incident response plan covering cyber incidents, data breaches, and service-impacting events?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">IR-02</td>
-          <td class="question">What are your notification timelines if a security incident may affect our internally hosted application, data, or support connection to our environment?</td>
+          <td class="question">How are incidents classified, escalated, and communicated internally and to customers?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">IR-03</td>
-          <td class="question">Are support-related security incidents classified, investigated, and tracked through corrective actions to closure?</td>
+          <td class="question">What are your breach notification timelines and minimum notification content for affected customers?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">IR-04</td>
-          <td class="question">Are incident response processes tested periodically, for example tabletop or simulation exercises?</td>
+          <td class="question">Is the incident response process tested through tabletop, simulation, or live exercises at least annually?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">IR-05</td>
-          <td class="question">Do you maintain procedures for rapid suspension of engineer access if compromise or misuse is suspected?</td>
+          <td class="question">Are post-incident reviews performed and tracked through corrective actions to closure?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
@@ -626,7 +742,7 @@
     </table>
   </div>
   <div class="frm-section">
-    <div class="frm-section-header"><h3>Business Continuity and Support Resilience</h3></div>
+    <div class="frm-section-header"><h3>Business Continuity, Backup and Disaster Recovery</h3></div>
     <table class="frm-table">
       <thead><tr>
         <th style="width:6%">Ref</th>
@@ -638,35 +754,35 @@
       <tbody>
         <tr>
           <td class="ref">BC-01</td>
-          <td class="question">Do you maintain business continuity arrangements for your support service, including continuation of critical support during disruption?</td>
+          <td class="question">Do you maintain documented business continuity and disaster recovery plans for the service?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">BC-02</td>
-          <td class="question">Do you have resilience arrangements for ticketing, remote support tooling, support communications, and engineer availability?</td>
+          <td class="question">Please state recovery time objective and recovery point objective commitments relevant to the service.</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">BC-03</td>
-          <td class="question">Are there backup support arrangements if named engineers, key specialists, or regional teams are unavailable?</td>
+          <td class="question">Are backups performed, protected from unauthorised alteration or deletion, and tested for recovery?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">BC-04</td>
-          <td class="question">Are your support continuity arrangements tested or exercised periodically?</td>
+          <td class="question">When was the last disaster recovery or service restoration test, and what was the outcome?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">BC-05</td>
-          <td class="question">If your service includes recovery support, describe your role in restoration, rebuild, or post-incident recovery of the supported application.</td>
+          <td class="question">Please identify any significant single points of failure or material dependencies that could affect service resilience.</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
@@ -675,105 +791,7 @@
     </table>
   </div>
   <div class="frm-section">
-    <div class="frm-section-header"><h3>Subcontractors, Partners and Third-Party Support Chains</h3></div>
-    <table class="frm-table">
-      <thead><tr>
-        <th style="width:6%">Ref</th>
-        <th>Question</th>
-        <th style="width:18%">Supplier Response</th>
-        <th style="width:13%">Evidence Reference</th>
-        <th style="width:15%">Reviewer Notes</th>
-      </tr></thead>
-      <tbody>
-        <tr>
-          <td class="ref">TP-01</td>
-          <td class="question">Do you use subcontractors, partner engineers, offshore support teams, or third-party specialists to support our application?</td>
-          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
-        </tr>
-        <tr>
-          <td class="ref">TP-02</td>
-          <td class="question">If yes, identify who they are, what role they perform, and whether they may access our environment or data.</td>
-          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
-        </tr>
-        <tr>
-          <td class="ref">TP-03</td>
-          <td class="question">Are subcontractors and partners subject to equivalent security, confidentiality, access, and oversight requirements?</td>
-          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
-        </tr>
-        <tr>
-          <td class="ref">TP-04</td>
-          <td class="question">Will we be notified before changes are made to the support chain, named partner, or subcontracted support model?</td>
-          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
-        </tr>
-        <tr>
-          <td class="ref">TP-05</td>
-          <td class="question">Are offshore or cross-border support arrangements used, and if so from which countries may support access originate?</td>
-          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="frm-section">
-    <div class="frm-section-header"><h3>Privacy, Confidentiality and Legal Obligations</h3></div>
-    <table class="frm-table">
-      <thead><tr>
-        <th style="width:6%">Ref</th>
-        <th>Question</th>
-        <th style="width:18%">Supplier Response</th>
-        <th style="width:13%">Evidence Reference</th>
-        <th style="width:15%">Reviewer Notes</th>
-      </tr></thead>
-      <tbody>
-        <tr>
-          <td class="ref">PC-01</td>
-          <td class="question">Do you have confidentiality obligations and data handling requirements that apply to support of customer-hosted applications?</td>
-          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
-        </tr>
-        <tr>
-          <td class="ref">PC-02</td>
-          <td class="question">If personal data may be accessed during support, what privacy and legal safeguards apply to that access?</td>
-          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
-        </tr>
-        <tr>
-          <td class="ref">PC-03</td>
-          <td class="question">Are there restrictions preventing customer information being used for any purpose other than contracted support and maintenance?</td>
-          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
-        </tr>
-        <tr>
-          <td class="ref">PC-04</td>
-          <td class="question">Can you support audit, investigation, or evidence preservation requirements if a security issue affects the supported application?</td>
-          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
-        </tr>
-        <tr>
-          <td class="ref">PC-05</td>
-          <td class="question">Are contractual terms available covering security, confidentiality, breach notification, liability, and support access conditions?</td>
-          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
-          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="frm-section">
-    <div class="frm-section-header"><h3>Physical and On-Site Support Security</h3></div>
+    <div class="frm-section-header"><h3>Physical and Environmental Security</h3></div>
     <table class="frm-table">
       <thead><tr>
         <th style="width:6%">Ref</th>
@@ -785,28 +803,28 @@
       <tbody>
         <tr>
           <td class="ref">PH-01</td>
-          <td class="question">If on-site support is provided, are engineers required to comply with customer site security rules, escort requirements, and access restrictions?</td>
+          <td class="question">Are offices, data centres, and other facilities with relevant systems protected by appropriate physical access controls?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">PH-02</td>
-          <td class="question">Are removable media, portable devices, tools, and diagnostics equipment controlled during on-site support?</td>
+          <td class="question">Are visitor access, contractor access, and delivery access controlled and recorded where appropriate?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">PH-03</td>
-          <td class="question">Are supplier laptops or support devices used on customer premises securely configured and protected?</td>
+          <td class="question">Are environmental protections in place for facilities hosting critical systems, such as fire detection, suppression, power resilience, and temperature control?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
           <td class="ref">PH-04</td>
-          <td class="question">Are procedures in place to prevent unauthorised connection of devices to customer networks or systems during on-site activity?</td>
+          <td class="question">If colocation or cloud hosting is used, do you rely on third-party facility assurance and certification rather than directly managing physical controls?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
@@ -815,7 +833,7 @@
     </table>
   </div>
   <div class="frm-section">
-    <div class="frm-section-header"><h3>Exit, Access Removal and Contract End</h3></div>
+    <div class="frm-section-header"><h3>Third Parties, Sub-processors and Supply Chain</h3></div>
     <table class="frm-table">
       <thead><tr>
         <th style="width:6%">Ref</th>
@@ -826,29 +844,127 @@
       </tr></thead>
       <tbody>
         <tr>
-          <td class="ref">EX-01</td>
-          <td class="question">At contract end or service termination, how is all supplier access to customer systems, VPNs, jump hosts, support tools, and documentation removed?</td>
+          <td class="ref">TP-01</td>
+          <td class="question">Please provide a current list of sub-processors and material subcontractors relevant to the service, including the service each provides and processing location.</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">EX-02</td>
-          <td class="question">How are retained data, logs, extracts, tickets, or troubleshooting artefacts containing customer information securely deleted or archived?</td>
+          <td class="ref">TP-02</td>
+          <td class="question">Do you assess third-party suppliers for security, privacy, and resilience risk before engagement and periodically thereafter?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">EX-03</td>
-          <td class="question">Can you support orderly knowledge transfer, handover, or transition to another support provider if required?</td>
+          <td class="ref">TP-03</td>
+          <td class="question">Are contractual security and privacy requirements imposed on sub-processors and material subcontractors?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
         </tr>
         <tr>
-          <td class="ref">EX-04</td>
-          <td class="question">Are there contractual commitments covering access removal, confidentiality survival, and post-contract data handling?</td>
+          <td class="ref">TP-04</td>
+          <td class="question">How much notice will customers receive before the appointment or replacement of a sub-processor that may access customer data?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">TP-05</td>
+          <td class="question">Do you maintain contingency plans for failure or compromise of critical third-party dependencies?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>AI Use, Analytics and Emerging Technology</h3></div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:6%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">AI-01</td>
+          <td class="question">Does the service include AI, machine learning, automated decision support, or similar emerging technology features?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">AI-02</td>
+          <td class="question">Is customer data used to train shared, internal, or customer-specific models, and can this be disabled?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">AI-03</td>
+          <td class="question">Have privacy, security, and model risk assessments been completed for relevant AI-enabled features?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">AI-04</td>
+          <td class="question">What controls are in place to prevent data leakage, unauthorised retention, or inappropriate outputs from AI-enabled features?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>Contractual, Commercial and Exit Management</h3></div>
+    <table class="frm-table">
+      <thead><tr>
+        <th style="width:6%">Ref</th>
+        <th>Question</th>
+        <th style="width:18%">Supplier Response</th>
+        <th style="width:13%">Evidence Reference</th>
+        <th style="width:15%">Reviewer Notes</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="ref">CT-01</td>
+          <td class="question">Do contractual terms include minimum security, confidentiality, breach notification, audit, and data protection obligations relevant to the service?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">CT-02</td>
+          <td class="question">Do you maintain cyber insurance or equivalent financial coverage relevant to the services provided?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">CT-03</td>
+          <td class="question">Are customers entitled to receive updated assurance information or complete periodic reassessments during the contract term?</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">CT-04</td>
+          <td class="question">Please describe exit support, data return, data deletion, and transition assistance available at contract termination.</td>
+          <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
+          <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
+        </tr>
+        <tr>
+          <td class="ref">CT-05</td>
+          <td class="question">Will you notify customers of material changes to ownership, hosting model, sub-processors, security posture, or regulatory status that may affect risk?</td>
           <td style="width:18%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:13%;"><textarea class="frm-input" rows="2"></textarea></td>
           <td style="width:15%;"><textarea class="frm-input" rows="2"></textarea></td>
@@ -859,7 +975,7 @@
 
 
   <div class="decl-box">
-    <p><strong>Supplier Declaration:</strong> The supplier confirms that the responses provided are accurate to the best of its knowledge and that any material change affecting support access, security posture, partner support arrangements, or confidentiality obligations will be notified without undue delay.</p>
+    <p><strong>Supplier Declaration:</strong> The supplier confirms that the responses provided are accurate to the best of its knowledge and that any material change affecting security posture, data processing arrangements, sub-processors, hosting model, or relevant certifications will be notified without undue delay.</p>
     <table class="details-table">
       <tr><td>Authorised representative</td><td><input type="text" placeholder="Full name"></td></tr>
       <tr><td>Role title</td><td><input type="text" placeholder="Job title"></td></tr>
@@ -867,9 +983,9 @@
     </table>
   </div>
 
-  <div class="frm-nav"><a href="grc-frm-06.html">← GRC-FRM-06</a><a href="grc-frm-10.html">GRC-FRM-10 →</a></div>
+  <div class="frm-nav"><span></span><a href="grc-frm-08.html">GRC-FRM-08 →</a></div>
   <div class="kb-footer">
-    <span><span class="live-dot"></span>GRC-FRM-08 · 77 questions · Approved · Paulo Ferreira</span>
+    <span><span class="live-dot"></span>GRC-FRM-06 · 89 questions · Approved · Paulo Ferreira</span>
     <span><a href="grc-risk.html" style="color:var(--grc);text-decoration:none;">← Back to Risk</a></span>
   </div>
 </div>
