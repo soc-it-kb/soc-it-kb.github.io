@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-FRM-14: Incident Response Communication Templates — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-hero-ey { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-hero h1 { font-size:20px; font-weight:700; margin-bottom:6px; }
+  .grc-hero p  { font-size:14px; opacity:0.8; line-height:1.5; margin:0; }
+  .grc-hero-pills { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .grc-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.8rem 1.2rem; margin-bottom:1.25rem; }
+  .meta-item { font-size:13px; color:#666; display:flex; align-items:center; gap:5px; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .instr-box { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
+  .instr-box p { font-size:13px; color:#6b3f0a; margin:0 0 6px 0; line-height:1.6; }
+  .instr-box p:last-child { margin:0; }
+  .instr-box strong { color:#5a330a; }
+
+  /* TOC */
+  .toc-box { background:#fafafa; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
+  .toc-title { font-size:11px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+  .toc-list { display:grid; grid-template-columns:1fr 1fr; gap:4px 16px; font-size:13px; }
+  .toc-list a { color:#444; text-decoration:none; padding:2px 0; display:flex; align-items:baseline; gap:8px; }
+  .toc-list a:hover { color:var(--grc); }
+  .toc-list a span { color:var(--grc); font-weight:600; font-family:'SF Mono','Fira Code',monospace; font-size:12px; min-width:34px; }
+  @media(max-width:640px){ .toc-list{grid-template-columns:1fr;} }
+
+  /* Each template */
+  .tpl-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; overflow:hidden; margin-bottom:14px; }
+  .tpl-header { background:var(--grc-dark); color:#fff; padding:0.85rem 1.25rem; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  .tpl-header h3 { font-size:14px; font-weight:600; margin:0; }
+  .tpl-header .tpl-id { font-size:11px; font-family:'SF Mono','Fira Code',monospace; opacity:0.75; padding:2px 8px; border-radius:5px; background:rgba(255,255,255,0.1); }
+  .tpl-meta { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:0; border-bottom:0.5px solid #e8e8e4; }
+  .tpl-meta-cell { padding:0.7rem 1rem; border-right:0.5px solid #e8e8e4; }
+  .tpl-meta-cell:last-child { border-right:none; }
+  .tpl-meta-cell h5 { font-size:10px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px; }
+  .tpl-meta-cell p  { font-size:12px; color:#444; margin:0; line-height:1.5; }
+
+  .tpl-body { padding:1.1rem 1.4rem; }
+  .tpl-body h4 { font-size:13px; font-weight:600; color:var(--grc-dark); margin:12px 0 6px 0; }
+  .tpl-body h4:first-child { margin-top:0; }
+  .tpl-body p { font-size:13px; color:#444; line-height:1.6; margin:0 0 8px 0; }
+  .tpl-body p:last-child { margin-bottom:0; }
+  .tpl-draft { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:1rem 1.2rem; font-family:'Georgia','Times New Roman',serif; font-size:13px; color:#333; line-height:1.7; white-space:pre-wrap; }
+  .tpl-draft strong { color:var(--grc-dark); }
+  .tpl-placeholder { background:var(--grc-light); color:var(--grc-dark); padding:1px 6px; border-radius:4px; font-family:'SF Mono','Fira Code',monospace; font-size:12px; font-weight:600; }
+  .signoff-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .signoff-item { display:flex; align-items:flex-start; gap:10px; background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:8px; padding:0.55rem 0.85rem; font-size:12px; color:var(--grc-dark); line-height:1.55; }
+  .signoff-item::before { content:'✓'; color:var(--grc); font-weight:700; flex-shrink:0; }
+  .post-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .post-item { display:flex; align-items:flex-start; gap:10px; background:#FAEEDA; border:0.5px solid #FAC775; border-radius:8px; padding:0.55rem 0.85rem; font-size:12px; color:#6b3f0a; line-height:1.55; }
+  .post-item::before { content:'→'; color:#854F0B; font-weight:700; flex-shrink:0; }
+
+  /* After-action report */
+  .aar-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; overflow:hidden; margin-bottom:14px; }
+  .aar-header { background:var(--grc-dark); color:#fff; padding:0.85rem 1.25rem; }
+  .aar-header h3 { font-size:14px; font-weight:600; margin:0; }
+  .aar-body { padding:1.1rem 1.4rem; }
+  .aar-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .aar-table td { padding:8px 12px; border:0.5px solid #e8e8e4; vertical-align:top; }
+  .aar-table td:first-child { font-weight:600; color:var(--grc-dark); background:var(--grc-light); width:30%; }
+  .aar-table tr:nth-child(even) td:first-child { background:#d8efef; }
+  .aar-table td:last-child { font-style:italic; color:#888; font-size:12px; line-height:1.5; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .frm-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .frm-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+  @media print { .kb-topnav,.breadcrumb,.frm-nav,.kb-footer{display:none;} .tpl-draft{border:0.5pt solid #ccc;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="grc.html">GRC Hub</a><span>›</span>
+    <span>Plans</span><span>›</span>
+    <span>GRC-FRM-14</span>
+  </div>
+
+  <div class="grc-hero">
+    <div class="grc-hero-ey">GRC · Form · Communication Templates</div>
+    <h1>GRC-FRM-14: Incident Response Communication Templates</h1>
+    <p>Approved templates for internal and external communications during cyber incident response. Each template specifies its audience, when to use it, the sign-off chain, draft text, and post-send actions. Use as starting points — never send without sign-off from CISO, Legal, and Privacy.</p>
+    <div class="grc-hero-pills">
+      <span class="grc-hero-pill">Communication templates</span>
+      <span class="grc-hero-pill">8 templates + AAR</span>
+      <span class="grc-hero-pill">GRC-IRP-01 derived</span>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">📋 <strong>Form ID:</strong> GRC-FRM-14</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔗 <strong>Master plan:</strong> <a href="grc-irp-01.html" style="color:var(--grc);">GRC-IRP-01</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📊 <strong>Annex:</strong> <a href="grc-irp-annex-template.html" style="color:var(--grc);">GRC-IRP-ANNEX-TEMPLATE</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-approved">Approved</span></div>
+  </div>
+
+  <div class="instr-box">
+    <p>📌 <strong>How to use these templates.</strong> Each template is a draft starting point — not a finished message. Before any communication is sent: (1) replace all <span class="tpl-placeholder">[bracketed placeholders]</span> with verified facts; (2) confirm draft accuracy against the incident journal; (3) obtain the sign-offs listed for that template; (4) send through the channel the template specifies; (5) record the send in the incident journal.</p>
+    <p><strong>Universal rule (per GRC-IRP-01 §13):</strong> No external communication is sent without CISO, Legal, and Privacy/DPO sign-off. CEO approves for Sev 1. PR holds the pen for external statements.</p>
+    <p><strong>Holding statements:</strong> Where facts are still being established, use the holding-statement template (T7) rather than speculate.</p>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc-box">
+    <div class="toc-title">Templates in this pack</div>
+    <div class="toc-list">
+      <a href="#t1"><span>T1</span> Internal staff notification (Sev 3 / 2 / 1 variants)</a>
+      <a href="#t2"><span>T2</span> Executive briefing (during active Sev 1/2)</a>
+      <a href="#t3"><span>T3</span> Risk Committee / Board notification</a>
+      <a href="#t4"><span>T4</span> Regulator notification (GDPR-pattern, 72h)</a>
+      <a href="#t5"><span>T5</span> Customer / beneficiary breach notification</a>
+      <a href="#t6"><span>T6</span> Supplier / partner notification</a>
+      <a href="#t7"><span>T7</span> Public statement &amp; holding statement</a>
+      <a href="#t8"><span>T8</span> Incident closure ("all clear") notification</a>
+      <a href="#aar"><span>AAR</span> After-action report (post-incident)</a>
+    </div>
+  </div>
+
+  <!-- ====== T1 ====== -->
+  <div class="tpl-section" id="t1">
+    <div class="tpl-header"><h3>T1 — Internal Staff Notification</h3><span class="tpl-id">GRC-FRM-14.T1</span></div>
+    <div class="tpl-meta">
+      <div class="tpl-meta-cell"><h5>Audience</h5><p>All staff, contractors, volunteers in affected operating unit(s)</p></div>
+      <div class="tpl-meta-cell"><h5>When to use</h5><p>Sev 3 with broad service impact; all Sev 1/2; whenever staff need to act or refrain from action</p></div>
+      <div class="tpl-meta-cell"><h5>Channel</h5><p>HR-controlled mass-mail + intranet banner; for Sev 1, also town-hall by senior leader</p></div>
+      <div class="tpl-meta-cell"><h5>Frequency</h5><p>Initial within 4h of incident becoming staff-visible; updates at agreed cadence; closure at end</p></div>
+    </div>
+    <div class="tpl-body">
+      <h4>Sign-off required</h4>
+      <div class="signoff-list">
+        <div class="signoff-item">CISO confirms factual accuracy</div>
+        <div class="signoff-item">Legal reviews wording (privilege, regulatory exposure)</div>
+        <div class="signoff-item">Privacy/DPO reviews data-subject implications</div>
+        <div class="signoff-item">HR signs off on tone, distribution list, accessibility</div>
+        <div class="signoff-item">Sev 1: CEO/Agency Lead approves before send</div>
+      </div>
+
+      <h4>Draft — Sev 3 (short)</h4>
+      <div class="tpl-draft">Subject: <strong>Service issue affecting <span class="tpl-placeholder">[service]</span> — what to do</strong>
+
+Dear colleagues,
+
+We are responding to a service issue affecting <span class="tpl-placeholder">[service / system]</span> that started at approximately <span class="tpl-placeholder">[time, timezone]</span> on <span class="tpl-placeholder">[date]</span>. Our Cyber Security Operations team is investigating.
+
+<strong>What to do right now:</strong>
+• <span class="tpl-placeholder">[specific action — e.g. avoid using X / use the manual fallback in Y / report any unusual emails to phishing@…]</span>
+• Continue with normal duties otherwise.
+
+We will update you by <span class="tpl-placeholder">[time]</span>.
+
+If you have any concerns, contact <span class="tpl-placeholder">[helpdesk / SOC channel]</span>.
+
+<span class="tpl-placeholder">[Sender — typically Head of IT or Comms lead]</span></div>
+
+      <h4>Draft — Sev 2 (standard)</h4>
+      <div class="tpl-draft">Subject: <strong>Important — cyber security incident affecting <span class="tpl-placeholder">[service / area]</span></strong>
+
+Dear colleagues,
+
+We are responding to a cyber security incident that has affected <span class="tpl-placeholder">[service / area]</span> since <span class="tpl-placeholder">[time, date]</span>. We are taking it seriously and our specialist teams are responding under our incident response plan.
+
+<strong>What we know:</strong>
+<span class="tpl-placeholder">[2–4 sentences of confirmed facts only — no speculation]</span>
+
+<strong>What we are doing:</strong>
+<span class="tpl-placeholder">[Containment / investigation / restoration steps in plain language]</span>
+
+<strong>What we ask of you:</strong>
+• <span class="tpl-placeholder">[Specific actions]</span>
+• Do not share information about this incident outside the organisation, including on social media.
+• Forward any media enquiries to <span class="tpl-placeholder">[PR contact]</span>.
+• Report any suspicious activity to <span class="tpl-placeholder">[SOC contact]</span>.
+
+We will provide our next update by <span class="tpl-placeholder">[time]</span>.
+
+Your cooperation matters. Thank you.
+
+<span class="tpl-placeholder">[Sender — typically CISO or CIO]</span></div>
+
+      <h4>Draft — Sev 1 (extended)</h4>
+      <div class="tpl-draft">Subject: <strong>Cyber security incident — message from <span class="tpl-placeholder">[CEO / Agency Lead]</span></strong>
+
+Dear colleagues,
+
+I am writing to inform you that we are responding to a serious cyber security incident affecting <span class="tpl-placeholder">[scope]</span>. The incident was identified on <span class="tpl-placeholder">[date]</span> and our specialist teams are responding alongside external experts under our incident response plan.
+
+<strong>What we know:</strong>
+<span class="tpl-placeholder">[Confirmed facts only — services affected, time period, what we know about the cause if we know it; otherwise say "the cause is being investigated"]</span>
+
+<strong>Has any of our information been affected?</strong>
+<span class="tpl-placeholder">[Honest current state: "we do not yet know" / "we have no evidence of data exposure" / "we have evidence that some data has been affected and are working to understand the extent"]</span>
+
+<strong>What we are doing:</strong>
+• Specialist incident response teams have been engaged and are working alongside our internal teams.
+• The relevant authorities <span class="tpl-placeholder">[have been / are being]</span> informed in line with our legal obligations.
+• <span class="tpl-placeholder">[Any service-restoration commitments — e.g. "we expect [service] to be restored by [time]; in the meantime, please use [alternative]"]</span>
+• External communications about this incident are being handled centrally — please direct any media enquiry to <span class="tpl-placeholder">[PR contact]</span>.
+
+<strong>What we ask of you:</strong>
+• Continue with your work as normal where possible.
+• Do not discuss this incident outside the organisation or on social media.
+• Be alert for phishing or impersonation attempts referencing this incident.
+• Report anything suspicious to <span class="tpl-placeholder">[SOC contact]</span>.
+
+I know this is unsettling. We have prepared for this and are responding professionally. I will write again by <span class="tpl-placeholder">[time]</span>, and at every significant development. <span class="tpl-placeholder">[CISO / spokesperson]</span> will be available at <span class="tpl-placeholder">[time]</span> to answer questions.
+
+Thank you.
+
+<span class="tpl-placeholder">[CEO / Agency Lead]</span></div>
+
+      <h4>Post-send actions</h4>
+      <div class="post-list">
+        <div class="post-item">Record send time, channel, audience, and approver in the incident journal</div>
+        <div class="post-item">Monitor staff queries through the helpdesk; capture FAQs for the next update</div>
+        <div class="post-item">Schedule the next update before this one is sent</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== T2 ====== -->
+  <div class="tpl-section" id="t2">
+    <div class="tpl-header"><h3>T2 — Executive Briefing (active Sev 1/2)</h3><span class="tpl-id">GRC-FRM-14.T2</span></div>
+    <div class="tpl-meta">
+      <div class="tpl-meta-cell"><h5>Audience</h5><p>CEO, CIO, CFO, COO, General Counsel, Head of HR, Head of PR</p></div>
+      <div class="tpl-meta-cell"><h5>When to use</h5><p>Every Sev 1; every Sev 2 with material exposure; cadence agreed at incident start</p></div>
+      <div class="tpl-meta-cell"><h5>Channel</h5><p>Secure email or controlled bridge; never general mail</p></div>
+      <div class="tpl-meta-cell"><h5>Frequency</h5><p>Sev 1: every 4–8 hours. Sev 2: twice daily. Plus on material change.</p></div>
+    </div>
+    <div class="tpl-body">
+      <h4>Sign-off required</h4>
+      <div class="signoff-list">
+        <div class="signoff-item">CISO is the named author of every executive briefing</div>
+        <div class="signoff-item">Legal reviews if briefing touches on liability, regulator status, or ransom</div>
+      </div>
+
+      <h4>Draft</h4>
+      <div class="tpl-draft">Subject: <strong>EXEC BRIEF — Incident <span class="tpl-placeholder">[ID]</span> — <span class="tpl-placeholder">[time, date]</span></strong>
+
+<strong>Severity:</strong> <span class="tpl-placeholder">[Sev N — descriptor]</span>
+<strong>Status:</strong> <span class="tpl-placeholder">[Active / Contained / Recovering / Closed]</span>
+<strong>Phase:</strong> <span class="tpl-placeholder">[Detect / Contain / Eradicate / Recover / Report]</span>
+<strong>Incident Commander:</strong> <span class="tpl-placeholder">[Name]</span>
+
+<strong>Headline:</strong>
+<span class="tpl-placeholder">[One sentence that, on its own, conveys the situation]</span>
+
+<strong>What we know:</strong>
+• <span class="tpl-placeholder">[Confirmed facts: scope, affected systems, affected data]</span>
+• <span class="tpl-placeholder">[Current containment status]</span>
+• <span class="tpl-placeholder">[Initial assessment of cause if known]</span>
+
+<strong>What we don't yet know:</strong>
+• <span class="tpl-placeholder">[Open questions being investigated]</span>
+
+<strong>Decisions taken since last brief:</strong>
+• <span class="tpl-placeholder">[Each decision with time and decision-maker]</span>
+
+<strong>Decisions needed from this group:</strong>
+• <span class="tpl-placeholder">[Pending decisions — ransom posture, public statement, regulator engagement, etc.]</span>
+
+<strong>Regulator / insurer status:</strong>
+• Privacy authority: <span class="tpl-placeholder">[notified / not yet / not required, with rationale]</span>
+• Sector regulator: <span class="tpl-placeholder">[status]</span>
+• Cyber insurer: <span class="tpl-placeholder">[notified at time / not yet]</span>
+
+<strong>External engagement:</strong>
+• MDR / IR retainer: <span class="tpl-placeholder">[engaged / on standby]</span>
+• External counsel: <span class="tpl-placeholder">[engaged / on standby]</span>
+• Law enforcement: <span class="tpl-placeholder">[engaged / under consideration / no]</span>
+
+<strong>Communications status:</strong>
+• Internal: <span class="tpl-placeholder">[last comm sent at time; next at time]</span>
+• External: <span class="tpl-placeholder">[holding statement issued / customer notification drafted / no external comm]</span>
+
+<strong>Next update:</strong> <span class="tpl-placeholder">[time]</span>
+<strong>Bridge / war-room:</strong> <span class="tpl-placeholder">[link / room]</span>
+
+<span class="tpl-placeholder">[CISO]</span></div>
+
+      <h4>Post-send actions</h4>
+      <div class="post-list">
+        <div class="post-item">File brief in the incident journal as a numbered version</div>
+        <div class="post-item">Confirm receipt and any decisions back into the journal as decision records</div>
+        <div class="post-item">Schedule next brief before this one is sent</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== T3 ====== -->
+  <div class="tpl-section" id="t3">
+    <div class="tpl-header"><h3>T3 — Risk Committee / Board Notification</h3><span class="tpl-id">GRC-FRM-14.T3</span></div>
+    <div class="tpl-meta">
+      <div class="tpl-meta-cell"><h5>Audience</h5><p>Risk Committee Chair (Sev 1: also Board Chair)</p></div>
+      <div class="tpl-meta-cell"><h5>When to use</h5><p>Sev 1: within 1h of declaration. Sev 2: within 4h. Material updates thereafter.</p></div>
+      <div class="tpl-meta-cell"><h5>Channel</h5><p>Direct call followed by written summary</p></div>
+      <div class="tpl-meta-cell"><h5>Format</h5><p>Brief, factual, governance-framed; not technical</p></div>
+    </div>
+    <div class="tpl-body">
+      <h4>Sign-off required</h4>
+      <div class="signoff-list">
+        <div class="signoff-item">CISO is the named sender</div>
+        <div class="signoff-item">Legal informed of the brief content</div>
+      </div>
+
+      <h4>Draft</h4>
+      <div class="tpl-draft">Subject: <strong>Notification — Cyber Security Incident <span class="tpl-placeholder">[ID]</span></strong>
+
+Dear <span class="tpl-placeholder">[Chair name]</span>,
+
+I am notifying you under GRC-IRP-01 §8 of an active <span class="tpl-placeholder">[Sev 1 / Sev 2]</span> cyber security incident.
+
+<strong>Summary:</strong> <span class="tpl-placeholder">[One paragraph in plain English]</span>
+
+<strong>Risk register cross-reference:</strong> <span class="tpl-placeholder">[RISK-NNN if the incident materialises a known risk; "new — to be added on closure" if not]</span>
+
+<strong>Material implications under consideration:</strong>
+• Regulatory: <span class="tpl-placeholder">[notification status]</span>
+• Financial: <span class="tpl-placeholder">[initial estimate or "being assessed"]</span>
+• Reputational: <span class="tpl-placeholder">[external visibility status]</span>
+• Operational: <span class="tpl-placeholder">[service-impact status]</span>
+
+<strong>Response posture:</strong>
+• Incident Commander: <span class="tpl-placeholder">[CISO / Deputy CISO]</span>
+• External support engaged: <span class="tpl-placeholder">[IR retainer / counsel / insurer]</span>
+• Executive engagement: <span class="tpl-placeholder">[CEO / GM brief at time]</span>
+
+<strong>Decisions reserved to the Committee:</strong>
+<span class="tpl-placeholder">[Any decisions that require Risk Committee endorsement — material acceptance, ransom posture, public statement]</span>
+
+<strong>Next update:</strong> <span class="tpl-placeholder">[Daily for Sev 1; on material change for Sev 2]</span>
+
+I am available at <span class="tpl-placeholder">[24/7 contact]</span>. The full incident bridge is at <span class="tpl-placeholder">[bridge details]</span> if you wish to join.
+
+<span class="tpl-placeholder">[CISO]</span></div>
+
+      <h4>Post-send actions</h4>
+      <div class="post-list">
+        <div class="post-item">Record receipt and any committee direction in the incident journal</div>
+        <div class="post-item">Schedule a formal Risk Committee briefing within 30 days of incident closure</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== T4 ====== -->
+  <div class="tpl-section" id="t4">
+    <div class="tpl-header"><h3>T4 — Regulator Notification (GDPR-pattern, 72h)</h3><span class="tpl-id">GRC-FRM-14.T4</span></div>
+    <div class="tpl-meta">
+      <div class="tpl-meta-cell"><h5>Audience</h5><p>Data Protection Authority (per local annex §6) and any sector regulators</p></div>
+      <div class="tpl-meta-cell"><h5>When to use</h5><p>Confirmed or reasonably suspected notifiable breach (per GRC-IRP-01 §9.2)</p></div>
+      <div class="tpl-meta-cell"><h5>Channel &amp; timing</h5><p>Authority's prescribed portal/method per local annex; within 72h of awareness for GDPR; per local annex for others</p></div>
+      <div class="tpl-meta-cell"><h5>Format</h5><p>Authority-mandated form where one exists; otherwise this template</p></div>
+    </div>
+    <div class="tpl-body">
+      <h4>Sign-off required</h4>
+      <div class="signoff-list">
+        <div class="signoff-item">Privacy / DPO drafts and signs</div>
+        <div class="signoff-item">Legal reviews</div>
+        <div class="signoff-item">CISO confirms factual content</div>
+        <div class="signoff-item">CEO informed before submission for Sev 1</div>
+      </div>
+
+      <h4>Draft</h4>
+      <div class="tpl-draft">To: <span class="tpl-placeholder">[Authority name]</span> — <span class="tpl-placeholder">[Notification portal / address]</span>
+From: <span class="tpl-placeholder">[Organisation legal name and registration]</span>
+Reference: <span class="tpl-placeholder">[Internal incident ID]</span>
+Date of awareness: <span class="tpl-placeholder">[Date and time the organisation became aware]</span>
+
+<strong>Personal Data Breach Notification</strong>
+
+This notification is made under <span class="tpl-placeholder">[Article 33 GDPR / equivalent local provision]</span>.
+
+<strong>1. Nature of the breach</strong>
+<span class="tpl-placeholder">[Type of breach — confidentiality, integrity, availability — and a factual description of what occurred]</span>
+
+<strong>2. Categories and approximate number of data subjects affected</strong>
+<span class="tpl-placeholder">[Categories — staff, customers, beneficiaries, etc. — and approximate count, with explanation if a precise figure is not yet known]</span>
+
+<strong>3. Categories and approximate number of personal data records affected</strong>
+<span class="tpl-placeholder">[Types of personal data — names, contact details, financial, special category data, etc. — and approximate volume]</span>
+
+<strong>4. Likely consequences for data subjects</strong>
+<span class="tpl-placeholder">[Risk assessment — financial loss, identity theft, distress, reputational damage, etc.]</span>
+
+<strong>5. Measures taken or proposed to address the breach and mitigate adverse effects</strong>
+<span class="tpl-placeholder">[Containment measures, eradication actions, monitoring, support to affected individuals]</span>
+
+<strong>6. DPO / contact for further information</strong>
+Name: <span class="tpl-placeholder">[Name]</span>
+Role: <span class="tpl-placeholder">[Title]</span>
+Phone: <span class="tpl-placeholder">[Number]</span>
+Email: <span class="tpl-placeholder">[Email]</span>
+
+<strong>7. Where information is incomplete</strong>
+This notification is provided within the 72-hour period required by Article 33. The investigation is ongoing. We will provide further information as it becomes available, no later than <span class="tpl-placeholder">[expected date]</span>.
+
+Submitted on behalf of <span class="tpl-placeholder">[Organisation]</span> by:
+<span class="tpl-placeholder">[DPO name and signature]</span>
+<span class="tpl-placeholder">[Date]</span></div>
+
+      <h4>Post-send actions</h4>
+      <div class="post-list">
+        <div class="post-item">Capture the authority's acknowledgement and reference number in the incident journal</div>
+        <div class="post-item">Schedule the follow-up update before any deadline imposed by the authority</div>
+        <div class="post-item">For NIS2 and other sector regimes, file separate notifications per local annex §7 with their respective timelines</div>
+        <div class="post-item">Record the notification in the breach register</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== T5 ====== -->
+  <div class="tpl-section" id="t5">
+    <div class="tpl-header"><h3>T5 — Customer / Beneficiary Breach Notification</h3><span class="tpl-id">GRC-FRM-14.T5</span></div>
+    <div class="tpl-meta">
+      <div class="tpl-meta-cell"><h5>Audience</h5><p>Affected individuals (customers, beneficiaries, partners)</p></div>
+      <div class="tpl-meta-cell"><h5>When to use</h5><p>Where breach is likely to result in high risk to data subjects' rights and freedoms (GDPR Art. 34) or where contractual / sector obligation requires</p></div>
+      <div class="tpl-meta-cell"><h5>Channel</h5><p>Individual letter / email; for very large breaches: public communication permitted under GDPR Art. 34(3)(c) where individual notification would be disproportionate</p></div>
+      <div class="tpl-meta-cell"><h5>Language</h5><p>Required language(s) per local annex §13</p></div>
+    </div>
+    <div class="tpl-body">
+      <h4>Sign-off required</h4>
+      <div class="signoff-list">
+        <div class="signoff-item">Privacy/DPO drafts</div>
+        <div class="signoff-item">Legal reviews</div>
+        <div class="signoff-item">CISO confirms facts</div>
+        <div class="signoff-item">PR reviews tone and accessibility</div>
+        <div class="signoff-item">CEO/Agency Lead approves for material breaches</div>
+      </div>
+
+      <h4>Draft</h4>
+      <div class="tpl-draft">Subject: <strong>Important — information security incident affecting your data</strong>
+
+Dear <span class="tpl-placeholder">[name]</span>,
+
+I am writing to let you know about an information security incident that may have affected information you have entrusted to us.
+
+<strong>What happened</strong>
+On <span class="tpl-placeholder">[date]</span>, we identified <span class="tpl-placeholder">[plain-language description]</span>. We responded immediately and have taken steps to contain the incident.
+
+<strong>What information was involved</strong>
+The incident may have affected the following information about you:
+• <span class="tpl-placeholder">[Specific data categories — be precise but plain]</span>
+
+We have <strong>no evidence</strong> that the following information was involved: <span class="tpl-placeholder">[any reassuring exclusions if true — passwords, payment cards, etc.]</span>.
+
+<strong>What we are doing</strong>
+• <span class="tpl-placeholder">[Containment / investigation / external support]</span>
+• We have notified <span class="tpl-placeholder">[relevant data protection authority]</span>.
+• We are <span class="tpl-placeholder">[providing X support — e.g. credit monitoring, password resets]</span> to affected individuals.
+
+<strong>What you can do</strong>
+• <span class="tpl-placeholder">[Specific recommended actions — change password, watch for unusual activity, etc.]</span>
+• Be alert for unsolicited contact referencing this incident: we will not ask you for passwords, financial details, or credentials by phone or email.
+• If you have concerns, contact us at <span class="tpl-placeholder">[dedicated contact]</span> — we have set up a dedicated channel for this incident.
+
+I am sorry that this has happened. We take the security of your information seriously and we are working hard to make sure it does not happen again. We will write to you again if there is significant new information.
+
+Yours sincerely,
+
+<span class="tpl-placeholder">[Senior leader — CEO or DPO]</span>
+<span class="tpl-placeholder">[Organisation]</span>
+
+<em>For more information about your rights regarding your personal data, you may contact our Data Protection Officer at <span class="tpl-placeholder">[DPO contact]</span>, or your local data protection authority.</em></div>
+
+      <h4>Post-send actions</h4>
+      <div class="post-list">
+        <div class="post-item">Stand up a dedicated helpline / mailbox before sending — anticipate volume</div>
+        <div class="post-item">Brief frontline staff on FAQs and approved answers</div>
+        <div class="post-item">Track responses (acknowledgements, complaints, escalations) for trend analysis</div>
+        <div class="post-item">Record the notification in the breach register and incident journal</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== T6 ====== -->
+  <div class="tpl-section" id="t6">
+    <div class="tpl-header"><h3>T6 — Supplier / Partner Notification</h3><span class="tpl-id">GRC-FRM-14.T6</span></div>
+    <div class="tpl-meta">
+      <div class="tpl-meta-cell"><h5>Audience</h5><p>Suppliers, partners, or sub-processors whose data, systems, or services are or may be affected</p></div>
+      <div class="tpl-meta-cell"><h5>When to use</h5><p>Where our incident has affected a counterparty, or a counterparty needs to take protective action</p></div>
+      <div class="tpl-meta-cell"><h5>Channel</h5><p>Account-relationship channel; copy in their security contact if known</p></div>
+      <div class="tpl-meta-cell"><h5>Note</h5><p>For suppliers under contract, contractual notification clauses take precedence over this template</p></div>
+    </div>
+    <div class="tpl-body">
+      <h4>Sign-off required</h4>
+      <div class="signoff-list">
+        <div class="signoff-item">CISO confirms facts</div>
+        <div class="signoff-item">Legal reviews contractual obligations</div>
+        <div class="signoff-item">Account/relationship owner sends</div>
+      </div>
+
+      <h4>Draft</h4>
+      <div class="tpl-draft">Subject: <strong>Notification of cyber security incident — action recommended</strong>
+
+Dear <span class="tpl-placeholder">[contact]</span>,
+
+We are writing to notify you of a cyber security incident at <span class="tpl-placeholder">[Organisation]</span> that affects, or may affect, our relationship with <span class="tpl-placeholder">[Their Organisation]</span>.
+
+<strong>What happened</strong>
+<span class="tpl-placeholder">[Plain-language summary, sized to what they need to act on]</span>
+
+<strong>How this may affect you</strong>
+<span class="tpl-placeholder">[Specific to their relationship: data they sent us, data they receive from us, shared system access, etc.]</span>
+
+<strong>What we recommend</strong>
+• <span class="tpl-placeholder">[Concrete recommended actions — rotate credentials, treat correspondence with caution, review specific records, etc.]</span>
+
+<strong>What we are doing</strong>
+<span class="tpl-placeholder">[Brief — containment, investigation, regulator status]</span>
+
+<strong>Single point of contact</strong>
+For questions about this incident, please contact <span class="tpl-placeholder">[named lead]</span> at <span class="tpl-placeholder">[contact]</span>. We have established this single channel to ensure consistent and accurate information.
+
+We will provide a further update by <span class="tpl-placeholder">[date]</span>, and earlier if there is material new information.
+
+Thank you for your understanding.
+
+<span class="tpl-placeholder">[Senior account owner — CISO or designate]</span></div>
+
+      <h4>Post-send actions</h4>
+      <div class="post-list">
+        <div class="post-item">Track which suppliers/partners have been notified and their acknowledgements</div>
+        <div class="post-item">Anticipate reciprocal notifications from them where the relationship is mutual</div>
+        <div class="post-item">Capture their responses for the after-action report</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== T7 ====== -->
+  <div class="tpl-section" id="t7">
+    <div class="tpl-header"><h3>T7 — Public Statement &amp; Holding Statement</h3><span class="tpl-id">GRC-FRM-14.T7</span></div>
+    <div class="tpl-meta">
+      <div class="tpl-meta-cell"><h5>Audience</h5><p>Media, public, social-media followers</p></div>
+      <div class="tpl-meta-cell"><h5>When to use</h5><p>Public-facing service disruption; media enquiry; social-media exposure; regulatory or contractual public-disclosure obligation</p></div>
+      <div class="tpl-meta-cell"><h5>Channel</h5><p>Newsroom / press release; website banner; verified social channels</p></div>
+      <div class="tpl-meta-cell"><h5>Spokesperson</h5><p>Per local annex §12 — never an unbriefed spokesperson</p></div>
+    </div>
+    <div class="tpl-body">
+      <h4>Sign-off required</h4>
+      <div class="signoff-list">
+        <div class="signoff-item">PR drafts</div>
+        <div class="signoff-item">Legal reviews — every word</div>
+        <div class="signoff-item">Privacy/DPO reviews any reference to data</div>
+        <div class="signoff-item">CISO confirms factual accuracy</div>
+        <div class="signoff-item">CEO/Agency Lead approves before release for Sev 1</div>
+      </div>
+
+      <h4>Draft — Holding statement (use first, when facts are still being established)</h4>
+      <div class="tpl-draft"><strong><span class="tpl-placeholder">[Organisation]</span> — Statement on <span class="tpl-placeholder">[date]</span></strong>
+
+We are aware of a cyber security incident affecting <span class="tpl-placeholder">[service / area]</span>. We are taking it seriously and are responding under our incident response plan, supported by external specialists.
+
+We will share more information as soon as we are able to do so accurately.
+
+In the meantime, <span class="tpl-placeholder">[any specific public guidance — e.g. "customers should use our backup channel at X" / "no action is required from the public" / "we ask the public to be alert for impersonation attempts"]</span>.
+
+Media enquiries: <span class="tpl-placeholder">[PR contact]</span></div>
+
+      <h4>Draft — Substantive public statement (once facts are confirmed)</h4>
+      <div class="tpl-draft"><strong><span class="tpl-placeholder">[Organisation]</span> — Statement on cyber security incident</strong>
+
+On <span class="tpl-placeholder">[date]</span>, <span class="tpl-placeholder">[Organisation]</span> identified a cyber security incident affecting <span class="tpl-placeholder">[scope]</span>.
+
+<strong>What we know</strong>
+<span class="tpl-placeholder">[Confirmed facts only — no speculation about cause or attribution unless cleared]</span>
+
+<strong>What we are doing</strong>
+We responded immediately. <span class="tpl-placeholder">[Containment / investigation / restoration]</span>. We are working with external cyber security specialists and have notified <span class="tpl-placeholder">[relevant authorities, where confirmed]</span>.
+
+<strong>What this means for those affected</strong>
+<span class="tpl-placeholder">[Specific to audience — customers, beneficiaries, partners. If individual notifications are being sent, say so.]</span>
+
+<strong>What we ask</strong>
+<span class="tpl-placeholder">[Be alert to phishing/impersonation; specific actions]</span>
+
+We are sorry for any concern this incident causes and we are working hard to resolve it. We will update this statement as significant new information becomes available.
+
+Media enquiries: <span class="tpl-placeholder">[PR contact]</span>
+Customer enquiries: <span class="tpl-placeholder">[dedicated channel]</span>
+
+<span class="tpl-placeholder">[Date and time of statement; version number]</span></div>
+
+      <h4>Post-send actions</h4>
+      <div class="post-list">
+        <div class="post-item">Brief the social-media team and the helpdesk before publication</div>
+        <div class="post-item">Monitor coverage and reaction; agree the trigger for the next update</div>
+        <div class="post-item">Update the statement at every material change — version every revision</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== T8 ====== -->
+  <div class="tpl-section" id="t8">
+    <div class="tpl-header"><h3>T8 — Incident Closure ("All Clear") Notification</h3><span class="tpl-id">GRC-FRM-14.T8</span></div>
+    <div class="tpl-meta">
+      <div class="tpl-meta-cell"><h5>Audience</h5><p>Same audiences previously notified — staff, executives, regulators, customers, suppliers, public as applicable</p></div>
+      <div class="tpl-meta-cell"><h5>When to use</h5><p>Once Recover phase is complete and the IC formally closes the response phase</p></div>
+      <div class="tpl-meta-cell"><h5>Channel</h5><p>Same channels used during the response — match each prior recipient</p></div>
+      <div class="tpl-meta-cell"><h5>Note</h5><p>Closing the response phase is not the same as closing the incident — the Report &amp; Remediate phases continue; closure communication acknowledges that</p></div>
+    </div>
+    <div class="tpl-body">
+      <h4>Sign-off required</h4>
+      <div class="signoff-list">
+        <div class="signoff-item">CISO authorises closure</div>
+        <div class="signoff-item">Same sign-off chain as the original notification for each audience</div>
+      </div>
+
+      <h4>Draft — Internal staff "all clear"</h4>
+      <div class="tpl-draft">Subject: <strong>Update — incident affecting <span class="tpl-placeholder">[service / area]</span>: services restored</strong>
+
+Dear colleagues,
+
+I am pleased to confirm that the incident I wrote to you about on <span class="tpl-placeholder">[date]</span> has been contained and the affected services have been restored as of <span class="tpl-placeholder">[time, date]</span>.
+
+<strong>What happened — final summary</strong>
+<span class="tpl-placeholder">[Plain-language, factual summary now that facts are settled. Avoid the temptation to over-share investigative detail — be useful, not exhaustive.]</span>
+
+<strong>What we have done</strong>
+<span class="tpl-placeholder">[Concrete remediation completed; any residual restrictions; what we expect to be different]</span>
+
+<strong>What we are still doing</strong>
+The response phase is closed; the formal post-incident review is underway. Lessons learned will be acted on through the normal cyber improvement programme. <span class="tpl-placeholder">[Risk Committee briefing scheduled]</span>.
+
+<strong>Thank you</strong>
+<span class="tpl-placeholder">[Brief, sincere acknowledgement of teams that responded — SOC, IT, HR, PR, Legal, business stakeholders]</span>
+
+Resume normal communications channels and processes.
+
+<span class="tpl-placeholder">[CISO / CEO]</span></div>
+
+      <h4>Draft — External "all clear" (where a public statement was made)</h4>
+      <div class="tpl-draft"><strong><span class="tpl-placeholder">[Organisation]</span> — Closing statement on cyber security incident</strong>
+
+On <span class="tpl-placeholder">[date]</span> we reported a cyber security incident affecting <span class="tpl-placeholder">[scope]</span>. We are now able to confirm that affected services have been restored and the incident has been contained.
+
+<strong>Final summary</strong>
+<span class="tpl-placeholder">[Settled facts only]</span>
+
+<strong>Outcome for those affected</strong>
+<span class="tpl-placeholder">[Specific, e.g. "All affected customers have been individually notified and supported through [channel]" or "We have no evidence of any data exposure"]</span>
+
+<strong>What happens next</strong>
+A formal post-incident review is underway. We will share what we have learned where it is in the public interest to do so. The dedicated channel at <span class="tpl-placeholder">[contact]</span> remains open until <span class="tpl-placeholder">[date]</span>.
+
+We are grateful to those who supported us — <span class="tpl-placeholder">[as appropriate: authorities, partners, customers]</span> — for their patience and cooperation.
+
+<span class="tpl-placeholder">[Date]</span></div>
+
+      <h4>Post-send actions</h4>
+      <div class="post-list">
+        <div class="post-item">Send to every audience previously notified — match each prior recipient</div>
+        <div class="post-item">Stand down the dedicated helpline / mailbox at the agreed date, with a redirect</div>
+        <div class="post-item">Trigger the formal after-action report (AAR template below)</div>
+        <div class="post-item">Update the breach register and risk register cross-references</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== AAR ====== -->
+  <div class="aar-section" id="aar">
+    <div class="aar-header"><h3>AAR — After-Action Report Template</h3></div>
+    <div class="aar-body">
+      <p style="font-size:13px;color:#444;line-height:1.6;margin-bottom:14px;">Completed by the Incident Commander within 30 days of incident closure. Reviewed by the GRC team. Approved by the CISO. Briefed to the Risk Committee for Sev 1/2 incidents.</p>
+      <table class="aar-table">
+        <tr><td>Incident ID</td><td>Internal incident reference</td></tr>
+        <tr><td>Severity (final)</td><td>Sev 1–5; note any tier changes during response and rationale</td></tr>
+        <tr><td>Category (primary &amp; secondary)</td><td>From GRC-IRP-01 §7.2 taxonomy</td></tr>
+        <tr><td>Detection date &amp; source</td><td>When and how the incident was first identified</td></tr>
+        <tr><td>Declaration date</td><td>When the incident was formally declared, by whom</td></tr>
+        <tr><td>Closure date</td><td>When the IC closed the response phase</td></tr>
+        <tr><td>Total duration (response phase)</td><td>From declaration to closure</td></tr>
+        <tr><td>Incident Commander(s)</td><td>Named individual(s); note any handovers</td></tr>
+        <tr><td>Affected assets / services</td><td>Specific systems, applications, data, and Tier classification</td></tr>
+        <tr><td>Affected data subjects</td><td>Categories and approximate count, if applicable</td></tr>
+        <tr><td>Threat source &amp; vector</td><td>Attribution where known; attack vector(s)</td></tr>
+        <tr><td>Root cause analysis</td><td>What enabled the incident; technical cause and contributing factors</td></tr>
+        <tr><td>Timeline (key events)</td><td>Decisions and actions in chronological order, time-stamped</td></tr>
+        <tr><td>What went well</td><td>Aspects of response that worked as designed</td></tr>
+        <tr><td>What did not go well</td><td>Specific gaps, delays, friction points; honest, blame-free</td></tr>
+        <tr><td>Decisions taken</td><td>Material decisions (treatment, escalation, communication, ransom, public statement) with rationale</td></tr>
+        <tr><td>External engagement</td><td>MDR, IR retainer, counsel, insurer, regulator, law enforcement — what was activated, when, value delivered</td></tr>
+        <tr><td>Communications summary</td><td>Audiences notified, when, by whom, with sign-off</td></tr>
+        <tr><td>Regulator notification status</td><td>What was filed, with whom, timeline against obligations</td></tr>
+        <tr><td>Cost summary</td><td>External vendor cost, internal hours, restoration cost, regulatory cost — for cyber insurance and Risk Committee</td></tr>
+        <tr><td>Were tools effective?</td><td>SIEM, EDR, ticketing, comms — what worked, what did not</td></tr>
+        <tr><td>Were playbooks/runbooks effective?</td><td>Specific playbook/runbook references; gaps identified</td></tr>
+        <tr><td>AI / generative-AI factors</td><td>Was AI involved as attack tool, defence, or in decision support? Note any observations.</td></tr>
+        <tr><td>Lessons learned (numbered)</td><td>Each lesson with: description, owner, target date, success criteria, status</td></tr>
+        <tr><td>Risk register cross-reference</td><td>Existing risk materialised → RISK-NNN; new risk identified → submit GRC-FRM-13</td></tr>
+        <tr><td>Updates required to plan / SOPs / playbooks</td><td>Specific document references and proposed changes</td></tr>
+        <tr><td>Tabletop scenario for follow-up</td><td>Scenario derived from this incident for the next exercise cycle</td></tr>
+        <tr><td>Approver</td><td>CISO sign-off date</td></tr>
+        <tr><td>Risk Committee briefing date</td><td>For Sev 1/2; otherwise N/A</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="frm-nav">
+    <a href="grc-irp-01.html">← GRC-IRP-01 Master Plan</a>
+    <a href="grc-irp-annex-template.html">Local IR Annex →</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC-FRM-14 · v1.0 · Approved · Paulo Ferreira</span>
+    <span><a href="grc.html" style="color:var(--grc);text-decoration:none;">← Back to GRC Hub</a></span>
+  </div>
+</div>
+</body>
+</html>

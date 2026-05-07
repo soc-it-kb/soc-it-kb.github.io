@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-IRP-01: Cyber Security Incident Response Plan — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .badge-classified { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+
+  /* Approval block */
+  .approval-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:1.25rem; }
+  .approval-card { background:#fff; border:0.5px solid var(--grc-border); border-radius:10px; padding:1rem 1.25rem; }
+  .approval-card h4 { font-size:11px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+  .approval-row { display:flex; justify-content:space-between; gap:10px; padding:5px 0; font-size:13px; color:#444; border-bottom:0.5px solid #f0f0ec; }
+  .approval-row:last-child { border-bottom:none; }
+  .approval-row span:first-child { color:#888; font-size:12px; }
+  .approval-row span:last-child { color:#1a1a1a; font-weight:500; }
+  @media(max-width:640px){ .approval-grid{grid-template-columns:1fr;} }
+
+  /* Section blocks */
+  .sop-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .sop-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--grc); margin-bottom:4px; }
+  .sop-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .sop-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .sop-section p:last-child { margin-bottom:0; }
+  .sop-section h3 { font-size:14px; font-weight:600; color:var(--grc-dark); margin:14px 0 6px 0; }
+
+  .sop-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; margin-top:4px; padding-left:0; }
+  .sop-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .sop-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--grc); flex-shrink:0; margin-top:5px; }
+
+  /* Phase steps */
+  .proc-steps { display:flex; flex-direction:column; gap:8px; margin-top:6px; }
+  .proc-step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; overflow:hidden; }
+  .proc-step-header { display:flex; align-items:center; gap:10px; padding:0.75rem 1rem; background:var(--grc-light); border-bottom:0.5px solid var(--grc-border); }
+  .proc-step-num { width:26px; height:26px; border-radius:50%; background:var(--grc); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .proc-step-title { font-size:13px; font-weight:600; color:var(--grc-dark); }
+  .proc-step-body { padding:0.8rem 1rem; display:flex; flex-direction:column; gap:4px; }
+  .proc-step-item { font-size:13px; color:#444; display:flex; align-items:flex-start; gap:8px; line-height:1.5; }
+  .proc-step-item::before { content:'→'; color:var(--grc); font-weight:600; flex-shrink:0; }
+  .proc-step-evidence { font-size:11px; color:#7a5d10; background:#FFF7E6; border:0.5px dashed #FAC775; border-radius:6px; padding:6px 9px; margin-top:8px; line-height:1.5; }
+  .proc-step-evidence strong { color:#5a430a; }
+
+  /* Definitions */
+  .def-list { display:flex; flex-direction:column; gap:6px; margin-top:6px; }
+  .def-item { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .def-term { font-size:13px; font-weight:700; color:var(--grc-dark); margin-bottom:3px; }
+  .def-text { font-size:13px; color:#444; line-height:1.55; }
+
+  /* Tables */
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--grc-dark); color:#fff; font-weight:600; padding:9px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-right:0.5px solid rgba(255,255,255,0.1); }
+  .gt-table td { padding:9px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.code { font-family:'SF Mono','Fira Code',monospace; font-weight:600; color:var(--grc); white-space:nowrap; font-size:12px; }
+  .gt-table td.lvl { font-weight:600; color:var(--grc-dark); white-space:nowrap; }
+
+  /* Severity tier cards (Sev 1-5) */
+  .sev-card-grid { display:grid; grid-template-columns:1fr; gap:8px; margin-top:6px; }
+  .sev-card { border-radius:10px; overflow:hidden; border:0.5px solid; }
+  .sev-card-header { padding:0.7rem 1rem; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  .sev-card-header h4 { font-size:13px; font-weight:700; margin:0; }
+  .sev-card-body { padding:0.8rem 1rem; background:#fff; font-size:13px; color:#444; line-height:1.6; }
+  .sev-card-body p { margin:0 0 6px 0; }
+  .sev-card-body p:last-child { margin:0; }
+  .sla-line { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+  .sla-pill { font-size:11px; font-weight:600; padding:3px 9px; border-radius:6px; background:#f9f9f7; border:0.5px solid #e8e8e4; color:#444; }
+  .sev-card-1 { border-color:#5C2E06; }
+  .sev-card-1 .sev-card-header { background:#F5C0B0; color:#5C2E06; }
+  .sev-card-2 { border-color:#993C1D; }
+  .sev-card-2 .sev-card-header { background:#FAECE7; color:#993C1D; }
+  .sev-card-3 { border-color:#8B4A0E; }
+  .sev-card-3 .sev-card-header { background:#FEF0E6; color:#8B4A0E; }
+  .sev-card-4 { border-color:#854F0B; }
+  .sev-card-4 .sev-card-header { background:#FAEEDA; color:#854F0B; }
+  .sev-card-5 { border-color:#0F6E56; }
+  .sev-card-5 .sev-card-header { background:#E1F5EE; color:#0F6E56; }
+
+  /* Decision tree boxes */
+  .decision-tree { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.25rem; margin-top:6px; }
+  .decision-tree-title { font-size:13px; font-weight:600; color:var(--grc-dark); margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+  .decision-tree-title::before { content:'⚖️'; }
+  .decision-step { display:flex; gap:10px; margin-bottom:6px; align-items:flex-start; line-height:1.5; }
+  .decision-q { font-size:12px; font-weight:700; color:var(--grc); padding:1px 7px; border-radius:5px; background:var(--grc-light); border:0.5px solid var(--grc-border); white-space:nowrap; flex-shrink:0; }
+  .decision-text { font-size:13px; color:#444; }
+  .decision-text strong { color:var(--grc-dark); }
+  .decision-out { font-size:12px; padding:2px 8px; border-radius:5px; font-weight:600; white-space:nowrap; }
+  .out-yes { background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .out-no  { background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; }
+  .out-esc { background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+
+  /* "Do not" callouts */
+  .dont-list { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .dont-item { display:flex; align-items:flex-start; gap:10px; background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.65rem 0.95rem; font-size:13px; color:#7a2e10; line-height:1.55; }
+  .dont-item::before { content:'⛔'; flex-shrink:0; }
+  .dont-item strong { color:#5a1f08; }
+
+  /* Evidence callouts */
+  .evidence-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .evidence-item { display:flex; align-items:flex-start; gap:10px; background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:var(--grc-dark); line-height:1.55; }
+  .evidence-item::before { content:'📄'; flex-shrink:0; }
+
+  /* Roles */
+  .roles-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:6px; }
+  .role-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.85rem 1rem; }
+  .role-card h4 { font-size:12px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; }
+  .role-card p  { font-size:13px; color:#444; line-height:1.5; margin:0; }
+  @media(max-width:640px){ .roles-grid{grid-template-columns:1fr;} }
+
+  /* Trigger tags */
+  .trigger-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .trigger-tag { font-size:12px; background:var(--grc-light); color:var(--grc); border:0.5px solid var(--grc-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+
+  /* Related */
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:6px; }
+  .rel-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.85rem 1rem; }
+  .rel-card h4 { font-size:12px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:7px; }
+  .rel-link { display:flex; align-items:center; gap:8px; font-size:13px; padding:3px 0; }
+  .rel-link::before { content:'›'; color:var(--grc); font-weight:700; }
+  .rel-link a { color:#444; text-decoration:none; }
+  .rel-link a:hover { color:var(--grc); }
+  @media(max-width:640px){ .rel-grid{grid-template-columns:1fr;} }
+
+  /* TOC */
+  .toc-box { background:#fafafa; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
+  .toc-title { font-size:11px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+  .toc-list { display:grid; grid-template-columns:1fr 1fr; gap:4px 16px; font-size:13px; }
+  .toc-list a { color:#444; text-decoration:none; padding:2px 0; display:flex; align-items:baseline; gap:8px; }
+  .toc-list a:hover { color:var(--grc); }
+  .toc-list a span { color:var(--grc); font-weight:600; font-family:'SF Mono','Fira Code',monospace; font-size:12px; min-width:24px; }
+  @media(max-width:640px){ .toc-list{grid-template-columns:1fr;} }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .sop-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .sop-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+</style>
+</head>
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+    <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="grc.html">GRC Hub</a><span>›</span>
+    <span>Plans</span><span>›</span>
+    <span>GRC-IRP-01</span>
+  </div>
+
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · Plan</div>
+    <h1>GRC-IRP-01: Cyber Security Incident Response Plan</h1>
+    <p>The master plan governing how the Institution prepares for, detects, responds to, recovers from, and learns from cyber security incidents. Aligned with NIST SP 800-61r2, NIST CSF 2.0 (Respond function), ISO/IEC 27035, and ISO/IEC 27001:2022 Annex A controls A.5.24, A.5.26, A.5.27, A.5.28.</p>
+    <div class="grc-page-hero-pills">
+      <span class="grc-page-hero-pill">Master Plan</span>
+      <span class="grc-page-hero-pill">NIST SP 800-61</span>
+      <span class="grc-page-hero-pill">NIST CSF 2.0</span>
+      <span class="grc-page-hero-pill">ISO 27001:2022</span>
+      <span class="grc-page-hero-pill">ISO/IEC 27035</span>
+      <span class="grc-page-hero-pill">5-tier severity</span>
+    </div>
+  </div>
+
+  <!-- Approval block -->
+  <div class="approval-grid">
+    <div class="approval-card">
+      <h4>Document control</h4>
+      <div class="approval-row"><span>Document ID</span><span>GRC-IRP-01</span></div>
+      <div class="approval-row"><span>Title</span><span>Cyber Security Incident Response Plan</span></div>
+      <div class="approval-row"><span>Owner</span><span>Cyber Security Operations Manager</span></div>
+      <div class="approval-row"><span>Author</span><span>Paulo Ferreira</span></div>
+      <div class="approval-row"><span>Classification</span><span>Confidential — Level 3</span></div>
+      <div class="approval-row"><span>Status</span><span>v1.0 · Approved</span></div>
+    </div>
+    <div class="approval-card">
+      <h4>Approval &amp; review</h4>
+      <div class="approval-row"><span>Approved by</span><span>Risk Committee &amp; CISO</span></div>
+      <div class="approval-row"><span>Effective date</span><span>7 May 2026</span></div>
+      <div class="approval-row"><span>Review cycle</span><span>Annual or post-material-incident</span></div>
+      <div class="approval-row"><span>Next review</span><span>7 May 2027</span></div>
+      <div class="approval-row"><span>Distribution</span><span>CISO, CIO, GRC, SOC, Local CSLC/LCSO, Risk Committee</span></div>
+      <div class="approval-row"><span>Supersedes</span><span>Cyber Security Incident Response Plan v0.2 (Nov 2025 draft)</span></div>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">📋 <strong>Plan ID:</strong> GRC-IRP-01</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔄 <strong>Version:</strong> v1.0</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📊 <strong>Annex template:</strong> <a href="grc-irp-annex-template.html" style="color:var(--grc);">GRC-IRP-ANNEX-TEMPLATE</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📨 <strong>Comms templates:</strong> <a href="grc-frm-14.html" style="color:var(--grc);">GRC-FRM-14</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-classified">Confidential L3</span></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-approved">Approved</span></div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc-box">
+    <div class="toc-title">Contents</div>
+    <div class="toc-list">
+      <a href="#s1"><span>1</span> Purpose, Scope &amp; Authority</a>
+      <a href="#s2"><span>2</span> Framework Alignment</a>
+      <a href="#s3"><span>3</span> Definitions</a>
+      <a href="#s4"><span>4</span> Roles &amp; Responsibilities</a>
+      <a href="#s5"><span>5</span> Severity Tiers (Sev 1–5)</a>
+      <a href="#s6"><span>6</span> Incident Lifecycle (7 Phases)</a>
+      <a href="#s7"><span>7</span> Declaration &amp; Categorisation</a>
+      <a href="#s8"><span>8</span> Escalation Paths</a>
+      <a href="#s9"><span>9</span> Decision Points</a>
+      <a href="#s10"><span>10</span> Evidence Handling &amp; Chain of Custody</a>
+      <a href="#s11"><span>11</span> Communications Principles</a>
+      <a href="#s12"><span>12</span> Tabletop Exercise Programme</a>
+      <a href="#s13"><span>13</span> "Do Not" Actions</a>
+      <a href="#s14"><span>14</span> Records, Related Documents &amp; Review</a>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 1 ===== -->
+  <div class="sop-section" id="s1">
+    <div class="sop-section-num">Section 1</div>
+    <div class="sop-section-title">Purpose, Scope &amp; Authority</div>
+    <h3>1.1 Purpose</h3>
+    <p>This plan establishes how the Institution prepares for, detects, contains, eradicates, recovers from, reports on, and remediates cyber security incidents. It exists to protect the Institution's people, data, services, mission, and reputation; to ensure response is consistent, lawful, and proportionate; and to provide the documentary evidence expected by external auditors, regulators, cyber insurers, and the Risk Committee.</p>
+    <p>Effective execution of this plan delivers improved resilience, reduced incident cost and dwell time, minimised reputational and regulatory harm, and a continuous-improvement loop fed by lessons learned.</p>
+
+    <h3>1.2 Scope</h3>
+    <p>This plan covers all cyber security incidents affecting:</p>
+    <ul class="sop-bullet">
+      <li>Information processed, stored, or transmitted by the Institution, regardless of medium (digital, analogue, paper)</li>
+      <li>Systems, services, applications, and infrastructure operated by or on behalf of the Institution, including hosted, on-premises, SaaS, and managed-service environments</li>
+      <li>Devices used to conduct institutional business — corporate, BYOD, supplier-managed</li>
+      <li>Incidents originating at third parties that affect the institution's data, services, or operations</li>
+    </ul>
+    <p>The plan applies to all employees, contractors, volunteers, and suppliers acting on behalf of the Institution, and to all in-scope agencies, subsidiaries, and operating units (collectively "<em>operating units</em>"). Each operating unit completes a Local Incident Response Annex (GRC-IRP-ANNEX-TEMPLATE) that adapts this plan to local contacts, regulators, and language requirements without altering the global methodology.</p>
+
+    <h3>1.3 Authority</h3>
+    <p>This plan is approved by the Risk Committee and the CISO. Where this plan and a local annex differ, this plan takes precedence except where local law mandates otherwise. The CISO is the authoritative interpreter of this plan during an active response; outside an active response, interpretation rests with the GRC team.</p>
+
+    <h3>1.4 Out of scope</h3>
+    <p>Non-cyber incidents (purely physical security events without an information dimension, HR misconduct unrelated to information systems, financial fraud handled exclusively through finance controls) are managed under their respective frameworks. Where such an incident develops a cyber dimension, this plan is invoked.</p>
+  </div>
+
+  <!-- ===== SECTION 2 ===== -->
+  <div class="sop-section" id="s2">
+    <div class="sop-section-num">Section 2</div>
+    <div class="sop-section-title">Framework Alignment</div>
+    <p>This plan is aligned to recognised standards and regulatory expectations. The mapping below evidences how each external requirement is addressed in this plan; auditors should use this table as their primary cross-walk.</p>
+    <table class="gt-table">
+      <thead><tr><th>Framework / regulation</th><th>Reference</th><th>Where addressed</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">NIST SP 800-61r2</td><td class="code">Computer Security Incident Handling Guide</td><td>Sections 6 (lifecycle), 7 (categorisation), 10 (evidence)</td></tr>
+        <tr><td class="lvl">NIST CSF 2.0</td><td class="code">RS function (RS.MA, RS.AN, RS.CO, RS.MI); RC function (RC.RP, RC.CO)</td><td>Sections 4, 6, 8, 11</td></tr>
+        <tr><td class="lvl">ISO/IEC 27035-1:2023</td><td class="code">Principles &amp; process</td><td>Sections 3, 6, 7</td></tr>
+        <tr><td class="lvl">ISO/IEC 27001:2022 Annex A</td><td class="code">A.5.24 (planning), A.5.25 (assessment), A.5.26 (response), A.5.27 (learning), A.5.28 (evidence collection)</td><td>Sections 5, 6, 10, 14</td></tr>
+        <tr><td class="lvl">GDPR</td><td class="code">Art. 33 (notification to authority), Art. 34 (notification to data subject)</td><td>Sections 8, 9, 11; templates in GRC-FRM-14</td></tr>
+        <tr><td class="lvl">NIS2 Directive (EU)</td><td class="code">Art. 23 (incident reporting: 24h early warning, 72h notification, 1-month final)</td><td>Sections 8, 9, 11; local timelines in annex</td></tr>
+        <tr><td class="lvl">Sector-specific</td><td class="code">DORA, HIPAA, PCI-DSS, etc.</td><td>Recorded in operating-unit Local Annex (GRC-IRP-ANNEX-TEMPLATE)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== SECTION 3 ===== -->
+  <div class="sop-section" id="s3">
+    <div class="sop-section-num">Section 3</div>
+    <div class="sop-section-title">Definitions</div>
+    <p>Common terminology underpins effective response. The following definitions are authoritative for this plan and all derived documents.</p>
+    <div class="def-list">
+      <div class="def-item"><div class="def-term">Event</div><div class="def-text">Any observable occurrence in a system or network. Aligned with NIST SP 800-61r2.</div></div>
+      <div class="def-item"><div class="def-term">Event of interest</div><div class="def-text">An event that requires investigation because it may be an incident. An event of interest is either declared an incident or closed as a nominal event.</div></div>
+      <div class="def-item"><div class="def-term">Alert</div><div class="def-text">A notification of an event of interest, originating from security tooling, the SIEM, threat intelligence, employees, partners, or external parties.</div></div>
+      <div class="def-item"><div class="def-term">Cyber security incident ("incident")</div><div class="def-text">A confirmed or imminent violation of computer security policies, acceptable use policies, or standard security practices, with potential or actual adverse effect on the organisation.</div></div>
+      <div class="def-item"><div class="def-term">Material incident</div><div class="def-text">An incident assessed as Sev 1 or Sev 2, or any incident requiring regulator notification, public communication, cyber-insurance activation, or executive briefing.</div></div>
+      <div class="def-item"><div class="def-term">Notifiable breach</div><div class="def-text">An incident meeting the legal threshold for notification under applicable data-protection or sector-specific regulation. The decision is taken in consultation with Legal and recorded in the incident record.</div></div>
+      <div class="def-item"><div class="def-term">Threat</div><div class="def-text">Any circumstance or event with the potential to adversely impact organisational operations, assets, or individuals through an information system (NIST).</div></div>
+      <div class="def-item"><div class="def-term">Vulnerability</div><div class="def-text">Weakness in an information system, security procedure, internal control, or implementation that could be exploited or triggered by a threat source (NIST).</div></div>
+      <div class="def-item"><div class="def-term">CSIRT — Computer Security Incident Response Team</div><div class="def-text">The team — drawn from SOC, IT Operations, Identity, and external partners — assembled to respond to an incident. Membership is incident-specific and led by the Incident Commander.</div></div>
+      <div class="def-item"><div class="def-term">Incident Commander</div><div class="def-text">The named individual leading response for an active incident, responsible for tempo, decisions, and escalation. By default the on-call SOC Manager; for Sev 1/2 the role escalates to the CISO or designated deputy.</div></div>
+      <div class="def-item"><div class="def-term">Incident Handler</div><div class="def-text">The analyst or engineer carrying out hands-on investigation and remediation under the Incident Commander's direction.</div></div>
+      <div class="def-item"><div class="def-term">Containment / Eradication / Recovery</div><div class="def-text">The three operational phases of active response (NIST SP 800-61): contain limits damage; eradicate removes the cause; recover restores normal operations.</div></div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 4 ===== -->
+  <div class="sop-section" id="s4">
+    <div class="sop-section-num">Section 4</div>
+    <div class="sop-section-title">Roles &amp; Responsibilities</div>
+    <p>Roles are organised into two layers. <strong>Institutional roles</strong> are persistent positions with standing accountability; they align to the risk-owner model in <a href="grc-register-risk.html" style="color:var(--grc);">GRC-REG-RISK</a>. <strong>Response roles</strong> are activated during an incident and may be filled by different individuals for different incidents.</p>
+
+    <h3>4.1 Organisational roles</h3>
+    <div class="roles-grid">
+      <div class="role-card"><h4>CISO</h4><p>Ultimate accountability for cyber response. Approves Sev 1 declarations, regulator-notification decisions, and cyber-insurance activation. Briefs Risk Committee and executive leadership. Authoritative interpreter of this plan during an active response.</p></div>
+      <div class="role-card"><h4>CIO</h4><p>Accountable for IT response and continuity. Coordinates with BC/DR. Provides technical infrastructure expertise and authorisation for service-impacting actions (isolation, shutdown, restoration). Deputises for the CISO on technology-only incidents.</p></div>
+      <div class="role-card"><h4>Head of Cyber Security Operations</h4><p>Day-to-day owner of this plan and of the SOC's operational readiness. Default Incident Commander for Sev 3 and below; deputy Incident Commander for Sev 1/2. Maintains plan, runbooks, playbooks, and tabletop programme.</p></div>
+      <div class="role-card"><h4>Head of GRC</h4><p>Owns regulator-notification decisions, evidence preservation oversight, post-incident lessons-learned, and audit liaison. Cross-references incidents to risks in GRC-REG-RISK.</p></div>
+      <div class="role-card"><h4>Head of IT Operations</h4><p>Owns Recover-phase execution: restoration of services, validation of backups, hardware/software replacement. Owns RTO/RPO commitments.</p></div>
+      <div class="role-card"><h4>Legal Counsel</h4><p>Advises on legal privilege, regulator notification thresholds, contractual obligations, ransom payment legality, law-enforcement engagement, and chain of custody. Reviews all external communications. May engage external specialist counsel.</p></div>
+      <div class="role-card"><h4>Data Protection Officer / Privacy</h4><p>Owns privacy-incident classification, data-subject notification decisions, and Article 33 (GDPR) or equivalent regulator notification preparation. Maintains the breach register.</p></div>
+      <div class="role-card"><h4>HR</h4><p>Manages internal staff communications, supports investigations involving personnel, coordinates welfare for those affected, and contributes to disciplinary outcomes where relevant.</p></div>
+      <div class="role-card"><h4>Public Relations / Communications</h4><p>Owns external messaging — media, public statements, customer/beneficiary notifications. Drafts in collaboration with Legal, Privacy, and the CISO. No external comms without sign-off from this triad.</p></div>
+      <div class="role-card"><h4>CFO</h4><p>Assesses financial impact, advises on continuity funding, authorises emergency expenditure (external IR retainer, surge resourcing), and oversees insurance claim coordination.</p></div>
+      <div class="role-card"><h4>CEO / Agency Lead</h4><p>For Sev 1/2 incidents: final decision-maker on material aspects (ransom posture, public statements, customer notifications). Briefed regularly during active response. Engaged through the CISO.</p></div>
+      <div class="role-card"><h4>Risk Committee</h4><p>Approves this plan, reviews material incidents, endorses lessons-learned actions, and maintains oversight of the IR programme. Briefed quarterly and after every Sev 1/2 incident.</p></div>
+    </div>
+
+    <h3>4.2 Response roles (activated during an incident)</h3>
+    <div class="roles-grid">
+      <div class="role-card"><h4>Incident Commander (IC)</h4><p>Leads the response. Sets tempo, makes calls on containment/eradication, drives the escalation clock, owns the incident record. Sev 3 and below: SOC Manager. Sev 2: CISO or Deputy CISO. Sev 1: CISO; deputised only with Risk Committee notification.</p></div>
+      <div class="role-card"><h4>Lead Analyst / Investigator</h4><p>Drives technical investigation: log analysis, host forensics, malware triage, indicator extraction. Hands off to specialised investigators (DFIR, identity, network) as needed. Reports to the IC.</p></div>
+      <div class="role-card"><h4>Comms Lead</h4><p>Single point of contact for the IC into HR/PR/Legal. Coordinates internal and external messaging. Maintains the comms timeline.</p></div>
+      <div class="role-card"><h4>Recorder / Scribe</h4><p>Maintains the incident journal in the agreed system of record (RTIR / ITSM tool / journal). Time-stamps every decision and action with named actor. Critical for chain of custody and after-action.</p></div>
+      <div class="role-card"><h4>Liaison — External</h4><p>Single point of contact for external parties (MDR partner, IR retainer, law enforcement, regulator). Prevents fragmented engagement.</p></div>
+      <div class="role-card"><h4>Recovery Lead</h4><p>Runs the Recover phase: backup validation, restoration sequencing, service-by-service health checks. Hands off to BAU operations when stable.</p></div>
+    </div>
+
+    <h3>4.3 RACI — by phase</h3>
+    <table class="gt-table">
+      <thead><tr><th>Phase</th><th>Responsible</th><th>Accountable</th><th>Consulted</th><th>Informed</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Prepare</td><td>Head of Cyber Security Ops, GRC</td><td>CISO</td><td>CIO, IT Ops, Legal, HR, PR</td><td>Risk Committee</td></tr>
+        <tr><td class="lvl">Detect &amp; Analyse</td><td>SOC, Lead Analyst</td><td>Incident Commander</td><td>MDR partner, Threat Intel</td><td>CISO, GRC</td></tr>
+        <tr><td class="lvl">Contain</td><td>SOC, IT Ops</td><td>Incident Commander</td><td>CIO, Service Owners</td><td>CISO, business stakeholders</td></tr>
+        <tr><td class="lvl">Eradicate</td><td>SOC, IT Ops, IR retainer (if engaged)</td><td>Incident Commander</td><td>Vendor support, threat intel</td><td>CISO, Legal</td></tr>
+        <tr><td class="lvl">Recover</td><td>IT Ops, Recovery Lead, BC/DR</td><td>CIO</td><td>Service Owners, business</td><td>CISO, executives</td></tr>
+        <tr><td class="lvl">Report</td><td>Incident Commander, GRC</td><td>CISO</td><td>Legal, Privacy, HR, PR</td><td>Risk Committee, Board</td></tr>
+        <tr><td class="lvl">Remediate</td><td>Control owners, GRC</td><td>Risk owners (per GRC-REG-RISK)</td><td>SOC, IT Ops</td><td>CISO, Risk Committee</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== SECTION 5 ===== -->
+  <div class="sop-section" id="s5">
+    <div class="sop-section-num">Section 5</div>
+    <div class="sop-section-title">Severity Tiers (Sev 1–5)</div>
+    <p>Every declared incident is assigned a severity tier on a 5-point scale. Severity drives the response posture, escalation path, and SLAs. An incident's severity may evolve during response; the Incident Commander re-assesses after each major decision and at each escalation gate.</p>
+    <p><strong>Note on terminology.</strong> Incident severity (Sev 1 = highest) is intentionally distinct from the residual-risk severity in <a href="grc-register-risk.html" style="color:var(--grc);">GRC-REG-RISK</a> (where higher scores = higher risk). They serve different purposes: risk severity asks "how bad would this be if it happened"; incident severity asks "how bad is this right now". Both are industry standard and auditors expect to see them coexist.</p>
+
+    <div class="sev-card-grid">
+      <div class="sev-card sev-card-1">
+        <div class="sev-card-header"><h4>🚨 Sev 1 — Crisis</h4><span style="font-size:11px;font-weight:600;">Whole-Institution impact</span></div>
+        <div class="sev-card-body">
+          <p><strong>Criteria:</strong> Material disruption to Institution-wide services; suspected or confirmed compromise of Tier-0 assets; sovereign or highly sensitive data exposure; ransom demand; mandatory regulator notification likely; potential global media exposure.</p>
+          <p><strong>Response posture:</strong> War room. CISO is Incident Commander. Risk Committee chair and CEO informed. External IR retainer activated. Cyber insurer notified.</p>
+          <div class="sla-line"><span class="sla-pill">Declare ≤ 30 min</span><span class="sla-pill">Escalate ≤ 1 h</span><span class="sla-pill">First exec brief ≤ 2 h</span><span class="sla-pill">Daily Risk Committee update</span></div>
+        </div>
+      </div>
+      <div class="sev-card sev-card-2">
+        <div class="sev-card-header"><h4>🔴 Sev 2 — Critical</h4><span style="font-size:11px;font-weight:600;">Significant operating-unit impact</span></div>
+        <div class="sev-card-body">
+          <p><strong>Criteria:</strong> Confirmed compromise of Tier-1 assets; disruption to a critical business service; suspected data exposure (limited scope); credible threat actor presence; possible regulator notification.</p>
+          <p><strong>Response posture:</strong> Dedicated incident bridge. CISO or Deputy CISO is Incident Commander. Executive sponsor briefed. Insurance and IR retainer on standby.</p>
+          <div class="sla-line"><span class="sla-pill">Declare ≤ 1 h</span><span class="sla-pill">Escalate ≤ 2 h</span><span class="sla-pill">First exec brief ≤ 4 h</span><span class="sla-pill">Twice-daily updates</span></div>
+        </div>
+      </div>
+      <div class="sev-card sev-card-3">
+        <div class="sev-card-header"><h4>🟠 Sev 3 — High</h4><span style="font-size:11px;font-weight:600;">Localised impact, contained</span></div>
+        <div class="sev-card-body">
+          <p><strong>Criteria:</strong> Compromise contained to a defined scope (single user, single host, single application); no confirmed data exposure; service impact limited to non-critical systems or a small user group.</p>
+          <p><strong>Response posture:</strong> SOC Manager is Incident Commander. CSIRT activated as needed. CISO informed.</p>
+          <div class="sla-line"><span class="sla-pill">Declare ≤ 2 h</span><span class="sla-pill">Escalate ≤ 4 h</span><span class="sla-pill">CISO brief same day</span><span class="sla-pill">Daily update</span></div>
+        </div>
+      </div>
+      <div class="sev-card sev-card-4">
+        <div class="sev-card-header"><h4>🟡 Sev 4 — Medium</h4><span style="font-size:11px;font-weight:600;">Routine, monitored</span></div>
+        <div class="sev-card-body">
+          <p><strong>Criteria:</strong> Confirmed but contained event with no impact to data or service; isolated phishing-clicks without compromise; policy violations without material risk; suspicious activity warranting investigation.</p>
+          <p><strong>Response posture:</strong> SOC Tier-2 lead handles. SOC Manager informed. No executive engagement unless escalated.</p>
+          <div class="sla-line"><span class="sla-pill">Declare ≤ 4 h</span><span class="sla-pill">SOC Manager next-business-day</span><span class="sla-pill">Closure within 5 working days</span></div>
+        </div>
+      </div>
+      <div class="sev-card sev-card-5">
+        <div class="sev-card-header"><h4>🟢 Sev 5 — Low</h4><span style="font-size:11px;font-weight:600;">Informational / nominal</span></div>
+        <div class="sev-card-body">
+          <p><strong>Criteria:</strong> Confirmed nominal event; near-miss; informational alert validated as non-incident; minor policy reminder. Closed without further action beyond record-keeping.</p>
+          <p><strong>Response posture:</strong> SOC Tier-1 closes. No escalation. Used for trend analysis.</p>
+          <div class="sla-line"><span class="sla-pill">Closure same shift</span><span class="sla-pill">Aggregated weekly</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:14px;"><strong>Operational classification.</strong> The detailed criteria for assigning a severity tier — institutional impact, legal, privacy, financial, reputational, data classification, data volume, and operational dimensions — are maintained in <em>SOP-IM-01 (Incident Severity Classification &amp; Escalation)</em>. SOP-IM-01 will be refreshed to align with the 5-tier model in this plan; until that refresh is complete, the IC applies the 5-tier model from this plan and records the rationale.</p>
+  </div>
+
+  <!-- ===== SECTION 6 ===== -->
+  <div class="sop-section" id="s6">
+    <div class="sop-section-num">Section 6</div>
+    <div class="sop-section-title">Incident Lifecycle (7 Phases)</div>
+    <p>The lifecycle follows NIST SP 800-61 and ISO/IEC 27035. Each phase has defined entry and exit conditions, owners, actions, and evidence captured.</p>
+
+    <div class="proc-steps">
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">1</div><div class="proc-step-title">Prepare</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Maintain this plan, derived runbooks, playbooks, SOPs, and the tabletop programme</div>
+          <div class="proc-step-item">Maintain the tooling stack: SIEM, EDR, NDR, ticketing, SOAR; verify telemetry coverage</div>
+          <div class="proc-step-item">Maintain external retainers and contracts: MDR, external IR, cyber insurance, specialist counsel</div>
+          <div class="proc-step-item">Maintain the asset inventory and Tier-0/1 register so blast-radius assessment is fast during a real event</div>
+          <div class="proc-step-item">Run scheduled reviews of contact lists in each operating-unit local annex (quarterly minimum)</div>
+          <div class="proc-step-evidence"><strong>Evidence captured:</strong> Plan version history, runbook/playbook inventories, retainer contracts, tabletop reports, training records.</div>
+        </div>
+      </div>
+
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">2</div><div class="proc-step-title">Detect &amp; Analyse</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Receive an alert or report from any source: SIEM, EDR, MDR, employee, supplier, threat intel, external researcher</div>
+          <div class="proc-step-item">Triage to confirm the alert is a valid event of interest (not a false positive)</div>
+          <div class="proc-step-item">Correlate across data sources; gather indicators; determine attack vector, scope, affected assets, and potential blast radius</div>
+          <div class="proc-step-item">Apply severity criteria and propose a severity tier; the Incident Commander confirms or adjusts</div>
+          <div class="proc-step-item">Open the incident record in the system of record; assign Incident Commander, Lead Analyst, Recorder</div>
+          <div class="proc-step-item">For Sev 1/2: open the bridge or war room; notify the escalation list per Section 8</div>
+          <div class="proc-step-evidence"><strong>Evidence captured:</strong> Original alert, triage decision, severity rationale, indicator list, scope assessment, incident-record opening time, IC assignment.</div>
+        </div>
+      </div>
+
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">3</div><div class="proc-step-title">Contain</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Determine immediate containment posture: short-term tactical containment to halt active damage, while planning durable containment</div>
+          <div class="proc-step-item">Apply containment actions: network isolation, account disable, session revoke, port/protocol disable, sandbox suspect code, block IOCs</div>
+          <div class="proc-step-item">Preserve forensic evidence <em>before</em> taking destructive actions (memory captures, disk images, log exports) — see Section 10</div>
+          <div class="proc-step-item">Validate that containment is effective: confirm no continuing communication with the attacker infrastructure</div>
+          <div class="proc-step-item">Communicate containment status to the IC and to affected service owners</div>
+          <div class="proc-step-evidence"><strong>Evidence captured:</strong> Action log with timestamps and actors, forensic captures, validation evidence (e.g. "no further beaconing observed since T+25 minutes").</div>
+        </div>
+      </div>
+
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">4</div><div class="proc-step-title">Eradicate</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Identify and remediate all exploited vulnerabilities (patch, configuration change, control addition)</div>
+          <div class="proc-step-item">Remove malicious artefacts: malware, persistence mechanisms, attacker tooling, modified configurations, rogue accounts, malicious mail rules</div>
+          <div class="proc-step-item">Hunt across the wider estate for the same indicators — "have we missed anywhere else"</div>
+          <div class="proc-step-item">Where compromise of identity is suspected, rotate credentials, revoke sessions, and review privileged access at scale</div>
+          <div class="proc-step-item">Confirm with the Lead Analyst that the cause is removed, not just the symptom</div>
+          <div class="proc-step-evidence"><strong>Evidence captured:</strong> Vulnerability remediation evidence (patch IDs, configuration changes), eradication action log, indicator-hunt results, identity-rotation record.</div>
+        </div>
+      </div>
+
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">5</div><div class="proc-step-title">Recover</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Validate backup integrity before restoration; never restore from a backup taken inside the compromise window without forensic clearance</div>
+          <div class="proc-step-item">Restore systems in priority order driven by Business Impact Analysis: Tier-0 first, then Tier-1, etc.</div>
+          <div class="proc-step-item">Apply enhanced monitoring on restored systems for a defined "watchful-eye" period (default 14 days, longer for Sev 1)</div>
+          <div class="proc-step-item">Confirm services are functioning normally with the service owner; obtain explicit "back to normal" sign-off</div>
+          <div class="proc-step-item">Hand off from CSIRT to BAU operations only when the IC declares the response phase closed</div>
+          <div class="proc-step-evidence"><strong>Evidence captured:</strong> Restoration log, backup-integrity attestation, post-restore monitoring data, service-owner sign-offs.</div>
+        </div>
+      </div>
+
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">6</div><div class="proc-step-title">Report</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Produce the after-action report: timeline, scope, decisions, actions, what worked, what didn't</div>
+          <div class="proc-step-item">Conduct a structured post-incident review meeting; capture lessons learned, with named owners and target dates for each action</div>
+          <div class="proc-step-item">For Sev 1/2: brief Risk Committee and Board (where applicable) within 30 days of closure</div>
+          <div class="proc-step-item">Update the regulator-notification record (where applicable) with final figures and outcomes</div>
+          <div class="proc-step-item">Update GRC-REG-RISK if the incident has materialised an existing risk or revealed a new one</div>
+          <div class="proc-step-evidence"><strong>Evidence captured:</strong> After-action report (template in GRC-FRM-14), lessons-learned register, regulator-notification updates, risk-register cross-reference.</div>
+        </div>
+      </div>
+
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">7</div><div class="proc-step-title">Remediate</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Track lessons-learned actions to closure; do not allow them to age into perpetual backlog</div>
+          <div class="proc-step-item">Update controls, baselines, runbooks, playbooks, and SOPs based on the incident</div>
+          <div class="proc-step-item">Refresh threat intelligence: indicators, TTPs, detection logic</div>
+          <div class="proc-step-item">If the incident triggered a new risk, complete GRC-FRM-13 and add to GRC-REG-RISK</div>
+          <div class="proc-step-item">Confirm remediation effectiveness through follow-up testing (red team, purple team, tabletop)</div>
+          <div class="proc-step-evidence"><strong>Evidence captured:</strong> Lessons-learned closure tracker, control-change records, updated runbooks, follow-up test results.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 7 ===== -->
+  <div class="sop-section" id="s7">
+    <div class="sop-section-num">Section 7</div>
+    <div class="sop-section-title">Declaration &amp; Categorisation</div>
+    <h3>7.1 Who can declare an incident</h3>
+    <table class="gt-table">
+      <thead><tr><th>Severity</th><th>Default declarer</th><th>Authority required to confirm</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Sev 5 — Low</td><td>SOC Tier-1</td><td>SOC Tier-2 reviews aggregate weekly</td></tr>
+        <tr><td class="lvl">Sev 4 — Medium</td><td>SOC Tier-2 / Tier-1 with Tier-2 review</td><td>SOC Tier-2 lead</td></tr>
+        <tr><td class="lvl">Sev 3 — High</td><td>SOC Manager (Incident Commander)</td><td>SOC Manager, CISO informed</td></tr>
+        <tr><td class="lvl">Sev 2 — Critical</td><td>SOC Manager proposes; CISO confirms</td><td>CISO or Deputy CISO</td></tr>
+        <tr><td class="lvl">Sev 1 — Crisis</td><td>SOC Manager or CISO proposes; CISO confirms</td><td>CISO; Risk Committee chair informed within 1 h</td></tr>
+      </tbody>
+    </table>
+
+    <h3>7.2 Incident categorisation</h3>
+    <p>Every declared incident is assigned a primary category and zero or more secondary categories. Categories drive playbook selection, reporting, and trend analysis.</p>
+    <table class="gt-table">
+      <thead><tr><th>Category</th><th>Example types</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Abusive content / activity</td><td>Spam · harassment · pornography or child-abuse material · HR/legal investigations · malicious insider</td></tr>
+        <tr><td class="lvl">Account compromise</td><td>Privileged compromise · standard-account compromise · unauthorised privilege escalation · application-account compromise</td></tr>
+        <tr><td class="lvl">Availability</td><td>System outage (malicious) · data availability impact · DoS / DDoS</td></tr>
+        <tr><td class="lvl">Breach</td><td>Unauthorised access to information · unauthorised data modification · data exfiltration · privacy violation</td></tr>
+        <tr><td class="lvl">Social engineering</td><td>Phishing · vishing · smishing · BEC · brand spoofing · rogue WAP · IoT impersonation · website takedown · deepfake / generative-AI attack</td></tr>
+        <tr><td class="lvl">Information gathering</td><td>Scanning · sniffing · pre-exploit social engineering</td></tr>
+        <tr><td class="lvl">System intrusion</td><td>Exploitation of known vulnerability · login-based intrusion · network intrusion</td></tr>
+        <tr><td class="lvl">Lost or stolen asset</td><td>Mobile device · laptop · removable media · paper records</td></tr>
+        <tr><td class="lvl">Malware / malicious code</td><td>Virus · worm · trojan · spyware · bot · ransomware</td></tr>
+        <tr><td class="lvl">Website attack</td><td>Defacement · SQL injection · XSS · supply-chain compromise of web assets</td></tr>
+        <tr><td class="lvl">Other</td><td>Cases not fitting the above; specify in the incident record</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== SECTION 8 ===== -->
+  <div class="sop-section" id="s8">
+    <div class="sop-section-num">Section 8</div>
+    <div class="sop-section-title">Escalation Paths</div>
+    <p>Escalations are <strong>cumulative</strong>: notifying the Sev 1 list also implies notification of the Sev 2/3/4/5 lists. The Comms Lead drives the notification cadence; the Recorder time-stamps every notification with method (call, page, message, email).</p>
+    <table class="gt-table">
+      <thead><tr><th>Severity</th><th>Cumulative notification list</th><th>Max time-to-notify</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Sev 5</td><td>SOC Tier-1; aggregated weekly to SOC Tier-2</td><td>End of shift</td></tr>
+        <tr><td class="lvl">Sev 4</td><td>+ SOC Tier-2; SOC Manager informed next business day</td><td>4 h</td></tr>
+        <tr><td class="lvl">Sev 3</td><td>+ SOC Manager (IC) · CSIRT · LCSO / CSLC (local)</td><td>2 h</td></tr>
+        <tr><td class="lvl">Sev 2</td><td>+ CISO · CIO · Head of GRC · Local Executive Sponsor · Privacy/DPO</td><td>1 h</td></tr>
+        <tr><td class="lvl">Sev 1</td><td>+ CEO / Agency Lead · Risk Committee Chair · Legal · HR · PR · CFO · Cyber Insurer · Oversight Committee</td><td>30 min</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top:18px;">Trigger-based notifications (independent of severity)</h3>
+    <p>Some events trigger specific notifications regardless of severity tier.</p>
+    <table class="gt-table">
+      <thead><tr><th>Trigger</th><th>Mandatory notify</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Personal-data breach (suspected or confirmed)</td><td>Privacy / DPO, Legal, CISO — within 1 h of suspicion</td></tr>
+        <tr><td class="lvl">Ransom demand</td><td>CISO, CIO, CEO, Legal, Cyber Insurer, Oversight Committee — within 1 h</td></tr>
+        <tr><td class="lvl">Critical-data integrity or availability impact</td><td>BC/DR team, IT Operations, business service owners — within 1 h</td></tr>
+        <tr><td class="lvl">Compromise of leadership or board accounts</td><td>CISO, CIO, Legal — within 30 min</td></tr>
+        <tr><td class="lvl">Material impact to organisation/operating unit</td><td>Legal, CFO, executive leadership — within 1 h</td></tr>
+        <tr><td class="lvl">Regulator-notifiable breach</td><td>Privacy/DPO, Legal, CISO — kick the regulator clock per local annex</td></tr>
+        <tr><td class="lvl">Law-enforcement engagement considered</td><td>Legal first; LE engagement only with Legal sign-off</td></tr>
+        <tr><td class="lvl">External media enquiry or social-media exposure</td><td>PR, Legal, CISO — within 30 min of receipt</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== SECTION 9 ===== -->
+  <div class="sop-section" id="s9">
+    <div class="sop-section-num">Section 9</div>
+    <div class="sop-section-title">Decision Points</div>
+    <p>Six decisions recur in nearly every material incident. Each is captured here as a structured decision flow. The decision and its rationale are recorded in the incident journal at the time the decision is taken.</p>
+
+    <div class="decision-tree">
+      <div class="decision-tree-title">9.1 — Is this an incident?</div>
+      <div class="decision-step"><span class="decision-q">Q1</span><span class="decision-text">Has a security policy, acceptable-use policy, or standard practice been violated, or is violation imminent?</span></div>
+      <div class="decision-step"><span class="decision-q">Q2</span><span class="decision-text">Is there potential or actual adverse effect on the organisation's data, services, people, or reputation?</span></div>
+      <div class="decision-step"><span class="decision-q">→</span><span class="decision-text">Both <span class="decision-out out-yes">Yes</span> → declare incident, assign severity. One <span class="decision-out out-no">No</span> → record as event of interest, close as nominal. Uncertain → declare cautiously and downgrade later.</span></div>
+    </div>
+
+    <div class="decision-tree">
+      <div class="decision-tree-title">9.2 — Is this a notifiable breach?</div>
+      <div class="decision-step"><span class="decision-q">Q1</span><span class="decision-text">Is personal data of identifiable individuals confirmed or reasonably believed to have been accessed, exfiltrated, altered, or destroyed?</span></div>
+      <div class="decision-step"><span class="decision-q">Q2</span><span class="decision-text">Is there a risk to the rights and freedoms of those individuals (financial loss, identity theft, discrimination, reputational damage)?</span></div>
+      <div class="decision-step"><span class="decision-q">Q3</span><span class="decision-text">Does sector-specific regulation (NIS2, DORA, HIPAA, PCI-DSS) impose a separate notification obligation?</span></div>
+      <div class="decision-step"><span class="decision-q">→</span><span class="decision-text">Any <span class="decision-out out-yes">Yes</span> → engage Privacy/DPO and Legal immediately; start the regulator clock per local annex; do not delay decision pending complete information.</span></div>
+    </div>
+
+    <div class="decision-tree">
+      <div class="decision-tree-title">9.3 — Should we engage cyber insurance?</div>
+      <div class="decision-step"><span class="decision-q">Q1</span><span class="decision-text">Is the incident Sev 1 or Sev 2, OR involves ransomware, OR involves suspected data exposure?</span></div>
+      <div class="decision-step"><span class="decision-q">Q2</span><span class="decision-text">Is there any material expense already incurred or expected (external IR, legal, restoration, ransom)?</span></div>
+      <div class="decision-step"><span class="decision-q">→</span><span class="decision-text">Either <span class="decision-out out-yes">Yes</span> → notify cyber insurer per local annex within their notification window (typically 24–72 h). <strong>Late notification can void coverage.</strong> Notify even if a claim is uncertain.</span></div>
+    </div>
+
+    <div class="decision-tree">
+      <div class="decision-tree-title">9.4 — Should we engage external IR?</div>
+      <div class="decision-step"><span class="decision-q">Q1</span><span class="decision-text">Does the incident exceed in-house forensic, malware-analysis, or surge-capacity capability?</span></div>
+      <div class="decision-step"><span class="decision-q">Q2</span><span class="decision-text">Is there a regulatory or insurer expectation that an independent third party investigates?</span></div>
+      <div class="decision-step"><span class="decision-q">Q3</span><span class="decision-text">Is the response expected to last more than 5 working days?</span></div>
+      <div class="decision-step"><span class="decision-q">→</span><span class="decision-text">Any <span class="decision-out out-yes">Yes</span> → engage retained IR partner. CISO authorises; CFO confirms emergency expenditure if outside retainer scope.</span></div>
+    </div>
+
+    <div class="decision-tree">
+      <div class="decision-tree-title">9.5 — Should we make a public statement?</div>
+      <div class="decision-step"><span class="decision-q">Q1</span><span class="decision-text">Is service disruption visible to customers, beneficiaries, or the public?</span></div>
+      <div class="decision-step"><span class="decision-q">Q2</span><span class="decision-text">Has the incident attracted, or is it likely to attract, media or social-media attention?</span></div>
+      <div class="decision-step"><span class="decision-q">Q3</span><span class="decision-text">Is there a regulatory or contractual obligation to communicate?</span></div>
+      <div class="decision-step"><span class="decision-q">→</span><span class="decision-text">Any <span class="decision-out out-yes">Yes</span> → PR drafts; Legal, Privacy, and CISO sign off; CEO approves for Sev 1. Use the holding-statement template (GRC-FRM-14) where facts are still being established.</span></div>
+    </div>
+
+    <div class="decision-tree">
+      <div class="decision-tree-title">9.6 — Ransom: pay or refuse?</div>
+      <div class="decision-step"><span class="decision-q">Q1</span><span class="decision-text">Is the threat actor or affiliated group on a sanctions list (OFAC, UK, EU, UN)? <strong>If yes, payment is illegal — do not pay.</strong></span></div>
+      <div class="decision-step"><span class="decision-q">Q2</span><span class="decision-text">Has Legal cleared the legal posture in all relevant jurisdictions?</span></div>
+      <div class="decision-step"><span class="decision-q">Q3</span><span class="decision-text">Does the cyber insurer concur? (Many policies require concurrence.)</span></div>
+      <div class="decision-step"><span class="decision-q">Q4</span><span class="decision-text">Are restoration alternatives genuinely exhausted?</span></div>
+      <div class="decision-step"><span class="decision-q">→</span><span class="decision-text">Decision is reserved to the CEO with CISO, Legal, CFO, and Risk Committee Chair. Never the IC alone. Decision and rationale recorded in the incident journal.</span></div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 10 ===== -->
+  <div class="sop-section" id="s10">
+    <div class="sop-section-num">Section 10</div>
+    <div class="sop-section-title">Evidence Handling &amp; Chain of Custody</div>
+    <p>All information created, gathered, or generated during incident response is treated as <strong>evidence</strong> by default, classified <strong>Confidential — Level 3</strong>, and retained accordingly. Treatment is downgraded only after Legal confirms the matter is closed and no related legal process is anticipated.</p>
+
+    <h3>10.1 Principles</h3>
+    <ul class="sop-bullet">
+      <li><strong>Preserve before you act.</strong> Capture volatile evidence (memory, network state) before destructive containment; capture disk images before reimaging; export logs before retention windows lapse.</li>
+      <li><strong>Maintain chain of custody.</strong> Every artefact has a recorded origin, custodian, and movement history. Use the system of record's evidence module or a controlled spreadsheet annex.</li>
+      <li><strong>Protect legal privilege.</strong> Where Legal directs, channel investigative work product through counsel to maintain client–attorney privilege. Mark privileged material clearly.</li>
+      <li><strong>Default to over-retention.</strong> Do not delete potentially relevant material until Legal confirms it is safe to do so.</li>
+    </ul>
+
+    <h3>10.2 Evidence types and minimum retention</h3>
+    <table class="gt-table">
+      <thead><tr><th>Evidence type</th><th>Capture</th><th>Minimum retention</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Incident journal / system of record</td><td>Live during response</td><td>7 years from incident closure</td></tr>
+        <tr><td class="lvl">Forensic images (disk, memory)</td><td>Before destructive action</td><td>3 years (longer if litigation reasonable)</td></tr>
+        <tr><td class="lvl">Log exports</td><td>Before retention lapse</td><td>3 years</td></tr>
+        <tr><td class="lvl">IOC / IOA artefacts</td><td>During analysis</td><td>3 years</td></tr>
+        <tr><td class="lvl">Communications (email, chat)</td><td>End of response</td><td>7 years from incident closure</td></tr>
+        <tr><td class="lvl">Regulator notifications and acknowledgements</td><td>On send / receipt</td><td>7 years</td></tr>
+        <tr><td class="lvl">After-action report</td><td>Post-closure</td><td>7 years</td></tr>
+      </tbody>
+    </table>
+
+    <h3>10.3 Custody &amp; ownership</h3>
+    <p>The CISO is the custodian of incident records. After closure, the GRC team holds long-term custody and authorises access. Access is logged. Destruction follows the data-retention schedule and is recorded.</p>
+  </div>
+
+  <!-- ===== SECTION 11 ===== -->
+  <div class="sop-section" id="s11">
+    <div class="sop-section-num">Section 11</div>
+    <div class="sop-section-title">Communications Principles</div>
+    <p>Communications are the highest-risk dimension of incident response. Mishandled comms can convert a contained technical incident into a reputational, regulatory, or legal crisis.</p>
+
+    <ul class="sop-bullet">
+      <li><strong>Single source of truth.</strong> The IC's incident journal is the authoritative timeline; all communications draw from it.</li>
+      <li><strong>One internal voice, one external voice.</strong> Internal comms via HR; external comms via PR. No freelance updates.</li>
+      <li><strong>No external comms without sign-off.</strong> CISO, Legal, and Privacy/DPO review every external communication before release. CEO approves for Sev 1.</li>
+      <li><strong>Tell people what they need to act on, no more.</strong> Operational details that aid an attacker (specific indicators, internal architecture) are withheld.</li>
+      <li><strong>Confirm before you commit.</strong> Avoid speculative claims about cause, scope, or attribution. Use holding statements where facts are still being established.</li>
+      <li><strong>Don't surprise the regulator.</strong> Where regulator notification is foreseeable, brief them under the local notification framework before the public learns.</li>
+    </ul>
+
+    <p style="margin-top:10px;">Concrete templates — internal staff notification, executive briefing, regulator notification, customer/beneficiary notification, public statement, after-action report — are maintained in <a href="grc-frm-14.html" style="color:var(--grc);">GRC-FRM-14: Communication Templates Pack</a>.</p>
+  </div>
+
+  <!-- ===== SECTION 12 ===== -->
+  <div class="sop-section" id="s12">
+    <div class="sop-section-num">Section 12</div>
+    <div class="sop-section-title">Tabletop Exercise Programme</div>
+    <p>Tabletop exercises are mandatory: they validate this plan, build muscle memory, and surface gaps before a real incident does. The Head of Cyber Security Operations owns the programme; the GRC team observes and produces the report.</p>
+
+    <h3>12.1 Cadence</h3>
+    <ul class="sop-bullet">
+      <li><strong>One Sev 1 / Sev 2 scenario per year minimum</strong>, with the executive team present (CISO, CIO, CEO or designate, Legal, PR, CFO).</li>
+      <li><strong>Two SOC-level scenarios per year minimum</strong>, exercising the Detect → Contain → Eradicate flow at the analyst level.</li>
+      <li><strong>Annual local tabletop in each operating unit</strong>, exercising the local annex (regulator notification, language, contacts).</li>
+      <li><strong>Post-material-incident review</strong> within 90 days of closure to validate that lessons-learned actions have actually changed behaviour.</li>
+    </ul>
+
+    <h3>12.2 Outputs</h3>
+    <p>Each exercise produces a written report covering: scenario, participants, timeline, observations against this plan, gaps identified, and actions assigned with owners and target dates. Reports are retained for audit evidence and reviewed by the Risk Committee.</p>
+  </div>
+
+  <!-- ===== SECTION 13 ===== -->
+  <div class="sop-section" id="s13">
+    <div class="sop-section-num">Section 13</div>
+    <div class="sop-section-title">"Do Not" Actions</div>
+    <p>The following are explicit prohibitions. Any deviation requires CISO and Legal sign-off recorded in the incident journal at the time the deviation is taken.</p>
+    <div class="dont-list">
+      <div class="dont-item"><span><strong>Do not wipe, reimage, or restore systems</strong> before forensic capture is complete or explicitly waived by the IC.</span></div>
+      <div class="dont-item"><span><strong>Do not delete logs, alerts, or communications</strong> related to the incident under any circumstance.</span></div>
+      <div class="dont-item"><span><strong>Do not engage law enforcement</strong> without prior Legal sign-off, especially in cross-border cases where notification can have unintended legal consequences.</span></div>
+      <div class="dont-item"><span><strong>Do not pay a ransom</strong> without the full chain of authorisation in §9.6. Unilateral payment by an IC is grounds for disciplinary action and may be illegal.</span></div>
+      <div class="dont-item"><span><strong>Do not communicate externally</strong> — to media, customers, beneficiaries, suppliers, or social media — without sign-off from CISO, Legal, and Privacy/DPO.</span></div>
+      <div class="dont-item"><span><strong>Do not negotiate with threat actors</strong> directly. Negotiation, where authorised, is conducted via specialist counsel or the IR retainer with explicit Legal and CISO oversight.</span></div>
+      <div class="dont-item"><span><strong>Do not restore from backups taken inside the compromise window</strong> without forensic clearance — you may reintroduce the attacker.</span></div>
+      <div class="dont-item"><span><strong>Do not close the incident</strong> until lessons-learned actions are recorded with named owners and the after-action report is signed off by the CISO.</span></div>
+      <div class="dont-item"><span><strong>Do not assume the incident is over</strong> when the obvious symptom stops. Continue monitoring through the watchful-eye period; threat actors often pause and resume.</span></div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 14 ===== -->
+  <div class="sop-section" id="s14">
+    <div class="sop-section-num">Section 14</div>
+    <div class="sop-section-title">Records, Related Documents &amp; Review</div>
+
+    <h3>14.1 Records produced</h3>
+    <div class="evidence-list">
+      <div class="evidence-item">Incident records in the system of record (RTIR / ITSM tool)</div>
+      <div class="evidence-item">Incident journals with time-stamped decision and action log</div>
+      <div class="evidence-item">Forensic captures and chain-of-custody records</div>
+      <div class="evidence-item">Regulator-notification records and acknowledgements</div>
+      <div class="evidence-item">After-action reports and lessons-learned register</div>
+      <div class="evidence-item">Tabletop exercise reports</div>
+      <div class="evidence-item">Risk-register cross-references where incidents materialise risks</div>
+      <div class="evidence-item">Plan version history and approval evidence</div>
+    </div>
+
+    <h3>14.2 Related documents</h3>
+    <div class="rel-grid">
+      <div class="rel-card">
+        <h4>Plan derivatives</h4>
+        <div class="rel-link"><a href="grc-irp-annex-template.html">GRC-IRP-ANNEX-TEMPLATE — Local IR Annex</a></div>
+        <div class="rel-link"><a href="grc-frm-14.html">GRC-FRM-14 — Communication Templates Pack</a></div>
+      </div>
+      <div class="rel-card">
+        <h4>Risk &amp; governance</h4>
+        <div class="rel-link"><a href="grc-register-risk.html">GRC-REG-RISK — Cyber &amp; IT Risk Register</a></div>
+        <div class="rel-link"><a href="grc-sop-04.html">GRC-SOP-04 — Risk Management Procedure</a></div>
+        <div class="rel-link"><a href="grc-register-risk-log.html">Risk Acceptance Log</a></div>
+      </div>
+      <div class="rel-card">
+        <h4>Operational layer</h4>
+        <div class="rel-link"><a href="sops.html">SOC SOPs — including SOP-IM-01 severity classification</a></div>
+        <div class="rel-link"><a href="playbooks.html">Playbooks (EM-PB, ID-PB, EP-PB, NW-PB)</a></div>
+        <div class="rel-link"><a href="runbooks.html">Runbooks (EM-RB, ID-RB, EP-RB, NW-RB)</a></div>
+      </div>
+      <div class="rel-card">
+        <h4>Reference</h4>
+        <div class="rel-link"><a href="nist-csf-reference.html">NIST CSF 2.0 reference</a></div>
+        <div class="rel-link"><a href="core-concepts.html">Core Concepts (Tier model)</a></div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:14px;">14.3 Review</h3>
+    <p>This plan is reviewed annually by the Head of Cyber Security Operations and the GRC team, with sign-off by the CISO and the Risk Committee. Out-of-cycle reviews are mandatory after any Sev 1 or Sev 2 incident, after material organisational change, after material regulatory change, and after material change to the operating-unit footprint.</p>
+
+    <h3>14.4 Triggers for invoking this plan</h3>
+    <div class="trigger-tags">
+      <span class="trigger-tag">SOC alert assessed as event of interest</span>
+      <span class="trigger-tag">Employee, supplier, or external party reports a security concern</span>
+      <span class="trigger-tag">Regulator, law enforcement, or partner notifies the organisation</span>
+      <span class="trigger-tag">Threat-intel indicates the organisation is being targeted</span>
+      <span class="trigger-tag">Loss or theft of an organisational device</span>
+      <span class="trigger-tag">Suspected insider threat</span>
+      <span class="trigger-tag">Public exposure (media, social media) of a possible incident</span>
+    </div>
+  </div>
+
+  <div class="sop-nav"><a href="grc.html">← GRC Hub</a><a href="grc-irp-annex-template.html">Local IR Annex Template →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC-IRP-01 · v1.0 · Approved · Confidential L3 · Paulo Ferreira</span>
+    <span><a href="grc.html" style="color:var(--grc);text-decoration:none;">← Back to GRC Hub</a></span>
+  </div>
+</div>
+</body>
+</html>

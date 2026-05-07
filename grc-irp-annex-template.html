@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-IRP-ANNEX-TEMPLATE: Local Incident Response Annex — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-hero-ey { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-hero h1 { font-size:20px; font-weight:700; margin-bottom:6px; }
+  .grc-hero p  { font-size:14px; opacity:0.8; line-height:1.5; margin:0; }
+  .grc-hero-pills { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .grc-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.8rem 1.2rem; margin-bottom:1.25rem; }
+  .meta-item { font-size:13px; color:#666; display:flex; align-items:center; gap:5px; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-template { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .instr-box { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
+  .instr-box p { font-size:13px; color:#6b3f0a; margin:0 0 6px 0; line-height:1.6; }
+  .instr-box p:last-child { margin:0; }
+  .instr-box strong { color:#5a330a; }
+  .frm-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; overflow:hidden; margin-bottom:10px; }
+  .frm-section-header { background:var(--grc-dark); color:#fff; padding:0.75rem 1.25rem; }
+  .frm-section-header h3 { font-size:14px; font-weight:600; margin:0; }
+  .details-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .details-table td { padding:8px 12px; border:0.5px solid #e8e8e4; }
+  .details-table td:first-child { font-weight:600; color:var(--grc-dark); background:var(--grc-light); width:38%; vertical-align:top; }
+  .details-table tr:nth-child(even) td:first-child { background:#d8efef; }
+  .details-table td:last-child input,
+  .details-table td:last-child textarea,
+  .details-table td:last-child select { width:100%; border:none; background:transparent; font-size:13px; color:#333; font-family:inherit; }
+  .details-table td:last-child textarea { min-height:50px; resize:vertical; }
+  .hint { font-size:11px; color:#888; font-style:italic; margin-top:3px; display:block; }
+  .contact-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .contact-table th { background:var(--grc-light); color:var(--grc-dark); font-weight:600; padding:8px 10px; text-align:left; border:0.5px solid var(--grc-border); font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .contact-table td { padding:7px 10px; border:0.5px solid #e8e8e4; vertical-align:top; }
+  .contact-table td input { width:100%; border:none; background:transparent; font-size:13px; color:#333; font-family:inherit; }
+  .contact-table tr:nth-child(even) td { background:#fafafa; }
+  .decl-box { background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:10px; padding:1.1rem 1.4rem; margin-bottom:1.25rem; }
+  .decl-box p { font-size:13px; color:var(--grc-dark); line-height:1.6; margin-bottom:10px; }
+  .decl-box p:last-child { margin:0; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .frm-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .frm-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+  @media print { .kb-topnav,.breadcrumb,.frm-nav,.kb-footer{display:none;} input,textarea,select{border:0.5pt solid #ccc !important;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="grc.html">GRC Hub</a><span>›</span>
+    <span>Plans</span><span>›</span>
+    <span>Local IR Annex Template</span>
+  </div>
+
+  <div class="grc-hero">
+    <div class="grc-hero-ey">GRC · Plan · Annex Template</div>
+    <h1>GRC-IRP-ANNEX-TEMPLATE: Local Incident Response Annex</h1>
+    <p>Each operating unit completes this annex to localise GRC-IRP-01 with the contacts, regulators, language, and timing requirements specific to its jurisdiction. The completed annex is held by the local LCSO/CSLC and reviewed at least annually.</p>
+    <div class="grc-hero-pills">
+      <span class="grc-hero-pill">Local annex</span>
+      <span class="grc-hero-pill">Adapts GRC-IRP-01</span>
+      <span class="grc-hero-pill">Annual review</span>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">📋 <strong>Template ID:</strong> GRC-IRP-ANNEX-TEMPLATE</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔗 <strong>Master plan:</strong> <a href="grc-irp-01.html" style="color:var(--grc);">GRC-IRP-01</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📨 <strong>Comms:</strong> <a href="grc-frm-14.html" style="color:var(--grc);">GRC-FRM-14</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-template">Template</span></div>
+  </div>
+
+  <div class="instr-box">
+    <p>📌 <strong>How to use this template.</strong> Each operating unit (agency, country, subsidiary) maintains one completed annex. The annex extends — never overrides — the master plan in GRC-IRP-01.</p>
+    <p><strong>Owner:</strong> Local CSLC (Cyber Security Local Coordinator) or LCSO (Local Cyber Security Officer). <strong>Review:</strong> Annually, plus after any material change to local contacts, regulators, or insurance. <strong>Storage:</strong> Locally controlled; copy registered with central GRC team.</p>
+    <p><strong>Classification:</strong> Confidential — Level 3, consistent with GRC-IRP-01.</p>
+  </div>
+
+  <!-- Annex control -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>1 · Annex Control</h3></div>
+    <table class="details-table">
+      <tr><td>Operating unit name<span class="hint">Agency, country, or subsidiary as published</span></td><td><input type="text" placeholder="e.g. Operating Unit X — Country Y"></td></tr>
+      <tr><td>Country / jurisdiction</td><td><input type="text" placeholder="Country and applicable region"></td></tr>
+      <tr><td>Annex owner (LCSO / CSLC)</td><td><input type="text" placeholder="Name and role"></td></tr>
+      <tr><td>Annex version</td><td><input type="text" placeholder="v1.0"></td></tr>
+      <tr><td>Effective date</td><td><input type="text" placeholder="DD-MMM-YYYY"></td></tr>
+      <tr><td>Next review date<span class="hint">Annual minimum</span></td><td><input type="text" placeholder="DD-MMM-YYYY"></td></tr>
+      <tr><td>Approved locally by</td><td><input type="text" placeholder="Local executive sponsor name &amp; role"></td></tr>
+      <tr><td>Registered centrally with</td><td><input type="text" placeholder="Central GRC contact"></td></tr>
+    </table>
+  </div>
+
+  <!-- Scope -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>2 · Local Scope</h3></div>
+    <table class="details-table">
+      <tr><td>Services / systems covered</td><td><textarea placeholder="List the principal services, systems, and applications operated within this operating unit that fall under this plan"></textarea></td></tr>
+      <tr><td>Sites &amp; offices in scope</td><td><textarea placeholder="Physical locations covered by this annex"></textarea></td></tr>
+      <tr><td>Headcount under this annex<span class="hint">Approximate</span></td><td><input type="text" placeholder="e.g. ~250 staff, ~50 contractors"></td></tr>
+      <tr><td>Local exclusions<span class="hint">Anything explicitly out of local scope</span></td><td><textarea placeholder="e.g. systems hosted centrally that fall under another annex"></textarea></td></tr>
+    </table>
+  </div>
+
+  <!-- Local CSIRT contacts -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>3 · Local CSIRT / SOC Contacts</h3></div>
+    <table class="contact-table">
+      <thead><tr><th>Role</th><th>Name</th><th>Primary phone</th><th>Secondary / after-hours</th><th>Email</th></tr></thead>
+      <tbody>
+        <tr><td>LCSO / CSLC</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td>Local SOC lead</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td>Local IR analyst (primary)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td>Local IR analyst (deputy)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- IT operations -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>4 · Local IT Operations Contacts</h3></div>
+    <table class="contact-table">
+      <thead><tr><th>Role</th><th>Name</th><th>Primary phone</th><th>Secondary / after-hours</th><th>Email</th></tr></thead>
+      <tbody>
+        <tr><td>Head of IT (local)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td>Identity / directory lead</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td>Network &amp; perimeter lead</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td>Endpoint &amp; messaging lead</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td>BC/DR &amp; backup lead</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Executive sponsor -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>5 · Local Executive Sponsor &amp; Business Leads</h3></div>
+    <table class="contact-table">
+      <thead><tr><th>Role</th><th>Name</th><th>Primary phone</th><th>Secondary / after-hours</th><th>Email</th></tr></thead>
+      <tbody>
+        <tr><td>CEO / Country lead</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td>COO / Operations lead</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td>CFO (local)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td>HR lead (local)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td>Comms / PR lead (local)</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Data protection authority -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>6 · Local Data Protection Authority</h3></div>
+    <table class="details-table">
+      <tr><td>Authority name<span class="hint">e.g. CNIL (FR), ICO (UK), CNPD (PT), AEPD (ES)</span></td><td><input type="text" placeholder="Authority full name and abbreviation"></td></tr>
+      <tr><td>Applicable regulation</td><td>
+        <select>
+          <option value="">— Select primary —</option>
+          <option>GDPR (EU/EEA + UK GDPR)</option>
+          <option>UK GDPR + DPA 2018</option>
+          <option>Other national data protection law (specify in scope)</option>
+        </select>
+      </td></tr>
+      <tr><td>Notification timeline<span class="hint">From awareness</span></td><td><input type="text" placeholder="e.g. 72 hours (GDPR Art. 33)"></td></tr>
+      <tr><td>Notification portal / method</td><td><input type="text" placeholder="URL or email address; specify if phone-first then form"></td></tr>
+      <tr><td>Authority contact (named)</td><td><input type="text" placeholder="Where pre-existing relationship; otherwise general portal"></td></tr>
+      <tr><td>Required language(s)</td><td><input type="text" placeholder="Languages in which the notification must be filed"></td></tr>
+      <tr><td>Local DPO / Privacy lead</td><td><input type="text" placeholder="Name, role, contact"></td></tr>
+    </table>
+  </div>
+
+  <!-- Sector-specific regulators -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>7 · Sector-Specific Regulators (if applicable)</h3></div>
+    <table class="details-table">
+      <tr><td>Applicable regulation(s)<span class="hint">NIS2, DORA, HIPAA, PCI-DSS, etc.</span></td><td><textarea placeholder="List each applicable regime and its incident-notification requirements"></textarea></td></tr>
+      <tr><td>Regulator(s) contact</td><td><textarea placeholder="One row per regulator: name, contact, notification timeline, portal"></textarea></td></tr>
+      <tr><td>Specific timeline obligations<span class="hint">e.g. NIS2 Art. 23: 24h early warning, 72h notification, 1-month final</span></td><td><textarea placeholder="Document explicit timelines per regulator"></textarea></td></tr>
+    </table>
+  </div>
+
+  <!-- Law enforcement -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>8 · Law Enforcement &amp; National CSIRT</h3></div>
+    <table class="details-table">
+      <tr><td>National / regional CSIRT</td><td><input type="text" placeholder="e.g. CERT-EU, ANSSI, NCSC, CNCS"></td></tr>
+      <tr><td>Cyber crime unit (police)</td><td><input type="text" placeholder="Unit name and 24/7 contact"></td></tr>
+      <tr><td>When to engage<span class="hint">Per Master Plan §13: Legal sign-off mandatory before contact</span></td><td><textarea placeholder="Local triggers for engaging law enforcement (e.g. confirmed criminal compromise, ransom demand, theft)"></textarea></td></tr>
+      <tr><td>Cross-border considerations</td><td><textarea placeholder="Specific cross-border issues for this jurisdiction (e.g. data localisation, MLAT routes)"></textarea></td></tr>
+    </table>
+  </div>
+
+  <!-- Cyber insurance -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>9 · Cyber Insurance</h3></div>
+    <table class="details-table">
+      <tr><td>Insurer</td><td><input type="text" placeholder="Underwriter name"></td></tr>
+      <tr><td>Broker</td><td><input type="text" placeholder="Broker name and account contact"></td></tr>
+      <tr><td>Policy number</td><td><input type="text" placeholder="Reference"></td></tr>
+      <tr><td>24/7 incident hotline</td><td><input type="text" placeholder="Number provided by the insurer"></td></tr>
+      <tr><td>Maximum time-to-notify<span class="hint">Late notification can void coverage</span></td><td><input type="text" placeholder="e.g. 24 hours / 72 hours"></td></tr>
+      <tr><td>Notification triggers<span class="hint">When the insurer must be told</span></td><td><textarea placeholder="e.g. any Sev 1/2; any ransomware; any suspected data exposure; any third-party breach affecting us"></textarea></td></tr>
+      <tr><td>Pre-approved IR firms<span class="hint">Where the insurer mandates use of panel firms</span></td><td><textarea placeholder="List panel forensic / legal / PR firms"></textarea></td></tr>
+      <tr><td>Coverage notes</td><td><textarea placeholder="Sub-limits, exclusions, retentions worth knowing during a live incident"></textarea></td></tr>
+    </table>
+  </div>
+
+  <!-- Legal counsel -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>10 · Legal Counsel</h3></div>
+    <table class="details-table">
+      <tr><td>Internal Legal — primary</td><td><input type="text" placeholder="Name, role, 24/7 contact"></td></tr>
+      <tr><td>Internal Legal — deputy</td><td><input type="text" placeholder="Name, role, contact"></td></tr>
+      <tr><td>External counsel — incident response specialism</td><td><input type="text" placeholder="Firm, partner, 24/7 contact"></td></tr>
+      <tr><td>External counsel — privacy / data protection</td><td><input type="text" placeholder="Firm, partner, 24/7 contact"></td></tr>
+      <tr><td>Engagement letter / SOW reference</td><td><input type="text" placeholder="Where the retainer terms live"></td></tr>
+    </table>
+  </div>
+
+  <!-- IR retainer -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>11 · External IR Retainer</h3></div>
+    <table class="details-table">
+      <tr><td>IR / DFIR partner</td><td><input type="text" placeholder="Firm name"></td></tr>
+      <tr><td>24/7 activation hotline</td><td><input type="text" placeholder="Number"></td></tr>
+      <tr><td>Activation authority<span class="hint">Who can authorise an engagement on day one</span></td><td><input type="text" placeholder="e.g. CISO; CFO confirms scope-out-of-retainer"></td></tr>
+      <tr><td>Retainer hours / cap</td><td><input type="text" placeholder="Pre-paid hours and burn rate"></td></tr>
+      <tr><td>SOW reference</td><td><input type="text" placeholder="Document location"></td></tr>
+      <tr><td>MDR partner (if applicable)<span class="hint">Distinct from incident-only IR</span></td><td><input type="text" placeholder="MDR partner, contact, scope"></td></tr>
+    </table>
+  </div>
+
+  <!-- PR / comms -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>12 · PR &amp; External Communications</h3></div>
+    <table class="details-table">
+      <tr><td>Internal Comms lead</td><td><input type="text" placeholder="Name, role, contact"></td></tr>
+      <tr><td>External PR agency<span class="hint">If retained</span></td><td><input type="text" placeholder="Firm, account lead, 24/7 contact"></td></tr>
+      <tr><td>Crisis comms protocol reference</td><td><input type="text" placeholder="Local crisis-comms playbook reference if separate"></td></tr>
+      <tr><td>Approved spokesperson (default)</td><td><input type="text" placeholder="Senior leader briefed and trained for media"></td></tr>
+      <tr><td>Approved spokesperson (deputy)</td><td><input type="text" placeholder="Deputy if primary unavailable"></td></tr>
+    </table>
+  </div>
+
+  <!-- Language requirements -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>13 · Language Requirements</h3></div>
+    <table class="details-table">
+      <tr><td>Working language for incident response</td><td><input type="text" placeholder="Language used for incident bridge and journal"></td></tr>
+      <tr><td>Required language(s) — regulator</td><td><input type="text" placeholder="Per §6 above"></td></tr>
+      <tr><td>Required language(s) — customer / beneficiary</td><td><input type="text" placeholder="For external notifications"></td></tr>
+      <tr><td>Required language(s) — staff</td><td><input type="text" placeholder="For internal notifications"></td></tr>
+      <tr><td>Translation arrangements</td><td><textarea placeholder="In-house, retained agency, or panel translator(s); turn-around expectation"></textarea></td></tr>
+    </table>
+  </div>
+
+  <!-- Tabletop schedule -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>14 · Local Tabletop Schedule</h3></div>
+    <table class="details-table">
+      <tr><td>Last local tabletop conducted</td><td><input type="text" placeholder="Date and scenario summary"></td></tr>
+      <tr><td>Next local tabletop scheduled</td><td><input type="text" placeholder="Target date"></td></tr>
+      <tr><td>Scenarios in rotation</td><td><textarea placeholder="List of scenarios planned over rolling 3-year cycle"></textarea></td></tr>
+      <tr><td>Participants typically engaged</td><td><textarea placeholder="Who participates in local tabletop sessions"></textarea></td></tr>
+      <tr><td>Last report reference</td><td><input type="text" placeholder="Where the last tabletop report is filed"></td></tr>
+    </table>
+  </div>
+
+  <!-- Local approval & review -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>15 · Local Approval &amp; Review History</h3></div>
+    <table class="contact-table">
+      <thead><tr><th>Version</th><th>Date</th><th>Changed by</th><th>Approved by</th><th>Summary of change</th></tr></thead>
+      <tbody>
+        <tr><td><input type="text" placeholder="v1.0"></td><td><input type="text" placeholder="DD-MMM-YYYY"></td><td><input type="text" placeholder="Author"></td><td><input type="text" placeholder="Approver"></td><td><input type="text" placeholder="Summary"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        <tr><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Declaration -->
+  <div class="decl-box">
+    <p><strong>Local Declaration.</strong> The named LCSO / CSLC confirms that the information in this annex is accurate as of the effective date and that all referenced contacts have been informed of their roles in cyber incident response.</p>
+    <p>The local executive sponsor confirms approval of this annex on behalf of the operating unit.</p>
+    <p>The annex extends — never overrides — GRC-IRP-01. Where this annex and the master plan differ, the master plan takes precedence except where local law mandates otherwise.</p>
+  </div>
+
+  <div class="frm-nav">
+    <a href="grc-irp-01.html">← GRC-IRP-01 Master Plan</a>
+    <a href="grc-frm-14.html">Comms templates →</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC-IRP-ANNEX-TEMPLATE · Template · Confidential L3 · Paulo Ferreira</span>
+    <span><a href="grc.html" style="color:var(--grc);text-decoration:none;">← Back to GRC Hub</a></span>
+  </div>
+</div>
+</body>
+</html>
