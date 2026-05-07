@@ -1654,5 +1654,32 @@
     "url": "nw-wi-03.html",
     "desc": "Step-by-step instructions for isolating a network segment",
     "tags": "network segment isolation VLAN containment WI"
+  },
+  {
+    "id": "GRC-IRP-01",
+    "title": "Cyber Security Incident Response Plan",
+    "section": "GRC",
+    "sub": "Plans",
+    "url": "grc-irp-01.html",
+    "desc": "Master cyber security incident response plan covering 7-phase lifecycle, 5-tier severity (Sev 1–5), roles, escalation paths, decision trees, evidence handling, and tabletop programme. Aligned with NIST SP 800-61r2, NIST CSF 2.0, ISO/IEC 27035, ISO/IEC 27001:2022 Annex A.5.24-28, GDPR Art.33/34, and NIS2 Art.23.",
+    "tags": "GRC IRP incident response plan NIST 800-61 CSF 2.0 ISO 27035 ISO 27001 GDPR NIS2 severity Sev 1 Sev 2 Sev 3 Sev 4 Sev 5 escalation containment eradication recovery evidence chain of custody tabletop"
+  },
+  {
+    "id": "GRC-IRP-ANNEX-TEMPLATE",
+    "title": "Local Incident Response Annex Template",
+    "section": "GRC",
+    "sub": "Plans",
+    "url": "grc-irp-annex-template.html",
+    "desc": "Fillable annex template for operating units (agencies, country offices, subsidiaries) to localise GRC-IRP-01 with local CSIRT/IT contacts, data protection authority, sector regulators, cyber insurance, IR retainer, legal counsel, language requirements, and local tabletop schedule. Owned by LCSO/CSLC; annual review minimum.",
+    "tags": "GRC IRP annex template local LCSO CSLC operating unit federation cyber insurance IR retainer DPA regulator GDPR NIS2 DORA HIPAA PCI-DSS language tabletop"
+  },
+  {
+    "id": "GRC-FRM-14",
+    "title": "Incident Response Communication Templates",
+    "section": "GRC",
+    "sub": "Forms",
+    "url": "grc-frm-14.html",
+    "desc": "Eight approved communication templates for cyber incident response plus an after-action report template. Covers internal staff notification (Sev 3/2/1 variants), executive briefing, Risk Committee notification, regulator notification (GDPR-pattern 72h), customer/beneficiary breach notification, supplier/partner notification, public/holding statement, and incident closure. Each template specifies audience, sign-off chain, draft text, and post-send actions.",
+    "tags": "GRC IRP communications templates internal staff executive Risk Committee regulator GDPR Article 33 customer breach notification supplier public statement holding statement after-action report AAR sign-off Legal Privacy CISO"
   }
 ]
