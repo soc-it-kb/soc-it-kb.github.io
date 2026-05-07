@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patch Compliance Validation Checklist — Servers</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+  .t1-hero { background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .t1-hero-ey { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .t1-hero h2 { font-size:20px; font-weight:700; margin-bottom:6px; }
+  .t1-hero p  { font-size:14px; opacity:0.8; line-height:1.5; margin-bottom:10px; }
+  .t1-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .t1-hero-pill  { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.8rem 1.2rem; margin-bottom:1.25rem; }
+  .meta-item { font-size:13px; color:#666; display:flex; align-items:center; gap:5px; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); }
+  .progress-wrap { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .progress-label { display:flex; justify-content:space-between; align-items:center; font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:7px; }
+  .progress-track { height:8px; background:var(--asm-light); border-radius:8px; }
+  .progress-fill  { height:8px; background:var(--asm); border-radius:8px; width:0%; transition:width 0.3s; }
+  .id-fields { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .id-fields-title { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:10px; }
+  .id-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .id-field label { display:block; font-size:12px; font-weight:600; color:var(--asm-dark); margin-bottom:3px; }
+  .id-field input, .id-field select { width:100%; border:0.5px solid #d0d0cc; border-radius:6px; padding:7px 10px; font-size:13px; font-family:inherit; color:#333; }
+  .id-field input:focus, .id-field select:focus { outline:none; border-color:var(--asm); }
+  .chk-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; overflow:hidden; margin-bottom:10px; }
+  .chk-header { background:var(--asm-dark); color:#fff; padding:0.7rem 1.25rem; display:flex; align-items:center; gap:10px; }
+  .chk-header-alpha { font-size:12px; font-weight:700; opacity:0.6; }
+  .chk-header h3 { font-size:14px; font-weight:600; margin:0; }
+  .chk-body { padding:0.9rem 1.25rem; }
+  .chk-list { display:flex; flex-direction:column; gap:5px; margin-bottom:10px; }
+  .chk-list:last-child { margin-bottom:0; }
+  .chk-item { display:flex; align-items:flex-start; gap:10px; padding:7px 10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:7px; cursor:pointer; transition:background 0.12s; }
+  .chk-item:hover { background:var(--asm-light); border-color:var(--asm-border); }
+  .chk-item.checked { background:#E1F5EE; border-color:#82D4B0; }
+  .chk-item.na-item { background:#f5f5f3; border-color:#e0e0dc; opacity:0.7; }
+  .chk-item input[type=checkbox] { width:16px; height:16px; flex-shrink:0; margin-top:2px; accent-color:var(--asm); cursor:pointer; }
+  .chk-text { font-size:13px; color:#333; line-height:1.4; flex:1; }
+  .chk-item.checked .chk-text { color:#1a6b47; }
+  .chk-badge { font-size:10px; font-weight:700; padding:1px 6px; border-radius:4px; flex-shrink:0; margin-top:2px; }
+  .chk-badge.new      { background:#E6F1FB; color:#185FA5; border:0.5px solid #B5D4F4; }
+  .chk-badge.critical { background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; }
+  .chk-badge.tier0    { background:#F3EEF9; color:var(--asm); border:0.5px solid var(--asm-border); }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.75rem 1rem; margin-bottom:10px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+  .callout-info { background:var(--asm-light); border:0.5px solid var(--asm-border); border-left:3px solid var(--asm); border-radius:8px; padding:0.75rem 1rem; margin-bottom:10px; }
+  .callout-info p { font-size:13px; color:var(--asm-dark); margin:0; line-height:1.5; }
+  .sla-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:10px; }
+  .sla-card { border-radius:8px; padding:0.6rem 0.8rem; text-align:center; }
+  .sla-card.critical { background:#FAECE7; border:0.5px solid #F5C0B0; }
+  .sla-card.high     { background:#FEF0E6; border:0.5px solid #F5C89A; }
+  .sla-card.medium   { background:#FAEEDA; border:0.5px solid #FAC775; }
+  .sla-card.low      { background:#E1F5EE; border:0.5px solid #82D4B0; }
+  .sla-card h4 { font-size:11px; font-weight:700; margin-bottom:2px; }
+  .sla-card.critical h4 { color:#993C1D; }
+  .sla-card.high     h4 { color:#8B4A0E; }
+  .sla-card.medium   h4 { color:#854F0B; }
+  .sla-card.low      h4 { color:#0F6E56; }
+  .sla-card p { font-size:12px; margin:0; color:#555; }
+  .status-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .status-table th { background:var(--asm-light); color:var(--asm); font-weight:600; padding:7px 10px; text-align:left; border:0.5px solid var(--asm-border); font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .status-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; }
+  .status-table tr:nth-child(even) td { background:#fafafa; }
+  .status-table td:first-child { font-weight:600; color:var(--asm-dark); }
+  .evidence-list { display:flex; flex-direction:column; gap:6px; }
+  .evidence-item { display:flex; align-items:center; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:7px; padding:7px 12px; }
+  .evidence-item span { font-size:13px; color:#444; flex:1; }
+  .evidence-item input { flex:1; border:none; background:transparent; font-size:13px; font-family:inherit; color:#333; }
+  .evidence-dot { width:7px; height:7px; border-radius:50%; background:var(--asm-border); flex-shrink:0; }
+  .signoff-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:12px; }
+  .signoff-field label { display:block; font-size:12px; font-weight:600; color:var(--asm-dark); margin-bottom:3px; }
+  .signoff-field input { width:100%; border:0.5px solid #d0d0cc; border-radius:6px; padding:7px 10px; font-size:13px; font-family:inherit; color:#333; }
+  .status-opts { display:flex; gap:8px; flex-wrap:wrap; }
+  .status-opt { display:flex; align-items:center; gap:6px; padding:5px 12px; border:0.5px solid #d0d0cc; border-radius:7px; cursor:pointer; font-size:13px; font-family:inherit; background:#fafafa; }
+  .status-opt:has(input:checked) { border-color:var(--asm); background:var(--asm-light); color:var(--asm); font-weight:600; }
+  .status-opt input { display:none; }
+  .ref-links { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+  .ref-link { font-size:11px; font-weight:600; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:2px 7px; border-radius:5px; text-decoration:none; }
+  .ref-link:hover { background:var(--asm); color:#fff; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .t1-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .t1-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+  @media(max-width:640px){ .id-grid,.sla-grid,.signoff-grid{grid-template-columns:1fr 1fr;} }
+  @media print {
+    .kb-topnav,.breadcrumb,.t1-nav,.kb-footer,.progress-wrap{display:none;}
+    body{font-size:11px;} .chk-section{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-patch-management.html">Patch Management</a><span>›</span>
+    <span>Server Patch Compliance Checklist</span>
+  </div>
+
+  <div class="t1-hero">
+    <div class="t1-hero-ey">ASM · Patch Management · Checklist</div>
+    <h2>Patch Compliance Validation Checklist — Servers</h2>
+    <p>Standardised validation of server patch compliance following scheduled or emergency patching. Applies to Windows and Linux servers — physical, virtual, on-premises, and cloud. Retain as audit evidence.</p>
+    <div class="t1-hero-pills">
+      <span class="t1-hero-pill">Windows &amp; Linux</span>
+      <span class="t1-hero-pill">8 sections</span>
+      <span class="t1-hero-pill">Tier-0 / Tier-1 aware</span>
+      <span class="t1-hero-pill">IT-PM-SOP-01</span>
+      <span class="t1-hero-pill">Audit evidence</span>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">📋 <strong>Checklist:</strong> PM-CHK-SRV-01</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔗 <strong>SOP:</strong> <a href="it-pm-sop-01.html" style="color:var(--asm);">IT-PM-SOP-01</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔗 <strong>WI:</strong> <a href="it-gov-wi-pm-02.html" style="color:var(--asm);">IT-GOV-WI-PM-02</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="callout-warn">
+    <p>⚠️ <strong>Production servers must not be patched without a verified rollback option.</strong> Confirm backup or snapshot completed and restorable before proceeding. Tier-0 assets (Domain Controllers) require additional change approval — see IT-SRV-SOP-DC-01.</p>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Checklist completion</span><span id="progressText">0 / 0 items</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="id-fields">
+    <div class="id-fields-title">Server &amp; patch cycle details</div>
+    <div class="id-grid">
+      <div class="id-field"><label>Server hostname</label><input type="text" placeholder="e.g. APPSVR01"></div>
+      <div class="id-field"><label>Environment</label><select><option value="">Select…</option><option>Production</option><option>Non-Production</option><option>DR</option><option>Cloud</option></select></div>
+      <div class="id-field"><label>OS type &amp; version</label><select><option value="">Select…</option><option>Windows Server 2022</option><option>Windows Server 2019</option><option>Windows Server 2016</option><option>Ubuntu 22.04 LTS</option><option>Ubuntu 20.04 LTS</option><option>RHEL 8 / 9</option><option>Other Linux</option></select></div>
+      <div class="id-field"><label>Server role / application</label><input type="text" placeholder="e.g. Domain Controller, Web Server, SQL Server"></div>
+      <div class="id-field"><label>Server tier</label><select><option value="">Select…</option><option>Tier-0 — Domain Controller / Identity</option><option>Tier-1 — Critical Server</option><option>Tier-2 — Standard Server</option></select></div>
+      <div class="id-field"><label>System / business owner</label><input type="text" placeholder="Full name"></div>
+      <div class="id-field"><label>Patch cycle type</label><select><option value="">Select…</option><option>Scheduled</option><option>Emergency / Zero-Day</option><option>Compliance Review</option><option>Post-Incident Recovery</option></select></div>
+      <div class="id-field"><label>Validation date</label><input type="date"></div>
+      <div class="id-field"><label>Validated by</label><input type="text" placeholder="Full name"></div>
+    </div>
+  </div>
+
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-alpha">A</span><h3>Server Identification</h3></div>
+    <div class="chk-body">
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Server hostname confirmed</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Environment confirmed — Production / Non-Production / DR</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">OS type and version recorded — Windows Server or Linux</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Server role / application identified</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Business / system owner identified</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Server tier confirmed — Tier-0 / Tier-1 / Tier-2 (see Core Concepts)</span><span class="chk-badge new">New</span></label>
+      </div>
+    </div>
+  </div>  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-alpha">B</span><h3>Pre-Patch Assurance</h3></div>
+    <div class="chk-body">
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Approved maintenance window confirmed</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Backup or snapshot completed and verified</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Rollback method documented — snapshot revert, backup restore, or service failover</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Dependent services and applications identified and owners notified</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Production server: confirm no backup = no patch. Verified rollback is mandatory.</span><span class="chk-badge critical">Critical</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Tier-0 assets (Domain Controllers): extra change approval obtained per IT-SRV-SOP-DC-01</span><span class="chk-badge tier0">Tier-0</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">EDR / AV agent confirmed healthy before patching begins</span></label>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--asm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;">Notes / actions</div>
+      <textarea style="width:100%;min-height:52px;border:0.5px solid #d0d0cc;border-radius:7px;padding:8px 10px;font-size:13px;font-family:inherit;resize:vertical;background:#fafafa;box-sizing:border-box;" placeholder="Record observations, actions, and owners..."></textarea>
+      <div class="ref-links"><a class="ref-link" href="it-gov-wi-pm-02.html">IT-GOV-WI-PM-02</a><a class="ref-link" href="it-srv-sop-dc-01.html">IT-SRV-SOP-DC-01</a></div>
+    </div>
+  </div>  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-alpha">C</span><h3>Patch Installation Status</h3></div>
+    <div class="chk-body">
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Latest OS security patches installed</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Required cumulative updates applied</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Application / middleware / runtime patches applied</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">No pending Critical or High-severity patches outstanding</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Reboot completed where required and services confirmed operational after reboot</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">CISA KEV check: confirm no KEV-listed vulnerabilities remain unpatched on this server</span><span class="chk-badge critical">Critical</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Linux servers: kernel patches applied and verified — reboot with new kernel confirmed</span><span class="chk-badge new">New</span></label>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--asm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;">Notes / actions</div>
+      <textarea style="width:100%;min-height:52px;border:0.5px solid #d0d0cc;border-radius:7px;padding:8px 10px;font-size:13px;font-family:inherit;resize:vertical;background:#fafafa;box-sizing:border-box;" placeholder="Record observations, actions, and owners..."></textarea>
+      <div class="ref-links"><a class="ref-link" href="it-pm-sop-01.html">IT-PM-SOP-01</a><a class="ref-link" href="it-srv-sop-win-01.html">IT-SRV-SOP-Win-01</a><a class="ref-link" href="it-srv-sop-lnx-01.html">IT-SRV-SOP-LNX-01</a></div>
+    </div>
+  </div>  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-alpha">D</span><h3>SLA Validation</h3></div>
+    <div class="chk-body">
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Critical patches applied within SLA (≤ 72 hours)</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">High-severity patches applied within SLA (≤ 14 days)</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Any SLA breaches identified and documented</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Breaches escalated to IT Operations lead and system owner</span></label>
+      </div>
+      <div class="sla-grid">
+        <div class="sla-card critical"><h4>Critical / Active Exploit</h4><p>≤ 72 hours</p></div>
+        <div class="sla-card high"><h4>High</h4><p>≤ 14 days</p></div>
+        <div class="sla-card medium"><h4>Medium</h4><p>≤ 30 days</p></div>
+        <div class="sla-card low"><h4>Low</h4><p>≤ 90 days</p></div>
+      </div>      <div style="font-size:11px;font-weight:700;color:var(--asm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;">Notes / actions</div>
+      <textarea style="width:100%;min-height:52px;border:0.5px solid #d0d0cc;border-radius:7px;padding:8px 10px;font-size:13px;font-family:inherit;resize:vertical;background:#fafafa;box-sizing:border-box;" placeholder="Record observations, actions, and owners..."></textarea>
+      <div class="ref-links"><a class="ref-link" href="it-pm-sop-01.html">IT-PM-SOP-01</a><a class="ref-link" href="it-pm-sop-03.html">IT-PM-SOP-03</a></div>
+    </div>
+  </div>  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-alpha">E</span><h3>Post-Patch Functional Validation</h3></div>
+    <div class="chk-body">
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Server boots successfully and all required services running</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Core application / service functionality validated</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Dependent applications and integrations confirmed operational</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">EDR / AV agent confirmed healthy and reporting after reboot</span><span class="chk-badge new">New</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Monitoring and alerting platform shows server healthy</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">No unexpected errors in system, application, or security event logs</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Tier-0 Domain Controllers: AD replication healthy, SYSVOL/NETLOGON shares accessible, DNS resolving correctly</span><span class="chk-badge tier0">Tier-0</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Linux servers: systemd services healthy, auditd running, SSH access confirmed</span><span class="chk-badge new">New</span></label>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--asm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;">Notes / actions</div>
+      <textarea style="width:100%;min-height:52px;border:0.5px solid #d0d0cc;border-radius:7px;padding:8px 10px;font-size:13px;font-family:inherit;resize:vertical;background:#fafafa;box-sizing:border-box;" placeholder="Record observations, actions, and owners..."></textarea>
+      <div class="ref-links"><a class="ref-link" href="it-srv-wi-win-04.html">IT-SRV-WI-Win-04</a><a class="ref-link" href="it-srv-wi-dc-04.html">IT-SRV-WI-DC-04</a><a class="ref-link" href="it-srv-wi-lnx-05.html">IT-SRV-WI-LNX-05</a></div>
+    </div>
+  </div>  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-alpha">F</span><h3>Drift &amp; Exception Review</h3></div>
+    <div class="chk-body">
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Patch drift detected — server behind current patch baseline</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Root cause of drift identified (excluded, offline, failed deployment, dependency block)</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Missing patches re-queued and applied</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Formal exception approved where patching is not technically feasible</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Compensating controls documented for all open exceptions</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Exception reviewed against CISA KEV — KEV vulnerabilities must not be on open exception without senior approval</span><span class="chk-badge critical">Critical</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Tier-0 exceptions: require escalation to Cyber Security lead regardless of compensating controls</span><span class="chk-badge tier0">Tier-0</span></label>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--asm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;">Notes / actions</div>
+      <textarea style="width:100%;min-height:52px;border:0.5px solid #d0d0cc;border-radius:7px;padding:8px 10px;font-size:13px;font-family:inherit;resize:vertical;background:#fafafa;box-sizing:border-box;" placeholder="Record observations, actions, and owners..."></textarea>
+      <div class="ref-links"><a class="ref-link" href="it-pm-sop-03.html">IT-PM-SOP-03</a><a class="ref-link" href="it-gov-wi-vm-04.html">IT-GOV-WI-VM-04</a></div>
+    </div>
+  </div>  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-alpha">G</span><h3>Emergency / Zero-Day Validation (if applicable)</h3></div>
+    <div class="chk-body">
+      <div class="callout-info"><p>📌 Emergency patching follows IT-PM-SOP-02. This section only applies when an emergency patch cycle was invoked. Skip if not applicable.</p></div>
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Emergency patch deployment completed</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Post-patch validation performed immediately after deployment</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">CISA KEV or vendor advisory reviewed and referenced in change record</span><span class="chk-badge critical">Critical</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Business and service impact assessed</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Incident or risk record updated</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Retrospective change approval completed where standard process was bypassed</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Change record closed with validation evidence attached</span></label>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--asm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;">Notes / actions</div>
+      <textarea style="width:100%;min-height:52px;border:0.5px solid #d0d0cc;border-radius:7px;padding:8px 10px;font-size:13px;font-family:inherit;resize:vertical;background:#fafafa;box-sizing:border-box;" placeholder="Record observations, actions, and owners..."></textarea>
+      <div class="ref-links"><a class="ref-link" href="it-pm-sop-02.html">IT-PM-SOP-02</a></div>
+    </div>
+  </div>  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-alpha">H</span><h3>Reporting &amp; Closure</h3></div>
+    <div class="chk-body">
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Server marked Compliant / Partially Compliant / Non-Compliant / Exception Granted</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Non-compliance escalated to IT Operations lead and system owner with remediation date</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Tracking systems and CMDB updated</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Change record closed</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-text">Checklist completed, signed, and retained as audit evidence</span></label>
+      </div>
+    </div>
+  </div>
+
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-alpha">I</span><h3>Compliance Status &amp; Sign-Off</h3></div>
+    <div class="chk-body">
+      <table class="status-table">
+        <thead><tr><th>Status</th><th>Definition</th></tr></thead>
+        <tbody>
+          <tr><td>Compliant</td><td>All required patches applied within SLA</td></tr>
+          <tr><td>Partially Compliant</td><td>Minor patches pending — no Critical or High risk exposure</td></tr>
+          <tr><td>Non-Compliant</td><td>Critical or High-severity patches overdue beyond SLA</td></tr>
+          <tr><td>Exception Granted</td><td>Formal, approved risk acceptance in place with compensating controls</td></tr>
+        </tbody>
+      </table>
+      <div style="margin:12px 0 8px;font-size:12px;font-weight:600;color:var(--asm-dark);">Overall compliance status</div>
+      <div class="status-opts" style="margin-bottom:14px;">
+        <label class="status-opt"><input type="radio" name="status" value="Compliant">✅ Compliant</label>
+        <label class="status-opt"><input type="radio" name="status" value="Partial">⚠️ Partially Compliant</label>
+        <label class="status-opt"><input type="radio" name="status" value="NonCompliant">🔴 Non-Compliant</label>
+        <label class="status-opt"><input type="radio" name="status" value="Exception">📋 Exception Granted</label>
+      </div>
+      <div class="signoff-grid">
+        <div class="signoff-field"><label>Reviewer name</label><input type="text" placeholder="Full name"></div>
+        <div class="signoff-field"><label>Role</label><input type="text" placeholder="Job title"></div>
+        <div class="signoff-field"><label>Date</label><input type="date"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-alpha">J</span><h3>Evidence &amp; Attachments</h3></div>
+    <div class="chk-body">
+      <div class="evidence-list">
+        <div class="evidence-item"><div class="evidence-dot"></div><span>Patch deployment report</span><input type="text" placeholder="Link or reference"></div>
+        <div class="evidence-item"><div class="evidence-dot"></div><span>OS patch level confirmation</span><input type="text" placeholder="Link or reference"></div>
+        <div class="evidence-item"><div class="evidence-dot"></div><span>Backup / snapshot record</span><input type="text" placeholder="Link or reference"></div>
+        <div class="evidence-item"><div class="evidence-dot"></div><span>Exception approval (if applicable)</span><input type="text" placeholder="Link or reference"></div>
+        <div class="evidence-item"><div class="evidence-dot"></div><span>Change record reference</span><input type="text" placeholder="Change ID or link"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="t1-nav">
+    <a href="pm-checklist-endpoints.html">← Endpoint Patch Checklist</a>
+    <a href="asm-patch-management.html">Back to Patch Management →</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>PM-CHK-SRV-01 · Server Patch Compliance Checklist · Paulo Ferreira</span>
+    <span><a href="asm-patch-management.html" style="color:var(--asm);text-decoration:none;">← Back to Patch Management</a></span>
+  </div>
+</div>
+
+<script>
+(function() {
+  function updateProgress() {
+    var boxes = document.querySelectorAll('.chk-list input[type=checkbox]');
+    var checked = 0;
+    boxes.forEach(function(b) { if (b.checked) checked++; });
+    var total = boxes.length;
+    var pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = checked + ' / ' + total + ' items';
+  }
+  document.querySelectorAll('.chk-item').forEach(function(item) {
+    var cb = item.querySelector('input[type=checkbox]');
+    if (!cb) return;
+    cb.addEventListener('change', function() {
+      item.classList.toggle('checked', cb.checked);
+      updateProgress();
+    });
+  });
+  updateProgress();
+})();
+</script>
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</body>
+</html>

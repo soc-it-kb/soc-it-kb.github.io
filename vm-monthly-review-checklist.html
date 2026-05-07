@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monthly Vulnerability Review Checklist — ASM</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
+
+  .t1-hero { background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .t1-hero-ey { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .t1-hero h2 { font-size:20px; font-weight:700; margin-bottom:6px; }
+  .t1-hero p  { font-size:14px; opacity:0.8; line-height:1.5; margin-bottom:10px; }
+  .t1-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .t1-hero-pill  { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.8rem 1.2rem; margin-bottom:1.25rem; }
+  .meta-item { font-size:13px; color:#666; display:flex; align-items:center; gap:5px; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); }
+
+  /* Review header fields */
+  .review-header { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .review-header-title { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:10px; }
+  .review-fields { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+  .review-field label { display:block; font-size:12px; font-weight:600; color:var(--asm-dark); margin-bottom:4px; }
+  .review-field input { width:100%; border:0.5px solid #d0d0cc; border-radius:6px; padding:7px 10px; font-size:13px; font-family:inherit; color:#333; }
+  .review-field input:focus { outline:none; border-color:var(--asm); }
+
+  /* Section cards */
+  .chk-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; overflow:hidden; margin-bottom:10px; }
+  .chk-header { background:var(--asm-dark); color:#fff; padding:0.75rem 1.25rem; display:flex; align-items:center; gap:10px; }
+  .chk-header-num { font-size:11px; font-weight:700; opacity:0.6; white-space:nowrap; }
+  .chk-header h3 { font-size:14px; font-weight:600; margin:0; }
+  .chk-body { padding:1rem 1.25rem; }
+
+  /* Checklist items */
+  .chk-list { display:flex; flex-direction:column; gap:5px; margin-bottom:10px; }
+  .chk-item { display:flex; align-items:flex-start; gap:10px; padding:7px 10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:7px; cursor:pointer; transition:background 0.12s; }
+  .chk-item:hover { background:var(--asm-light); }
+  .chk-item.checked { background:#E1F5EE; border-color:#82D4B0; }
+  .chk-item input[type=checkbox] { width:16px; height:16px; flex-shrink:0; margin-top:1px; accent-color:var(--asm); cursor:pointer; }
+  .chk-item-text { font-size:13px; color:#333; line-height:1.4; flex:1; }
+  .chk-item.checked .chk-item-text { color:#1a6b47; }
+
+  /* Sub-items (indented) */
+  .chk-item.sub { margin-left:26px; }
+
+  /* New / KB-added badge */
+  .chk-badge { font-size:10px; font-weight:700; padding:1px 6px; border-radius:4px; flex-shrink:0; margin-top:2px; }
+  .chk-badge.new { background:#E6F1FB; color:#185FA5; border:0.5px solid #B5D4F4; }
+  .chk-badge.critical { background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; }
+
+  /* Notes area */
+  .chk-notes-label { font-size:11px; font-weight:700; color:var(--asm); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:5px; }
+  .chk-notes { width:100%; min-height:56px; border:0.5px solid #d0d0cc; border-radius:7px; padding:8px 10px; font-size:13px; font-family:inherit; color:#333; resize:vertical; background:#fafafa; }
+  .chk-notes:focus { outline:none; border-color:var(--asm); }
+
+  /* Callout */
+  .callout-info { background:var(--asm-light); border:0.5px solid var(--asm-border); border-left:3px solid var(--asm); border-radius:8px; padding:0.8rem 1rem; margin-bottom:10px; }
+  .callout-info p { font-size:13px; color:var(--asm-dark); margin:0; line-height:1.5; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.8rem 1rem; margin-bottom:10px; }
+  .callout-warn p { font-size:13px; color:#6b3f0a; margin:0; line-height:1.5; }
+
+  /* Progress summary */
+  .progress-bar-wrap { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .progress-bar-label { display:flex; justify-content:space-between; align-items:center; font-size:13px; font-weight:600; color:var(--asm-dark); margin-bottom:7px; }
+  .progress-track { height:8px; background:var(--asm-light); border-radius:8px; }
+  .progress-fill  { height:8px; background:var(--asm); border-radius:8px; width:0%; transition:width 0.3s ease; }
+
+  /* Sign-off */
+  .signoff-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+  .signoff-field label { display:block; font-size:12px; font-weight:600; color:var(--asm-dark); margin-bottom:4px; }
+  .signoff-field input { width:100%; border:0.5px solid #d0d0cc; border-radius:6px; padding:7px 10px; font-size:13px; font-family:inherit; color:#333; }
+  .status-group { display:flex; gap:8px; margin-top:4px; }
+  .status-opt { display:flex; align-items:center; gap:6px; padding:6px 12px; border:0.5px solid #d0d0cc; border-radius:7px; cursor:pointer; font-size:13px; background:#fafafa; font-family:inherit; }
+  .status-opt:has(input:checked) { border-color:var(--asm); background:var(--asm-light); color:var(--asm); font-weight:600; }
+  .status-opt input { display:none; }
+
+  /* Evidence */
+  .evidence-list { display:flex; flex-direction:column; gap:7px; }
+  .evidence-item { display:flex; align-items:center; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:7px; padding:8px 12px; }
+  .evidence-item span { font-size:13px; color:#444; flex:1; }
+  .evidence-item input { flex:1; border:none; background:transparent; font-size:13px; font-family:inherit; color:#333; }
+  .evidence-dot { width:7px; height:7px; border-radius:50%; background:var(--asm-border); flex-shrink:0; }
+
+  /* Ref links */
+  .ref-links { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .ref-link { font-size:11px; font-weight:600; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:2px 8px; border-radius:5px; text-decoration:none; }
+  .ref-link:hover { background:var(--asm); color:#fff; }
+
+  /* Breadcrumb / nav */
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .t1-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .t1-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+
+  @media(max-width:640px){
+    .review-fields, .signoff-grid { grid-template-columns:1fr; }
+    .chk-item.sub { margin-left:10px; }
+  }
+  @media print {
+    .kb-topnav, .breadcrumb, .t1-nav, .kb-footer, .progress-bar-wrap { display:none; }
+    body { font-size:11px; }
+    .chk-section { break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-vulnerability-management.html">Vulnerability Management</a><span>›</span>
+    <span>Monthly VM Review Checklist</span>
+  </div>
+
+  <div class="t1-hero">
+    <div class="t1-hero-ey">ASM · Vulnerability Management · Checklist</div>
+    <h2>Monthly Vulnerability Review Checklist</h2>
+    <p>Structured review of vulnerability management activities covering coverage, risk prioritisation, remediation SLAs, threat context, exceptions, and governance. Complete monthly and retain as audit evidence.</p>
+    <div class="t1-hero-pills">
+      <span class="t1-hero-pill">Monthly cadence</span>
+      <span class="t1-hero-pill">12 sections</span>
+      <span class="t1-hero-pill">Audit evidence</span>
+      <span class="t1-hero-pill">IT-VM-SOP-01</span>
+      <span class="t1-hero-pill">IT-TI-SOP-03</span>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">📋 <strong>Checklist:</strong> Monthly VM Review</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔗 <strong>SOP:</strong> <a href="it-vm-sop-01.html" style="color:var(--asm);">IT-VM-SOP-01</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔗 <strong>TI:</strong> <a href="it-ti-sop-03.html" style="color:var(--asm);">IT-TI-SOP-03</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-label">
+      <span>Checklist completion</span>
+      <span id="progressText">0 / 0 items</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <!-- Review header -->
+  <div class="review-header">
+    <div class="review-header-title">Review details</div>
+    <div class="review-fields">
+      <div class="review-field"><label>Review period (month / year)</label><input type="text" placeholder="e.g. May 2026"></div>
+      <div class="review-field"><label>Reviewer name(s)</label><input type="text" placeholder="Full name(s)"></div>
+      <div class="review-field"><label>Review date</label><input type="date"></div>
+    </div>
+  </div>
+
+  <!-- Section 1: Pre-Review Preparation -->
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-num">1</span><h3>Pre-Review Preparation</h3></div>
+    <div class="chk-body">
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Review period confirmed (month / year)</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Responsible reviewer(s) identified</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Current vulnerability data exported from scanning platform</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Remediation and SLA performance reports exported</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Exception and risk acceptance register retrieved</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Previous month's review outcomes and outstanding actions reviewed</span><span class="chk-badge new">New</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">CISA KEV catalogue checked for new entries since last review</span><span class="chk-badge critical">Critical</span></label>
+      </div>
+      <div class="ref-links">
+        <a class="ref-link" href="it-vm-sop-01.html">IT-VM-SOP-01</a>
+        <a class="ref-link" href="it-gov-wi-vm-01.html">IT-GOV-WI-VM-01</a>
+        <a class="ref-link" href="it-ti-sop-03.html">IT-TI-SOP-03</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Asset Coverage & Scan Health -->
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-num">2</span><h3>Asset Coverage &amp; Scan Health</h3></div>
+    <div class="chk-body">
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">All in-scope assets included in vulnerability scanning</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Scans configured as <strong>authenticated</strong> where possible — unauthenticated scans produce incomplete results</span><span class="chk-badge new">New</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Scan success rate meets or exceeds agreed coverage threshold</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Failed or unreachable assets identified and investigated</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Coverage gaps documented with owners and remediation dates</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Newly onboarded assets added to scan scope</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Decommissioned assets removed from scan scope and asset register</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Tier-0 and Tier-1 assets (Domain Controllers, identity infrastructure, critical servers) confirmed in scope</span><span class="chk-badge new">New</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Internet-facing assets confirmed in scope and flagged for priority review</span><span class="chk-badge new">New</span></label>
+      </div>
+      <div class="chk-notes-label">Notes / actions</div>
+      <textarea class="chk-notes" placeholder="List coverage gaps, unreachable assets, and owners..."></textarea>
+      <div class="ref-links">
+        <a class="ref-link" href="it-gov-wi-vm-01.html">IT-GOV-WI-VM-01</a>
+        <a class="ref-link" href="core-concepts.html">Tier Model</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Vulnerability Backlog Review -->
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-num">3</span><h3>Vulnerability Backlog Review</h3></div>
+    <div class="chk-body">
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Total vulnerability count reviewed by severity (Critical / High / Medium / Low)</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">All Critical vulnerabilities reviewed individually — each one has a named owner and remediation date</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">High-risk vulnerabilities assessed for business impact and asset criticality</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">EPSS scores reviewed for High and Critical findings — high EPSS escalates remediation priority</span><span class="chk-badge new">New</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Ageing vulnerabilities past SLA identified and escalated</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Duplicate or recurring findings identified — root cause investigated</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">New significant CVEs disclosed this month reviewed — check vendor advisories and NVD</span><span class="chk-badge new">New</span></label>
+      </div>
+      <div class="chk-notes-label">Notes / actions</div>
+      <textarea class="chk-notes" placeholder="Highlight top risk drivers and any Critical vulnerabilities requiring escalation..."></textarea>
+      <div class="ref-links">
+        <a class="ref-link" href="it-gov-wi-vm-02.html">IT-GOV-WI-VM-02</a>
+        <a class="ref-link" href="it-vm-sop-01.html">IT-VM-SOP-01</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: SLA & Remediation Performance -->
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-num">4</span><h3>SLA &amp; Remediation Performance</h3></div>
+    <div class="chk-body">
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Critical vulnerabilities within SLA — or exceptions documented</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">High vulnerabilities within SLA — or exceptions documented</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Medium vulnerabilities trending downward month-on-month</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">SLA breaches documented with root cause and corrective action</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Root causes for remediation delays identified (resource, technical, process)</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Re-scan / closure validation completed for remediated vulnerabilities</span><span class="chk-badge new">New</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Re-opened vulnerabilities (patched but re-detected) investigated</span><span class="chk-badge new">New</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Mean Time to Remediate (MTTR) calculated for this month</span><span class="chk-badge new">New</span></label>
+      </div>
+      <div class="chk-notes-label">Notes / actions</div>
+      <textarea class="chk-notes" placeholder="Document SLA exceptions, corrective actions, and MTTR figure..."></textarea>
+      <div class="ref-links">
+        <a class="ref-link" href="it-vm-sop-01.html">IT-VM-SOP-01</a>
+        <a class="ref-link" href="it-gov-wi-vm-03.html">IT-GOV-WI-VM-03</a>
+        <a class="ref-link" href="it-pm-sop-01.html">IT-PM-SOP-01</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Threat Intelligence & Exploitation Context -->
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-num">5</span><h3>Threat Intelligence &amp; Exploitation Context</h3></div>
+    <div class="chk-body">
+      <div class="callout-warn"><p>⚠️ Any vulnerability on the CISA KEV catalogue must be treated as Critical and follow the emergency patching SLA — regardless of CVSS score. Check this list at minimum weekly, and always as part of this review.</p></div>
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">CISA KEV catalogue checked — all in-scope KEV entries identified and actioned</span><span class="chk-badge critical">Critical</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Actively exploited vulnerabilities in the environment reviewed</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">TI feeds reviewed for campaigns targeting our sector or technology stack this month</span><span class="chk-badge new">New</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Vendor threat intelligence and advisories reviewed (Microsoft, CrowdStrike, CISA alerts)</span><span class="chk-badge new">New</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Internet-facing assets assessed for elevated risk given current threat landscape</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">SOC / MDR intelligence reviewed for exploitation attempts against our environment</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Emergency remediation actions identified and owners notified</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">No missed TI-driven escalations — all active campaign IOCs deployed to controls</span></label>
+      </div>
+      <div class="chk-notes-label">Notes / actions</div>
+      <textarea class="chk-notes" placeholder="Record KEV findings, TI-driven prioritisation decisions, and any emergency actions..."></textarea>
+      <div class="ref-links">
+        <a class="ref-link" href="it-ti-sop-03.html">IT-TI-SOP-03</a>
+        <a class="ref-link" href="it-pm-sop-02.html">IT-PM-SOP-02</a>
+        <a class="ref-link" href="it-ti-sop-01.html">IT-TI-SOP-01</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6: Tier-0 / Tier-1 Asset Review -->
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-num">6</span><h3>Tier-0 &amp; Tier-1 Asset Review</h3></div>
+    <div class="chk-body">
+      <div class="callout-info"><p>📌 Tier-0 assets (Domain Controllers, identity infrastructure, certificate authorities) and Tier-1 assets (critical servers, PAWs) carry the highest risk impact. Any vulnerability on these assets must be reviewed individually regardless of CVSS score.</p></div>
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">All Domain Controllers and identity infrastructure reviewed individually</span><span class="chk-badge critical">Critical</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Privileged Access Workstations (PAWs) reviewed individually</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Critical servers (Tier-1) reviewed — any unpatched High or Critical findings escalated</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">No Tier-0 or Tier-1 assets with overdue SLAs without documented exception</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Internet-facing systems reviewed for any unmitigated Critical or High findings</span></label>
+      </div>
+      <div class="chk-notes-label">Notes / actions</div>
+      <textarea class="chk-notes" placeholder="Record any Tier-0/1 findings and actions taken..."></textarea>
+      <div class="ref-links">
+        <a class="ref-link" href="core-concepts.html">Tier Model</a>
+        <a class="ref-link" href="it-srv-sop-dc-01.html">IT-SRV-SOP-DC-01</a>
+        <a class="ref-link" href="it-ep-sop-paw-01.html">IT-EP-SOP-PAW-01</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 7: Exception & Risk Acceptance Review -->
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-num">7</span><h3>Exception &amp; Risk Acceptance Review</h3></div>
+    <div class="chk-body">
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">All active exceptions reviewed — status confirmed current</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">All exceptions have valid business owner approval and documented compensating controls</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Compensating controls verified as still in place and effective</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Expired exceptions identified — renewed or escalated for remediation</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Exceptions expiring in the next 30 days highlighted to owners</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Exceptions on Tier-0 or Tier-1 assets reviewed with extra scrutiny</span><span class="chk-badge new">New</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Any exception where the underlying vulnerability is now on CISA KEV reviewed for immediate escalation</span><span class="chk-badge critical">Critical</span></label>
+      </div>
+      <div class="chk-notes-label">Notes / actions</div>
+      <textarea class="chk-notes" placeholder="List exceptions requiring renewal, escalation, or immediate remediation..."></textarea>
+      <div class="ref-links">
+        <a class="ref-link" href="it-vm-sop-01.html">IT-VM-SOP-01</a>
+        <a class="ref-link" href="it-gov-wi-vm-04.html">IT-GOV-WI-VM-04</a>
+        <a class="ref-link" href="it-pm-sop-03.html">IT-PM-SOP-03</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 8: False Positives & Data Quality -->
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-num">8</span><h3>False Positives &amp; Data Quality</h3></div>
+    <div class="chk-body">
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">False positives reviewed and validated with appropriate evidence</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Suppression rules documented and reviewed — no over-broad suppressions</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Data quality issues identified (missing asset data, incorrect criticality, stale records)</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Scanner configuration reviewed — credentials valid, scan policies current</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Vulnerability ages and first-seen dates verified — data not stale from missed scans</span><span class="chk-badge new">New</span></label>
+      </div>
+      <div class="chk-notes-label">Notes / actions</div>
+      <textarea class="chk-notes" placeholder="Record tuning actions, false positives validated, and data quality issues..."></textarea>
+    </div>
+  </div>
+
+  <!-- Section 9: Trend & Improvement Analysis -->
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-num">9</span><h3>Trend &amp; Improvement Analysis</h3></div>
+    <div class="chk-body">
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Month-on-month vulnerability trend reviewed (improving / stable / deteriorating)</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">MTTR trend analysed — improving or requiring intervention</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Recurring vulnerability types identified — systematic root cause investigated</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Baseline or secure configuration issues identified — linked to Security Baselines SOPs</span><span class="chk-badge new">New</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Preventative improvements proposed — configuration hardening, patching process, tooling</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Improvement actions assigned to owners with target dates</span><span class="chk-badge new">New</span></label>
+      </div>
+      <div class="chk-notes-label">Notes / actions</div>
+      <textarea class="chk-notes" placeholder="Identify long-term improvement opportunities and record trend observations..."></textarea>
+      <div class="ref-links">
+        <a class="ref-link" href="asm-security-baselines.html">Security Baselines</a>
+        <a class="ref-link" href="asm-cis-matrix.html">CIS Matrix</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 10: Patching Alignment -->
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-num">10</span><h3>Patching Alignment</h3></div>
+    <div class="chk-body">
+      <div class="callout-info"><p>📌 VM and Patch Management are separate but interdependent. This section ensures that vulnerability findings are translating into patch actions, and that patch management SLAs are aligned.</p></div>
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">All Critical and High vulnerabilities with patch available linked to active patch management tickets</span><span class="chk-badge new">New</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Emergency patching (IT-PM-SOP-02) invoked where required for CISA KEV or actively exploited findings</span><span class="chk-badge critical">Critical</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Patch management SLAs consistent with VM SLAs — no misalignment between the two processes</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Patch exceptions aligned with VM exceptions — same risk acceptance record</span></label>
+      </div>
+      <div class="chk-notes-label">Notes / actions</div>
+      <textarea class="chk-notes" placeholder="Record any misalignment between VM findings and patch actions..."></textarea>
+      <div class="ref-links">
+        <a class="ref-link" href="it-pm-sop-01.html">IT-PM-SOP-01</a>
+        <a class="ref-link" href="it-pm-sop-02.html">IT-PM-SOP-02</a>
+        <a class="ref-link" href="it-gov-wi-pm-01.html">IT-GOV-WI-PM-01</a>
+        <a class="ref-link" href="it-gov-wi-pm-02.html">IT-GOV-WI-PM-02</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 11: Reporting & Escalation -->
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-num">11</span><h3>Reporting &amp; Escalation</h3></div>
+    <div class="chk-body">
+      <div class="chk-list">
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Management summary prepared covering key risks, SLA performance, and trends</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Key risks escalated to asset owners with clear remediation expectations</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Executive-level highlights identified (material risk changes, SLA breaches, critical findings)</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Follow-up actions assigned with owners and target dates</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">Review outcomes documented and retained as audit evidence</span></label>
+        <label class="chk-item"><input type="checkbox"><span class="chk-item-text">GRC / audit team notified of material exceptions or SLA breaches where required</span><span class="chk-badge new">New</span></label>
+      </div>
+      <div class="ref-links">
+        <a class="ref-link" href="grc-risk.html">GRC Risk</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 12: Evidence & Attachments -->
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-num">12</span><h3>Evidence &amp; Attachments</h3></div>
+    <div class="chk-body">
+      <p style="font-size:13px;color:#555;margin-bottom:12px;">Attach or link the following as audit evidence for this review:</p>
+      <div class="evidence-list">
+        <div class="evidence-item"><div class="evidence-dot"></div><span>Vulnerability summary report</span><input type="text" placeholder="Link or reference"></div>
+        <div class="evidence-item"><div class="evidence-dot"></div><span>SLA performance report</span><input type="text" placeholder="Link or reference"></div>
+        <div class="evidence-item"><div class="evidence-dot"></div><span>Exception and risk acceptance register</span><input type="text" placeholder="Link or reference"></div>
+        <div class="evidence-item"><div class="evidence-dot"></div><span>Action tracker / remediation log</span><input type="text" placeholder="Link or reference"></div>
+        <div class="evidence-item"><div class="evidence-dot"></div><span>CISA KEV review record</span><input type="text" placeholder="Link or reference"></div>
+        <div class="evidence-item"><div class="evidence-dot"></div><span>TI review record</span><input type="text" placeholder="Link or reference"></div>
+        <div class="evidence-item"><div class="evidence-dot"></div><span>Management report / summary</span><input type="text" placeholder="Link or reference"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 13: Review Sign-Off -->
+  <div class="chk-section">
+    <div class="chk-header"><span class="chk-header-num">13</span><h3>Review Sign-Off</h3></div>
+    <div class="chk-body">
+      <div class="signoff-grid" style="margin-bottom:14px;">
+        <div class="signoff-field"><label>Reviewer name</label><input type="text" placeholder="Full name"></div>
+        <div class="signoff-field"><label>Role</label><input type="text" placeholder="Job title"></div>
+        <div class="signoff-field"><label>Date</label><input type="date"></div>
+      </div>
+      <div style="margin-bottom:6px;font-size:12px;font-weight:600;color:var(--asm-dark);">Overall status</div>
+      <div class="status-group">
+        <label class="status-opt"><input type="radio" name="status" value="Acceptable">✅ Acceptable</label>
+        <label class="status-opt"><input type="radio" name="status" value="Attention">⚠️ Requires Attention</label>
+        <label class="status-opt"><input type="radio" name="status" value="Escalation">🔴 Escalation Required</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="t1-nav">
+    <a href="asm-vulnerability-management.html">← Back to Vulnerability Management</a>
+    <a href="it-vm-sop-01.html">IT-VM-SOP-01 →</a>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Monthly VM Review Checklist · Paulo Ferreira</span>
+    <span><a href="asm-vulnerability-management.html" style="color:var(--asm);text-decoration:none;">← Back to VM</a></span>
+  </div>
+</div>
+
+<script>
+(function() {
+  function updateProgress() {
+    var boxes = document.querySelectorAll('.chk-list input[type=checkbox]');
+    var checked = 0;
+    boxes.forEach(function(b) { if (b.checked) checked++; });
+    var total = boxes.length;
+    var pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = checked + ' / ' + total + ' items';
+  }
+
+  // Style checked items
+  document.querySelectorAll('.chk-item').forEach(function(item) {
+    var cb = item.querySelector('input[type=checkbox]');
+    if (!cb) return;
+    cb.addEventListener('change', function() {
+      item.classList.toggle('checked', cb.checked);
+      updateProgress();
+    });
+  });
+
+  updateProgress();
+})();
+</script>
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</body>
+</html>
