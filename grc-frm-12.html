@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-FRM-12: Application Onboarding Pack — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root {
+    --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B;
+    --biz:#185FA5; --biz-bg:#E6F1FB; --biz-border:#B5D4F4;
+    --it:#0E5C5C;
+    --shared:#854F0B; --shared-bg:#FAEEDA; --shared-border:#FAC775;
+    --border:#e0e0dc; --text:#1a1a1a; --text-muted:#666;
+  }
+
+  /* ── Hero ── */
+  .frm-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .frm-hero-ey { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .frm-hero h1 { font-size:20px; font-weight:700; margin-bottom:6px; }
+  .frm-hero p  { font-size:14px; opacity:0.8; line-height:1.5; margin-bottom:10px; }
+  .frm-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .frm-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .legend-row { display:flex; gap:16px; flex-wrap:wrap; }
+  .legend-item { display:flex; align-items:center; gap:7px; font-size:12px; opacity:0.8; }
+  .legend-dot { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+  .dot-biz { background:#6b9fe0; }
+  .dot-it  { background:#4ade80; }
+  .dot-shared { background:#fbbf24; }
+
+  /* ── Meta bar ── */
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid var(--border); border-radius:12px; padding:0.8rem 1.2rem; margin-bottom:1.25rem; }
+  .meta-item { font-size:13px; color:var(--text-muted); display:flex; align-items:center; gap:5px; }
+  .meta-item strong { color:var(--text); }
+  .meta-sep { color:var(--border); }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+
+  /* ── Progress bar ── */
+  .progress-wrap { background:#fff; border:0.5px solid var(--border); border-radius:10px; padding:10px 14px; margin-bottom:1rem; }
+  .progress-label { font-size:11px; font-weight:600; color:var(--grc); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.06em; }
+  .progress-track { height:5px; background:var(--grc-light); border-radius:5px; }
+  .progress-fill  { height:5px; background:var(--grc); border-radius:5px; width:0%; transition:width 0.4s ease; }
+
+  /* ── Tab nav ── */
+  .frm-tab-nav { background:#fff; border:0.5px solid var(--border); border-radius:12px; margin-bottom:1rem; overflow:hidden; position:sticky; top:0; z-index:50; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+  .frm-tab-inner { display:flex; overflow-x:auto; scrollbar-width:none; }
+  .frm-tab-inner::-webkit-scrollbar { display:none; }
+  .frm-tab-btn {
+    padding:12px 16px; border:none; background:none; cursor:pointer;
+    font-family:inherit; font-size:12px; font-weight:500;
+    color:var(--text-muted); white-space:nowrap;
+    border-bottom:2px solid transparent; margin-bottom:-1px;
+    transition:all 0.15s; display:flex; align-items:center; gap:6px;
+  }
+  .frm-tab-btn:hover { color:var(--grc); }
+  .frm-tab-btn.active { color:var(--grc); border-bottom-color:var(--grc); font-weight:600; }
+  .tab-num { font-size:10px; font-weight:700; background:var(--grc-light); color:var(--grc); padding:1px 5px; border-radius:3px; }
+  .frm-tab-btn.active .tab-num { background:var(--grc); color:#fff; }
+
+  /* ── Tab panes ── */
+  .tab-pane { display:none; }
+  .tab-pane.active { display:block; }
+
+  /* ── Section cards ── */
+  .sec-card { background:#fff; border:0.5px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:12px; }
+  .sec-header { padding:14px 20px 12px; border-bottom:0.5px solid var(--border); display:flex; align-items:flex-start; gap:12px; }
+  .sec-icon { width:34px; height:34px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+  .icon-biz    { background:var(--biz-bg); }
+  .icon-it     { background:var(--grc-light); }
+  .icon-shared { background:var(--shared-bg); }
+  .sec-title-wrap { flex:1; }
+  .sec-title    { font-size:14px; font-weight:600; color:var(--text); }
+  .sec-subtitle { font-size:12px; color:var(--text-muted); margin-top:2px; }
+  .role-badge { font-size:10px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; padding:3px 9px; border-radius:20px; flex-shrink:0; margin-top:2px; }
+  .badge-biz    { background:var(--biz-bg);    color:var(--biz);    border:0.5px solid var(--biz-border); }
+  .badge-it     { background:var(--grc-light); color:var(--grc);    border:0.5px solid var(--grc-border); }
+  .badge-shared { background:var(--shared-bg); color:var(--shared); border:0.5px solid var(--shared-border); }
+  .sec-body { padding:16px 20px; }
+
+  /* ── Field rows ── */
+  .field-row { display:grid; grid-template-columns:200px 1fr; gap:12px; padding:11px 0; border-bottom:0.5px solid #f5f5f3; align-items:start; }
+  .field-row:last-child { border-bottom:none; }
+  .field-label { font-size:13px; font-weight:600; color:var(--text); display:flex; align-items:center; gap:5px; }
+  .field-hint { font-size:11px; color:var(--text-muted); margin-top:3px; line-height:1.4; }
+  .req { color:#993C1D; font-size:11px; }
+  .field-input-wrap { display:flex; flex-direction:column; gap:4px; }
+  input[type=text], textarea, select {
+    font-family:inherit; font-size:13px; border:0.5px solid #d0d0cc;
+    border-radius:7px; padding:8px 11px; color:var(--text);
+    background:#fafafa; width:100%; transition:border-color 0.15s;
+  }
+  input[type=text]:focus, textarea:focus, select:focus { outline:none; border-color:var(--grc); background:#fff; }
+  textarea { resize:vertical; min-height:60px; }
+
+  /* ── Radio options ── */
+  .radio-group { display:flex; flex-wrap:wrap; gap:7px; margin-top:3px; }
+  .radio-opt { display:flex; align-items:center; gap:6px; padding:5px 11px; border:0.5px solid var(--border); border-radius:6px; cursor:pointer; font-size:12px; background:#fafafa; transition:all 0.12s; }
+  .radio-opt:has(input:checked) { border-color:var(--grc); background:var(--grc-light); color:var(--grc); font-weight:600; }
+  .radio-opt input { display:none; }
+
+  /* ── Info boxes ── */
+  .info-box { border-radius:8px; padding:10px 14px; font-size:13px; line-height:1.5; display:flex; gap:10px; align-items:flex-start; margin-bottom:14px; }
+  .info-biz    { background:var(--biz-bg);    border-left:3px solid var(--biz);    color:#0f3870; }
+  .info-it     { background:var(--grc-light); border-left:3px solid var(--grc);    color:var(--grc-dark); }
+  .info-shared { background:var(--shared-bg); border-left:3px solid var(--shared); color:#5c3007; }
+  .info-icon   { font-size:15px; flex-shrink:0; }
+
+  /* ── Two col ── */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+
+  /* ── Pane heading ── */
+  .pane-heading { display:flex; align-items:center; gap:10px; margin-bottom:20px; padding-bottom:12px; border-bottom:0.5px solid var(--border); }
+  .pane-heading h2 { font-size:17px; font-weight:700; color:var(--grc-dark); }
+
+  /* ── RACI table ── */
+  .raci-wrap { overflow-x:auto; }
+  table.raci { width:100%; border-collapse:collapse; font-size:12.5px; }
+  table.raci th { background:var(--grc-dark); color:#fff; padding:9px 11px; text-align:left; font-weight:600; font-size:11px; letter-spacing:0.04em; }
+  table.raci td { padding:8px 11px; border-bottom:0.5px solid var(--border); vertical-align:middle; }
+  table.raci tr:last-child td { border-bottom:none; }
+  table.raci tr:nth-child(even) td { background:#fafafa; }
+  table.raci td:first-child { font-weight:500; }
+  table.raci select { padding:4px 7px; font-size:12px; min-width:54px; }
+
+  /* ── SLA table ── */
+  .sla-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--grc); padding:10px 0 7px; border-bottom:1px solid var(--grc-border); margin-bottom:6px; }
+  table.sla { width:100%; border-collapse:collapse; font-size:12.5px; margin-bottom:18px; }
+  table.sla th { background:var(--grc-light); color:var(--grc); padding:8px 11px; text-align:left; font-weight:600; font-size:12px; border-bottom:0.5px solid var(--grc-border); }
+  table.sla td { padding:7px 11px; border-bottom:0.5px solid #f0f0ec; vertical-align:middle; }
+  table.sla tr:last-child td { border-bottom:none; }
+  table.sla input { min-width:unset; }
+
+  /* ── Checklist ── */
+  .checklist-item { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:0.5px solid #f5f5f3; }
+  .checklist-item:last-child { border-bottom:none; }
+  .check-label { font-size:13px; font-weight:500; flex:1; }
+  .check-row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; flex-shrink:0; }
+
+  /* ── Approval cards ── */
+  .approval-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+  .approval-card { border:0.5px solid var(--grc-border); border-radius:10px; padding:14px; }
+  .approval-card h4 { font-size:13px; font-weight:600; margin-bottom:10px; color:var(--grc-dark); border-bottom:0.5px solid var(--grc-border); padding-bottom:8px; }
+
+  /* ── Glossary ── */
+  .glossary-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+  .glossary-item { background:#f9f9f7; border-radius:7px; padding:9px 12px; border:0.5px solid var(--border); }
+  .glossary-term { font-weight:700; font-size:12px; color:var(--grc-dark); }
+  .glossary-def  { font-size:12px; color:var(--text-muted); margin-top:2px; line-height:1.4; }
+
+  /* ── Intro hero ── */
+  .intro-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:12px; padding:28px 32px; color:#fff; margin-bottom:20px; }
+  .intro-hero h2 { font-size:18px; font-weight:700; margin-bottom:8px; }
+  .intro-hero p  { font-size:13px; opacity:0.8; line-height:1.6; }
+  .steps-row { display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; }
+  .ob-step { display:flex; align-items:flex-start; gap:9px; flex:1; min-width:130px; background:rgba(255,255,255,0.07); border-radius:9px; padding:12px; }
+  .ob-step-num { width:26px; height:26px; border-radius:50%; background:rgba(255,255,255,0.2); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .ob-step-text { font-size:12px; color:rgba(255,255,255,0.75); }
+  .ob-step-text strong { color:#fff; display:block; margin-bottom:2px; }
+
+  /* ── Role cards ── */
+  .role-cards { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:16px; }
+  .role-card { background:#fff; border-radius:10px; padding:16px; border-top:3px solid transparent; border:0.5px solid var(--border); border-top-width:3px; }
+  .role-card.biz    { border-top-color:var(--biz); }
+  .role-card.it     { border-top-color:var(--grc); }
+  .role-card.shared { border-top-color:var(--shared); }
+  .role-card h4 { font-size:13px; font-weight:700; margin-bottom:6px; }
+  .role-card p  { font-size:12px; color:var(--text-muted); line-height:1.5; }
+  .role-card ul { font-size:12px; color:var(--text-muted); padding-left:14px; margin-top:5px; }
+  .role-card li { margin-bottom:2px; }
+
+  /* ── Nav buttons ── */
+  .nav-buttons { display:flex; justify-content:space-between; margin-top:24px; gap:10px; }
+  .btn { font-family:inherit; font-size:13px; font-weight:600; padding:9px 20px; border-radius:8px; border:none; cursor:pointer; transition:all 0.15s; }
+  .btn-primary { background:var(--grc); color:#fff; }
+  .btn-primary:hover { background:var(--grc-dark); }
+  .btn-ghost { background:transparent; color:var(--text-muted); border:0.5px solid var(--border); }
+  .btn-ghost:hover { background:#f5f5f3; }
+
+  /* ── Completion ring ── */
+  .save-bar { position:fixed; bottom:20px; right:20px; background:#fff; border:0.5px solid var(--border); border-radius:12px; padding:10px 14px; display:flex; align-items:center; gap:10px; box-shadow:0 8px 24px rgba(0,0,0,0.1); font-size:12px; color:var(--text-muted); z-index:200; }
+  .completion-ring { width:48px; height:48px; position:relative; flex-shrink:0; }
+  .completion-ring svg { transform:rotate(-90deg); }
+  .ring-bg   { fill:none; stroke:var(--grc-light); stroke-width:4; }
+  .ring-fill { fill:none; stroke:var(--grc); stroke-width:4; stroke-linecap:round; stroke-dasharray:132; stroke-dashoffset:132; transition:stroke-dashoffset 0.5s ease; }
+  .ring-text { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:10px; font-weight:700; color:var(--grc-dark); }
+
+  /* ── IT ownership box ── */
+  .it-box { background:var(--grc-light); border-radius:8px; padding:14px; border:0.5px solid var(--grc-border); }
+  .it-box-label { font-size:11px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:.06em; margin-bottom:10px; }
+
+  /* ── Breadcrumb ── */
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+
+  /* ── Print ── */
+  @media print {
+    .kb-topnav, .save-bar, .frm-tab-nav, .progress-wrap, .nav-buttons, .breadcrumb, .kb-footer { display:none !important; }
+    .tab-pane { display:block !important; }
+    body { font-size:11px; }
+    .sec-card { break-inside:avoid; box-shadow:none; }
+  }
+
+  @media (max-width:640px) {
+    .field-row { grid-template-columns:1fr; }
+    .two-col, .role-cards, .approval-grid, .glossary-grid { grid-template-columns:1fr; }
+    .frm-tab-btn { padding:10px 12px; font-size:11px; }
+  }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Cyber Security KB</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="grc.html">GRC Hub</a><span>›</span>
+    <a href="grc-risk.html">Risk</a><span>›</span>
+    <span>GRC-FRM-12</span>
+  </div>
+
+  <div class="frm-hero">
+    <div class="frm-hero-ey">GRC · Form · Application Onboarding</div>
+    <h1>GRC-FRM-12: Application Onboarding Pack</h1>
+    <p>Register a new application into the IT service catalogue. Sections are clearly marked by who fills them in — Business Owner, IT Team, or both together.</p>
+    <div class="frm-hero-pills" style="margin-bottom:10px;">
+      <span class="frm-hero-pill">8 sections</span>
+      <span class="frm-hero-pill">Service catalogue</span>
+      <span class="frm-hero-pill">RACI &amp; SLAs</span>
+      <span class="frm-hero-pill">Security review</span>
+      <span class="frm-hero-pill">30–60 minutes</span>
+    </div>
+    <div class="legend-row">
+      <div class="legend-item"><div class="legend-dot dot-biz"></div> Business / App Owner</div>
+      <div class="legend-item"><div class="legend-dot dot-it"></div> IT &amp; Security Team</div>
+      <div class="legend-item"><div class="legend-dot dot-shared"></div> Completed together</div>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">📋 <strong>Form ID:</strong> GRC-FRM-12</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔗 <strong>Related:</strong> <a href="grc-risk.html" style="color:var(--grc);">GRC Risk</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔗 <strong>ASM:</strong> <a href="asm.html" style="color:var(--grc);">ASM Hub</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-approved">Approved</span></div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap no-print">
+    <div class="progress-label" id="progressLabel">0% complete</div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <!-- Tab nav -->
+  <div class="frm-tab-nav no-print">
+    <div class="frm-tab-inner">
+      <button class="frm-tab-btn active" id="btn-intro">🏠 Overview</button>
+      <button class="frm-tab-btn" id="btn-t1"><span class="tab-num">1</span> Service &amp; Ownership</button>
+      <button class="frm-tab-btn" id="btn-t2"><span class="tab-num">2</span> Purpose &amp; Users</button>
+      <button class="frm-tab-btn" id="btn-t3"><span class="tab-num">3</span> Technical Setup</button>
+      <button class="frm-tab-btn" id="btn-t4"><span class="tab-num">4</span> Security &amp; Access</button>
+      <button class="frm-tab-btn" id="btn-t5"><span class="tab-num">5</span> Resilience &amp; Maintenance</button>
+      <button class="frm-tab-btn" id="btn-t6"><span class="tab-num">6</span> Support &amp; Change</button>
+      <button class="frm-tab-btn" id="btn-t7"><span class="tab-num">7</span> RACI &amp; SLAs</button>
+      <button class="frm-tab-btn" id="btn-t8"><span class="tab-num">8</span> Checklist &amp; Approval</button>
+    </div>
+  </div>
+
+  <!-- ══ INTRO ══ -->
+  <div id="tab-intro" class="tab-pane active">
+    <div class="intro-hero">
+      <h2>Welcome to the Application Onboarding Pack</h2>
+      <p>This form ensures every new application is properly supported, secured, and documented before going live. It takes 30–60 minutes to complete. Each section clearly states who fills it in.</p>
+      <div class="steps-row">
+        <div class="ob-step"><div class="ob-step-num">1</div><div class="ob-step-text"><strong>Business Owner starts</strong>Sections 1 &amp; 2 — identity, purpose, users</div></div>
+        <div class="ob-step"><div class="ob-step-num">2</div><div class="ob-step-text"><strong>IT/Security take over</strong>Sections 3, 4 &amp; 5 — technical &amp; security</div></div>
+        <div class="ob-step"><div class="ob-step-num">3</div><div class="ob-step-text"><strong>Complete together</strong>Section 6 — support model &amp; change</div></div>
+        <div class="ob-step"><div class="ob-step-num">4</div><div class="ob-step-text"><strong>All approve</strong>Sections 7 &amp; 8 — RACI, SLAs &amp; sign-off</div></div>
+      </div>
+    </div>
+    <div class="role-cards">
+      <div class="role-card biz">
+        <h4>🟦 Business / App Owner</h4>
+        <p>You know the application best — its purpose, users, and business context.</p>
+        <ul>
+          <li>Sections 1 &amp; 2 (mandatory)</li>
+          <li>Parts of Section 6</li>
+          <li>Final sign-off in Section 8</li>
+        </ul>
+      </div>
+      <div class="role-card it">
+        <h4>🟩 IT &amp; Security Team</h4>
+        <p>Technical configuration, security controls, and infrastructure details.</p>
+        <ul>
+          <li>Sections 3, 4 &amp; 5 (mandatory)</li>
+          <li>CMDB entry and service catalogue publication</li>
+          <li>Security sign-off in Section 8</li>
+        </ul>
+      </div>
+      <div class="role-card shared">
+        <h4>🟨 Completed Together</h4>
+        <p>Sections where both parties need to agree on shared responsibilities.</p>
+        <ul>
+          <li>Section 6 — support model and risks</li>
+          <li>Section 7 — RACI and SLAs</li>
+          <li>Section 8 — acceptance checklist</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sec-card" style="margin-top:16px;">
+      <div class="sec-header"><div class="sec-icon icon-shared">📖</div><div class="sec-title-wrap"><div class="sec-title">Glossary of Key Terms</div><div class="sec-subtitle">Quick reference — expand as needed</div></div></div>
+      <div class="sec-body">
+        <div class="glossary-grid">
+          <div class="glossary-item"><div class="glossary-term">Business Owner</div><div class="glossary-def">Senior stakeholder accountable for the application and its business outcomes</div></div>
+          <div class="glossary-item"><div class="glossary-term">Application Owner</div><div class="glossary-def">Day-to-day manager of the application from the business side</div></div>
+          <div class="glossary-item"><div class="glossary-term">Service Owner</div><div class="glossary-def">IT accountability for overall service delivery and support model</div></div>
+          <div class="glossary-item"><div class="glossary-term">Technical Owner</div><div class="glossary-def">Engineer responsible for infrastructure, hosting, and technical operation</div></div>
+          <div class="glossary-item"><div class="glossary-term">Security Owner</div><div class="glossary-def">Security specialist accountable for the application's security posture</div></div>
+          <div class="glossary-item"><div class="glossary-term">CMDB</div><div class="glossary-def">Configuration Management Database — the IT record of all assets and services</div></div>
+          <div class="glossary-item"><div class="glossary-term">OLA</div><div class="glossary-def">Operational Level Agreement — internal IT service commitments</div></div>
+          <div class="glossary-item"><div class="glossary-term">RPO / RTO</div><div class="glossary-def">Recovery Point / Time Objective — how much data loss and downtime are acceptable</div></div>
+          <div class="glossary-item"><div class="glossary-term">RACI</div><div class="glossary-def">Responsible · Accountable · Consulted · Informed — every activity has exactly one Accountable owner</div></div>
+          <div class="glossary-item"><div class="glossary-term">CAB</div><div class="glossary-def">Change Advisory Board — approves significant or high-risk changes</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <span></span>
+      <button class="btn btn-primary" id="next-intro">Next: Service &amp; Ownership →</button>
+    </div>
+  </div>
+
+  <!-- ══ TAB 1: SERVICE & OWNERSHIP ══ -->
+  <div id="tab-t1" class="tab-pane">
+    <div class="pane-heading">
+      <h2>Section 1 — Service Identity &amp; Ownership</h2>
+      <span class="role-badge badge-biz">🟦 Business / App Owner</span>
+    </div>
+    <div class="info-box info-biz"><span class="info-icon">ℹ️</span><span>Complete all fields marked with <strong>*</strong>. The IT Team will complete the ownership fields on the right. If you are unsure of a field, add your best guess and note it for discussion.</span></div>
+    <div class="sec-card">
+      <div class="sec-header"><div class="sec-icon icon-biz">📱</div><div class="sec-title-wrap"><div class="sec-title">Application Identity</div><div class="sec-subtitle">Basic information about this application</div></div><span class="role-badge badge-biz">Business Owner</span></div>
+      <div class="sec-body">
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Application Name <span class="req">*</span></div><div class="field-hint">The full name used to refer to this application</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. Customer Portal, SAP HR Module"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Service / CMDB ID</div><div class="field-hint">IT will assign this — leave blank if not yet known</div></div><div class="field-input-wrap"><input type="text" placeholder="To be assigned by IT"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Department / Business Unit <span class="req">*</span></div><div class="field-hint">Which business unit owns this application?</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. Human Resources, Finance, Operations"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Criticality <span class="req">*</span></div><div class="field-hint">How critical is this to the business? Critical = cannot operate without it.</div></div><div class="field-input-wrap"><div class="radio-group"><label class="radio-opt"><input type="radio" name="criticality" value="Critical">🔴 Critical</label><label class="radio-opt"><input type="radio" name="criticality" value="High">🟠 High</label><label class="radio-opt"><input type="radio" name="criticality" value="Medium">🟡 Medium</label><label class="radio-opt"><input type="radio" name="criticality" value="Low">🟢 Low</label></div></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Production Status <span class="req">*</span></div></div><div class="field-input-wrap"><select><option value="">Select status…</option><option>Production</option><option>Non-production / Testing</option><option>Pilot</option><option>Retired</option></select></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Data Classification <span class="req">*</span></div><div class="field-hint">What type of data does this application store or process?</div></div><div class="field-input-wrap"><select><option value="">Select classification…</option><option>Public</option><option>Internal Use Only</option><option>Confidential</option><option>Restricted / Personal (PII)</option><option>Secret / Highly Sensitive</option></select></div></div>
+      </div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-header"><div class="sec-icon icon-biz">👥</div><div class="sec-title-wrap"><div class="sec-title">Ownership &amp; Key Contacts</div><div class="sec-subtitle">Who is responsible for this application</div></div></div>
+      <div class="sec-body">
+        <div class="info-box info-shared"><span class="info-icon">💡</span><span>Provide full name and email for each role. If one person holds multiple roles, list them in each field.</span></div>
+        <div class="two-col">
+          <div>
+            <div class="field-row" style="grid-template-columns:1fr"><div class="field-label-wrap"><div class="field-label">Business Owner <span class="req">*</span></div><div class="field-hint">Senior business stakeholder accountable for this application</div></div><div class="field-input-wrap"><input type="text" placeholder="Full name & email"></div></div>
+            <div class="field-row" style="grid-template-columns:1fr"><div class="field-label-wrap"><div class="field-label">Application Owner <span class="req">*</span></div><div class="field-hint">Day-to-day manager of the application from the business side</div></div><div class="field-input-wrap"><input type="text" placeholder="Full name & email"></div></div>
+            <div class="field-row" style="grid-template-columns:1fr"><div class="field-label-wrap"><div class="field-label">Vendor / Supplier</div><div class="field-hint">External provider of the software, if applicable</div></div><div class="field-input-wrap"><input type="text" placeholder="Company name & primary contact"></div></div>
+          </div>
+          <div class="it-box">
+            <div class="it-box-label">🟩 Completed by IT Team</div>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Service Owner <span class="req">*</span></div><div class="field-hint">IT accountability for overall service delivery</div></div><div class="field-input-wrap"><input type="text" placeholder="IT contact"></div></div>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Technical Owner <span class="req">*</span></div><div class="field-hint">Engineer responsible for infrastructure</div></div><div class="field-input-wrap"><input type="text" placeholder="IT contact"></div></div>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Security Owner <span class="req">*</span></div><div class="field-hint">Security specialist for this application</div></div><div class="field-input-wrap"><input type="text" placeholder="Security contact"></div></div>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Service Desk / Support Team <span class="req">*</span></div></div><div class="field-input-wrap"><input type="text" placeholder="Team name or queue"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-buttons"><button class="btn btn-ghost" id="back-t1">← Back</button><button class="btn btn-primary" id="next-t1">Next: Purpose &amp; Users →</button></div>
+  </div>
+
+  <!-- ══ TAB 2: PURPOSE & USERS ══ -->
+  <div id="tab-t2" class="tab-pane">
+    <div class="pane-heading"><h2>Section 2 — Purpose, Scope &amp; Users</h2><span class="role-badge badge-biz">🟦 Business / App Owner</span></div>
+    <div class="info-box info-biz"><span class="info-icon">ℹ️</span><span>Describe what the application does in plain language. Focus on what business problem it solves and who uses it — no technical detail needed here.</span></div>
+    <div class="sec-card">
+      <div class="sec-header"><div class="sec-icon icon-biz">🎯</div><div class="sec-title-wrap"><div class="sec-title">What does this application do?</div><div class="sec-subtitle">Business purpose, scope and user base</div></div><span class="role-badge badge-biz">Business Owner</span></div>
+      <div class="sec-body">
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Purpose of the Application <span class="req">*</span></div><div class="field-hint">What business problem does it solve? What would happen if it wasn't available?</div></div><div class="field-input-wrap"><textarea placeholder="e.g. This application manages employee leave requests and approvals across the organisation. Without it, leave would need to be tracked manually via email and spreadsheets."></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Business Capability Supported <span class="req">*</span></div><div class="field-hint">Which business process or function does this application support?</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. HR Leave Management, Financial Reporting, Customer Onboarding"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Primary User Groups <span class="req">*</span></div><div class="field-hint">Who uses this application and approximately how many users are there?</div></div><div class="field-input-wrap"><textarea placeholder="e.g. All staff (approx. 1,200 users) for self-service leave requests. HR team (15 users) for approvals and reporting."></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">What is included in support? <span class="req">*</span></div><div class="field-hint">What activities are IT expected to support for this application?</div></div><div class="field-input-wrap"><textarea placeholder="e.g. User access requests, password resets, incident resolution, monthly patching, integrations with HR system."></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">What is NOT included? <span class="req">*</span></div><div class="field-hint">Anything explicitly out of scope for IT support</div></div><div class="field-input-wrap"><textarea placeholder="e.g. Business process changes, report customisation, training — managed by the business directly with the vendor."></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Business Hours Support Window <span class="req">*</span></div><div class="field-hint">When do users typically need the application to be available?</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. Mon–Fri, 7:00am–7:00pm local time"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Extended / 24×7 Support Needed?</div><div class="field-hint">Does the application need support outside of standard business hours?</div></div><div class="field-input-wrap"><div class="radio-group"><label class="radio-opt"><input type="radio" name="extended" value="No">No — business hours only</label><label class="radio-opt"><input type="radio" name="extended" value="Yes">Yes — specify below</label></div><input type="text" placeholder="If yes: describe hours and reason" style="margin-top:7px"></div></div>
+      </div>
+    </div>
+    <div class="nav-buttons"><button class="btn btn-ghost" id="back-t2">← Back</button><button class="btn btn-primary" id="next-t2">Next: Technical Setup →</button></div>
+  </div>
+
+  <!-- ══ TAB 3: TECHNICAL SETUP ══ -->
+  <div id="tab-t3" class="tab-pane">
+    <div class="pane-heading"><h2>Section 3 — Technical Setup &amp; Architecture</h2><span class="role-badge badge-it">🟩 IT Team</span></div>
+    <div class="info-box info-it"><span class="info-icon">🔧</span><span>This section is completed by the <strong>IT/Technical Team</strong>. If information is not yet known, enter <em>"Unknown — remediation required"</em> and add to the risk register.</span></div>
+    <div class="sec-card">
+      <div class="sec-header"><div class="sec-icon icon-it">🖥️</div><div class="sec-title-wrap"><div class="sec-title">Infrastructure &amp; Hosting</div><div class="sec-subtitle">Where and how the application is hosted and connected</div></div><span class="role-badge badge-it">IT Team</span></div>
+      <div class="sec-body">
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Hosting Model <span class="req">*</span></div><div class="field-hint">Where does this application run?</div></div><div class="field-input-wrap"><div class="radio-group"><label class="radio-opt"><input type="radio" name="hosting" value="On-premises">On-premises</label><label class="radio-opt"><input type="radio" name="hosting" value="Cloud">Cloud (IaaS/PaaS)</label><label class="radio-opt"><input type="radio" name="hosting" value="SaaS">SaaS</label><label class="radio-opt"><input type="radio" name="hosting" value="Hybrid">Hybrid</label></div></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Servers / Nodes <span class="req">*</span></div><div class="field-hint">Hostnames, IP addresses, or cloud resource names</div></div><div class="field-input-wrap"><textarea placeholder="e.g. APPSVR01 (10.1.2.10), APPSVR02 (10.1.2.11)"></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Database(s) <span class="req">*</span></div><div class="field-hint">Database server names, type, and instance names</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. SQL Server — DBSVR01\PROD, schema: AppDB"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">DNS Names / URLs <span class="req">*</span></div><div class="field-hint">All URLs users or systems use to access this application</div></div><div class="field-input-wrap"><textarea placeholder="e.g. https://app.company.com (prod), https://app-uat.company.com (UAT)"></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Integrations &amp; Interfaces <span class="req">*</span></div><div class="field-hint">Other systems this application connects to or exchanges data with</div></div><div class="field-input-wrap"><textarea placeholder="e.g. SAP HR (employee sync via API), Payroll system (nightly file export), Active Directory (user auth)"></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Authentication Source <span class="req">*</span></div><div class="field-hint">How do users log in?</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. Azure Active Directory (SSO via SAML 2.0)"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Firewall / Connectivity Dependencies <span class="req">*</span></div><div class="field-hint">Network rules, ports or connectivity required</div></div><div class="field-input-wrap"><textarea placeholder="e.g. TCP 443 from corporate network to app servers. TCP 1433 from app servers to DB servers."></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Third-Party Dependencies</div><div class="field-hint">External services, APIs, or libraries this application relies on</div></div><div class="field-input-wrap"><textarea placeholder="e.g. SendGrid (email notifications), None"></textarea></div></div>
+      </div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-header"><div class="sec-icon icon-it">📊</div><div class="sec-title-wrap"><div class="sec-title">Monitoring &amp; Alerting</div><div class="sec-subtitle">How the application is watched and who gets notified</div></div><span class="role-badge badge-it">IT Team</span></div>
+      <div class="sec-body">
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Monitoring Platform <span class="req">*</span></div><div class="field-hint">Tool used to monitor this application</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. Dynatrace, SCOM, Datadog, None"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Health Checks Implemented <span class="req">*</span></div><div class="field-hint">What automated checks confirm the application is running correctly?</div></div><div class="field-input-wrap"><textarea placeholder="e.g. HTTP 200 check on /health every 60 seconds. Database connection pool check."></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Critical Alerts <span class="req">*</span></div><div class="field-hint">What conditions trigger an alert?</div></div><div class="field-input-wrap"><textarea placeholder="e.g. Service unavailable, CPU > 90% for 5 min, disk > 85%"></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Alert Recipient / Escalation Owner <span class="req">*</span></div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. IT Service Desk → Technical Owner → IT Manager"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Dashboard / Runbook Reference</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. Confluence: /it/runbooks/app-name"></div></div>
+      </div>
+    </div>
+    <div class="nav-buttons"><button class="btn btn-ghost" id="back-t3">← Back</button><button class="btn btn-primary" id="next-t3">Next: Security &amp; Access →</button></div>
+  </div>
+
+  <!-- ══ TAB 4: SECURITY & ACCESS ══ -->
+  <div id="tab-t4" class="tab-pane">
+    <div class="pane-heading"><h2>Section 4 — Security, Access &amp; Certificates</h2><span class="role-badge badge-it">🟩 IT / Security Team</span></div>
+    <div class="info-box info-it"><span class="info-icon">🔒</span><span>This section is completed by the <strong>Security Team</strong>. It covers how the application controls access, what accounts exist, and how certificates are managed.</span></div>
+    <div class="sec-card">
+      <div class="sec-header"><div class="sec-icon icon-it">🔐</div><div class="sec-title-wrap"><div class="sec-title">Security Baseline</div><div class="sec-subtitle">Authentication, authorisation, and audit controls</div></div><span class="role-badge badge-it">Security Team</span></div>
+      <div class="sec-body">
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Authentication Model <span class="req">*</span></div><div class="field-hint">How are users verified?</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. Azure AD SSO (SAML 2.0) for all users"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">MFA Required? <span class="req">*</span></div></div><div class="field-input-wrap"><div class="radio-group"><label class="radio-opt"><input type="radio" name="mfa" value="Yes">Yes — enforced</label><label class="radio-opt"><input type="radio" name="mfa" value="No">No — not required</label><label class="radio-opt"><input type="radio" name="mfa" value="Partial">Partial — admin only</label><label class="radio-opt"><input type="radio" name="mfa" value="NA">N/A</label></div></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Authorisation / Role Model <span class="req">*</span></div><div class="field-hint">How are user permissions structured?</div></div><div class="field-input-wrap"><textarea placeholder="e.g. RBAC. Roles: Standard User, Manager, Admin. Managed via AD Security Groups."></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Privileged Access Method <span class="req">*</span></div><div class="field-hint">How are admin/privileged accounts managed?</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. CyberArk PAM for all privileged access, reviewed quarterly"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Audit Logging Enabled? <span class="req">*</span></div></div><div class="field-input-wrap"><div class="radio-group"><label class="radio-opt"><input type="radio" name="audit" value="Yes">Yes</label><label class="radio-opt"><input type="radio" name="audit" value="No">No</label><label class="radio-opt"><input type="radio" name="audit" value="Partial">Partial</label></div><input type="text" placeholder="If yes: where are logs stored and for how long?" style="margin-top:7px"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Last Security Review Date <span class="req">*</span></div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. March 2024 — penetration test. Or: Not yet reviewed."></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Open Security Exceptions</div></div><div class="field-input-wrap"><textarea placeholder="e.g. None. Or: Exception #SE-042 — legacy TLS 1.1 on integration endpoint, remediation due Q3 2025."></textarea></div></div>
+      </div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-header"><div class="sec-icon icon-it">🗝️</div><div class="sec-title-wrap"><div class="sec-title">Service Accounts &amp; Certificates</div><div class="sec-subtitle">Non-human accounts and SSL/TLS certificates</div></div><span class="role-badge badge-it">IT / Security Team</span></div>
+      <div class="sec-body">
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Service Accounts Used <span class="req">*</span></div><div class="field-hint">List all non-human accounts used by this application</div></div><div class="field-input-wrap"><textarea placeholder="e.g. svc_app_prod (AD account for DB connectivity), svc_app_api (API integration account)"></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Privileged Accounts Used <span class="req">*</span></div></div><div class="field-input-wrap"><textarea placeholder="e.g. app-admin (local admin on app servers, stored in CyberArk)"></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">SSL / TLS Certificates</div><div class="field-hint">List certificates, expiry dates, and renewal owner</div></div><div class="field-input-wrap"><textarea placeholder="e.g. app.company.com — expires 31 Mar 2026, renewed by IT Security via ServiceNow 60 days before expiry"></textarea></div></div>
+      </div>
+    </div>
+    <div class="nav-buttons"><button class="btn btn-ghost" id="back-t4">← Back</button><button class="btn btn-primary" id="next-t4">Next: Resilience &amp; Maintenance →</button></div>
+  </div>
+
+  <!-- ══ TAB 5: RESILIENCE ══ -->
+  <div id="tab-t5" class="tab-pane">
+    <div class="pane-heading"><h2>Section 5 — Resilience, Backup &amp; Maintenance</h2><span class="role-badge badge-it">🟩 IT Team</span></div>
+    <div class="info-box info-it"><span class="info-icon">🛡️</span><span>This section is completed by the <strong>IT/Technical Team</strong>. It covers how the application is protected against data loss, how it is patched, and how it recovers from failure.</span></div>
+    <div class="sec-card">
+      <div class="sec-header"><div class="sec-icon icon-it">💾</div><div class="sec-title-wrap"><div class="sec-title">Backup, Restore &amp; Disaster Recovery</div><div class="sec-subtitle">Data protection and recovery capabilities</div></div><span class="role-badge badge-it">IT Team</span></div>
+      <div class="sec-body">
+        <div class="info-box info-shared"><span class="info-icon">💡</span><span><strong>RPO</strong> = how much data can we afford to lose? <strong>RTO</strong> = how fast must the service be restored? These are agreed with the Business Owner.</span></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Backup Method <span class="req">*</span></div><div class="field-hint">How and how often is this application backed up?</div></div><div class="field-input-wrap"><textarea placeholder="e.g. Daily full backup at 2am via Veeam to offsite storage. Transaction log backups every 15 minutes."></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Backup Owner <span class="req">*</span></div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. IT Infrastructure Team — Jane Smith"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Restore Procedure Reference <span class="req">*</span></div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. Confluence: /it/runbooks/app-restore or 'Not yet documented'"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Last Restore Test Date <span class="req">*</span></div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. 15 September 2024 — full restore test successful"></div></div>
+        <div class="two-col">
+          <div class="field-row" style="grid-template-columns:1fr"><div class="field-label-wrap"><div class="field-label">RPO Target <span class="req">*</span></div><div class="field-hint">Maximum acceptable data loss</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. 4 hours"></div></div>
+          <div class="field-row" style="grid-template-columns:1fr"><div class="field-label-wrap"><div class="field-label">RTO Target <span class="req">*</span></div><div class="field-hint">Maximum time to restore service</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. 2 hours"></div></div>
+        </div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">DR Model <span class="req">*</span></div><div class="field-hint">How is disaster recovery implemented?</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. Warm standby in secondary datacentre. Failover time approx. 30 minutes."></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">DR Test Frequency <span class="req">*</span></div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. Annual DR exercise, next scheduled: March 2026"></div></div>
+      </div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-header"><div class="sec-icon icon-it">🔧</div><div class="sec-title-wrap"><div class="sec-title">Patching &amp; Maintenance</div><div class="sec-subtitle">Who keeps the application up to date and when</div></div><span class="role-badge badge-it">IT Team</span></div>
+      <div class="sec-body">
+        <div class="two-col">
+          <div class="field-row" style="grid-template-columns:1fr"><div class="field-label-wrap"><div class="field-label">OS Patch Owner <span class="req">*</span></div></div><div class="field-input-wrap"><input type="text" placeholder="Team or name"></div></div>
+          <div class="field-row" style="grid-template-columns:1fr"><div class="field-label-wrap"><div class="field-label">Application Patch Owner <span class="req">*</span></div></div><div class="field-input-wrap"><input type="text" placeholder="Team or name"></div></div>
+          <div class="field-row" style="grid-template-columns:1fr"><div class="field-label-wrap"><div class="field-label">Database Patch Owner <span class="req">*</span></div></div><div class="field-input-wrap"><input type="text" placeholder="Team or name"></div></div>
+          <div class="field-row" style="grid-template-columns:1fr"><div class="field-label-wrap"><div class="field-label">Middleware Patch Owner</div></div><div class="field-input-wrap"><input type="text" placeholder="Team or name, or N/A"></div></div>
+        </div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Current Version <span class="req">*</span></div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. v4.2.1"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Vendor-Supported Version? <span class="req">*</span></div></div><div class="field-input-wrap"><div class="radio-group"><label class="radio-opt"><input type="radio" name="vendor_support" value="Yes">Yes — currently supported</label><label class="radio-opt"><input type="radio" name="vendor_support" value="No">No — end of life / unsupported</label></div></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Maintenance Window <span class="req">*</span></div><div class="field-hint">When can planned maintenance occur without business impact?</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. Sundays 10pm–2am. Change freeze: Dec 15 – Jan 5."></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Validation Owner After Change <span class="req">*</span></div><div class="field-hint">Who confirms the application is working correctly after a patch?</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. Technical Owner runs smoke tests. Application Owner confirms business functions."></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Back-Out / Rollback Method <span class="req">*</span></div><div class="field-hint">How is a failed change reversed?</div></div><div class="field-input-wrap"><textarea placeholder="e.g. Snapshot rollback via Veeam within 30 minutes."></textarea></div></div>
+      </div>
+    </div>
+    <div class="nav-buttons"><button class="btn btn-ghost" id="back-t5">← Back</button><button class="btn btn-primary" id="next-t5">Next: Support &amp; Change →</button></div>
+  </div>
+
+  <!-- ══ TAB 6: SUPPORT & CHANGE ══ -->
+  <div id="tab-t6" class="tab-pane">
+    <div class="pane-heading"><h2>Section 6 — Support Model, Change &amp; Risks</h2><span class="role-badge badge-shared">🟨 Completed Together</span></div>
+    <div class="info-box info-shared"><span class="info-icon">🤝</span><span>This section is <strong>completed collaboratively</strong> between the Business Owner and the IT/Service Owner. Both parties need to agree on the support model, change process, and any known risks.</span></div>
+    <div class="sec-card">
+      <div class="sec-header"><div class="sec-icon icon-shared">📞</div><div class="sec-title-wrap"><div class="sec-title">Support Model &amp; Escalation</div><div class="sec-subtitle">How incidents and requests are handled</div></div><span class="role-badge badge-shared">Business + IT</span></div>
+      <div class="sec-body">
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Support Channels <span class="req">*</span></div><div class="field-hint">How do users raise incidents or requests?</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. ServiceNow portal, IT Service Desk ext. 1234"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Priority Model <span class="req">*</span></div><div class="field-hint">How are incidents prioritised for this application?</div></div><div class="field-input-wrap"><textarea placeholder="P1 — Application completely unavailable&#10;P2 — Major feature unavailable&#10;P3 — Minor issue, workaround available&#10;P4 — Cosmetic / enhancement"></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Escalation Path <span class="req">*</span></div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. Service Desk → Technical Owner → Service Owner → Vendor Support"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Major Incident Route <span class="req">*</span></div><div class="field-hint">What happens if this application has a P1 outside business hours?</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. On-call Technical Owner paged via PagerDuty. Business Owner notified within 30 minutes."></div></div>
+      </div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-header"><div class="sec-icon icon-shared">🔄</div><div class="sec-title-wrap"><div class="sec-title">Change &amp; Release Management</div><div class="sec-subtitle">How changes to the application are approved and deployed</div></div><span class="role-badge badge-shared">Business + IT</span></div>
+      <div class="sec-body">
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Change Model <span class="req">*</span></div></div><div class="field-input-wrap"><textarea placeholder="Standard changes: pre-approved, low-risk&#10;Normal changes: CAB approval required&#10;Emergency changes: expedited via Service Owner + IT Manager"></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Approval Route <span class="req">*</span></div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. Business Owner for functional changes. Technical Owner for infrastructure. CAB for major changes."></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Test Evidence Location <span class="req">*</span></div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. Confluence: /it/testing/app-name"></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Blackout / Freeze Periods</div></div><div class="field-input-wrap"><input type="text" placeholder="e.g. 1 Dec – 10 Jan (year-end close), last week of each quarter"></div></div>
+      </div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-header"><div class="sec-icon icon-shared">⚠️</div><div class="sec-title-wrap"><div class="sec-title">Risks, Gaps &amp; Technical Debt</div><div class="sec-subtitle">Known issues that need to be tracked and addressed</div></div><span class="role-badge badge-shared">Business + IT</span></div>
+      <div class="sec-body">
+        <div class="info-box info-shared"><span class="info-icon">💡</span><span>It's better to declare known gaps honestly than leave them blank. Any item listed here should be added to the risk register with a target remediation date.</span></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Unsupported / End-of-Life Components</div></div><div class="field-input-wrap"><textarea placeholder="e.g. None. Or: Windows Server 2012 R2 on APPSVR01 — end of support Oct 2023. Upgrade planned Q2 2026."></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Documentation Gaps</div></div><div class="field-input-wrap"><textarea placeholder="e.g. Restore runbook not yet written. Due: 30 Nov 2025."></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Operational Gaps</div></div><div class="field-input-wrap"><textarea placeholder="e.g. No out-of-hours on-call currently defined. To be agreed by Service Owner before go-live."></textarea></div></div>
+        <div class="field-row"><div class="field-label-wrap"><div class="field-label">Remediation Actions &amp; Target Dates</div></div><div class="field-input-wrap"><textarea placeholder="1. Write restore runbook — Technical Owner — 30 Nov 2025&#10;2. Define on-call process — Service Owner — 15 Dec 2025"></textarea></div></div>
+      </div>
+    </div>
+    <div class="nav-buttons"><button class="btn btn-ghost" id="back-t6">← Back</button><button class="btn btn-primary" id="next-t6">Next: RACI &amp; SLAs →</button></div>
+  </div>
+
+  <!-- ══ TAB 7: RACI & SLAs ══ -->
+  <div id="tab-t7" class="tab-pane">
+    <div class="pane-heading"><h2>Section 7 — RACI Matrix &amp; Service Level Agreements</h2><span class="role-badge badge-shared">🟨 Completed Together</span></div>
+    <div class="info-box info-shared"><span class="info-icon">ℹ️</span><span><strong>RACI key:</strong> <strong>R</strong> = Responsible · <strong>A</strong> = Accountable (one person, final decision) · <strong>C</strong> = Consulted · <strong>I</strong> = Informed. Every row must have exactly one <strong>A</strong>.</span></div>
+    <div class="sec-card">
+      <div class="sec-header"><div class="sec-icon icon-shared">📋</div><div class="sec-title-wrap"><div class="sec-title">RACI Matrix</div><div class="sec-subtitle">Who is responsible for each activity — agree this together</div></div><span class="role-badge badge-shared">Business + IT</span></div>
+      <div class="sec-body">
+        <div class="raci-wrap">
+          <table class="raci">
+            <thead><tr><th style="min-width:150px">Activity</th><th>Business Owner</th><th>Service Owner</th><th>App Owner</th><th>Technical Owner</th><th>Security Owner</th><th>Vendor</th></tr></thead>
+            <tbody id="raciBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="sec-card" style="margin-top:12px">
+      <div class="sec-header"><div class="sec-icon icon-shared">📊</div><div class="sec-title-wrap"><div class="sec-title">Service Level Agreements</div><div class="sec-subtitle">Internal OLA and vendor SLA targets</div></div><span class="role-badge badge-shared">Business + IT</span></div>
+      <div class="sec-body">
+        <div class="sla-label">🏢 Internal OLA — Commitments between IT teams</div>
+        <table class="sla">
+          <thead><tr><th>Priority</th><th>Response Target</th><th>Resolution Target</th><th>Owner</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td><strong>P1 — Critical</strong></td><td><input type="text" placeholder="e.g. 15 min"></td><td><input type="text" placeholder="e.g. 2 hrs"></td><td><input type="text" placeholder="Owner"></td><td><input type="text" placeholder="Notes"></td></tr>
+            <tr><td><strong>P2 — High</strong></td><td><input type="text" placeholder="e.g. 30 min"></td><td><input type="text" placeholder="e.g. 4 hrs"></td><td><input type="text" placeholder="Owner"></td><td><input type="text" placeholder="Notes"></td></tr>
+            <tr><td><strong>P3 — Medium</strong></td><td><input type="text" placeholder="e.g. 2 hrs"></td><td><input type="text" placeholder="e.g. 2 days"></td><td><input type="text" placeholder="Owner"></td><td><input type="text" placeholder="Notes"></td></tr>
+            <tr><td><strong>P4 — Low</strong></td><td><input type="text" placeholder="e.g. 8 hrs"></td><td><input type="text" placeholder="e.g. 5 days"></td><td><input type="text" placeholder="Owner"></td><td><input type="text" placeholder="Notes"></td></tr>
+          </tbody>
+        </table>
+        <div class="sla-label">🌐 Vendor SLA — Commitments from external supplier</div>
+        <table class="sla">
+          <thead><tr><th>Priority</th><th>Vendor Response</th><th>Vendor Resolution</th><th>Vendor Contact / Contract Ref</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td><strong>P1 — Critical</strong></td><td><input type="text" placeholder="Per contract"></td><td><input type="text" placeholder="Per contract"></td><td><input type="text" placeholder="Contact & ref"></td><td><input type="text" placeholder="Notes"></td></tr>
+            <tr><td><strong>P2 — High</strong></td><td><input type="text" placeholder="Per contract"></td><td><input type="text" placeholder="Per contract"></td><td><input type="text" placeholder="Contact & ref"></td><td><input type="text" placeholder="Notes"></td></tr>
+            <tr><td><strong>P3 — Medium</strong></td><td><input type="text" placeholder="Per contract"></td><td><input type="text" placeholder="Per contract"></td><td><input type="text" placeholder="Contact & ref"></td><td><input type="text" placeholder="Notes"></td></tr>
+            <tr><td><strong>P4 — Low</strong></td><td><input type="text" placeholder="Per contract"></td><td><input type="text" placeholder="Per contract"></td><td><input type="text" placeholder="Contact & ref"></td><td><input type="text" placeholder="Notes"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="nav-buttons"><button class="btn btn-ghost" id="back-t7">← Back</button><button class="btn btn-primary" id="next-t7">Next: Checklist &amp; Approval →</button></div>
+  </div>
+
+  <!-- ══ TAB 8: CHECKLIST & APPROVAL ══ -->
+  <div id="tab-t8" class="tab-pane">
+    <div class="pane-heading"><h2>Section 8 — Service Acceptance Checklist &amp; Approval</h2><span class="role-badge badge-shared">🟨 All parties</span></div>
+    <div class="sec-card">
+      <div class="sec-header"><div class="sec-icon icon-shared">✅</div><div class="sec-title-wrap"><div class="sec-title">Acceptance Checklist</div><div class="sec-subtitle">Confirm all required items are complete before submitting for approval</div></div></div>
+      <div class="sec-body"><div id="checklistBody"></div></div>
+    </div>
+    <div class="sec-card" style="margin-top:12px">
+      <div class="sec-header"><div class="sec-icon icon-shared">✍️</div><div class="sec-title-wrap"><div class="sec-title">Approval Sign-Off</div><div class="sec-subtitle">All three approvals are required before the application can be accepted into the service catalogue</div></div></div>
+      <div class="sec-body">
+        <div class="approval-grid">
+          <div class="approval-card">
+            <h4>🟦 Business Approval</h4>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Name</div></div><div class="field-input-wrap"><input type="text" placeholder="Full name"></div></div>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Decision</div></div><div class="field-input-wrap"><select><option>Select…</option><option>Approve</option><option>Conditional Approval</option><option>Reject</option></select></div></div>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Date</div></div><div class="field-input-wrap"><input type="text" placeholder="DD/MM/YYYY"></div></div>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Conditions / Notes</div></div><div class="field-input-wrap"><textarea placeholder="Any conditions attached to approval" style="min-height:50px"></textarea></div></div>
+          </div>
+          <div class="approval-card">
+            <h4>🟩 IT / Service Owner Approval</h4>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Name</div></div><div class="field-input-wrap"><input type="text" placeholder="Full name"></div></div>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Decision</div></div><div class="field-input-wrap"><select><option>Select…</option><option>Approve</option><option>Conditional Approval</option><option>Reject</option></select></div></div>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Date</div></div><div class="field-input-wrap"><input type="text" placeholder="DD/MM/YYYY"></div></div>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Conditions / Notes</div></div><div class="field-input-wrap"><textarea placeholder="Any conditions attached to approval" style="min-height:50px"></textarea></div></div>
+          </div>
+          <div class="approval-card">
+            <h4>🔒 Security Approval</h4>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Name</div></div><div class="field-input-wrap"><input type="text" placeholder="Full name"></div></div>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Decision</div></div><div class="field-input-wrap"><select><option>Select…</option><option>Approve</option><option>Conditional Approval</option><option>Reject</option></select></div></div>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Date</div></div><div class="field-input-wrap"><input type="text" placeholder="DD/MM/YYYY"></div></div>
+            <div class="field-row" style="grid-template-columns:1fr;border:none;padding:5px 0"><div class="field-label-wrap"><div class="field-label">Conditions / Notes</div></div><div class="field-input-wrap"><textarea placeholder="Any conditions attached to approval" style="min-height:50px"></textarea></div></div>
+          </div>
+        </div>
+        <div class="field-row" style="margin-top:14px">
+          <div class="field-label-wrap"><div class="field-label">Service Catalogue Publication</div><div class="field-hint">Once all three approvals received, record publication details</div></div>
+          <div class="field-input-wrap">
+            <div class="radio-group"><label class="radio-opt"><input type="radio" name="publication" value="Published">Published</label><label class="radio-opt"><input type="radio" name="publication" value="Pending">Pending — awaiting approvals</label></div>
+            <input type="text" placeholder="Catalogue URL or publication reference" style="margin-top:7px">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-ghost" id="back-t8">← Back</button>
+      <button class="btn btn-primary" id="print-btn">🖨️ Print / Save as PDF</button>
+    </div>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC-FRM-12 · Application Onboarding Pack · Approved · Paulo Ferreira</span>
+    <span><a href="grc-risk.html" style="color:var(--grc);text-decoration:none;">← Back to Risk</a></span>
+  </div>
+</div>
+
+<!-- Completion ring -->
+<div class="save-bar no-print">
+  <div class="completion-ring">
+    <svg width="48" height="48" viewBox="0 0 48 48">
+      <circle class="ring-bg" cx="24" cy="24" r="21"/>
+      <circle class="ring-fill" id="ringCircle" cx="24" cy="24" r="21"/>
+    </svg>
+    <div class="ring-text" id="ringPct">0%</div>
+  </div>
+  <span>Completion</span>
+  <button class="btn btn-primary" id="save-print">🖨️ Print / PDF</button>
+</div>
+
+<script>
+// Tab navigation — CSP safe, addEventListener only
+var tabs = ['intro','t1','t2','t3','t4','t5','t6','t7','t8'];
+
+function showTab(id) {
+  tabs.forEach(function(t) {
+    var pane = document.getElementById('tab-' + t);
+    var btn  = document.getElementById('btn-' + t);
+    if (pane) pane.classList.toggle('active', t === id);
+    if (btn)  btn.classList.toggle('active', t === id);
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// Wire navigation buttons
+var navMap = [
+  ['next-intro','t1'], ['back-t1','intro'], ['next-t1','t2'],
+  ['back-t2','t1'],    ['next-t2','t3'],
+  ['back-t3','t2'],    ['next-t3','t4'],
+  ['back-t4','t3'],    ['next-t4','t5'],
+  ['back-t5','t4'],    ['next-t5','t6'],
+  ['back-t6','t5'],    ['next-t6','t7'],
+  ['back-t7','t6'],    ['next-t7','t8'],
+  ['back-t8','t7'],
+];
+navMap.forEach(function(pair) {
+  var el = document.getElementById(pair[0]);
+  if (el) el.addEventListener('click', function() { showTab(pair[1]); });
+});
+
+// Tab buttons
+tabs.forEach(function(t) {
+  var btn = document.getElementById('btn-' + t);
+  if (btn) btn.addEventListener('click', function() { showTab(t); });
+});
+
+// Print buttons
+document.getElementById('print-btn').addEventListener('click', function() { window.print(); });
+document.getElementById('save-print').addEventListener('click', function() { window.print(); });
+
+// RACI matrix
+var raciActivities = [
+  'Service acceptance','Incident management','Problem management',
+  'Patching & maintenance','Access governance','Backup & restore',
+  'Major change / release','Security review','Vendor management','DR testing',
+];
+var raciBody = document.getElementById('raciBody');
+var opts = '<option value="">—</option><option>R</option><option>A</option><option>C</option><option>I</option>';
+raciActivities.forEach(function(act) {
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td>' + act + '</td>' + Array(6).fill('<td><select>' + opts + '</select></td>').join('');
+  raciBody.appendChild(tr);
+});
+
+// Checklist
+var checklistItems = [
+  { label: 'All ownership roles assigned (Business, App, Service, Technical, Security Owner)', role: 'biz' },
+  { label: 'Support boundary defined — in-scope and out-of-scope activities documented', role: 'biz' },
+  { label: 'Runbook completed and published (or documented gap with remediation date)', role: 'it' },
+  { label: 'All system dependencies and integrations recorded', role: 'it' },
+  { label: 'Monitoring active and alert owner assigned', role: 'it' },
+  { label: 'Backup and restore model defined and restore test date recorded', role: 'it' },
+  { label: 'All patching ownership defined', role: 'it' },
+  { label: 'Security review completed or formal exception recorded with acceptance date', role: 'it' },
+  { label: 'Internal OLA targets agreed and documented', role: 'shared' },
+  { label: 'Vendor SLA documented (or N/A recorded if no external vendor)', role: 'shared' },
+  { label: 'RACI matrix completed — every activity has exactly one Accountable owner', role: 'shared' },
+  { label: 'All risks, gaps and technical debt logged in risk register with remediation dates', role: 'shared' },
+];
+var checklistBody = document.getElementById('checklistBody');
+checklistItems.forEach(function(item) {
+  var roleLabel = item.role === 'biz' ? '🟦 Biz' : item.role === 'it' ? '🟩 IT' : '🟨 Both';
+  var roleCls   = item.role === 'biz' ? 'badge-biz' : item.role === 'it' ? 'badge-it' : 'badge-shared';
+  var div = document.createElement('div');
+  div.className = 'checklist-item';
+  div.innerHTML =
+    '<div class="check-label">' + item.label + ' <span class="role-badge ' + roleCls + '" style="margin-left:5px;font-size:10px">' + roleLabel + '</span></div>' +
+    '<div class="check-row">' +
+      '<select style="width:160px"><option value="">Select…</option><option>Complete</option><option>Partial — in progress</option><option>Not started</option><option>Not Applicable</option></select>' +
+      '<input type="text" placeholder="Evidence or comment" style="width:200px">' +
+    '</div>';
+  checklistBody.appendChild(div);
+});
+
+// Progress tracking
+function updateProgress() {
+  var allInputs = document.querySelectorAll('input[type=text], textarea, select');
+  var filled = 0, total = 0;
+  allInputs.forEach(function(el) {
+    if (el.closest('.save-bar') || el.closest('.approval-card')) return;
+    total++;
+    if (el.value && el.value.trim() !== '' && el.value !== 'Select…') filled++;
+  });
+  var pct = total > 0 ? Math.round((filled / total) * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = pct + '% complete';
+  document.getElementById('ringPct').textContent = pct + '%';
+  var circumference = 2 * Math.PI * 21;
+  document.getElementById('ringCircle').style.strokeDashoffset = circumference - (pct / 100) * circumference;
+}
+document.addEventListener('input', updateProgress);
+document.addEventListener('change', updateProgress);
+updateProgress();
+</script>
+
+<script src="lang-switcher.js"></script>
+</body>
+</html>
