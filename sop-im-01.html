@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOP-IM-01: Incident Severity Classification & Escalation — Cyber Security Knowledge Base</title>
+<title>SOP-IM-01: Incident Severity Classification &amp; Escalation — Cyber Security Knowledge Base</title>
 <link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
 <style>
   :root { --sop:#4A5568; --sop-light:#F0F2F5; --sop-border:#CBD5E0; --sop-dark:#2D3748; }
   .sop-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid var(--sop-border); border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
@@ -17,7 +20,7 @@
   .sop-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
   .sop-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
   .sop-section p:last-child { margin-bottom:0; }
-  .sop-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .sop-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; }
   .sop-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
   .sop-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--sop); flex-shrink:0; margin-top:5px; }
   .sop-two-col { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
@@ -25,7 +28,7 @@
   .sop-sub-box h4 { font-size:13px; font-weight:600; color:var(--sop-dark); margin-bottom:8px; }
   .sop-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
   .sop-table th { background:var(--sop-light); color:var(--sop); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--sop-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
-  .sop-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; }
+  .sop-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.5; }
   .sop-table tr:nth-child(even) td { background:#fafafa; }
   .sop-roles { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
   .sop-roles th { background:var(--sop-light); color:var(--sop); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--sop-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
@@ -36,37 +39,64 @@
   .sop-phase:last-child { margin-bottom:0; }
   .sop-phase-title { font-size:13px; font-weight:600; color:var(--sop-dark); margin-bottom:8px; padding-bottom:5px; border-bottom:0.5px solid var(--sop-border); display:flex; align-items:center; gap:8px; }
   .sop-phase-num { width:22px; height:22px; border-radius:50%; background:var(--sop); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-  /* Severity level cards */
-  .sev-cards { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
-  .sev-card { border-radius:10px; padding:1rem 1.1rem; }
-  .sev-card.critical { background:#FAECE7; border:0.5px solid #F5C0B0; }
-  .sev-card.high     { background:#FEF0E6; border:0.5px solid #F5C89A; }
-  .sev-card.medium   { background:#FAEEDA; border:0.5px solid #FAC775; }
-  .sev-card.low      { background:#f9f9f7; border:0.5px solid #e0e0dc; }
-  .sev-card h4 { font-size:13px; font-weight:700; margin-bottom:4px; }
-  .sev-card.critical h4 { color:#993C1D; }
-  .sev-card.high     h4 { color:#8B4A0E; }
-  .sev-card.medium   h4 { color:#854F0B; }
-  .sev-card.low      h4 { color:#555; }
-  .sev-card p { font-size:13px; color:#555; margin:0; line-height:1.4; }
-  /* Escalation rules */
-  .esc-row { display:flex; align-items:flex-start; gap:12px; padding:0.75rem 1rem; border-radius:8px; margin-bottom:6px; }
-  .esc-row.medium   { background:#FAEEDA; }
-  .esc-row.high     { background:#FEF0E6; }
-  .esc-row.critical { background:#FAECE7; }
-  .esc-label { font-size:11px; font-weight:700; padding:2px 8px; border-radius:8px; white-space:nowrap; flex-shrink:0; margin-top:2px; }
-  .esc-row.medium   .esc-label { background:#FAC775; color:#5C3109; }
-  .esc-row.high     .esc-label { background:#F5C89A; color:#5C3109; }
-  .esc-row.critical .esc-label { background:#F5C0B0; color:#6B2316; }
-  .esc-text { font-size:13px; line-height:1.5; }
-  .esc-row.medium   .esc-text { color:#6b3f0a; }
-  .esc-row.high     .esc-text { color:#6b3f0a; }
-  .esc-row.critical .esc-text { color:#7a2e10; }
-  /* Definition list */
-  .def-list { display:flex; flex-direction:column; gap:8px; margin-top:4px; }
-  .def-item { background:var(--sop-light); border:0.5px solid var(--sop-border); border-radius:8px; padding:0.75rem 1rem; }
+
+  /* Severity tier cards (Sev 1-5) — single-column for vertical compact layout */
+  .sev-cards-5 { display:flex; flex-direction:column; gap:8px; margin-top:6px; }
+  .sev-card-5 { border-radius:10px; overflow:hidden; border:0.5px solid; }
+  .sev-card-5-header { padding:0.65rem 1rem; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  .sev-card-5-header h4 { font-size:13px; font-weight:700; margin:0; }
+  .sev-card-5-header .sla-mini { font-size:11px; font-weight:600; opacity:0.85; }
+  .sev-card-5-body { padding:0.75rem 1rem; background:#fff; font-size:13px; color:#444; line-height:1.55; }
+  .sev-card-5-body p { margin:0 0 5px 0; }
+  .sev-card-5-body p:last-child { margin:0; }
+  .sev-card-5-body strong { color:var(--sop-dark); }
+  .sev-card-5-body .ex-list { margin-top:4px; padding-left:0; list-style:none; }
+  .sev-card-5-body .ex-list li { font-size:12px; color:#555; padding:2px 0 2px 14px; position:relative; line-height:1.45; }
+  .sev-card-5-body .ex-list li::before { content:'•'; position:absolute; left:4px; color:#888; }
+  .sev-1 { border-color:#5C2E06; }
+  .sev-1 .sev-card-5-header { background:#F5C0B0; color:#5C2E06; }
+  .sev-2 { border-color:#993C1D; }
+  .sev-2 .sev-card-5-header { background:#FAECE7; color:#993C1D; }
+  .sev-3 { border-color:#8B4A0E; }
+  .sev-3 .sev-card-5-header { background:#FEF0E6; color:#8B4A0E; }
+  .sev-4 { border-color:#854F0B; }
+  .sev-4 .sev-card-5-header { background:#FAEEDA; color:#854F0B; }
+  .sev-5 { border-color:#0F6E56; }
+  .sev-5 .sev-card-5-header { background:#E1F5EE; color:#0F6E56; }
+
+  /* Decision flow */
+  .flow-box { background:var(--sop-light); border:0.5px solid var(--sop-border); border-radius:10px; padding:1rem 1.25rem; }
+  .flow-step { display:flex; gap:10px; margin-bottom:6px; align-items:flex-start; line-height:1.55; }
+  .flow-step:last-child { margin-bottom:0; }
+  .flow-q { font-size:11px; font-weight:700; color:#fff; background:var(--sop); padding:2px 8px; border-radius:5px; white-space:nowrap; flex-shrink:0; margin-top:1px; }
+  .flow-text { font-size:13px; color:#333; }
+  .flow-text strong { color:var(--sop-dark); }
+  .out-yes { background:#E1F5EE; color:#0F6E56; padding:1px 7px; border-radius:5px; font-weight:600; font-size:12px; }
+  .out-no  { background:#FAECE7; color:#993C1D; padding:1px 7px; border-radius:5px; font-weight:600; font-size:12px; }
+
+  /* IRP cross-reference banner */
+  .irp-banner { display:flex; align-items:flex-start; gap:10px; background:#E6F4F4; border:0.5px solid #8ECECE; border-left:3px solid #0E5C5C; border-radius:8px; padding:0.7rem 1rem; margin-bottom:1.25rem; font-size:13px; color:#073B3B; line-height:1.55; }
+  .irp-banner span:first-child { flex-shrink:0; }
+  .irp-banner a { color:#0E5C5C; font-weight:600; text-decoration:none; }
+
+  /* Important callouts */
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:#7a2e10; line-height:1.55; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+  .callout-info { background:var(--sop-light); border:0.5px solid var(--sop-border); border-left:3px solid var(--sop); border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:#444; line-height:1.55; margin-top:10px; }
+  .callout-info strong { color:var(--sop-dark); }
+
+  /* Definitions */
+  .def-list { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .def-item { background:var(--sop-light); border:0.5px solid var(--sop-border); border-radius:8px; padding:0.7rem 1rem; }
   .def-term { font-size:13px; font-weight:600; color:var(--sop-dark); margin-bottom:3px; }
   .def-desc { font-size:13px; color:#555; line-height:1.5; }
+
+  /* Trigger notifications */
+  .trig-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .trig-item { display:flex; align-items:flex-start; gap:10px; background:#fafafa; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 0.85rem; font-size:13px; color:#444; line-height:1.5; }
+  .trig-item::before { content:'⚡'; flex-shrink:0; }
+  .trig-item strong { color:var(--sop-dark); }
+
   /* Related content */
   .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
   .rel-box { background:var(--sop-light); border:0.5px solid var(--sop-border); border-radius:8px; padding:0.9rem 1rem; }
@@ -74,10 +104,7 @@
   .rel-link { display:flex; align-items:center; gap:8px; text-decoration:none; color:#444; font-size:13px; padding:4px 0; }
   .rel-link:hover { color:var(--sop); }
   .rel-link::before { content:'›'; color:var(--sop); font-weight:700; }
-  .sop-review { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
-  .sop-review th { background:var(--sop-light); color:var(--sop); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--sop-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
-  .sop-review td { padding:8px 14px; border:0.5px solid #e8e8e4; color:#444; }
-  .sop-review td:first-child { font-weight:600; color:var(--sop-dark); }
+
   .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
   .tag { font-size:12px; background:var(--sop-light); color:var(--sop); border:0.5px solid var(--sop-border); padding:3px 10px; border-radius:6px; font-weight:500; }
   .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
@@ -85,12 +112,8 @@
   .breadcrumb span { color:#ccc; }
   .sop-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
   .sop-nav a { font-size:13px; color:var(--sop); text-decoration:none; }
-  @media(max-width:640px){ .sop-two-col,.sev-cards,.rel-grid{grid-template-columns:1fr;} }
+  @media(max-width:640px){ .sop-two-col,.rel-grid{grid-template-columns:1fr;} }
 </style>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta name="referrer" content="no-referrer">
-
 <script src="download-utils.js"></script>
 <script src="lang-switcher.js"></script>
 </head>
@@ -114,37 +137,48 @@
   <div class="kb-page-hero" style="background:linear-gradient(135deg,#2D3748 0%,#4A5568 100%);">
     <span class="kb-page-hero-icon">📄</span>
     <h1>SOP-IM-01: Incident Severity Classification &amp; Escalation</h1>
-    <p>Standardised method used by the SOC to classify, prioritise, and escalate security incidents based on business impact and risk — ensuring consistent handling across all SOC tiers and correct playbook activation.</p>
+    <p>The SOC's operational standard for classifying, prioritising, and escalating cyber security incidents. Implements the 5-tier severity model defined in GRC-IRP-01 §5 and provides analyst-level triage guidance, declaration authority, and ticketing mechanics.</p>
     <div class="kb-page-hero-meta">
       <span class="kb-meta-pill">Cross-domain</span>
-      <span class="kb-meta-pill">All tiers</span>
-      <span class="kb-meta-pill">Governance</span>
+      <span class="kb-meta-pill">All SOC tiers</span>
+      <span class="kb-meta-pill">Sev 1–5</span>
+      <span class="kb-meta-pill">Operationalises GRC-IRP-01</span>
     </div>
   </div>
 
   <!-- IRP-XREF -->
-  <div style="display:flex; align-items:flex-start; gap:10px; background:#E6F4F4; border:0.5px solid #8ECECE; border-left:3px solid #0E5C5C; border-radius:8px; padding:0.7rem 1rem; margin-bottom:1.25rem; font-size:13px; color:#073B3B; line-height:1.55;">
-    <span style="flex-shrink:0;">🛡️</span>
-    <span>This document operates under <a href="grc-irp-01.html" style="color:#0E5C5C;font-weight:600;text-decoration:none;">GRC-IRP-01: Cyber Security Incident Response Plan</a> — see for severity tiers (Sev&nbsp;1–5), escalation paths, evidence handling, and communication templates.</span>
+  <div class="irp-banner">
+    <span>🛡️</span>
+    <span>This document operates under <a href="grc-irp-01.html">GRC-IRP-01: Cyber Security Incident Response Plan</a>. The IRP is authoritative for the severity model, escalation paths, evidence handling, and communication templates. This SOP provides the analyst-level operational implementation.</span>
   </div>
 
   <div class="sop-meta-bar">
     <div class="sop-meta-item">📋 <strong>SOP ID:</strong> SOP-IM-01</div>
     <div class="sop-meta-sep">·</div>
-    <div class="sop-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="sop-meta-item">📌 <strong>Version:</strong> v2.0</div>
     <div class="sop-meta-sep">·</div>
     <div class="sop-meta-item">👤 <strong>Owner:</strong> Paulo Ferreira</div>
     <div class="sop-meta-sep">·</div>
-    <div class="sop-meta-item">📅 <strong>Published:</strong> 2 January 2026</div>
+    <div class="sop-meta-item">📅 <strong>Published:</strong> 7 May 2026</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">🔄 <strong>Supersedes:</strong> v1.0 (Jan 2026)</div>
   </div>
 
+  <!-- Section 1 — Purpose & relationship to IRP -->
   <div class="sop-section">
     <div class="sop-section-num">Section 1</div>
-    <div class="sop-section-title">Purpose</div>
-    <p>This SOP defines the standardised method used by the SOC to classify, prioritise, and escalate security incidents based on business impact and risk, ensuring consistent handling across all SOC tiers.</p>
-    <p>This SOP supports consistent runbook execution, correct playbook activation, and timely escalation and decision-making.</p>
+    <div class="sop-section-title">Purpose &amp; Relationship to GRC-IRP-01</div>
+    <p>This Standard Operating Procedure defines how the SOC classifies the severity of confirmed cyber security incidents, who has authority to declare each severity tier, and how incidents are escalated through SOC tiers and into the broader response chain.</p>
+    <p>This SOP is the operational implementation of the framework defined in <a href="grc-irp-01.html" style="color:var(--sop);font-weight:600;">GRC-IRP-01</a>. Where this SOP and the IRP appear to differ, the IRP is authoritative. Specifically:</p>
+    <ul class="sop-bullet">
+      <li><strong>Severity model</strong> — The 5-tier model (Sev 1 Crisis → Sev 5 Low) is defined in IRP §5. This SOP provides analyst-level criteria and concrete examples for assigning a tier.</li>
+      <li><strong>Declaration authority</strong> — The "who can declare what" matrix in IRP §7.1 is reproduced here in operational form for analyst use.</li>
+      <li><strong>Escalation paths</strong> — Cumulative notification lists and trigger-based notifications are defined in IRP §8. This SOP summarises the SOC-relevant subset.</li>
+      <li><strong>Definitions</strong> — Authoritative definitions (incident, event of interest, material incident, notifiable breach, Incident Commander) are in IRP §3. This SOP adds SOC-local operational terms only.</li>
+    </ul>
   </div>
 
+  <!-- Section 2 — Scope -->
   <div class="sop-section">
     <div class="sop-section-num">Section 2</div>
     <div class="sop-section-title">Scope</div>
@@ -152,129 +186,328 @@
       <div class="sop-sub-box">
         <h4>Applies to</h4>
         <ul class="sop-bullet">
-          <li>All SOC analysts (Tier 1, 2, and 3 / IR)</li>
-          <li>All confirmed security incidents managed by the SOC</li>
+          <li>All SOC analysts (Tier 1, Tier 2, Tier 3 / IR)</li>
+          <li>The SOC Manager acting as Incident Commander for Sev 3 and below</li>
+          <li>All confirmed cyber security incidents managed by the SOC</li>
+          <li>All events of interest under triage that may become incidents</li>
         </ul>
       </div>
       <div class="sop-sub-box">
         <h4>Does NOT cover</h4>
         <ul class="sop-bullet">
-          <li>Alert triage steps → covered by Runbooks</li>
-          <li>Incident response actions → covered by Playbooks</li>
-          <li>Tool-specific actions → covered by Work Instructions</li>
+          <li>Alert triage steps — see Runbooks</li>
+          <li>Incident response actions — see Playbooks</li>
+          <li>Tool-specific actions — see Work Instructions</li>
+          <li>Sev 1 / Sev 2 declaration mechanics, regulator notification, war-room operation — see GRC-IRP-01 §5–§9</li>
+          <li>External communications — see GRC-FRM-14</li>
         </ul>
       </div>
     </div>
   </div>
 
+  <!-- Section 3 — Definitions -->
   <div class="sop-section">
     <div class="sop-section-num">Section 3</div>
     <div class="sop-section-title">Definitions</div>
+    <p>Authoritative definitions of <em>incident</em>, <em>event of interest</em>, <em>material incident</em>, <em>notifiable breach</em>, <em>Incident Commander</em>, <em>CSIRT</em>, and related terms are in <a href="grc-irp-01.html#s3" style="color:var(--sop);font-weight:600;">GRC-IRP-01 §3</a>. The SOC-local operational terms below are defined for use within this SOP and SOC tooling.</p>
     <div class="def-list">
-      <div class="def-item"><div class="def-term">Incident</div><div class="def-desc">A confirmed security event impacting confidentiality, integrity, or availability.</div></div>
-      <div class="def-item"><div class="def-term">Severity</div><div class="def-desc">A business-impact-based classification used to prioritise response, playbook activation, and escalation.</div></div>
-      <div class="def-item"><div class="def-term">Escalation</div><div class="def-desc">Formal transfer of incident ownership or visibility to a higher tier or role.</div></div>
-      <div class="def-item"><div class="def-term">Incident Manager</div><div class="def-desc">Role assigned to manage High or Critical incidents — responsible for coordination, communication, and resolution.</div></div>
+      <div class="def-item"><div class="def-term">Severity tag</div><div class="def-desc">The Sev 1–5 value applied to the incident record in the system of record. Drives playbook selection, escalation behaviour, and reporting.</div></div>
+      <div class="def-item"><div class="def-term">Triage outcome</div><div class="def-desc">The Tier-1 disposition of an alert: nominal event (close), event of interest (continue investigation), or confirmed incident (declare with severity).</div></div>
+      <div class="def-item"><div class="def-term">Severity reassessment</div><div class="def-desc">A formal re-evaluation of the severity tag at a defined trigger point — when scope expands, when new evidence emerges, after containment, or at the request of the IC.</div></div>
+      <div class="def-item"><div class="def-term">SOC handover</div><div class="def-desc">Transfer of incident ownership between SOC tiers (Tier 1 → Tier 2 → SOC Manager) or between shifts. Distinct from escalation, which expands visibility rather than transferring ownership.</div></div>
     </div>
   </div>
 
+  <!-- Section 4 — Severity tiers Sev 1-5 with examples -->
   <div class="sop-section">
     <div class="sop-section-num">Section 4</div>
-    <div class="sop-section-title">Procedure</div>
+    <div class="sop-section-title">Severity Tiers (Sev 1–5)</div>
+    <p>The following five tiers operationalise the model defined in <a href="grc-irp-01.html#s5" style="color:var(--sop);font-weight:600;">GRC-IRP-01 §5</a>. Each tier card shows the qualitative descriptor, an SLA reminder, and concrete SOC-level examples to assist Tier-1/Tier-2 analyst classification. Authoritative SLAs and the relationship to the residual-risk severity in GRC-REG-RISK are detailed in the IRP.</p>
 
-    <div class="sop-phase">
-      <div class="sop-phase-title"><div class="sop-phase-num">1</div>Incident Severity Overview</div>
-      <p>All confirmed incidents must be assigned a severity level as early as possible. Severity must be reassessed throughout the incident lifecycle as new information becomes available. Severity assignment directly influences which playbook is activated, escalation requirements, and communication obligations.</p>
+    <div class="sev-cards-5">
+
+      <div class="sev-card-5 sev-1">
+        <div class="sev-card-5-header"><h4>🚨 Sev 1 — Crisis</h4><span class="sla-mini">Declare ≤ 30 min · Escalate ≤ 1 h · Exec brief ≤ 2 h</span></div>
+        <div class="sev-card-5-body">
+          <p>Material disruption to organisation-wide services, suspected or confirmed Tier-0 compromise, sovereign or highly sensitive data exposure, ransom demand, or potential global media exposure. The Incident Commander is the CISO; war-room is opened.</p>
+          <p><strong>SOC analyst examples:</strong></p>
+          <ul class="ex-list">
+            <li>Confirmed ransomware deployment across multiple business units with active encryption</li>
+            <li>Domain Administrator account compromise with confirmed Tier-0 lateral movement</li>
+            <li>External party publishes proof of exfiltrated sensitive data with verifiable samples</li>
+            <li>Threat actor delivers ransom demand referencing organisation-specific assets</li>
+          </ul>
+          <div class="callout-warn"><strong>SOC actions for suspected Sev 1:</strong> Do not declare unilaterally. Propose to the SOC Manager who escalates to the CISO for confirmation. Open the bridge, assign a Recorder, do not take destructive actions, preserve forensic evidence.</div>
+        </div>
+      </div>
+
+      <div class="sev-card-5 sev-2">
+        <div class="sev-card-5-header"><h4>🔴 Sev 2 — Critical</h4><span class="sla-mini">Declare ≤ 1 h · Escalate ≤ 2 h · Exec brief ≤ 4 h</span></div>
+        <div class="sev-card-5-body">
+          <p>Confirmed compromise of Tier-1 assets, disruption to a critical business service, suspected data exposure of limited scope, or credible threat actor presence. The Incident Commander is the CISO or Deputy CISO; dedicated incident bridge is established.</p>
+          <p><strong>SOC analyst examples:</strong></p>
+          <ul class="ex-list">
+            <li>Confirmed BEC with completed financial fraud transaction</li>
+            <li>Privileged service-account credential theft with confirmed use against Tier-1 systems</li>
+            <li>Active malware on multiple endpoints with confirmed lateral movement attempts</li>
+            <li>Confirmed data exfiltration affecting a defined customer or beneficiary cohort</li>
+            <li>Sustained DDoS taking down a critical externally-facing business service</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sev-card-5 sev-3">
+        <div class="sev-card-5-header"><h4>🟠 Sev 3 — High</h4><span class="sla-mini">Declare ≤ 2 h · Escalate ≤ 4 h · CISO brief same day</span></div>
+        <div class="sev-card-5-body">
+          <p>Compromise contained to a defined scope (single user, single host, or single application), no confirmed data exposure, service impact limited to non-critical systems or a small user group. The Incident Commander is the SOC Manager; CSIRT is activated as needed.</p>
+          <p><strong>SOC analyst examples:</strong></p>
+          <ul class="ex-list">
+            <li>Single user clicks a phishing link AND submits credentials AND credentials are confirmed used by attacker</li>
+            <li>Malware execution on a single endpoint with confirmed payload but no lateral movement</li>
+            <li>Single web application targeted by a confirmed exploit with limited blast radius</li>
+            <li>Suspicious privileged-account activity confirmed as unauthorised, contained quickly</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sev-card-5 sev-4">
+        <div class="sev-card-5-header"><h4>🟡 Sev 4 — Medium</h4><span class="sla-mini">Declare ≤ 4 h · SOC Manager next business day · Closure ≤ 5 working days</span></div>
+        <div class="sev-card-5-body">
+          <p>Confirmed but contained event with no impact to data or service, isolated phishing-clicks without compromise, policy violations without material risk, or suspicious activity warranting investigation. Handled by the SOC Tier-2 lead; SOC Manager informed but not engaged operationally.</p>
+          <p><strong>SOC analyst examples:</strong></p>
+          <ul class="ex-list">
+            <li>User clicks a phishing link without submitting credentials or executing payload</li>
+            <li>Malware blocked at the perimeter with confirmed targeting (not generic spam)</li>
+            <li>Anomalous login from unusual geo-location with confirmed user-acknowledgement</li>
+            <li>Confirmed policy violation (e.g. unauthorised data-handling) without material risk</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sev-card-5 sev-5">
+        <div class="sev-card-5-header"><h4>🟢 Sev 5 — Low</h4><span class="sla-mini">Closure same shift · Aggregated weekly</span></div>
+        <div class="sev-card-5-body">
+          <p>Confirmed nominal event, near-miss, informational alert validated as non-incident, or minor policy reminder. Closed by SOC Tier-1 with no escalation. Aggregated weekly for trend analysis only.</p>
+          <p><strong>SOC analyst examples:</strong></p>
+          <ul class="ex-list">
+            <li>Generic spam email reported by user, no malicious indicators present</li>
+            <li>Routine vulnerability-scan blocked at perimeter, no targeting indicators</li>
+            <li>False-positive alert validated through enrichment (geo-IP, user attestation)</li>
+            <li>Policy reminder triggered (e.g. legitimate password reset that fired anomaly detection)</li>
+          </ul>
+        </div>
+      </div>
+
     </div>
 
-    <div class="sop-phase">
-      <div class="sop-phase-title"><div class="sop-phase-num">2</div>Severity Levels</div>
-      <div class="sev-cards">
-        <div class="sev-card critical"><h4>🔴 Critical</h4><p>Widespread impact, core services affected, regulatory or reputational risk</p></div>
-        <div class="sev-card high"><h4>🟠 High</h4><p>Significant impact — multiple users or systems affected</p></div>
-        <div class="sev-card medium"><h4>🟡 Medium</h4><p>Limited impact to a single user or system</p></div>
-        <div class="sev-card low"><h4>⚪ Low</h4><p>No material impact — informational or benign</p></div>
-      </div>
-    </div>
-
-    <div class="sop-phase">
-      <div class="sop-phase-title"><div class="sop-phase-num">3</div>Severity Assignment Criteria</div>
-      <p>Analysts must consider the following when assigning severity:</p>
-      <ul class="sop-bullet">
-        <li>Number of users or systems affected</li>
-        <li>Type and sensitivity of data involved</li>
-        <li>Presence of an active threat or attacker</li>
-        <li>Business criticality of impacted assets</li>
-      </ul>
-      <div style="margin-top:10px;background:#FAECE7;border:0.5px solid #F5C0B0;border-radius:8px;padding:0.75rem 1rem;font-size:13px;color:#7a2e10;">
-        ⚠️ <strong>When in doubt, default to the higher severity and escalate.</strong> Downgrading is always easier than under-responding.
-      </div>
-    </div>
-
-    <div class="sop-phase">
-      <div class="sop-phase-title"><div class="sop-phase-num">4</div>Roles &amp; Responsibilities</div>
-      <table class="sop-roles">
-        <thead><tr><th>Role</th><th>Responsibilities</th></tr></thead>
-        <tbody>
-          <tr><td>Tier 1 SOC</td><td>Assign initial severity during triage</td></tr>
-          <tr><td>Tier 2 SOC</td><td>Validate or adjust severity based on investigation findings</td></tr>
-          <tr><td>Incident Manager</td><td>Approve High / Critical severity; own communication and coordination</td></tr>
-          <tr><td>SOC Lead</td><td>Oversight, governance, and post-incident review</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="sop-phase">
-      <div class="sop-phase-title"><div class="sop-phase-num">5</div>Escalation Rules</div>
-      <div class="esc-row medium">
-        <span class="esc-label">Medium</span>
-        <div class="esc-text">May be handled at Tier 1 unless escalation criteria within the relevant Runbook or Playbook are met.</div>
-      </div>
-      <div class="esc-row high">
-        <span class="esc-label">High</span>
-        <div class="esc-text">Must be escalated to Tier 2 immediately.</div>
-      </div>
-      <div class="esc-row critical">
-        <span class="esc-label">Critical</span>
-        <div class="esc-text">Requires Incident Manager assignment, Playbook activation, and Management notification immediately.</div>
-      </div>
-      <p style="margin-top:10px;font-size:13px;color:#888;">Specific escalation criteria are defined within the relevant Runbooks and Playbooks for each threat category.</p>
-    </div>
+    <div class="callout-warn" style="margin-top:14px;"><strong>When in doubt, default to the higher severity and escalate.</strong> Downgrading is always easier than under-responding. If you cannot decide between two adjacent tiers, propose the higher one and let the IC adjust.</div>
   </div>
 
+  <!-- Section 5 — Severity assignment criteria -->
   <div class="sop-section">
     <div class="sop-section-num">Section 5</div>
-    <div class="sop-section-title">Exceptions</div>
-    <p>Any deviation from this SOP must be documented in the incident record, include justification, and be approved by the SOC Lead or Incident Commander.</p>
+    <div class="sop-section-title">Severity Assignment Criteria</div>
+    <p>When assigning a severity tier, analysts evaluate the incident against the four primary criteria below. Each criterion has an "upgrade" indicator that pushes severity higher, and a "downgrade" indicator that supports a lower tier. Apply the criteria together, not in isolation — a single high indicator is rarely sufficient on its own.</p>
+    <table class="sop-table">
+      <thead><tr><th>Criterion</th><th>Upgrade indicators</th><th>Downgrade indicators</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Scope of impact</strong></td>
+          <td>Multiple users, multiple systems, multiple business units, or organisation-wide services affected</td>
+          <td>Single user, single host, single application, or contained to a defined small group</td>
+        </tr>
+        <tr>
+          <td><strong>Data sensitivity</strong></td>
+          <td>Personal data, special-category data, financial data, intellectual property, sovereign data, or regulator-controlled data is in scope</td>
+          <td>No sensitive data in scope, or only public/internal data of low classification</td>
+        </tr>
+        <tr>
+          <td><strong>Active threat presence</strong></td>
+          <td>Threat actor has confirmed access, is actively executing, lateral movement is observed, or persistence mechanisms are in place</td>
+          <td>Threat is blocked at the perimeter, payload did not execute, or the attempt is closed without compromise</td>
+        </tr>
+        <tr>
+          <td><strong>Asset criticality</strong></td>
+          <td>Tier-0 or Tier-1 assets affected, business-critical service disruption, or assets supporting regulatory/contractual obligations</td>
+          <td>Tier-2 or Tier-3 assets only, non-critical service, or development/test environments</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout-info"><strong>Reassessment is mandatory</strong> when scope expands, when new evidence emerges (e.g. confirmed exfiltration), after containment is achieved, and at the request of the IC. Record each reassessment with the new severity and the reason for the change in the incident journal.</div>
   </div>
 
+  <!-- Section 6 — Decision flow -->
   <div class="sop-section">
     <div class="sop-section-num">Section 6</div>
-    <div class="sop-section-title">Compliance &amp; Audit</div>
-    <div class="tag-grid">
-      <span class="tag">✅ Incident tickets with severity history</span>
-      <span class="tag">✅ Escalation timestamps</span>
-      <span class="tag">✅ Activated playbook records</span>
-      <span class="tag">✅ Post-incident reports</span>
+    <div class="sop-section-title">Decision Flow — From Alert to Severity</div>
+    <p>Every alert flows through three decision gates before a severity tag is applied. The decisions and their rationale are recorded in the incident journal at the time they are taken.</p>
+    <div class="flow-box">
+      <div class="flow-step"><span class="flow-q">Gate 1</span><span class="flow-text"><strong>Is this an event of interest?</strong> Has security tooling, an employee, a partner, or an external party reported something that may be an incident? <span class="out-yes">Yes</span> → continue. <span class="out-no">No</span> → close as nominal event with reason recorded.</span></div>
+      <div class="flow-step"><span class="flow-q">Gate 2</span><span class="flow-text"><strong>Is this a confirmed incident?</strong> Has a security policy, acceptable-use policy, or standard practice been violated, with potential or actual adverse effect on the organisation? <span class="out-yes">Yes</span> → declare incident, continue to Gate 3. <span class="out-no">No</span> → close as event of interest with investigation summary.</span></div>
+      <div class="flow-step"><span class="flow-q">Gate 3</span><span class="flow-text"><strong>What severity tier?</strong> Apply the criteria in §5 against the qualitative descriptors in §4. Propose a tier; the appropriate authority (per §7) confirms it.</span></div>
     </div>
-    <p style="margin-top:10px;">This SOP supports internal assurance and external audit activities.</p>
+    <p style="margin-top:12px;font-size:13px;color:#666;">For the broader 7-phase incident lifecycle (Prepare → Detect → Contain → Eradicate → Recover → Report → Remediate), see <a href="grc-irp-01.html#s6" style="color:var(--sop);font-weight:600;">GRC-IRP-01 §6</a>.</p>
   </div>
 
+  <!-- Section 7 — Who can declare what -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 7</div>
+    <div class="sop-section-title">Declaration Authority</div>
+    <p>Severity is assigned by the role with authority to confirm it, which depends on the proposed tier. The table below is the operational form of <a href="grc-irp-01.html#s7" style="color:var(--sop);font-weight:600;">GRC-IRP-01 §7.1</a>.</p>
+    <table class="sop-table">
+      <thead><tr><th>Severity</th><th>Default declarer (proposes)</th><th>Authority to confirm</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Sev 5 — Low</strong></td><td>SOC Tier-1</td><td>SOC Tier-2 reviews aggregate weekly</td></tr>
+        <tr><td><strong>Sev 4 — Medium</strong></td><td>SOC Tier-2 (or Tier-1 with Tier-2 review)</td><td>SOC Tier-2 lead</td></tr>
+        <tr><td><strong>Sev 3 — High</strong></td><td>SOC Manager (Incident Commander)</td><td>SOC Manager — CISO informed</td></tr>
+        <tr><td><strong>Sev 2 — Critical</strong></td><td>SOC Manager proposes — CISO confirms</td><td>CISO or Deputy CISO</td></tr>
+        <tr><td><strong>Sev 1 — Crisis</strong></td><td>SOC Manager or CISO proposes — CISO confirms</td><td>CISO — Risk Committee Chair informed within 1 h</td></tr>
+      </tbody>
+    </table>
+    <div class="callout-info"><strong>Authority delegation.</strong> Where the named role is unavailable, the SOC follows the on-call rota. The on-call deputy declares cautiously, with the named role notified at the earliest opportunity. Out-of-hours declarations follow the same authority pattern using on-call escalation.</div>
+  </div>
+
+  <!-- Section 8 — Roles -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 8</div>
+    <div class="sop-section-title">Roles &amp; Responsibilities</div>
+    <p>The roles below cover SOC operational responsibilities for incident severity classification and escalation. The full two-layer role model (organisational roles plus response roles activated during an active incident) is in <a href="grc-irp-01.html#s4" style="color:var(--sop);font-weight:600;">GRC-IRP-01 §4</a>.</p>
+    <table class="sop-roles">
+      <thead><tr><th>Role</th><th>Responsibilities</th></tr></thead>
+      <tbody>
+        <tr><td>SOC Tier-1 Analyst</td><td>Triage alerts to determine event-of-interest status; propose initial severity for Sev 4/5; create and maintain the incident record in the system of record; hand over to Tier-2 with severity rationale documented.</td></tr>
+        <tr><td>SOC Tier-2 Analyst</td><td>Confirm Sev 4/5 declarations; investigate and propose Sev 3 declarations; reassess severity as evidence emerges; coordinate with playbook owners; brief the SOC Manager on Sev 3 candidates.</td></tr>
+        <tr><td>SOC Manager</td><td>Acts as <strong>Incident Commander</strong> for Sev 3 and below. Confirms Sev 3 declarations; proposes Sev 2/1 for CISO confirmation; assigns response roles; ensures SLAs are met; owns the incident journal during active response. For Sev 2/1, becomes Deputy IC under the CISO.</td></tr>
+        <tr><td>SOC Lead</td><td>Programme oversight, governance of this SOP, post-incident review, audit liaison. Reviews Sev 3+ trends weekly; reviews Sev 4 trends monthly; reviews Sev 5 aggregate weekly.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout-info"><strong>Terminology note.</strong> Earlier SOC documentation referred to "Incident Manager" or "IR Lead". Both terms are now superseded by <strong>Incident Commander</strong> across the IRP, this SOP, and the four sibling SOPs (SOP-EM/EP/ID/NW-01). The role definition is unchanged; only the name is aligned.</div>
+  </div>
+
+  <!-- Section 9 — Escalation rules -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 9</div>
+    <div class="sop-section-title">Escalation Rules</div>
+    <p>Escalations are <strong>cumulative</strong>: notifying the Sev 1 list also implies notification of the Sev 2/3/4/5 lists. The full escalation tree (including non-SOC roles such as Legal, Privacy/DPO, CFO, Risk Committee Chair) is in <a href="grc-irp-01.html#s8" style="color:var(--sop);font-weight:600;">GRC-IRP-01 §8</a>. The summary below covers the SOC-relevant subset analysts must action.</p>
+    <table class="sop-table">
+      <thead><tr><th>Severity</th><th>SOC escalation action</th><th>Maximum time-to-notify</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Sev 5</strong></td><td>SOC Tier-1 closes; aggregate weekly to SOC Tier-2 and SOC Manager</td><td>End of shift</td></tr>
+        <tr><td><strong>Sev 4</strong></td><td>SOC Tier-2 leads; SOC Manager informed next business day</td><td>4 h</td></tr>
+        <tr><td><strong>Sev 3</strong></td><td>SOC Manager (IC), CSIRT activated; LCSO/CSLC notified for affected operating unit</td><td>2 h</td></tr>
+        <tr><td><strong>Sev 2</strong></td><td>+ CISO, CIO, Head of GRC, Local Executive Sponsor, Privacy/DPO</td><td>1 h</td></tr>
+        <tr><td><strong>Sev 1</strong></td><td>+ CEO/Agency Lead, Risk Committee Chair, Legal, HR, PR, CFO, Cyber Insurer, Oversight Committee (per IRP §8)</td><td>30 min</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:10px;font-size:13px;color:#666;">For non-cumulative trigger-based notifications independent of severity, see §10 below.</p>
+  </div>
+
+  <!-- Section 10 — Trigger-based notifications -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 10</div>
+    <div class="sop-section-title">Trigger-Based Notifications (Independent of Severity)</div>
+    <p>Some events require specific notifications regardless of the tier assigned. SOC analysts must initiate these notifications as soon as the trigger is suspected — do not wait for severity confirmation. Authoritative list in <a href="grc-irp-01.html#s8" style="color:var(--sop);font-weight:600;">GRC-IRP-01 §8</a>.</p>
+    <div class="trig-list">
+      <div class="trig-item"><span><strong>Personal-data breach (suspected or confirmed)</strong> — notify Privacy/DPO, Legal, CISO within 1 h of suspicion. Do not delay pending complete information.</span></div>
+      <div class="trig-item"><span><strong>Ransom demand received</strong> — notify CISO, CIO, CEO, Legal, Cyber Insurer within 1 h. Preserve the demand exactly; do not respond.</span></div>
+      <div class="trig-item"><span><strong>Compromise of leadership or board accounts</strong> — notify CISO, CIO, Legal within 30 min.</span></div>
+      <div class="trig-item"><span><strong>Critical-data integrity or availability impact</strong> — notify BC/DR team, IT Operations, business service owners within 1 h.</span></div>
+      <div class="trig-item"><span><strong>Material organisational impact suspected</strong> — notify Legal, CFO, executive leadership within 1 h.</span></div>
+      <div class="trig-item"><span><strong>Regulator-notifiable breach suspected</strong> — engage Privacy/DPO and Legal to start the regulator clock per local annex.</span></div>
+      <div class="trig-item"><span><strong>Law-enforcement engagement under consideration</strong> — engage Legal first; LE engagement only with Legal sign-off.</span></div>
+      <div class="trig-item"><span><strong>Media enquiry or social-media exposure</strong> — notify PR, Legal, CISO within 30 min of receipt.</span></div>
+    </div>
+  </div>
+
+  <!-- Section 11 — Ticketing mechanics -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 11</div>
+    <div class="sop-section-title">Ticketing Mechanics</div>
+    <p>Every confirmed incident is opened as a record in the system of record (RTIR / ITSM tool). The fields and conventions below are mandatory and feed downstream reporting, audit evidence, and metric extraction.</p>
+
+    <div class="sop-phase">
+      <div class="sop-phase-title"><div class="sop-phase-num">1</div>Required fields at incident opening</div>
+      <ul class="sop-bullet">
+        <li><strong>Incident ID</strong> — assigned automatically; recorded in all subsequent communications</li>
+        <li><strong>Severity tag</strong> — Sev 1 / Sev 2 / Sev 3 / Sev 4 / Sev 5 (single value, system-of-record dropdown)</li>
+        <li><strong>Category</strong> — primary category from the IRP §7.2 taxonomy (account compromise, breach, malware, social engineering, etc.)</li>
+        <li><strong>Affected assets</strong> — host names, account names, service names, with Tier classification (Tier 0/1/2/3)</li>
+        <li><strong>Incident Commander</strong> — named individual (SOC Manager for Sev 3 and below; CISO/Deputy for Sev 2/1)</li>
+        <li><strong>Lead Analyst</strong> — named investigator</li>
+        <li><strong>Recorder</strong> — named scribe maintaining the incident journal (Sev 1/2 only)</li>
+        <li><strong>Detection source</strong> — alert source, user report, partner notification, etc.</li>
+        <li><strong>Triage rationale</strong> — short text justifying the severity assignment against §5 criteria</li>
+      </ul>
+    </div>
+
+    <div class="sop-phase">
+      <div class="sop-phase-title"><div class="sop-phase-num">2</div>State transitions</div>
+      <p>Standard state model: <em>Open</em> → <em>Triaging</em> → <em>Investigating</em> → <em>Containing</em> → <em>Eradicating</em> → <em>Recovering</em> → <em>Closed (response)</em> → <em>Closed (final)</em>. State transitions are time-stamped automatically. The incident does not move to <em>Closed (final)</em> until the after-action report is signed off and lessons-learned actions are recorded.</p>
+    </div>
+
+    <div class="sop-phase">
+      <div class="sop-phase-title"><div class="sop-phase-num">3</div>Severity reassessment</div>
+      <p>When severity is changed (upgrade or downgrade), the system of record creates a severity-change record. The analyst captures: previous tier, new tier, reason, named approver. The IC is notified automatically on any tier change.</p>
+    </div>
+
+    <div class="sop-phase">
+      <div class="sop-phase-title"><div class="sop-phase-num">4</div>Mandatory tagging</div>
+      <p>Tag the incident record with: affected operating unit (for local annex routing), data-classification level if data is involved, regulator-relevance flag, cyber-insurance-relevance flag, and the "material incident" flag for Sev 1/2.</p>
+    </div>
+  </div>
+
+  <!-- Section 12 — Exceptions -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 12</div>
+    <div class="sop-section-title">Exceptions</div>
+    <p>Any deviation from this SOP must be documented in the incident record at the time the deviation is taken, include the operational justification, and be approved by the SOC Lead or the Incident Commander. Material deviations (those affecting severity, declaration authority, or escalation timing) are reviewed by the GRC team and reported to the Risk Committee in the next quarterly cycle.</p>
+  </div>
+
+  <!-- Section 13 — Compliance & Audit -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 13</div>
+    <div class="sop-section-title">Compliance &amp; Audit</div>
+    <p>The following artefacts evidence compliance with this SOP and underpin both internal assurance and external audit activity:</p>
+    <div class="tag-grid">
+      <span class="tag">✅ Incident records with severity history</span>
+      <span class="tag">✅ Severity-change records with rationale</span>
+      <span class="tag">✅ Escalation timestamps</span>
+      <span class="tag">✅ Activated playbook references</span>
+      <span class="tag">✅ Trigger-based notification records</span>
+      <span class="tag">✅ Incident journals (Sev 1/2)</span>
+      <span class="tag">✅ After-action reports</span>
+      <span class="tag">✅ Aggregate Sev-5 trend reports</span>
+    </div>
+    <p style="margin-top:10px;">Records are retained per <a href="grc-irp-01.html#s10" style="color:var(--sop);font-weight:600;">GRC-IRP-01 §10</a>: 7 years for incident journals and after-action reports; 3 years for forensic captures and log exports.</p>
+  </div>
+
+  <!-- Related content -->
   <div class="sop-section">
     <div class="sop-section-num">Related Content</div>
-    <div class="sop-section-title">Related Playbooks &amp; Runbooks</div>
+    <div class="sop-section-title">Related Documents</div>
     <div class="rel-grid">
       <div class="rel-box">
-        <h4>Playbooks</h4>
-        <a class="rel-link" href="em-pb-01.html">Phishing Incident Response</a>
-        <a class="rel-link" href="id-pb-01.html">Account Compromise</a>
-        <a class="rel-link" href="em-pb-05.html">Ransomware Activity</a>
+        <h4>Authoritative framework</h4>
+        <a class="rel-link" href="grc-irp-01.html">GRC-IRP-01 — Cyber Security Incident Response Plan</a>
+        <a class="rel-link" href="grc-irp-annex-template.html">GRC-IRP-ANNEX-TEMPLATE — Local IR Annex</a>
+        <a class="rel-link" href="grc-frm-14.html">GRC-FRM-14 — Communication Templates Pack</a>
       </div>
       <div class="rel-box">
-        <h4>Runbooks</h4>
-        <a class="rel-link" href="em-rb-03.html">Analyse Attachments</a>
-        <a class="rel-link" href="id-rb-03.html">Review Sign-In Logs</a>
-        <a class="rel-link" href="ep-rb-01.html">Endpoint Investigation</a>
+        <h4>Sibling SOC SOPs</h4>
+        <a class="rel-link" href="sop-em-01.html">SOP-EM-01 — Email Threat Operations</a>
+        <a class="rel-link" href="sop-ep-01.html">SOP-EP-01 — Endpoint Threat Operations</a>
+        <a class="rel-link" href="sop-id-01.html">SOP-ID-01 — Identity Threat Operations</a>
+        <a class="rel-link" href="sop-nw-01.html">SOP-NW-01 — Network Threat Operations</a>
+      </div>
+      <div class="rel-box">
+        <h4>Operational layer</h4>
+        <a class="rel-link" href="playbooks.html">Playbooks (EM-PB, ID-PB, EP-PB, NW-PB)</a>
+        <a class="rel-link" href="runbooks.html">Runbooks (EM-RB, ID-RB, EP-RB, NW-RB)</a>
+      </div>
+      <div class="rel-box">
+        <h4>Risk &amp; governance</h4>
+        <a class="rel-link" href="grc-register-risk.html">GRC-REG-RISK — Cyber &amp; IT Risk Register</a>
+        <a class="rel-link" href="grc-sop-04.html">GRC-SOP-04 — Risk Management Procedure</a>
       </div>
     </div>
   </div>
@@ -284,7 +517,7 @@
     <a href="sops.html">← Back to SOPs</a>
   </div>
   <div class="kb-footer">
-    <span><span class="live-dot"></span>SOP-IM-01 v1.0 · Published 2 January 2026 · Paulo Ferreira</span>
+    <span><span class="live-dot"></span>SOP-IM-01 v2.0 · Published 7 May 2026 · Paulo Ferreira</span>
     <span><a href="sops.html" style="color:var(--sop);text-decoration:none;">← Back to SOPs</a></span>
   </div>
 </div>

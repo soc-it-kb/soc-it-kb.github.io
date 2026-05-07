@@ -66,10 +66,10 @@
   .sev-row-medium   td { background:#FAEEDA; }
   .sev-row-low      td { background:#f9f9f7; }
   .sev-badge { font-size:11px; font-weight:600; padding:2px 8px; border-radius:8px; white-space:nowrap; }
-  .sev-p1 { background:#FAECE7; color:#993C1D; }
-  .sev-p2 { background:#FEF0E6; color:#8B4A0E; }
-  .sev-p3 { background:#FAEEDA; color:#854F0B; }
-  .sev-p4 { background:#f0f0ec; color:#666; }
+  .sev-2 { background:#FAECE7; color:#993C1D; }
+  .sev-3 { background:#FEF0E6; color:#8B4A0E; }
+  .sev-4 { background:#FAEEDA; color:#854F0B; }
+  .sev-5 { background:#f0f0ec; color:#666; }
 
   /* Review table */
   .sop-review { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
@@ -140,11 +140,13 @@
   <div class="sop-meta-bar">
     <div class="sop-meta-item">📋 <strong>SOP ID:</strong> SOP-EP-01</div>
     <div class="sop-meta-sep">·</div>
-    <div class="sop-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="sop-meta-item">📌 <strong>Version:</strong> v1.1</div>
     <div class="sop-meta-sep">·</div>
     <div class="sop-meta-item">👤 <strong>Owner:</strong> Paulo Ferreira</div>
     <div class="sop-meta-sep">·</div>
-    <div class="sop-meta-item">📅 <strong>Published:</strong> 24 December 2025</div>
+    <div class="sop-meta-item">📅 <strong>Published:</strong> 7 May 2026</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">🔄 <strong>Supersedes:</strong> v1.0 (24 December 2025)</div>
   </div>
 
   <!-- 1. Purpose -->
@@ -232,7 +234,7 @@
       <tbody>
         <tr><td>Tier 1 SOC Analyst</td><td>Alert validation, initial triage, ticket creation</td></tr>
         <tr><td>Tier 2 SOC Analyst</td><td>Investigation, containment actions, root-cause analysis</td></tr>
-        <tr><td>Tier 3 / IR Lead</td><td>Incident command, recovery decisions, escalation</td></tr>
+        <tr><td>Tier 3 / Incident Commander</td><td>Incident command, recovery decisions, escalation</td></tr>
         <tr><td>MDR Provider</td><td>24/7 monitoring, enrichment, response recommendations</td></tr>
         <tr><td>Endpoint / IT Teams</td><td>Reimage, patching, recovery, user coordination</td></tr>
         <tr><td>Local IT</td><td>Physical access, device handling, user support</td></tr>
@@ -283,12 +285,15 @@
     <table class="sop-table">
       <thead><tr><th>Severity</th><th>Description</th><th>Response</th></tr></thead>
       <tbody>
-        <tr class="sev-row-critical"><td><span class="sev-badge sev-p1">P1 – Critical</span></td><td>Ransomware or widespread endpoint compromise</td><td>Immediate IR Lead engagement</td></tr>
-        <tr class="sev-row-high"><td><span class="sev-badge sev-p2">P2 – High</span></td><td>Active malware with lateral movement risk</td><td>SOC + Regional Cyber</td></tr>
-        <tr class="sev-row-medium"><td><span class="sev-badge sev-p3">P3 – Medium</span></td><td>Isolated malware, blocked or contained</td><td>SOC-led</td></tr>
-        <tr class="sev-row-low"><td><span class="sev-badge sev-p4">P4 – Low</span></td><td>Benign or informational alert</td><td>Log &amp; close</td></tr>
-      </tbody>
+        <tr class="sev-row-critical"><td><span class="sev-badge sev-2">Sev 2 — Critical</span></td><td>Ransomware or widespread endpoint compromise</td><td>Immediate Incident Commander engagement</td></tr>
+        <tr class="sev-row-high"><td><span class="sev-badge sev-3">Sev 3 — High</span></td><td>Active malware with lateral movement risk</td><td>SOC + Regional Cyber</td></tr>
+        <tr class="sev-row-medium"><td><span class="sev-badge sev-4">Sev 4 — Medium</span></td><td>Isolated malware, blocked or contained</td><td>SOC-led</td></tr>
+        <tr class="sev-row-low"><td><span class="sev-badge sev-5">Sev 5 — Low</span></td><td>Benign or informational alert</td><td>Log &amp; close</td></tr>
+            </tbody>
     </table>
+    <div style="margin-top:10px;background:#E6F4F4;border:0.5px solid #8ECECE;border-left:3px solid #0E5C5C;border-radius:8px;padding:0.7rem 1rem;font-size:13px;color:#073B3B;line-height:1.55;">
+      <strong>📌 Severity model alignment.</strong> The four-row table above is the domain-specific operational view used by SOC analysts working endpoint threats. The authoritative 5-tier severity model (Sev 1 Crisis → Sev 5 Low) is defined in <a href="grc-irp-01.html#s5" style="color:#0E5C5C;font-weight:600;text-decoration:none;">GRC-IRP-01 §5</a>; analyst-level triage guidance (criteria, examples, declaration authority) is in <a href="sop-im-01.html" style="color:#0E5C5C;font-weight:600;text-decoration:none;">SOP-IM-01</a>. <strong>Sev 1 incidents</strong> (whole-organisation crisis) follow the IRP escalation directly and are not represented here.
+    </div>
   </div>
 
   <!-- 8. Tooling -->
@@ -309,7 +314,7 @@
   <div class="sop-section">
     <div class="sop-section-num">Section 9</div>
     <div class="sop-section-title">Exceptions</div>
-    <p>Any deviation from this SOP must be justified based on operational constraints, approved by the SOC Manager or IR Lead, and documented in the incident record.</p>
+    <p>Any deviation from this SOP must be justified based on operational constraints, approved by the SOC Manager or Incident Commander, and documented in the incident record.</p>
   </div>
 
   <!-- 10. Compliance -->
@@ -331,7 +336,7 @@
   </div>
 
   <div class="kb-footer">
-    <span><span class="live-dot"></span>SOP-EP-01 v1.0 · Published 24 December 2025 · Paulo Ferreira</span>
+    <span><span class="live-dot"></span>SOP-EP-01 v1.1 · Published 7 May 2026 · Paulo Ferreira</span>
     <span><a href="sops.html" style="color:var(--sop);text-decoration:none;">← Back to SOPs</a></span>
   </div>
 </div>
