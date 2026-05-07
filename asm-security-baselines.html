@@ -40,7 +40,8 @@
 
   /* SOP catalogue */
   .sop-list { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
-  .sop-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .sop-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; text-decoration:none; color:inherit; transition:background 0.1s; }
+  .sop-row:hover { background:var(--asm-light); }
   .sop-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:2px 7px; border-radius:5px; white-space:nowrap; flex-shrink:0; }
   .sop-name { font-size:13px; color:#333; flex:1; }
   .sop-status { font-size:11px; font-weight:600; padding:2px 7px; border-radius:8px; background:#E1F5EE; color:#0F6E56; white-space:nowrap; }
@@ -180,14 +181,14 @@
     <div class="asm-section-title">SOP Catalogue</div>
     <p>Standard Operating Procedures define <em>what</em> should be implemented and <em>why</em>. Platform-specific but tool-agnostic — stable reference documents used for governance, audits, and oversight.</p>
     <div class="sop-list">
-      <div class="sop-row"><span class="sop-code">IT-EP-SOP-Win-01</span><span class="sop-name">Endpoint Security Baseline — Windows</span><span class="sop-status">Approved</span></div>
-      <div class="sop-row"><span class="sop-code">IT-EP-SOP-PAW-01</span><span class="sop-name">Privileged Access Workstation Addendum — Windows</span><span class="sop-status">Approved</span></div>
-      <div class="sop-row"><span class="sop-code">IT-SRV-SOP-Win-01</span><span class="sop-name">Server Security Baseline — Windows</span><span class="sop-status">Approved</span></div>
-      <div class="sop-row"><span class="sop-code">IT-SRV-SOP-DC-01</span><span class="sop-name">Domain Controller Hardening Addendum — Windows</span><span class="sop-status">Approved</span></div>
-      <div class="sop-row"><span class="sop-code">IT-SRV-SOP-LNX-01</span><span class="sop-name">Server Security Baseline — Linux</span><span class="sop-status">Approved</span></div>
-      <div class="sop-row"><span class="sop-code">IT-SRV-SOP-LNX-02</span><span class="sop-name">Linux Identity &amp; SSH Hardening Addendum</span><span class="sop-status">Approved</span></div>
-      <div class="sop-row"><span class="sop-code">IT-GOV-SOP-01</span><span class="sop-name">Baseline Exception &amp; Risk Acceptance</span><span class="sop-status">Approved</span></div>
-      <div class="sop-row"><span class="sop-code">IT-GOV-SOP-02</span><span class="sop-name">Baseline Drift &amp; Periodic Validation</span><span class="sop-status">Approved</span></div>
+      <a class="sop-row" href="it-ep-sop-win-01.html"><span class="sop-code">IT-EP-SOP-Win-01</span><span class="sop-name">Endpoint Security Baseline — Windows</span><span class="sop-status">Approved</span></a>
+      <a class="sop-row" href="it-ep-sop-paw-01.html"><span class="sop-code">IT-EP-SOP-PAW-01</span><span class="sop-name">Privileged Access Workstation Addendum — Windows</span><span class="sop-status">Approved</span></a>
+      <a class="sop-row" href="it-srv-sop-win-01.html"><span class="sop-code">IT-SRV-SOP-Win-01</span><span class="sop-name">Server Security Baseline — Windows</span><span class="sop-status">Approved</span></a>
+      <a class="sop-row" href="it-srv-sop-dc-01.html"><span class="sop-code">IT-SRV-SOP-DC-01</span><span class="sop-name">Domain Controller Hardening Addendum — Windows</span><span class="sop-status">Approved</span></a>
+      <a class="sop-row" href="it-srv-sop-lnx-01.html"><span class="sop-code">IT-SRV-SOP-LNX-01</span><span class="sop-name">Server Security Baseline — Linux</span><span class="sop-status">Approved</span></a>
+      <a class="sop-row" href="it-srv-sop-lnx-02.html"><span class="sop-code">IT-SRV-SOP-LNX-02</span><span class="sop-name">Linux Identity &amp; SSH Hardening Addendum</span><span class="sop-status">Approved</span></a>
+      <a class="sop-row" href="it-gov-sop-01.html"><span class="sop-code">IT-GOV-SOP-01</span><span class="sop-name">Baseline Exception &amp; Risk Acceptance</span><span class="sop-status">Approved</span></a>
+      <a class="sop-row" href="it-gov-sop-02.html"><span class="sop-code">IT-GOV-SOP-02</span><span class="sop-name">Baseline Drift &amp; Periodic Validation</span><span class="sop-status">Approved</span></a>
     </div>
   </div>
 
