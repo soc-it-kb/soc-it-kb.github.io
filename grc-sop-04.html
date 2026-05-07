@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-SOP-04: Cyber &amp; IT Risk Management Procedure — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+
+  .sop-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .sop-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--grc); margin-bottom:4px; }
+  .sop-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .sop-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .sop-section p:last-child { margin-bottom:0; }
+
+  .sop-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; margin-top:4px; }
+  .sop-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .sop-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--grc); flex-shrink:0; margin-top:5px; }
+
+  .proc-steps { display:flex; flex-direction:column; gap:8px; margin-top:4px; }
+  .proc-step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; overflow:hidden; }
+  .proc-step-header { display:flex; align-items:center; gap:10px; padding:0.75rem 1rem; background:var(--grc-light); border-bottom:0.5px solid var(--grc-border); }
+  .proc-step-num { width:26px; height:26px; border-radius:50%; background:var(--grc); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .proc-step-title { font-size:13px; font-weight:600; color:var(--grc-dark); }
+  .proc-step-body { padding:0.8rem 1rem; display:flex; flex-direction:column; gap:4px; }
+  .proc-step-item { font-size:13px; color:#444; display:flex; align-items:flex-start; gap:8px; line-height:1.5; }
+  .proc-step-item::before { content:'→'; color:var(--grc); font-weight:600; flex-shrink:0; }
+
+  .trigger-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .trigger-tag { font-size:12px; background:var(--grc-light); color:var(--grc); border:0.5px solid var(--grc-border); padding:3px 10px; border-radius:6px; font-weight:500; }
+
+  /* Risk matrix 5x5 */
+  .matrix-wrap { margin-top:8px; overflow-x:auto; }
+  .risk-matrix { border-collapse:collapse; font-size:12px; min-width:520px; }
+  .risk-matrix th, .risk-matrix td { border:0.5px solid #e8e8e4; padding:10px 8px; text-align:center; vertical-align:middle; }
+  .risk-matrix th { background:var(--grc-dark); color:#fff; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .risk-matrix th.row-hdr { background:#fafafa; color:var(--grc-dark); font-size:11px; }
+  .risk-matrix .corner { background:var(--grc-light); color:var(--grc-dark); font-size:11px; font-weight:700; }
+  .risk-matrix td.score { font-weight:700; color:#1a1a1a; }
+  .cell-vlow      { background:#E1F5EE; color:#0F6E56; }
+  .cell-low       { background:#D6F0E2; color:#0F6E56; }
+  .cell-medium    { background:#FAEEDA; color:#854F0B; }
+  .cell-high      { background:#FEF0E6; color:#8B4A0E; }
+  .cell-vhigh     { background:#FAECE7; color:#993C1D; }
+  .cell-critical  { background:#F5C0B0; color:#5C2E06; }
+
+  /* Severity legend */
+  .sev-legend { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .sev-pill { font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; }
+  .sev-vlow      { background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .sev-low       { background:#D6F0E2; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .sev-medium    { background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .sev-high      { background:#FEF0E6; color:#8B4A0E; border:0.5px solid #F5C89A; }
+  .sev-vhigh     { background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; }
+  .sev-critical  { background:#F5C0B0; color:#5C2E06; border:0.5px solid #E89878; }
+
+  /* Score-criteria tables */
+  .score-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .score-table th { background:var(--grc-light); color:var(--grc-dark); font-weight:600; padding:8px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border:0.5px solid var(--grc-border); }
+  .score-table td { padding:8px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.5; }
+  .score-table td.lvl { font-weight:600; color:var(--grc-dark); white-space:nowrap; }
+
+  /* Treatment cards */
+  .treatment-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .treatment-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.1rem; }
+  .treatment-card h4 { font-size:13px; font-weight:600; color:var(--grc-dark); margin-bottom:5px; display:flex; align-items:center; gap:6px; }
+  .treatment-card p  { font-size:12px; color:#555; line-height:1.5; margin:0; }
+
+  .esc-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .esc-item { display:flex; align-items:flex-start; gap:10px; background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:var(--grc-dark); }
+  .esc-item::before { content:'→'; color:var(--grc); font-weight:700; flex-shrink:0; }
+
+  .evidence-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
+  .evidence-item { display:flex; align-items:flex-start; gap:10px; background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:8px; padding:0.6rem 0.9rem; font-size:13px; color:var(--grc-dark); }
+  .evidence-item::before { content:'📄'; font-size:13px; flex-shrink:0; }
+
+  /* Roles */
+  .roles-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .role-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.85rem 1rem; }
+  .role-card h4 { font-size:12px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; }
+  .role-card p  { font-size:13px; color:#444; line-height:1.5; margin:0; }
+
+  /* Mapping tables */
+  .map-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .map-table th { background:var(--grc-dark); color:#fff; font-weight:600; padding:8px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .map-table td { padding:8px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.5; }
+  .map-table td.code { font-family:'SF Mono','Fira Code',monospace; font-weight:600; color:var(--grc); white-space:nowrap; }
+
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .rel-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.85rem 1rem; }
+  .rel-card h4 { font-size:12px; font-weight:600; color:var(--grc); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:7px; }
+  .rel-link { display:flex; align-items:center; gap:8px; text-decoration:none; color:#444; font-size:13px; padding:3px 0; }
+  .rel-link:hover { color:var(--grc); }
+  .rel-link::before { content:'›'; color:var(--grc); font-weight:700; }
+  .rel-link a { color:inherit; text-decoration:none; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .sop-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .sop-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+  @media(max-width:640px){ .treatment-grid,.roles-grid,.rel-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+    <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="grc.html">GRC Hub</a><span>›</span>
+    <a href="grc-risk.html">Risk</a><span>›</span>
+    <span>GRC-SOP-04</span>
+  </div>
+
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · Procedure</div>
+    <h1>GRC-SOP-04: Cyber &amp; IT Risk Management Procedure</h1>
+    <p>End-to-end procedure for identifying, analysing, evaluating, treating, and monitoring cyber and IT risks across the organisation. Aligned with ISO 31000, ISO 27005, ISO 27001:2022 Annex A, and NIST CSF 2.0.</p>
+    <div class="grc-page-hero-pills">
+      <span class="grc-page-hero-pill">Risk management</span>
+      <span class="grc-page-hero-pill">ISO 31000</span>
+      <span class="grc-page-hero-pill">ISO 27001:2022</span>
+      <span class="grc-page-hero-pill">NIST CSF 2.0</span>
+      <span class="grc-page-hero-pill">5×5 matrix</span>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">📋 <strong>SOP ID:</strong> GRC-SOP-04</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔄 <strong>Version:</strong> v1.0</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📋 <strong>Register:</strong> <a href="grc-register-risk.html" style="color:var(--grc);">GRC-REG-RISK</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📝 <strong>Form:</strong> <a href="grc-frm-13.html" style="color:var(--grc);">GRC-FRM-13</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-approved">Approved</span></div>
+  </div>
+
+  <!-- Purpose -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 1</div>
+    <div class="sop-section-title">Purpose &amp; Scope</div>
+    <p>This procedure defines how cyber and IT risks are identified, analysed, evaluated, treated, monitored, and communicated across the organisation. It establishes a consistent, defensible methodology that satisfies internal governance requirements and external audit expectations under ISO 27001:2022 and NIST CSF 2.0.</p>
+    <p><strong>In scope:</strong> All cyber security risks, IT operational risks, third-party (supplier) cyber risks, compliance risks with a cyber or IT dimension, and business continuity risks arising from cyber or IT cause. Applies to all assets, systems, services, and data within the organisation's IT and cyber estate, including hosted, on-premises, SaaS, and managed-service environments.</p>
+    <p><strong>Out of scope:</strong> Enterprise-wide non-cyber risks (financial, market, strategic, reputational risks unrelated to cyber/IT), which are managed under the Enterprise Risk Management framework.</p>
+  </div>
+
+  <!-- ISO 31000 process -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 2</div>
+    <div class="sop-section-title">Risk Management Process (ISO 31000)</div>
+    <p>The risk management process follows the ISO 31000 lifecycle. Each stage is mandatory and produces records held in the Cyber &amp; IT Risk Register (GRC-REG-RISK).</p>
+    <div class="proc-steps">
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">1</div><div class="proc-step-title">Establish Context</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Define the internal and external context, stakeholders, criteria, and the scope for which risks are being assessed (e.g. enterprise-wide annual review, new project, post-incident review)</div>
+          <div class="proc-step-item">Confirm risk appetite and tolerance levels approved by the Risk Committee</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">2</div><div class="proc-step-title">Risk Identification</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Identify cyber and IT risks through threat modelling, vulnerability scans, incident history, audit findings, supplier assessments, and stakeholder workshops</div>
+          <div class="proc-step-item">For each risk, capture the threat source, vulnerability, asset/process affected, and potential consequence</div>
+          <div class="proc-step-item">Submit each new risk via GRC-FRM-13 (Risk Assessment &amp; Submission Form)</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">3</div><div class="proc-step-title">Risk Analysis</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Score the inherent risk (before any controls) using the 5×5 likelihood × impact matrix in Section 4</div>
+          <div class="proc-step-item">Document existing controls applied to the risk</div>
+          <div class="proc-step-item">Score the residual risk (after current controls)</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">4</div><div class="proc-step-title">Risk Evaluation</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Compare residual risk against the organisation's risk appetite and tolerance</div>
+          <div class="proc-step-item">Determine whether the risk is acceptable, requires further treatment, or must be escalated</div>
+          <div class="proc-step-item">Map the risk to NIST CSF 2.0 outcomes and ISO 27001:2022 Annex A controls</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">5</div><div class="proc-step-title">Risk Treatment</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Select a treatment option: Mitigate, Accept, Transfer, or Avoid (see Section 6)</div>
+          <div class="proc-step-item">Define the treatment plan, target residual score, named owner, and target date</div>
+          <div class="proc-step-item">For Accept decisions, record in the Risk Acceptance Log (GRC-REG-RISK-LOG) with formal approval</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">6</div><div class="proc-step-title">Monitor &amp; Review</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Review risks at the cadence defined in Section 8 (Critical: monthly, High: quarterly, Medium: semi-annually, Low: annually)</div>
+          <div class="proc-step-item">Re-score residual risk when controls change, when threats evolve, or when incidents occur</div>
+          <div class="proc-step-item">Close risks that are no longer applicable; archive with rationale</div>
+        </div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-step-header"><div class="proc-step-num">7</div><div class="proc-step-title">Communicate &amp; Consult</div></div>
+        <div class="proc-step-body">
+          <div class="proc-step-item">Report risk posture to the Risk Committee and executive sponsor at the agreed cadence</div>
+          <div class="proc-step-item">Engage stakeholders during identification, treatment selection, and review</div>
+          <div class="proc-step-item">Share material changes (new Critical risks, treatment overruns) immediately</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categorisation -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 3</div>
+    <div class="sop-section-title">Risk Categorisation</div>
+    <p>Every risk is assigned to one primary category. Categories drive ownership, review cadence, and reporting.</p>
+    <div class="trigger-tags">
+      <span class="trigger-tag">Cyber Operational — day-to-day SOC, detection, response</span>
+      <span class="trigger-tag">Cyber Strategic — programme-level, long-horizon</span>
+      <span class="trigger-tag">IT Operational — availability, capacity, change</span>
+      <span class="trigger-tag">Third-Party — supplier, vendor, sub-processor</span>
+      <span class="trigger-tag">Compliance — regulatory, contractual, framework</span>
+      <span class="trigger-tag">Business Continuity — cyber/IT-driven disruption</span>
+    </div>
+  </div>
+
+  <!-- 5x5 matrix -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 4</div>
+    <div class="sop-section-title">5×5 Risk Matrix</div>
+    <p>Likelihood and impact are each scored on a 1–5 scale. The product (Likelihood × Impact, range 1–25) determines severity.</p>
+    <div class="matrix-wrap">
+      <table class="risk-matrix">
+        <thead>
+          <tr>
+            <th class="corner">Likelihood ↓ / Impact →</th>
+            <th>1 · Negligible</th>
+            <th>2 · Minor</th>
+            <th>3 · Moderate</th>
+            <th>4 · Major</th>
+            <th>5 · Severe</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="row-hdr">5 · Almost Certain</th>
+            <td class="score cell-medium">5</td>
+            <td class="score cell-high">10</td>
+            <td class="score cell-vhigh">15</td>
+            <td class="score cell-critical">20</td>
+            <td class="score cell-critical">25</td>
+          </tr>
+          <tr>
+            <th class="row-hdr">4 · Likely</th>
+            <td class="score cell-low">4</td>
+            <td class="score cell-medium">8</td>
+            <td class="score cell-high">12</td>
+            <td class="score cell-vhigh">16</td>
+            <td class="score cell-critical">20</td>
+          </tr>
+          <tr>
+            <th class="row-hdr">3 · Possible</th>
+            <td class="score cell-low">3</td>
+            <td class="score cell-medium">6</td>
+            <td class="score cell-medium">9</td>
+            <td class="score cell-high">12</td>
+            <td class="score cell-vhigh">15</td>
+          </tr>
+          <tr>
+            <th class="row-hdr">2 · Unlikely</th>
+            <td class="score cell-vlow">2</td>
+            <td class="score cell-low">4</td>
+            <td class="score cell-medium">6</td>
+            <td class="score cell-medium">8</td>
+            <td class="score cell-high">10</td>
+          </tr>
+          <tr>
+            <th class="row-hdr">1 · Rare</th>
+            <td class="score cell-vlow">1</td>
+            <td class="score cell-vlow">2</td>
+            <td class="score cell-low">3</td>
+            <td class="score cell-low">4</td>
+            <td class="score cell-medium">5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin-top:14px;"><strong>Severity bands</strong> (combined score):</p>
+    <div class="sev-legend">
+      <span class="sev-pill sev-vlow">Very Low · 1–2</span>
+      <span class="sev-pill sev-low">Low · 3–4</span>
+      <span class="sev-pill sev-medium">Medium · 5–9</span>
+      <span class="sev-pill sev-high">High · 10–12</span>
+      <span class="sev-pill sev-vhigh">Very High · 15–16</span>
+      <span class="sev-pill sev-critical">Critical · 20–25</span>
+    </div>
+  </div>
+
+  <!-- Likelihood & impact criteria -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 4a</div>
+    <div class="sop-section-title">Likelihood Scoring Criteria</div>
+    <table class="score-table">
+      <thead><tr><th>Level</th><th>Frequency / probability</th><th>Indicators</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">5 · Almost Certain</td><td>Expected to occur multiple times per year (&gt;75% probability in 12 months)</td><td>Active exploitation observed; control absent or known to fail; routine occurrence in sector</td></tr>
+        <tr><td class="lvl">4 · Likely</td><td>Expected to occur within the year (50–75% probability in 12 months)</td><td>Known threat actors targeting the technology; partial controls; recent near-misses</td></tr>
+        <tr><td class="lvl">3 · Possible</td><td>Could occur within 1–3 years (20–50% probability in 12 months)</td><td>Plausible scenario; controls present but unverified; sector-relevant threat</td></tr>
+        <tr><td class="lvl">2 · Unlikely</td><td>Could occur within 3–10 years (5–20% probability in 12 months)</td><td>Effective controls in place; threat possible but uncommon; mature defences</td></tr>
+        <tr><td class="lvl">1 · Rare</td><td>Unlikely in foreseeable timeframe (&lt;5% probability in 12 months)</td><td>Strong layered controls; low threat exposure; would require extraordinary circumstances</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sop-section">
+    <div class="sop-section-num">Section 4b</div>
+    <div class="sop-section-title">Impact Scoring Criteria</div>
+    <table class="score-table">
+      <thead><tr><th>Level</th><th>Operational</th><th>Financial / Regulatory / Reputational</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">5 · Severe</td><td>Multi-day outage of Tier-0/1 systems; widespread data loss; recovery requires external support</td><td>Material regulatory penalty; mandatory breach disclosure; sustained reputational damage; significant financial loss</td></tr>
+        <tr><td class="lvl">4 · Major</td><td>Day-long outage of critical systems; significant data exposure; recovery requires emergency response</td><td>Regulator notification triggered; contractual breach; notable reputational harm; substantial financial loss</td></tr>
+        <tr><td class="lvl">3 · Moderate</td><td>Several-hour outage; localised data exposure; recoverable through standard procedures</td><td>Compliance finding; supplier dispute; limited reputational impact; moderate financial loss</td></tr>
+        <tr><td class="lvl">2 · Minor</td><td>Brief outage of non-critical service; no data loss; absorbed by routine response</td><td>Minor compliance gap; internal escalation only; minimal financial loss</td></tr>
+        <tr><td class="lvl">1 · Negligible</td><td>No service impact; near-miss only; no recovery effort</td><td>No external consequence; observation only; no measurable financial loss</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Risk appetite -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 5</div>
+    <div class="sop-section-title">Risk Appetite &amp; Tolerance</div>
+    <p>The organisation's cyber and IT risk appetite is set annually by the Risk Committee. The default position, applied where no specific tolerance is documented, is:</p>
+    <ul class="sop-bullet">
+      <li><strong>Critical (20–25):</strong> Not tolerated. Treatment plan with target completion within 30 days mandatory; executive sponsor notified within 5 working days.</li>
+      <li><strong>Very High (15–16):</strong> Not tolerated without formal acceptance. Treatment plan within 60 days; Risk Committee approval required to retain.</li>
+      <li><strong>High (10–12):</strong> Tolerated only where treatment is in flight. Treatment plan within 90 days; reviewed quarterly.</li>
+      <li><strong>Medium (5–9):</strong> Tolerated with active monitoring. Reviewed semi-annually; no formal acceptance required unless persistent.</li>
+      <li><strong>Low / Very Low (1–4):</strong> Tolerated. Reviewed annually; treated where cost-effective.</li>
+    </ul>
+  </div>
+
+  <!-- Treatment options -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 6</div>
+    <div class="sop-section-title">Treatment Options</div>
+    <p>One of four treatment decisions is selected for every risk. The default expectation is Mitigate.</p>
+    <div class="treatment-grid">
+      <div class="treatment-card"><h4>🛡️ Mitigate</h4><p>Apply additional or strengthened controls to reduce likelihood, impact, or both. Default response. Document the new control set and target residual score.</p></div>
+      <div class="treatment-card"><h4>📋 Accept</h4><p>Tolerate the risk at its current residual score. Permitted only with formal approval recorded in the Risk Acceptance Log (GRC-REG-RISK-LOG). Time-bound with mandatory review date.</p></div>
+      <div class="treatment-card"><h4>🔄 Transfer</h4><p>Shift the risk through insurance, contractual indemnity, or service-provider responsibility. Document the transfer mechanism and any retained residual risk.</p></div>
+      <div class="treatment-card"><h4>🚫 Avoid</h4><p>Eliminate the activity, technology, or supplier giving rise to the risk. Document the decision, the alternative chosen, and any transitional risks.</p></div>
+    </div>
+  </div>
+
+  <!-- Roles -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 7</div>
+    <div class="sop-section-title">Roles &amp; Responsibilities</div>
+    <div class="roles-grid">
+      <div class="role-card"><h4>Risk Owner</h4><p>Accountable for the risk and its treatment. Approves residual risk score and treatment plan. Typically a senior business or technology leader.</p></div>
+      <div class="role-card"><h4>Control Owner</h4><p>Responsible for designing, implementing, and operating the controls that mitigate the risk. Reports control effectiveness to the Risk Owner.</p></div>
+      <div class="role-card"><h4>GRC Team</h4><p>Maintains the register, facilitates analysis and review, ensures methodology is applied consistently, and prepares reports for the Risk Committee.</p></div>
+      <div class="role-card"><h4>Risk Committee</h4><p>Approves risk appetite, reviews material risks, endorses risk acceptances above defined thresholds, and provides governance oversight.</p></div>
+      <div class="role-card"><h4>Executive Sponsor</h4><p>Provides senior accountability for the cyber and IT risk programme. Receives escalation of Critical risks. Reports to the Board on material risk posture.</p></div>
+      <div class="role-card"><h4>Internal Audit</h4><p>Provides independent assurance over the design and operating effectiveness of the risk management process. Does not own risks.</p></div>
+    </div>
+  </div>
+
+  <!-- Cadence -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 8</div>
+    <div class="sop-section-title">Review Cadence &amp; Escalation</div>
+    <p>Each risk is reviewed at a cadence proportional to its residual severity. Out-of-cycle reviews are mandatory after material control change, incident, or threat-landscape shift.</p>
+    <table class="score-table">
+      <thead><tr><th>Severity</th><th>Standard review cadence</th><th>Escalation level</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Critical</td><td>Monthly</td><td>Executive Sponsor + Risk Committee within 5 working days of identification</td></tr>
+        <tr><td class="lvl">Very High</td><td>Quarterly</td><td>Risk Committee at next scheduled meeting; Executive Sponsor briefed</td></tr>
+        <tr><td class="lvl">High</td><td>Quarterly</td><td>Risk Owner + GRC team; Risk Committee on quarterly summary</td></tr>
+        <tr><td class="lvl">Medium</td><td>Semi-annually</td><td>Risk Owner + GRC team</td></tr>
+        <tr><td class="lvl">Low / Very Low</td><td>Annually</td><td>Risk Owner</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NIST CSF mapping -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 9</div>
+    <div class="sop-section-title">NIST CSF 2.0 Outcome Mapping</div>
+    <p>Every risk is mapped to the most relevant NIST CSF 2.0 Function and Category. The mapping informs treatment selection and demonstrates framework coverage to auditors.</p>
+    <table class="map-table">
+      <thead><tr><th>Function</th><th>Common categories used in risk mapping</th></tr></thead>
+      <tbody>
+        <tr><td class="code">GV — Govern</td><td>GV.OC (Organisational Context), GV.RM (Risk Management), GV.RR (Roles &amp; Responsibilities), GV.PO (Policies), GV.OV (Oversight), GV.SC (Supply Chain Risk Management)</td></tr>
+        <tr><td class="code">ID — Identify</td><td>ID.AM (Asset Management), ID.RA (Risk Assessment), ID.IM (Improvement)</td></tr>
+        <tr><td class="code">PR — Protect</td><td>PR.AA (Identity, Authentication &amp; Access), PR.AT (Awareness &amp; Training), PR.DS (Data Security), PR.PS (Platform Security), PR.IR (Technology Infrastructure Resilience)</td></tr>
+        <tr><td class="code">DE — Detect</td><td>DE.CM (Continuous Monitoring), DE.AE (Adverse Event Analysis)</td></tr>
+        <tr><td class="code">RS — Respond</td><td>RS.MA (Incident Management), RS.AN (Incident Analysis), RS.CO (Incident Communication), RS.MI (Incident Mitigation)</td></tr>
+        <tr><td class="code">RC — Recover</td><td>RC.RP (Recovery Plan Execution), RC.CO (Recovery Communication)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ISO 27001 mapping -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 10</div>
+    <div class="sop-section-title">ISO 27001:2022 Annex A Mapping</div>
+    <p>Every risk is mapped to the relevant ISO 27001:2022 Annex A control(s). Annex A organises 93 controls into four themes; risks may map to one or more controls.</p>
+    <table class="map-table">
+      <thead><tr><th>Theme</th><th>Control range</th><th>Typical content</th></tr></thead>
+      <tbody>
+        <tr><td class="code">A.5 — Organisational</td><td>A.5.1 – A.5.37</td><td>Policies, roles, supplier relationships, incident management, BCP, compliance</td></tr>
+        <tr><td class="code">A.6 — People</td><td>A.6.1 – A.6.8</td><td>Screening, employment terms, awareness, disciplinary, remote working, NDA</td></tr>
+        <tr><td class="code">A.7 — Physical</td><td>A.7.1 – A.7.14</td><td>Physical perimeter, secure areas, equipment, cabling, clear desk</td></tr>
+        <tr><td class="code">A.8 — Technological</td><td>A.8.1 – A.8.34</td><td>Access control, cryptography, secure development, logging, monitoring, vulnerability management, data leakage prevention</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Records & evidence -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 11</div>
+    <div class="sop-section-title">Records &amp; Audit Evidence</div>
+    <p>The following records are produced and retained as audit evidence:</p>
+    <div class="evidence-list">
+      <div class="evidence-item">Cyber &amp; IT Risk Register (GRC-REG-RISK) — current state of all identified risks</div>
+      <div class="evidence-item">Risk Acceptance Log (GRC-REG-RISK-LOG) — formally accepted risks with approver and expiry</div>
+      <div class="evidence-item">Risk Assessment &amp; Submission Forms (GRC-FRM-13) — initial assessment for each new risk</div>
+      <div class="evidence-item">Review records — minutes or notes from periodic risk reviews</div>
+      <div class="evidence-item">Risk Committee minutes — endorsement of appetite, escalations, acceptances</div>
+      <div class="evidence-item">Treatment plan tracking — progress against target dates and target residual scores</div>
+    </div>
+  </div>
+
+  <!-- Triggers -->
+  <div class="sop-section">
+    <div class="sop-section-num">Section 12</div>
+    <div class="sop-section-title">Procedure Triggers</div>
+    <p>This procedure is initiated whenever any of the following occur:</p>
+    <div class="trigger-tags">
+      <span class="trigger-tag">Annual enterprise risk review cycle</span>
+      <span class="trigger-tag">New project, system, or supplier onboarding</span>
+      <span class="trigger-tag">Material incident or near-miss requiring lessons-learned</span>
+      <span class="trigger-tag">Audit or assessment finding requiring response</span>
+      <span class="trigger-tag">Regulatory or framework change affecting controls</span>
+      <span class="trigger-tag">Threat-landscape shift (e.g. new high-profile exploitation)</span>
+      <span class="trigger-tag">Material change in business activity or technology stack</span>
+    </div>
+  </div>
+
+  <!-- Related -->
+  <div class="sop-section">
+    <div class="sop-section-num">Related documents</div>
+    <div class="sop-section-title">Documents Used &amp; Referenced</div>
+    <div class="rel-grid">
+      <div class="rel-card">
+        <h4>Register</h4>
+        <div class="rel-link"><a href="grc-register-risk.html">GRC-REG-RISK — Cyber &amp; IT Risk Register</a></div>
+        <div class="rel-link"><a href="grc-register-risk-log.html">GRC-REG-RISK-LOG — Risk Acceptance Log</a></div>
+      </div>
+      <div class="rel-card">
+        <h4>Form</h4>
+        <div class="rel-link"><a href="grc-frm-13.html">GRC-FRM-13 — Risk Assessment &amp; Submission Form</a></div>
+      </div>
+      <div class="rel-card">
+        <h4>Related registers</h4>
+        <div class="rel-link"><a href="grc-register-policy-exceptions.html">Policy Exception Register</a></div>
+        <div class="rel-link"><a href="grc-register-exceptions.html">Baseline Exceptions Register</a></div>
+      </div>
+      <div class="rel-card">
+        <h4>Reference</h4>
+        <div class="rel-link"><a href="nist-csf-reference.html">NIST CSF 2.0 reference</a></div>
+        <div class="rel-link"><a href="core-concepts.html">Core Concepts (Tier model)</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Records & maintenance -->
+  <div class="sop-section">
+    <div class="sop-section-num">Records &amp; maintenance</div>
+    <div class="sop-section-title">Records Management &amp; Review</div>
+    <p>Risk records shall be retained for the duration of the risk plus seven years after closure. This procedure shall be reviewed annually or after any material change to risk methodology, organisational structure, regulatory environment, or alignment frameworks.</p>
+  </div>
+
+  <div class="sop-nav"><a href="grc-sop-03.html">← GRC-SOP-03</a><span></span></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC-SOP-04 · v1.0 · Approved · Paulo Ferreira</span>
+    <span><a href="grc-risk.html" style="color:var(--grc);text-decoration:none;">← Back to Risk</a></span>
+  </div>
+</div>
+</body>
+</html>

@@ -684,6 +684,15 @@
     "tags": "application onboarding new app intake data classification hosting integrations grc form"
   },
   {
+    "id": "GRC-FRM-13",
+    "title": "Risk Assessment & Submission Form",
+    "section": "GRC",
+    "sub": "Forms",
+    "url": "grc-frm-13.html",
+    "desc": "Form for identifying, scoring, and submitting a new cyber or IT risk for inclusion in the Cyber & IT Risk Register",
+    "tags": "risk assessment submission form intake new risk identification scoring inherent residual treatment grc"
+  },
+  {
     "id": "GRC-POL-01",
     "title": "Supplier Security Assessment Policy",
     "section": "GRC",
@@ -765,6 +774,15 @@
     "tags": "policy exception register GRC risk"
   },
   {
+    "id": "GRC-REG-RISK",
+    "title": "Cyber & IT Risk Register",
+    "section": "GRC",
+    "sub": "Registers",
+    "url": "grc-register-risk.html",
+    "desc": "Central register of identified cyber and IT risks with inherent and residual scoring, treatment plans, owners, and NIST CSF 2.0 / ISO 27001 mappings",
+    "tags": "risk register cyber it nist csf iso 27001 inherent residual treatment heatmap mitigate accept transfer audit evidence grc"
+  },
+  {
     "id": "GRC-REG-RL",
     "title": "Risk Acceptance Log",
     "section": "GRC",
@@ -817,6 +835,15 @@
     "url": "grc-sop-03.html",
     "desc": "Procedure for assessing general suppliers",
     "tags": "general supplier assessment procedure GRC SOP"
+  },
+  {
+    "id": "GRC-SOP-04",
+    "title": "Cyber & IT Risk Management Procedure",
+    "section": "GRC",
+    "sub": "SOPs",
+    "url": "grc-sop-04.html",
+    "desc": "End-to-end procedure for identifying, analysing, evaluating, treating, and monitoring cyber and IT risks. Aligned with ISO 31000, ISO 27001:2022, and NIST CSF 2.0",
+    "tags": "risk management cyber it iso 31000 27001 nist csf 5x5 matrix likelihood impact treatment mitigate accept transfer avoid grc sop methodology"
   },
   {
     "id": "GRC-WI-03",

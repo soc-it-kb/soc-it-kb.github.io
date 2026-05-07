@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber &amp; IT Risk Register — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:20px; font-weight:700; margin-bottom:6px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.8; line-height:1.5; margin:0; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .how-box { background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
+  .how-box p { font-size:13px; color:var(--grc-dark); line-height:1.6; margin:0 0 6px 0; }
+  .how-box p:last-child { margin:0; }
+
+  /* Summary stats */
+  .stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin-bottom:1.25rem; }
+  .stat-card { background:#fff; border:0.5px solid var(--grc-border); border-radius:10px; padding:0.9rem; text-align:center; }
+  .stat-num { font-size:24px; font-weight:700; line-height:1; margin-bottom:4px; }
+  .stat-label { font-size:11px; color:#888; text-transform:uppercase; letter-spacing:0.05em; }
+
+  /* Severity pills */
+  .sev-pill { font-size:11px; font-weight:600; padding:3px 9px; border-radius:20px; display:inline-block; white-space:nowrap; }
+  .sev-vlow      { background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .sev-low       { background:#D6F0E2; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .sev-medium    { background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .sev-high      { background:#FEF0E6; color:#8B4A0E; border:0.5px solid #F5C89A; }
+  .sev-vhigh     { background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; }
+  .sev-critical  { background:#F5C0B0; color:#5C2E06; border:0.5px solid #E89878; }
+
+  /* Treatment pills */
+  .trt-pill { font-size:11px; font-weight:600; padding:3px 9px; border-radius:6px; display:inline-block; white-space:nowrap; }
+  .trt-mitigate { background:var(--grc-light); color:var(--grc); border:0.5px solid var(--grc-border); }
+  .trt-accept   { background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .trt-transfer { background:#E6F1FB; color:#185FA5; border:0.5px solid #B5D4F4; }
+  .trt-avoid    { background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; }
+
+  /* Filters */
+  .filter-row { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:1rem; align-items:center; }
+  .filter-label { font-size:11px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:0.06em; margin-right:6px; }
+  .filter-pill { font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; background:#fff; border:0.5px solid #e0e0dc; color:#666; cursor:pointer; transition:all 0.15s; user-select:none; }
+  .filter-pill:hover { border-color:var(--grc); color:var(--grc); }
+  .filter-pill.active { background:var(--grc); color:#fff; border-color:var(--grc); }
+
+  /* Register table */
+  .reg-wrap { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; overflow:hidden; margin-bottom:1.25rem; }
+  .reg-table { width:100%; border-collapse:collapse; font-size:12px; }
+  .reg-table th { background:var(--grc-dark); color:#fff; font-weight:600; padding:10px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-right:0.5px solid rgba(255,255,255,0.1); white-space:nowrap; vertical-align:middle; }
+  .reg-table td { padding:10px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:middle; }
+  .reg-table tr.row-main { cursor:pointer; transition:background 0.1s; }
+  .reg-table tr.row-main:hover td { background:#f9f9f7; }
+  .reg-table tr.row-main td.col-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--grc); white-space:nowrap; }
+  .reg-table tr.row-main td.col-title { font-weight:500; color:#1a1a1a; line-height:1.4; min-width:220px; }
+  .reg-table tr.row-main td.col-cat { font-size:11px; color:#666; white-space:nowrap; }
+  .reg-table tr.row-main td.col-status { font-size:11px; white-space:nowrap; }
+  .reg-table .toggle { color:#aaa; font-size:14px; user-select:none; transition:transform 0.15s; display:inline-block; width:14px; }
+  .reg-table tr.row-main.expanded .toggle { transform:rotate(90deg); color:var(--grc); }
+
+  /* Detail row */
+  .reg-table tr.row-detail { display:none; }
+  .reg-table tr.row-detail.show { display:table-row; }
+  .reg-table tr.row-detail > td { padding:0; background:#fafafa; border-top:none; }
+  .detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; padding:0; }
+  .detail-cell { padding:12px 14px; border-right:0.5px solid #e8e8e4; border-bottom:0.5px solid #e8e8e4; }
+  .detail-cell:last-child { border-right:none; }
+  .detail-cell h5 { font-size:10px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:5px; }
+  .detail-cell p, .detail-cell .detail-body { font-size:12px; color:#444; line-height:1.5; margin:0; }
+  .detail-scores { display:flex; gap:14px; flex-wrap:wrap; margin-top:4px; }
+  .detail-score { display:flex; flex-direction:column; gap:2px; }
+  .detail-score-label { font-size:10px; color:#888; text-transform:uppercase; letter-spacing:0.04em; }
+  .detail-score-value { font-size:14px; font-weight:700; color:#1a1a1a; }
+  .detail-mappings { display:flex; flex-direction:column; gap:3px; }
+  .map-pill { font-family:'SF Mono','Fira Code',monospace; font-size:10px; padding:2px 6px; border-radius:4px; background:var(--grc-light); color:var(--grc); border:0.5px solid var(--grc-border); display:inline-block; margin-right:3px; margin-bottom:2px; }
+  .tier-badge { font-size:10px; font-weight:600; padding:2px 7px; border-radius:5px; background:#E8F0FA; color:#1A4A7A; border:0.5px solid #B5CCE8; }
+  .empty-tier { color:#bbb; font-style:italic; font-size:11px; }
+  @media(max-width:780px){
+    .detail-grid { grid-template-columns:1fr; }
+    .detail-cell { border-right:none; }
+    /* Hide secondary columns on small screens */
+    .reg-table .col-cat, .reg-table .col-trt { display:none; }
+  }
+
+  /* Heatmap */
+  .heatmap-wrap { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:1.25rem; }
+  .heatmap-title { font-size:13px; font-weight:600; color:var(--grc-dark); margin-bottom:10px; }
+  .heatmap-sub { font-size:12px; color:#666; margin-bottom:10px; }
+  .heatmap-grid-wrap { overflow-x:auto; }
+  .heatmap { border-collapse:collapse; font-size:11px; min-width:480px; }
+  .heatmap th, .heatmap td { border:0.5px solid #e8e8e4; padding:0; text-align:center; vertical-align:middle; height:48px; min-width:64px; }
+  .heatmap th { background:var(--grc-dark); color:#fff; font-weight:600; font-size:10px; text-transform:uppercase; letter-spacing:0.04em; height:32px; }
+  .heatmap th.row-hdr { background:#fafafa; color:var(--grc-dark); font-size:10px; min-width:90px; padding:4px 8px; }
+  .heatmap .corner { background:var(--grc-light); color:var(--grc-dark); font-size:10px; font-weight:700; }
+  .cell-vlow      { background:#E1F5EE; }
+  .cell-low       { background:#D6F0E2; }
+  .cell-medium    { background:#FAEEDA; }
+  .cell-high      { background:#FEF0E6; }
+  .cell-vhigh     { background:#FAECE7; }
+  .cell-critical  { background:#F5C0B0; }
+  .cell-count { font-size:14px; font-weight:700; color:var(--grc-dark); }
+  .cell-empty { color:#bbb; font-size:12px; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .grc-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .grc-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+
+  .related-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:1rem; }
+  .related-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.8rem 1rem; }
+  .related-card h4 { font-size:11px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; }
+  .related-card a { display:block; font-size:13px; color:#444; text-decoration:none; padding:2px 0; }
+  .related-card a:hover { color:var(--grc); }
+  .related-card a::before { content:'›'; color:var(--grc); font-weight:700; margin-right:6px; }
+  @media(max-width:640px){ .related-grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+    <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="grc.html">GRC Hub</a><span>›</span>
+    <a href="grc-risk.html">Risk</a><span>›</span>
+    <span>Cyber &amp; IT Risk Register</span>
+  </div>
+
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · Register</div>
+    <h1>🎯 Cyber &amp; IT Risk Register</h1>
+    <p>The central register of identified cyber and IT risks — with inherent and residual scoring, treatment plans, named owners, and mappings to NIST CSF 2.0 and ISO 27001:2022 Annex A. Methodology defined in <a href="grc-sop-04.html" style="color:#fff;text-decoration:underline;">GRC-SOP-04</a>; new risks submitted via <a href="grc-frm-13.html" style="color:#fff;text-decoration:underline;">GRC-FRM-13</a>.</p>
+    <div class="grc-page-hero-pills">
+      <span class="grc-page-hero-pill">ISO 31000</span>
+      <span class="grc-page-hero-pill">ISO 27001:2022</span>
+      <span class="grc-page-hero-pill">NIST CSF 2.0</span>
+      <span class="grc-page-hero-pill">5×5 matrix</span>
+      <span class="grc-page-hero-pill">Audit evidence</span>
+    </div>
+  </div>
+
+  <div class="how-box">
+    <p>📌 <strong>How to use this register.</strong> Click any risk row to expand full detail. Use the filter pills to focus by category, severity, or treatment status. Inherent score is the risk before controls; residual score is the risk after current controls are applied.</p>
+    <p>Risks are reviewed at the cadence defined in GRC-SOP-04 §8 (Critical: monthly · Very High &amp; High: quarterly · Medium: semi-annually · Low: annually). Out-of-cycle reviews are triggered by control changes, incidents, and threat-landscape shifts.</p>
+  </div>
+
+  <!-- Summary stats -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" style="color:var(--grc-dark);">10</div><div class="stat-label">Total risks</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#5C2E06;">1</div><div class="stat-label">Critical</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#993C1D;">2</div><div class="stat-label">Very High</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#8B4A0E;">3</div><div class="stat-label">High</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#854F0B;">3</div><div class="stat-label">Medium</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#0F6E56;">1</div><div class="stat-label">Low / Very Low</div></div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" style="color:var(--grc);">7</div><div class="stat-label">Mitigate</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#854F0B;">2</div><div class="stat-label">Accept</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#185FA5;">1</div><div class="stat-label">Transfer</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#993C1D;">0</div><div class="stat-label">Avoid</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#0F6E56;">0</div><div class="stat-label">Overdue review</div></div>
+  </div>
+
+  <!-- Heatmap -->
+  <div class="heatmap-wrap">
+    <div class="heatmap-title">Residual Risk Heatmap</div>
+    <div class="heatmap-sub">Distribution of residual scores across the 5×5 matrix. Numbers in cells show count of risks at that likelihood × impact combination.</div>
+    <div class="heatmap-grid-wrap">
+      <table class="heatmap">
+        <thead>
+          <tr>
+            <th class="corner">Likelihood ↓ / Impact →</th>
+            <th>1 · Negligible</th>
+            <th>2 · Minor</th>
+            <th>3 · Moderate</th>
+            <th>4 · Major</th>
+            <th>5 · Severe</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="row-hdr">5 · Almost Certain</th>
+            <td class="cell-medium"><span class="cell-empty">·</span></td>
+            <td class="cell-high"><span class="cell-empty">·</span></td>
+            <td class="cell-vhigh"><span class="cell-empty">·</span></td>
+            <td class="cell-critical"><span class="cell-empty">·</span></td>
+            <td class="cell-critical"><span class="cell-empty">·</span></td>
+          </tr>
+          <tr>
+            <th class="row-hdr">4 · Likely</th>
+            <td class="cell-low"><span class="cell-empty">·</span></td>
+            <td class="cell-medium"><span class="cell-empty">·</span></td>
+            <td class="cell-high"><span class="cell-count">2</span></td>
+            <td class="cell-vhigh"><span class="cell-count">1</span></td>
+            <td class="cell-critical"><span class="cell-count">1</span></td>
+          </tr>
+          <tr>
+            <th class="row-hdr">3 · Possible</th>
+            <td class="cell-low"><span class="cell-empty">·</span></td>
+            <td class="cell-medium"><span class="cell-count">1</span></td>
+            <td class="cell-medium"><span class="cell-count">2</span></td>
+            <td class="cell-high"><span class="cell-count">1</span></td>
+            <td class="cell-vhigh"><span class="cell-count">1</span></td>
+          </tr>
+          <tr>
+            <th class="row-hdr">2 · Unlikely</th>
+            <td class="cell-vlow"><span class="cell-empty">·</span></td>
+            <td class="cell-low"><span class="cell-empty">·</span></td>
+            <td class="cell-medium"><span class="cell-empty">·</span></td>
+            <td class="cell-medium"><span class="cell-empty">·</span></td>
+            <td class="cell-high"><span class="cell-empty">·</span></td>
+          </tr>
+          <tr>
+            <th class="row-hdr">1 · Rare</th>
+            <td class="cell-vlow"><span class="cell-empty">·</span></td>
+            <td class="cell-vlow"><span class="cell-count">1</span></td>
+            <td class="cell-low"><span class="cell-empty">·</span></td>
+            <td class="cell-low"><span class="cell-empty">·</span></td>
+            <td class="cell-medium"><span class="cell-empty">·</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-row">
+    <span class="filter-label">Severity:</span>
+    <span class="filter-pill active" data-filter-sev="all">All</span>
+    <span class="filter-pill" data-filter-sev="critical">Critical</span>
+    <span class="filter-pill" data-filter-sev="vhigh">Very High</span>
+    <span class="filter-pill" data-filter-sev="high">High</span>
+    <span class="filter-pill" data-filter-sev="medium">Medium</span>
+    <span class="filter-pill" data-filter-sev="low">Low</span>
+    <span class="filter-pill" data-filter-sev="vlow">Very Low</span>
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">Category:</span>
+    <span class="filter-pill active" data-filter-cat="all">All</span>
+    <span class="filter-pill" data-filter-cat="cyber-op">Cyber Operational</span>
+    <span class="filter-pill" data-filter-cat="cyber-strat">Cyber Strategic</span>
+    <span class="filter-pill" data-filter-cat="it-op">IT Operational</span>
+    <span class="filter-pill" data-filter-cat="third-party">Third-Party</span>
+    <span class="filter-pill" data-filter-cat="compliance">Compliance</span>
+    <span class="filter-pill" data-filter-cat="bcp">Business Continuity</span>
+  </div>
+
+  <!-- Register table -->
+  <div class="reg-wrap">
+    <table class="reg-table">
+      <thead>
+        <tr>
+          <th style="width:30px;"></th>
+          <th>Risk ID</th>
+          <th>Title</th>
+          <th class="col-cat">Category</th>
+          <th>Inherent</th>
+          <th>Residual</th>
+          <th class="col-trt">Treatment</th>
+          <th class="col-status">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- ====== RISK-001 ====== -->
+        <tr class="row-main" data-sev="critical" data-cat="cyber-op">
+          <td><span class="toggle">›</span></td>
+          <td class="col-id">RISK-001</td>
+          <td class="col-title">Ransomware compromise of Tier-0 systems via unpatched edge appliance</td>
+          <td class="col-cat">Cyber Operational</td>
+          <td><span class="sev-pill sev-critical">Critical · 25</span></td>
+          <td><span class="sev-pill sev-critical">Critical · 20</span></td>
+          <td class="col-trt"><span class="trt-pill trt-mitigate">Mitigate</span></td>
+          <td class="col-status">Active</td>
+        </tr>
+        <tr class="row-detail">
+          <td colspan="8">
+            <div class="detail-grid">
+              <div class="detail-cell">
+                <h5>Description</h5>
+                <p>External actor exploits an unpatched internet-facing edge appliance (VPN / firewall) to gain initial access, escalate via stolen credentials, and deploy ransomware to domain controllers and backup infrastructure. Worst-case scenario for an organisation of this scale.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Threat &amp; vulnerability</h5>
+                <p><strong>Source:</strong> External ransomware affiliate / IAB · <strong>Vulnerability:</strong> Delayed patching cycle on edge devices; flat network admin paths to Tier-0</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Asset / process · tier</h5>
+                <p>Edge VPN appliance → Domain Controllers → Backup infrastructure <span class="tier-badge">Tier 0</span></p>
+              </div>
+              <div class="detail-cell">
+                <h5>Inherent &amp; residual scores</h5>
+                <div class="detail-scores">
+                  <div class="detail-score"><span class="detail-score-label">Inherent L × I</span><span class="detail-score-value">5 × 5 = 25</span></div>
+                  <div class="detail-score"><span class="detail-score-label">Residual L × I</span><span class="detail-score-value">4 × 5 = 20</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Existing controls</h5>
+                <p>Edge appliance patching SLA; perimeter monitoring; EDR on Tier-0; immutable backup tier; SOC 24×7 monitoring; tier-0 admin segregation.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Treatment plan</h5>
+                <p>Reduce edge appliance patching SLA from 14 to 7 days for KEV-listed CVEs; deploy network micro-segmentation between admin tiers; quarterly tabletop exercises. Target residual: 3 × 5 = 15 by Q3.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>NIST CSF 2.0 / ISO 27001 Annex A</h5>
+                <div class="detail-mappings">
+                  <div><span class="map-pill">PR.PS</span><span class="map-pill">PR.AA</span><span class="map-pill">DE.CM</span><span class="map-pill">RC.RP</span></div>
+                  <div><span class="map-pill">A.8.8</span><span class="map-pill">A.8.16</span><span class="map-pill">A.5.30</span><span class="map-pill">A.8.13</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Owner · Target · Review</h5>
+                <p><strong>Risk Owner:</strong> CISO · <strong>Control Owner:</strong> SOC + IT Ops Lead · <strong>Target:</strong> 30 Sep 2026 · <strong>Next review:</strong> 7 Jun 2026 (monthly)</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- ====== RISK-002 ====== -->
+        <tr class="row-main" data-sev="vhigh" data-cat="cyber-op">
+          <td><span class="toggle">›</span></td>
+          <td class="col-id">RISK-002</td>
+          <td class="col-title">Privileged credential exposure via shared admin accounts</td>
+          <td class="col-cat">Cyber Operational</td>
+          <td><span class="sev-pill sev-vhigh">Very High · 16</span></td>
+          <td><span class="sev-pill sev-vhigh">Very High · 15</span></td>
+          <td class="col-trt"><span class="trt-pill trt-mitigate">Mitigate</span></td>
+          <td class="col-status">Active</td>
+        </tr>
+        <tr class="row-detail">
+          <td colspan="8">
+            <div class="detail-grid">
+              <div class="detail-cell">
+                <h5>Description</h5>
+                <p>Legacy shared administrative accounts on critical infrastructure cannot be tied to an individual, defeating accountability and enabling lateral movement if compromised. Persistent through historical operational practice.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Threat &amp; vulnerability</h5>
+                <p><strong>Source:</strong> External actor post-breach / insider · <strong>Vulnerability:</strong> Shared accounts; weak authentication on legacy systems</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Asset / process · tier</h5>
+                <p>Legacy server administration accounts <span class="tier-badge">Tier 0/1</span></p>
+              </div>
+              <div class="detail-cell">
+                <h5>Inherent &amp; residual scores</h5>
+                <div class="detail-scores">
+                  <div class="detail-score"><span class="detail-score-label">Inherent L × I</span><span class="detail-score-value">4 × 4 = 16</span></div>
+                  <div class="detail-score"><span class="detail-score-label">Residual L × I</span><span class="detail-score-value">3 × 5 = 15</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Existing controls</h5>
+                <p>Privileged Access Workstation (PAW) for new admin sessions; quarterly password rotation; SOC monitoring of admin activity.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Treatment plan</h5>
+                <p>Migrate all shared admin accounts to per-individual accounts in PAM solution within 6 months; enforce MFA for all admin sessions. Target residual: 2 × 4 = 8.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>NIST CSF 2.0 / ISO 27001 Annex A</h5>
+                <div class="detail-mappings">
+                  <div><span class="map-pill">PR.AA</span><span class="map-pill">GV.RR</span><span class="map-pill">DE.CM</span></div>
+                  <div><span class="map-pill">A.5.15</span><span class="map-pill">A.5.18</span><span class="map-pill">A.8.2</span><span class="map-pill">A.8.5</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Owner · Target · Review</h5>
+                <p><strong>Risk Owner:</strong> Head of IT Operations · <strong>Control Owner:</strong> Identity Team · <strong>Target:</strong> 30 Nov 2026 · <strong>Next review:</strong> Q3 2026</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- ====== RISK-003 ====== -->
+        <tr class="row-main" data-sev="vhigh" data-cat="third-party">
+          <td><span class="toggle">›</span></td>
+          <td class="col-id">RISK-003</td>
+          <td class="col-title">Critical SaaS supplier compromise leading to data exposure</td>
+          <td class="col-cat">Third-Party</td>
+          <td><span class="sev-pill sev-vhigh">Very High · 15</span></td>
+          <td><span class="sev-pill sev-vhigh">Very High · 15</span></td>
+          <td class="col-trt"><span class="trt-pill trt-transfer">Transfer</span></td>
+          <td class="col-status">Active</td>
+        </tr>
+        <tr class="row-detail">
+          <td colspan="8">
+            <div class="detail-grid">
+              <div class="detail-cell">
+                <h5>Description</h5>
+                <p>Compromise of a SaaS supplier holding sensitive organisational data (e.g. HR, finance, customer) results in mandatory regulatory notification, reputational damage, and remediation cost. Trust in supplier security is the primary control.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Threat &amp; vulnerability</h5>
+                <p><strong>Source:</strong> External actor targeting supplier · <strong>Vulnerability:</strong> Limited visibility into supplier security; reliance on attestation</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Asset / process · tier</h5>
+                <p>SaaS-hosted sensitive data <span class="tier-badge">Tier 1 (data classification)</span></p>
+              </div>
+              <div class="detail-cell">
+                <h5>Inherent &amp; residual scores</h5>
+                <div class="detail-scores">
+                  <div class="detail-score"><span class="detail-score-label">Inherent L × I</span><span class="detail-score-value">3 × 5 = 15</span></div>
+                  <div class="detail-score"><span class="detail-score-label">Residual L × I</span><span class="detail-score-value">3 × 5 = 15</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Existing controls</h5>
+                <p>GRC-SOP-01 supplier assessment process; SOC 2 / ISO 27001 attestation review; contractual breach notification clause; cyber insurance coverage.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Treatment plan</h5>
+                <p>Maintain cyber liability insurance with breach response coverage; annual supplier reassessment; tabletop a supplier-breach scenario in 2026. Likelihood unchanged; impact transferred to insurer.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>NIST CSF 2.0 / ISO 27001 Annex A</h5>
+                <div class="detail-mappings">
+                  <div><span class="map-pill">GV.SC</span><span class="map-pill">ID.RA</span><span class="map-pill">RS.MA</span></div>
+                  <div><span class="map-pill">A.5.19</span><span class="map-pill">A.5.20</span><span class="map-pill">A.5.21</span><span class="map-pill">A.5.22</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Owner · Target · Review</h5>
+                <p><strong>Risk Owner:</strong> Head of GRC · <strong>Control Owner:</strong> Procurement + GRC · <strong>Target:</strong> Annual review · <strong>Next review:</strong> Q3 2026</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- ====== RISK-004 ====== -->
+        <tr class="row-main" data-sev="high" data-cat="cyber-op">
+          <td><span class="toggle">›</span></td>
+          <td class="col-id">RISK-004</td>
+          <td class="col-title">Phishing-driven business email compromise (BEC) with payment fraud</td>
+          <td class="col-cat">Cyber Operational</td>
+          <td><span class="sev-pill sev-vhigh">Very High · 16</span></td>
+          <td><span class="sev-pill sev-high">High · 12</span></td>
+          <td class="col-trt"><span class="trt-pill trt-mitigate">Mitigate</span></td>
+          <td class="col-status">Active</td>
+        </tr>
+        <tr class="row-detail">
+          <td colspan="8">
+            <div class="detail-grid">
+              <div class="detail-cell">
+                <h5>Description</h5>
+                <p>Targeted phishing leads to compromise of finance staff mailbox; attacker manipulates payment instructions resulting in financial loss and reputational concern with counterparties.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Threat &amp; vulnerability</h5>
+                <p><strong>Source:</strong> External BEC actor · <strong>Vulnerability:</strong> Manual payment approval; user susceptibility to social engineering</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Asset / process · tier</h5>
+                <p>Finance mailboxes &amp; payment processes <span class="tier-badge">Tier 1</span></p>
+              </div>
+              <div class="detail-cell">
+                <h5>Inherent &amp; residual scores</h5>
+                <div class="detail-scores">
+                  <div class="detail-score"><span class="detail-score-label">Inherent L × I</span><span class="detail-score-value">4 × 4 = 16</span></div>
+                  <div class="detail-score"><span class="detail-score-label">Residual L × I</span><span class="detail-score-value">3 × 4 = 12</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Existing controls</h5>
+                <p>MFA on email; phishing-resistant MFA on finance accounts; SOC playbook EM-PB-01; quarterly phishing simulations; payment dual-approval; SOP for payment changes.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Treatment plan</h5>
+                <p>Roll out FIDO2 keys to finance team; implement out-of-band callback verification for any payee change; expand BEC detection rules. Target residual: 2 × 4 = 8 by Q4.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>NIST CSF 2.0 / ISO 27001 Annex A</h5>
+                <div class="detail-mappings">
+                  <div><span class="map-pill">PR.AA</span><span class="map-pill">PR.AT</span><span class="map-pill">DE.CM</span><span class="map-pill">RS.MA</span></div>
+                  <div><span class="map-pill">A.6.3</span><span class="map-pill">A.8.2</span><span class="map-pill">A.8.5</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Owner · Target · Review</h5>
+                <p><strong>Risk Owner:</strong> CFO · <strong>Control Owner:</strong> SOC + Finance Ops · <strong>Target:</strong> 31 Dec 2026 · <strong>Next review:</strong> Q3 2026</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- ====== RISK-005 ====== -->
+        <tr class="row-main" data-sev="high" data-cat="cyber-op">
+          <td><span class="toggle">›</span></td>
+          <td class="col-id">RISK-005</td>
+          <td class="col-title">Inadequate log retention prevents post-incident investigation</td>
+          <td class="col-cat">Cyber Operational</td>
+          <td><span class="sev-pill sev-high">High · 12</span></td>
+          <td><span class="sev-pill sev-high">High · 12</span></td>
+          <td class="col-trt"><span class="trt-pill trt-mitigate">Mitigate</span></td>
+          <td class="col-status">Active</td>
+        </tr>
+        <tr class="row-detail">
+          <td colspan="8">
+            <div class="detail-grid">
+              <div class="detail-cell">
+                <h5>Description</h5>
+                <p>SIEM and key application log retention is shorter than the typical attacker dwell time. A stealthy intrusion would not be fully reconstructible, hindering response, regulatory reporting, and lessons-learned.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Threat &amp; vulnerability</h5>
+                <p><strong>Source:</strong> Latent post-breach forensic limitation · <strong>Vulnerability:</strong> Cost-driven retention policy; immature log archival pipeline</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Asset / process · tier</h5>
+                <p>SIEM, application logs, network telemetry <span class="tier-badge">Tier 1</span></p>
+              </div>
+              <div class="detail-cell">
+                <h5>Inherent &amp; residual scores</h5>
+                <div class="detail-scores">
+                  <div class="detail-score"><span class="detail-score-label">Inherent L × I</span><span class="detail-score-value">4 × 3 = 12</span></div>
+                  <div class="detail-score"><span class="detail-score-label">Residual L × I</span><span class="detail-score-value">4 × 3 = 12</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Existing controls</h5>
+                <p>30-day hot SIEM retention; selected critical logs in cold storage; documented log sources and retention requirements.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Treatment plan</h5>
+                <p>Extend hot retention to 90 days for security-relevant log sources; establish 1-year cold retention for authentication, EDR, and proxy logs. Target residual: 3 × 3 = 9 by Q4.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>NIST CSF 2.0 / ISO 27001 Annex A</h5>
+                <div class="detail-mappings">
+                  <div><span class="map-pill">DE.AE</span><span class="map-pill">DE.CM</span><span class="map-pill">RS.AN</span></div>
+                  <div><span class="map-pill">A.8.15</span><span class="map-pill">A.8.16</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Owner · Target · Review</h5>
+                <p><strong>Risk Owner:</strong> SOC Manager · <strong>Control Owner:</strong> SIEM Engineering · <strong>Target:</strong> 31 Dec 2026 · <strong>Next review:</strong> Q3 2026</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- ====== RISK-006 ====== -->
+        <tr class="row-main" data-sev="high" data-cat="bcp">
+          <td><span class="toggle">›</span></td>
+          <td class="col-id">RISK-006</td>
+          <td class="col-title">Untested backup recovery prevents timely restoration after destructive event</td>
+          <td class="col-cat">Business Continuity</td>
+          <td><span class="sev-pill sev-vhigh">Very High · 15</span></td>
+          <td><span class="sev-pill sev-high">High · 12</span></td>
+          <td class="col-trt"><span class="trt-pill trt-mitigate">Mitigate</span></td>
+          <td class="col-status">Active</td>
+        </tr>
+        <tr class="row-detail">
+          <td colspan="8">
+            <div class="detail-grid">
+              <div class="detail-cell">
+                <h5>Description</h5>
+                <p>Backups exist for all in-scope systems, but full end-to-end restore exercises have not been performed in the last 12 months for several Tier-0/1 platforms. Risk of recovery failing or running over RTO during a real event.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Threat &amp; vulnerability</h5>
+                <p><strong>Source:</strong> Destructive cyber attack / catastrophic outage · <strong>Vulnerability:</strong> Untested restore procedures; potential silent backup corruption</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Asset / process · tier</h5>
+                <p>Backup infrastructure for Tier-0/1 systems <span class="tier-badge">Tier 0/1</span></p>
+              </div>
+              <div class="detail-cell">
+                <h5>Inherent &amp; residual scores</h5>
+                <div class="detail-scores">
+                  <div class="detail-score"><span class="detail-score-label">Inherent L × I</span><span class="detail-score-value">3 × 5 = 15</span></div>
+                  <div class="detail-score"><span class="detail-score-label">Residual L × I</span><span class="detail-score-value">3 × 4 = 12</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Existing controls</h5>
+                <p>Automated daily backups; immutable backup tier; documented backup runbooks; partial restore tests on selected systems.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Treatment plan</h5>
+                <p>Quarterly tabletop including DR for one Tier-0 system; annual full-stack restore exercise from immutable tier; document RTO/RPO per system. Target residual: 2 × 4 = 8 by Q1 2027.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>NIST CSF 2.0 / ISO 27001 Annex A</h5>
+                <div class="detail-mappings">
+                  <div><span class="map-pill">PR.IR</span><span class="map-pill">RC.RP</span><span class="map-pill">RC.CO</span></div>
+                  <div><span class="map-pill">A.5.30</span><span class="map-pill">A.8.13</span><span class="map-pill">A.8.14</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Owner · Target · Review</h5>
+                <p><strong>Risk Owner:</strong> Head of IT Operations · <strong>Control Owner:</strong> Backup &amp; DR Team · <strong>Target:</strong> 31 Mar 2027 · <strong>Next review:</strong> Q3 2026</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- ====== RISK-007 ====== -->
+        <tr class="row-main" data-sev="medium" data-cat="cyber-op">
+          <td><span class="toggle">›</span></td>
+          <td class="col-id">RISK-007</td>
+          <td class="col-title">Insider misuse or accidental data exposure via OAuth-consent applications</td>
+          <td class="col-cat">Cyber Operational</td>
+          <td><span class="sev-pill sev-high">High · 12</span></td>
+          <td><span class="sev-pill sev-medium">Medium · 9</span></td>
+          <td class="col-trt"><span class="trt-pill trt-mitigate">Mitigate</span></td>
+          <td class="col-status">Active</td>
+        </tr>
+        <tr class="row-detail">
+          <td colspan="8">
+            <div class="detail-grid">
+              <div class="detail-cell">
+                <h5>Description</h5>
+                <p>Users grant OAuth consent to third-party applications that subsequently access sensitive data (mail, files, calendar). Whether malicious or accidental, this can lead to data exfiltration outside the visibility of standard DLP.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Threat &amp; vulnerability</h5>
+                <p><strong>Source:</strong> Malicious OAuth app developer / careless insider · <strong>Vulnerability:</strong> User-driven consent without admin review</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Asset / process · tier</h5>
+                <p>M365 / Google Workspace tenant data <span class="tier-badge">Tier 1</span></p>
+              </div>
+              <div class="detail-cell">
+                <h5>Inherent &amp; residual scores</h5>
+                <div class="detail-scores">
+                  <div class="detail-score"><span class="detail-score-label">Inherent L × I</span><span class="detail-score-value">4 × 3 = 12</span></div>
+                  <div class="detail-score"><span class="detail-score-label">Residual L × I</span><span class="detail-score-value">3 × 3 = 9</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Existing controls</h5>
+                <p>Admin-consent workflow for high-risk scopes; SOC monitoring of OAuth consent grants; ID-RB-05 runbook for revoking OAuth consent; user awareness training.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Treatment plan</h5>
+                <p>Move to admin-consent-required for all third-party apps; quarterly review of consented applications; deploy CASB for granular OAuth visibility. Target residual: 2 × 3 = 6 by Q4.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>NIST CSF 2.0 / ISO 27001 Annex A</h5>
+                <div class="detail-mappings">
+                  <div><span class="map-pill">PR.AA</span><span class="map-pill">PR.DS</span><span class="map-pill">DE.CM</span></div>
+                  <div><span class="map-pill">A.5.15</span><span class="map-pill">A.8.2</span><span class="map-pill">A.8.3</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Owner · Target · Review</h5>
+                <p><strong>Risk Owner:</strong> Head of IT Operations · <strong>Control Owner:</strong> Identity Team · <strong>Target:</strong> 31 Dec 2026 · <strong>Next review:</strong> H2 2026 (semi-annual)</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- ====== RISK-008 ====== -->
+        <tr class="row-main" data-sev="medium" data-cat="compliance">
+          <td><span class="toggle">›</span></td>
+          <td class="col-id">RISK-008</td>
+          <td class="col-title">Baseline drift on endpoint estate weakens detection &amp; response posture</td>
+          <td class="col-cat">Compliance</td>
+          <td><span class="sev-pill sev-medium">Medium · 9</span></td>
+          <td><span class="sev-pill sev-medium">Medium · 6</span></td>
+          <td class="col-trt"><span class="trt-pill trt-mitigate">Mitigate</span></td>
+          <td class="col-status">Active</td>
+        </tr>
+        <tr class="row-detail">
+          <td colspan="8">
+            <div class="detail-grid">
+              <div class="detail-cell">
+                <h5>Description</h5>
+                <p>Endpoints drift from approved security baselines over time due to user-installed software, local admin actions, and patch lag. Drift weakens hardening assumptions and creates compliance findings.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Threat &amp; vulnerability</h5>
+                <p><strong>Source:</strong> Operational drift / opportunistic exploitation · <strong>Vulnerability:</strong> Inconsistent enforcement of baselines</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Asset / process · tier</h5>
+                <p>Managed endpoint estate <span class="tier-badge">Tier 2</span></p>
+              </div>
+              <div class="detail-cell">
+                <h5>Inherent &amp; residual scores</h5>
+                <div class="detail-scores">
+                  <div class="detail-score"><span class="detail-score-label">Inherent L × I</span><span class="detail-score-value">3 × 3 = 9</span></div>
+                  <div class="detail-score"><span class="detail-score-label">Residual L × I</span><span class="detail-score-value">3 × 2 = 6</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Existing controls</h5>
+                <p>Baseline catalog (GRC-REG-BL); periodic validation runs (GRC-REG-VAL); drift register (GRC-REG-DRIFT); IT-GOV-SOP-02 baseline drift procedure.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Treatment plan</h5>
+                <p>Move from quarterly to monthly baseline validation; auto-remediation for top-10 controls; drift KPI on Risk Committee dashboard. Target residual: 2 × 2 = 4 by Q4.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>NIST CSF 2.0 / ISO 27001 Annex A</h5>
+                <div class="detail-mappings">
+                  <div><span class="map-pill">PR.PS</span><span class="map-pill">DE.CM</span><span class="map-pill">ID.IM</span></div>
+                  <div><span class="map-pill">A.5.36</span><span class="map-pill">A.8.8</span><span class="map-pill">A.8.9</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Owner · Target · Review</h5>
+                <p><strong>Risk Owner:</strong> Head of GRC · <strong>Control Owner:</strong> IT Operations · <strong>Target:</strong> 31 Dec 2026 · <strong>Next review:</strong> H2 2026</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- ====== RISK-009 ====== -->
+        <tr class="row-main" data-sev="medium" data-cat="it-op">
+          <td><span class="toggle">›</span></td>
+          <td class="col-id">RISK-009</td>
+          <td class="col-title">Limited capacity in SOC for sustained high-tempo response</td>
+          <td class="col-cat">IT Operational</td>
+          <td><span class="sev-pill sev-medium">Medium · 6</span></td>
+          <td><span class="sev-pill sev-medium">Medium · 6</span></td>
+          <td class="col-trt"><span class="trt-pill trt-accept">Accept</span></td>
+          <td class="col-status">Accepted</td>
+        </tr>
+        <tr class="row-detail">
+          <td colspan="8">
+            <div class="detail-grid">
+              <div class="detail-cell">
+                <h5>Description</h5>
+                <p>SOC is sized for steady-state operations. A multi-day major incident or simultaneous events would stretch the team, risking analyst fatigue and reduced quality of investigation.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Threat &amp; vulnerability</h5>
+                <p><strong>Source:</strong> Concurrent incidents / sustained campaign · <strong>Vulnerability:</strong> Headcount sized to median load</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Asset / process · tier</h5>
+                <p>SOC service capacity <span class="empty-tier">N/A</span></p>
+              </div>
+              <div class="detail-cell">
+                <h5>Inherent &amp; residual scores</h5>
+                <div class="detail-scores">
+                  <div class="detail-score"><span class="detail-score-label">Inherent L × I</span><span class="detail-score-value">3 × 2 = 6</span></div>
+                  <div class="detail-score"><span class="detail-score-label">Residual L × I</span><span class="detail-score-value">3 × 2 = 6</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Existing controls</h5>
+                <p>MDR retainer for surge support; incident commander rota; analyst cross-training; documented playbooks reduce decision-making load.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Treatment plan</h5>
+                <p><strong>Accepted</strong> by Risk Committee. Cost of additional headcount disproportionate to residual exposure. Re-evaluate annually. Recorded in Risk Acceptance Log.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>NIST CSF 2.0 / ISO 27001 Annex A</h5>
+                <div class="detail-mappings">
+                  <div><span class="map-pill">GV.RR</span><span class="map-pill">RS.MA</span></div>
+                  <div><span class="map-pill">A.5.2</span><span class="map-pill">A.5.24</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Owner · Target · Review</h5>
+                <p><strong>Risk Owner:</strong> CISO · <strong>Acceptance approved:</strong> Risk Committee Q1 2026 · <strong>Acceptance expiry:</strong> 31 Mar 2027 · <strong>Next review:</strong> Annual</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- ====== RISK-010 ====== -->
+        <tr class="row-main" data-sev="vlow" data-cat="cyber-op">
+          <td><span class="toggle">›</span></td>
+          <td class="col-id">RISK-010</td>
+          <td class="col-title">USB-borne malware on isolated lab environment</td>
+          <td class="col-cat">Cyber Operational</td>
+          <td><span class="sev-pill sev-low">Low · 4</span></td>
+          <td><span class="sev-pill sev-vlow">Very Low · 2</span></td>
+          <td class="col-trt"><span class="trt-pill trt-accept">Accept</span></td>
+          <td class="col-status">Accepted</td>
+        </tr>
+        <tr class="row-detail">
+          <td colspan="8">
+            <div class="detail-grid">
+              <div class="detail-cell">
+                <h5>Description</h5>
+                <p>USB media used in an isolated test lab introduces malware. Lab is air-gapped from production; impact is limited to the lab itself.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Threat &amp; vulnerability</h5>
+                <p><strong>Source:</strong> External infected media · <strong>Vulnerability:</strong> Operational use of removable media in lab</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Asset / process · tier</h5>
+                <p>Isolated test lab <span class="tier-badge">Tier 3</span></p>
+              </div>
+              <div class="detail-cell">
+                <h5>Inherent &amp; residual scores</h5>
+                <div class="detail-scores">
+                  <div class="detail-score"><span class="detail-score-label">Inherent L × I</span><span class="detail-score-value">2 × 2 = 4</span></div>
+                  <div class="detail-score"><span class="detail-score-label">Residual L × I</span><span class="detail-score-value">1 × 2 = 2</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Existing controls</h5>
+                <p>EP-WI-USB-01 USB hardening WI; air-gap from production; lab rebuild procedure; user awareness for lab operators.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>Treatment plan</h5>
+                <p><strong>Accepted</strong>. Residual risk is at the bottom of the appetite range with strong physical and logical isolation. Annual review.</p>
+              </div>
+              <div class="detail-cell">
+                <h5>NIST CSF 2.0 / ISO 27001 Annex A</h5>
+                <div class="detail-mappings">
+                  <div><span class="map-pill">PR.PS</span><span class="map-pill">PR.DS</span></div>
+                  <div><span class="map-pill">A.7.10</span><span class="map-pill">A.8.7</span></div>
+                </div>
+              </div>
+              <div class="detail-cell">
+                <h5>Owner · Target · Review</h5>
+                <p><strong>Risk Owner:</strong> Head of Engineering Labs · <strong>Acceptance expiry:</strong> 31 May 2027 · <strong>Next review:</strong> Annual</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Related -->
+  <div class="related-grid">
+    <div class="related-card">
+      <h4>Methodology &amp; intake</h4>
+      <a href="grc-sop-04.html">GRC-SOP-04 — Cyber &amp; IT Risk Management Procedure</a>
+      <a href="grc-frm-13.html">GRC-FRM-13 — Risk Assessment &amp; Submission Form</a>
+    </div>
+    <div class="related-card">
+      <h4>Related registers</h4>
+      <a href="grc-register-risk-log.html">Risk Acceptance Log</a>
+      <a href="grc-register-policy-exceptions.html">Policy Exception Register</a>
+      <a href="grc-register-exceptions.html">Baseline Exceptions Register</a>
+    </div>
+    <div class="related-card">
+      <h4>Reference</h4>
+      <a href="nist-csf-reference.html">NIST CSF 2.0 reference</a>
+      <a href="core-concepts.html">Core Concepts (Tier model)</a>
+    </div>
+    <div class="related-card">
+      <h4>Operational links</h4>
+      <a href="sops.html">SOC SOPs (operational execution)</a>
+      <a href="asm.html">ASM (vulnerability, patching, baselines)</a>
+    </div>
+  </div>
+
+  <div class="grc-nav">
+    <a href="grc-risk.html">← Back to Risk</a>
+    <a href="grc-compliance.html">Compliance →</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Cyber &amp; IT Risk Register · GRC Hub · Paulo Ferreira</span>
+    <span><a href="grc.html" style="color:var(--grc);text-decoration:none;">← Back to GRC Hub</a></span>
+  </div>
+</div>
+<script>
+(function(){
+  // Expand/collapse rows
+  document.querySelectorAll('.reg-table tr.row-main').forEach(function(row){
+    row.addEventListener('click', function(){
+      var detail = row.nextElementSibling;
+      if (!detail || !detail.classList.contains('row-detail')) return;
+      var isOpen = detail.classList.contains('show');
+      // Toggle
+      detail.classList.toggle('show', !isOpen);
+      row.classList.toggle('expanded', !isOpen);
+    });
+  });
+
+  // Filter pills (severity + category, AND-combined)
+  var sevFilter = 'all';
+  var catFilter = 'all';
+
+  function applyFilters(){
+    document.querySelectorAll('.reg-table tr.row-main').forEach(function(row){
+      var sev = row.getAttribute('data-sev');
+      var cat = row.getAttribute('data-cat');
+      var sevOk = (sevFilter === 'all') || (sev === sevFilter);
+      var catOk = (catFilter === 'all') || (cat === catFilter);
+      var visible = sevOk && catOk;
+      row.style.display = visible ? '' : 'none';
+      var detail = row.nextElementSibling;
+      if (detail && detail.classList.contains('row-detail')) {
+        if (!visible) {
+          detail.classList.remove('show');
+          row.classList.remove('expanded');
+        }
+        if (!visible) detail.style.display = 'none';
+        else if (!detail.classList.contains('show')) detail.style.display = '';
+      }
+    });
+  }
+
+  document.querySelectorAll('.filter-pill[data-filter-sev]').forEach(function(p){
+    p.addEventListener('click', function(){
+      document.querySelectorAll('.filter-pill[data-filter-sev]').forEach(function(x){ x.classList.remove('active'); });
+      p.classList.add('active');
+      sevFilter = p.getAttribute('data-filter-sev');
+      applyFilters();
+    });
+  });
+  document.querySelectorAll('.filter-pill[data-filter-cat]').forEach(function(p){
+    p.addEventListener('click', function(){
+      document.querySelectorAll('.filter-pill[data-filter-cat]').forEach(function(x){ x.classList.remove('active'); });
+      p.classList.add('active');
+      catFilter = p.getAttribute('data-filter-cat');
+      applyFilters();
+    });
+  });
+})();
+</script>
+</body>
+</html>

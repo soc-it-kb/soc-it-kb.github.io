@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-FRM-13: Risk Assessment &amp; Submission Form — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-hero-ey { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-hero h1 { font-size:20px; font-weight:700; margin-bottom:6px; }
+  .grc-hero p  { font-size:14px; opacity:0.8; line-height:1.5; margin:0; }
+  .grc-hero-pills { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .grc-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.8rem 1.2rem; margin-bottom:1.25rem; }
+  .meta-item { font-size:13px; color:#666; display:flex; align-items:center; gap:5px; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .instr-box { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
+  .instr-box p { font-size:13px; color:#6b3f0a; margin:0 0 6px 0; line-height:1.6; }
+  .instr-box p:last-child { margin:0; }
+  .frm-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; overflow:hidden; margin-bottom:10px; }
+  .frm-section-header { background:var(--grc-dark); color:#fff; padding:0.75rem 1.25rem; }
+  .frm-section-header h3 { font-size:14px; font-weight:600; margin:0; }
+  .details-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .details-table td { padding:8px 12px; border:0.5px solid #e8e8e4; }
+  .details-table td:first-child { font-weight:600; color:var(--grc-dark); background:var(--grc-light); width:35%; vertical-align:top; }
+  .details-table tr:nth-child(even) td:first-child { background:#d8efef; }
+  .details-table td:last-child input,
+  .details-table td:last-child textarea,
+  .details-table td:last-child select { width:100%; border:none; background:transparent; font-size:13px; color:#333; font-family:inherit; }
+  .details-table td:last-child textarea { min-height:60px; resize:vertical; }
+  .details-table td:last-child select { padding:2px 0; }
+  .hint { font-size:11px; color:#888; font-style:italic; margin-top:3px; display:block; }
+  /* Inline reference for likelihood and impact */
+  .ref-table { width:100%; border-collapse:collapse; font-size:12px; margin:6px 0 0 0; }
+  .ref-table th { background:var(--grc-light); color:var(--grc-dark); font-weight:600; padding:6px 8px; text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:0.04em; border:0.5px solid var(--grc-border); }
+  .ref-table td { padding:6px 8px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.4; }
+  .ref-table td.lvl { font-weight:600; color:var(--grc-dark); white-space:nowrap; width:18%; }
+  /* Severity preview pills */
+  .sev-pill { font-size:11px; font-weight:600; padding:3px 9px; border-radius:20px; display:inline-block; margin-right:4px; }
+  .sev-vlow      { background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .sev-low       { background:#D6F0E2; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .sev-medium    { background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .sev-high      { background:#FEF0E6; color:#8B4A0E; border:0.5px solid #F5C89A; }
+  .sev-vhigh     { background:#FAECE7; color:#993C1D; border:0.5px solid #F5C0B0; }
+  .sev-critical  { background:#F5C0B0; color:#5C2E06; border:0.5px solid #E89878; }
+  .decl-box { background:var(--grc-light); border:0.5px solid var(--grc-border); border-radius:10px; padding:1.1rem 1.4rem; margin-bottom:1.25rem; }
+  .decl-box p { font-size:13px; color:var(--grc-dark); line-height:1.6; margin-bottom:10px; }
+  .decl-box p:last-child { margin:0; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .frm-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .frm-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+  @media print { .kb-topnav,.breadcrumb,.frm-nav,.kb-footer{display:none;} input,textarea,select{border:0.5pt solid #ccc !important;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="grc.html">GRC Hub</a><span>›</span>
+    <a href="grc-risk.html">Risk</a><span>›</span>
+    <span>GRC-FRM-13</span>
+  </div>
+
+  <div class="grc-hero">
+    <div class="grc-hero-ey">GRC · Form · Risk Submission</div>
+    <h1>GRC-FRM-13: Risk Assessment &amp; Submission Form</h1>
+    <p>Used to identify, analyse, and submit a new cyber or IT risk for inclusion in the Cyber &amp; IT Risk Register. Aligned with GRC-SOP-04, ISO 31000, ISO 27001:2022, and NIST CSF 2.0.</p>
+    <div class="grc-hero-pills">
+      <span class="grc-hero-pill">Risk submission</span>
+      <span class="grc-hero-pill">5×5 matrix</span>
+      <span class="grc-hero-pill">GRC-SOP-04</span>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">📋 <strong>Form ID:</strong> GRC-FRM-13</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔗 <strong>SOP:</strong> <a href="grc-sop-04.html" style="color:var(--grc);">GRC-SOP-04</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📊 <strong>Register:</strong> <a href="grc-register-risk.html" style="color:var(--grc);">GRC-REG-RISK</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-approved">Approved</span></div>
+  </div>
+
+  <div class="instr-box">
+    <p>📌 <strong>Completion instructions:</strong> Complete every section. The submitter scores inherent and residual risk; the GRC team validates scoring before adding to the register.</p>
+    <p>For likelihood and impact scoring criteria, refer to <a href="grc-sop-04.html#" style="color:var(--grc);">GRC-SOP-04 §4a / §4b</a>. Inline summaries are provided below.</p>
+    <p>Submit completed forms to the GRC team. Once accepted into the register, the risk receives a unique ID (RISK-NNN).</p>
+  </div>
+
+  <!-- Submitter & risk identification -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>1 · Submitter &amp; Risk Identification</h3></div>
+    <table class="details-table">
+      <tr><td>Submitter name</td><td><input type="text" placeholder="Full name"></td></tr>
+      <tr><td>Submitter role / team</td><td><input type="text" placeholder="e.g. SOC Analyst, IT Operations Lead"></td></tr>
+      <tr><td>Submission date</td><td><input type="text" placeholder="DD-MMM-YYYY"></td></tr>
+      <tr><td>Risk title<span class="hint">Short, descriptive (max ~10 words)</span></td><td><input type="text" placeholder="e.g. Unpatched internet-facing VPN appliance"></td></tr>
+      <tr><td>Risk description<span class="hint">What could happen, to what, and why it matters</span></td><td><textarea placeholder="Describe the threat scenario, the vulnerability or weakness, the asset/process affected, and the potential consequence"></textarea></td></tr>
+      <tr><td>Threat source<span class="hint">External actor, insider, environmental, supplier, etc.</span></td><td><input type="text" placeholder="e.g. External threat actor / Ransomware group / Supplier compromise"></td></tr>
+      <tr><td>Vulnerability or weakness<span class="hint">What enables the threat</span></td><td><input type="text" placeholder="e.g. Missing critical patch / Lack of MFA / Untested backup"></td></tr>
+      <tr><td>Asset / process affected</td><td><input type="text" placeholder="e.g. Domain controllers / Customer portal / Patching pipeline"></td></tr>
+      <tr><td>Asset tier<span class="hint">From Core Concepts (Tier 0–3)</span></td><td>
+        <select>
+          <option value="">— Select tier —</option>
+          <option>Tier 0 — Domain controllers, identity provider, backup root, Tier-0 management</option>
+          <option>Tier 1 — Servers, applications, business-critical workloads</option>
+          <option>Tier 2 — Standard endpoints, user devices</option>
+          <option>Tier 3 — Untrusted / public-facing / sandbox</option>
+          <option>N/A — Process or non-asset risk</option>
+        </select>
+      </td></tr>
+      <tr><td>Risk category</td><td>
+        <select>
+          <option value="">— Select category —</option>
+          <option>Cyber Operational</option>
+          <option>Cyber Strategic</option>
+          <option>IT Operational</option>
+          <option>Third-Party</option>
+          <option>Compliance</option>
+          <option>Business Continuity</option>
+        </select>
+      </td></tr>
+    </table>
+  </div>
+
+  <!-- Inherent risk -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>2 · Inherent Risk Assessment <span style="opacity:0.7;font-weight:normal;">(before any controls)</span></h3></div>
+    <table class="details-table">
+      <tr><td>Inherent likelihood (1–5)<span class="hint">Frequency the risk would occur with no controls in place</span></td><td>
+        <select>
+          <option value="">— Select 1–5 —</option>
+          <option>1 — Rare (&lt;5% probability in 12 months)</option>
+          <option>2 — Unlikely (5–20%)</option>
+          <option>3 — Possible (20–50%)</option>
+          <option>4 — Likely (50–75%)</option>
+          <option>5 — Almost Certain (&gt;75%)</option>
+        </select>
+      </td></tr>
+      <tr><td>Inherent impact (1–5)<span class="hint">Severity of consequence with no controls in place</span></td><td>
+        <select>
+          <option value="">— Select 1–5 —</option>
+          <option>1 — Negligible (no service impact, no external consequence)</option>
+          <option>2 — Minor (brief outage of non-critical service)</option>
+          <option>3 — Moderate (several-hour outage; localised data exposure)</option>
+          <option>4 — Major (day-long outage; regulator notification triggered)</option>
+          <option>5 — Severe (multi-day outage; mandatory disclosure; material penalty)</option>
+        </select>
+      </td></tr>
+      <tr><td>Inherent score (L × I)<span class="hint">Range 1–25</span></td><td><input type="text" placeholder="Compute and enter (e.g. 12)"></td></tr>
+      <tr><td>Inherent severity</td><td>
+        <select>
+          <option value="">— Select severity —</option>
+          <option>Very Low (1–2)</option>
+          <option>Low (3–4)</option>
+          <option>Medium (5–9)</option>
+          <option>High (10–12)</option>
+          <option>Very High (15–16)</option>
+          <option>Critical (20–25)</option>
+        </select>
+      </td></tr>
+    </table>
+  </div>
+
+  <!-- Existing controls -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>3 · Existing Controls</h3></div>
+    <table class="details-table">
+      <tr><td>Controls currently applied<span class="hint">Technical, administrative, physical</span></td><td><textarea placeholder="List the controls already in place that mitigate this risk (e.g. EDR with detection rules X, Y; MFA enforced; backup tested quarterly; supplier SOC 2 attestation reviewed)"></textarea></td></tr>
+      <tr><td>Control owner(s)</td><td><input type="text" placeholder="Named team or individual"></td></tr>
+      <tr><td>Control effectiveness assessment<span class="hint">Brief evaluation</span></td><td>
+        <select>
+          <option value="">— Select effectiveness —</option>
+          <option>Effective — controls operating as designed and tested</option>
+          <option>Partially effective — controls in place but gaps identified</option>
+          <option>Not effective — controls present but not operating</option>
+          <option>Not present — no controls applied</option>
+        </select>
+      </td></tr>
+    </table>
+  </div>
+
+  <!-- Residual risk -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>4 · Residual Risk Assessment <span style="opacity:0.7;font-weight:normal;">(after current controls)</span></h3></div>
+    <table class="details-table">
+      <tr><td>Residual likelihood (1–5)</td><td>
+        <select>
+          <option value="">— Select 1–5 —</option>
+          <option>1 — Rare</option>
+          <option>2 — Unlikely</option>
+          <option>3 — Possible</option>
+          <option>4 — Likely</option>
+          <option>5 — Almost Certain</option>
+        </select>
+      </td></tr>
+      <tr><td>Residual impact (1–5)</td><td>
+        <select>
+          <option value="">— Select 1–5 —</option>
+          <option>1 — Negligible</option>
+          <option>2 — Minor</option>
+          <option>3 — Moderate</option>
+          <option>4 — Major</option>
+          <option>5 — Severe</option>
+        </select>
+      </td></tr>
+      <tr><td>Residual score (L × I)</td><td><input type="text" placeholder="Compute and enter"></td></tr>
+      <tr><td>Residual severity</td><td>
+        <select>
+          <option value="">— Select severity —</option>
+          <option>Very Low (1–2)</option>
+          <option>Low (3–4)</option>
+          <option>Medium (5–9)</option>
+          <option>High (10–12)</option>
+          <option>Very High (15–16)</option>
+          <option>Critical (20–25)</option>
+        </select>
+      </td></tr>
+    </table>
+    <table class="ref-table">
+      <thead><tr><th>Severity</th><th>Bands</th><th>Default appetite (per GRC-SOP-04 §5)</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl"><span class="sev-pill sev-critical">Critical</span></td><td>20–25</td><td>Not tolerated. Treatment within 30 days; Executive Sponsor notified.</td></tr>
+        <tr><td class="lvl"><span class="sev-pill sev-vhigh">Very High</span></td><td>15–16</td><td>Not tolerated without formal acceptance. Risk Committee approval required.</td></tr>
+        <tr><td class="lvl"><span class="sev-pill sev-high">High</span></td><td>10–12</td><td>Tolerated only where treatment is in flight. Quarterly review.</td></tr>
+        <tr><td class="lvl"><span class="sev-pill sev-medium">Medium</span></td><td>5–9</td><td>Tolerated with active monitoring. Semi-annual review.</td></tr>
+        <tr><td class="lvl"><span class="sev-pill sev-low">Low</span></td><td>3–4</td><td>Tolerated. Annual review; treat where cost-effective.</td></tr>
+        <tr><td class="lvl"><span class="sev-pill sev-vlow">Very Low</span></td><td>1–2</td><td>Tolerated. Annual review.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Treatment proposal -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>5 · Proposed Treatment</h3></div>
+    <table class="details-table">
+      <tr><td>Treatment decision</td><td>
+        <select>
+          <option value="">— Select treatment —</option>
+          <option>🛡️ Mitigate — apply additional controls</option>
+          <option>📋 Accept — formal acceptance with approval</option>
+          <option>🔄 Transfer — insurance or contractual</option>
+          <option>🚫 Avoid — eliminate the activity / technology</option>
+        </select>
+      </td></tr>
+      <tr><td>Treatment plan<span class="hint">What will be done, by whom, by when</span></td><td><textarea placeholder="Describe the actions, owner(s), and milestones (e.g. deploy patch within 30 days; restrict VPN access by IP allowlist; renew SOC 2 review; etc.)"></textarea></td></tr>
+      <tr><td>Target residual likelihood<span class="hint">After treatment is complete</span></td><td>
+        <select>
+          <option value="">— Select 1–5 —</option>
+          <option>1 — Rare</option><option>2 — Unlikely</option><option>3 — Possible</option><option>4 — Likely</option><option>5 — Almost Certain</option>
+        </select>
+      </td></tr>
+      <tr><td>Target residual impact</td><td>
+        <select>
+          <option value="">— Select 1–5 —</option>
+          <option>1 — Negligible</option><option>2 — Minor</option><option>3 — Moderate</option><option>4 — Major</option><option>5 — Severe</option>
+        </select>
+      </td></tr>
+      <tr><td>Target residual score</td><td><input type="text" placeholder="Compute and enter"></td></tr>
+      <tr><td>Target completion date</td><td><input type="text" placeholder="DD-MMM-YYYY"></td></tr>
+    </table>
+  </div>
+
+  <!-- Framework mapping -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>6 · Framework Mapping</h3></div>
+    <table class="details-table">
+      <tr><td>NIST CSF 2.0 mapping<span class="hint">Function.Category — see <a href="nist-csf-reference.html" style="color:var(--grc);">NIST CSF reference</a></span></td><td><input type="text" placeholder="e.g. PR.AA, ID.RA, GV.SC"></td></tr>
+      <tr><td>ISO 27001:2022 Annex A mapping<span class="hint">Control reference(s) — see GRC-SOP-04 §10</span></td><td><input type="text" placeholder="e.g. A.8.8, A.8.16, A.5.19"></td></tr>
+      <tr><td>Other regulatory / framework references<span class="hint">Optional — DORA, NIS2, GDPR, CIS, etc.</span></td><td><input type="text" placeholder="e.g. NIS2 Art.21, GDPR Art.32"></td></tr>
+    </table>
+  </div>
+
+  <!-- Ownership & cross-links -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>7 · Ownership &amp; Cross-References</h3></div>
+    <table class="details-table">
+      <tr><td>Risk Owner<span class="hint">Senior leader accountable for the risk</span></td><td><input type="text" placeholder="Full name and role"></td></tr>
+      <tr><td>Control Owner</td><td><input type="text" placeholder="Full name and role (if different)"></td></tr>
+      <tr><td>Linked policy exception(s)</td><td><input type="text" placeholder="Policy Exception Register references, if any"></td></tr>
+      <tr><td>Linked baseline exception(s)</td><td><input type="text" placeholder="Baseline Exceptions Register references, if any"></td></tr>
+      <tr><td>Linked incident(s)</td><td><input type="text" placeholder="Incident IDs that have materialised this risk, if any"></td></tr>
+      <tr><td>Next review date<span class="hint">Per cadence in GRC-SOP-04 §8</span></td><td><input type="text" placeholder="DD-MMM-YYYY"></td></tr>
+    </table>
+  </div>
+
+  <!-- GRC validation -->
+  <div class="frm-section">
+    <div class="frm-section-header"><h3>8 · GRC Validation <span style="opacity:0.7;font-weight:normal;">(GRC team only)</span></h3></div>
+    <table class="details-table">
+      <tr><td>Reviewed by</td><td><input type="text" placeholder="GRC reviewer name"></td></tr>
+      <tr><td>Review date</td><td><input type="text" placeholder="DD-MMM-YYYY"></td></tr>
+      <tr><td>Validation outcome</td><td>
+        <select>
+          <option value="">— Select outcome —</option>
+          <option>✅ Accepted — added to register</option>
+          <option>↩️ Returned for clarification</option>
+          <option>🚫 Not in scope — referred to ERM</option>
+          <option>🔁 Duplicate — merged with existing risk</option>
+        </select>
+      </td></tr>
+      <tr><td>Assigned Risk ID<span class="hint">RISK-NNN</span></td><td><input type="text" placeholder="RISK-NNN"></td></tr>
+      <tr><td>GRC notes</td><td><textarea placeholder="Comments, scoring adjustments, or rationale"></textarea></td></tr>
+    </table>
+  </div>
+
+  <!-- Declaration -->
+  <div class="decl-box">
+    <p><strong>Declaration:</strong> The submitter confirms that the information provided is accurate to the best of their knowledge, that the risk has been described without exaggeration or omission, and that the proposed treatment is realistic and proportionate.</p>
+    <p>The Risk Owner accepts accountability for the risk once it is added to the Cyber &amp; IT Risk Register.</p>
+  </div>
+
+  <div class="frm-nav">
+    <a href="grc-sop-04.html">← GRC-SOP-04</a>
+    <a href="grc-register-risk.html">GRC-REG-RISK →</a>
+  </div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC-FRM-13 · v1.0 · Approved · Paulo Ferreira</span>
+    <span><a href="grc-risk.html" style="color:var(--grc);text-decoration:none;">← Back to Risk</a></span>
+  </div>
+</div>
+</body>
+</html>
