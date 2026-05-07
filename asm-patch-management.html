@@ -38,7 +38,8 @@
 
   /* SOP list */
   .sop-list { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
-  .sop-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .sop-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; text-decoration:none; color:inherit; transition:background 0.1s; }
+  .sop-row:hover { background:var(--asm-light); }
   .sop-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:2px 7px; border-radius:5px; white-space:nowrap; flex-shrink:0; }
   .sop-name { font-size:13px; color:#333; flex:1; }
   .sop-type { font-size:11px; font-weight:600; padding:2px 7px; border-radius:8px; background:#E1F5EE; color:#0F6E56; white-space:nowrap; }
@@ -47,7 +48,8 @@
 
   /* WI list */
   .wi-list { display:flex; flex-direction:column; gap:5px; margin-top:4px; }
-  .wi-row { display:flex; align-items:center; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 1rem; }
+  .wi-row { display:flex; align-items:center; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.6rem 1rem; text-decoration:none; color:inherit; transition:background 0.1s; }
+  .wi-row:hover { background:var(--asm-light); }
   .wi-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--asm-light); color:var(--asm); border:0.5px solid var(--asm-border); padding:2px 7px; border-radius:5px; white-space:nowrap; flex-shrink:0; }
   .wi-name { font-size:13px; color:#333; flex:1; }
   .wi-badge { font-size:11px; font-weight:600; padding:2px 7px; border-radius:8px; }
@@ -155,9 +157,9 @@
     <div class="asm-section-num">Section 3</div>
     <div class="asm-section-title">Core SOPs</div>
     <div class="sop-list">
-      <div class="sop-row"><span class="sop-code">IT-PM-SOP-01</span><span class="sop-name">Patch Management — Core Standard Operating Procedure</span><span class="sop-type">Core SOP</span></div>
-      <div class="sop-row"><span class="sop-code">IT-PM-SOP-02</span><span class="sop-name">Patch Management — Emergency / Zero-Day SOP</span><span class="sop-type emergency">Emergency</span></div>
-      <div class="sop-row"><span class="sop-code">IT-PM-SOP-03</span><span class="sop-name">Patch Exception &amp; Risk Acceptance SOP</span><span class="sop-type exception">Exception</span></div>
+      <a class="sop-row" href="it-pm-sop-01.html"><span class="sop-code">IT-PM-SOP-01</span><span class="sop-name">Patch Management — Core Standard Operating Procedure</span><span class="sop-type">Core SOP</span></a>
+      <a class="sop-row" href="it-pm-sop-02.html"><span class="sop-code">IT-PM-SOP-02</span><span class="sop-name">Patch Management — Emergency / Zero-Day SOP</span><span class="sop-type emergency">Emergency</span></a>
+      <a class="sop-row" href="it-pm-sop-03.html"><span class="sop-code">IT-PM-SOP-03</span><span class="sop-name">Patch Exception &amp; Risk Acceptance SOP</span><span class="sop-type exception">Exception</span></a>
     </div>
   </div>
 
@@ -165,11 +167,10 @@
     <div class="asm-section-num">Section 4</div>
     <div class="asm-section-title">Work Instructions &amp; Checklists</div>
     <div class="wi-list">
-      <div class="wi-row"><span class="wi-code">IT-EP-WI-Win-01–05</span><span class="wi-name">Windows Endpoint Hardening &amp; Patching Readiness</span><span class="wi-badge approved">Published</span></div>
-      <div class="wi-row"><span class="wi-code">IT-PM-WI-EP-01</span><span class="wi-name">Endpoint Patch Management — Work Instructions</span><span class="wi-badge planned">Planned</span></div>
-      <div class="wi-row"><span class="wi-code">IT-PM-WI-SRV-01</span><span class="wi-name">Server Patch Management — Work Instructions</span><span class="wi-badge planned">Planned</span></div>
-      <div class="wi-row"><span class="wi-code">IT-PM-CHK-EP-01</span><span class="wi-name">Patch Compliance Validation Checklist — Endpoints</span><span class="wi-badge planned">Planned</span></div>
-      <div class="wi-row"><span class="wi-code">IT-PM-CHK-SRV-01</span><span class="wi-name">Patch Compliance Validation Checklist — Servers</span><span class="wi-badge planned">Planned</span></div>
+      <a class="wi-row" href="it-ep-wi-win-01.html"><span class="wi-code">IT-EP-WI-Win-01–05</span><span class="wi-name">Windows Endpoint Hardening &amp; Patching Readiness</span><span class="wi-badge approved">Published</span></a>
+      <a class="wi-row" href="it-gov-wi-pm-01.html"><span class="wi-code">IT-GOV-WI-PM-01</span><span class="wi-name">Endpoint Patch Management — Work Instructions</span><span class="wi-badge approved">Published</span></a>
+      <a class="wi-row" href="it-gov-wi-pm-02.html"><span class="wi-code">IT-GOV-WI-PM-02</span><span class="wi-name">Server Patch Management — Work Instructions</span><span class="wi-badge approved">Published</span></a>
+      <a class="wi-row" href="it-gov-wi-vm-03.html"><span class="wi-code">IT-GOV-WI-VM-03</span><span class="wi-name">Patch Compliance Validation — Remediation Validation WI</span><span class="wi-badge approved">Published</span></a>
     </div>
   </div>
 
