@@ -1,7 +1,880 @@
 [
   {
+    "id": "ASM",
+    "title": "Attack Surface Management Hub",
+    "section": "ASM",
+    "sub": "Domain pages",
+    "url": "asm.html",
+    "desc": "Central ASM hub covering security baselines, vulnerability management, and patch management",
+    "tags": "ASM attack surface management hub"
+  },
+  {
+    "id": "ASM-PM",
+    "title": "Patch Management",
+    "section": "ASM",
+    "sub": "Domain pages",
+    "url": "asm-patch-management.html",
+    "desc": "Patch management domain — core, emergency, and exception SOPs",
+    "tags": "patch management ASM patching"
+  },
+  {
+    "id": "ASM-SB",
+    "title": "Security Baselines",
+    "section": "ASM",
+    "sub": "Domain pages",
+    "url": "asm-security-baselines.html",
+    "desc": "Security baselines domain — SOPs, WIs, and CIS alignment",
+    "tags": "security baselines ASM CIS hardening"
+  },
+  {
+    "id": "ASM-TI",
+    "title": "Threat Intelligence",
+    "section": "ASM",
+    "sub": "Domain pages",
+    "url": "asm-threat-intelligence.html",
+    "desc": "Operational threat intelligence — sourcing, processing, and actioning intel to improve detection, prioritise vulns, and enable hunting",
+    "tags": "threat intelligence ti ioc indicators compromise mitre attck campaigns hunting feeds asm domain"
+  },
+  {
+    "id": "ASM-VM",
+    "title": "Vulnerability Management",
+    "section": "ASM",
+    "sub": "Domain pages",
+    "url": "asm-vulnerability-management.html",
+    "desc": "Vulnerability management domain — scanning, triage, and remediation",
+    "tags": "vulnerability management ASM scanning"
+  },
+  {
+    "id": "ASM-CIS",
+    "title": "CIS Benchmark Alignment Matrix",
+    "section": "ASM",
+    "sub": "Reference",
+    "url": "asm-cis-matrix.html",
+    "desc": "CIS Benchmark Level 1 control mapping across all asset types",
+    "tags": "CIS benchmark alignment matrix control mapping"
+  },
+  {
+    "id": "IT-EP-SOP-PAW-01",
+    "title": "Privileged Access Workstation — Windows",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-ep-sop-paw-01.html",
+    "desc": "Security requirements for Privileged Access Workstations",
+    "tags": "PAW privileged access workstation Tier-0 SOP"
+  },
+  {
+    "id": "IT-EP-SOP-Win-01",
+    "title": "Endpoint Security Baseline — Windows",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-ep-sop-win-01.html",
+    "desc": "Minimum security baseline for all Windows endpoints",
+    "tags": "endpoint Windows baseline CIS hardening SOP"
+  },
+  {
+    "id": "IT-GOV-SOP-01",
+    "title": "Baseline Exception & Risk Acceptance",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-gov-sop-01.html",
+    "desc": "Formal process for requesting and approving baseline security exceptions",
+    "tags": "baseline exception risk acceptance compensating control ASM SOP"
+  },
+  {
+    "id": "IT-GOV-SOP-02",
+    "title": "Baseline Drift & Periodic Validation",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-gov-sop-02.html",
+    "desc": "Process for detecting and managing baseline drift and periodic validation",
+    "tags": "baseline drift validation periodic ASM SOP"
+  },
+  {
+    "id": "IT-PM-SOP-01",
+    "title": "Patch Management — Core SOP",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-pm-sop-01.html",
+    "desc": "Consistent risk-based approach to patch management",
+    "tags": "patch management patching SLA deployment SOP"
+  },
+  {
+    "id": "IT-PM-SOP-02",
+    "title": "Patch Management — Emergency / Zero-Day",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-pm-sop-02.html",
+    "desc": "Emergency and zero-day patch management procedure",
+    "tags": "emergency patch zero-day critical vulnerability SOP"
+  },
+  {
+    "id": "IT-PM-SOP-03",
+    "title": "Patch Exception & Risk Acceptance",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-pm-sop-03.html",
+    "desc": "Process for patch exceptions and risk acceptance",
+    "tags": "patch exception risk acceptance compensating control SOP"
+  },
+  {
+    "id": "IT-SRV-SOP-DC-01",
+    "title": "Domain Controller Hardening Addendum",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-srv-sop-dc-01.html",
+    "desc": "Additional hardening requirements for Windows Domain Controllers",
+    "tags": "domain controller DC Tier-0 hardening Active Directory SOP"
+  },
+  {
+    "id": "IT-SRV-SOP-LNX-01",
+    "title": "Server Security Baseline — Linux",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-srv-sop-lnx-01.html",
+    "desc": "Minimum security baseline for all Linux servers",
+    "tags": "Linux server baseline CIS hardening SOP"
+  },
+  {
+    "id": "IT-SRV-SOP-LNX-02",
+    "title": "Linux Identity & SSH Hardening Addendum",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-srv-sop-lnx-02.html",
+    "desc": "Identity authentication and SSH hardening requirements for Linux servers",
+    "tags": "Linux SSH hardening identity PAM sudo SOP"
+  },
+  {
+    "id": "IT-SRV-SOP-Win-01",
+    "title": "Server Security Baseline — Windows",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-srv-sop-win-01.html",
+    "desc": "Minimum security baseline for all Windows servers",
+    "tags": "server Windows baseline CIS hardening SOP"
+  },
+  {
+    "id": "IT-TI-SOP-01",
+    "title": "Threat Intelligence Programme — Governance & Lifecycle",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-ti-sop-01.html",
+    "desc": "Governance and end-to-end lifecycle of the threat intelligence programme — direction, collection, processing, analysis, dissemination, feedback",
+    "tags": "threat intelligence programme governance lifecycle ti sop direction collection analysis dissemination asm"
+  },
+  {
+    "id": "IT-TI-SOP-02",
+    "title": "Indicator of Compromise (IOC) Management",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-ti-sop-02.html",
+    "desc": "How IOCs are ingested, validated, enriched, actioned across security controls, and retired when no longer relevant",
+    "tags": "ioc indicator compromise management ingestion validation enrichment retirement ti sop asm"
+  },
+  {
+    "id": "IT-TI-SOP-03",
+    "title": "Threat Intelligence — Vulnerability & Patch Prioritisation",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-ti-sop-03.html",
+    "desc": "How TI context is applied to vulnerability and patch prioritisation — ensuring actively exploited vulns are remediated ahead of low-impact issues",
+    "tags": "threat intelligence vulnerability patch prioritisation cisa kev exploitation ti sop asm vm pm"
+  },
+  {
+    "id": "IT-VM-SOP-01",
+    "title": "Vulnerability Management — Process & Procedures",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-vm-sop-01.html",
+    "desc": "Risk-based vulnerability management process",
+    "tags": "vulnerability management VM scanning CVSS remediation SOP"
+  },
+  {
+    "id": "PM-CHK-01",
+    "title": "Patch Compliance Validation Checklist — Endpoints",
+    "section": "ASM",
+    "sub": "Tier-1 Checklists",
+    "url": "pm-checklist-endpoints.html",
+    "desc": "Standardised validation of endpoint patch compliance following scheduled or emergency patching cycles",
+    "tags": "patch compliance validation checklist endpoints windows laptop desktop asm"
+  },
+  {
+    "id": "PM-CHK-02",
+    "title": "Patch Compliance Validation Checklist — Servers",
+    "section": "ASM",
+    "sub": "Tier-1 Checklists",
+    "url": "pm-checklist-servers.html",
+    "desc": "Standardised validation of server patch compliance following scheduled or emergency patching — Windows and Linux",
+    "tags": "patch compliance validation checklist servers windows linux datacenter asm"
+  },
+  {
+    "id": "VM-CHK-01",
+    "title": "Monthly Vulnerability Review Checklist",
+    "section": "ASM",
+    "sub": "Tier-1 Checklists",
+    "url": "vm-monthly-review-checklist.html",
+    "desc": "Monthly review of vulnerability management — coverage, prioritisation, SLAs, threat intelligence, tier-0/1 assets, patching alignment",
+    "tags": "vulnerability monthly review checklist coverage sla cisa kev tier-0 patching asm vm"
+  },
+  {
+    "id": "IT-EP-WI-PAW-01",
+    "title": "PAW Build & Device Designation",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ep-wi-paw-01.html",
+    "desc": "Build and designate a Privileged Access Workstation",
+    "tags": "PAW build device designation hardened WI"
+  },
+  {
+    "id": "IT-EP-WI-PAW-02",
+    "title": "Account Separation & Logon Restrictions",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ep-wi-paw-02.html",
+    "desc": "Enforce account separation and logon restrictions on PAW",
+    "tags": "PAW account separation logon restriction WI"
+  },
+  {
+    "id": "IT-EP-WI-PAW-03",
+    "title": "Credential Protection & Authentication Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ep-wi-paw-03.html",
+    "desc": "Protect credentials and harden authentication on PAW",
+    "tags": "PAW credential protection LSASS Credential Guard WI"
+  },
+  {
+    "id": "IT-EP-WI-PAW-04",
+    "title": "Endpoint Protection & ASR on PAW",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ep-wi-paw-04.html",
+    "desc": "Configure endpoint protection and ASR on Privileged Access Workstations",
+    "tags": "PAW EDR ASR protection WI"
+  },
+  {
+    "id": "IT-EP-WI-PAW-05",
+    "title": "Software Restrictions & Network Controls",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ep-wi-paw-05.html",
+    "desc": "Restrict software and network access on PAW",
+    "tags": "PAW software restriction network access WI"
+  },
+  {
+    "id": "IT-EP-WI-PAW-06",
+    "title": "Logging, Telemetry & SOC Visibility on PAW",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ep-wi-paw-06.html",
+    "desc": "Configure logging and SOC visibility on PAW",
+    "tags": "PAW logging telemetry SOC visibility WI"
+  },
+  {
+    "id": "IT-EP-WI-PAW-07",
+    "title": "PAW Lifecycle, Rebuild & Incident Handling",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ep-wi-paw-07.html",
+    "desc": "Manage PAW lifecycle, rebuild, and incident handling",
+    "tags": "PAW lifecycle rebuild incident handling WI"
+  },
+  {
+    "id": "IT-EP-WI-Win-01",
+    "title": "Local Administrator & Privilege Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ep-wi-win-01.html",
+    "desc": "Harden local administrator access on Windows endpoints",
+    "tags": "local admin hardening LAPS privilege endpoint WI"
+  },
+  {
+    "id": "IT-EP-WI-Win-02",
+    "title": "Disk Encryption & Secure Boot",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ep-wi-win-02.html",
+    "desc": "Enable BitLocker disk encryption and Secure Boot",
+    "tags": "BitLocker disk encryption Secure Boot TPM WI"
+  },
+  {
+    "id": "IT-EP-WI-Win-03",
+    "title": "Endpoint Protection & ASR Baseline",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ep-wi-win-03.html",
+    "desc": "Configure endpoint protection and attack surface reduction rules",
+    "tags": "EDR ASR endpoint protection attack surface WI"
+  },
+  {
+    "id": "IT-EP-WI-Win-04",
+    "title": "Logging, Telemetry & Monitoring Readiness",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ep-wi-win-04.html",
+    "desc": "Configure logging and telemetry on Windows endpoints",
+    "tags": "logging telemetry PowerShell monitoring SOC WI"
+  },
+  {
+    "id": "IT-EP-WI-Win-05",
+    "title": "User Security Configuration",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ep-wi-win-05.html",
+    "desc": "Configure user-facing security controls on Windows endpoints",
+    "tags": "screen lock macro browser security user WI"
+  },
+  {
+    "id": "IT-GOV-WI-PM-01",
+    "title": "Endpoint Patch Management",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-gov-wi-pm-01.html",
+    "desc": "Deploy and validate patches on Windows endpoints",
+    "tags": "endpoint patch management deploy validate WI"
+  },
+  {
+    "id": "IT-GOV-WI-PM-02",
+    "title": "Server Patch Management",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-gov-wi-pm-02.html",
+    "desc": "Deploy and validate patches on servers",
+    "tags": "server patch management deploy validate production WI"
+  },
+  {
+    "id": "IT-GOV-WI-VM-01",
+    "title": "Vulnerability Scan Execution",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-gov-wi-vm-01.html",
+    "desc": "Execute vulnerability scans in a consistent and controlled manner",
+    "tags": "vulnerability scan execution authenticated coverage WI"
+  },
+  {
+    "id": "IT-GOV-WI-VM-02",
+    "title": "Vulnerability Triage & Prioritisation",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-gov-wi-vm-02.html",
+    "desc": "Triage and prioritise vulnerabilities based on risk",
+    "tags": "vulnerability triage prioritisation CVSS risk WI"
+  },
+  {
+    "id": "IT-GOV-WI-VM-03",
+    "title": "Remediation Validation",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-gov-wi-vm-03.html",
+    "desc": "Validate that vulnerability remediation has been effective",
+    "tags": "remediation validation re-scan verification closure WI"
+  },
+  {
+    "id": "IT-GOV-WI-VM-04",
+    "title": "Risk Acceptance & Exception Handling",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-gov-wi-vm-04.html",
+    "desc": "Handle vulnerability risk acceptance and exceptions",
+    "tags": "risk acceptance exception vulnerability compensating WI"
+  },
+  {
+    "id": "IT-SRV-WI-DC-01",
+    "title": "Tier-0 Administrative Access Enforcement",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-dc-01.html",
+    "desc": "Enforce Tier-0 administrative access on Domain Controllers",
+    "tags": "DC domain controller Tier-0 admin access WI"
+  },
+  {
+    "id": "IT-SRV-WI-DC-02",
+    "title": "Credential Protection — Domain Controller",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-dc-02.html",
+    "desc": "Protect credentials on Domain Controllers",
+    "tags": "DC credential protection LSASS NTLM Kerberos WI"
+  },
+  {
+    "id": "IT-SRV-WI-DC-03",
+    "title": "EDR Configuration — Domain Controller",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-dc-03.html",
+    "desc": "Configure EDR on Domain Controllers with DC-specific exclusions",
+    "tags": "DC EDR endpoint protection Tier-0 WI"
+  },
+  {
+    "id": "IT-SRV-WI-DC-04",
+    "title": "Logging & SOC Visibility — Domain Controller",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-dc-04.html",
+    "desc": "Configure logging and SOC visibility on Domain Controllers",
+    "tags": "DC logging SOC visibility directory services WI"
+  },
+  {
+    "id": "IT-SRV-WI-DC-05",
+    "title": "Network Isolation & Access Control — Domain Controller",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-dc-05.html",
+    "desc": "Enforce network isolation on Domain Controllers",
+    "tags": "DC network isolation firewall AD ports WI"
+  },
+  {
+    "id": "IT-SRV-WI-DC-06",
+    "title": "Backup, Recovery & Integrity — Domain Controller",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-dc-06.html",
+    "desc": "Configure backup and recovery for Domain Controllers",
+    "tags": "DC backup recovery system state Tier-0 WI"
+  },
+  {
+    "id": "IT-SRV-WI-LNX-01",
+    "title": "OS Installation, Hardening & Patch Management — Linux",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-lnx-01.html",
+    "desc": "Install, harden, and patch Linux servers",
+    "tags": "Linux OS installation hardening patching WI"
+  },
+  {
+    "id": "IT-SRV-WI-LNX-02",
+    "title": "Identity, SSH & Privileged Access — Linux",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-lnx-02.html",
+    "desc": "Harden identity, SSH, and privileged access on Linux servers",
+    "tags": "Linux SSH identity sudo PAM access WI"
+  },
+  {
+    "id": "IT-SRV-WI-LNX-03",
+    "title": "Service Reduction, SELinux & File Permissions — Linux",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-lnx-03.html",
+    "desc": "Reduce attack surface with SELinux and file permissions on Linux",
+    "tags": "Linux SELinux AppArmor service reduction permissions WI"
+  },
+  {
+    "id": "IT-SRV-WI-LNX-04",
+    "title": "Endpoint Protection & Integrity — Linux",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-lnx-04.html",
+    "desc": "Configure endpoint protection and file integrity monitoring on Linux",
+    "tags": "Linux EDR integrity monitoring protection WI"
+  },
+  {
+    "id": "IT-SRV-WI-LNX-05",
+    "title": "Logging, Auditd & SOC Visibility — Linux",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-lnx-05.html",
+    "desc": "Configure auditd and SOC visibility on Linux servers",
+    "tags": "Linux auditd logging SOC visibility monitoring WI"
+  },
+  {
+    "id": "IT-SRV-WI-LNX-06",
+    "title": "Network Firewall & Exposure Reduction — Linux",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-lnx-06.html",
+    "desc": "Configure host-based firewall on Linux servers",
+    "tags": "Linux firewall iptables nftables network exposure WI"
+  },
+  {
+    "id": "IT-SRV-WI-LNX-07",
+    "title": "Data Protection, Backups & Recovery — Linux",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-lnx-07.html",
+    "desc": "Configure encryption and backups on Linux servers",
+    "tags": "Linux encryption backup recovery data protection WI"
+  },
+  {
+    "id": "IT-SRV-WI-Win-01",
+    "title": "Local Admin & Privileged Access Hardening — Windows Server",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-win-01.html",
+    "desc": "Harden local administrator and privileged access on Windows servers",
+    "tags": "Windows server local admin privilege hardening WI"
+  },
+  {
+    "id": "IT-SRV-WI-Win-02",
+    "title": "OS Hardening & Service Reduction — Windows Server",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-win-02.html",
+    "desc": "Harden OS and remove unnecessary services on Windows servers",
+    "tags": "Windows server OS hardening service reduction WI"
+  },
+  {
+    "id": "IT-SRV-WI-Win-03",
+    "title": "Endpoint Protection & Anti-Malware — Windows Server",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-win-03.html",
+    "desc": "Configure endpoint protection and anti-malware on Windows servers",
+    "tags": "Windows server EDR anti-malware protection WI"
+  },
+  {
+    "id": "IT-SRV-WI-Win-04",
+    "title": "Logging, Telemetry & Monitoring — Windows Server",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-win-04.html",
+    "desc": "Configure logging and telemetry on Windows servers",
+    "tags": "Windows server logging telemetry monitoring WI"
+  },
+  {
+    "id": "IT-SRV-WI-Win-05",
+    "title": "Network Security & Firewall — Windows Server",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-win-05.html",
+    "desc": "Configure network security and firewall on Windows servers",
+    "tags": "Windows server firewall network security WI"
+  },
+  {
+    "id": "IT-SRV-WI-Win-06",
+    "title": "Data Protection, Encryption & Backups — Windows Server",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-srv-wi-win-06.html",
+    "desc": "Configure encryption and backups on Windows servers",
+    "tags": "Windows server encryption backup data protection WI"
+  },
+  {
+    "id": "IT-TI-WI-01",
+    "title": "Consuming & Evaluating TI Feeds and Sources",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ti-wi-01.html",
+    "desc": "Assessing, onboarding, and maintaining threat intelligence feeds and sources — ensuring only relevant, quality sources are consumed",
+    "tags": "ti feeds sources onboarding evaluation stix taxii misp asm work instruction threat intelligence"
+  },
+  {
+    "id": "IT-TI-WI-02",
+    "title": "IOC Ingestion & Validation",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ti-wi-02.html",
+    "desc": "Ingesting, deduplicating, validating, and scoring IOCs before deployment to security controls",
+    "tags": "ioc ingestion validation deduplication scoring confidence virustotal misp asm work instruction"
+  },
+  {
+    "id": "IT-TI-WI-03",
+    "title": "IOC Actioning & Deployment",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ti-wi-03.html",
+    "desc": "Deploying validated IOCs to firewall, DNS, EDR, email gateway, and SIEM — and confirming deployment success",
+    "tags": "ioc deployment firewall dns edr email gateway siem blocking asm work instruction"
+  },
+  {
+    "id": "IT-TI-WI-04",
+    "title": "Threat Actor & Campaign Profiling",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ti-wi-04.html",
+    "desc": "Building and maintaining threat actor profiles and campaign records — providing SOC with context for triage and hunting",
+    "tags": "threat actor campaign profiling mitre attck ttp apt asm work instruction"
+  },
+  {
+    "id": "IT-TI-WI-05",
+    "title": "TI-Driven Threat Hunting Triggers",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-ti-wi-05.html",
+    "desc": "Translating threat intelligence into proactive threat hunting hypotheses — searching for threats automated detections may have missed",
+    "tags": "threat hunting hypothesis ti driven proactive mitre attck siem edr asm work instruction"
+  },
+  {
+    "id": "GRC",
+    "title": "GRC Hub",
+    "section": "GRC",
+    "sub": "Domain pages",
+    "url": "grc.html",
+    "desc": "Governance Risk and Compliance hub — policies, registers, and supplier assessment",
+    "tags": "GRC governance risk compliance hub"
+  },
+  {
+    "id": "GRC-COMP",
+    "title": "GRC — Compliance",
+    "section": "GRC",
+    "sub": "Domain pages",
+    "url": "grc-compliance.html",
+    "desc": "GRC compliance domain — baseline catalog, control library, validation",
+    "tags": "GRC compliance baseline catalog validation drift"
+  },
+  {
+    "id": "GRC-GOV",
+    "title": "GRC — Governance",
+    "section": "GRC",
+    "sub": "Domain pages",
+    "url": "grc-governance.html",
+    "desc": "GRC governance domain — policies, document review, regulatory obligations",
+    "tags": "GRC governance policy document review regulatory"
+  },
+  {
+    "id": "GRC-RISK",
+    "title": "GRC — Risk",
+    "section": "GRC",
+    "sub": "Domain pages",
+    "url": "grc-risk.html",
+    "desc": "GRC risk domain — supplier assessment, risk acceptance, exceptions",
+    "tags": "GRC risk supplier assessment exception"
+  },
+  {
+    "id": "GRC-FRM-06",
+    "title": "SaaS / Cloud Supplier Security Assessment Questionnaire",
+    "section": "GRC",
+    "sub": "Forms",
+    "url": "grc-frm-06.html",
+    "desc": "Security assessment questionnaire for suppliers providing SaaS, hosted, managed, or cloud services processing organisational data",
+    "tags": "supplier saas cloud assessment questionnaire vendor third-party security grc form risk"
+  },
+  {
+    "id": "GRC-FRM-08",
+    "title": "On-Prem Application Vendor Security Assessment Questionnaire",
+    "section": "GRC",
+    "sub": "Forms",
+    "url": "grc-frm-08.html",
+    "desc": "Security assessment questionnaire for on-prem application vendors and support partners",
+    "tags": "questionnaire on-prem vendor support assessment GRC form"
+  },
+  {
+    "id": "GRC-FRM-09",
+    "title": "On-Prem Application Support Supplier Scored Assessment Record",
+    "section": "GRC",
+    "sub": "Forms",
+    "url": "grc-frm-09.html",
+    "desc": "Scored assessment record for on-prem application support suppliers",
+    "tags": "scored assessment record on-prem supplier GRC form"
+  },
+  {
+    "id": "GRC-FRM-10",
+    "title": "General Supplier Security Assessment Questionnaire",
+    "section": "GRC",
+    "sub": "Forms",
+    "url": "grc-frm-10.html",
+    "desc": "Security assessment questionnaire for general suppliers",
+    "tags": "questionnaire general supplier assessment GRC form"
+  },
+  {
+    "id": "GRC-FRM-11",
+    "title": "General Supplier Scored Assessment Record",
+    "section": "GRC",
+    "sub": "Forms",
+    "url": "grc-frm-11.html",
+    "desc": "Scored assessment record for general suppliers",
+    "tags": "scored assessment record general supplier GRC form"
+  },
+  {
+    "id": "GRC-FRM-12",
+    "title": "Application Onboarding Pack",
+    "section": "GRC",
+    "sub": "Forms",
+    "url": "grc-frm-12.html",
+    "desc": "Onboarding pack for new applications — capturing data classification, hosting model, integrations, security controls, and ownership",
+    "tags": "application onboarding new app intake data classification hosting integrations grc form"
+  },
+  {
+    "id": "GRC-POL-01",
+    "title": "Supplier Security Assessment Policy",
+    "section": "GRC",
+    "sub": "Policies",
+    "url": "grc-pol-01.html",
+    "desc": "Overarching policy for all supplier security assessments",
+    "tags": "supplier security assessment policy GRC overarching"
+  },
+  {
+    "id": "GRC-POL-02",
+    "title": "On-Prem Application Support Supplier Security Assessment Policy",
+    "section": "GRC",
+    "sub": "Policies",
+    "url": "grc-pol-02.html",
+    "desc": "Policy for on-premises application support supplier assessments",
+    "tags": "on-prem application support supplier policy GRC"
+  },
+  {
+    "id": "GRC-POL-03",
+    "title": "General Supplier Security Assessment Policy",
+    "section": "GRC",
+    "sub": "Policies",
+    "url": "grc-pol-03.html",
+    "desc": "Policy for general supplier security assessments",
+    "tags": "general supplier policy GRC assessment"
+  },
+  {
+    "id": "GRC-REG-BC",
+    "title": "Baseline Catalog Register",
+    "section": "GRC",
+    "sub": "Registers",
+    "url": "grc-register-baseline-catalog.html",
+    "desc": "Register of all approved security baselines in scope",
+    "tags": "baseline catalog register GRC compliance"
+  },
+  {
+    "id": "GRC-REG-CL",
+    "title": "Baseline Control Library",
+    "section": "GRC",
+    "sub": "Registers",
+    "url": "grc-register-control-library.html",
+    "desc": "Library of individual baseline controls mapped to CIS and NIST CSF",
+    "tags": "control library baseline CIS NIST GRC register"
+  },
+  {
+    "id": "GRC-REG-DR",
+    "title": "Document Review Register",
+    "section": "GRC",
+    "sub": "Registers",
+    "url": "grc-register-document-review.html",
+    "desc": "Tracks review dates and approval status for all GRC documents",
+    "tags": "document review register GRC governance"
+  },
+  {
+    "id": "GRC-REG-DT",
+    "title": "Drift & Remediation Register",
+    "section": "GRC",
+    "sub": "Registers",
+    "url": "grc-register-drift.html",
+    "desc": "Tracks baseline drift events and remediation actions",
+    "tags": "drift remediation register baseline GRC"
+  },
+  {
+    "id": "GRC-REG-EX",
+    "title": "Baseline Exceptions Register",
+    "section": "GRC",
+    "sub": "Registers",
+    "url": "grc-register-exceptions.html",
+    "desc": "Register of approved baseline security exceptions",
+    "tags": "baseline exception register GRC risk"
+  },
+  {
+    "id": "GRC-REG-PE",
+    "title": "Policy Exception Register",
+    "section": "GRC",
+    "sub": "Registers",
+    "url": "grc-register-policy-exceptions.html",
+    "desc": "Register of approved GRC policy exceptions",
+    "tags": "policy exception register GRC risk"
+  },
+  {
+    "id": "GRC-REG-RL",
+    "title": "Risk Acceptance Log",
+    "section": "GRC",
+    "sub": "Registers",
+    "url": "grc-register-risk-log.html",
+    "desc": "Formal record of all accepted risks with owner and expiry",
+    "tags": "risk acceptance log GRC register"
+  },
+  {
+    "id": "GRC-REG-RO",
+    "title": "Regulatory Obligations Register",
+    "section": "GRC",
+    "sub": "Registers",
+    "url": "grc-register-regulatory.html",
+    "desc": "Catalogue of applicable regulatory and contractual obligations",
+    "tags": "regulatory obligations register GRC compliance"
+  },
+  {
+    "id": "GRC-REG-VR",
+    "title": "Baseline Validation Runs Register",
+    "section": "GRC",
+    "sub": "Registers",
+    "url": "grc-register-validation.html",
+    "desc": "Records of all baseline validation activities",
+    "tags": "validation runs register baseline GRC compliance"
+  },
+  {
+    "id": "GRC-SOP-01",
+    "title": "SaaS / Cloud Supplier Security Assessment Procedure",
+    "section": "GRC",
+    "sub": "SOPs",
+    "url": "grc-sop-01.html",
+    "desc": "Procedure for assessing SaaS and cloud service suppliers",
+    "tags": "SaaS cloud supplier assessment procedure GRC SOP"
+  },
+  {
+    "id": "GRC-SOP-02",
+    "title": "On-Prem Application Support Supplier Assessment Procedure",
+    "section": "GRC",
+    "sub": "SOPs",
+    "url": "grc-sop-02.html",
+    "desc": "Procedure for assessing on-premises application support suppliers",
+    "tags": "on-prem application support supplier procedure GRC SOP"
+  },
+  {
+    "id": "GRC-SOP-03",
+    "title": "General Supplier Security Assessment Procedure",
+    "section": "GRC",
+    "sub": "SOPs",
+    "url": "grc-sop-03.html",
+    "desc": "Procedure for assessing general suppliers",
+    "tags": "general supplier assessment procedure GRC SOP"
+  },
+  {
+    "id": "GRC-WI-03",
+    "title": "Reviewer WI — On-Prem Application Support Suppliers",
+    "section": "GRC",
+    "sub": "Work Instructions",
+    "url": "grc-wi-03.html",
+    "desc": "Reviewer work instructions for on-prem application support supplier assessments",
+    "tags": "reviewer WI on-prem application support GRC"
+  },
+  {
+    "id": "GRC-WI-04",
+    "title": "Reviewer WI — General Suppliers",
+    "section": "GRC",
+    "sub": "Work Instructions",
+    "url": "grc-wi-04.html",
+    "desc": "Reviewer work instructions for general supplier assessments",
+    "tags": "reviewer WI general supplier GRC"
+  },
+  {
+    "id": "CIS-MATRIX",
+    "title": "CIS Benchmark Alignment Matrix",
+    "section": "Reference",
+    "sub": "Core",
+    "url": "asm-cis-matrix.html",
+    "desc": "CIS Benchmark Level 1 control mapping across all asset types",
+    "tags": "CIS benchmark alignment matrix controls asset types"
+  },
+  {
+    "id": "CORE-CONCEPTS",
+    "title": "Core Concepts & References",
+    "section": "Reference",
+    "sub": "Core",
+    "url": "core-concepts.html",
+    "desc": "Infrastructure Tier Model, account types, PAW, access rules, and security principles",
+    "tags": "tier model PAW account types access rules security principles core concepts"
+  },
+  {
+    "id": "NIST-CSF",
+    "title": "NIST CSF 2.0 Reference",
+    "section": "Reference",
+    "sub": "Core",
+    "url": "nist-csf-reference.html",
+    "desc": "Comprehensive NIST Cybersecurity Framework 2.0 reference page",
+    "tags": "NIST CSF cybersecurity framework govern identify protect detect respond recover"
+  },
+  {
+    "id": "EP-INV-Win-01",
+    "title": "Windows Endpoint Investigation",
+    "section": "SOC",
+    "sub": "Investigation",
+    "url": "ep-inv-win-01.html",
+    "desc": "Comprehensive Tier-1 and Tier-2 investigation guide for Windows endpoints",
+    "tags": "endpoint investigation Windows LOLBin persistence registry event log forensic"
+  },
+  {
     "id": "EM-PB-01",
-    "title": "Phishing Email \u2014 Triage & Investigation",
+    "title": "Phishing Email — Triage & Investigation",
     "section": "SOC",
     "sub": "Playbooks",
     "url": "em-pb-01.html",
@@ -61,6 +934,42 @@
     "url": "em-pb-07.html",
     "desc": "Respond to a mass phishing campaign targeting the organisation",
     "tags": "phishing campaign mass email bulk credential harvest"
+  },
+  {
+    "id": "EP-PB-01",
+    "title": "Suspicious Endpoint Activity",
+    "section": "SOC",
+    "sub": "Playbooks",
+    "url": "ep-pb-01.html",
+    "desc": "Investigate suspicious activity on Windows endpoints",
+    "tags": "endpoint suspicious activity EDR alert process"
+  },
+  {
+    "id": "EP-PB-02",
+    "title": "Malware / EDR Detection",
+    "section": "SOC",
+    "sub": "Playbooks",
+    "url": "ep-pb-02.html",
+    "desc": "Respond to malware detections and EDR alerts on endpoints",
+    "tags": "malware EDR detection endpoint AV quarantine"
+  },
+  {
+    "id": "EP-PB-03",
+    "title": "Ransomware Response",
+    "section": "SOC",
+    "sub": "Playbooks",
+    "url": "ep-pb-03.html",
+    "desc": "Respond to ransomware incidents on endpoints",
+    "tags": "ransomware encryption files ransom note isolation"
+  },
+  {
+    "id": "EP-PB-04",
+    "title": "Insider Threat — Endpoint",
+    "section": "SOC",
+    "sub": "Playbooks",
+    "url": "ep-pb-04.html",
+    "desc": "Investigate potential insider threat activity on endpoints",
+    "tags": "insider threat endpoint data theft exfiltration USB"
   },
   {
     "id": "ID-PB-01",
@@ -171,60 +1080,6 @@
     "tags": "DNS tunnelling anomaly DGA high entropy"
   },
   {
-    "id": "EP-PB-01",
-    "title": "Suspicious Endpoint Activity",
-    "section": "SOC",
-    "sub": "Playbooks",
-    "url": "ep-pb-01.html",
-    "desc": "Investigate suspicious activity on Windows endpoints",
-    "tags": "endpoint suspicious activity EDR alert process"
-  },
-  {
-    "id": "EP-PB-02",
-    "title": "Malware / EDR Detection",
-    "section": "SOC",
-    "sub": "Playbooks",
-    "url": "ep-pb-02.html",
-    "desc": "Respond to malware detections and EDR alerts on endpoints",
-    "tags": "malware EDR detection endpoint AV quarantine"
-  },
-  {
-    "id": "EP-PB-03",
-    "title": "Ransomware Response",
-    "section": "SOC",
-    "sub": "Playbooks",
-    "url": "ep-pb-03.html",
-    "desc": "Respond to ransomware incidents on endpoints",
-    "tags": "ransomware encryption files ransom note isolation"
-  },
-  {
-    "id": "EP-PB-04",
-    "title": "Insider Threat \u2014 Endpoint",
-    "section": "SOC",
-    "sub": "Playbooks",
-    "url": "ep-pb-04.html",
-    "desc": "Investigate potential insider threat activity on endpoints",
-    "tags": "insider threat endpoint data theft exfiltration USB"
-  },
-  {
-    "id": "EM-RB-01",
-    "title": "Block Sender / Domain",
-    "section": "SOC",
-    "sub": "Runbooks",
-    "url": "em-rb-01.html",
-    "desc": "Block a malicious sender or domain in email platform",
-    "tags": "block sender domain email quarantine"
-  },
-  {
-    "id": "EM-RB-02",
-    "title": "Quarantine & Remove Email",
-    "section": "SOC",
-    "sub": "Runbooks",
-    "url": "em-rb-02.html",
-    "desc": "Quarantine and remove malicious emails from mailboxes",
-    "tags": "quarantine remove email purge mailbox"
-  },
-  {
     "id": "EM-RB-03",
     "title": "Reset Compromised Mailbox",
     "section": "SOC",
@@ -252,40 +1107,49 @@
     "tags": "URL analysis sandbox phishing link detonation"
   },
   {
-    "id": "EM-RB-06-1",
-    "title": "Revoke Sessions & Reset Credentials (Part 1)",
+    "id": "EM-RB-06",
+    "title": "Block Malicious File Hash",
     "section": "SOC",
     "sub": "Runbooks",
-    "url": "em-rb-06-1.html",
-    "desc": "Revoke active sessions and reset credentials \u2014 Part 1",
-    "tags": "revoke session reset credentials MFA token"
+    "url": "em-rb-06.html",
+    "desc": "Block a confirmed malicious file hash across email, endpoint, and security platforms to prevent execution or re-delivery",
+    "tags": "block hash malicious file sha256 edr crowdstrike email endpoint runbook tier1 tier2 email-threats"
   },
   {
-    "id": "EM-RB-06-2",
-    "title": "Revoke Sessions & Reset Credentials (Part 2)",
+    "id": "EM-RB-06-01",
+    "title": "Initial Triage & Validation",
     "section": "SOC",
     "sub": "Runbooks",
-    "url": "em-rb-06-2.html",
-    "desc": "Revoke active sessions and reset credentials \u2014 Part 2",
-    "tags": "revoke session reset credentials MFA token"
+    "url": "em-rb-06-01.html",
+    "desc": "Confirm incident validity, preserve evidence, and determine initial scope for a threatening or harassing email campaign",
+    "tags": "triage validation evidence preservation harassment threatening email tier1 runbook em-pb-06 series step1"
   },
   {
-    "id": "EM-RB-06-3",
-    "title": "Revoke Sessions & Reset Credentials (Part 3)",
+    "id": "EM-RB-06-02",
+    "title": "Threat & Credibility Analysis",
     "section": "SOC",
     "sub": "Runbooks",
-    "url": "em-rb-06-3.html",
-    "desc": "Revoke active sessions and reset credentials \u2014 Part 3",
-    "tags": "revoke session reset credentials MFA token"
+    "url": "em-rb-06-02.html",
+    "desc": "Determine the intent, credibility, and severity of the threatening or harassing email campaign",
+    "tags": "threat credibility analysis intent severity harassment threatening email tier2 runbook em-pb-06 series step2"
   },
   {
-    "id": "EM-RB-06-4",
-    "title": "Revoke Sessions & Reset Credentials (Part 4)",
+    "id": "EM-RB-06-03",
+    "title": "Containment & Mailbox Remediation",
     "section": "SOC",
     "sub": "Runbooks",
-    "url": "em-rb-06-4.html",
-    "desc": "Revoke active sessions and reset credentials \u2014 Part 4",
-    "tags": "revoke session reset credentials MFA token"
+    "url": "em-rb-06-03.html",
+    "desc": "Eliminate exposure and prevent recurrence — block indicators and purge the threatening email from affected mailboxes",
+    "tags": "containment mailbox remediation purge block indicators harassment threatening email tier2 runbook em-pb-06 step3"
+  },
+  {
+    "id": "EM-RB-06-04",
+    "title": "Escalation, Communication & Closure",
+    "section": "SOC",
+    "sub": "Runbooks",
+    "url": "em-rb-06-04.html",
+    "desc": "Stakeholder notification, HR / Legal escalation, communication management, and controlled closure of a threatening email incident",
+    "tags": "escalation communication closure hr legal stakeholder notification harassment threatening email runbook em-pb-06 step4"
   },
   {
     "id": "EM-RB-07",
@@ -295,6 +1159,42 @@
     "url": "em-rb-07.html",
     "desc": "Enable and enforce MFA for a user account",
     "tags": "MFA enable enforce authenticator user account"
+  },
+  {
+    "id": "EP-RB-01",
+    "title": "Isolate Endpoint",
+    "section": "SOC",
+    "sub": "Runbooks",
+    "url": "ep-rb-01.html",
+    "desc": "Isolate a compromised endpoint from the network",
+    "tags": "isolate endpoint network containment EDR"
+  },
+  {
+    "id": "EP-RB-02",
+    "title": "Collect Endpoint Evidence",
+    "section": "SOC",
+    "sub": "Runbooks",
+    "url": "ep-rb-02.html",
+    "desc": "Collect forensic evidence from a compromised endpoint",
+    "tags": "evidence collect forensic endpoint volatile memory"
+  },
+  {
+    "id": "EP-RB-03",
+    "title": "Remove Malware Artefacts",
+    "section": "SOC",
+    "sub": "Runbooks",
+    "url": "ep-rb-03.html",
+    "desc": "Remove malware artefacts from a Windows endpoint",
+    "tags": "remove malware artefacts cleanup persistence registry"
+  },
+  {
+    "id": "EP-RB-04",
+    "title": "Rebuild & Restore Endpoint",
+    "section": "SOC",
+    "sub": "Runbooks",
+    "url": "ep-rb-04.html",
+    "desc": "Rebuild and restore a compromised endpoint",
+    "tags": "rebuild restore endpoint reimage recovery"
   },
   {
     "id": "ID-RB-01",
@@ -369,15 +1269,6 @@
     "tags": "DNS sinkhole block domain C2 malicious"
   },
   {
-    "id": "NW-RB-04",
-    "title": "Isolate Network Segment",
-    "section": "SOC",
-    "sub": "Runbooks",
-    "url": "nw-rb-04.html",
-    "desc": "Isolate a network segment during an incident",
-    "tags": "network segment isolation containment VLAN"
-  },
-  {
     "id": "NW-RB-05",
     "title": "Review Firewall / IDS Logs",
     "section": "SOC",
@@ -387,85 +1278,49 @@
     "tags": "firewall IDS logs review anomaly traffic"
   },
   {
-    "id": "EP-RB-01",
-    "title": "Isolate Endpoint",
+    "id": "SOP-EM-01",
+    "title": "Email Threat Response SOP",
     "section": "SOC",
-    "sub": "Runbooks",
-    "url": "ep-rb-01.html",
-    "desc": "Isolate a compromised endpoint from the network",
-    "tags": "isolate endpoint network containment EDR"
+    "sub": "SOPs",
+    "url": "sop-em-01.html",
+    "desc": "Standard operating procedure for email threat response",
+    "tags": "SOP email threat response phishing BEC"
   },
   {
-    "id": "EP-RB-02",
-    "title": "Collect Endpoint Evidence",
+    "id": "SOP-EP-01",
+    "title": "Endpoint Incident Response SOP",
     "section": "SOC",
-    "sub": "Runbooks",
-    "url": "ep-rb-02.html",
-    "desc": "Collect forensic evidence from a compromised endpoint",
-    "tags": "evidence collect forensic endpoint volatile memory"
+    "sub": "SOPs",
+    "url": "sop-ep-01.html",
+    "desc": "Standard operating procedure for endpoint incident response",
+    "tags": "SOP endpoint incident response malware ransomware"
   },
   {
-    "id": "EP-RB-03",
-    "title": "Remove Malware Artefacts",
+    "id": "SOP-ID-01",
+    "title": "Identity Incident Response SOP",
     "section": "SOC",
-    "sub": "Runbooks",
-    "url": "ep-rb-03.html",
-    "desc": "Remove malware artefacts from a Windows endpoint",
-    "tags": "remove malware artefacts cleanup persistence registry"
+    "sub": "SOPs",
+    "url": "sop-id-01.html",
+    "desc": "Standard operating procedure for identity incident response",
+    "tags": "SOP identity incident response MFA account"
   },
   {
-    "id": "EP-RB-04",
-    "title": "Rebuild & Restore Endpoint",
+    "id": "SOP-IM-01",
+    "title": "Incident Management SOP",
     "section": "SOC",
-    "sub": "Runbooks",
-    "url": "ep-rb-04.html",
-    "desc": "Rebuild and restore a compromised endpoint",
-    "tags": "rebuild restore endpoint reimage recovery"
+    "sub": "SOPs",
+    "url": "sop-im-01.html",
+    "desc": "Standard operating procedure for incident management",
+    "tags": "SOP incident management escalation severity"
   },
   {
-    "id": "ID-T1-01",
-    "title": "Suspicious Sign-In Activity",
+    "id": "SOP-NW-01",
+    "title": "Network Security Incident SOP",
     "section": "SOC",
-    "sub": "Tier-1 Checklists",
-    "url": "tier1-id-01.html",
-    "desc": "Quick Tier-1 checklist for suspicious sign-in alerts",
-    "tags": "sign-in suspicious MFA identity login checklist tier-1"
-  },
-  {
-    "id": "ID-T1-02",
-    "title": "MFA Alert",
-    "section": "SOC",
-    "sub": "Tier-1 Checklists",
-    "url": "tier1-id-02.html",
-    "desc": "Quick Tier-1 checklist for MFA alerts",
-    "tags": "MFA alert fatigue bypass push checklist tier-1"
-  },
-  {
-    "id": "ID-T1-03",
-    "title": "Account Lockout",
-    "section": "SOC",
-    "sub": "Tier-1 Checklists",
-    "url": "tier1-id-03.html",
-    "desc": "Quick Tier-1 checklist for account lockout events",
-    "tags": "account lockout password spray brute force checklist"
-  },
-  {
-    "id": "ID-T1-04",
-    "title": "Privileged Account Alert",
-    "section": "SOC",
-    "sub": "Tier-1 Checklists",
-    "url": "tier1-id-04.html",
-    "desc": "Quick Tier-1 checklist for privileged account alerts",
-    "tags": "privileged account admin alert tier-0 checklist"
-  },
-  {
-    "id": "ID-T1-05",
-    "title": "Guest / External User Alert",
-    "section": "SOC",
-    "sub": "Tier-1 Checklists",
-    "url": "tier1-id-05.html",
-    "desc": "Quick Tier-1 checklist for guest and external user alerts",
-    "tags": "guest external user alert collaboration checklist"
+    "sub": "SOPs",
+    "url": "sop-nw-01.html",
+    "desc": "Standard operating procedure for network security incidents",
+    "tags": "SOP network security incident firewall C2"
   },
   {
     "id": "EM-T1-01",
@@ -558,6 +1413,51 @@
     "tags": "USB removable media alert DLP checklist tier-1"
   },
   {
+    "id": "ID-T1-01",
+    "title": "Suspicious Sign-In Activity",
+    "section": "SOC",
+    "sub": "Tier-1 Checklists",
+    "url": "tier1-id-01.html",
+    "desc": "Quick Tier-1 checklist for suspicious sign-in alerts",
+    "tags": "sign-in suspicious MFA identity login checklist tier-1"
+  },
+  {
+    "id": "ID-T1-02",
+    "title": "MFA Alert",
+    "section": "SOC",
+    "sub": "Tier-1 Checklists",
+    "url": "tier1-id-02.html",
+    "desc": "Quick Tier-1 checklist for MFA alerts",
+    "tags": "MFA alert fatigue bypass push checklist tier-1"
+  },
+  {
+    "id": "ID-T1-03",
+    "title": "Account Lockout",
+    "section": "SOC",
+    "sub": "Tier-1 Checklists",
+    "url": "tier1-id-03.html",
+    "desc": "Quick Tier-1 checklist for account lockout events",
+    "tags": "account lockout password spray brute force checklist"
+  },
+  {
+    "id": "ID-T1-04",
+    "title": "Privileged Account Alert",
+    "section": "SOC",
+    "sub": "Tier-1 Checklists",
+    "url": "tier1-id-04.html",
+    "desc": "Quick Tier-1 checklist for privileged account alerts",
+    "tags": "privileged account admin alert tier-0 checklist"
+  },
+  {
+    "id": "ID-T1-05",
+    "title": "Guest / External User Alert",
+    "section": "SOC",
+    "sub": "Tier-1 Checklists",
+    "url": "tier1-id-05.html",
+    "desc": "Quick Tier-1 checklist for guest and external user alerts",
+    "tags": "guest external user alert collaboration checklist"
+  },
+  {
     "id": "NW-T1-01",
     "title": "Suspicious Outbound Traffic / C2",
     "section": "SOC",
@@ -603,51 +1503,6 @@
     "tags": "exfiltration data loss upload DLP checklist tier-1"
   },
   {
-    "id": "SOP-EM-01",
-    "title": "Email Threat Response SOP",
-    "section": "SOC",
-    "sub": "SOPs",
-    "url": "sop-em-01.html",
-    "desc": "Standard operating procedure for email threat response",
-    "tags": "SOP email threat response phishing BEC"
-  },
-  {
-    "id": "SOP-ID-01",
-    "title": "Identity Incident Response SOP",
-    "section": "SOC",
-    "sub": "SOPs",
-    "url": "sop-id-01.html",
-    "desc": "Standard operating procedure for identity incident response",
-    "tags": "SOP identity incident response MFA account"
-  },
-  {
-    "id": "SOP-NW-01",
-    "title": "Network Security Incident SOP",
-    "section": "SOC",
-    "sub": "SOPs",
-    "url": "sop-nw-01.html",
-    "desc": "Standard operating procedure for network security incidents",
-    "tags": "SOP network security incident firewall C2"
-  },
-  {
-    "id": "SOP-EP-01",
-    "title": "Endpoint Incident Response SOP",
-    "section": "SOC",
-    "sub": "SOPs",
-    "url": "sop-ep-01.html",
-    "desc": "Standard operating procedure for endpoint incident response",
-    "tags": "SOP endpoint incident response malware ransomware"
-  },
-  {
-    "id": "SOP-IM-01",
-    "title": "Incident Management SOP",
-    "section": "SOC",
-    "sub": "SOPs",
-    "url": "sop-im-01.html",
-    "desc": "Standard operating procedure for incident management",
-    "tags": "SOP incident management escalation severity"
-  },
-  {
     "id": "EM-WI-01",
     "title": "Analyse Email Headers",
     "section": "SOC",
@@ -673,6 +1528,42 @@
     "url": "em-wi-05.html",
     "desc": "Step-by-step instructions for quarantining emails in Microsoft 365",
     "tags": "quarantine email M365 Microsoft 365 WI"
+  },
+  {
+    "id": "EP-WI-02",
+    "title": "Isolate Endpoint via EDR",
+    "section": "SOC",
+    "sub": "Work Instructions",
+    "url": "ep-wi-02.html",
+    "desc": "Step-by-step instructions for isolating an endpoint via EDR",
+    "tags": "isolate endpoint EDR containment WI"
+  },
+  {
+    "id": "EP-WI-03",
+    "title": "Remove Malware Artefacts",
+    "section": "SOC",
+    "sub": "Work Instructions",
+    "url": "ep-wi-03.html",
+    "desc": "Step-by-step instructions for removing malware artefacts",
+    "tags": "remove malware artefacts cleanup WI"
+  },
+  {
+    "id": "EP-WI-04",
+    "title": "Validate Persistence Removal",
+    "section": "SOC",
+    "sub": "Work Instructions",
+    "url": "ep-wi-04.html",
+    "desc": "Step-by-step instructions for validating persistence removal",
+    "tags": "persistence removal registry scheduled task WI"
+  },
+  {
+    "id": "EP-WI-USB",
+    "title": "Handle USB / Removable Media",
+    "section": "SOC",
+    "sub": "Work Instructions",
+    "url": "ep-wi-usb-01.html",
+    "desc": "Step-by-step instructions for handling suspicious USB media",
+    "tags": "USB removable media handle safe WI"
   },
   {
     "id": "ID-WI-01",
@@ -736,788 +1627,5 @@
     "url": "nw-wi-03.html",
     "desc": "Step-by-step instructions for isolating a network segment",
     "tags": "network segment isolation VLAN containment WI"
-  },
-  {
-    "id": "EP-WI-02",
-    "title": "Isolate Endpoint via EDR",
-    "section": "SOC",
-    "sub": "Work Instructions",
-    "url": "ep-wi-02.html",
-    "desc": "Step-by-step instructions for isolating an endpoint via EDR",
-    "tags": "isolate endpoint EDR containment WI"
-  },
-  {
-    "id": "EP-WI-03",
-    "title": "Remove Malware Artefacts",
-    "section": "SOC",
-    "sub": "Work Instructions",
-    "url": "ep-wi-03.html",
-    "desc": "Step-by-step instructions for removing malware artefacts",
-    "tags": "remove malware artefacts cleanup WI"
-  },
-  {
-    "id": "EP-WI-04",
-    "title": "Validate Persistence Removal",
-    "section": "SOC",
-    "sub": "Work Instructions",
-    "url": "ep-wi-04.html",
-    "desc": "Step-by-step instructions for validating persistence removal",
-    "tags": "persistence removal registry scheduled task WI"
-  },
-  {
-    "id": "EP-WI-USB",
-    "title": "Handle USB / Removable Media",
-    "section": "SOC",
-    "sub": "Work Instructions",
-    "url": "ep-wi-usb-01.html",
-    "desc": "Step-by-step instructions for handling suspicious USB media",
-    "tags": "USB removable media handle safe WI"
-  },
-  {
-    "id": "EP-INV-Win-01",
-    "title": "Windows Endpoint Investigation",
-    "section": "SOC",
-    "sub": "Investigation",
-    "url": "ep-inv-win-01.html",
-    "desc": "Comprehensive Tier-1 and Tier-2 investigation guide for Windows endpoints",
-    "tags": "endpoint investigation Windows LOLBin persistence registry event log forensic"
-  },
-  {
-    "id": "IT-GOV-SOP-01",
-    "title": "Baseline Exception & Risk Acceptance",
-    "section": "ASM",
-    "sub": "SOPs",
-    "url": "it-gov-sop-01.html",
-    "desc": "Formal process for requesting and approving baseline security exceptions",
-    "tags": "baseline exception risk acceptance compensating control ASM SOP"
-  },
-  {
-    "id": "IT-GOV-SOP-02",
-    "title": "Baseline Drift & Periodic Validation",
-    "section": "ASM",
-    "sub": "SOPs",
-    "url": "it-gov-sop-02.html",
-    "desc": "Process for detecting and managing baseline drift and periodic validation",
-    "tags": "baseline drift validation periodic ASM SOP"
-  },
-  {
-    "id": "IT-EP-SOP-Win-01",
-    "title": "Endpoint Security Baseline \u2014 Windows",
-    "section": "ASM",
-    "sub": "SOPs",
-    "url": "it-ep-sop-win-01.html",
-    "desc": "Minimum security baseline for all Windows endpoints",
-    "tags": "endpoint Windows baseline CIS hardening SOP"
-  },
-  {
-    "id": "IT-EP-SOP-PAW-01",
-    "title": "Privileged Access Workstation \u2014 Windows",
-    "section": "ASM",
-    "sub": "SOPs",
-    "url": "it-ep-sop-paw-01.html",
-    "desc": "Security requirements for Privileged Access Workstations",
-    "tags": "PAW privileged access workstation Tier-0 SOP"
-  },
-  {
-    "id": "IT-SRV-SOP-Win-01",
-    "title": "Server Security Baseline \u2014 Windows",
-    "section": "ASM",
-    "sub": "SOPs",
-    "url": "it-srv-sop-win-01.html",
-    "desc": "Minimum security baseline for all Windows servers",
-    "tags": "server Windows baseline CIS hardening SOP"
-  },
-  {
-    "id": "IT-SRV-SOP-DC-01",
-    "title": "Domain Controller Hardening Addendum",
-    "section": "ASM",
-    "sub": "SOPs",
-    "url": "it-srv-sop-dc-01.html",
-    "desc": "Additional hardening requirements for Windows Domain Controllers",
-    "tags": "domain controller DC Tier-0 hardening Active Directory SOP"
-  },
-  {
-    "id": "IT-SRV-SOP-LNX-01",
-    "title": "Server Security Baseline \u2014 Linux",
-    "section": "ASM",
-    "sub": "SOPs",
-    "url": "it-srv-sop-lnx-01.html",
-    "desc": "Minimum security baseline for all Linux servers",
-    "tags": "Linux server baseline CIS hardening SOP"
-  },
-  {
-    "id": "IT-SRV-SOP-LNX-02",
-    "title": "Linux Identity & SSH Hardening Addendum",
-    "section": "ASM",
-    "sub": "SOPs",
-    "url": "it-srv-sop-lnx-02.html",
-    "desc": "Identity authentication and SSH hardening requirements for Linux servers",
-    "tags": "Linux SSH hardening identity PAM sudo SOP"
-  },
-  {
-    "id": "IT-VM-SOP-01",
-    "title": "Vulnerability Management \u2014 Process & Procedures",
-    "section": "ASM",
-    "sub": "SOPs",
-    "url": "it-vm-sop-01.html",
-    "desc": "Risk-based vulnerability management process",
-    "tags": "vulnerability management VM scanning CVSS remediation SOP"
-  },
-  {
-    "id": "IT-PM-SOP-01",
-    "title": "Patch Management \u2014 Core SOP",
-    "section": "ASM",
-    "sub": "SOPs",
-    "url": "it-pm-sop-01.html",
-    "desc": "Consistent risk-based approach to patch management",
-    "tags": "patch management patching SLA deployment SOP"
-  },
-  {
-    "id": "IT-PM-SOP-02",
-    "title": "Patch Management \u2014 Emergency / Zero-Day",
-    "section": "ASM",
-    "sub": "SOPs",
-    "url": "it-pm-sop-02.html",
-    "desc": "Emergency and zero-day patch management procedure",
-    "tags": "emergency patch zero-day critical vulnerability SOP"
-  },
-  {
-    "id": "IT-PM-SOP-03",
-    "title": "Patch Exception & Risk Acceptance",
-    "section": "ASM",
-    "sub": "SOPs",
-    "url": "it-pm-sop-03.html",
-    "desc": "Process for patch exceptions and risk acceptance",
-    "tags": "patch exception risk acceptance compensating control SOP"
-  },
-  {
-    "id": "IT-EP-WI-Win-01",
-    "title": "Local Administrator & Privilege Hardening",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-ep-wi-win-01.html",
-    "desc": "Harden local administrator access on Windows endpoints",
-    "tags": "local admin hardening LAPS privilege endpoint WI"
-  },
-  {
-    "id": "IT-EP-WI-Win-02",
-    "title": "Disk Encryption & Secure Boot",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-ep-wi-win-02.html",
-    "desc": "Enable BitLocker disk encryption and Secure Boot",
-    "tags": "BitLocker disk encryption Secure Boot TPM WI"
-  },
-  {
-    "id": "IT-EP-WI-Win-03",
-    "title": "Endpoint Protection & ASR Baseline",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-ep-wi-win-03.html",
-    "desc": "Configure endpoint protection and attack surface reduction rules",
-    "tags": "EDR ASR endpoint protection attack surface WI"
-  },
-  {
-    "id": "IT-EP-WI-Win-04",
-    "title": "Logging, Telemetry & Monitoring Readiness",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-ep-wi-win-04.html",
-    "desc": "Configure logging and telemetry on Windows endpoints",
-    "tags": "logging telemetry PowerShell monitoring SOC WI"
-  },
-  {
-    "id": "IT-EP-WI-Win-05",
-    "title": "User Security Configuration",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-ep-wi-win-05.html",
-    "desc": "Configure user-facing security controls on Windows endpoints",
-    "tags": "screen lock macro browser security user WI"
-  },
-  {
-    "id": "IT-EP-WI-PAW-01",
-    "title": "PAW Build & Device Designation",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-ep-wi-paw-01.html",
-    "desc": "Build and designate a Privileged Access Workstation",
-    "tags": "PAW build device designation hardened WI"
-  },
-  {
-    "id": "IT-EP-WI-PAW-02",
-    "title": "Account Separation & Logon Restrictions",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-ep-wi-paw-02.html",
-    "desc": "Enforce account separation and logon restrictions on PAW",
-    "tags": "PAW account separation logon restriction WI"
-  },
-  {
-    "id": "IT-EP-WI-PAW-03",
-    "title": "Credential Protection & Authentication Hardening",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-ep-wi-paw-03.html",
-    "desc": "Protect credentials and harden authentication on PAW",
-    "tags": "PAW credential protection LSASS Credential Guard WI"
-  },
-  {
-    "id": "IT-EP-WI-PAW-04",
-    "title": "Endpoint Protection & ASR on PAW",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-ep-wi-paw-04.html",
-    "desc": "Configure endpoint protection and ASR on Privileged Access Workstations",
-    "tags": "PAW EDR ASR protection WI"
-  },
-  {
-    "id": "IT-EP-WI-PAW-05",
-    "title": "Software Restrictions & Network Controls",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-ep-wi-paw-05.html",
-    "desc": "Restrict software and network access on PAW",
-    "tags": "PAW software restriction network access WI"
-  },
-  {
-    "id": "IT-EP-WI-PAW-06",
-    "title": "Logging, Telemetry & SOC Visibility on PAW",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-ep-wi-paw-06.html",
-    "desc": "Configure logging and SOC visibility on PAW",
-    "tags": "PAW logging telemetry SOC visibility WI"
-  },
-  {
-    "id": "IT-EP-WI-PAW-07",
-    "title": "PAW Lifecycle, Rebuild & Incident Handling",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-ep-wi-paw-07.html",
-    "desc": "Manage PAW lifecycle, rebuild, and incident handling",
-    "tags": "PAW lifecycle rebuild incident handling WI"
-  },
-  {
-    "id": "IT-SRV-WI-Win-01",
-    "title": "Local Admin & Privileged Access Hardening \u2014 Windows Server",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-win-01.html",
-    "desc": "Harden local administrator and privileged access on Windows servers",
-    "tags": "Windows server local admin privilege hardening WI"
-  },
-  {
-    "id": "IT-SRV-WI-Win-02",
-    "title": "OS Hardening & Service Reduction \u2014 Windows Server",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-win-02.html",
-    "desc": "Harden OS and remove unnecessary services on Windows servers",
-    "tags": "Windows server OS hardening service reduction WI"
-  },
-  {
-    "id": "IT-SRV-WI-Win-03",
-    "title": "Endpoint Protection & Anti-Malware \u2014 Windows Server",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-win-03.html",
-    "desc": "Configure endpoint protection and anti-malware on Windows servers",
-    "tags": "Windows server EDR anti-malware protection WI"
-  },
-  {
-    "id": "IT-SRV-WI-Win-04",
-    "title": "Logging, Telemetry & Monitoring \u2014 Windows Server",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-win-04.html",
-    "desc": "Configure logging and telemetry on Windows servers",
-    "tags": "Windows server logging telemetry monitoring WI"
-  },
-  {
-    "id": "IT-SRV-WI-Win-05",
-    "title": "Network Security & Firewall \u2014 Windows Server",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-win-05.html",
-    "desc": "Configure network security and firewall on Windows servers",
-    "tags": "Windows server firewall network security WI"
-  },
-  {
-    "id": "IT-SRV-WI-Win-06",
-    "title": "Data Protection, Encryption & Backups \u2014 Windows Server",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-win-06.html",
-    "desc": "Configure encryption and backups on Windows servers",
-    "tags": "Windows server encryption backup data protection WI"
-  },
-  {
-    "id": "IT-SRV-WI-DC-01",
-    "title": "Tier-0 Administrative Access Enforcement",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-dc-01.html",
-    "desc": "Enforce Tier-0 administrative access on Domain Controllers",
-    "tags": "DC domain controller Tier-0 admin access WI"
-  },
-  {
-    "id": "IT-SRV-WI-DC-02",
-    "title": "Credential Protection \u2014 Domain Controller",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-dc-02.html",
-    "desc": "Protect credentials on Domain Controllers",
-    "tags": "DC credential protection LSASS NTLM Kerberos WI"
-  },
-  {
-    "id": "IT-SRV-WI-DC-03",
-    "title": "EDR Configuration \u2014 Domain Controller",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-dc-03.html",
-    "desc": "Configure EDR on Domain Controllers with DC-specific exclusions",
-    "tags": "DC EDR endpoint protection Tier-0 WI"
-  },
-  {
-    "id": "IT-SRV-WI-DC-04",
-    "title": "Logging & SOC Visibility \u2014 Domain Controller",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-dc-04.html",
-    "desc": "Configure logging and SOC visibility on Domain Controllers",
-    "tags": "DC logging SOC visibility directory services WI"
-  },
-  {
-    "id": "IT-SRV-WI-DC-05",
-    "title": "Network Isolation & Access Control \u2014 Domain Controller",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-dc-05.html",
-    "desc": "Enforce network isolation on Domain Controllers",
-    "tags": "DC network isolation firewall AD ports WI"
-  },
-  {
-    "id": "IT-SRV-WI-DC-06",
-    "title": "Backup, Recovery & Integrity \u2014 Domain Controller",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-dc-06.html",
-    "desc": "Configure backup and recovery for Domain Controllers",
-    "tags": "DC backup recovery system state Tier-0 WI"
-  },
-  {
-    "id": "IT-SRV-WI-LNX-01",
-    "title": "OS Installation, Hardening & Patch Management \u2014 Linux",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-lnx-01.html",
-    "desc": "Install, harden, and patch Linux servers",
-    "tags": "Linux OS installation hardening patching WI"
-  },
-  {
-    "id": "IT-SRV-WI-LNX-02",
-    "title": "Identity, SSH & Privileged Access \u2014 Linux",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-lnx-02.html",
-    "desc": "Harden identity, SSH, and privileged access on Linux servers",
-    "tags": "Linux SSH identity sudo PAM access WI"
-  },
-  {
-    "id": "IT-SRV-WI-LNX-03",
-    "title": "Service Reduction, SELinux & File Permissions \u2014 Linux",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-lnx-03.html",
-    "desc": "Reduce attack surface with SELinux and file permissions on Linux",
-    "tags": "Linux SELinux AppArmor service reduction permissions WI"
-  },
-  {
-    "id": "IT-SRV-WI-LNX-04",
-    "title": "Endpoint Protection & Integrity \u2014 Linux",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-lnx-04.html",
-    "desc": "Configure endpoint protection and file integrity monitoring on Linux",
-    "tags": "Linux EDR integrity monitoring protection WI"
-  },
-  {
-    "id": "IT-SRV-WI-LNX-05",
-    "title": "Logging, Auditd & SOC Visibility \u2014 Linux",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-lnx-05.html",
-    "desc": "Configure auditd and SOC visibility on Linux servers",
-    "tags": "Linux auditd logging SOC visibility monitoring WI"
-  },
-  {
-    "id": "IT-SRV-WI-LNX-06",
-    "title": "Network Firewall & Exposure Reduction \u2014 Linux",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-lnx-06.html",
-    "desc": "Configure host-based firewall on Linux servers",
-    "tags": "Linux firewall iptables nftables network exposure WI"
-  },
-  {
-    "id": "IT-SRV-WI-LNX-07",
-    "title": "Data Protection, Backups & Recovery \u2014 Linux",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-srv-wi-lnx-07.html",
-    "desc": "Configure encryption and backups on Linux servers",
-    "tags": "Linux encryption backup recovery data protection WI"
-  },
-  {
-    "id": "IT-GOV-WI-VM-01",
-    "title": "Vulnerability Scan Execution",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-gov-wi-vm-01.html",
-    "desc": "Execute vulnerability scans in a consistent and controlled manner",
-    "tags": "vulnerability scan execution authenticated coverage WI"
-  },
-  {
-    "id": "IT-GOV-WI-VM-02",
-    "title": "Vulnerability Triage & Prioritisation",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-gov-wi-vm-02.html",
-    "desc": "Triage and prioritise vulnerabilities based on risk",
-    "tags": "vulnerability triage prioritisation CVSS risk WI"
-  },
-  {
-    "id": "IT-GOV-WI-VM-03",
-    "title": "Remediation Validation",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-gov-wi-vm-03.html",
-    "desc": "Validate that vulnerability remediation has been effective",
-    "tags": "remediation validation re-scan verification closure WI"
-  },
-  {
-    "id": "IT-GOV-WI-VM-04",
-    "title": "Risk Acceptance & Exception Handling",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-gov-wi-vm-04.html",
-    "desc": "Handle vulnerability risk acceptance and exceptions",
-    "tags": "risk acceptance exception vulnerability compensating WI"
-  },
-  {
-    "id": "IT-GOV-WI-PM-01",
-    "title": "Endpoint Patch Management",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-gov-wi-pm-01.html",
-    "desc": "Deploy and validate patches on Windows endpoints",
-    "tags": "endpoint patch management deploy validate WI"
-  },
-  {
-    "id": "IT-GOV-WI-PM-02",
-    "title": "Server Patch Management",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-gov-wi-pm-02.html",
-    "desc": "Deploy and validate patches on servers",
-    "tags": "server patch management deploy validate production WI"
-  },
-  {
-    "id": "ASM",
-    "title": "Attack Surface Management Hub",
-    "section": "ASM",
-    "sub": "Domain pages",
-    "url": "asm.html",
-    "desc": "Central ASM hub covering security baselines, vulnerability management, and patch management",
-    "tags": "ASM attack surface management hub"
-  },
-  {
-    "id": "ASM-SB",
-    "title": "Security Baselines",
-    "section": "ASM",
-    "sub": "Domain pages",
-    "url": "asm-security-baselines.html",
-    "desc": "Security baselines domain \u2014 SOPs, WIs, and CIS alignment",
-    "tags": "security baselines ASM CIS hardening"
-  },
-  {
-    "id": "ASM-VM",
-    "title": "Vulnerability Management",
-    "section": "ASM",
-    "sub": "Domain pages",
-    "url": "asm-vulnerability-management.html",
-    "desc": "Vulnerability management domain \u2014 scanning, triage, and remediation",
-    "tags": "vulnerability management ASM scanning"
-  },
-  {
-    "id": "ASM-PM",
-    "title": "Patch Management",
-    "section": "ASM",
-    "sub": "Domain pages",
-    "url": "asm-patch-management.html",
-    "desc": "Patch management domain \u2014 core, emergency, and exception SOPs",
-    "tags": "patch management ASM patching"
-  },
-  {
-    "id": "ASM-CIS",
-    "title": "CIS Benchmark Alignment Matrix",
-    "section": "ASM",
-    "sub": "Reference",
-    "url": "asm-cis-matrix.html",
-    "desc": "CIS Benchmark Level 1 control mapping across all asset types",
-    "tags": "CIS benchmark alignment matrix control mapping"
-  },
-  {
-    "id": "GRC",
-    "title": "GRC Hub",
-    "section": "GRC",
-    "sub": "Domain pages",
-    "url": "grc.html",
-    "desc": "Governance Risk and Compliance hub \u2014 policies, registers, and supplier assessment",
-    "tags": "GRC governance risk compliance hub"
-  },
-  {
-    "id": "GRC-GOV",
-    "title": "GRC \u2014 Governance",
-    "section": "GRC",
-    "sub": "Domain pages",
-    "url": "grc-governance.html",
-    "desc": "GRC governance domain \u2014 policies, document review, regulatory obligations",
-    "tags": "GRC governance policy document review regulatory"
-  },
-  {
-    "id": "GRC-RISK",
-    "title": "GRC \u2014 Risk",
-    "section": "GRC",
-    "sub": "Domain pages",
-    "url": "grc-risk.html",
-    "desc": "GRC risk domain \u2014 supplier assessment, risk acceptance, exceptions",
-    "tags": "GRC risk supplier assessment exception"
-  },
-  {
-    "id": "GRC-COMP",
-    "title": "GRC \u2014 Compliance",
-    "section": "GRC",
-    "sub": "Domain pages",
-    "url": "grc-compliance.html",
-    "desc": "GRC compliance domain \u2014 baseline catalog, control library, validation",
-    "tags": "GRC compliance baseline catalog validation drift"
-  },
-  {
-    "id": "GRC-POL-01",
-    "title": "Supplier Security Assessment Policy",
-    "section": "GRC",
-    "sub": "Policies",
-    "url": "grc-pol-01.html",
-    "desc": "Overarching policy for all supplier security assessments",
-    "tags": "supplier security assessment policy GRC overarching"
-  },
-  {
-    "id": "GRC-POL-02",
-    "title": "On-Prem Application Support Supplier Security Assessment Policy",
-    "section": "GRC",
-    "sub": "Policies",
-    "url": "grc-pol-02.html",
-    "desc": "Policy for on-premises application support supplier assessments",
-    "tags": "on-prem application support supplier policy GRC"
-  },
-  {
-    "id": "GRC-POL-03",
-    "title": "General Supplier Security Assessment Policy",
-    "section": "GRC",
-    "sub": "Policies",
-    "url": "grc-pol-03.html",
-    "desc": "Policy for general supplier security assessments",
-    "tags": "general supplier policy GRC assessment"
-  },
-  {
-    "id": "GRC-SOP-01",
-    "title": "SaaS / Cloud Supplier Security Assessment Procedure",
-    "section": "GRC",
-    "sub": "SOPs",
-    "url": "grc-sop-01.html",
-    "desc": "Procedure for assessing SaaS and cloud service suppliers",
-    "tags": "SaaS cloud supplier assessment procedure GRC SOP"
-  },
-  {
-    "id": "GRC-SOP-02",
-    "title": "On-Prem Application Support Supplier Assessment Procedure",
-    "section": "GRC",
-    "sub": "SOPs",
-    "url": "grc-sop-02.html",
-    "desc": "Procedure for assessing on-premises application support suppliers",
-    "tags": "on-prem application support supplier procedure GRC SOP"
-  },
-  {
-    "id": "GRC-SOP-03",
-    "title": "General Supplier Security Assessment Procedure",
-    "section": "GRC",
-    "sub": "SOPs",
-    "url": "grc-sop-03.html",
-    "desc": "Procedure for assessing general suppliers",
-    "tags": "general supplier assessment procedure GRC SOP"
-  },
-  {
-    "id": "GRC-WI-03",
-    "title": "Reviewer WI \u2014 On-Prem Application Support Suppliers",
-    "section": "GRC",
-    "sub": "Work Instructions",
-    "url": "grc-wi-03.html",
-    "desc": "Reviewer work instructions for on-prem application support supplier assessments",
-    "tags": "reviewer WI on-prem application support GRC"
-  },
-  {
-    "id": "GRC-WI-04",
-    "title": "Reviewer WI \u2014 General Suppliers",
-    "section": "GRC",
-    "sub": "Work Instructions",
-    "url": "grc-wi-04.html",
-    "desc": "Reviewer work instructions for general supplier assessments",
-    "tags": "reviewer WI general supplier GRC"
-  },
-  {
-    "id": "GRC-FRM-08",
-    "title": "On-Prem Application Vendor Security Assessment Questionnaire",
-    "section": "GRC",
-    "sub": "Forms",
-    "url": "grc-frm-08.html",
-    "desc": "Security assessment questionnaire for on-prem application vendors and support partners",
-    "tags": "questionnaire on-prem vendor support assessment GRC form"
-  },
-  {
-    "id": "GRC-FRM-09",
-    "title": "On-Prem Application Support Supplier Scored Assessment Record",
-    "section": "GRC",
-    "sub": "Forms",
-    "url": "grc-frm-09.html",
-    "desc": "Scored assessment record for on-prem application support suppliers",
-    "tags": "scored assessment record on-prem supplier GRC form"
-  },
-  {
-    "id": "GRC-FRM-10",
-    "title": "General Supplier Security Assessment Questionnaire",
-    "section": "GRC",
-    "sub": "Forms",
-    "url": "grc-frm-10.html",
-    "desc": "Security assessment questionnaire for general suppliers",
-    "tags": "questionnaire general supplier assessment GRC form"
-  },
-  {
-    "id": "GRC-FRM-11",
-    "title": "General Supplier Scored Assessment Record",
-    "section": "GRC",
-    "sub": "Forms",
-    "url": "grc-frm-11.html",
-    "desc": "Scored assessment record for general suppliers",
-    "tags": "scored assessment record general supplier GRC form"
-  },
-  {
-    "id": "GRC-REG-BC",
-    "title": "Baseline Catalog Register",
-    "section": "GRC",
-    "sub": "Registers",
-    "url": "grc-register-baseline-catalog.html",
-    "desc": "Register of all approved security baselines in scope",
-    "tags": "baseline catalog register GRC compliance"
-  },
-  {
-    "id": "GRC-REG-CL",
-    "title": "Baseline Control Library",
-    "section": "GRC",
-    "sub": "Registers",
-    "url": "grc-register-control-library.html",
-    "desc": "Library of individual baseline controls mapped to CIS and NIST CSF",
-    "tags": "control library baseline CIS NIST GRC register"
-  },
-  {
-    "id": "GRC-REG-EX",
-    "title": "Baseline Exceptions Register",
-    "section": "GRC",
-    "sub": "Registers",
-    "url": "grc-register-exceptions.html",
-    "desc": "Register of approved baseline security exceptions",
-    "tags": "baseline exception register GRC risk"
-  },
-  {
-    "id": "GRC-REG-VR",
-    "title": "Baseline Validation Runs Register",
-    "section": "GRC",
-    "sub": "Registers",
-    "url": "grc-register-validation.html",
-    "desc": "Records of all baseline validation activities",
-    "tags": "validation runs register baseline GRC compliance"
-  },
-  {
-    "id": "GRC-REG-DR",
-    "title": "Document Review Register",
-    "section": "GRC",
-    "sub": "Registers",
-    "url": "grc-register-document-review.html",
-    "desc": "Tracks review dates and approval status for all GRC documents",
-    "tags": "document review register GRC governance"
-  },
-  {
-    "id": "GRC-REG-DT",
-    "title": "Drift & Remediation Register",
-    "section": "GRC",
-    "sub": "Registers",
-    "url": "grc-register-drift.html",
-    "desc": "Tracks baseline drift events and remediation actions",
-    "tags": "drift remediation register baseline GRC"
-  },
-  {
-    "id": "GRC-REG-PE",
-    "title": "Policy Exception Register",
-    "section": "GRC",
-    "sub": "Registers",
-    "url": "grc-register-policy-exceptions.html",
-    "desc": "Register of approved GRC policy exceptions",
-    "tags": "policy exception register GRC risk"
-  },
-  {
-    "id": "GRC-REG-RO",
-    "title": "Regulatory Obligations Register",
-    "section": "GRC",
-    "sub": "Registers",
-    "url": "grc-register-regulatory.html",
-    "desc": "Catalogue of applicable regulatory and contractual obligations",
-    "tags": "regulatory obligations register GRC compliance"
-  },
-  {
-    "id": "GRC-REG-RL",
-    "title": "Risk Acceptance Log",
-    "section": "GRC",
-    "sub": "Registers",
-    "url": "grc-register-risk-log.html",
-    "desc": "Formal record of all accepted risks with owner and expiry",
-    "tags": "risk acceptance log GRC register"
-  },
-  {
-    "id": "CORE-CONCEPTS",
-    "title": "Core Concepts & References",
-    "section": "Reference",
-    "sub": "Core",
-    "url": "core-concepts.html",
-    "desc": "Infrastructure Tier Model, account types, PAW, access rules, and security principles",
-    "tags": "tier model PAW account types access rules security principles core concepts"
-  },
-  {
-    "id": "NIST-CSF",
-    "title": "NIST CSF 2.0 Reference",
-    "section": "Reference",
-    "sub": "Core",
-    "url": "nist-csf-reference.html",
-    "desc": "Comprehensive NIST Cybersecurity Framework 2.0 reference page",
-    "tags": "NIST CSF cybersecurity framework govern identify protect detect respond recover"
-  },
-  {
-    "id": "CIS-MATRIX",
-    "title": "CIS Benchmark Alignment Matrix",
-    "section": "Reference",
-    "sub": "Core",
-    "url": "asm-cis-matrix.html",
-    "desc": "CIS Benchmark Level 1 control mapping across all asset types",
-    "tags": "CIS benchmark alignment matrix controls asset types"
   }
 ]

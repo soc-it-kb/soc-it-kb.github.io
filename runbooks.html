@@ -26,6 +26,8 @@
   .code-endpoint { background:#FEF0E6; color:#8B4A0E; }
   .code-tier1-id { background:#F3EEF9; color:#6B3FA0; }
   .code-tier1-em { background:#E1F5EE; color:#0F6E56; }
+  .code-tier1-ep { background:#FEF0E6; color:#8B4A0E; }
+  .code-tier1-nw { background:#EDF6ED; color:#2D5A2D; }
   .kb-entry-name { font-size:14px; color:#1a1a1a; flex:1; line-height:1.4; }
   .kb-entry-meta { display:flex; align-items:center; gap:10px; flex-shrink:0; }
   .kb-entry-date   { font-size:12px; color:#aaa; white-space:nowrap; }
@@ -77,12 +79,12 @@
 
   <!-- Stats -->
   <div class="stats-row">
-    <div class="stat-card"><div class="stat-num">23</div><div class="stat-label">Total runbooks</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:#0F6E56;">10</div><div class="stat-label">Email runbooks</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:#185FA5;">4</div><div class="stat-label">Identity runbooks</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:#2D5A2D;">5</div><div class="stat-label">Network runbooks</div></div>
+    <div class="stat-card"><div class="stat-num">22</div><div class="stat-label">Total runbooks</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#0F6E56;">9</div><div class="stat-label">Email runbooks</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#185FA5;">5</div><div class="stat-label">Identity runbooks</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#2D5A2D;">4</div><div class="stat-label">Network runbooks</div></div>
     <div class="stat-card"><div class="stat-num" style="color:#8B4A0E;">4</div><div class="stat-label">Endpoint runbooks</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:#6B3FA0;">10</div><div class="stat-label">Tier-1 checklists</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#6B3FA0;">20</div><div class="stat-label">Tier-1 checklists</div></div>
   </div>
 
   <div class="kb-how-box">
@@ -94,7 +96,7 @@
     <div class="kb-section-title">Email threat runbooks</div>
     <div class="kb-category">
       <div class="kb-category-header">
-        <div class="kb-category-title">📧 Email threats <span class="kb-category-badge badge-email">10 runbooks</span></div>
+        <div class="kb-category-title">📧 Email threats <span class="kb-category-badge badge-email">9 runbooks</span></div>
       </div>
       <div class="kb-entry-list">
         <a class="kb-entry" href="em-rb-03.html">
@@ -151,7 +153,7 @@
     <div class="kb-section-title">Identity threat runbooks</div>
     <div class="kb-category">
       <div class="kb-category-header">
-        <div class="kb-category-title">🔐 Identity threats <span class="kb-category-badge badge-identity">4 runbooks</span></div>
+        <div class="kb-category-title">🔐 Identity threats <span class="kb-category-badge badge-identity">5 runbooks</span></div>
       </div>
       <div class="kb-entry-list">
         <a class="kb-entry" href="id-rb-01.html">
@@ -169,6 +171,11 @@
           <span class="kb-entry-name">Review Sign-In Logs for Account Compromise</span>
           <span class="kb-entry-meta"><span class="kb-entry-date">22 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
         </a>
+        <a class="kb-entry" href="id-rb-04.html">
+          <span class="kb-entry-code code-identity">ID-RB-04</span>
+          <span class="kb-entry-name">Remove Malicious Inbox Rules</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">22 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
         <a class="kb-entry" href="id-rb-05.html">
           <span class="kb-entry-code code-identity">ID-RB-05</span>
           <span class="kb-entry-name">Revoke OAuth Consent &amp; Invalidate Tokens</span>
@@ -183,7 +190,7 @@
     <div class="kb-section-title">Network threat runbooks</div>
     <div class="kb-category">
       <div class="kb-category-header">
-        <div class="kb-category-title">🌐 Network threats <span class="kb-category-badge badge-network">5 runbooks</span></div>
+        <div class="kb-category-title">🌐 Network threats <span class="kb-category-badge badge-network">4 runbooks</span></div>
       </div>
       <div class="kb-entry-list">
         <a class="kb-entry" href="nw-rb-01.html">
@@ -199,11 +206,6 @@
         <a class="kb-entry" href="nw-rb-03.html">
           <span class="kb-entry-code code-network">NW-RB-03</span>
           <span class="kb-entry-name">Block Internal Scanning / East-West Traffic</span>
-          <span class="kb-entry-meta"><span class="kb-entry-date">23 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
-        </a>
-        <a class="kb-entry" href="nw-rb-04.html">
-          <span class="kb-entry-code code-network">NW-RB-04</span>
-          <span class="kb-entry-name">Apply DoS / DDoS Mitigations</span>
           <span class="kb-entry-meta"><span class="kb-entry-date">23 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
         </a>
         <a class="kb-entry" href="nw-rb-05.html">
@@ -315,6 +317,72 @@
         <a class="kb-entry" href="tier1-em-05.html">
           <span class="kb-entry-code code-tier1-em">EM-05</span>
           <span class="kb-entry-name">Email Auto-Forwarding / Exfiltration Abuse</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="kb-category" style="margin-top:10px;">
+      <div class="kb-category-header">
+        <div class="kb-category-title">💻 Endpoint threat checklists <span class="kb-category-badge badge-endpoint">5 checklists</span></div>
+      </div>
+      <div class="kb-entry-list">
+        <a class="kb-entry" href="tier1-ep-01.html">
+          <span class="kb-entry-code code-tier1-ep">EP-01</span>
+          <span class="kb-entry-name">Suspicious Endpoint Activity</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-ep-02.html">
+          <span class="kb-entry-code code-tier1-ep">EP-02</span>
+          <span class="kb-entry-name">Malware Detection / EDR Alert</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-ep-03.html">
+          <span class="kb-entry-code code-tier1-ep">EP-03</span>
+          <span class="kb-entry-name">Ransomware Indicators</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-ep-04.html">
+          <span class="kb-entry-code code-tier1-ep">EP-04</span>
+          <span class="kb-entry-name">Suspicious Process / LOLBin Activity</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-ep-05.html">
+          <span class="kb-entry-code code-tier1-ep">EP-05</span>
+          <span class="kb-entry-name">USB / Removable Media Alert</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="kb-category" style="margin-top:10px;">
+      <div class="kb-category-header">
+        <div class="kb-category-title">🌐 Network threat checklists <span class="kb-category-badge badge-network">5 checklists</span></div>
+      </div>
+      <div class="kb-entry-list">
+        <a class="kb-entry" href="tier1-nw-01.html">
+          <span class="kb-entry-code code-tier1-nw">NW-01</span>
+          <span class="kb-entry-name">Suspicious Outbound Traffic / C2</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-nw-02.html">
+          <span class="kb-entry-code code-tier1-nw">NW-02</span>
+          <span class="kb-entry-name">Internal Reconnaissance / Lateral Movement</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-nw-03.html">
+          <span class="kb-entry-code code-tier1-nw">NW-03</span>
+          <span class="kb-entry-name">DNS Anomaly</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-nw-04.html">
+          <span class="kb-entry-code code-tier1-nw">NW-04</span>
+          <span class="kb-entry-name">Firewall / IDS Alert</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="tier1-nw-05.html">
+          <span class="kb-entry-code code-tier1-nw">NW-05</span>
+          <span class="kb-entry-name">Data Exfiltration Indicators</span>
           <span class="kb-entry-meta"><span class="kb-entry-date">20 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
         </a>
       </div>
