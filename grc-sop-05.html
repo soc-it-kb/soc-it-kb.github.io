@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-SOP-05: Asset Management Procedure — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.8; line-height:1.6; margin-bottom:10px; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+
+  .sop-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .sop-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--grc); margin-bottom:4px; }
+  .sop-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .sop-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .sop-section p:last-child { margin-bottom:0; }
+  .sop-section h3 { font-size:14px; font-weight:600; color:var(--grc-dark); margin:14px 0 6px 0; }
+
+  .sop-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .sop-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .sop-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--grc); flex-shrink:0; margin-top:5px; }
+
+  /* Lifecycle phases */
+  .lifecycle-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px; margin-top:6px; }
+  .lifecycle-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; overflow:hidden; }
+  .lifecycle-card-header { background:var(--grc-light); padding:0.6rem 0.9rem; border-bottom:0.5px solid var(--grc-border); display:flex; align-items:center; gap:8px; }
+  .lifecycle-card-num { width:22px; height:22px; border-radius:50%; background:var(--grc); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .lifecycle-card-title { font-size:13px; font-weight:700; color:var(--grc-dark); }
+  .lifecycle-card-body { padding:0.7rem 0.9rem; font-size:12px; color:#555; line-height:1.5; }
+  .lifecycle-card-body p { margin:0; }
+
+  /* Convention example boxes */
+  .conv-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.25rem; margin-top:6px; }
+  .conv-pattern { font-family:'SF Mono','Fira Code',monospace; font-size:13px; color:var(--grc-dark); background:#fff; border:0.5px solid var(--grc-border); border-radius:6px; padding:8px 12px; display:inline-block; margin-top:5px; }
+  .conv-example { font-family:'SF Mono','Fira Code',monospace; font-size:14px; color:var(--grc-dark); background:#fff; border:0.5px solid var(--grc-border); border-radius:6px; padding:6px 10px; display:inline-block; font-weight:600; }
+  .conv-decoded { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+  .conv-piece { font-family:'SF Mono','Fira Code',monospace; font-size:11px; padding:3px 8px; border-radius:4px; font-weight:600; }
+  .conv-piece-agency  { background:#F5C0B0; color:#5C2E06; }
+  .conv-piece-country { background:#FAECE7; color:#993C1D; }
+  .conv-piece-city    { background:#FEF0E6; color:#8B4A0E; }
+  .conv-piece-type    { background:#FAEEDA; color:#854F0B; }
+  .conv-piece-seq     { background:#E1F5EE; color:#0F6E56; }
+  .conv-piece-fixed   { background:#f0f0ec; color:#666; }
+
+  /* Tables */
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--grc-dark); color:#fff; font-weight:600; padding:9px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-right:0.5px solid rgba(255,255,255,0.1); }
+  .gt-table td { padding:9px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.code { font-family:'SF Mono','Fira Code',monospace; font-weight:600; color:var(--grc); white-space:nowrap; font-size:12px; }
+  .gt-table td.lvl { font-weight:600; color:var(--grc-dark); white-space:nowrap; }
+
+  /* Roles */
+  .roles-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .role-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.85rem 1rem; }
+  .role-card h4 { font-size:12px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; }
+  .role-card p  { font-size:13px; color:#444; line-height:1.5; margin:0; }
+  @media(max-width:640px){ .roles-grid{grid-template-columns:1fr;} }
+
+  /* Maturity ladder */
+  .ladder-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:6px; }
+  .ladder-card { background:#fff; border:0.5px solid var(--grc-border); border-radius:10px; padding:0.95rem 1.1rem; position:relative; }
+  .ladder-card h4 { font-size:13px; font-weight:700; color:var(--grc-dark); margin-bottom:6px; display:flex; align-items:center; gap:7px; }
+  .ladder-card-num { width:22px; height:22px; border-radius:50%; background:var(--grc); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .ladder-card p { font-size:12px; color:#555; line-height:1.5; margin:0 0 6px 0; }
+  .ladder-card p:last-child { margin:0; }
+  .ladder-card strong { color:var(--grc-dark); }
+  @media(max-width:640px){ .ladder-grid{grid-template-columns:1fr;} }
+
+  /* Decision flow */
+  .flow-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.25rem; margin-top:6px; }
+  .flow-step { display:flex; gap:10px; margin-bottom:6px; align-items:flex-start; line-height:1.55; }
+  .flow-step:last-child { margin-bottom:0; }
+  .flow-q { font-size:11px; font-weight:700; color:#fff; background:var(--grc); padding:2px 8px; border-radius:5px; white-space:nowrap; flex-shrink:0; margin-top:1px; }
+  .flow-text { font-size:13px; color:#333; }
+  .flow-text strong { color:var(--grc-dark); }
+
+  /* Callouts */
+  .callout-info { background:var(--grc-light); border:0.5px solid var(--grc-border); border-left:3px solid var(--grc); border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:var(--grc-dark); line-height:1.55; margin-top:10px; }
+  .callout-info strong { color:var(--grc-dark); font-weight:700; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:#6b3f0a; line-height:1.55; margin-top:10px; }
+  .callout-warn strong { color:#5a330a; }
+
+  /* Schema field-group cards */
+  .schema-group { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.2rem; margin-top:6px; margin-bottom:6px; }
+  .schema-group-title { font-size:12px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; padding-bottom:5px; border-bottom:0.5px solid var(--grc-border); display:flex; align-items:center; gap:8px; }
+  .schema-group-itam { color:#854F0B; }
+  .schema-field-row { display:grid; grid-template-columns:30px 1fr 110px 80px; gap:10px; padding:5px 0; font-size:13px; align-items:start; border-bottom:0.5px solid #f0f0ec; }
+  .schema-field-row:last-child { border-bottom:none; }
+  .schema-field-row .fnum  { font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--grc); font-weight:700; padding-top:1px; }
+  .schema-field-row .fname { color:#1a1a1a; font-weight:500; }
+  .schema-field-row .fname small { display:block; color:#888; font-size:11px; font-weight:400; line-height:1.4; margin-top:2px; }
+  .schema-field-row .ftype { font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:#666; }
+  .schema-field-row .fmand { font-size:11px; }
+  .req-yes { color:#993C1D; font-weight:600; }
+  .req-cond { color:#854F0B; }
+  .req-opt { color:#888; }
+  @media(max-width:700px){ .schema-field-row{grid-template-columns:30px 1fr; } .schema-field-row .ftype, .schema-field-row .fmand{display:none;}}
+
+  /* Related */
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:6px; }
+  .rel-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.85rem 1rem; }
+  .rel-card h4 { font-size:12px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:7px; }
+  .rel-link { display:flex; align-items:center; gap:8px; font-size:13px; padding:3px 0; }
+  .rel-link::before { content:'›'; color:var(--grc); font-weight:700; }
+  .rel-link a { color:#444; text-decoration:none; }
+  .rel-link a:hover { color:var(--grc); }
+  @media(max-width:640px){ .rel-grid{grid-template-columns:1fr;} }
+
+  /* TOC */
+  .toc-box { background:#fafafa; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
+  .toc-title { font-size:11px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+  .toc-list { display:grid; grid-template-columns:1fr 1fr; gap:4px 16px; font-size:13px; }
+  .toc-list a { color:#444; text-decoration:none; padding:2px 0; display:flex; align-items:baseline; gap:8px; }
+  .toc-list a:hover { color:var(--grc); }
+  .toc-list a span { color:var(--grc); font-weight:600; font-family:'SF Mono','Fira Code',monospace; font-size:12px; min-width:24px; }
+  @media(max-width:640px){ .toc-list{grid-template-columns:1fr;} }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .sop-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .sop-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+    <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="grc.html">GRC Hub</a><span>›</span>
+    <span>SOPs</span><span>›</span>
+    <span>GRC-SOP-05</span>
+  </div>
+
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · SOP · Asset Management</div>
+    <h1>GRC-SOP-05: Asset Management &amp; Naming Convention Standard</h1>
+    <p>The authoritative procedure for identifying, classifying, naming, registering, and managing the lifecycle of IT and OT assets across all operating units. Aligned with ITIL 4 IT Asset Management (ITAM) and Service Configuration Management (SCM) practices, ISO/IEC 19770 (IT Asset Management), and ISO/IEC 27001:2022 Annex A.5.9 (Inventory of Information and Other Associated Assets).</p>
+    <div class="grc-page-hero-pills">
+      <span class="grc-page-hero-pill">ITIL 4 ITAM &amp; SCM</span>
+      <span class="grc-page-hero-pill">ISO/IEC 19770</span>
+      <span class="grc-page-hero-pill">ISO 27001:2022 A.5.9</span>
+      <span class="grc-page-hero-pill">Naming Convention</span>
+      <span class="grc-page-hero-pill">Cross-agency</span>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">📋 <strong>SOP ID:</strong> GRC-SOP-05</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">👤 <strong>Owner:</strong> Paulo Ferreira</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📅 <strong>Published:</strong> 8 May 2026</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔄 <strong>Review:</strong> Annual</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-approved">Approved</span></div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc-box">
+    <div class="toc-title">Contents</div>
+    <div class="toc-list">
+      <a href="#s1"><span>1</span> Purpose, Scope &amp; Authority</a>
+      <a href="#s2"><span>2</span> Framework Alignment</a>
+      <a href="#s3"><span>3</span> Definitions</a>
+      <a href="#s4"><span>4</span> Roles &amp; Responsibilities</a>
+      <a href="#s5"><span>5</span> Asset Taxonomy</a>
+      <a href="#s6"><span>6</span> Naming Convention</a>
+      <a href="#s7"><span>7</span> Asset Identifier Rules</a>
+      <a href="#s8"><span>8</span> Asset Record Schema</a>
+      <a href="#s9"><span>9</span> Lifecycle &amp; Status Model</a>
+      <a href="#s10"><span>10</span> Onboarding Workflow</a>
+      <a href="#s11"><span>11</span> Review &amp; Verification</a>
+      <a href="#s12"><span>12</span> Decommissioning &amp; Disposal</a>
+      <a href="#s13"><span>13</span> Maturity Ladder</a>
+      <a href="#s14"><span>14</span> Code Vocabulary &amp; Deviations</a>
+      <a href="#s15"><span>15</span> Records, Related Documents &amp; Review</a>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 1 ===== -->
+  <div class="sop-section" id="s1">
+    <div class="sop-section-num">Section 1</div>
+    <div class="sop-section-title">Purpose, Scope &amp; Authority</div>
+    <h3>1.1 Purpose</h3>
+    <p>This procedure establishes how the organisation identifies, names, classifies, and manages the lifecycle of all IT and OT assets across operating units. It defines the asset taxonomy, the naming convention, the record schema, the lifecycle states, and the workflows for onboarding, review, and decommissioning. It exists to give a single, authoritative answer to the questions an analyst, an engineer, or an auditor most often asks: "what is this asset, who owns it, where does it sit, what depends on it, what is it allowed to do, and is it still ours?"</p>
+    <p>This SOP is a foundational control. Effective asset management underpins every other security and operational discipline: incident response (blast radius), vulnerability management (which assets are affected), change management (impact analysis), business continuity (what must be restored first), regulatory compliance (where personal data lives), and threat detection (what's normal for this asset).</p>
+
+    <h3>1.2 Scope</h3>
+    <p>This procedure covers all assets — physical, virtual, cloud-hosted, software-as-a-service, identity stores, data stores, and operational technology — that are operated by or on behalf of the organisation, regardless of medium, hosting model, or operating unit. It applies to all operating units worldwide. Each operating unit must identify, register, and maintain records for the assets within its accountability.</p>
+
+    <h3>1.3 Authority</h3>
+    <p>This SOP is the authoritative source for asset management and the naming convention across the organisation. It supersedes all earlier local conventions, draft naming standards, and ad-hoc registers, including any previous Technical Design Authority (TDA) Naming Convention Standard documents. Where existing assets have legacy names that do not conform to this SOP, they are governed under the migration provisions in §11.</p>
+
+    <h3>1.4 Out of scope</h3>
+    <ul class="sop-bullet">
+      <li>Detailed financial accounting (depreciation schedules, capitalisation rules) — these live in the finance system, not this register</li>
+      <li>Software licence management beyond a basic reference field — covered under a separate licence-management procedure</li>
+      <li>Personal devices not used to conduct organisational business (true BYOD with personal data only)</li>
+      <li>Disposable media (USB sticks, optical media) — covered under data classification and removable-media procedures</li>
+      <li>End-user accounts (individuals) — covered under identity management; only service/system accounts are tracked here as assets</li>
+    </ul>
+  </div>
+
+  <!-- ===== SECTION 2 ===== -->
+  <div class="sop-section" id="s2">
+    <div class="sop-section-num">Section 2</div>
+    <div class="sop-section-title">Framework Alignment</div>
+    <p>This procedure is aligned to recognised standards and best practices. Auditors should use the table below as their primary cross-walk.</p>
+    <table class="gt-table">
+      <thead><tr><th>Framework / standard</th><th>Reference</th><th>Where addressed</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">ITIL 4</td><td class="code">ITAM (IT Asset Management) practice</td><td>Sections 5, 8, 9, 12, 13</td></tr>
+        <tr><td class="lvl">ITIL 4</td><td class="code">SCM (Service Configuration Management) practice</td><td>Sections 8, 9, 11</td></tr>
+        <tr><td class="lvl">ISO/IEC 19770-1</td><td class="code">ITAM management systems</td><td>Sections 1, 4, 9, 13</td></tr>
+        <tr><td class="lvl">ISO/IEC 27001:2022</td><td class="code">A.5.9 Inventory of information and other associated assets</td><td>Sections 5, 8, 11</td></tr>
+        <tr><td class="lvl">ISO/IEC 27001:2022</td><td class="code">A.5.10 Acceptable use of assets · A.5.11 Return of assets</td><td>Sections 9, 12</td></tr>
+        <tr><td class="lvl">NIST CSF 2.0</td><td class="code">ID.AM (Asset Management) category</td><td>Sections 5, 8, 11</td></tr>
+        <tr><td class="lvl">NIST SP 800-53 r5</td><td class="code">CM-8 (System Component Inventory)</td><td>Sections 8, 11</td></tr>
+        <tr><td class="lvl">CIS Controls v8</td><td class="code">Control 1 (Inventory and Control of Enterprise Assets), Control 2 (Software Assets)</td><td>Sections 5, 8</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== SECTION 3 ===== -->
+  <div class="sop-section" id="s3">
+    <div class="sop-section-num">Section 3</div>
+    <div class="sop-section-title">Definitions</div>
+    <p>The terms below are authoritative for this SOP and all asset-management activities.</p>
+    <table class="gt-table">
+      <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Asset</td><td>Any item of value to the organisation that processes, stores, transmits, or supports the processing of information, or that is used to conduct organisational business. Assets may be physical (servers, network devices, endpoints), virtual (VMs, containers), logical (applications, services), or relational (identity stores, data stores).</td></tr>
+        <tr><td class="lvl">Configuration Item (CI)</td><td>An asset under formal configuration control. Every CI is an asset; not every asset is a CI. CIs require change management when modified.</td></tr>
+        <tr><td class="lvl">Asset Record</td><td>The structured entry in the Asset Register (GRC-REG-ASSET) that describes a single asset and tracks its lifecycle.</td></tr>
+        <tr><td class="lvl">Asset Identifier (Asset ID)</td><td>The primary key of an asset record. For physical and located assets, the Asset ID equals the hostname per the naming convention. For non-host assets, a synthetic Asset ID is used per §7.</td></tr>
+        <tr><td class="lvl">Operating Unit</td><td>An agency, country office, subsidiary, or other organisational unit accountable for a defined population of assets. Each asset belongs to exactly one operating unit (or to "Central" for cross-agency centrally-managed assets).</td></tr>
+        <tr><td class="lvl">Business Owner</td><td>The role accountable for the business outcome that the asset supports. Decides whether the asset's purpose is still relevant.</td></tr>
+        <tr><td class="lvl">Technical Owner</td><td>The role accountable for the technical operation of the asset. Maintains it, patches it, and authorises technical changes.</td></tr>
+        <tr><td class="lvl">Security Contact</td><td>The named individual or role to contact for security-related matters affecting the asset, including incident response.</td></tr>
+        <tr><td class="lvl">System of Record</td><td>The authoritative source for a given attribute. The Asset Register is the system of record for asset identity, ownership, classification, and lifecycle. Other attributes (vulnerabilities, patches, financial data) have their own systems of record; the Register holds references, not authority.</td></tr>
+        <tr><td class="lvl">Verification</td><td>An activity to confirm that an asset record is accurate. May be active (a person checks) or automated (a tool reconciles).</td></tr>
+        <tr><td class="lvl">Reconciliation</td><td>The process of comparing an asset record against an authoritative external source (e.g. Active Directory, Intune, CrowdStrike) and resolving any differences.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== SECTION 4 ===== -->
+  <div class="sop-section" id="s4">
+    <div class="sop-section-num">Section 4</div>
+    <div class="sop-section-title">Roles &amp; Responsibilities</div>
+    <p>Asset management requires shared accountability across central and local roles. The model below distinguishes <strong>central roles</strong> (governance, architecture, oversight) from <strong>local roles</strong> (operating-unit-level execution).</p>
+
+    <h3>4.1 Central roles</h3>
+    <div class="roles-grid">
+      <div class="role-card"><h4>CISO</h4><p>Ultimate accountability for the security posture of all in-scope assets. Approves this SOP and material changes to it. Owns the relationship between the asset register and incident response.</p></div>
+      <div class="role-card"><h4>CIO</h4><p>Accountable for the IT estate. Approves naming convention extensions and code-vocabulary additions that have organisation-wide impact.</p></div>
+      <div class="role-card"><h4>Head of GRC</h4><p>Day-to-day owner of this SOP. Maintains the SOP, the Codes Register (GRC-REG-CODES), and the Asset Register (GRC-REG-ASSET). Reviews submissions, processes deviations, runs annual reviews.</p></div>
+      <div class="role-card"><h4>Head of IT Operations</h4><p>Owns automated reconciliation between the Asset Register and authoritative source systems (AD, Intune, CrowdStrike, vulnerability scanners). Identifies drift.</p></div>
+      <div class="role-card"><h4>Architecture / Technical Authority</h4><p>Adjudicates ambiguous asset classifications, technical taxonomy questions, and convention edge cases. Approves new asset-type codes.</p></div>
+      <div class="role-card"><h4>Risk Committee</h4><p>Reviews aggregate asset-coverage metrics quarterly. Endorses material changes to scope, schema, or convention.</p></div>
+    </div>
+
+    <h3>4.2 Operating-unit (local) roles</h3>
+    <div class="roles-grid">
+      <div class="role-card"><h4>LCSO / CSLC</h4><p>Local Cyber Security Officer / Coordinator. Accountable for the completeness and accuracy of asset records for their operating unit. Sponsors agency, city, and asset-type code requests.</p></div>
+      <div class="role-card"><h4>Local IT Lead</h4><p>Accountable for technical accuracy of asset records. Submits new asset records, updates existing ones, and validates reconciliation findings.</p></div>
+      <div class="role-card"><h4>Asset Submitter</h4><p>Any local IT staff member authorised to submit asset records on behalf of the operating unit. Submitters do not approve their own submissions.</p></div>
+      <div class="role-card"><h4>Business Owner (local)</h4><p>Identified per asset. Accountable for the asset's continuing business relevance and for criticality classification.</p></div>
+    </div>
+
+    <div class="callout-info"><strong>Separation of duties.</strong> The asset submitter and the asset approver are different individuals. Local IT submits; central GRC reviews and approves. This separation provides independence and is required for audit evidence.</div>
+  </div>
+
+  <!-- ===== SECTION 5 ===== -->
+  <div class="sop-section" id="s5">
+    <div class="sop-section-num">Section 5</div>
+    <div class="sop-section-title">Asset Taxonomy</div>
+    <p>Every asset is classified by a primary <strong>asset type</strong> (technology) and zero or more secondary <strong>function tags</strong>. The taxonomy is deliberately small; granularity is achieved through tags, not type proliferation.</p>
+
+    <h3>5.1 Asset types (primary classification)</h3>
+    <table class="gt-table">
+      <thead><tr><th>Asset type</th><th>Code</th><th>Definition / typical examples</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Server</td><td class="code">SRV</td><td>Physical or virtual machine providing services or compute resources (web, application, database, file, print, domain controller, jump host)</td></tr>
+        <tr><td class="lvl">Workstation</td><td class="code">DSK</td><td>Desktop computer used by an employee, contractor, or volunteer</td></tr>
+        <tr><td class="lvl">Laptop</td><td class="code">LPT</td><td>Portable computer used by an employee, contractor, or volunteer</td></tr>
+        <tr><td class="lvl">Mobile device</td><td class="code">MOB</td><td>Smartphones, tablets, or other portable endpoints managed by the organisation</td></tr>
+        <tr><td class="lvl">Network device</td><td class="code">NET</td><td>Routers, switches, firewalls, wireless controllers, access points, load balancers</td></tr>
+        <tr><td class="lvl">Storage system</td><td class="code">STO</td><td>NAS, SAN, dedicated backup appliances, archive storage, cloud storage accounts</td></tr>
+        <tr><td class="lvl">Application</td><td class="code">APP</td><td>Installed software or service operated by the organisation (ERP, CRM, custom-built app, internally-hosted SaaS)</td></tr>
+        <tr><td class="lvl">SaaS service</td><td class="code">SAAS</td><td>Vendor-delivered software-as-a-service consumed by the organisation (Microsoft 365, Salesforce, ServiceNow)</td></tr>
+        <tr><td class="lvl">Cloud workload</td><td class="code">CLD</td><td>VM, container, function, database, or other resource in IaaS/PaaS (Azure, AWS, GCP)</td></tr>
+        <tr><td class="lvl">Identity store</td><td class="code">IDS</td><td>Directory or identity provider holding accounts (Entra ID tenant, Active Directory forest, LDAP directory, Okta tenant)</td></tr>
+        <tr><td class="lvl">Data store</td><td class="code">DAT</td><td>Database, data lake, file share, or other structured/unstructured data repository tracked as an asset in its own right</td></tr>
+        <tr><td class="lvl">Peripheral device</td><td class="code">PER</td><td>Printers, scanners, conference room equipment, badge readers connected to IT systems</td></tr>
+        <tr><td class="lvl">OT device</td><td class="code">OT</td><td>Operational technology — PLCs, SCADA, HMIs, building management, medical devices, industrial sensors</td></tr>
+        <tr><td class="lvl">Other</td><td class="code">OTH</td><td>Reserved for assets that genuinely don't fit; submitter must justify</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.2 Function tags (secondary classification, multi-select)</h3>
+    <p>Tags add context to an asset's role. An asset may have any number of tags, drawn from the controlled list:</p>
+    <table class="gt-table">
+      <thead><tr><th>Function tag</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Production</td><td>Asset directly supports live business services</td></tr>
+        <tr><td class="lvl">Pre-production</td><td>Staging, UAT, or pre-production validation environment</td></tr>
+        <tr><td class="lvl">Development / Test</td><td>Development or test environment, no production data</td></tr>
+        <tr><td class="lvl">Disaster Recovery</td><td>Standby, failover, or DR-only asset</td></tr>
+        <tr><td class="lvl">Administrative</td><td>Used for management, monitoring, or operations of other assets (e.g. PAW, jump host, monitoring server)</td></tr>
+        <tr><td class="lvl">End-User Computing</td><td>Endpoints used directly by individuals to perform their work</td></tr>
+        <tr><td class="lvl">Identity &amp; Access</td><td>Identity-providing, authentication, or authorisation infrastructure</td></tr>
+        <tr><td class="lvl">Data</td><td>Asset whose primary purpose is storing or processing data</td></tr>
+        <tr><td class="lvl">Network &amp; Edge</td><td>Network plumbing or edge connectivity</td></tr>
+        <tr><td class="lvl">Security</td><td>Security-specific tooling (SIEM, EDR, SOAR, vulnerability scanner)</td></tr>
+        <tr><td class="lvl">External-facing</td><td>Asset reachable from the public internet</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== SECTION 6 ===== -->
+  <div class="sop-section" id="s6">
+    <div class="sop-section-num">Section 6</div>
+    <div class="sop-section-title">Naming Convention</div>
+    <p>This section defines the authoritative naming convention for all assets across the organisation. All physical and located assets <strong>must</strong> be named according to the structure below. Synthetic identifiers for non-host assets follow §7.</p>
+
+    <h3>6.1 Structure</h3>
+    <p>The standard asset name is composed of five segments, concatenated without separators, in capital letters and digits only:</p>
+    <div class="conv-box">
+      <div class="conv-pattern">&lt;AGENCY&gt;&lt;COUNTRY&gt;&lt;CITY&gt;&lt;TYPE&gt;&lt;SEQ&gt;</div>
+      <div class="conv-decoded">
+        <span class="conv-piece conv-piece-agency">AGENCY (3–5 alpha)</span>
+        <span class="conv-piece conv-piece-country">COUNTRY (2 alpha, ISO 3166-1)</span>
+        <span class="conv-piece conv-piece-city">CITY (3 alpha)</span>
+        <span class="conv-piece conv-piece-type">TYPE (3 alpha)</span>
+        <span class="conv-piece conv-piece-seq">SEQ (4–6 numeric)</span>
+      </div>
+    </div>
+
+    <h3>6.2 Segment rules</h3>
+    <table class="gt-table">
+      <thead><tr><th>Segment</th><th>Length</th><th>Format</th><th>Source of valid values</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Agency</td><td class="code">3–5 chars</td><td>Uppercase A–Z only</td><td>GRC-REG-CODES (Agency codes table)</td></tr>
+        <tr><td class="lvl">Country</td><td class="code">2 chars</td><td>ISO 3166-1 alpha-2 uppercase</td><td>ISO 3166-1 alpha-2 standard</td></tr>
+        <tr><td class="lvl">City / location</td><td class="code">3 chars</td><td>Uppercase A–Z only</td><td>GRC-REG-CODES (City codes table)</td></tr>
+        <tr><td class="lvl">Asset type</td><td class="code">3 chars</td><td>Uppercase A–Z only</td><td>GRC-REG-CODES (Asset type codes table) — see §5.1</td></tr>
+        <tr><td class="lvl">Sequence</td><td class="code">4–6 digits</td><td>Numeric, zero-padded</td><td>Issued locally per (Agency × Country × City × Type)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>6.3 Examples</h3>
+    <p>The following examples demonstrate the convention in practice:</p>
+
+    <div class="conv-box">
+      <span class="conv-example">AKDNPTLISSRV0001</span>
+      <div class="conv-decoded">
+        <span class="conv-piece conv-piece-agency">AKDN</span>
+        <span class="conv-piece conv-piece-country">PT</span>
+        <span class="conv-piece conv-piece-city">LIS</span>
+        <span class="conv-piece conv-piece-type">SRV</span>
+        <span class="conv-piece conv-piece-seq">0001</span>
+      </div>
+      <p style="font-size:12px;color:#888;margin-top:6px;">AKDN agency, Portugal, Lisbon, Server, sequence 0001</p>
+    </div>
+
+    <div class="conv-box">
+      <span class="conv-example">IISUKLONLPT01234</span>
+      <div class="conv-decoded">
+        <span class="conv-piece conv-piece-agency">IIS</span>
+        <span class="conv-piece conv-piece-country">UK</span>
+        <span class="conv-piece conv-piece-city">LON</span>
+        <span class="conv-piece conv-piece-type">LPT</span>
+        <span class="conv-piece conv-piece-seq">01234</span>
+      </div>
+      <p style="font-size:12px;color:#888;margin-top:6px;">IIS agency, United Kingdom, London, Laptop, sequence 01234</p>
+    </div>
+
+    <div class="conv-box">
+      <span class="conv-example">AKHSKEMOMNET005</span>
+      <div class="conv-decoded">
+        <span class="conv-piece conv-piece-agency">AKHS</span>
+        <span class="conv-piece conv-piece-country">KE</span>
+        <span class="conv-piece conv-piece-city">MOM</span>
+        <span class="conv-piece conv-piece-type">NET</span>
+        <span class="conv-piece conv-piece-seq">005</span>
+      </div>
+      <p style="font-size:12px;color:#888;margin-top:6px;">AKHS agency, Kenya, Mombasa, Network device, sequence 005</p>
+    </div>
+
+    <h3>6.4 Length considerations</h3>
+    <p>The minimum compliant name length is 13 characters (3+2+3+3+4 with shortest sequence). The maximum is 19 characters (5+2+3+3+6). This may exceed the legacy NetBIOS limit of 15 characters for some agencies and sequence widths. The organisation accepts this trade-off:</p>
+    <ul class="sop-bullet">
+      <li><strong>Modern Active Directory and DNS</strong> support computer names up to 63 characters. NetBIOS is largely irrelevant in modern environments.</li>
+      <li><strong>SMB/CIFS browsing</strong> by NetBIOS name is no longer required where DNS resolution is functional, which is the standard for all modern AD environments.</li>
+      <li><strong>Where a specific tool or vendor product</strong> imposes a hard 15-character limit, the local operating unit submits a deviation request per §14.</li>
+      <li><strong>Sequence width is chosen by the operating unit</strong> based on expected asset volume per (Agency × Country × City × Type) tuple. Use 4 digits where total volume will not exceed 9,999; use 6 digits for higher-volume sites.</li>
+    </ul>
+
+    <h3>6.5 Capitalisation, characters, and separators</h3>
+    <ul class="sop-bullet">
+      <li>All segments are <strong>uppercase</strong>; lowercase is non-conformant</li>
+      <li><strong>No separators</strong> between segments; the full name is one continuous string</li>
+      <li><strong>Alpha segments</strong> use A–Z only; no digits, no special characters</li>
+      <li><strong>The sequence segment</strong> uses 0–9 only; no alpha</li>
+      <li>Hyphens, underscores, and other symbols are <strong>not permitted</strong> in any segment</li>
+    </ul>
+  </div>
+
+  <!-- ===== SECTION 7 ===== -->
+  <div class="sop-section" id="s7">
+    <div class="sop-section-num">Section 7</div>
+    <div class="sop-section-title">Asset Identifier Rules</div>
+    <p>The Asset Identifier (Asset ID) is the primary key in the Asset Register. Two patterns apply, depending on whether the asset has a hostname or location.</p>
+
+    <h3>7.1 Pattern A — Physical &amp; located assets</h3>
+    <p>For any asset that has a hostname or a fixed location (servers, workstations, laptops, mobile devices, network devices, peripherals, OT devices), the <strong>Asset ID equals the hostname</strong> per §6.</p>
+    <div class="conv-box">
+      <p style="margin-bottom:6px;">Example: a Lisbon server with hostname <span class="conv-example">AKDNPTLISSRV0001</span></p>
+      <p style="font-size:13px;color:#555;margin:0;">Asset ID = <code>AKDNPTLISSRV0001</code> (identical to the hostname). One identifier across hostname, asset record, and SIEM correlation.</p>
+    </div>
+
+    <h3>7.2 Pattern B — Non-host assets (operating-unit-owned)</h3>
+    <p>For assets that have no hostname and no fixed physical location (SaaS services, applications, identity stores, data stores, cloud workloads at the logical-service level), use a synthetic identifier:</p>
+    <div class="conv-box">
+      <div class="conv-pattern">ASSET-&lt;AGENCY&gt;-&lt;TYPE&gt;-&lt;SEQ&gt;</div>
+      <p style="font-size:13px;color:#555;margin-top:8px;margin-bottom:0;">Example: <span class="conv-example">ASSET-AKDN-SAAS-0001</span> for a SaaS service owned by AKDN</p>
+    </div>
+
+    <h3>7.3 Pattern C — Cross-agency / centrally-managed assets</h3>
+    <p>For assets provided centrally and consumed by multiple operating units (e.g. a global Microsoft 365 tenant, a global Entra ID directory, a central SIEM), use the explicit <code>CENTRAL</code> prefix to make the cross-agency nature visible:</p>
+    <div class="conv-box">
+      <div class="conv-pattern">ASSET-CENTRAL-&lt;TYPE&gt;-&lt;SEQ&gt;</div>
+      <p style="font-size:13px;color:#555;margin-top:8px;margin-bottom:0;">Example: <span class="conv-example">ASSET-CENTRAL-SAAS-0001</span> for a global Microsoft 365 tenant.<br>Example: <span class="conv-example">ASSET-CENTRAL-IDS-0001</span> for the global Entra ID directory.</p>
+    </div>
+
+    <h3>7.4 Multi-instance and clustered assets</h3>
+    <p>The treatment of clustered or multi-instance assets depends on the asset type:</p>
+    <ul class="sop-bullet">
+      <li><strong>Physical hosts</strong> get one record per host. A 6-node cluster of database servers is six asset records (six hostnames). The cluster relationship is captured via dependency links, not via merging.</li>
+      <li><strong>Applications and SaaS services</strong> get one record per logical service. A clustered application running on six hosts is one application asset record; the six hosts are six separate server records, linked via "hosts" dependency.</li>
+      <li><strong>Cloud workloads</strong> follow the unit-of-management. If a Kubernetes deployment is managed as a single unit, it is one asset record; if individual pods or VMs are independently managed, they are separate records.</li>
+      <li><strong>Clusters</strong> defined explicitly: where a parent–child relationship matters (e.g. a database cluster), create a parent record (one CLD or APP) and link child records (the underlying SRVs) via dependency.</li>
+    </ul>
+
+    <h3>7.5 Hostname change handling</h3>
+    <p>Where a hostname changes (rename, re-deployment, environment migration), the Asset Record retains its history. The Asset ID is updated to the new hostname; the old hostname is recorded in the "Previous identifiers" field. The asset is the same logical thing; only the identifier moves.</p>
+    <p>Where an asset is decommissioned and a new asset takes its place at the same physical location, the new asset receives the <strong>next available sequence number</strong> in its (Agency × Country × City × Type) series. <strong>Sequence numbers are not recycled</strong>; once an Asset ID is used, it remains permanently associated with the original asset record.</p>
+  </div>
+
+  <!-- ===== SECTION 8 ===== -->
+  <div class="sop-section" id="s8">
+    <div class="sop-section-num">Section 8</div>
+    <div class="sop-section-title">Asset Record Schema</div>
+    <p>Every asset has a record in the Asset Register (GRC-REG-ASSET) with the fields defined below. Fields are grouped by purpose. Mandatory fields must be present at onboarding; conditional fields are mandatory only where applicable; optional fields support advanced ITAM but are not required for SCM-level operation.</p>
+
+    <p style="margin-top:14px;font-size:13px;color:#666;"><em>Legend: <span class="req-yes">●</span> mandatory · <span class="req-cond">●</span> conditional · <span class="req-opt">●</span> optional (ITAM extension)</em></p>
+
+    <div class="schema-group">
+      <div class="schema-group-title">A · Identification (5 fields)</div>
+      <div class="schema-field-row"><div class="fnum">1</div><div class="fname">Asset ID<small>Hostname (Pattern A) or synthetic ID (Pattern B/C) per §7</small></div><div class="ftype">string(13–25)</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">2</div><div class="fname">Display name<small>Human-readable; may equal Asset ID</small></div><div class="ftype">string</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">3</div><div class="fname">Hostname / FQDN / Service URL<small>Technical identifier; for hosts equals Asset ID</small></div><div class="ftype">string</div><div class="fmand req-cond">conditional</div></div>
+      <div class="schema-field-row"><div class="fnum">4</div><div class="fname">Asset type<small>Per §5.1 taxonomy (single value)</small></div><div class="ftype">enum</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">5</div><div class="fname">Function tags<small>Per §5.2 (multi-select)</small></div><div class="ftype">enum[]</div><div class="fmand req-cond">conditional</div></div>
+    </div>
+
+    <div class="schema-group">
+      <div class="schema-group-title">B · Ownership (4 fields)</div>
+      <div class="schema-field-row"><div class="fnum">6</div><div class="fname">Operating unit<small>Agency code (federation key); use CENTRAL for cross-agency</small></div><div class="ftype">enum</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">7</div><div class="fname">Business owner<small>Role + named individual</small></div><div class="ftype">string</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">8</div><div class="fname">Technical owner<small>Role + named individual</small></div><div class="ftype">string</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">9</div><div class="fname">Security contact<small>Incident-response point of contact</small></div><div class="ftype">string</div><div class="fmand req-yes">mandatory</div></div>
+    </div>
+
+    <div class="schema-group">
+      <div class="schema-group-title">C · Classification (4 fields)</div>
+      <div class="schema-field-row"><div class="fnum">10</div><div class="fname">Criticality tier<small>Per existing tier model (Tier 0/1/2/3) — see Core Concepts</small></div><div class="ftype">enum</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">11</div><div class="fname">Data classification<small>Confidential L4 / L3 / L2 / Public L1 (per IRP §10)</small></div><div class="ftype">enum</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">12</div><div class="fname">Personal data flag<small>Yes / No / Unknown — drives GDPR scope</small></div><div class="ftype">enum</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">13</div><div class="fname">Regulatory tags<small>GDPR / NIS2 / DORA / HIPAA / PCI-DSS / sector-specific / None (multi)</small></div><div class="ftype">enum[]</div><div class="fmand req-cond">conditional</div></div>
+    </div>
+
+    <div class="schema-group">
+      <div class="schema-group-title">D · Technical (5 fields)</div>
+      <div class="schema-field-row"><div class="fnum">14</div><div class="fname">Environment<small>Production / Pre-prod / Dev / Test / DR</small></div><div class="ftype">enum</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">15</div><div class="fname">Hosting model<small>On-prem / Private cloud / Public cloud (Azure/AWS/GCP) / SaaS / Hybrid</small></div><div class="ftype">enum</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">16</div><div class="fname">Network zone / segment<small>VLAN, subnet, security zone</small></div><div class="ftype">string</div><div class="fmand req-cond">conditional</div></div>
+      <div class="schema-field-row"><div class="fnum">17</div><div class="fname">OS / platform<small>e.g. Windows Server 2022, RHEL 9, Azure Functions v4</small></div><div class="ftype">string</div><div class="fmand req-cond">conditional</div></div>
+      <div class="schema-field-row"><div class="fnum">18</div><div class="fname">Key dependencies<small>What this asset depends on / what depends on it</small></div><div class="ftype">string[]</div><div class="fmand req-cond">conditional</div></div>
+    </div>
+
+    <div class="schema-group">
+      <div class="schema-group-title">E · Lifecycle (4 fields)</div>
+      <div class="schema-field-row"><div class="fnum">19</div><div class="fname">Status<small>Per §9 lifecycle states</small></div><div class="ftype">enum</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">20</div><div class="fname">Onboarded date<small>When asset moved to Live</small></div><div class="ftype">date</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">21</div><div class="fname">Last reviewed date<small>When the record was last verified</small></div><div class="ftype">date</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">22</div><div class="fname">Next review due<small>Driven by Tier — annual T0/T1, 18m T2, 24m T3</small></div><div class="ftype">date</div><div class="fmand req-yes">mandatory</div></div>
+    </div>
+
+    <div class="schema-group">
+      <div class="schema-group-title">F · Operational (3 fields)</div>
+      <div class="schema-field-row"><div class="fnum">23</div><div class="fname">Backup model<small>In scope / Out of scope / Best-effort + reference</small></div><div class="ftype">enum</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">24</div><div class="fname">Monitoring<small>SOC / Local-only / Out of scope</small></div><div class="ftype">enum</div><div class="fmand req-yes">mandatory</div></div>
+      <div class="schema-field-row"><div class="fnum">25</div><div class="fname">Patching ownership<small>Central IT / Agency IT / Vendor / Self-managed</small></div><div class="ftype">enum</div><div class="fmand req-yes">mandatory</div></div>
+    </div>
+
+    <div class="schema-group">
+      <div class="schema-group-title">G · Risk &amp; references (3 fields)</div>
+      <div class="schema-field-row"><div class="fnum">26</div><div class="fname">Open risks<small>Links to RISK-NNN entries in GRC-REG-RISK</small></div><div class="ftype">string[]</div><div class="fmand req-cond">conditional</div></div>
+      <div class="schema-field-row"><div class="fnum">27</div><div class="fname">Known exceptions<small>Links to GRC-REG-EXCEPTIONS entries</small></div><div class="ftype">string[]</div><div class="fmand req-cond">conditional</div></div>
+      <div class="schema-field-row"><div class="fnum">28</div><div class="fname">Notes<small>Free text for context not captured elsewhere</small></div><div class="ftype">string</div><div class="fmand req-opt">optional</div></div>
+    </div>
+
+    <div class="schema-group" style="border-color:#FAC775;background:#FFFBF2;">
+      <div class="schema-group-title schema-group-itam">H · ITAM extension (6 fields — optional, see §13 maturity ladder)</div>
+      <div class="schema-field-row"><div class="fnum">29</div><div class="fname">Cost centre<small>Finance code for chargeback/allocation</small></div><div class="ftype">string</div><div class="fmand req-opt">optional</div></div>
+      <div class="schema-field-row"><div class="fnum">30</div><div class="fname">Vendor / supplier<small>Manufacturer or service provider</small></div><div class="ftype">string</div><div class="fmand req-opt">optional</div></div>
+      <div class="schema-field-row"><div class="fnum">31</div><div class="fname">Contract reference<small>Procurement reference; auth source = procurement system</small></div><div class="ftype">string</div><div class="fmand req-opt">optional</div></div>
+      <div class="schema-field-row"><div class="fnum">32</div><div class="fname">Procurement date<small>Date asset was acquired</small></div><div class="ftype">date</div><div class="fmand req-opt">optional</div></div>
+      <div class="schema-field-row"><div class="fnum">33</div><div class="fname">Warranty / support end date<small>When vendor support expires</small></div><div class="ftype">date</div><div class="fmand req-opt">optional</div></div>
+      <div class="schema-field-row"><div class="fnum">34</div><div class="fname">Replacement cost band<small>Indicative band: &lt;1k / 1–10k / 10–100k / &gt;100k (USD)</small></div><div class="ftype">enum</div><div class="fmand req-opt">optional</div></div>
+    </div>
+
+    <div class="callout-info"><strong>System-of-record discipline.</strong> Fields 29–34 reference data that lives authoritatively elsewhere (procurement, finance, vendor systems). The Asset Register holds these for security and operational decision-making, not as the system of record. Where the procurement system updates, the Asset Register is updated to reflect, not the other way around. Disputes are resolved against the procurement system.</div>
+  </div>
+
+  <!-- ===== SECTION 9 ===== -->
+  <div class="sop-section" id="s9">
+    <div class="sop-section-num">Section 9</div>
+    <div class="sop-section-title">Lifecycle &amp; Status Model</div>
+    <p>Every asset progresses through defined lifecycle states. Transitions are recorded with date and approver in the asset record's audit trail.</p>
+
+    <div class="lifecycle-grid">
+      <div class="lifecycle-card">
+        <div class="lifecycle-card-header"><div class="lifecycle-card-num">1</div><div class="lifecycle-card-title">Proposed</div></div>
+        <div class="lifecycle-card-body"><p>Asset record created; not yet built or deployed. Used for assets in procurement or design phase. Reviewable by GRC but not yet operationally relevant.</p></div>
+      </div>
+      <div class="lifecycle-card">
+        <div class="lifecycle-card-header"><div class="lifecycle-card-num">2</div><div class="lifecycle-card-title">Onboarding</div></div>
+        <div class="lifecycle-card-body"><p>Asset is being built, configured, or deployed. Subject to onboarding checks (see §10). May appear in monitoring tools but is not yet load-bearing.</p></div>
+      </div>
+      <div class="lifecycle-card">
+        <div class="lifecycle-card-header"><div class="lifecycle-card-num">3</div><div class="lifecycle-card-title">Live</div></div>
+        <div class="lifecycle-card-body"><p>Asset is operational and authorised to support business activities. Subject to all standard controls (monitoring, patching, backup as defined for its type and tier).</p></div>
+      </div>
+      <div class="lifecycle-card">
+        <div class="lifecycle-card-header"><div class="lifecycle-card-num">4</div><div class="lifecycle-card-title">Under review</div></div>
+        <div class="lifecycle-card-body"><p>Periodic or triggered review in progress. Asset remains operational but a verification activity is underway. Returns to Live after review closes.</p></div>
+      </div>
+      <div class="lifecycle-card">
+        <div class="lifecycle-card-header"><div class="lifecycle-card-num">5</div><div class="lifecycle-card-title">Decommissioning</div></div>
+        <div class="lifecycle-card-body"><p>Asset is being retired. Service is being migrated, drained, or shut down. Decommissioning checklist (see §12) must be completed before final state.</p></div>
+      </div>
+      <div class="lifecycle-card">
+        <div class="lifecycle-card-header"><div class="lifecycle-card-num">6</div><div class="lifecycle-card-title">Decommissioned</div></div>
+        <div class="lifecycle-card-body"><p>Asset is no longer operational. Record is retained for audit. Decommissioning evidence (data destruction, asset disposal) is attached to the record.</p></div>
+      </div>
+      <div class="lifecycle-card">
+        <div class="lifecycle-card-header"><div class="lifecycle-card-num">7</div><div class="lifecycle-card-title">Archived</div></div>
+        <div class="lifecycle-card-body"><p>Asset record is moved out of the active register, retained for audit per §15 retention rules. Archived records are not editable; they are referenced by ID only.</p></div>
+      </div>
+    </div>
+
+    <h3>9.1 Allowed transitions</h3>
+    <table class="gt-table">
+      <thead><tr><th>From</th><th>To</th><th>Trigger</th><th>Authoriser</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">—</td><td class="lvl">Proposed</td><td>New asset record submitted</td><td>Local IT Lead</td></tr>
+        <tr><td class="lvl">Proposed</td><td class="lvl">Onboarding</td><td>Asset build/deployment begins</td><td>Local IT Lead</td></tr>
+        <tr><td class="lvl">Onboarding</td><td class="lvl">Live</td><td>Onboarding checklist complete; GRC approves</td><td>Head of GRC</td></tr>
+        <tr><td class="lvl">Live</td><td class="lvl">Under review</td><td>Scheduled or triggered review</td><td>Local IT Lead or Head of GRC</td></tr>
+        <tr><td class="lvl">Under review</td><td class="lvl">Live</td><td>Review closed; record verified</td><td>Local IT Lead</td></tr>
+        <tr><td class="lvl">Live or Under review</td><td class="lvl">Decommissioning</td><td>Retirement decision taken</td><td>Local IT Lead with Business Owner approval</td></tr>
+        <tr><td class="lvl">Decommissioning</td><td class="lvl">Decommissioned</td><td>Decommissioning checklist complete</td><td>Head of GRC</td></tr>
+        <tr><td class="lvl">Decommissioned</td><td class="lvl">Archived</td><td>Retention period elapsed</td><td>Head of GRC (automated where possible)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== SECTION 10 ===== -->
+  <div class="sop-section" id="s10">
+    <div class="sop-section-num">Section 10</div>
+    <div class="sop-section-title">Onboarding Workflow</div>
+    <p>An asset is onboarded when its record is created and validated. The workflow below applies to every new asset, regardless of type.</p>
+    <div class="flow-box">
+      <div class="flow-step"><span class="flow-q">Step 1</span><span class="flow-text"><strong>Submit</strong> — Local IT Lead (or delegated submitter) creates the asset record using GRC-FRM-XX (Asset Onboarding Form, future delivery), or the equivalent form provided by the GRC team. All mandatory fields per §8 must be present. Status = Proposed.</span></div>
+      <div class="flow-step"><span class="flow-q">Step 2</span><span class="flow-text"><strong>Validate naming</strong> — Submitter confirms Asset ID conforms to §6/§7. Where any segment requires a code not yet in GRC-REG-CODES, the submitter raises a code request first (see §14).</span></div>
+      <div class="flow-step"><span class="flow-q">Step 3</span><span class="flow-text"><strong>Classify</strong> — Submitter assigns asset type (§5.1), function tags (§5.2), criticality tier, data classification, and regulatory tags. Where uncertain, the submitter proposes and flags for GRC review.</span></div>
+      <div class="flow-step"><span class="flow-q">Step 4</span><span class="flow-text"><strong>Identify owners</strong> — Business owner, technical owner, and security contact must be named and contactable. "Team mailbox" is acceptable as a fallback only where a named owner is genuinely unavailable.</span></div>
+      <div class="flow-step"><span class="flow-q">Step 5</span><span class="flow-text"><strong>Build / deploy</strong> — Asset is built or deployed per local procedures. Status moves to Onboarding.</span></div>
+      <div class="flow-step"><span class="flow-q">Step 6</span><span class="flow-text"><strong>GRC review</strong> — Head of GRC (or delegate) reviews the record per the Reviewer Work Instruction (GRC-WI-05). Common review failures: incomplete classification, mismatched naming, missing owners, conflict with existing record.</span></div>
+      <div class="flow-step"><span class="flow-q">Step 7</span><span class="flow-text"><strong>Approve and publish</strong> — Once GRC approves, status moves to Live and the record is published in GRC-REG-ASSET. Onboarding date is recorded.</span></div>
+    </div>
+
+    <h3>10.1 Onboarding completeness checklist</h3>
+    <ul class="sop-bullet">
+      <li>Asset ID assigned and conformant with §6/§7</li>
+      <li>All required codes present in GRC-REG-CODES (no pending code requests)</li>
+      <li>Asset type and function tags assigned per §5</li>
+      <li>Criticality tier and data classification assigned</li>
+      <li>Business owner, technical owner, and security contact named with valid contact details</li>
+      <li>Environment, hosting model, OS/platform recorded</li>
+      <li>Backup, monitoring, and patching ownership defined</li>
+      <li>Key dependencies recorded</li>
+      <li>Open risks and known exceptions linked where applicable</li>
+      <li>Initial review date scheduled per Tier (annual T0/T1, 18 months T2, 24 months T3)</li>
+    </ul>
+  </div>
+
+  <!-- ===== SECTION 11 ===== -->
+  <div class="sop-section" id="s11">
+    <div class="sop-section-num">Section 11</div>
+    <div class="sop-section-title">Review &amp; Verification</div>
+    <p>Asset records must be kept current. Verification combines scheduled active reviews and continuous automated reconciliation against authoritative source systems.</p>
+
+    <h3>11.1 Active review cadence</h3>
+    <table class="gt-table">
+      <thead><tr><th>Criticality tier</th><th>Active review interval</th><th>Reviewer</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Tier 0</td><td>Annual</td><td>Local IT Lead with GRC sign-off</td></tr>
+        <tr><td class="lvl">Tier 1</td><td>Annual</td><td>Local IT Lead with GRC sign-off</td></tr>
+        <tr><td class="lvl">Tier 2</td><td>Every 18 months</td><td>Local IT Lead</td></tr>
+        <tr><td class="lvl">Tier 3</td><td>Every 24 months</td><td>Local IT Lead (sample-based for high-volume types)</td></tr>
+      </tbody>
+    </table>
+    <p>An active review confirms: ownership remains current; technical attributes are accurate; classifications are still appropriate; dependencies remain valid; the asset is still authorised to operate.</p>
+
+    <h3>11.2 Triggered review (out-of-cycle)</h3>
+    <p>An out-of-cycle review is required when:</p>
+    <ul class="sop-bullet">
+      <li>Ownership changes (business owner, technical owner, security contact)</li>
+      <li>The asset is involved in a Sev 1 or Sev 2 incident (per GRC-IRP-01)</li>
+      <li>A material technical change occurs (re-platform, major version upgrade, hosting migration)</li>
+      <li>A new risk is registered against the asset (linked from GRC-REG-RISK)</li>
+      <li>An audit finding identifies the record as inaccurate</li>
+      <li>Reconciliation against an authoritative source surfaces drift</li>
+    </ul>
+
+    <h3>11.3 Automated reconciliation</h3>
+    <p>The Head of IT Operations operates automated reconciliation between the Asset Register and authoritative source systems. The minimum reconciliation set is:</p>
+    <ul class="sop-bullet">
+      <li><strong>Active Directory / Entra ID</strong> — every server, endpoint, and identity-store record reconciled against directory presence</li>
+      <li><strong>Endpoint management (Intune, JAMF, equivalent)</strong> — workstation and laptop records reconciled against managed-device fleet</li>
+      <li><strong>EDR (CrowdStrike or equivalent)</strong> — server, workstation, laptop records reconciled against EDR coverage</li>
+      <li><strong>Vulnerability scanner</strong> — IP-routable assets reconciled against scanner coverage</li>
+      <li><strong>Cloud subscription inventory</strong> — cloud workload records reconciled against subscription/tenant inventory</li>
+    </ul>
+    <p>Reconciliation findings are categorised:</p>
+    <ul class="sop-bullet">
+      <li><strong>In-register, in-source:</strong> match — no action</li>
+      <li><strong>In-register, not in-source:</strong> stale record — investigate (asset retired without record update?)</li>
+      <li><strong>Not in-register, in-source:</strong> missing record — initiate retroactive onboarding</li>
+      <li><strong>Attribute drift:</strong> ownership, OS version, environment differs — update or investigate</li>
+    </ul>
+    <p>Reconciliation reports are produced monthly and reviewed by the Head of GRC and the Head of IT Operations.</p>
+  </div>
+
+  <!-- ===== SECTION 12 ===== -->
+  <div class="sop-section" id="s12">
+    <div class="sop-section-num">Section 12</div>
+    <div class="sop-section-title">Decommissioning &amp; Disposal</div>
+    <p>Decommissioning is a controlled lifecycle event. Skipping or rushing decommissioning is a leading cause of orphaned data, persistent vulnerabilities, and compliance findings.</p>
+
+    <h3>12.1 Decommissioning checklist</h3>
+    <ul class="sop-bullet">
+      <li>Decommissioning decision recorded with business and technical owner sign-off</li>
+      <li>Dependent assets identified; downstream impact assessed and communicated</li>
+      <li>Data classification reviewed; data-handling plan for retained, migrated, or destroyed data documented</li>
+      <li>Backup of asset state taken (where retention is required)</li>
+      <li>Connections to other assets terminated cleanly (DNS, network ACLs, identity grants, monitoring agents)</li>
+      <li>Asset removed from monitoring scope (with reason recorded)</li>
+      <li>Service accounts and machine identities revoked or rotated</li>
+      <li>Certificates issued to the asset revoked or expired</li>
+      <li>Physical disposal route confirmed (return to vendor, secure disposal, redeployment) with chain-of-custody record</li>
+      <li>For data stores: data destruction certified per data-classification level (cryptographic erase, secure wipe, physical destruction)</li>
+      <li>Asset record status set to Decommissioned with date and authoriser</li>
+    </ul>
+
+    <h3>12.2 Data destruction by classification</h3>
+    <p>Assets carrying personal data, Confidential L3, or Confidential L4 data require certified destruction. The level of certification scales with classification:</p>
+    <table class="gt-table">
+      <thead><tr><th>Data classification</th><th>Minimum destruction method</th><th>Certification required</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Confidential L4</td><td>Cryptographic erase + physical destruction or NIST SP 800-88 Purge</td><td>Certificate of destruction signed by Head of IT Ops + retained for 7 years</td></tr>
+        <tr><td class="lvl">Confidential L3</td><td>Cryptographic erase or NIST SP 800-88 Purge</td><td>Certificate signed by Local IT Lead</td></tr>
+        <tr><td class="lvl">Confidential L2</td><td>Standard secure wipe (single-pass overwrite minimum)</td><td>Logged in asset record</td></tr>
+        <tr><td class="lvl">Public L1</td><td>Standard wipe before disposal</td><td>Logged in asset record</td></tr>
+      </tbody>
+    </table>
+
+    <h3>12.3 Identifier non-recycling</h3>
+    <p>Once an Asset ID is allocated, it is <strong>permanently associated with the original asset</strong>. A new asset replacing a decommissioned one receives the next available sequence number. Recycling Asset IDs creates correlation errors in long-running data sources (SIEM logs, vulnerability history, audit trails) and is prohibited.</p>
+  </div>
+
+  <!-- ===== SECTION 13 ===== -->
+  <div class="sop-section" id="s13">
+    <div class="sop-section-num">Section 13</div>
+    <div class="sop-section-title">Maturity Ladder</div>
+    <p>Operating units are not required to reach full ITAM maturity on day one. The ladder below sets out a progression. Operating units should be at Level 1 within 6 months of this SOP being in force, Level 2 within 12 months, and Level 3 within 24 months.</p>
+
+    <div class="ladder-grid">
+      <div class="ladder-card">
+        <h4><span class="ladder-card-num">1</span>Inventory established</h4>
+        <p><strong>Schema:</strong> mandatory fields (§8 groups A–E) populated for all in-scope assets.</p>
+        <p><strong>Lifecycle:</strong> Proposed / Onboarding / Live / Decommissioned tracked manually.</p>
+        <p><strong>Verification:</strong> active review only; no automation.</p>
+        <p><strong>Outcome:</strong> "we know what we have." Foundational SCM.</p>
+      </div>
+      <div class="ladder-card">
+        <h4><span class="ladder-card-num">2</span>Operationally integrated</h4>
+        <p><strong>Schema:</strong> all SCM fields (groups A–G) populated; ITAM fields (group H) emerging.</p>
+        <p><strong>Lifecycle:</strong> full state model in use; transitions logged; reviews on cadence.</p>
+        <p><strong>Verification:</strong> active reviews + automated reconciliation against AD, EDR, vulnerability scanner.</p>
+        <p><strong>Outcome:</strong> register supports incident response, vulnerability prioritisation, change-impact analysis.</p>
+      </div>
+      <div class="ladder-card">
+        <h4><span class="ladder-card-num">3</span>Full ITAM</h4>
+        <p><strong>Schema:</strong> all fields populated including ITAM extension (group H).</p>
+        <p><strong>Lifecycle:</strong> integrated with procurement, finance, and BC/DR systems.</p>
+        <p><strong>Verification:</strong> continuous automated reconciliation across all source systems; service mapping in place.</p>
+        <p><strong>Outcome:</strong> register supports financial planning, vendor management, full BC/DR, supplier risk.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SECTION 14 ===== -->
+  <div class="sop-section" id="s14">
+    <div class="sop-section-num">Section 14</div>
+    <div class="sop-section-title">Code Vocabulary &amp; Deviations</div>
+    <p>The naming convention's three controlled vocabularies — <strong>agency codes</strong>, <strong>city/location codes</strong>, and <strong>asset-type codes</strong> — are maintained in <a href="grc-reg-codes.html" style="color:var(--grc);font-weight:600;">GRC-REG-CODES</a>. The Codes Register is the authoritative source.</p>
+
+    <h3>14.1 Adding a new code</h3>
+    <ol class="sop-bullet">
+      <li>The local LCSO or Local IT Lead identifies the need for a new code (e.g. a new agency onboards, a new city is opened, a new asset type emerges)</li>
+      <li>Submitter raises a code request via the GRC team, providing: proposed code, full name, justification, expected scope</li>
+      <li>The Head of GRC reviews against existing codes for collisions and intuitive uniqueness</li>
+      <li>For asset-type codes, the Architecture / Technical Authority is consulted</li>
+      <li>For agency codes that span multiple operating units, the CIO is consulted</li>
+      <li>Approved codes are added to GRC-REG-CODES with status, owner, and date</li>
+      <li>The code is then available for use in asset names and asset records</li>
+    </ol>
+
+    <h3>14.2 Deviations from the convention</h3>
+    <p>Where an asset cannot conform to the naming convention (e.g. vendor-imposed naming, a tool with character restrictions, integration constraints), the operating unit submits a <strong>convention deviation request</strong>. The deviation is approved by the Head of GRC on the Risk Committee's behalf, recorded in GRC-REG-CODES (Deviations table), and linked from the affected asset records.</p>
+    <p>Deviation requests must include: the constraint causing non-conformance, the alternative naming used, the affected scope (one asset, a class of assets, an entire technology), the duration (temporary or permanent), and the proposed mitigation (e.g. tagging in the register so that searches still find the asset).</p>
+
+    <div class="callout-warn"><strong>Deviations are bounded, not unlimited.</strong> A deviation that affects more than 5% of an operating unit's asset population is escalated to the Risk Committee for review. Deviations are reviewed annually for currency.</div>
+
+    <h3>14.3 Migration of legacy assets</h3>
+    <p>Assets that exist before this SOP was approved continue to operate under their legacy names until one of the following occurs:</p>
+    <ul class="sop-bullet">
+      <li>The asset is decommissioned and replaced — replacement uses conformant naming</li>
+      <li>The asset is rebuilt, re-platformed, or migrated — the new instance uses conformant naming</li>
+      <li>A planned mass-rename project occurs, scoped and prioritised by the Head of IT Operations</li>
+    </ul>
+    <p>Legacy-named assets are tagged in the Asset Register with a "legacy naming" flag. The flag is removed once the asset's name is brought into conformance.</p>
+  </div>
+
+  <!-- ===== SECTION 15 ===== -->
+  <div class="sop-section" id="s15">
+    <div class="sop-section-num">Section 15</div>
+    <div class="sop-section-title">Records, Related Documents &amp; Review</div>
+
+    <h3>15.1 Records produced</h3>
+    <ul class="sop-bullet">
+      <li>Asset records in GRC-REG-ASSET (the operational register)</li>
+      <li>Code vocabulary in GRC-REG-CODES (agency, city, asset-type codes; deviations)</li>
+      <li>Onboarding submission records and approvals</li>
+      <li>Active review records (per Tier cadence)</li>
+      <li>Reconciliation reports (monthly, reviewed quarterly)</li>
+      <li>Decommissioning checklists and certificates of destruction</li>
+      <li>Deviation requests and approvals</li>
+    </ul>
+
+    <h3>15.2 Retention</h3>
+    <ul class="sop-bullet">
+      <li><strong>Active asset records:</strong> retained while asset is in any non-Archived state</li>
+      <li><strong>Decommissioned asset records:</strong> retained for 7 years from decommissioning date, then archived</li>
+      <li><strong>Certificates of destruction (L3/L4):</strong> 7 years</li>
+      <li><strong>Reconciliation reports:</strong> 3 years</li>
+      <li><strong>Deviation approvals:</strong> retained while deviation is in force, plus 3 years</li>
+    </ul>
+
+    <h3>15.3 Related documents</h3>
+    <div class="rel-grid">
+      <div class="rel-card">
+        <h4>Registers</h4>
+        <div class="rel-link"><a href="grc-reg-asset.html">GRC-REG-ASSET — Asset Register</a></div>
+        <div class="rel-link"><a href="grc-reg-codes.html">GRC-REG-CODES — Codes Register</a></div>
+      </div>
+      <div class="rel-card">
+        <h4>Reviewer guidance</h4>
+        <div class="rel-link"><a href="grc-wi-05.html">GRC-WI-05 — Asset Submission Reviewer WI</a></div>
+      </div>
+      <div class="rel-card">
+        <h4>Risk &amp; governance</h4>
+        <div class="rel-link"><a href="grc-irp-01.html">GRC-IRP-01 — Cyber Security IR Plan</a></div>
+        <div class="rel-link"><a href="grc-register-risk.html">GRC-REG-RISK — Risk Register</a></div>
+        <div class="rel-link"><a href="grc-register-exceptions.html">Exceptions Register</a></div>
+      </div>
+      <div class="rel-card">
+        <h4>Reference</h4>
+        <div class="rel-link"><a href="core-concepts.html">Core Concepts (Tier model)</a></div>
+        <div class="rel-link"><a href="nist-csf-reference.html">NIST CSF 2.0 reference</a></div>
+      </div>
+    </div>
+
+    <h3>15.4 Review</h3>
+    <p>This SOP is reviewed annually by the Head of GRC with sign-off by the CISO. Out-of-cycle reviews are mandatory after material organisational change, after any audit finding affecting the asset register, after the addition of a new agency, and after any material change to the operating-unit footprint. The annual review covers: convention currency, schema fitness, taxonomy completeness, lifecycle adequacy, deviation patterns, reconciliation effectiveness.</p>
+  </div>
+
+  <div class="sop-nav"><a href="grc.html">← GRC Hub</a><a href="grc-reg-asset.html">Asset Register →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC-SOP-05 v1.0 · Approved · 8 May 2026 · Paulo Ferreira</span>
+    <span><a href="grc.html" style="color:var(--grc);text-decoration:none;">← Back to GRC Hub</a></span>
+  </div>
+</div>
+</body>
+</html>

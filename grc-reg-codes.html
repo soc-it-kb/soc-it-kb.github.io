@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-REG-CODES: Naming Convention Codes Register — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:20px; font-weight:700; margin-bottom:6px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.8; line-height:1.5; margin-bottom:10px; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.8rem 1.2rem; margin-bottom:1.25rem; }
+  .meta-item { font-size:13px; color:#666; display:flex; align-items:center; gap:5px; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+
+  .reg-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .reg-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .reg-stat-num { font-size:22px; font-weight:700; color:var(--grc); line-height:1; margin-bottom:4px; }
+  .reg-stat-lbl { font-size:11px; color:#888; }
+
+  .callout-info { background:var(--grc-light); border:0.5px solid var(--grc-border); border-left:3px solid var(--grc); border-radius:8px; padding:0.85rem 1.1rem; font-size:13px; color:var(--grc-dark); line-height:1.6; margin-bottom:1.25rem; }
+  .callout-info strong { color:var(--grc-dark); font-weight:700; }
+
+  .reg-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:12px; }
+  .reg-section-title { font-size:14px; font-weight:600; color:var(--grc-dark); margin-bottom:0.7rem; padding-bottom:7px; border-bottom:0.5px solid var(--grc-border); display:flex; align-items:center; gap:8px; }
+  .reg-section-title-icon { font-size:16px; }
+  .reg-section-desc { font-size:13px; color:#555; line-height:1.6; margin-bottom:10px; }
+  .reg-section-desc strong { color:#1a1a1a; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:6px; }
+  .gt-table th { background:var(--grc-dark); color:#fff; font-weight:600; padding:8px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; border-right:0.5px solid rgba(255,255,255,0.1); }
+  .gt-table td { padding:8px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.5; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.code { font-family:'SF Mono','Fira Code',monospace; font-weight:600; color:var(--grc); white-space:nowrap; font-size:12px; }
+  .gt-table td.lvl { font-weight:600; color:var(--grc-dark); white-space:nowrap; }
+
+  .status-pill { font-size:10px; font-weight:600; padding:1px 7px; border-radius:5px; white-space:nowrap; }
+  .status-active   { background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .status-pending  { background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .status-deprecated { background:#f0f0ec; color:#888; border:0.5px solid #d8d8d4; }
+
+  .req-flow { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.25rem; margin-top:6px; }
+  .req-flow-step { display:flex; gap:10px; margin-bottom:6px; align-items:flex-start; line-height:1.55; }
+  .req-flow-step:last-child { margin-bottom:0; }
+  .req-flow-num { width:22px; height:22px; border-radius:50%; background:var(--grc); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .req-flow-text { font-size:13px; color:#333; }
+  .req-flow-text strong { color:var(--grc-dark); }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .reg-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .reg-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="grc.html">GRC Hub</a><span>›</span>
+    <span>Registers</span><span>›</span>
+    <span>GRC-REG-CODES</span>
+  </div>
+
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · Register · Naming Codes</div>
+    <h1>GRC-REG-CODES: Naming Convention Codes Register</h1>
+    <p>The authoritative controlled vocabulary for the asset naming convention defined in GRC-SOP-05. Holds approved agency codes, city/location codes, asset-type codes, and recorded deviations. Codes are added incrementally as operating units onboard.</p>
+    <div class="grc-page-hero-pills">
+      <span class="grc-page-hero-pill">Live register</span>
+      <span class="grc-page-hero-pill">GRC-SOP-05 supporting</span>
+      <span class="grc-page-hero-pill">Cross-agency</span>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">📋 <strong>Register ID:</strong> GRC-REG-CODES</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔗 <strong>Authoritative SOP:</strong> <a href="grc-sop-05.html" style="color:var(--grc);">GRC-SOP-05</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">👤 <strong>Owner:</strong> Head of GRC</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📅 <strong>Updated:</strong> 8 May 2026</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="reg-stats">
+    <div class="reg-stat"><div class="reg-stat-num">5</div><div class="reg-stat-lbl">Agency codes</div></div>
+    <div class="reg-stat"><div class="reg-stat-num">8</div><div class="reg-stat-lbl">City codes</div></div>
+    <div class="reg-stat"><div class="reg-stat-num">14</div><div class="reg-stat-lbl">Asset-type codes</div></div>
+    <div class="reg-stat"><div class="reg-stat-num">11</div><div class="reg-stat-lbl">Function tags</div></div>
+    <div class="reg-stat"><div class="reg-stat-num">0</div><div class="reg-stat-lbl">Active deviations</div></div>
+  </div>
+
+  <div class="callout-info">📌 <strong>How this register works.</strong> Codes are introduced incrementally — only operating units that have onboarded under GRC-SOP-05 appear in the agency table; only locations actually used by those agencies appear in the city table. Code requests follow the workflow in GRC-SOP-05 §14.1. Once approved, a new code becomes immediately usable in asset names. The seed values below are starter entries authorised at SOP-05 publication; further codes are added as agencies join.</div>
+
+  <!-- Agency codes -->
+  <div class="reg-section">
+    <div class="reg-section-title"><span class="reg-section-title-icon">🏢</span> Agency Codes</div>
+    <p class="reg-section-desc">Three- to five-letter uppercase codes identifying the operating unit (agency) that owns an asset. Used as the first segment of the asset name. <strong>Special value <code>CENTRAL</code></strong> is reserved for cross-agency assets provided centrally and consumed by multiple operating units (see GRC-SOP-05 §7.3).</p>
+    <table class="gt-table">
+      <thead><tr><th>Code</th><th>Operating unit (full name)</th><th>Owner</th><th>Date introduced</th><th>Status</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td class="code">AKDN</td><td>Aga Khan Development Network (umbrella)</td><td>CIO</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Used for AKDN-wide assets that are not central; sub-agency-specific assets use their own codes</td></tr>
+        <tr><td class="code">AKHS</td><td>Aga Khan Health Services</td><td>LCSO (AKHS)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Health agency — hospitals, clinics, health programmes</td></tr>
+        <tr><td class="code">AKES</td><td>Aga Khan Education Services</td><td>LCSO (AKES)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Education agency — schools, higher-education institutions</td></tr>
+        <tr><td class="code">AKA</td><td>Aga Khan Agency for Habitat (or applicable agency)</td><td>LCSO (agency)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Confirm full-name binding before broad use; placeholder pending agency onboarding review</td></tr>
+        <tr><td class="code">IIS</td><td>Institute of Ismaili Studies</td><td>LCSO (IIS)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Academic institute</td></tr>
+        <tr><td class="code">CENTRAL</td><td>Cross-agency centrally-managed</td><td>Head of IT Operations</td><td>8 May 2026</td><td><span class="status-pill status-active">Reserved</span></td><td>Reserved literal — use with synthetic Asset ID pattern <code>ASSET-CENTRAL-&lt;TYPE&gt;-&lt;SEQ&gt;</code></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:#888;margin-top:10px;"><em>Additional agency codes are added as operating units onboard under GRC-SOP-05. Submit code requests via the workflow at the bottom of this page.</em></p>
+  </div>
+
+  <!-- City codes -->
+  <div class="reg-section">
+    <div class="reg-section-title"><span class="reg-section-title-icon">🏙️</span> City / Location Codes</div>
+    <p class="reg-section-desc">Three-letter uppercase codes for cities or specific locations. Used as the third segment of the asset name. Where IATA airport codes exist for the city, prefer those for international consistency; for cities without an obvious IATA code, use a sensible three-letter abbreviation that does not collide.</p>
+    <table class="gt-table">
+      <thead><tr><th>Code</th><th>City / location</th><th>Country</th><th>Date introduced</th><th>Status</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td class="code">LIS</td><td>Lisbon</td><td>PT (Portugal)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>IATA — Humberto Delgado Airport</td></tr>
+        <tr><td class="code">LON</td><td>London</td><td>UK (United Kingdom)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Use for greater London region</td></tr>
+        <tr><td class="code">NBO</td><td>Nairobi</td><td>KE (Kenya)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>IATA — Jomo Kenyatta Intl</td></tr>
+        <tr><td class="code">MOM</td><td>Mombasa</td><td>KE (Kenya)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>IATA — Moi Intl</td></tr>
+        <tr><td class="code">DXB</td><td>Dubai</td><td>AE (United Arab Emirates)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>IATA — Dubai Intl</td></tr>
+        <tr><td class="code">KHI</td><td>Karachi</td><td>PK (Pakistan)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>IATA — Jinnah Intl</td></tr>
+        <tr><td class="code">HYD</td><td>Hyderabad</td><td>IN (India)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>IATA — Rajiv Gandhi Intl</td></tr>
+        <tr><td class="code">DAR</td><td>Dar es Salaam</td><td>TZ (Tanzania)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>IATA — Julius Nyerere Intl</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:#888;margin-top:10px;"><em>City codes are added as operating units onboard locations. Where IATA codes are unavailable or ambiguous, the GRC team selects a non-colliding three-letter code.</em></p>
+  </div>
+
+  <!-- Asset type codes -->
+  <div class="reg-section">
+    <div class="reg-section-title"><span class="reg-section-title-icon">🧾</span> Asset Type Codes</div>
+    <p class="reg-section-desc">Three-letter uppercase codes identifying the primary asset type per the taxonomy in GRC-SOP-05 §5.1. Used as the fourth segment of the asset name (Pattern A) or the type segment of synthetic IDs (Patterns B/C). Codes are stable and deliberately small in number — granularity is achieved through function tags, not type proliferation.</p>
+    <table class="gt-table">
+      <thead><tr><th>Code</th><th>Asset type</th><th>Used in name pattern</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td class="code">SRV</td><td>Server (physical or virtual)</td><td>A (hostname)</td><td>Web/app/DB/file/print/DC/jump host</td></tr>
+        <tr><td class="code">DSK</td><td>Workstation (desktop)</td><td>A (hostname)</td><td>Fixed-location desktop computer</td></tr>
+        <tr><td class="code">LPT</td><td>Laptop</td><td>A (hostname)</td><td>Portable computer</td></tr>
+        <tr><td class="code">MOB</td><td>Mobile device</td><td>A (hostname)</td><td>Smartphones, tablets, managed portable endpoints</td></tr>
+        <tr><td class="code">NET</td><td>Network device</td><td>A (hostname)</td><td>Router, switch, firewall, wireless controller, AP, load balancer</td></tr>
+        <tr><td class="code">STO</td><td>Storage system</td><td>A (hostname)</td><td>NAS, SAN, backup appliance, archive, cloud storage account</td></tr>
+        <tr><td class="code">APP</td><td>Application</td><td>B/C (synthetic)</td><td>Installed software/service operated by the org; one record per logical service</td></tr>
+        <tr><td class="code">SAAS</td><td>SaaS service</td><td>B/C (synthetic)</td><td>Vendor-delivered SaaS (M365, Salesforce, ServiceNow)</td></tr>
+        <tr><td class="code">CLD</td><td>Cloud workload</td><td>A or B/C</td><td>Pattern A where the workload has a hostname; B/C for logical/multi-instance services</td></tr>
+        <tr><td class="code">IDS</td><td>Identity store</td><td>B/C (synthetic)</td><td>Entra ID tenant, AD forest, LDAP directory, Okta tenant</td></tr>
+        <tr><td class="code">DAT</td><td>Data store</td><td>B/C (synthetic)</td><td>Database, data lake, file share tracked as an asset in its own right</td></tr>
+        <tr><td class="code">PER</td><td>Peripheral device</td><td>A (hostname) or B</td><td>Networked printer, scanner, conference equipment, badge reader</td></tr>
+        <tr><td class="code">OT</td><td>Operational technology</td><td>A (hostname) or B</td><td>PLC, SCADA, HMI, BMS, medical devices, industrial sensors</td></tr>
+        <tr><td class="code">OTH</td><td>Other</td><td>varies</td><td>Last-resort code; submitter must justify in record notes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Function tags -->
+  <div class="reg-section">
+    <div class="reg-section-title"><span class="reg-section-title-icon">🏷️</span> Function Tags (Multi-Select)</div>
+    <p class="reg-section-desc">Function tags supplement the primary asset type. Multi-select per asset record. Tags are <strong>not</strong> part of the asset name — they live in the asset record only.</p>
+    <table class="gt-table">
+      <thead><tr><th>Tag</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Production</td><td>Asset directly supports live business services</td></tr>
+        <tr><td class="lvl">Pre-production</td><td>Staging, UAT, or pre-production validation environment</td></tr>
+        <tr><td class="lvl">Development / Test</td><td>Development or test environment, no production data</td></tr>
+        <tr><td class="lvl">Disaster Recovery</td><td>Standby, failover, or DR-only asset</td></tr>
+        <tr><td class="lvl">Administrative</td><td>Used for management, monitoring, or operations of other assets (PAW, jump host, monitoring server)</td></tr>
+        <tr><td class="lvl">End-User Computing</td><td>Endpoints used directly by individuals to perform their work</td></tr>
+        <tr><td class="lvl">Identity &amp; Access</td><td>Identity-providing, authentication, or authorisation infrastructure</td></tr>
+        <tr><td class="lvl">Data</td><td>Asset whose primary purpose is storing or processing data</td></tr>
+        <tr><td class="lvl">Network &amp; Edge</td><td>Network plumbing or edge connectivity</td></tr>
+        <tr><td class="lvl">Security</td><td>Security-specific tooling (SIEM, EDR, SOAR, vulnerability scanner)</td></tr>
+        <tr><td class="lvl">External-facing</td><td>Asset reachable from the public internet</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Deviations -->
+  <div class="reg-section">
+    <div class="reg-section-title"><span class="reg-section-title-icon">⚠️</span> Approved Deviations</div>
+    <p class="reg-section-desc">Where an asset cannot conform to the naming convention, the operating unit submits a deviation request per GRC-SOP-05 §14.2. Approved deviations are recorded here. Deviations are reviewed annually for currency.</p>
+    <table class="gt-table">
+      <thead><tr><th>Deviation ID</th><th>Operating unit</th><th>Affected scope</th><th>Reason</th><th>Approved by</th><th>Approval date</th><th>Review date</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td colspan="8" style="text-align:center;font-style:italic;color:#888;padding:18px;">No active deviations recorded as of register publication.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Code request workflow -->
+  <div class="reg-section">
+    <div class="reg-section-title"><span class="reg-section-title-icon">📨</span> Code Request Workflow</div>
+    <p class="reg-section-desc">When a new code is needed (new agency onboarding, new city, new asset type), submit a request following the steps below. Approved codes appear in the relevant table within five working days.</p>
+    <div class="req-flow">
+      <div class="req-flow-step"><div class="req-flow-num">1</div><div class="req-flow-text"><strong>Identify the gap</strong> — Determine which table is affected (Agency / City / Asset Type) and confirm the code does not already exist (search this register first).</div></div>
+      <div class="req-flow-step"><div class="req-flow-num">2</div><div class="req-flow-text"><strong>Propose a code</strong> — Three letters for cities and asset types; three to five letters for agencies. Uppercase A–Z only. Where IATA airport codes exist for cities, prefer those.</div></div>
+      <div class="req-flow-step"><div class="req-flow-num">3</div><div class="req-flow-text"><strong>Submit to GRC</strong> — Email the GRC team with: proposed code, full name, justification, expected scope, sponsor (LCSO or Local IT Lead).</div></div>
+      <div class="req-flow-step"><div class="req-flow-num">4</div><div class="req-flow-text"><strong>Review &amp; consultation</strong> — Head of GRC reviews for collisions and intuitive uniqueness. Asset-type codes consulted with Architecture; cross-agency codes consulted with CIO.</div></div>
+      <div class="req-flow-step"><div class="req-flow-num">5</div><div class="req-flow-text"><strong>Approval &amp; publication</strong> — Once approved, code is added to this register with date and owner. Submitter is notified. Code is then available for use.</div></div>
+    </div>
+  </div>
+
+  <!-- Related -->
+  <div class="reg-section">
+    <div class="reg-section-title"><span class="reg-section-title-icon">🔗</span> Related Documents</div>
+    <table class="gt-table">
+      <thead><tr><th>Document</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl"><a href="grc-sop-05.html" style="color:var(--grc);text-decoration:none;font-weight:600;">GRC-SOP-05</a></td><td>Asset Management &amp; Naming Convention Standard — authoritative procedure that defines this register's scope</td></tr>
+        <tr><td class="lvl"><a href="grc-reg-asset.html" style="color:var(--grc);text-decoration:none;font-weight:600;">GRC-REG-ASSET</a></td><td>Asset Register — uses the codes maintained in this register</td></tr>
+        <tr><td class="lvl"><a href="grc-wi-05.html" style="color:var(--grc);text-decoration:none;font-weight:600;">GRC-WI-05</a></td><td>Reviewer Work Instruction — guidance on validating codes during asset submission review</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="reg-nav"><a href="grc-sop-05.html">← GRC-SOP-05</a><a href="grc-reg-asset.html">Asset Register →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC-REG-CODES · Live · Updated 8 May 2026 · Paulo Ferreira</span>
+    <span><a href="grc.html" style="color:var(--grc);text-decoration:none;">← Back to GRC Hub</a></span>
+  </div>
+</div>
+</body>
+</html>

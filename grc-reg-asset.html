@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-REG-ASSET: Asset Register — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:20px; font-weight:700; margin-bottom:6px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.8; line-height:1.5; margin-bottom:10px; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.8rem 1.2rem; margin-bottom:1.25rem; }
+  .meta-item { font-size:13px; color:#666; display:flex; align-items:center; gap:5px; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+
+  .reg-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .reg-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem; text-align:center; }
+  .reg-stat-num { font-size:22px; font-weight:700; color:var(--grc); line-height:1; margin-bottom:4px; }
+  .reg-stat-lbl { font-size:11px; color:#888; }
+
+  .callout-info { background:var(--grc-light); border:0.5px solid var(--grc-border); border-left:3px solid var(--grc); border-radius:8px; padding:0.85rem 1.1rem; font-size:13px; color:var(--grc-dark); line-height:1.6; margin-bottom:1.25rem; }
+  .callout-info strong { color:var(--grc-dark); font-weight:700; }
+
+  /* Asset card */
+  .asset-card { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:0; margin-bottom:14px; overflow:hidden; }
+  .asset-card-header { padding:1rem 1.4rem; background:var(--grc-light); border-bottom:0.5px solid var(--grc-border); display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+  .asset-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:14px; font-weight:700; color:var(--grc-dark); }
+  .asset-card-name { font-size:13px; color:var(--grc-dark); margin-top:3px; }
+  .asset-card-pills { display:flex; gap:5px; flex-wrap:wrap; }
+  .a-pill { font-size:10px; font-weight:600; padding:3px 9px; border-radius:6px; }
+  .pill-type { background:var(--grc-dark); color:#fff; }
+  .pill-tier-0 { background:#5C2E06; color:#fff; }
+  .pill-tier-1 { background:#993C1D; color:#fff; }
+  .pill-tier-2 { background:#854F0B; color:#fff; }
+  .pill-tier-3 { background:#0F6E56; color:#fff; }
+  .pill-status-live  { background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .pill-status-onb   { background:#FAEEDA; color:#854F0B; border:0.5px solid #FAC775; }
+  .pill-data-l4 { background:#5C2E06; color:#fff; }
+  .pill-data-l3 { background:#993C1D; color:#fff; }
+  .pill-data-l2 { background:#854F0B; color:#fff; }
+  .pill-data-l1 { background:#0F6E56; color:#fff; }
+
+  /* Field-row layout */
+  .asset-card-body { padding:0; }
+  .field-grid { width:100%; border-collapse:collapse; font-size:13px; }
+  .field-grid td { padding:7px 14px; border-bottom:0.5px solid #f0f0ec; vertical-align:top; line-height:1.55; }
+  .field-grid tr:last-child td { border-bottom:none; }
+  .field-grid td.label { width:32%; color:#888; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; font-weight:600; padding-top:9px; }
+  .field-grid td.value { color:#1a1a1a; }
+  .field-grid td.value.mono { font-family:'SF Mono','Fira Code',monospace; font-size:12px; }
+  .field-grid td.value strong { color:var(--grc-dark); }
+  .field-grid td.value .tags { display:flex; gap:4px; flex-wrap:wrap; }
+  .field-grid td.value .tag { font-size:11px; background:var(--grc-light); color:var(--grc); border:0.5px solid var(--grc-border); padding:1px 7px; border-radius:5px; font-weight:500; }
+  .group-divider { background:#fafafa !important; }
+  .group-divider td { padding:5px 14px !important; font-size:10px !important; font-weight:700 !important; letter-spacing:0.08em; text-transform:uppercase; color:var(--grc) !important; border-bottom:0.5px solid var(--grc-border) !important; border-top:0.5px solid var(--grc-border) !important; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .reg-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .reg-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+
+  /* Anchor index */
+  .anchor-index { background:#fafafa; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.2rem; margin-bottom:1.25rem; }
+  .anchor-index-title { font-size:11px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+  .anchor-index-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:4px 14px; font-size:13px; }
+  .anchor-index-grid a { color:#444; text-decoration:none; padding:2px 0; display:flex; gap:8px; align-items:baseline; }
+  .anchor-index-grid a:hover { color:var(--grc); }
+  .anchor-index-grid a code { color:var(--grc); font-weight:600; font-family:'SF Mono','Fira Code',monospace; font-size:11px; }
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="grc.html">GRC Hub</a><span>›</span>
+    <span>Registers</span><span>›</span>
+    <span>GRC-REG-ASSET</span>
+  </div>
+
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · Register · Assets</div>
+    <h1>GRC-REG-ASSET: Asset Register</h1>
+    <p>The authoritative register of IT and OT assets across all operating units. Each entry follows the schema defined in GRC-SOP-05 §8 and uses naming codes from GRC-REG-CODES. The seeded entries below are representative examples covering each asset type to demonstrate the schema.</p>
+    <div class="grc-page-hero-pills">
+      <span class="grc-page-hero-pill">Live register</span>
+      <span class="grc-page-hero-pill">9 representative entries</span>
+      <span class="grc-page-hero-pill">Federated by operating unit</span>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">📋 <strong>Register ID:</strong> GRC-REG-ASSET</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔗 <strong>Authoritative SOP:</strong> <a href="grc-sop-05.html" style="color:var(--grc);">GRC-SOP-05</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🧾 <strong>Codes:</strong> <a href="grc-reg-codes.html" style="color:var(--grc);">GRC-REG-CODES</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📅 <strong>Updated:</strong> 8 May 2026</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="reg-stats">
+    <div class="reg-stat"><div class="reg-stat-num">9</div><div class="reg-stat-lbl">Total entries</div></div>
+    <div class="reg-stat"><div class="reg-stat-num">9</div><div class="reg-stat-lbl">Live</div></div>
+    <div class="reg-stat"><div class="reg-stat-num">5</div><div class="reg-stat-lbl">Operating units</div></div>
+    <div class="reg-stat"><div class="reg-stat-num">2</div><div class="reg-stat-lbl">Tier 0 / Tier 1</div></div>
+    <div class="reg-stat"><div class="reg-stat-num">9</div><div class="reg-stat-lbl">Asset types covered</div></div>
+  </div>
+
+  <div class="callout-info">📌 <strong>About these entries.</strong> The 9 entries below are representative examples — one per asset type in the GRC-SOP-05 §5.1 taxonomy — seeded at register publication to demonstrate the full schema in use. Real entries are added by operating units as they onboard under GRC-SOP-05. The static HTML view shown here is a documentation projection; the live register backend is planned as part of the future GRC application (see governance change log).</div>
+
+  <!-- Anchor index -->
+  <div class="anchor-index">
+    <div class="anchor-index-title">Asset entries (jump to)</div>
+    <div class="anchor-index-grid">
+      <a href="#a1"><code>AKDNPTLISSRV0001</code> Server</a>
+      <a href="#a2"><code>IISUKLONLPT01234</code> Laptop</a>
+      <a href="#a3"><code>AKHSKEMOMNET005</code> Network device</a>
+      <a href="#a4"><code>AKESPTLISDSK0042</code> Workstation</a>
+      <a href="#a5"><code>AKHSKENBOPER0001</code> Peripheral</a>
+      <a href="#a6"><code>ASSET-AKDN-APP-0001</code> Application</a>
+      <a href="#a7"><code>ASSET-CENTRAL-SAAS-0001</code> SaaS service</a>
+      <a href="#a8"><code>ASSET-CENTRAL-IDS-0001</code> Identity store</a>
+      <a href="#a9"><code>ASSET-AKHS-OT-0001</code> OT device</a>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- Asset 1: Server                -->
+  <!-- ============================== -->
+  <div class="asset-card" id="a1">
+    <div class="asset-card-header">
+      <div>
+        <div class="asset-card-id">AKDNPTLISSRV0001</div>
+        <div class="asset-card-name">AKDN Lisbon — Domain controller (primary)</div>
+      </div>
+      <div class="asset-card-pills">
+        <span class="a-pill pill-type">SRV · Server</span>
+        <span class="a-pill pill-tier-0">Tier 0</span>
+        <span class="a-pill pill-data-l3">Confidential L3</span>
+        <span class="a-pill pill-status-live">Live</span>
+      </div>
+    </div>
+    <div class="asset-card-body"><table class="field-grid">
+      <tr class="group-divider"><td colspan="2">A · Identification</td></tr>
+      <tr><td class="label">Asset ID</td><td class="value mono">AKDNPTLISSRV0001</td></tr>
+      <tr><td class="label">Display name</td><td class="value">AKDN Lisbon DC primary</td></tr>
+      <tr><td class="label">Hostname / FQDN</td><td class="value mono">akdnptlissrv0001.akdn.local</td></tr>
+      <tr><td class="label">Asset type</td><td class="value"><strong>SRV</strong> (Server)</td></tr>
+      <tr><td class="label">Function tags</td><td class="value"><div class="tags"><span class="tag">Production</span><span class="tag">Identity &amp; Access</span><span class="tag">Administrative</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">B · Ownership</td></tr>
+      <tr><td class="label">Operating unit</td><td class="value"><strong>AKDN</strong> (Aga Khan Development Network)</td></tr>
+      <tr><td class="label">Business owner</td><td class="value">Head of IT Operations — Identity Services Lead</td></tr>
+      <tr><td class="label">Technical owner</td><td class="value">AKDN Identity Engineering team</td></tr>
+      <tr><td class="label">Security contact</td><td class="value">SOC 24×7 — soc@akdn.example (placeholder)</td></tr>
+      <tr class="group-divider"><td colspan="2">C · Classification</td></tr>
+      <tr><td class="label">Criticality tier</td><td class="value"><strong>Tier 0</strong> — supports identity authority for the operating unit</td></tr>
+      <tr><td class="label">Data classification</td><td class="value"><strong>Confidential L3</strong></td></tr>
+      <tr><td class="label">Personal data</td><td class="value">Yes (employee identity attributes, group memberships)</td></tr>
+      <tr><td class="label">Regulatory tags</td><td class="value"><div class="tags"><span class="tag">GDPR</span><span class="tag">NIS2</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">D · Technical</td></tr>
+      <tr><td class="label">Environment</td><td class="value">Production</td></tr>
+      <tr><td class="label">Hosting model</td><td class="value">On-prem (Lisbon data centre)</td></tr>
+      <tr><td class="label">Network zone</td><td class="value">DC-Internal — VLAN 10</td></tr>
+      <tr><td class="label">OS / platform</td><td class="value">Windows Server 2022 Datacenter, Active Directory Domain Services role</td></tr>
+      <tr><td class="label">Key dependencies</td><td class="value">Authoritative for: all AKDN Lisbon servers and endpoints. Depends on: secure time service, network connectivity to Lisbon DC subnet</td></tr>
+      <tr class="group-divider"><td colspan="2">E · Lifecycle</td></tr>
+      <tr><td class="label">Status</td><td class="value">Live</td></tr>
+      <tr><td class="label">Onboarded date</td><td class="value">12 March 2024</td></tr>
+      <tr><td class="label">Last reviewed</td><td class="value">8 May 2026 (initial register seed)</td></tr>
+      <tr><td class="label">Next review due</td><td class="value">8 May 2027 (annual — Tier 0)</td></tr>
+      <tr class="group-divider"><td colspan="2">F · Operational</td></tr>
+      <tr><td class="label">Backup</td><td class="value">In scope — daily system-state backup, 90-day retention; AD recovery procedure tested quarterly</td></tr>
+      <tr><td class="label">Monitoring</td><td class="value">SOC — full EDR (CrowdStrike), AD health monitoring, log shipping to SIEM</td></tr>
+      <tr><td class="label">Patching ownership</td><td class="value">Central IT — security patches monthly, feature updates change-controlled</td></tr>
+      <tr class="group-divider"><td colspan="2">G · Risk &amp; references</td></tr>
+      <tr><td class="label">Open risks</td><td class="value">RISK-001 (linked — ransomware impact on critical infrastructure)</td></tr>
+      <tr><td class="label">Known exceptions</td><td class="value">None</td></tr>
+      <tr><td class="label">Notes</td><td class="value">Primary DC for AKDN Lisbon site. Replicates with secondary DC at <code>AKDNPTLISSRV0002</code> (separate record). Tier 0 due to identity authority.</td></tr>
+    </table></div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- Asset 2: Laptop                -->
+  <!-- ============================== -->
+  <div class="asset-card" id="a2">
+    <div class="asset-card-header">
+      <div>
+        <div class="asset-card-id">IISUKLONLPT01234</div>
+        <div class="asset-card-name">IIS London — Standard staff laptop</div>
+      </div>
+      <div class="asset-card-pills">
+        <span class="a-pill pill-type">LPT · Laptop</span>
+        <span class="a-pill pill-tier-3">Tier 3</span>
+        <span class="a-pill pill-data-l2">Confidential L2</span>
+        <span class="a-pill pill-status-live">Live</span>
+      </div>
+    </div>
+    <div class="asset-card-body"><table class="field-grid">
+      <tr class="group-divider"><td colspan="2">A · Identification</td></tr>
+      <tr><td class="label">Asset ID</td><td class="value mono">IISUKLONLPT01234</td></tr>
+      <tr><td class="label">Display name</td><td class="value">IIS London staff laptop — User: J. Smith</td></tr>
+      <tr><td class="label">Hostname / FQDN</td><td class="value mono">iisuklonlpt01234.iis.local</td></tr>
+      <tr><td class="label">Asset type</td><td class="value"><strong>LPT</strong> (Laptop)</td></tr>
+      <tr><td class="label">Function tags</td><td class="value"><div class="tags"><span class="tag">Production</span><span class="tag">End-User Computing</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">B · Ownership</td></tr>
+      <tr><td class="label">Operating unit</td><td class="value"><strong>IIS</strong> (Institute of Ismaili Studies)</td></tr>
+      <tr><td class="label">Business owner</td><td class="value">IIS HR — Endpoint pool owner</td></tr>
+      <tr><td class="label">Technical owner</td><td class="value">IIS IT Service Desk</td></tr>
+      <tr><td class="label">Security contact</td><td class="value">SOC 24×7</td></tr>
+      <tr class="group-divider"><td colspan="2">C · Classification</td></tr>
+      <tr><td class="label">Criticality tier</td><td class="value"><strong>Tier 3</strong> — single end-user device</td></tr>
+      <tr><td class="label">Data classification</td><td class="value"><strong>Confidential L2</strong> (internal, may handle low-sensitivity personal data)</td></tr>
+      <tr><td class="label">Personal data</td><td class="value">Yes (user-handled personal data may transit; not stored persistently per policy)</td></tr>
+      <tr><td class="label">Regulatory tags</td><td class="value"><div class="tags"><span class="tag">GDPR</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">D · Technical</td></tr>
+      <tr><td class="label">Environment</td><td class="value">Production</td></tr>
+      <tr><td class="label">Hosting model</td><td class="value">Physical hardware, BitLocker-encrypted</td></tr>
+      <tr><td class="label">Network zone</td><td class="value">EUC — VLAN 200; Always-On VPN to corporate</td></tr>
+      <tr><td class="label">OS / platform</td><td class="value">Windows 11 Enterprise 23H2</td></tr>
+      <tr><td class="label">Key dependencies</td><td class="value">Depends on: Entra ID (CENTRAL IDS), Intune (CENTRAL SAAS), VPN gateway</td></tr>
+      <tr class="group-divider"><td colspan="2">E · Lifecycle</td></tr>
+      <tr><td class="label">Status</td><td class="value">Live</td></tr>
+      <tr><td class="label">Onboarded date</td><td class="value">14 January 2025</td></tr>
+      <tr><td class="label">Last reviewed</td><td class="value">8 May 2026</td></tr>
+      <tr><td class="label">Next review due</td><td class="value">8 May 2028 (24 months — Tier 3, sample-based)</td></tr>
+      <tr class="group-divider"><td colspan="2">F · Operational</td></tr>
+      <tr><td class="label">Backup</td><td class="value">Out of scope — user data backed up via OneDrive (separate SaaS asset); device itself not backed up</td></tr>
+      <tr><td class="label">Monitoring</td><td class="value">SOC — CrowdStrike Falcon, Intune compliance reporting</td></tr>
+      <tr><td class="label">Patching ownership</td><td class="value">Central IT via Intune — Windows updates within 14 days of release</td></tr>
+      <tr class="group-divider"><td colspan="2">G · Risk &amp; references</td></tr>
+      <tr><td class="label">Open risks</td><td class="value">None specific to this asset; aggregate endpoint risks tracked at fleet level</td></tr>
+      <tr><td class="label">Known exceptions</td><td class="value">None</td></tr>
+      <tr><td class="label">Notes</td><td class="value">Standard staff laptop, fleet-managed. Tier-3 sample-based reviews mean not every endpoint is individually verified each cycle.</td></tr>
+    </table></div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- Asset 3: Network device        -->
+  <!-- ============================== -->
+  <div class="asset-card" id="a3">
+    <div class="asset-card-header">
+      <div>
+        <div class="asset-card-id">AKHSKEMOMNET005</div>
+        <div class="asset-card-name">AKHS Mombasa — Edge firewall</div>
+      </div>
+      <div class="asset-card-pills">
+        <span class="a-pill pill-type">NET · Network</span>
+        <span class="a-pill pill-tier-1">Tier 1</span>
+        <span class="a-pill pill-data-l3">Confidential L3</span>
+        <span class="a-pill pill-status-live">Live</span>
+      </div>
+    </div>
+    <div class="asset-card-body"><table class="field-grid">
+      <tr class="group-divider"><td colspan="2">A · Identification</td></tr>
+      <tr><td class="label">Asset ID</td><td class="value mono">AKHSKEMOMNET005</td></tr>
+      <tr><td class="label">Display name</td><td class="value">AKHS Mombasa edge firewall (HA primary)</td></tr>
+      <tr><td class="label">Hostname / FQDN</td><td class="value mono">akhskemomnet005.akhs.local</td></tr>
+      <tr><td class="label">Asset type</td><td class="value"><strong>NET</strong> (Network device)</td></tr>
+      <tr><td class="label">Function tags</td><td class="value"><div class="tags"><span class="tag">Production</span><span class="tag">Network &amp; Edge</span><span class="tag">External-facing</span><span class="tag">Security</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">B · Ownership</td></tr>
+      <tr><td class="label">Operating unit</td><td class="value"><strong>AKHS</strong> (Aga Khan Health Services)</td></tr>
+      <tr><td class="label">Business owner</td><td class="value">AKHS Mombasa Hospital Director</td></tr>
+      <tr><td class="label">Technical owner</td><td class="value">AKHS Network Engineering — East Africa</td></tr>
+      <tr><td class="label">Security contact</td><td class="value">SOC 24×7</td></tr>
+      <tr class="group-divider"><td colspan="2">C · Classification</td></tr>
+      <tr><td class="label">Criticality tier</td><td class="value"><strong>Tier 1</strong> — site-edge protection for hospital site</td></tr>
+      <tr><td class="label">Data classification</td><td class="value"><strong>Confidential L3</strong> (rule sets, log data sensitive)</td></tr>
+      <tr><td class="label">Personal data</td><td class="value">No (transits but does not store)</td></tr>
+      <tr><td class="label">Regulatory tags</td><td class="value"><div class="tags"><span class="tag">NIS2</span><span class="tag">Health-sector</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">D · Technical</td></tr>
+      <tr><td class="label">Environment</td><td class="value">Production</td></tr>
+      <tr><td class="label">Hosting model</td><td class="value">On-prem (Mombasa hospital)</td></tr>
+      <tr><td class="label">Network zone</td><td class="value">DMZ-edge — interfaces between hospital LAN and ISP</td></tr>
+      <tr><td class="label">OS / platform</td><td class="value">Vendor firmware vX.Y (specific version masked in public register)</td></tr>
+      <tr><td class="label">Key dependencies</td><td class="value">Depends on: ISP uplink, time service, AAA server. Dependents: all hospital network traffic to/from internet</td></tr>
+      <tr class="group-divider"><td colspan="2">E · Lifecycle</td></tr>
+      <tr><td class="label">Status</td><td class="value">Live</td></tr>
+      <tr><td class="label">Onboarded date</td><td class="value">3 June 2024</td></tr>
+      <tr><td class="label">Last reviewed</td><td class="value">8 May 2026</td></tr>
+      <tr><td class="label">Next review due</td><td class="value">8 May 2027 (annual — Tier 1)</td></tr>
+      <tr class="group-divider"><td colspan="2">F · Operational</td></tr>
+      <tr><td class="label">Backup</td><td class="value">In scope — configuration backed up to vendor cloud + local copy daily</td></tr>
+      <tr><td class="label">Monitoring</td><td class="value">SOC — syslog forwarded to SIEM; SNMP health monitoring; failover testing quarterly</td></tr>
+      <tr><td class="label">Patching ownership</td><td class="value">Central IT (Network team) coordinates with vendor support</td></tr>
+      <tr class="group-divider"><td colspan="2">G · Risk &amp; references</td></tr>
+      <tr><td class="label">Open risks</td><td class="value">RISK-007 (linked — perimeter compromise of hospital site)</td></tr>
+      <tr><td class="label">Known exceptions</td><td class="value">None</td></tr>
+      <tr><td class="label">Notes</td><td class="value">HA primary; standby is <code>AKHSKEMOMNET006</code>. Failover tested quarterly per BC/DR procedure.</td></tr>
+    </table></div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- Asset 4: Workstation           -->
+  <!-- ============================== -->
+  <div class="asset-card" id="a4">
+    <div class="asset-card-header">
+      <div>
+        <div class="asset-card-id">AKESPTLISDSK0042</div>
+        <div class="asset-card-name">AKES Lisbon — Computer-lab workstation</div>
+      </div>
+      <div class="asset-card-pills">
+        <span class="a-pill pill-type">DSK · Workstation</span>
+        <span class="a-pill pill-tier-3">Tier 3</span>
+        <span class="a-pill pill-data-l1">Public L1</span>
+        <span class="a-pill pill-status-live">Live</span>
+      </div>
+    </div>
+    <div class="asset-card-body"><table class="field-grid">
+      <tr class="group-divider"><td colspan="2">A · Identification</td></tr>
+      <tr><td class="label">Asset ID</td><td class="value mono">AKESPTLISDSK0042</td></tr>
+      <tr><td class="label">Display name</td><td class="value">AKES Lisbon school computer-lab workstation #42</td></tr>
+      <tr><td class="label">Hostname / FQDN</td><td class="value mono">akesptlisdsk0042.akes.local</td></tr>
+      <tr><td class="label">Asset type</td><td class="value"><strong>DSK</strong> (Workstation)</td></tr>
+      <tr><td class="label">Function tags</td><td class="value"><div class="tags"><span class="tag">Production</span><span class="tag">End-User Computing</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">B · Ownership</td></tr>
+      <tr><td class="label">Operating unit</td><td class="value"><strong>AKES</strong> (Aga Khan Education Services)</td></tr>
+      <tr><td class="label">Business owner</td><td class="value">AKES Lisbon school head — IT facilities</td></tr>
+      <tr><td class="label">Technical owner</td><td class="value">AKES Lisbon IT</td></tr>
+      <tr><td class="label">Security contact</td><td class="value">SOC 24×7</td></tr>
+      <tr class="group-divider"><td colspan="2">C · Classification</td></tr>
+      <tr><td class="label">Criticality tier</td><td class="value"><strong>Tier 3</strong> — single shared workstation, kiosk-style</td></tr>
+      <tr><td class="label">Data classification</td><td class="value"><strong>Public L1</strong> (teaching content only; personal data not handled)</td></tr>
+      <tr><td class="label">Personal data</td><td class="value">No (kiosk image, no persistent user data)</td></tr>
+      <tr><td class="label">Regulatory tags</td><td class="value">None</td></tr>
+      <tr class="group-divider"><td colspan="2">D · Technical</td></tr>
+      <tr><td class="label">Environment</td><td class="value">Production</td></tr>
+      <tr><td class="label">Hosting model</td><td class="value">Physical hardware, kiosk-locked configuration</td></tr>
+      <tr><td class="label">Network zone</td><td class="value">EDU-lab — isolated VLAN with internet-only access</td></tr>
+      <tr><td class="label">OS / platform</td><td class="value">Windows 11 Education 23H2</td></tr>
+      <tr><td class="label">Key dependencies</td><td class="value">Depends on: AKES Lisbon DHCP/DNS, internet connectivity</td></tr>
+      <tr class="group-divider"><td colspan="2">E · Lifecycle</td></tr>
+      <tr><td class="label">Status</td><td class="value">Live</td></tr>
+      <tr><td class="label">Onboarded date</td><td class="value">2 September 2024</td></tr>
+      <tr><td class="label">Last reviewed</td><td class="value">8 May 2026</td></tr>
+      <tr><td class="label">Next review due</td><td class="value">8 May 2028 (24 months — Tier 3)</td></tr>
+      <tr class="group-divider"><td colspan="2">F · Operational</td></tr>
+      <tr><td class="label">Backup</td><td class="value">Out of scope — kiosk image re-deployable; no user data persisted</td></tr>
+      <tr><td class="label">Monitoring</td><td class="value">SOC — CrowdStrike on, Intune compliance</td></tr>
+      <tr><td class="label">Patching ownership</td><td class="value">AKES IT (local) via Intune; security patches within 14 days</td></tr>
+      <tr class="group-divider"><td colspan="2">G · Risk &amp; references</td></tr>
+      <tr><td class="label">Open risks</td><td class="value">None specific</td></tr>
+      <tr><td class="label">Known exceptions</td><td class="value">None</td></tr>
+      <tr><td class="label">Notes</td><td class="value">One of approximately 30 workstations in this lab. Other lab workstations are individually registered, sequence numbers 0001 onwards.</td></tr>
+    </table></div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- Asset 5: Peripheral            -->
+  <!-- ============================== -->
+  <div class="asset-card" id="a5">
+    <div class="asset-card-header">
+      <div>
+        <div class="asset-card-id">AKHSKENBOPER0001</div>
+        <div class="asset-card-name">AKHS Nairobi — Networked multifunction printer</div>
+      </div>
+      <div class="asset-card-pills">
+        <span class="a-pill pill-type">PER · Peripheral</span>
+        <span class="a-pill pill-tier-3">Tier 3</span>
+        <span class="a-pill pill-data-l2">Confidential L2</span>
+        <span class="a-pill pill-status-live">Live</span>
+      </div>
+    </div>
+    <div class="asset-card-body"><table class="field-grid">
+      <tr class="group-divider"><td colspan="2">A · Identification</td></tr>
+      <tr><td class="label">Asset ID</td><td class="value mono">AKHSKENBOPER0001</td></tr>
+      <tr><td class="label">Display name</td><td class="value">AKHS Nairobi office MFP — Floor 3 reception</td></tr>
+      <tr><td class="label">Hostname / FQDN</td><td class="value mono">akhskenboper0001.akhs.local</td></tr>
+      <tr><td class="label">Asset type</td><td class="value"><strong>PER</strong> (Peripheral device)</td></tr>
+      <tr><td class="label">Function tags</td><td class="value"><div class="tags"><span class="tag">Production</span><span class="tag">End-User Computing</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">B · Ownership</td></tr>
+      <tr><td class="label">Operating unit</td><td class="value"><strong>AKHS</strong></td></tr>
+      <tr><td class="label">Business owner</td><td class="value">AKHS Nairobi office manager</td></tr>
+      <tr><td class="label">Technical owner</td><td class="value">AKHS Nairobi IT — Endpoint team</td></tr>
+      <tr><td class="label">Security contact</td><td class="value">SOC 24×7</td></tr>
+      <tr class="group-divider"><td colspan="2">C · Classification</td></tr>
+      <tr><td class="label">Criticality tier</td><td class="value"><strong>Tier 3</strong></td></tr>
+      <tr><td class="label">Data classification</td><td class="value"><strong>Confidential L2</strong> (transient print jobs may include sensitive content; spool encrypted, no retention on device)</td></tr>
+      <tr><td class="label">Personal data</td><td class="value">Yes — transient (printed documents may contain personal data)</td></tr>
+      <tr><td class="label">Regulatory tags</td><td class="value"><div class="tags"><span class="tag">GDPR</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">D · Technical</td></tr>
+      <tr><td class="label">Environment</td><td class="value">Production</td></tr>
+      <tr><td class="label">Hosting model</td><td class="value">Physical device</td></tr>
+      <tr><td class="label">Network zone</td><td class="value">Print VLAN, isolated from EUC</td></tr>
+      <tr><td class="label">OS / platform</td><td class="value">Vendor firmware (Xerox / HP / equivalent)</td></tr>
+      <tr><td class="label">Key dependencies</td><td class="value">Depends on: print-management server, AAA</td></tr>
+      <tr class="group-divider"><td colspan="2">E · Lifecycle</td></tr>
+      <tr><td class="label">Status</td><td class="value">Live</td></tr>
+      <tr><td class="label">Onboarded date</td><td class="value">17 May 2025</td></tr>
+      <tr><td class="label">Last reviewed</td><td class="value">8 May 2026</td></tr>
+      <tr><td class="label">Next review due</td><td class="value">8 May 2028 (24 months — Tier 3)</td></tr>
+      <tr class="group-divider"><td colspan="2">F · Operational</td></tr>
+      <tr><td class="label">Backup</td><td class="value">Out of scope — configuration only; backed up to print-management server</td></tr>
+      <tr><td class="label">Monitoring</td><td class="value">Local-only — health monitoring via print-management; no SOC monitoring</td></tr>
+      <tr><td class="label">Patching ownership</td><td class="value">Vendor via firmware updates, scheduled by Local IT</td></tr>
+      <tr class="group-divider"><td colspan="2">G · Risk &amp; references</td></tr>
+      <tr><td class="label">Open risks</td><td class="value">None specific</td></tr>
+      <tr><td class="label">Known exceptions</td><td class="value">None</td></tr>
+      <tr><td class="label">Notes</td><td class="value">Networked MFP; secure-release print enabled; scan-to-email disabled per policy.</td></tr>
+    </table></div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- Asset 6: Application           -->
+  <!-- ============================== -->
+  <div class="asset-card" id="a6">
+    <div class="asset-card-header">
+      <div>
+        <div class="asset-card-id">ASSET-AKDN-APP-0001</div>
+        <div class="asset-card-name">AKDN — Internal staff portal application</div>
+      </div>
+      <div class="asset-card-pills">
+        <span class="a-pill pill-type">APP · Application</span>
+        <span class="a-pill pill-tier-1">Tier 1</span>
+        <span class="a-pill pill-data-l3">Confidential L3</span>
+        <span class="a-pill pill-status-live">Live</span>
+      </div>
+    </div>
+    <div class="asset-card-body"><table class="field-grid">
+      <tr class="group-divider"><td colspan="2">A · Identification</td></tr>
+      <tr><td class="label">Asset ID</td><td class="value mono">ASSET-AKDN-APP-0001</td></tr>
+      <tr><td class="label">Display name</td><td class="value">AKDN Staff Portal (intranet)</td></tr>
+      <tr><td class="label">Hostname / FQDN</td><td class="value mono">portal.akdn.example (internal)</td></tr>
+      <tr><td class="label">Asset type</td><td class="value"><strong>APP</strong> (Application — synthetic ID, Pattern B)</td></tr>
+      <tr><td class="label">Function tags</td><td class="value"><div class="tags"><span class="tag">Production</span><span class="tag">Identity &amp; Access</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">B · Ownership</td></tr>
+      <tr><td class="label">Operating unit</td><td class="value"><strong>AKDN</strong></td></tr>
+      <tr><td class="label">Business owner</td><td class="value">AKDN HR — Internal Communications</td></tr>
+      <tr><td class="label">Technical owner</td><td class="value">AKDN Application Engineering team</td></tr>
+      <tr><td class="label">Security contact</td><td class="value">SOC 24×7</td></tr>
+      <tr class="group-divider"><td colspan="2">C · Classification</td></tr>
+      <tr><td class="label">Criticality tier</td><td class="value"><strong>Tier 1</strong> — used by all staff for daily HR/operations tasks</td></tr>
+      <tr><td class="label">Data classification</td><td class="value"><strong>Confidential L3</strong> (staff directory, policies, time-off)</td></tr>
+      <tr><td class="label">Personal data</td><td class="value">Yes</td></tr>
+      <tr><td class="label">Regulatory tags</td><td class="value"><div class="tags"><span class="tag">GDPR</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">D · Technical</td></tr>
+      <tr><td class="label">Environment</td><td class="value">Production</td></tr>
+      <tr><td class="label">Hosting model</td><td class="value">Public cloud (Azure App Service)</td></tr>
+      <tr><td class="label">Network zone</td><td class="value">Azure private endpoint, VNet-integrated; not internet-facing</td></tr>
+      <tr><td class="label">OS / platform</td><td class="value">Azure App Service Linux, .NET 8</td></tr>
+      <tr><td class="label">Key dependencies</td><td class="value">Depends on: Entra ID (SSO), Azure SQL DB (backing data store), HR system API. Six App Service instances back this asset; underlying instances tracked as cloud workloads</td></tr>
+      <tr class="group-divider"><td colspan="2">E · Lifecycle</td></tr>
+      <tr><td class="label">Status</td><td class="value">Live</td></tr>
+      <tr><td class="label">Onboarded date</td><td class="value">14 November 2023</td></tr>
+      <tr><td class="label">Last reviewed</td><td class="value">8 May 2026</td></tr>
+      <tr><td class="label">Next review due</td><td class="value">8 May 2027 (annual — Tier 1)</td></tr>
+      <tr class="group-divider"><td colspan="2">F · Operational</td></tr>
+      <tr><td class="label">Backup</td><td class="value">In scope — code in Git; configuration in IaC; data in backing DB has its own backup record</td></tr>
+      <tr><td class="label">Monitoring</td><td class="value">SOC — App Insights logs to SIEM; Azure Monitor for availability</td></tr>
+      <tr><td class="label">Patching ownership</td><td class="value">AKDN Application team (code/runtime); Microsoft (PaaS layer)</td></tr>
+      <tr class="group-divider"><td colspan="2">G · Risk &amp; references</td></tr>
+      <tr><td class="label">Open risks</td><td class="value">None currently registered</td></tr>
+      <tr><td class="label">Known exceptions</td><td class="value">None</td></tr>
+      <tr><td class="label">Notes</td><td class="value">One application asset; underlying compute instances are tracked separately as cloud workloads. This is the logical-service record per GRC-SOP-05 §7.4.</td></tr>
+    </table></div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- Asset 7: SaaS                  -->
+  <!-- ============================== -->
+  <div class="asset-card" id="a7">
+    <div class="asset-card-header">
+      <div>
+        <div class="asset-card-id">ASSET-CENTRAL-SAAS-0001</div>
+        <div class="asset-card-name">Central — Microsoft 365 tenant</div>
+      </div>
+      <div class="asset-card-pills">
+        <span class="a-pill pill-type">SAAS · SaaS</span>
+        <span class="a-pill pill-tier-0">Tier 0</span>
+        <span class="a-pill pill-data-l3">Confidential L3</span>
+        <span class="a-pill pill-status-live">Live</span>
+      </div>
+    </div>
+    <div class="asset-card-body"><table class="field-grid">
+      <tr class="group-divider"><td colspan="2">A · Identification</td></tr>
+      <tr><td class="label">Asset ID</td><td class="value mono">ASSET-CENTRAL-SAAS-0001</td></tr>
+      <tr><td class="label">Display name</td><td class="value">Central Microsoft 365 tenant (cross-agency)</td></tr>
+      <tr><td class="label">Hostname / FQDN</td><td class="value mono">akdn.onmicrosoft.com (placeholder)</td></tr>
+      <tr><td class="label">Asset type</td><td class="value"><strong>SAAS</strong> (Pattern C, cross-agency)</td></tr>
+      <tr><td class="label">Function tags</td><td class="value"><div class="tags"><span class="tag">Production</span><span class="tag">Data</span><span class="tag">External-facing</span><span class="tag">Identity &amp; Access</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">B · Ownership</td></tr>
+      <tr><td class="label">Operating unit</td><td class="value"><strong>CENTRAL</strong> (cross-agency, all operating units consume)</td></tr>
+      <tr><td class="label">Business owner</td><td class="value">CIO</td></tr>
+      <tr><td class="label">Technical owner</td><td class="value">Central IT — M365 Platform team</td></tr>
+      <tr><td class="label">Security contact</td><td class="value">SOC 24×7 + central CISO</td></tr>
+      <tr class="group-divider"><td colspan="2">C · Classification</td></tr>
+      <tr><td class="label">Criticality tier</td><td class="value"><strong>Tier 0</strong> — global identity, mail, collaboration foundation</td></tr>
+      <tr><td class="label">Data classification</td><td class="value"><strong>Confidential L3</strong> (mailboxes, files, Teams, may include L4 by exception)</td></tr>
+      <tr><td class="label">Personal data</td><td class="value">Yes (extensive)</td></tr>
+      <tr><td class="label">Regulatory tags</td><td class="value"><div class="tags"><span class="tag">GDPR</span><span class="tag">NIS2</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">D · Technical</td></tr>
+      <tr><td class="label">Environment</td><td class="value">Production</td></tr>
+      <tr><td class="label">Hosting model</td><td class="value">SaaS — Microsoft-hosted</td></tr>
+      <tr><td class="label">Network zone</td><td class="value">Public internet — accessed via Conditional Access</td></tr>
+      <tr><td class="label">OS / platform</td><td class="value">Microsoft 365 — Exchange Online, SharePoint Online, Teams, OneDrive</td></tr>
+      <tr><td class="label">Key dependencies</td><td class="value">Depends on: Entra ID (CENTRAL IDS-0001). Underlying Microsoft infrastructure not in scope.</td></tr>
+      <tr class="group-divider"><td colspan="2">E · Lifecycle</td></tr>
+      <tr><td class="label">Status</td><td class="value">Live</td></tr>
+      <tr><td class="label">Onboarded date</td><td class="value">Pre-existing (legacy)</td></tr>
+      <tr><td class="label">Last reviewed</td><td class="value">8 May 2026</td></tr>
+      <tr><td class="label">Next review due</td><td class="value">8 May 2027 (annual — Tier 0)</td></tr>
+      <tr class="group-divider"><td colspan="2">F · Operational</td></tr>
+      <tr><td class="label">Backup</td><td class="value">In scope — third-party M365 backup tool, 365-day retention</td></tr>
+      <tr><td class="label">Monitoring</td><td class="value">SOC — M365 audit logs and Defender alerts forwarded to SIEM; conditional-access compliance</td></tr>
+      <tr><td class="label">Patching ownership</td><td class="value">Microsoft (vendor); central IT controls feature-release rings</td></tr>
+      <tr class="group-divider"><td colspan="2">G · Risk &amp; references</td></tr>
+      <tr><td class="label">Open risks</td><td class="value">RISK-004 (linked — BEC affecting cross-agency mailboxes), RISK-008 (linked — data exposure via misconfigured sharing)</td></tr>
+      <tr><td class="label">Known exceptions</td><td class="value">None</td></tr>
+      <tr><td class="label">Notes</td><td class="value">Foundational cross-agency SaaS. Tier-0 criticality. All operating units consume; central IT operates.</td></tr>
+    </table></div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- Asset 8: Identity store        -->
+  <!-- ============================== -->
+  <div class="asset-card" id="a8">
+    <div class="asset-card-header">
+      <div>
+        <div class="asset-card-id">ASSET-CENTRAL-IDS-0001</div>
+        <div class="asset-card-name">Central — Entra ID directory</div>
+      </div>
+      <div class="asset-card-pills">
+        <span class="a-pill pill-type">IDS · Identity</span>
+        <span class="a-pill pill-tier-0">Tier 0</span>
+        <span class="a-pill pill-data-l3">Confidential L3</span>
+        <span class="a-pill pill-status-live">Live</span>
+      </div>
+    </div>
+    <div class="asset-card-body"><table class="field-grid">
+      <tr class="group-divider"><td colspan="2">A · Identification</td></tr>
+      <tr><td class="label">Asset ID</td><td class="value mono">ASSET-CENTRAL-IDS-0001</td></tr>
+      <tr><td class="label">Display name</td><td class="value">Central Entra ID directory</td></tr>
+      <tr><td class="label">Hostname / FQDN</td><td class="value mono">login.microsoftonline.com (vendor endpoint)</td></tr>
+      <tr><td class="label">Asset type</td><td class="value"><strong>IDS</strong> (Identity store, Pattern C)</td></tr>
+      <tr><td class="label">Function tags</td><td class="value"><div class="tags"><span class="tag">Production</span><span class="tag">Identity &amp; Access</span><span class="tag">External-facing</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">B · Ownership</td></tr>
+      <tr><td class="label">Operating unit</td><td class="value"><strong>CENTRAL</strong></td></tr>
+      <tr><td class="label">Business owner</td><td class="value">CISO</td></tr>
+      <tr><td class="label">Technical owner</td><td class="value">Central IT — Identity Engineering</td></tr>
+      <tr><td class="label">Security contact</td><td class="value">SOC 24×7 + central CISO</td></tr>
+      <tr class="group-divider"><td colspan="2">C · Classification</td></tr>
+      <tr><td class="label">Criticality tier</td><td class="value"><strong>Tier 0</strong> — authentication and authorisation for all cloud services</td></tr>
+      <tr><td class="label">Data classification</td><td class="value"><strong>Confidential L3</strong> (directory data — names, emails, roles, group memberships)</td></tr>
+      <tr><td class="label">Personal data</td><td class="value">Yes (extensive)</td></tr>
+      <tr><td class="label">Regulatory tags</td><td class="value"><div class="tags"><span class="tag">GDPR</span><span class="tag">NIS2</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">D · Technical</td></tr>
+      <tr><td class="label">Environment</td><td class="value">Production</td></tr>
+      <tr><td class="label">Hosting model</td><td class="value">SaaS — Microsoft-hosted (Entra ID)</td></tr>
+      <tr><td class="label">Network zone</td><td class="value">Public — accessed via Conditional Access policies</td></tr>
+      <tr><td class="label">OS / platform</td><td class="value">Microsoft Entra ID (P2)</td></tr>
+      <tr><td class="label">Key dependencies</td><td class="value">Dependents: ASSET-CENTRAL-SAAS-0001 (M365), every cloud-integrated SaaS, every domain-joined endpoint via hybrid join</td></tr>
+      <tr class="group-divider"><td colspan="2">E · Lifecycle</td></tr>
+      <tr><td class="label">Status</td><td class="value">Live</td></tr>
+      <tr><td class="label">Onboarded date</td><td class="value">Pre-existing (legacy)</td></tr>
+      <tr><td class="label">Last reviewed</td><td class="value">8 May 2026</td></tr>
+      <tr><td class="label">Next review due</td><td class="value">8 May 2027 (annual — Tier 0)</td></tr>
+      <tr class="group-divider"><td colspan="2">F · Operational</td></tr>
+      <tr><td class="label">Backup</td><td class="value">In scope — Entra Connect Health monitored; soft-delete + recoverable bin enabled; tenant-level recovery process documented</td></tr>
+      <tr><td class="label">Monitoring</td><td class="value">SOC — sign-in logs, audit logs, risky users/sign-ins forwarded to SIEM continuously</td></tr>
+      <tr><td class="label">Patching ownership</td><td class="value">Microsoft (vendor)</td></tr>
+      <tr class="group-divider"><td colspan="2">G · Risk &amp; references</td></tr>
+      <tr><td class="label">Open risks</td><td class="value">RISK-002 (linked — privileged identity compromise)</td></tr>
+      <tr><td class="label">Known exceptions</td><td class="value">None</td></tr>
+      <tr><td class="label">Notes</td><td class="value">Single tenant; hybrid-joined to on-prem AD forests at major sites. Foundational identity authority.</td></tr>
+    </table></div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- Asset 9: OT device             -->
+  <!-- ============================== -->
+  <div class="asset-card" id="a9">
+    <div class="asset-card-header">
+      <div>
+        <div class="asset-card-id">ASSET-AKHS-OT-0001</div>
+        <div class="asset-card-name">AKHS Mombasa — Hospital BMS controller</div>
+      </div>
+      <div class="asset-card-pills">
+        <span class="a-pill pill-type">OT · OT device</span>
+        <span class="a-pill pill-tier-1">Tier 1</span>
+        <span class="a-pill pill-data-l2">Confidential L2</span>
+        <span class="a-pill pill-status-live">Live</span>
+      </div>
+    </div>
+    <div class="asset-card-body"><table class="field-grid">
+      <tr class="group-divider"><td colspan="2">A · Identification</td></tr>
+      <tr><td class="label">Asset ID</td><td class="value mono">ASSET-AKHS-OT-0001</td></tr>
+      <tr><td class="label">Display name</td><td class="value">AKHS Mombasa hospital — Building Management System controller</td></tr>
+      <tr><td class="label">Hostname / FQDN</td><td class="value mono">bms.akhs-mombasa.local (internal only)</td></tr>
+      <tr><td class="label">Asset type</td><td class="value"><strong>OT</strong> (Operational technology, Pattern B)</td></tr>
+      <tr><td class="label">Function tags</td><td class="value"><div class="tags"><span class="tag">Production</span><span class="tag">Administrative</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">B · Ownership</td></tr>
+      <tr><td class="label">Operating unit</td><td class="value"><strong>AKHS</strong></td></tr>
+      <tr><td class="label">Business owner</td><td class="value">AKHS Mombasa hospital facilities manager</td></tr>
+      <tr><td class="label">Technical owner</td><td class="value">AKHS facilities engineering vendor (managed service)</td></tr>
+      <tr><td class="label">Security contact</td><td class="value">SOC 24×7</td></tr>
+      <tr class="group-divider"><td colspan="2">C · Classification</td></tr>
+      <tr><td class="label">Criticality tier</td><td class="value"><strong>Tier 1</strong> — controls hospital HVAC, power management, access</td></tr>
+      <tr><td class="label">Data classification</td><td class="value"><strong>Confidential L2</strong> (operational telemetry; not patient data)</td></tr>
+      <tr><td class="label">Personal data</td><td class="value">No</td></tr>
+      <tr><td class="label">Regulatory tags</td><td class="value"><div class="tags"><span class="tag">Health-sector</span><span class="tag">NIS2</span></div></td></tr>
+      <tr class="group-divider"><td colspan="2">D · Technical</td></tr>
+      <tr><td class="label">Environment</td><td class="value">Production</td></tr>
+      <tr><td class="label">Hosting model</td><td class="value">On-prem; isolated OT network segment</td></tr>
+      <tr><td class="label">Network zone</td><td class="value">OT-segment — air-gapped from corporate LAN; controlled diode for monitoring</td></tr>
+      <tr><td class="label">OS / platform</td><td class="value">Vendor-supplied embedded OS</td></tr>
+      <tr><td class="label">Key dependencies</td><td class="value">Depends on: hospital electrical supply, vendor support contract. Dependents: hospital HVAC, lighting, BMS-integrated access control</td></tr>
+      <tr class="group-divider"><td colspan="2">E · Lifecycle</td></tr>
+      <tr><td class="label">Status</td><td class="value">Live</td></tr>
+      <tr><td class="label">Onboarded date</td><td class="value">8 January 2023</td></tr>
+      <tr><td class="label">Last reviewed</td><td class="value">8 May 2026</td></tr>
+      <tr><td class="label">Next review due</td><td class="value">8 May 2027 (annual — Tier 1)</td></tr>
+      <tr class="group-divider"><td colspan="2">F · Operational</td></tr>
+      <tr><td class="label">Backup</td><td class="value">In scope — configuration backed up to vendor cloud; manual operating procedure available for failover</td></tr>
+      <tr><td class="label">Monitoring</td><td class="value">Local-only — vendor's monitoring portal; no SOC monitoring (OT-specific instrumentation is on roadmap)</td></tr>
+      <tr><td class="label">Patching ownership</td><td class="value">Vendor (managed service); patches applied during scheduled maintenance windows only</td></tr>
+      <tr class="group-divider"><td colspan="2">G · Risk &amp; references</td></tr>
+      <tr><td class="label">Open risks</td><td class="value">RISK-009 (linked — OT segment compromise affecting hospital operations)</td></tr>
+      <tr><td class="label">Known exceptions</td><td class="value">EXCEPTION-OT-001 — exempted from SOC monitoring while OT-specific tooling is implemented</td></tr>
+      <tr><td class="label">Notes</td><td class="value">Connected via isolated OT network with one-way data diode for limited visibility. Annual physical inspection by vendor. Tier 1 due to hospital-operational dependency.</td></tr>
+    </table></div>
+  </div>
+
+  <div class="reg-nav"><a href="grc-reg-codes.html">← Codes Register</a><a href="grc-wi-05.html">Reviewer WI →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC-REG-ASSET · Live · Updated 8 May 2026 · Paulo Ferreira</span>
+    <span><a href="grc.html" style="color:var(--grc);text-decoration:none;">← Back to GRC Hub</a></span>
+  </div>
+</div>
+</body>
+</html>

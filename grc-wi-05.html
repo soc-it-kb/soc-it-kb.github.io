@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-WI-05: Asset Submission Reviewer Work Instruction — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:20px; font-weight:700; margin-bottom:6px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.8; line-height:1.5; margin-bottom:10px; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.8rem 1.2rem; margin-bottom:1.25rem; }
+  .meta-item { font-size:13px; color:#666; display:flex; align-items:center; gap:5px; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+
+  .wi-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .wi-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--grc); margin-bottom:4px; }
+  .wi-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-section h3 { font-size:14px; font-weight:600; color:var(--grc-dark); margin:14px 0 6px 0; }
+
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .wi-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--grc); flex-shrink:0; margin-top:5px; }
+
+  /* Checklist box */
+  .checklist { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.95rem 1.25rem; margin-top:6px; }
+  .check-item { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:0.5px solid #f0f0ec; line-height:1.55; }
+  .check-item:last-child { border-bottom:none; }
+  .check-box { width:18px; height:18px; border:1.5px solid var(--grc); border-radius:4px; flex-shrink:0; background:#fff; margin-top:1px; }
+  .check-text { font-size:13px; color:#333; flex:1; }
+  .check-text strong { color:var(--grc-dark); }
+  .check-num { font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--grc); font-weight:700; min-width:32px; padding-top:2px; }
+
+  /* Fail-mode cards */
+  .failmode-grid { display:grid; grid-template-columns:1fr; gap:8px; margin-top:6px; }
+  .failmode { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #d97706; border-radius:8px; padding:0.75rem 1rem; }
+  .failmode h4 { font-size:13px; font-weight:600; color:#854F0B; margin-bottom:5px; display:flex; align-items:center; gap:7px; }
+  .failmode-icon { background:#d97706; color:#fff; font-size:11px; font-weight:700; padding:2px 7px; border-radius:4px; }
+  .failmode p { font-size:13px; color:#5a3a08; line-height:1.55; margin:0; }
+  .failmode strong { color:#3d260a; }
+
+  /* Decision flow */
+  .flow-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.25rem; margin-top:6px; }
+  .flow-step { display:flex; gap:10px; margin-bottom:8px; align-items:flex-start; line-height:1.55; }
+  .flow-step:last-child { margin-bottom:0; }
+  .flow-q { font-size:11px; font-weight:700; color:#fff; background:var(--grc); padding:2px 8px; border-radius:5px; white-space:nowrap; flex-shrink:0; margin-top:1px; min-width:54px; text-align:center; }
+  .flow-text { font-size:13px; color:#333; }
+  .flow-text strong { color:var(--grc-dark); }
+
+  .out-approve { background:#E1F5EE; color:#0F6E56; padding:1px 7px; border-radius:5px; font-weight:600; font-size:12px; }
+  .out-reject  { background:#FAECE7; color:#993C1D; padding:1px 7px; border-radius:5px; font-weight:600; font-size:12px; }
+  .out-info    { background:#FAEEDA; color:#854F0B; padding:1px 7px; border-radius:5px; font-weight:600; font-size:12px; }
+
+  /* Tables */
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--grc-dark); color:#fff; font-weight:600; padding:8px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:8px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.code { font-family:'SF Mono','Fira Code',monospace; font-weight:600; color:var(--grc); white-space:nowrap; font-size:12px; }
+  .gt-table td.lvl { font-weight:600; color:var(--grc-dark); white-space:nowrap; }
+
+  /* Callouts */
+  .callout-info { background:var(--grc-light); border:0.5px solid var(--grc-border); border-left:3px solid var(--grc); border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:var(--grc-dark); line-height:1.55; margin-top:10px; }
+  .callout-info strong { color:var(--grc-dark); font-weight:700; }
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:#7a2e10; line-height:1.55; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+
+  /* Edge case cards */
+  .edge-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:6px; }
+  .edge-card { background:#fff; border:0.5px solid var(--grc-border); border-radius:8px; padding:0.85rem 1rem; }
+  .edge-card h4 { font-size:13px; font-weight:600; color:var(--grc-dark); margin-bottom:5px; }
+  .edge-card p { font-size:13px; color:#555; line-height:1.55; margin:0; }
+  @media(max-width:640px){ .edge-grid{grid-template-columns:1fr;} }
+
+  /* Related */
+  .rel-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:6px; }
+  .rel-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.85rem 1rem; }
+  .rel-card h4 { font-size:12px; font-weight:700; color:var(--grc); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:7px; }
+  .rel-link { display:flex; align-items:center; gap:8px; font-size:13px; padding:3px 0; }
+  .rel-link::before { content:'›'; color:var(--grc); font-weight:700; }
+  .rel-link a { color:#444; text-decoration:none; }
+  .rel-link a:hover { color:var(--grc); }
+  @media(max-width:640px){ .rel-grid{grid-template-columns:1fr;} }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="grc.html">GRC Hub</a><span>›</span>
+    <span>Work Instructions</span><span>›</span>
+    <span>GRC-WI-05</span>
+  </div>
+
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · Work Instruction · Asset Submissions</div>
+    <h1>GRC-WI-05: Asset Submission Reviewer Work Instruction</h1>
+    <p>Operational guidance for the GRC team member reviewing an asset submission against the Asset Management procedure (GRC-SOP-05). Covers the validation checklist, common review failures, evidence to capture, and edge-case handling. Audience: GRC reviewer; assumes familiarity with GRC-SOP-05 and GRC-REG-CODES.</p>
+    <div class="grc-page-hero-pills">
+      <span class="grc-page-hero-pill">GRC reviewer guidance</span>
+      <span class="grc-page-hero-pill">Operationalises GRC-SOP-05</span>
+      <span class="grc-page-hero-pill">Approval workflow</span>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">📋 <strong>WI ID:</strong> GRC-WI-05</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">🔗 <strong>Implements:</strong> <a href="grc-sop-05.html" style="color:var(--grc);">GRC-SOP-05</a></div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">👤 <strong>Owner:</strong> Head of GRC</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item">📅 <strong>Published:</strong> 8 May 2026</div>
+    <div class="meta-sep">·</div>
+    <div class="meta-item"><span class="badge-approved">Approved</span></div>
+  </div>
+
+  <!-- Section 1 — Purpose -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 1</div>
+    <div class="wi-section-title">Purpose &amp; Audience</div>
+    <p>This Work Instruction tells the GRC reviewer <em>how</em> to review an asset submission. It is a desk-side reference, not a methodology document — for the methodology, see GRC-SOP-05.</p>
+    <p>The reviewer's responsibility is to confirm that a proposed asset record is fit to publish in GRC-REG-ASSET. Approval moves the asset's status from <em>Onboarding</em> to <em>Live</em> (per GRC-SOP-05 §9). Approval is independent of the submitter (separation of duties); the reviewer is the second pair of eyes that catches what the submitter missed.</p>
+
+    <h3>1.1 Audience</h3>
+    <ul class="wi-bullet">
+      <li><strong>GRC team members</strong> who hold the reviewer role (Head of GRC, GRC analysts, delegated reviewers)</li>
+      <li><strong>LCSOs / CSLCs acting as reviewer</strong> for their operating unit's submissions where the GRC team has delegated authority</li>
+    </ul>
+
+    <h3>1.2 Out of scope</h3>
+    <ul class="wi-bullet">
+      <li>How to <em>create</em> an asset submission — that is the submitter's responsibility, covered by the Asset Onboarding Form (GRC-FRM-XX, future delivery)</li>
+      <li>Asset retirement/decommissioning reviews — covered separately under GRC-SOP-05 §12</li>
+      <li>Periodic re-reviews of existing live assets — different process (GRC-SOP-05 §11)</li>
+      <li>Reconciliation findings handling — separate workstream owned by Head of IT Operations</li>
+    </ul>
+  </div>
+
+  <!-- Section 2 — Reviewer principles -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 2</div>
+    <div class="wi-section-title">Reviewer Principles</div>
+    <p>Five operating principles. Reviewers internalise these so that judgement calls are consistent across the team:</p>
+    <ul class="wi-bullet">
+      <li><strong>Trust but verify.</strong> Submitters are not adversaries. Most submissions are honest attempts. The reviewer's job is to catch mistakes, not to police.</li>
+      <li><strong>Reject early, not late.</strong> If a submission is missing key fields, reject in minutes, not days. Don't try to fill gaps yourself.</li>
+      <li><strong>Be specific in feedback.</strong> "Field 8 (technical owner) is a team mailbox; SOP-05 §10.1 requires a named individual where one is reasonably available" — not "ownership unclear".</li>
+      <li><strong>Document everything.</strong> Approval and rejection both leave audit trails. Note what you checked and what you noticed, even if you approved.</li>
+      <li><strong>Escalate genuine ambiguity.</strong> If you can't decide between approve and reject, escalate to the Head of GRC. Don't half-approve.</li>
+    </ul>
+  </div>
+
+  <!-- Section 3 — Inputs and SLA -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 3</div>
+    <div class="wi-section-title">Inputs &amp; Service Level</div>
+
+    <h3>3.1 Inputs to the review</h3>
+    <ul class="wi-bullet">
+      <li>The asset submission record (typically a completed Asset Onboarding Form or equivalent)</li>
+      <li>Existing GRC-REG-ASSET (to check for duplicates and conflicts)</li>
+      <li>Existing GRC-REG-CODES (to check that all referenced codes exist)</li>
+      <li>Submission metadata: submitter identity, operating unit, submission date</li>
+    </ul>
+
+    <h3>3.2 Service level</h3>
+    <table class="gt-table">
+      <thead><tr><th>Tier</th><th>SLA from submission to first response</th><th>SLA to final disposition</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Tier 0 / Tier 1 asset</td><td>3 working days</td><td>10 working days</td></tr>
+        <tr><td class="lvl">Tier 2 asset</td><td>5 working days</td><td>15 working days</td></tr>
+        <tr><td class="lvl">Tier 3 asset</td><td>10 working days</td><td>20 working days</td></tr>
+      </tbody>
+    </table>
+    <p>"First response" means an acknowledgement that the review has begun, including any initial questions to the submitter. "Final disposition" means approve, reject, or request resubmission with a defined gap closure path.</p>
+
+    <div class="callout-info"><strong>Bulk submissions.</strong> Where an operating unit submits 20+ assets in a single batch (e.g. an initial seeding from an existing inventory), the SLA applies to the batch overall, not to individual records. Coordinate with the Head of GRC for prioritisation.</div>
+  </div>
+
+  <!-- Section 4 — Validation checklist -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 4</div>
+    <div class="wi-section-title">Validation Checklist</div>
+    <p>Work through these checks in order. Each check has a clear pass/fail outcome. Stop at the first hard fail; record what you found and notify the submitter. Do not proceed past a hard-fail item.</p>
+
+    <h3>4.1 Naming-conformance checks (hard fails)</h3>
+    <div class="checklist">
+      <div class="check-item"><span class="check-num">N1</span><span class="check-box"></span><span class="check-text"><strong>Asset ID format conforms to GRC-SOP-05 §6 (Pattern A) or §7 (Pattern B/C).</strong> Pattern A names use <code>AGENCY+COUNTRY+CITY+TYPE+SEQ</code> with no separators. Pattern B uses <code>ASSET-AGENCY-TYPE-SEQ</code>. Pattern C uses <code>ASSET-CENTRAL-TYPE-SEQ</code>.</span></div>
+      <div class="check-item"><span class="check-num">N2</span><span class="check-box"></span><span class="check-text"><strong>All segments are uppercase A–Z and 0–9 only.</strong> No lowercase, no special characters, no embedded whitespace.</span></div>
+      <div class="check-item"><span class="check-num">N3</span><span class="check-box"></span><span class="check-text"><strong>Each code segment exists in GRC-REG-CODES.</strong> Agency code, city code, asset-type code all must already be approved. If any is missing, reject with "code request required first".</span></div>
+      <div class="check-item"><span class="check-num">N4</span><span class="check-box"></span><span class="check-text"><strong>Sequence number is the next available in its (Agency × Country × City × Type) series.</strong> Look up the most recent existing sequence for that combination. Sequences are not recycled (per GRC-SOP-05 §7.5 and §12.3).</span></div>
+      <div class="check-item"><span class="check-num">N5</span><span class="check-box"></span><span class="check-text"><strong>Asset ID is unique within GRC-REG-ASSET.</strong> Duplicate Asset IDs are a hard fail. If duplicate, the submitter must either claim the existing record (and update it) or pick a different ID.</span></div>
+      <div class="check-item"><span class="check-num">N6</span><span class="check-box"></span><span class="check-text"><strong>Pattern selection is appropriate for asset type.</strong> Servers, endpoints, network devices, peripherals → Pattern A. Applications, SaaS, identity stores, data stores → Pattern B or C. Cloud workloads can use either depending on whether they have a hostname.</span></div>
+    </div>
+
+    <h3>4.2 Schema completeness checks (hard fails for mandatory fields)</h3>
+    <div class="checklist">
+      <div class="check-item"><span class="check-num">S1</span><span class="check-box"></span><span class="check-text"><strong>All mandatory fields are present.</strong> See GRC-SOP-05 §8 — fields marked mandatory in groups A–F.</span></div>
+      <div class="check-item"><span class="check-num">S2</span><span class="check-box"></span><span class="check-text"><strong>Asset type (field 4) is exactly one value</strong> from the §5.1 taxonomy. "Server/Application" hybrid choices are a fail — pick the primary technology.</span></div>
+      <div class="check-item"><span class="check-num">S3</span><span class="check-box"></span><span class="check-text"><strong>Operating unit (field 6)</strong> is a single agency code or <code>CENTRAL</code>. "Multiple agencies" is not a valid value — that's <code>CENTRAL</code>.</span></div>
+      <div class="check-item"><span class="check-num">S4</span><span class="check-box"></span><span class="check-text"><strong>Business owner, technical owner, security contact (fields 7–9) are all populated</strong> with specific role + name OR (where genuinely unavailable) a team mailbox with documented justification.</span></div>
+      <div class="check-item"><span class="check-num">S5</span><span class="check-box"></span><span class="check-text"><strong>Criticality tier (field 10) is Tier 0 / 1 / 2 / 3</strong>. Reviewer sanity-checks against asset description: a single staff laptop should not normally be Tier 0; a domain controller should not be Tier 3.</span></div>
+      <div class="check-item"><span class="check-num">S6</span><span class="check-box"></span><span class="check-text"><strong>Data classification (field 11) is L1 / L2 / L3 / L4</strong> per IRP §10. Sense-check against personal-data flag (field 12) — if personal data is present, classification should be L2 or higher.</span></div>
+      <div class="check-item"><span class="check-num">S7</span><span class="check-box"></span><span class="check-text"><strong>Lifecycle dates (fields 20–22) make sense.</strong> Onboarded date is not in the future. Last reviewed date is not before onboarded. Next review due reflects the Tier-driven cadence.</span></div>
+      <div class="check-item"><span class="check-num">S8</span><span class="check-box"></span><span class="check-text"><strong>Backup, monitoring, patching ownership (fields 23–25)</strong> are populated. "Unknown" or "TBD" is not acceptable for an asset moving to Live status.</span></div>
+    </div>
+
+    <h3>4.3 Consistency checks (soft fails — request clarification)</h3>
+    <div class="checklist">
+      <div class="check-item"><span class="check-num">C1</span><span class="check-box"></span><span class="check-text"><strong>Function tags align with asset type.</strong> A SaaS service tagged "End-User Computing" warrants a question — usually a tag is misapplied.</span></div>
+      <div class="check-item"><span class="check-num">C2</span><span class="check-box"></span><span class="check-text"><strong>Hosting model and OS/platform are consistent.</strong> "Hosting model: SaaS" with "OS: Windows Server 2022" suggests confusion — SaaS is vendor-managed.</span></div>
+      <div class="check-item"><span class="check-num">C3</span><span class="check-box"></span><span class="check-text"><strong>Network zone makes sense for the asset type.</strong> An "External-facing" function tag without a DMZ or public network zone, or vice versa, warrants a question.</span></div>
+      <div class="check-item"><span class="check-num">C4</span><span class="check-box"></span><span class="check-text"><strong>Tier and data classification jointly justify backup/monitoring.</strong> A Tier 0 asset with backup "Out of scope" is suspicious — confirm or escalate.</span></div>
+      <div class="check-item"><span class="check-num">C5</span><span class="check-box"></span><span class="check-text"><strong>Regulatory tags are present where they should be.</strong> Personal data flag = Yes but no GDPR tag is a likely error.</span></div>
+      <div class="check-item"><span class="check-num">C6</span><span class="check-box"></span><span class="check-text"><strong>Dependencies are plausible.</strong> "No dependencies" is rarely true — most assets depend on identity, network, or other infrastructure.</span></div>
+    </div>
+
+    <h3>4.4 Cross-reference checks</h3>
+    <div class="checklist">
+      <div class="check-item"><span class="check-num">X1</span><span class="check-box"></span><span class="check-text"><strong>Linked risks (field 26)</strong> exist in GRC-REG-RISK and are still open. Closed/retired risks should not be linked.</span></div>
+      <div class="check-item"><span class="check-num">X2</span><span class="check-box"></span><span class="check-text"><strong>Linked exceptions (field 27)</strong> exist and are within their approved validity period.</span></div>
+      <div class="check-item"><span class="check-num">X3</span><span class="check-box"></span><span class="check-text"><strong>Dependencies referenced</strong> exist in the register, or are explicitly noted as "external / not in scope" with rationale.</span></div>
+      <div class="check-item"><span class="check-num">X4</span><span class="check-box"></span><span class="check-text"><strong>Submitter and approver are different individuals.</strong> Separation of duties (GRC-SOP-05 §4.2). If submitter = approver, immediate escalation.</span></div>
+    </div>
+
+    <div class="callout-info"><strong>How long should a review take?</strong> A clean Tier 3 endpoint submission typically takes 5–10 minutes. A Tier 1 application with multiple integrations takes 30–60 minutes. A Tier 0 cross-agency asset can take 2+ hours including consultations. If a "simple" review is consuming an hour, that is a signal: either the submission is incomplete, or you are doing the submitter's job. Stop and ask.</div>
+  </div>
+
+  <!-- Section 5 — Common review failures -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 5</div>
+    <div class="wi-section-title">Common Review Failures</div>
+    <p>The patterns below are seen often. Recognising them speeds up reviews.</p>
+
+    <div class="failmode-grid">
+      <div class="failmode">
+        <h4><span class="failmode-icon">F1</span> Code not yet in GRC-REG-CODES</h4>
+        <p>Submitter has used a city code, asset-type code, or agency code that has not been formally added. <strong>Action:</strong> reject with link to the code-request workflow (GRC-REG-CODES section "Code Request Workflow"). Do not approve the asset record until the code is approved.</p>
+      </div>
+      <div class="failmode">
+        <h4><span class="failmode-icon">F2</span> Mismatched naming pattern</h4>
+        <p>Pattern A used for a SaaS service, or Pattern B used for a physical server. <strong>Action:</strong> reject with reference to GRC-SOP-05 §7. Common cause: submitter unfamiliar with the patterns. Provide example from §7 in feedback.</p>
+      </div>
+      <div class="failmode">
+        <h4><span class="failmode-icon">F3</span> Ownership "team mailbox" without justification</h4>
+        <p>Business owner = "ITops@..." or technical owner = "infra@...". <strong>Action:</strong> request a named individual. A team mailbox is acceptable only as a fallback with documented reason (e.g. shift-rotation team where no single owner is reasonable).</p>
+      </div>
+      <div class="failmode">
+        <h4><span class="failmode-icon">F4</span> Tier vs criticality mismatch</h4>
+        <p>A staff laptop classified Tier 0 ("everything is critical to the user!") or a domain controller classified Tier 2. <strong>Action:</strong> use the Tier definitions in core-concepts to push back. Tier reflects organisational impact, not user perception.</p>
+      </div>
+      <div class="failmode">
+        <h4><span class="failmode-icon">F5</span> Missing classification when personal data is present</h4>
+        <p>Personal data = Yes but data classification = L1 (Public) or no GDPR tag. <strong>Action:</strong> reject; personal data triggers L2 minimum classification and GDPR tagging.</p>
+      </div>
+      <div class="failmode">
+        <h4><span class="failmode-icon">F6</span> Backup/monitoring "TBD"</h4>
+        <p>Asset is going Live but operational fields say "TBD" or "Will configure later". <strong>Action:</strong> reject. If genuinely transitional, asset stays in Onboarding state until operational coverage is confirmed.</p>
+      </div>
+      <div class="failmode">
+        <h4><span class="failmode-icon">F7</span> Duplicate of existing record</h4>
+        <p>The asset already exists in GRC-REG-ASSET, possibly under a slightly different name. <strong>Action:</strong> reject the submission and direct the submitter to update the existing record. Common cause: submitter unaware of existing record (often when ownership has changed).</p>
+      </div>
+      <div class="failmode">
+        <h4><span class="failmode-icon">F8</span> Onboarding/last-reviewed/next-review dates inconsistent</h4>
+        <p>E.g. Onboarded 2024-03-12, Last reviewed 2023-12-01 (before onboarding). <strong>Action:</strong> request correction. Often a copy-paste error; rarely a sign of more serious data-quality issues.</p>
+      </div>
+      <div class="failmode">
+        <h4><span class="failmode-icon">F9</span> "Other" asset type without justification</h4>
+        <p>Asset type = OTH used as a default. <strong>Action:</strong> ask the submitter to attempt a more specific type. OTH is genuinely "I cannot fit this elsewhere"; if the submitter can describe the asset, one of the 13 specific types usually applies.</p>
+      </div>
+      <div class="failmode">
+        <h4><span class="failmode-icon">F10</span> Cross-agency asset assigned to a single agency</h4>
+        <p>Submitter records a centrally-managed SaaS as belonging to AKHS only when it serves all agencies. <strong>Action:</strong> reject; the operating unit should be CENTRAL. Common cause: submitter is from AKHS and naturally lists their agency.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6 — Decision flow -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 6</div>
+    <div class="wi-section-title">Decision Flow</div>
+    <p>After working through the checklist, the reviewer reaches one of three dispositions:</p>
+
+    <div class="flow-box">
+      <div class="flow-step"><span class="flow-q">Gate 1</span><span class="flow-text"><strong>Any naming-conformance failure (N1–N6)?</strong> <span class="out-reject">REJECT</span> — record cannot be processed until the naming issue is resolved. Notify submitter with specific reference.</span></div>
+      <div class="flow-step"><span class="flow-q">Gate 2</span><span class="flow-text"><strong>Any mandatory-field omission (S1–S8)?</strong> <span class="out-reject">REJECT</span> — record is incomplete. Provide a list of missing fields; do not fill them yourself.</span></div>
+      <div class="flow-step"><span class="flow-q">Gate 3</span><span class="flow-text"><strong>Any consistency or cross-reference issue (C1–C6, X1–X4)?</strong> <span class="out-info">REQUEST CLARIFICATION</span> — the record may be salvageable; ask the submitter to clarify or correct. Set a 5-working-day deadline for response. If no response, the submission is closed; submitter may resubmit.</span></div>
+      <div class="flow-step"><span class="flow-q">Gate 4</span><span class="flow-text"><strong>All checks pass?</strong> <span class="out-approve">APPROVE</span> — move asset status to Live; publish in GRC-REG-ASSET; notify submitter; record approval in audit trail with named approver and approval date.</span></div>
+    </div>
+
+    <h3>6.1 What to record on approval</h3>
+    <ul class="wi-bullet">
+      <li>Approver name and role</li>
+      <li>Approval date and time</li>
+      <li>Reference to which checklist version was used</li>
+      <li>Any waivers applied (e.g. "team mailbox accepted as technical owner due to shift rotation — confirmed with LCSO")</li>
+      <li>Onboarded date (the date status moves to Live)</li>
+      <li>First scheduled review date (per Tier cadence)</li>
+    </ul>
+
+    <h3>6.2 What to record on rejection</h3>
+    <ul class="wi-bullet">
+      <li>Reviewer name and role</li>
+      <li>Rejection date</li>
+      <li>List of failed checklist items, with specific reference to GRC-SOP-05 sections</li>
+      <li>Specific feedback to the submitter (what to change)</li>
+      <li>Any cross-reference to existing records that may be relevant (e.g. "this appears to be the same asset as <code>AKHSKEMOMSRV0007</code>")</li>
+      <li>Resubmission instruction (resubmit with corrections vs. open a code request first vs. talk to GRC)</li>
+    </ul>
+
+    <div class="callout-warn"><strong>Reject ≠ judgement on the submitter.</strong> A clean rejection with specific feedback is professional. A vague rejection ("not good enough") is not. Submitters who receive specific feedback resubmit cleanly more than 80% of the time on the first attempt.</div>
+  </div>
+
+  <!-- Section 7 — Edge cases -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 7</div>
+    <div class="wi-section-title">Edge Cases</div>
+    <p>The cases below are not failures but require specific handling. Reviewers should know how each is treated rather than escalating each time.</p>
+
+    <div class="edge-grid">
+      <div class="edge-card">
+        <h4>Deviation request alongside submission</h4>
+        <p>Submitter has flagged that the asset cannot conform to standard naming and proposes a deviation. Process the deviation request <em>before</em> the asset record. If deviation is approved (recorded in GRC-REG-CODES Deviations table), proceed with the asset record using the deviation. If not, the asset must be renamed.</p>
+      </div>
+      <div class="edge-card">
+        <h4>Legacy asset (pre-SOP)</h4>
+        <p>An existing asset is being formally registered for the first time. Tag the record with "legacy naming" if its current name doesn't conform, and add a note. The asset can go Live with non-conforming name; rename happens at the next decommissioning/rebuild per GRC-SOP-05 §14.3.</p>
+      </div>
+      <div class="edge-card">
+        <h4>Cross-agency asset proposed by single-agency submitter</h4>
+        <p>An LCSO from one agency submits a record for an asset that other agencies also use (e.g. a regional SaaS instance shared across 3 country offices). Confirm with the named technical owner whether scope is single-agency or cross-agency. If cross-agency, the operating unit is CENTRAL, not the submitter's agency.</p>
+      </div>
+      <div class="edge-card">
+        <h4>Identical naming across operating units</h4>
+        <p>Two agencies submit assets with the same Asset ID (only possible with non-conforming naming). Reject both, request agency-prefix renaming. The convention prevents this in conformant naming.</p>
+      </div>
+      <div class="edge-card">
+        <h4>Asset with multiple business owners</h4>
+        <p>An application used by HR, Finance, and Operations. Pick the <em>primary</em> business owner — the one who would make the call about retiring or replacing the asset. Note the secondary stakeholders in the notes field. Field 7 holds one accountable individual.</p>
+      </div>
+      <div class="edge-card">
+        <h4>Submitter requests an exception during review</h4>
+        <p>"Can you just approve this with backup TBD; I'll fill it in next week." <em>Politely decline.</em> If the submitter has authority to commit, they commit (and the record goes Live with the field populated). If they do not have authority, escalate. Approving with TBD undermines the register.</p>
+      </div>
+      <div class="edge-card">
+        <h4>OT asset in scope</h4>
+        <p>OT submissions often look unusual — vendor-managed firmware, no domain join, no EDR coverage. This is correct for OT. The reviewer's role is to confirm the OT-appropriate alternatives (vendor monitoring, segmentation, manual procedures) are documented. Don't reject for absence of IT-style controls.</p>
+      </div>
+      <div class="edge-card">
+        <h4>Asset referenced in an active incident</h4>
+        <p>If the asset is involved in a currently-open Sev 1 / Sev 2 incident (per GRC-IRP-01), pause the review. Asset records changing during an incident can disrupt response. Coordinate with the Incident Commander; resume review after incident closure unless the IC directs otherwise.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 8 — Evidence -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 8</div>
+    <div class="wi-section-title">Evidence Capture &amp; Audit Trail</div>
+    <p>Every review — approve or reject — produces audit evidence. Auditors will sample reviews; consistent evidence makes audit straightforward.</p>
+
+    <h3>8.1 Per-review evidence</h3>
+    <table class="gt-table">
+      <thead><tr><th>Artefact</th><th>What it captures</th><th>Retention</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">Submission record</td><td>The original submission as received, with submitter identity and timestamp</td><td>7 years</td></tr>
+        <tr><td class="lvl">Reviewer disposition record</td><td>Approve / Request clarification / Reject; reviewer identity; date/time; checklist version applied</td><td>7 years</td></tr>
+        <tr><td class="lvl">Feedback to submitter</td><td>Specific items requested; specific failures cited with section references</td><td>3 years</td></tr>
+        <tr><td class="lvl">Approval record</td><td>Asset ID; status transition Onboarding→Live; first review due date</td><td>While asset is in any non-Archived state, then 7 years</td></tr>
+        <tr><td class="lvl">Waivers applied</td><td>Any deviations from standard interpretation and the rationale</td><td>7 years</td></tr>
+      </tbody>
+    </table>
+
+    <h3>8.2 Aggregate evidence</h3>
+    <p>The Head of GRC produces aggregate metrics monthly:</p>
+    <ul class="wi-bullet">
+      <li>Submissions received vs reviewed; backlog vs SLA</li>
+      <li>Approval rate (target: &gt;80% on first attempt; lower implies submission quality issue)</li>
+      <li>Most common rejection reasons (drives training and form improvement)</li>
+      <li>Time-to-disposition by Tier</li>
+      <li>Reviewer load distribution (no single reviewer should be the bottleneck)</li>
+    </ul>
+    <p>These metrics are reviewed quarterly and feed into the annual review of GRC-SOP-05.</p>
+  </div>
+
+  <!-- Section 9 — Tooling -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 9</div>
+    <div class="wi-section-title">Tooling &amp; Workflow Mechanics</div>
+    <p>The current implementation is documentation-only — submissions are captured by form (today via the Asset Onboarding Form, future delivery), processed manually by GRC, and the register is maintained as a static page in the Knowledge Base.</p>
+
+    <h3>9.1 Today (static documentation)</h3>
+    <ul class="wi-bullet">
+      <li>Submitter fills the Asset Onboarding Form and emails it to the GRC team mailbox</li>
+      <li>GRC reviewer applies this Work Instruction to the submission</li>
+      <li>On approval, the GRC team adds the entry to GRC-REG-ASSET and commits to the KB git repository</li>
+      <li>The KB rebuilds and the entry is visible</li>
+    </ul>
+
+    <h3>9.2 Future (Azure-hosted GRC application)</h3>
+    <p>Once the planned migration to Azure is complete (see governance change log for Phase 1/2 plan), submissions will land in a backend with structured fields. This Work Instruction will continue to apply — the checks remain identical — but the workflow becomes more efficient: automated naming-conformance validation, real-time duplicate detection, integrated reviewer dashboards, and audit logging without manual intervention.</p>
+    <p>The reviewer judgement, however, does not change. Tools surface candidates; people approve.</p>
+  </div>
+
+  <!-- Section 10 — Related -->
+  <div class="wi-section">
+    <div class="wi-section-num">Section 10</div>
+    <div class="wi-section-title">Related Documents</div>
+    <div class="rel-grid">
+      <div class="rel-card">
+        <h4>Authoritative SOP</h4>
+        <div class="rel-link"><a href="grc-sop-05.html">GRC-SOP-05 — Asset Management &amp; Naming Convention</a></div>
+      </div>
+      <div class="rel-card">
+        <h4>Registers</h4>
+        <div class="rel-link"><a href="grc-reg-asset.html">GRC-REG-ASSET — Asset Register</a></div>
+        <div class="rel-link"><a href="grc-reg-codes.html">GRC-REG-CODES — Codes Register</a></div>
+      </div>
+      <div class="rel-card">
+        <h4>Risk &amp; incident</h4>
+        <div class="rel-link"><a href="grc-irp-01.html">GRC-IRP-01 — Cyber Security IR Plan</a></div>
+        <div class="rel-link"><a href="grc-register-risk.html">GRC-REG-RISK — Risk Register</a></div>
+      </div>
+      <div class="rel-card">
+        <h4>Reference</h4>
+        <div class="rel-link"><a href="core-concepts.html">Core Concepts (Tier model)</a></div>
+        <div class="rel-link"><a href="governance.html">Governance — change log</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-nav"><a href="grc-reg-asset.html">← Asset Register</a><a href="grc.html">GRC Hub →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>GRC-WI-05 v1.0 · Approved · 8 May 2026 · Paulo Ferreira</span>
+    <span><a href="grc.html" style="color:var(--grc);text-decoration:none;">← Back to GRC Hub</a></span>
+  </div>
+</div>
+</body>
+</html>
