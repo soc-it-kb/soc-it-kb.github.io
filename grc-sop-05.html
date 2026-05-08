@@ -215,20 +215,20 @@
     <div class="sop-section-num">Section 1</div>
     <div class="sop-section-title">Purpose, Scope &amp; Authority</div>
     <h3>1.1 Purpose</h3>
-    <p>This procedure establishes how the organisation identifies, names, classifies, and manages the lifecycle of all IT and OT assets across operating units. It defines the asset taxonomy, the naming convention, the record schema, the lifecycle states, and the workflows for onboarding, review, and decommissioning. It exists to give a single, authoritative answer to the questions an analyst, an engineer, or an auditor most often asks: "what is this asset, who owns it, where does it sit, what depends on it, what is it allowed to do, and is it still ours?"</p>
+    <p>This procedure establishes how the Institution identifies, names, classifies, and manages the lifecycle of all IT and OT assets across operating units. It defines the asset taxonomy, the naming convention, the record schema, the lifecycle states, and the workflows for onboarding, review, and decommissioning. It exists to give a single, authoritative answer to the questions an analyst, an engineer, or an auditor most often asks: "what is this asset, who owns it, where does it sit, what depends on it, what is it allowed to do, and is it still ours?"</p>
     <p>This SOP is a foundational control. Effective asset management underpins every other security and operational discipline: incident response (blast radius), vulnerability management (which assets are affected), change management (impact analysis), business continuity (what must be restored first), regulatory compliance (where personal data lives), and threat detection (what's normal for this asset).</p>
 
     <h3>1.2 Scope</h3>
-    <p>This procedure covers all assets — physical, virtual, cloud-hosted, software-as-a-service, identity stores, data stores, and operational technology — that are operated by or on behalf of the organisation, regardless of medium, hosting model, or operating unit. It applies to all operating units worldwide. Each operating unit must identify, register, and maintain records for the assets within its accountability.</p>
+    <p>This procedure covers all assets — physical, virtual, cloud-hosted, software-as-a-service, identity stores, data stores, and operational technology — that are operated by or on behalf of the Institution, regardless of medium, hosting model, or operating unit. It applies to all operating units worldwide. Each operating unit must identify, register, and maintain records for the assets within its accountability.</p>
 
     <h3>1.3 Authority</h3>
-    <p>This SOP is the authoritative source for asset management and the naming convention across the organisation. It supersedes all earlier local conventions, draft naming standards, and ad-hoc registers, including any previous Technical Design Authority (TDA) Naming Convention Standard documents. Where existing assets have legacy names that do not conform to this SOP, they are governed under the migration provisions in §11.</p>
+    <p>This SOP is the authoritative source for asset management and the naming convention across the Institution. It supersedes all earlier local conventions, draft naming standards, and ad-hoc registers. Where existing assets have legacy names that do not conform to this SOP, they are governed under the migration provisions in §11.</p>
 
     <h3>1.4 Out of scope</h3>
     <ul class="sop-bullet">
       <li>Detailed financial accounting (depreciation schedules, capitalisation rules) — these live in the finance system, not this register</li>
       <li>Software licence management beyond a basic reference field — covered under a separate licence-management procedure</li>
-      <li>Personal devices not used to conduct organisational business (true BYOD with personal data only)</li>
+      <li>Personal devices not used to conduct Institutional business (true BYOD with personal data only)</li>
       <li>Disposable media (USB sticks, optical media) — covered under data classification and removable-media procedures</li>
       <li>End-user accounts (individuals) — covered under identity management; only service/system accounts are tracked here as assets</li>
     </ul>
@@ -262,11 +262,11 @@
     <table class="gt-table">
       <thead><tr><th>Term</th><th>Definition</th></tr></thead>
       <tbody>
-        <tr><td class="lvl">Asset</td><td>Any item of value to the organisation that processes, stores, transmits, or supports the processing of information, or that is used to conduct organisational business. Assets may be physical (servers, network devices, endpoints), virtual (VMs, containers), logical (applications, services), or relational (identity stores, data stores).</td></tr>
+        <tr><td class="lvl">Asset</td><td>Any item of value to the Institution that processes, stores, transmits, or supports the processing of information, or that is used to conduct Institutional business. Assets may be physical (servers, network devices, endpoints), virtual (VMs, containers), logical (applications, services), or relational (identity stores, data stores).</td></tr>
         <tr><td class="lvl">Configuration Item (CI)</td><td>An asset under formal configuration control. Every CI is an asset; not every asset is a CI. CIs require change management when modified.</td></tr>
         <tr><td class="lvl">Asset Record</td><td>The structured entry in the Asset Register (GRC-REG-ASSET) that describes a single asset and tracks its lifecycle.</td></tr>
         <tr><td class="lvl">Asset Identifier (Asset ID)</td><td>The primary key of an asset record. For physical and located assets, the Asset ID equals the hostname per the naming convention. For non-host assets, a synthetic Asset ID is used per §7.</td></tr>
-        <tr><td class="lvl">Operating Unit</td><td>An agency, country office, subsidiary, or other organisational unit accountable for a defined population of assets. Each asset belongs to exactly one operating unit (or to "Central" for cross-agency centrally-managed assets).</td></tr>
+        <tr><td class="lvl">Operating Unit</td><td>An agency, country office, subsidiary, or other Institutional unit accountable for a defined population of assets. Each asset belongs to exactly one operating unit (or to "Central" for cross-agency centrally-managed assets).</td></tr>
         <tr><td class="lvl">Business Owner</td><td>The role accountable for the business outcome that the asset supports. Decides whether the asset's purpose is still relevant.</td></tr>
         <tr><td class="lvl">Technical Owner</td><td>The role accountable for the technical operation of the asset. Maintains it, patches it, and authorises technical changes.</td></tr>
         <tr><td class="lvl">Security Contact</td><td>The named individual or role to contact for security-related matters affecting the asset, including incident response.</td></tr>
@@ -286,7 +286,7 @@
     <h3>4.1 Central roles</h3>
     <div class="roles-grid">
       <div class="role-card"><h4>CISO</h4><p>Ultimate accountability for the security posture of all in-scope assets. Approves this SOP and material changes to it. Owns the relationship between the asset register and incident response.</p></div>
-      <div class="role-card"><h4>CIO</h4><p>Accountable for the IT estate. Approves naming convention extensions and code-vocabulary additions that have organisation-wide impact.</p></div>
+      <div class="role-card"><h4>CIO</h4><p>Accountable for the IT estate. Approves naming convention extensions and code-vocabulary additions that have Institution-wide impact.</p></div>
       <div class="role-card"><h4>Head of GRC</h4><p>Day-to-day owner of this SOP. Maintains the SOP, the Codes Register (GRC-REG-CODES), and the Asset Register (GRC-REG-ASSET). Reviews submissions, processes deviations, runs annual reviews.</p></div>
       <div class="role-card"><h4>Head of IT Operations</h4><p>Owns automated reconciliation between the Asset Register and authoritative source systems (AD, Intune, CrowdStrike, vulnerability scanners). Identifies drift.</p></div>
       <div class="role-card"><h4>Architecture / Technical Authority</h4><p>Adjudicates ambiguous asset classifications, technical taxonomy questions, and convention edge cases. Approves new asset-type codes.</p></div>
@@ -317,11 +317,11 @@
         <tr><td class="lvl">Server</td><td class="code">SRV</td><td>Physical or virtual machine providing services or compute resources (web, application, database, file, print, domain controller, jump host)</td></tr>
         <tr><td class="lvl">Workstation</td><td class="code">DSK</td><td>Desktop computer used by an employee, contractor, or volunteer</td></tr>
         <tr><td class="lvl">Laptop</td><td class="code">LPT</td><td>Portable computer used by an employee, contractor, or volunteer</td></tr>
-        <tr><td class="lvl">Mobile device</td><td class="code">MOB</td><td>Smartphones, tablets, or other portable endpoints managed by the organisation</td></tr>
+        <tr><td class="lvl">Mobile device</td><td class="code">MOB</td><td>Smartphones, tablets, or other portable endpoints managed by the Institution</td></tr>
         <tr><td class="lvl">Network device</td><td class="code">NET</td><td>Routers, switches, firewalls, wireless controllers, access points, load balancers</td></tr>
         <tr><td class="lvl">Storage system</td><td class="code">STO</td><td>NAS, SAN, dedicated backup appliances, archive storage, cloud storage accounts</td></tr>
-        <tr><td class="lvl">Application</td><td class="code">APP</td><td>Installed software or service operated by the organisation (ERP, CRM, custom-built app, internally-hosted SaaS)</td></tr>
-        <tr><td class="lvl">SaaS service</td><td class="code">SAAS</td><td>Vendor-delivered software-as-a-service consumed by the organisation (Microsoft 365, Salesforce, ServiceNow)</td></tr>
+        <tr><td class="lvl">Application</td><td class="code">APP</td><td>Installed software or service operated by the Institution (ERP, CRM, custom-built app, internally-hosted SaaS)</td></tr>
+        <tr><td class="lvl">SaaS service</td><td class="code">SAAS</td><td>Vendor-delivered software-as-a-service consumed by the Institution (Microsoft 365, Salesforce, ServiceNow)</td></tr>
         <tr><td class="lvl">Cloud workload</td><td class="code">CLD</td><td>VM, container, function, database, or other resource in IaaS/PaaS (Azure, AWS, GCP)</td></tr>
         <tr><td class="lvl">Identity store</td><td class="code">IDS</td><td>Directory or identity provider holding accounts (Entra ID tenant, Active Directory forest, LDAP directory, Okta tenant)</td></tr>
         <tr><td class="lvl">Data store</td><td class="code">DAT</td><td>Database, data lake, file share, or other structured/unstructured data repository tracked as an asset in its own right</td></tr>
@@ -355,7 +355,7 @@
   <div class="sop-section" id="s6">
     <div class="sop-section-num">Section 6</div>
     <div class="sop-section-title">Naming Convention</div>
-    <p>This section defines the authoritative naming convention for all assets across the organisation. All physical and located assets <strong>must</strong> be named according to the structure below. Synthetic identifiers for non-host assets follow §7.</p>
+    <p>This section defines the authoritative naming convention for all assets across the Institution. All physical and located assets <strong>must</strong> be named according to the structure below. Synthetic identifiers for non-host assets follow §7.</p>
 
     <h3>6.1 Structure</h3>
     <p>The standard asset name is composed of five segments, concatenated without separators, in capital letters and digits only:</p>
@@ -422,7 +422,7 @@
     </div>
 
     <h3>6.4 Length considerations</h3>
-    <p>The minimum compliant name length is 13 characters (3+2+3+3+4 with shortest sequence). The maximum is 19 characters (5+2+3+3+6). This may exceed the legacy NetBIOS limit of 15 characters for some agencies and sequence widths. The organisation accepts this trade-off:</p>
+    <p>The minimum compliant name length is 13 characters (3+2+3+3+4 with shortest sequence). The maximum is 19 characters (5+2+3+3+6). This may exceed the legacy NetBIOS limit of 15 characters for some agencies and sequence widths. The Institution accepts this trade-off:</p>
     <ul class="sop-bullet">
       <li><strong>Modern Active Directory and DNS</strong> support computer names up to 63 characters. NetBIOS is largely irrelevant in modern environments.</li>
       <li><strong>SMB/CIFS browsing</strong> by NetBIOS name is no longer required where DNS resolution is functional, which is the standard for all modern AD environments.</li>
@@ -840,7 +840,7 @@
     </div>
 
     <h3>15.4 Review</h3>
-    <p>This SOP is reviewed annually by the Head of GRC with sign-off by the CISO. Out-of-cycle reviews are mandatory after material organisational change, after any audit finding affecting the asset register, after the addition of a new agency, and after any material change to the operating-unit footprint. The annual review covers: convention currency, schema fitness, taxonomy completeness, lifecycle adequacy, deviation patterns, reconciliation effectiveness.</p>
+    <p>This SOP is reviewed annually by the Head of GRC with sign-off by the CISO. Out-of-cycle reviews are mandatory after material Institutional change, after any audit finding affecting the asset register, after the addition of a new agency, and after any material change to the operating-unit footprint. The annual review covers: convention currency, schema fitness, taxonomy completeness, lifecycle adequacy, deviation patterns, reconciliation effectiveness.</p>
   </div>
 
   <div class="sop-nav"><a href="grc.html">← GRC Hub</a><a href="grc-reg-asset.html">Asset Register →</a></div>
