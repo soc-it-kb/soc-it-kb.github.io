@@ -136,8 +136,8 @@
   <div class="sop-section" id="s1">
     <div class="sop-section-num">Section 1</div>
     <div class="sop-section-title">Purpose</div>
-    <p>This SOP defines the minimum security baseline for network and security-network devices operated by or on behalf of the organisation. It establishes the controls every device must implement to be considered fit to carry organisational traffic, regardless of vendor, location, or operating unit.</p>
-    <p>Network devices sit at every boundary in the organisation's IT estate: between users and services, between segments, between sites, between the organisation and the internet. A weakness on these devices is uniquely impactful because it potentially exposes everything connected to them. This baseline reduces that risk to a defined, monitored, and audit-defensible state.</p>
+    <p>This SOP defines the minimum security baseline for network and security-network devices operated by or on behalf of the Institution. It establishes the controls every device must implement to be considered fit to carry Institutional traffic, regardless of vendor, location, or operating unit.</p>
+    <p>Network devices sit at every boundary in the Institution's IT estate: between users and services, between segments, between sites, between the Institution and the internet. A weakness on these devices is uniquely impactful because it potentially exposes everything connected to them. This baseline reduces that risk to a defined, monitored, and audit-defensible state.</p>
     <p>This SOP is operationalised by six Work Instructions — one per control domain — that provide implementation-level guidance for engineers. See §4 for the requirements summary and the linked WIs for execution detail.</p>
   </div>
 
@@ -151,7 +151,7 @@
       <li><strong>Firewalls</strong> — perimeter, internal-segmentation, and host-edge firewalls</li>
       <li><strong>Wireless access points and controllers</strong> — campus, hospital, school, field-office wireless including guest networks</li>
       <li><strong>Out-of-band management infrastructure</strong> — console servers, OOB switches, dedicated management networks</li>
-      <li>Devices in production, pre-production, disaster-recovery, and any environment carrying organisational traffic</li>
+      <li>Devices in production, pre-production, disaster-recovery, and any environment carrying Institutional traffic</li>
       <li>Devices at any tier (Tier 0 / 1 / 2 / 3 per the existing tier model)</li>
     </ul>
     <h3>2.2 Out of scope</h3>
@@ -188,7 +188,7 @@
     <p>Every device has a documented golden configuration. Deviations are exceptions, recorded and time-bounded. Configuration backups are automated and recoverable. Drift from golden config is detected and reconciled.</p>
 
     <h3>3.7 Comprehensive, centralised logging</h3>
-    <p>Every device forwards authentication events, configuration changes, and security-relevant events to the central log destination. Logs include accurate timestamps from a trusted time source. Logs are retained per the organisation's retention policy.</p>
+    <p>Every device forwards authentication events, configuration changes, and security-relevant events to the central log destination. Logs include accurate timestamps from a trusted time source. Logs are retained per the Institution's retention policy.</p>
   </div>
 
   <div class="sop-section" id="s4">
@@ -209,7 +209,7 @@
         <li>No shared accounts; the local emergency account is documented, password-vaulted, and used only with break-glass approval</li>
         <li>Management-plane access is restricted to a defined management network or a small allow-list of administrative sources</li>
         <li>Idle session timeout configured (≤15 minutes for privileged sessions)</li>
-        <li>Login banner displaying the authorised-use notice required by the organisation's policy</li>
+        <li>Login banner displaying the authorised-use notice required by the Institution's policy</li>
         <li>NTP configured to two or more authoritative time sources with authentication</li>
         <li>Syslog forwarding to the central SIEM destination; events include authentication, configuration changes, and security-relevant alerts</li>
         <li>Console access physically secured; console port disabled where remote management is the operational norm; auxiliary port disabled unless explicitly required</li>
@@ -330,7 +330,7 @@
   <div class="sop-section" id="s6">
     <div class="sop-section-num">Section 6</div>
     <div class="sop-section-title">Framework Alignment</div>
-    <p>This baseline is derived from the standards below. CIS L1 is the primary source-of-truth where a vendor-specific benchmark exists; controls have been generalised into vendor-agnostic form for portability across the organisation's mixed estate.</p>
+    <p>This baseline is derived from the standards below. CIS L1 is the primary source-of-truth where a vendor-specific benchmark exists; controls have been generalised into vendor-agnostic form for portability across the Institution's mixed estate.</p>
     <table class="gt-table">
       <thead><tr><th>Framework / benchmark</th><th>Reference</th><th>Where applied</th></tr></thead>
       <tbody>
