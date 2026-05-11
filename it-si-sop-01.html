@@ -137,7 +137,7 @@
     <div class="sop-section-num">Section 1</div>
     <div class="sop-section-title">Purpose</div>
     <p>This SOP defines the minimum security baseline for security-infrastructure platforms: Web Application Firewalls (WAFs), load balancers and application delivery controllers, and Privileged Access Management (PAM) platforms. It establishes the controls every such platform must implement to be considered fit for production use, regardless of vendor, hosting model (on-premises, cloud-managed), or operating unit.</p>
-    <p>These platforms sit at three of the highest-value boundaries in the organisation's IT estate. A WAF protects web applications that often contain regulated or sensitive data; a load balancer terminates TLS for those same applications and is therefore in the cryptographic critical path; a PAM platform holds the credentials that grant administrative access to everything else. A weakness on any of them is uniquely impactful — and unlike network devices, which the network domain treats as a single conceptual class, these three platforms have distinct architectures and threat models that warrant device-type-specific guidance.</p>
+    <p>These platforms sit at three of the highest-value boundaries in the Institution's IT estate. A WAF protects web applications that often contain regulated or sensitive data; a load balancer terminates TLS for those same applications and is therefore in the cryptographic critical path; a PAM platform holds the credentials that grant administrative access to everything else. A weakness on any of them is uniquely impactful — and unlike network devices, which the network domain treats as a single conceptual class, these three platforms have distinct architectures and threat models that warrant device-type-specific guidance.</p>
     <p>This SOP is operationalised by four Work Instructions: one shared management-plane WI (IT-SI-WI-01) and three device-type-specific WIs (IT-SI-WI-02 WAF; IT-SI-WI-03 Load Balancer; IT-SI-WI-04 PAM). See §4 for the requirements summary and the linked WIs for execution detail.</p>
   </div>
 
@@ -146,20 +146,20 @@
     <div class="sop-section-title">Scope</div>
     <h3>2.1 In scope</h3>
     <ul class="sop-bullet">
-      <li><strong>WAFs (Web Application Firewalls)</strong> — on-premises appliances (F5 ASM, Imperva, FortiWeb, Barracuda) and cloud-managed WAFs (Azure Front Door / Application Gateway WAF, Cloudflare, AWS WAF). Includes virtual appliance instances.</li>
-      <li><strong>Load balancers and application delivery controllers (ADCs)</strong> — F5 LTM, Citrix ADC, HAProxy Enterprise, NGINX Plus, A10, AVI Networks, and equivalents. Includes hardware appliances, virtual instances, and software-only deployments.</li>
-      <li><strong>PAM platforms</strong> — CyberArk PAM, BeyondTrust, Delinea (Thycotic), HashiCorp Vault (as a credential broker), and equivalents. Covers the appliance and platform hardening aspects.</li>
-      <li>Devices in production, pre-production, disaster-recovery, and any environment carrying organisational traffic or holding production credentials</li>
-      <li>Devices at any tier (Tier 0 / 1 / 2 / 3 per the existing tier model)</li>
+      <li><span><strong>WAFs (Web Application Firewalls)</strong> — on-premises appliances (F5 ASM, Imperva, FortiWeb, Barracuda) and cloud-managed WAFs (Azure Front Door / Application Gateway WAF, Cloudflare, AWS WAF). Includes virtual appliance instances.</span></li>
+      <li><span><strong>Load balancers and application delivery controllers (ADCs)</strong> — F5 LTM, Citrix ADC, HAProxy Enterprise, NGINX Plus, A10, AVI Networks, and equivalents. Includes hardware appliances, virtual instances, and software-only deployments.</span></li>
+      <li><span><strong>PAM platforms</strong> — CyberArk PAM, BeyondTrust, Delinea (Thycotic), HashiCorp Vault (as a credential broker), and equivalents. Covers the appliance and platform hardening aspects.</span></li>
+      <li><span>Devices in production, pre-production, disaster-recovery, and any environment carrying Institutional traffic or holding production credentials</span></li>
+      <li><span>Devices at any tier (Tier 0 / 1 / 2 / 3 per the existing tier model)</span></li>
     </ul>
     <h3>2.2 Out of scope</h3>
     <ul class="sop-bullet">
-      <li><strong>Reverse proxies and API gateways</strong> (standalone NGINX as RP, Kong, Apigee, Azure APIM, AWS API Gateway) — covered under a future Application Delivery sub-domain. Where a load balancer also performs reverse-proxy duties, this SOP's load-balancer requirements still apply to that aspect.</li>
-      <li><strong>Cloud-WAF tenant-platform integration</strong> — Azure Defender for Cloud / Azure Policy / Log Analytics integration specifics are covered under the future Cloud Baselines domain. The WAF rule-set and operational-policy controls in this SOP apply regardless of where the WAF runs.</li>
-      <li><strong>Identity governance for PAM</strong> — credential-vault rotation cadence, just-in-time access approval workflows, session-recording retention policy, and privileged-access governance are covered under a future Identity domain SOP. This SOP covers the platform hardening that protects the vault and brokering layer.</li>
-      <li><strong>Network devices</strong> (switches, routers, traditional perimeter firewalls, wireless) — covered under IT-NET-SOP-01.</li>
-      <li><strong>Endpoints and servers</strong> — covered under the existing Security Baselines domain.</li>
-      <li><strong>SaaS-hosted security infrastructure</strong> where the vendor controls the security configuration entirely — these still appear in the Asset Register; the baseline applies to anything tenant-administered.</li>
+      <li><span><strong>Reverse proxies and API gateways</strong> (standalone NGINX as RP, Kong, Apigee, Azure APIM, AWS API Gateway) — covered under a future Application Delivery sub-domain. Where a load balancer also performs reverse-proxy duties, this SOP's load-balancer requirements still apply to that aspect.</span></li>
+      <li><span><strong>Cloud-WAF tenant-platform integration</strong> — Azure Defender for Cloud / Azure Policy / Log Analytics integration specifics are covered under the future Cloud Baselines domain. The WAF rule-set and operational-policy controls in this SOP apply regardless of where the WAF runs.</span></li>
+      <li><span><strong>Identity governance for PAM</strong> — credential-vault rotation cadence, just-in-time access approval workflows, session-recording retention policy, and privileged-access governance are covered under a future Identity domain SOP. This SOP covers the platform hardening that protects the vault and brokering layer.</span></li>
+      <li><span><strong>Network devices</strong> (switches, routers, traditional perimeter firewalls, wireless) — covered under IT-NET-SOP-01.</span></li>
+      <li><span><strong>Endpoints and servers</strong> — covered under the existing Security Baselines domain.</span></li>
+      <li><span><strong>SaaS-hosted security infrastructure</strong> where the vendor controls the security configuration entirely — these still appear in the Asset Register; the baseline applies to anything tenant-administered.</span></li>
     </ul>
   </div>
 
@@ -172,7 +172,7 @@
     <p>These platforms hold or protect high-value assets (credentials, encrypted sessions, application traffic). The baseline applies more strictly than for general infrastructure: tighter management access, stronger authentication, more comprehensive logging, more frequent review.</p>
 
     <h3>3.2 Authentication strength matches what's protected</h3>
-    <p>PAM access — and any administrative access to WAF or load-balancer platforms — requires the strongest authentication the organisation operates. NIST 800-63B AAL2 minimum for general administration; AAL3 where PAM grants access to Tier 0 systems.</p>
+    <p>PAM access — and any administrative access to WAF or load-balancer platforms — requires the strongest authentication the Institution operates. NIST 800-63B AAL2 minimum for general administration; AAL3 where PAM grants access to Tier 0 systems.</p>
 
     <h3>3.3 Default-deny applies to everything, including the platforms themselves</h3>
     <p>Management interfaces accept only the protocols, sources, and accounts genuinely required. WAFs default to monitor-then-block, never permit-by-default. Load balancers expose only the virtual servers and management interfaces that have a documented purpose.</p>
@@ -187,7 +187,7 @@
     <p>A WAF deployed in active blocking mode without ongoing tuning produces either too many false positives (operations disable it) or too many false negatives (security gap). The baseline requires an ongoing tuning programme, not a one-time configuration.</p>
 
     <h3>3.7 Comprehensive logging and audited privileged actions</h3>
-    <p>Every platform forwards authentication, configuration changes, and security-relevant events to the central log destination. PAM session recordings are integrity-protected and retained per the organisation's retention policy. The audit trail must be sufficient to reconstruct who did what when, on demand.</p>
+    <p>Every platform forwards authentication, configuration changes, and security-relevant events to the central log destination. PAM session recordings are integrity-protected and retained per the Institution's retention policy. The audit trail must be sufficient to reconstruct who did what when, on demand.</p>
   </div>
 
   <div class="sop-section" id="s4">
@@ -266,7 +266,7 @@
         <li>Just-in-time access enforcement: standing privileged access is the exception, not the default; documented approval workflow for time-bounded access grants</li>
         <li>Identity-source integration: PAM authenticates users against the central directory (Entra ID, AD) with MFA; PAM does not maintain its own user database except for the documented break-glass account</li>
         <li>High-availability pair configured for the PAM platform; configuration sync verified; failover tested at minimum annually</li>
-        <li><strong>Break-glass procedure</strong>: documented, tested, vault-independent — recovery does not require credentials retrievable only from PAM. Tested annually under controlled conditions with results logged</li>
+        <li><span><strong>Break-glass procedure</strong>: documented, tested, vault-independent — recovery does not require credentials retrievable only from PAM. Tested annually under controlled conditions with results logged</span></li>
         <li>Network exposure: PAM management plane and brokering interfaces on a dedicated management network; user-facing access endpoints reachable from administrative networks only</li>
         <li>Privileged session events (start, end, command execution where captured, anomalies) forwarded to SIEM with retention matching session-recording retention</li>
         <li>Backup of vault data (encrypted) included in the configuration-management WI's backup discipline; restore tested annually</li>
@@ -322,9 +322,9 @@
 
     <h3>7.2 Review cadence</h3>
     <ul class="sop-bullet">
-      <li><strong>Annual review</strong> — minimum, by the owner with GRC sign-off, on the anniversary of approval</li>
-      <li><strong>Out-of-cycle review</strong> — triggered by: a material OWASP Top 10 update; new vendor product adoption; a major incident involving these platforms; regulatory change affecting WAF or PAM (e.g. PCI DSS update, NIS2 implementing-act change); audit finding</li>
-      <li><strong>Sub-WI review</strong> — each Work Instruction (IT-SI-WI-01 through 04) is reviewed independently and may update more frequently than the SOP, particularly WI-02 (WAF), which tracks OWASP and signature-vendor releases</li>
+      <li><span><strong>Annual review</strong> — minimum, by the owner with GRC sign-off, on the anniversary of approval</span></li>
+      <li><span><strong>Out-of-cycle review</strong> — triggered by: a material OWASP Top 10 update; new vendor product adoption; a major incident involving these platforms; regulatory change affecting WAF or PAM (e.g. PCI DSS update, NIS2 implementing-act change); audit finding</span></li>
+      <li><span><strong>Sub-WI review</strong> — each Work Instruction (IT-SI-WI-01 through 04) is reviewed independently and may update more frequently than the SOP, particularly WI-02 (WAF), which tracks OWASP and signature-vendor releases</span></li>
     </ul>
 
     <h3>7.3 Exception handling</h3>
