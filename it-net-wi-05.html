@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-NET-WI-05: Firewall Hardening — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --wi:#8B4A0E; --wi-light:#FEF0E6; --wi-border:#F5C89A; --wi-dark:#5C3008; --asm:#5B2D8E; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .wi-section { background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:8px; }
+  .wi-section-title { font-size:15px; font-weight:600; color:#1a1a1a; margin-bottom:0.7rem; padding-bottom:6px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0 0 8px 0; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-section h3 { font-size:13px; font-weight:600; color:var(--wi-dark); margin:12px 0 5px 0; }
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:6px; padding-left:0; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:#333; line-height:1.55; }
+  .wi-bullet li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:6px; }
+  .step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.1rem; margin-top:8px; }
+  .step-header { display:flex; align-items:center; gap:10px; margin-bottom:7px; padding-bottom:5px; border-bottom:0.5px solid #f0f0ec; }
+  .step-num { width:24px; height:24px; border-radius:6px; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-title { font-size:13px; font-weight:700; color:var(--wi-dark); }
+  .step-objective { font-size:12px; color:#666; font-style:italic; margin-top:2px; line-height:1.5; }
+  .step-body { font-size:13px; color:#333; line-height:1.6; }
+  .step-body p { margin:6px 0; }
+  .step-body p:first-child { margin-top:0; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body strong { color:var(--wi-dark); }
+  .step-body ul { list-style:none; padding:0; margin:6px 0; display:flex; flex-direction:column; gap:3px; }
+  .step-body ul li { display:flex; gap:7px; font-size:12px; color:#444; line-height:1.5; padding-left:2px; }
+  .step-body ul li::before { content:'\203A'; color:var(--wi); font-weight:700; flex-shrink:0; }
+  .step-verify { background:#fff; border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:6px; padding:0.5rem 0.8rem; margin-top:8px; font-size:12px; color:#444; line-height:1.55; }
+  .step-verify strong { color:var(--wi-dark); }
+  .cis-ref { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--wi); background:var(--wi-light); border:0.5px solid var(--wi-border); padding:1px 7px; border-radius:4px; font-weight:600; margin-top:5px; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:var(--wi-dark); line-height:1.55; margin-top:10px; }
+  .callout-info strong { color:var(--wi-dark); font-weight:700; }
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#7a2e10; line-height:1.55; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--wi-dark); color:#fff; font-weight:600; padding:7px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--wi-dark); white-space:nowrap; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>&rsaquo;</span>
+    <a href="asm.html">ASM</a><span>&rsaquo;</span>
+    <a href="asm-network-baselines.html">Network Baselines</a><span>&rsaquo;</span>
+    <span>IT-NET-WI-05</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#3D1F05 0%,#5C3008 40%,#8B4A0E 100%);">
+    <span class="kb-page-hero-icon">🛡️</span>
+    <h1>IT-NET-WI-05: Firewall Hardening</h1>
+    <p>Vendor-agnostic implementation guidance for hardening firewalls: default-deny, rule hygiene, egress filtering, threat prevention, TLS inspection, HA. Operationalises &sect;4.5 of IT-NET-SOP-01.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Network · Control domain</span>
+      <span class="kb-meta-pill">Vendor-agnostic</span>
+      <span class="kb-meta-pill">CIS L1 derived</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">📋 <strong>WI ID:</strong> IT-NET-WI-05</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">🔗 <strong>Implements:</strong> <a href="it-net-sop-01.html" style="color:var(--wi);">IT-NET-SOP-01 §4.5</a></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Owner:</strong> Network Engineering</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 9 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <p>Before applying this WI:</p>
+    <ul class="wi-bullet">
+      <li>Management plane is hardened per IT-NET-WI-01</li>
+      <li>Firewall topology is documented: which interfaces face which trust zones, where the perimeter is, where internal segmentation sits</li>
+      <li>An existing rule base, if any, is exported and available for analysis (this WI's rule-hygiene steps require knowing what currently exists)</li>
+      <li>Documented business needs for permitted flows are available (knowing what should pass is the foundation of default-deny)</li>
+      <li>HA pair configuration is documented if this firewall is part of one</li>
+      <li>Logging destination (SIEM ingest) is reachable from the firewall management interface</li>
+      <li>Change window approved per IT-NET-WI-06</li>
+    </ul>
+    <div class="callout-warn"><strong>Firewall rule changes are blast-radius decisions.</strong> A single misordered rule can drop all production traffic. Test in monitor/learning mode before enforcing where the platform supports it; have a documented immediate-rollback plan.</div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <p>The steps below cover the firewall-specific controls required by IT-NET-SOP-01 &sect;4.5.</p>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div>
+        <div><div class="step-title">Establish default-deny posture</div>
+        <div class="step-objective">Anything not explicitly permitted is denied; this is the foundational firewall rule.</div></div>
+      </div>
+      <div class="step-body">
+        <p>For each interface or trust zone:</p>
+        <ul>
+          <li>Confirm the implicit-deny at the end of every rule set (this is default in most enterprise firewalls but worth verifying)</li>
+          <li>Where the platform allows an explicit deny-all rule with logging, configure it &mdash; this gives visibility into denied traffic</li>
+          <li>Identify and remove any "permit ip any any" rules at perimeter or between trust zones; these are baseline violations regardless of vendor</li>
+          <li>For internal-segmentation firewalls, this means inter-segment is default-deny &mdash; flat L3 between trust zones is prohibited</li>
+        </ul>
+        <p>Where a "permit any" rule exists today and removing it without preparation would break production, the path is: enable explicit-rule logging, observe what currently flows for 7-14 days, build explicit-permit rules for the legitimate flows, then remove the permissive rule. <strong>Don't just delete it cold.</strong></p>
+        <div class="step-verify"><strong>Verify.</strong> Show rule base; no any-any allow rules at the end. Capture traffic that should be denied; confirm the firewall drops it and logs the denial.</div>
+        <span class="cis-ref">CIS Firewall: "default-deny"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div>
+        <div><div class="step-title">Rule documentation and ownership</div>
+        <div class="step-objective">Every rule has a recorded purpose, owner, creation date, expiry/review date.</div></div>
+      </div>
+      <div class="step-body">
+        <p>For every rule in the rule base:</p>
+        <ul>
+          <li><strong>Description / comment</strong> field populated with: business purpose, ticket / change reference, owner (named individual or team), creation date</li>
+          <li><strong>Expiry / review date</strong> &mdash; either a hard expiry (rule auto-disables) or a scheduled review (rule flagged for confirmation)</li>
+          <li><strong>Naming convention</strong> for rules and objects so meaning is conveyed by the rule name (e.g. "ALLOW-HR-APP-TO-SQL-PROD")</li>
+          <li>For long-lived "infrastructure" rules (e.g. DNS, NTP, SIEM forwarding), tag clearly and apply a "perpetual" classification with annual review rather than expiry</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Show rule base; spot-check rules &mdash; each should have description, owner, dates. Run an export and audit for rules missing these fields.</div>
+        <span class="cis-ref">CIS Firewall: "rule documentation"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div>
+        <div><div class="step-title">Egress filtering on internet-facing interfaces</div>
+        <div class="step-objective">Outbound from the organisation is filtered to expected destinations and protocols.</div></div>
+      </div>
+      <div class="step-body">
+        <p>On internet-egress interfaces:</p>
+        <ul>
+          <li>No "any-any-outbound" rules; egress is permitted only to documented destinations and protocols</li>
+          <li>For general user web browsing, egress to TCP/80, TCP/443, DNS to authorised resolvers, NTP to authorised time sources, TCP/22 only from documented admin networks</li>
+          <li>Block outbound TCP/25, TCP/465, TCP/587 except from authorised mail servers (anti-spambot)</li>
+          <li>Block outbound SMB, RDP, SSH from user networks except via explicit allow (lateral exfil mitigation)</li>
+          <li>For servers, more restrictive egress: only what the server's business function requires</li>
+          <li>For IoT and OT segments, egress is to documented vendor endpoints only</li>
+        </ul>
+        <p>This is one of the most effective baselines for limiting damage from compromised internal hosts. Many incident-response cases involve compromised endpoints that would have been contained earlier if egress filtering existed.</p>
+        <div class="step-verify"><strong>Verify.</strong> From a test client on a user network, attempt outbound SMB to an internet IP; should be denied. Attempt outbound HTTPS; should succeed. Confirm denials are logged.</div>
+        <span class="cis-ref">CIS Firewall: "egress filtering"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div>
+        <div><div class="step-title">Rule lifecycle: stale-rule detection and removal</div>
+        <div class="step-objective">Rules with no traffic accumulate as attack surface; review and remove them.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Implement rule lifecycle review:</p>
+        <ul>
+          <li>Use rule-hit-counter capability (most enterprise firewalls have this) to identify rules with no recent traffic</li>
+          <li>Rules with no traffic for 90 days are flagged for review by their owner</li>
+          <li>Rules with no traffic for 180 days are removed unless explicit justification is provided (e.g. DR-only path)</li>
+          <li>Rules that have never had traffic since creation are flagged immediately for review &mdash; often these are mistakes</li>
+          <li>For HA pairs, ensure the hit-counter view aggregates both members</li>
+        </ul>
+        <p>This is normally a quarterly rather than continuous process; the deliverable is a stale-rule report acted on by Network Engineering.</p>
+        <div class="step-verify"><strong>Verify.</strong> Generate the stale-rule report; confirm it lists candidates. Confirm the review-and-remove workflow is documented and assigned.</div>
+        <span class="cis-ref">CIS Firewall: "rule lifecycle"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div>
+        <div><div class="step-title">Geo-blocking where business case supports it</div>
+        <div class="step-objective">Reduce attack surface by blocking traffic from geographies with no legitimate business case.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Configure geo-blocking carefully:</p>
+        <ul>
+          <li>Identify geographies where the organisation has no users, no offices, no partners, no customers &mdash; these are candidates for blocking inbound</li>
+          <li>Inbound: deny connections sourced from those geographies (where firewall supports geo-IP feeds)</li>
+          <li>Outbound: more selective &mdash; some users legitimately travel; consider blocking only the most malicious geographies outbound</li>
+          <li>Document the geo-block policy with business sign-off so future users in those geographies know to request exceptions</li>
+          <li>Combine with anomalous-source detection: a user account suddenly authenticating from a never-seen geography is a higher-fidelity signal</li>
+        </ul>
+        <p>For NGOs and humanitarian organisations, geo-blocking decisions are particularly sensitive because legitimate beneficiary and partner traffic may come from many places. Apply judgement.</p>
+        <div class="step-verify"><strong>Verify.</strong> Test inbound from a VPN exit in a blocked geography; should be denied. Review denied-traffic logs for the past month; assess any false positives.</div>
+        <span class="cis-ref">CIS Firewall: "geo-IP blocking"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">6</div>
+        <div><div class="step-title">IPS / IDS / antivirus engine where licensed</div>
+        <div class="step-objective">Layered detection and prevention beyond Layer-3/4 filtering.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Where the firewall licence includes threat-prevention engines:</p>
+        <ul>
+          <li>Enable IPS in prevention mode for high-confidence signatures; alert mode for lower-confidence</li>
+          <li>Subscribe to vendor signature updates; verify update frequency (daily for high-confidence signatures is typical)</li>
+          <li>Enable antivirus scanning on flows where TLS inspection is in place (otherwise AV cannot see the content)</li>
+          <li>Enable URL filtering / category blocking for known-malicious categories (malware C2, exploit kits, phishing)</li>
+          <li>Tune the IPS to suppress false positives common in the organisation's traffic profile (every environment has some)</li>
+          <li>Forward IPS / AV detections to SIEM with sufficient context (source IP, destination, signature, severity)</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Trigger a known IPS signature with an EICAR-equivalent test; confirm detection. Confirm signatures are current. Confirm detections flow to SIEM.</div>
+        <span class="cis-ref">CIS Firewall: "threat prevention engines"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">7</div>
+        <div><div class="step-title">TLS inspection policy</div>
+        <div class="step-objective">Visibility into encrypted traffic balanced against privacy, performance, and supportability.</div></div>
+      </div>
+      <div class="step-body">
+        <p>TLS inspection is a policy decision, not just a configuration:</p>
+        <ul>
+          <li>Identify categories where TLS inspection is on (broad: most general categories), partially on (banking, healthcare excluded for compliance), or off (specific categories per policy)</li>
+          <li>Where TLS inspection is in place, the firewall presents an organisation-issued certificate to the client; client trust of the firewall's CA must be in place</li>
+          <li>Where TLS inspection is not in place, log SNI / certificate visibility metadata so encrypted traffic is at least catalogued</li>
+          <li>Pinned-cert applications (some mobile apps, some banking apps) will break with TLS inspection; exclude them by destination</li>
+          <li>Document the policy clearly; communicate to users where inspection occurs &mdash; this is a privacy-relevant control</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> From an inspected category, browse a test site; confirm the certificate presented is the organisation's. From an excluded category, confirm the original certificate is preserved. Confirm SNI logging where inspection is off.</div>
+        <span class="cis-ref">CIS Firewall: "TLS inspection"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">8</div>
+        <div><div class="step-title">Application-layer (Layer-7) controls</div>
+        <div class="step-objective">Filter by application identity, not just port/protocol.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Where the firewall supports application identification:</p>
+        <ul>
+          <li>Use application-aware rules where possible: "allow Microsoft 365" rather than "allow TCP/443 to *.microsoft.com"</li>
+          <li>Block applications by category where business case doesn't support them (P2P sharing, anonymisers, evasion tools)</li>
+          <li>Combine application identification with user/group identity (where SAML/AD integration is in place) for "Finance users can use SAP, HR users can use Workday" style rules</li>
+          <li>Be aware: application signatures can be evaded; this is a defence layer, not a bulletproof control</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Identify a few flows in logs; confirm application classification is correct. Test blocked applications from a user network; confirm denial and logging.</div>
+        <span class="cis-ref">CIS Firewall: "application-layer controls"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">9</div>
+        <div><div class="step-title">Anti-spoofing, fragmentation, reassembly</div>
+        <div class="step-objective">Hardening against malformed-traffic evasion.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Platform-specific protections to enable:</p>
+        <ul>
+          <li>Anti-spoofing per interface: traffic with source addresses that shouldn't appear on that interface is dropped</li>
+          <li>IP fragmentation defence: tiny fragments, overlap-fragment attacks are dropped or reassembled before inspection</li>
+          <li>TCP-state validation: out-of-order, flag-anomaly, window-anomaly handling per vendor recommendations</li>
+          <li>DNS rebinding protection where the firewall has DNS-aware features</li>
+          <li>ICMP rate-limiting on internet-facing interfaces</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Show interface anti-spoofing configuration. Run vendor-provided self-test if available. Inject a known-bad traffic pattern (lab); confirm drop.</div>
+        <span class="cis-ref">CIS Firewall: "evasion protections"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">10</div>
+        <div><div class="step-title">High availability for Tier 0/1 firewalls</div>
+        <div class="step-objective">Single-firewall outages don't cause site-level outages.</div></div>
+      </div>
+      <div class="step-body">
+        <p>For Tier 0 and Tier 1 firewalls:</p>
+        <ul>
+          <li>HA pair configured (active-standby or active-active per vendor capabilities and design)</li>
+          <li>HA link is on a dedicated interface, not shared with data-plane traffic</li>
+          <li>Configuration sync verified working &mdash; changes on the primary propagate</li>
+          <li>Failover behaviour documented: convergence time, session preservation, traffic loss</li>
+          <li>Annual failover test under controlled conditions, results logged</li>
+        </ul>
+        <p>For Tier 2 and Tier 3 firewalls, HA is desirable but not always cost-justified; the asset record documents the tier decision and acceptance criteria.</p>
+        <div class="step-verify"><strong>Verify.</strong> Trigger failover (planned, controlled); confirm traffic continues, sessions preserved where supported by vendor, convergence time matches expected. Confirm both pair members show "in sync" status before declaring complete.</div>
+        <span class="cis-ref">CIS Firewall: "high availability"</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <p>After applying all steps, validate the firewall holistically. Use a representative subset of traffic flows, not just synthetic tests.</p>
+
+    <h3>Functional validation</h3>
+    <ul class="wi-bullet">
+      <li>Default-deny is in effect; unauthorised traffic is dropped and logged</li>
+      <li>Documented permitted flows pass without issue</li>
+      <li>Egress filtering blocks lateral-exfil protocols (SMB, RDP, SSH from user networks)</li>
+      <li>Stale-rule report identifies candidates for removal</li>
+      <li>Geo-blocked sources are denied</li>
+      <li>IPS / AV detections flow to SIEM</li>
+      <li>TLS inspection (where active) presents organisation cert; excluded categories preserve original cert</li>
+      <li>HA failover works under controlled conditions</li>
+    </ul>
+
+    <h3>Configuration review</h3>
+    <table class="gt-table">
+      <thead><tr><th>Check</th><th>Expected result</th></tr></thead>
+      <tbody>
+        <tr><td>Default-deny posture</td><td>Implicit-deny in place; no any-any allow rules</td></tr>
+        <tr><td>Rule documentation</td><td>Every rule has description, owner, date, expiry/review</td></tr>
+        <tr><td>Egress filtering</td><td>Internet-facing egress restricted by protocol and destination</td></tr>
+        <tr><td>Stale-rule process</td><td>Quarterly review running, removal workflow documented</td></tr>
+        <tr><td>Geo-blocking</td><td>Per documented policy with business sign-off</td></tr>
+        <tr><td>IPS / IDS / AV</td><td>Enabled where licensed, signatures current, tuned</td></tr>
+        <tr><td>TLS inspection policy</td><td>Documented; certs deployed; exclusions handled</td></tr>
+        <tr><td>Layer-7 controls</td><td>Application-aware rules where supported</td></tr>
+        <tr><td>Anti-evasion</td><td>Anti-spoofing, fragmentation, TCP-state, ICMP rate-limit configured</td></tr>
+        <tr><td>HA pair (T0/T1)</td><td>Configured, sync verified, failover tested annually</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <p>Firewall rule changes can cause site-wide outages. Rollback approach must be prepared in advance.</p>
+
+    <h3>Common scenarios</h3>
+    <ul class="wi-bullet">
+      <li><strong>Mass connectivity outage after default-deny removed permissive rule</strong> &mdash; cause: a permit-all was implicitly carrying legitimate traffic that wasn't enumerated in specific rules. Fix: revert; observe traffic; build explicit rules; re-attempt.</li>
+      <li><strong>Specific application broken after rule cleanup</strong> &mdash; cause: a "stale" rule was actually used by an infrequent flow (monthly batch, quarterly reporting). Fix: identify the flow from app team, restore the specific rule with proper documentation.</li>
+      <li><strong>HTTPS sites won't load after TLS inspection enabled</strong> &mdash; cause: firewall CA certificate not in client trust store. Fix: deploy CA via MDM/GPO; until then exclude critical flows.</li>
+      <li><strong>IPS prevention dropping legitimate application</strong> &mdash; cause: false-positive signature triggers on legitimate traffic pattern. Fix: switch the specific signature to alert mode; tune the policy; engage vendor for signature update if commonly affected.</li>
+      <li><strong>Geo-block dropping legitimate user from new country</strong> &mdash; cause: user travelled, or partner came online in a new geography. Fix: add a specific exception via firewall identity-based rule, not a blanket geo-unblock.</li>
+      <li><strong>HA failover doesn't complete</strong> &mdash; cause: HA-link issue, config-sync drift, vendor bug. Fix: investigate HA link health, force a re-sync, vendor TAC engagement.</li>
+    </ul>
+
+    <h3>Rollback procedure</h3>
+    <ol style="padding-left:18px;font-size:13px;line-height:1.7;color:#333;">
+      <li>Have the pre-change config exported and reachable from the management station</li>
+      <li>For point fixes (one bad rule), revert that specific change rather than the entire change set</li>
+      <li>For broad outage caused by policy switch, revert the policy; investigate; resubmit with fixes</li>
+      <li>Document the rollback action including what was reverted and why; post-incident review to identify why testing didn't catch it</li>
+    </ol>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <ul class="wi-bullet">
+      <li><strong>Don't delete "permit any" rules cold.</strong> Enable logging, observe, build explicit rules, then remove. The right answer is rarely "just delete the permissive rule and see what breaks".</li>
+      <li><strong>Rule descriptions are not optional.</strong> A rule base where you can't tell what each rule does is a rule base nobody can maintain. Six months later, "ALLOW-TEMP" rules become permanent.</li>
+      <li><strong>Egress filtering is the single best lateral-movement control for endpoint compromise.</strong> Even imperfect egress filtering forces attackers to use noisier C2 channels.</li>
+      <li><strong>Stale-rule reports need an owner.</strong> Generating reports nobody acts on is worse than not generating them &mdash; it creates the appearance of process.</li>
+      <li><strong>Geo-blocking must consider humanitarian context.</strong> Beneficiaries and partners in sensitive geographies may be exactly the people you exist to serve. Apply judgement; don't blanket-block on threat-intel feeds alone.</li>
+      <li><strong>TLS inspection is privacy-relevant.</strong> Some jurisdictions and employment contexts require disclosure that traffic is inspected; coordinate with legal/HR.</li>
+      <li><strong>IPS in "alert" mode forever is theatre.</strong> The reason for buying IPS was to prevent; if everything is alert-only, the investment is undermined. Move signatures to prevention as confidence grows.</li>
+      <li><strong>HA tested in production is not a test.</strong> Use maintenance windows; have a backout plan; coordinate with operations.</li>
+    </ul>
+  </div>
+
+  <div class="wi-nav"><a href="it-net-wi-04.html">&larr; IT-NET-WI-04: Wireless</a><a href="it-net-wi-06.html">IT-NET-WI-06: Config Management &rarr;</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-NET-WI-05 v1.0 · Live · 9 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-network-baselines.html" style="color:var(--wi);text-decoration:none;">&larr; Back to Network Baselines</a></span>
+  </div>
+</div>
+</body>
+</html>

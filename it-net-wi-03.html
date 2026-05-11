@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-NET-WI-03: Data Plane Hardening — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --wi:#8B4A0E; --wi-light:#FEF0E6; --wi-border:#F5C89A; --wi-dark:#5C3008; --asm:#5B2D8E; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .wi-section { background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:8px; }
+  .wi-section-title { font-size:15px; font-weight:600; color:#1a1a1a; margin-bottom:0.7rem; padding-bottom:6px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0 0 8px 0; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-section h3 { font-size:13px; font-weight:600; color:var(--wi-dark); margin:12px 0 5px 0; }
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:6px; padding-left:0; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:#333; line-height:1.55; }
+  .wi-bullet li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:6px; }
+  .step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.1rem; margin-top:8px; }
+  .step-header { display:flex; align-items:center; gap:10px; margin-bottom:7px; padding-bottom:5px; border-bottom:0.5px solid #f0f0ec; }
+  .step-num { width:24px; height:24px; border-radius:6px; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-title { font-size:13px; font-weight:700; color:var(--wi-dark); }
+  .step-objective { font-size:12px; color:#666; font-style:italic; margin-top:2px; line-height:1.5; }
+  .step-body { font-size:13px; color:#333; line-height:1.6; }
+  .step-body p { margin:6px 0; }
+  .step-body p:first-child { margin-top:0; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body strong { color:var(--wi-dark); }
+  .step-body ul { list-style:none; padding:0; margin:6px 0; display:flex; flex-direction:column; gap:3px; }
+  .step-body ul li { display:flex; gap:7px; font-size:12px; color:#444; line-height:1.5; padding-left:2px; }
+  .step-body ul li::before { content:'\203A'; color:var(--wi); font-weight:700; flex-shrink:0; }
+  .step-verify { background:#fff; border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:6px; padding:0.5rem 0.8rem; margin-top:8px; font-size:12px; color:#444; line-height:1.55; }
+  .step-verify strong { color:var(--wi-dark); }
+  .cis-ref { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--wi); background:var(--wi-light); border:0.5px solid var(--wi-border); padding:1px 7px; border-radius:4px; font-weight:600; margin-top:5px; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:var(--wi-dark); line-height:1.55; margin-top:10px; }
+  .callout-info strong { color:var(--wi-dark); font-weight:700; }
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#7a2e10; line-height:1.55; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--wi-dark); color:#fff; font-weight:600; padding:7px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--wi-dark); white-space:nowrap; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>&rsaquo;</span>
+    <a href="asm.html">ASM</a><span>&rsaquo;</span>
+    <a href="asm-network-baselines.html">Network Baselines</a><span>&rsaquo;</span>
+    <span>IT-NET-WI-03</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#3D1F05 0%,#5C3008 40%,#8B4A0E 100%);">
+    <span class="kb-page-hero-icon">🚦</span>
+    <h1>IT-NET-WI-03: Data Plane Hardening</h1>
+    <p>Vendor-agnostic implementation guidance for hardening the data plane of network devices: how the device forwards user and application traffic. Operationalises &sect;4.3 of IT-NET-SOP-01.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Network · Control domain</span>
+      <span class="kb-meta-pill">Vendor-agnostic</span>
+      <span class="kb-meta-pill">CIS L1 derived</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">📋 <strong>WI ID:</strong> IT-NET-WI-03</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">🔗 <strong>Implements:</strong> <a href="it-net-sop-01.html" style="color:var(--wi);">IT-NET-SOP-01 §4.3</a></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Owner:</strong> Network Engineering</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 9 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <p>Before applying this WI:</p>
+    <ul class="wi-bullet">
+      <li>Management plane is hardened per IT-NET-WI-01</li>
+      <li>Control plane is hardened per IT-NET-WI-02 (DHCP snooping is needed for DAI which is referenced from this WI's port-security context)</li>
+      <li>Network topology is documented: which VLANs exist, which segments connect where, which ports terminate end-users versus servers versus other switches</li>
+      <li>The agency's VLAN numbering convention is known (which IDs are user, server, management, DMZ, OT, etc.)</li>
+      <li>An inventory of unused ports is available (or generated as part of step 1)</li>
+      <li>Change window approved per IT-NET-WI-06</li>
+    </ul>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <p>The steps below cover the data-plane controls required by IT-NET-SOP-01 &sect;4.3.</p>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div>
+        <div><div class="step-title">Identify and disable unused ports</div>
+        <div class="step-objective">Eliminate the easiest L2 attack vector: an open, unconfigured port.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Identify and remediate unused ports:</p>
+        <ul>
+          <li>Generate the port-utilisation inventory: which ports have shown link-up activity in the last 30 days, which have not</li>
+          <li>For ports with no recent activity, confirm with operations that they are genuinely unused (not for occasional users or printers)</li>
+          <li><strong>Administratively shut down</strong> unused ports (configuration: shutdown / disabled)</li>
+          <li>Assign unused ports to an "unused/parking" VLAN that has no L3 gateway and no inter-VLAN routing</li>
+          <li>Document the unused-port policy so future port activations follow a controlled enable process</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Show interface status / show port-channel summary confirms unused ports are administratively down. Show vlan brief confirms unused ports are in the parking VLAN. Spot-check a few: physically plug a cable into a disabled port; it should remain down.</div>
+        <span class="cis-ref">CIS: Data-plane "unused ports"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div>
+        <div><div class="step-title">Port security on access ports</div>
+        <div class="step-objective">Restrict which MAC addresses can use each access port.</div></div>
+      </div>
+      <div class="step-body">
+        <p>On access ports terminating end-user devices, IP phones, printers:</p>
+        <ul>
+          <li><strong>Enable port security</strong> with a sensible MAC limit: 1 for ports expected to have one device; 2 for IP-phone-with-PC daisy chains; tuned upward only where the use case justifies</li>
+          <li><strong>Sticky MAC learning</strong> &mdash; the first MAC seen is bound to the port; protects against simple cable swaps</li>
+          <li><strong>Violation action</strong> &mdash; "restrict" (allow learned, drop new with logging) for less disruption; "shutdown" (err-disable the port) where stricter posture is required</li>
+          <li><strong>Aging</strong> &mdash; time-based aging on sticky entries (e.g. 8 hours) so that legitimate device changes don't permanently brick a port</li>
+        </ul>
+        <p>Where 802.1X is deployed, port security MAC learning can be combined with 802.1X for stronger access control, with the MAC limit as a backstop.</p>
+        <div class="step-verify"><strong>Verify.</strong> Show port-security shows configured limits and learned MACs. Plug a device with a different MAC into a port with sticky-learnt MAC; confirm the violation action triggers and logs.</div>
+        <span class="cis-ref">CIS: Data-plane "port security"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div>
+        <div><div class="step-title">VLAN hygiene: native VLAN and trunk discipline</div>
+        <div class="step-objective">Prevent VLAN hopping and reduce blast radius from misconfiguration.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Apply VLAN hygiene rules:</p>
+        <ul>
+          <li><strong>Native VLAN on trunks</strong> &mdash; never the default (VLAN 1); never a VLAN that carries actual user or production traffic; use a dedicated "trunk-native-only" VLAN ID per agency convention, with no L3 interface and no DHCP scope</li>
+          <li><strong>Trunk allow-list</strong> &mdash; every trunk port allows only the specific VLANs it needs to carry (switchport trunk allowed vlan x,y,z), never "all"</li>
+          <li><strong>Negotiation</strong> &mdash; trunks are configured manually (switchport mode trunk + nonegotiate); DTP negotiation is disabled to prevent unauthorised trunk formation</li>
+          <li><strong>VLAN 1 hygiene</strong> &mdash; VLAN 1 carries no production traffic; ports are not assigned to VLAN 1; the management interface is not in VLAN 1</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Show interfaces trunk confirms native VLAN per design, allowed list is restrictive. Show vlan brief confirms VLAN 1 has no user-facing ports. Test inter-VLAN access via a double-tagged frame from a lab (controlled test); confirm VLAN hopping is not possible.</div>
+        <span class="cis-ref">CIS: Data-plane "VLAN configuration"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div>
+        <div><div class="step-title">DHCP snooping</div>
+        <div class="step-objective">Bind clients to their legitimate DHCP-assigned addresses; populate the table that DAI relies on.</div></div>
+      </div>
+      <div class="step-body">
+        <p>On all access switches carrying client VLANs:</p>
+        <ul>
+          <li>Enable DHCP snooping globally and on the relevant VLANs</li>
+          <li>Designate as <strong>trusted</strong> only the ports facing legitimate DHCP servers (or trusted relay interfaces)</li>
+          <li>All access ports are untrusted; only DHCP responses arriving on trusted ports are forwarded</li>
+          <li>Enable rate-limiting on DHCP messages from untrusted ports (defends against starvation attacks)</li>
+          <li>Verify the binding table populates as clients lease addresses; this table is the source of truth for Dynamic ARP Inspection</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Show ip dhcp snooping binding shows leases for active clients. Show ip dhcp snooping shows trusted/untrusted port classification. Attempt to run a rogue DHCP server on an untrusted port; confirm clients do not receive its responses.</div>
+        <span class="cis-ref">CIS: Data-plane "DHCP snooping"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div>
+        <div><div class="step-title">Inter-VLAN routing filtered, not flat</div>
+        <div class="step-objective">Inter-segment traffic passes through filtering; no implicit any-to-any.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Wherever the device performs inter-VLAN routing:</p>
+        <ul>
+          <li>Apply ACLs on Layer 3 VLAN interfaces (SVIs) limiting inter-VLAN traffic to permitted flows</li>
+          <li>Or, where a firewall sits between segments, route inter-VLAN traffic via the firewall rather than the L3 switch</li>
+          <li>Default-deny applies: anything not explicitly permitted is dropped</li>
+          <li>Document the inter-VLAN matrix: which segment can talk to which, on which ports/protocols, with which authentication</li>
+          <li>Avoid "permit ip any any" except where genuinely required between two segments at the same trust level</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Show ip access-list on each SVI matches the documented matrix. Test inter-VLAN connectivity from a client; only permitted flows succeed.</div>
+        <span class="cis-ref">CIS: Data-plane "inter-VLAN filtering"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">6</div>
+        <div><div class="step-title">Segment isolation for guest, IoT, OT</div>
+        <div class="step-objective">High-risk segments are isolated from the corporate network and from each other.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Apply segment isolation:</p>
+        <ul>
+          <li><strong>Guest networks</strong> &mdash; separate VLAN, separate L3 segment, no reachability to corporate resources, internet egress via firewall only</li>
+          <li><strong>IoT devices</strong> &mdash; separate VLAN, allowed only to documented cloud or local management endpoints, no lateral reach</li>
+          <li><strong>OT segments</strong> &mdash; isolated VLAN with strict firewall between IT and OT; only documented protocols pass; monitoring via data diode or one-way replication where the OT environment requires it</li>
+          <li><strong>Cross-segment traffic</strong> &mdash; passes through a firewall, not a router or L3 switch ACL alone, for segments that warrant stateful inspection</li>
+          <li><strong>Client isolation</strong> &mdash; on guest VLANs, clients cannot reach each other (where the switch/AP supports the option)</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> From a guest network host, attempt to reach a corporate server &mdash; should fail. From the corporate network, attempt to reach a guest client &mdash; should fail. From a guest client, attempt to reach another guest client &mdash; should fail (client isolation).</div>
+        <span class="cis-ref">CIS: Data-plane "network segmentation"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">7</div>
+        <div><div class="step-title">Disable unnecessary L2 services on access ports</div>
+        <div class="step-objective">Reduce L2 attack surface.</div></div>
+      </div>
+      <div class="step-body">
+        <p>On access ports:</p>
+        <ul>
+          <li>Disable CDP / LLDP outbound on user-facing ports (information disclosure); leave inbound for management visibility only if needed</li>
+          <li>Disable VTP on access switches; use transparent or off mode to prevent unauthorised VLAN database changes</li>
+          <li>Disable PAgP/LACP negotiation on user-facing ports (no legitimate user device negotiates EtherChannel)</li>
+          <li>Disable IPv6 router advertisements being honoured on user ports (RA Guard from WI-02 handles this from a different angle)</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Show CDP neighbours from a user port returns nothing useful. Show VTP status shows transparent or off. Show etherchannel summary shows no negotiated channels on access ports.</div>
+        <span class="cis-ref">CIS: Data-plane "minimise L2 services"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">8</div>
+        <div><div class="step-title">Private VLANs where appropriate</div>
+        <div class="step-objective">Layer-2 isolation within a single subnet where peer-to-peer reachability is undesired.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Where appropriate (server farms, DMZ segments, guest networks not handled by AP client isolation):</p>
+        <ul>
+          <li>Configure private VLANs with isolated ports (no peer-to-peer within the same subnet)</li>
+          <li>Use community VLANs only when a defined group of hosts must talk to each other (rare; usually isolated is correct)</li>
+          <li>Promiscuous ports for the upstream router/firewall</li>
+          <li>Document the PVLAN topology &mdash; PVLANs are easy to misconfigure once the design is forgotten</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> From an isolated host, attempt to ping another host in the same subnet on the same switch &mdash; should fail. From the same host, reach the gateway &mdash; should succeed.</div>
+        <span class="cis-ref">CIS: Data-plane "private VLANs (where applicable)"</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <p>After applying all steps, verify the data plane as a whole.</p>
+
+    <h3>Functional validation</h3>
+    <ul class="wi-bullet">
+      <li>Unused ports remain administratively down; new cables don't bring them up</li>
+      <li>Port security violations log to syslog and trigger the configured action</li>
+      <li>Trunks carry only allowed VLANs; native VLAN is the dedicated non-default ID</li>
+      <li>DHCP snooping binding table is populated for active clients</li>
+      <li>Inter-VLAN ACLs deny unintended flows and permit intended ones (test both ways)</li>
+      <li>Guest, IoT, OT clients cannot reach corporate resources beyond documented exceptions</li>
+      <li>Client isolation on guest SSIDs prevents peer-to-peer reachability</li>
+    </ul>
+
+    <h3>Configuration review</h3>
+    <table class="gt-table">
+      <thead><tr><th>Check</th><th>Expected result</th></tr></thead>
+      <tbody>
+        <tr><td>Unused ports</td><td>Administratively down, parked VLAN</td></tr>
+        <tr><td>Port security on access ports</td><td>MAC limit configured, sticky learning, violation action set</td></tr>
+        <tr><td>Native VLAN on trunks</td><td>Not VLAN 1; dedicated non-user VLAN</td></tr>
+        <tr><td>Trunk allowed VLANs</td><td>Restricted list, never "all"</td></tr>
+        <tr><td>VLAN 1</td><td>No production traffic, no user ports</td></tr>
+        <tr><td>DHCP snooping</td><td>Enabled on client VLANs, trusted ports identified</td></tr>
+        <tr><td>Inter-VLAN ACLs / firewall</td><td>Default-deny with explicit permits</td></tr>
+        <tr><td>Guest / IoT / OT segments</td><td>Isolated VLAN, firewall-enforced egress</td></tr>
+        <tr><td>CDP/LLDP on user ports</td><td>Outbound disabled</td></tr>
+        <tr><td>VTP on access switches</td><td>Transparent or off</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <p>Data-plane changes can disrupt user connectivity. Rollback through OOB or stable management.</p>
+
+    <h3>Common scenarios</h3>
+    <ul class="wi-bullet">
+      <li><strong>Legitimate user disconnected after port security activation</strong> &mdash; cause: user's MAC differs from the sticky-learned MAC (laptop swap, dock change). Fix: clear the violation, allow re-learning, or extend MAC limit if multi-device is legitimate.</li>
+      <li><strong>VLAN trunk drops after restricting allowed VLANs</strong> &mdash; cause: a VLAN was carrying traffic that wasn't in the documented list. Fix: identify the missing VLAN by traffic capture, decide whether to add it to the trunk or migrate the traffic to a documented path.</li>
+      <li><strong>DHCP clients fail to acquire addresses</strong> &mdash; cause: DHCP server port not marked trusted, or rate limit too aggressive. Fix: confirm trusted-port designation; check counters for rate-limit drops.</li>
+      <li><strong>Inter-VLAN application breaks after ACL deployment</strong> &mdash; cause: application uses a flow that wasn't in the documented matrix (often: backend port not documented). Fix: identify the missing flow via ACL hit counters, decide whether to permit (with risk acceptance) or restructure the application.</li>
+      <li><strong>Guest network has no internet</strong> &mdash; cause: guest VLAN's firewall rule misordered or default-deny too tight. Fix: confirm the egress rule on the firewall is correct and the routing path from the guest VLAN to the internet is intact.</li>
+      <li><strong>Private VLAN isolation breaks application clustering</strong> &mdash; cause: PVLAN deployed where members of a cluster need to talk to each other. Fix: move them to a community VLAN, or relocate to a non-PVLAN segment.</li>
+    </ul>
+
+    <h3>Rollback procedure</h3>
+    <ol style="padding-left:18px;font-size:13px;line-height:1.7;color:#333;">
+      <li>OOB access</li>
+      <li>Identify the breaking change via pre/post config diff</li>
+      <li>Revert minimum necessary; if a single permission is missing, add it rather than disabling the entire ACL</li>
+      <li>Confirm user connectivity restored</li>
+      <li>Schedule root-cause investigation rather than calling rollback "done"</li>
+    </ol>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <ul class="wi-bullet">
+      <li><strong>Map ports before disabling.</strong> A "no-recent-activity" port may be for a rarely-used printer or occasional contractor; confirm before shutting down.</li>
+      <li><strong>Port security default of 1 MAC is wrong for IP phones with PC daisy chain.</strong> Use 2 (or whatever the phone+PC combo needs).</li>
+      <li><strong>"Restrict" violation action is friendlier than "shutdown" but harder to notice.</strong> Choose based on the operational tolerance for user disruption versus detection latency.</li>
+      <li><strong>Trunk native VLAN must match on both ends</strong>. Mismatched native VLAN is a CDP error and can cause traffic leakage. Document and verify.</li>
+      <li><strong>DAI without DHCP snooping is broken DAI.</strong> WI-02 references DAI; the binding table comes from WI-03's DHCP snooping. Order matters.</li>
+      <li><strong>Inter-VLAN ACLs need to permit return traffic explicitly</strong> on routers that don't track state. L3 switches typically don't do reflexive ACLs by default; consider whether stateful filtering belongs at a firewall.</li>
+      <li><strong>OT segmentation isn't just "another VLAN".</strong> OT systems often communicate differently from IT (older protocols, less tolerant of latency, sensitive to monitoring traffic). Coordinate with OT operations before applying IT-grade controls.</li>
+      <li><strong>Don't disable LLDP entirely on all ports.</strong> Many monitoring and management tools rely on LLDP for topology discovery; disable LLDP only on user-facing ports and only outbound where possible.</li>
+    </ul>
+  </div>
+
+  <div class="wi-nav"><a href="it-net-wi-02.html">&larr; IT-NET-WI-02: Control Plane</a><a href="it-net-wi-04.html">IT-NET-WI-04: Wireless &rarr;</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-NET-WI-03 v1.0 · Live · 9 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-network-baselines.html" style="color:var(--wi);text-decoration:none;">&larr; Back to Network Baselines</a></span>
+  </div>
+</div>
+</body>
+</html>

@@ -1717,5 +1717,77 @@
     "url": "grc-wi-05.html",
     "desc": "Operational guidance for the GRC team member reviewing an asset submission against GRC-SOP-05. Covers reviewer principles (5), the validation checklist (naming-conformance N1–N6, schema completeness S1–S8, consistency C1–C6, cross-reference X1–X4), 10 common review failures with remedies (code-not-yet-registered, mismatched naming pattern, ownership-as-mailbox, tier mismatch, missing classification, etc.), the 4-gate decision flow (approve/reject/request-clarification), 8 edge cases (deviation requests, legacy assets, cross-agency assignment, identical naming, multi-owner, in-flight exceptions, OT assets, in-incident assets), per-Tier SLA (3/5/10 days first response, 10/15/20 days disposition), evidence capture and audit trail.",
     "tags": "GRC WI work instruction reviewer asset submission review validation checklist naming conformance schema completeness consistency cross-reference duplicate detection approval rejection clarification SLA evidence audit trail separation of duties common failures edge cases legacy assets deviations OT GRC team Head of GRC LCSO CSLC"
+  },
+  {
+    "id": "asm-network-baselines",
+    "title": "Network Device Security Baselines",
+    "section": "ASM",
+    "sub": "Domain hub",
+    "url": "asm-network-baselines.html",
+    "desc": "ASM domain page for network device security baselines. Vendor-agnostic, CIS L1 aligned. Covers switches, routers, firewalls, wireless access points and controllers across all operating units. Organised by control domain rather than vendor: management plane, control plane, data plane, wireless, firewall, and configuration management. Sits as a peer ASM domain alongside patch management, vulnerability management, threat intelligence, and the existing security baselines (endpoint/server). References 7 CIS benchmarks: Cisco IOS XE, NX-OS, IOS XR, Juniper Junos, Palo Alto Firewall, Check Point Firewall, Wireless LAN.",
+    "tags": "ASM network baselines hub domain switch router firewall wireless access point controller WAP WLC CIS L1 Cisco IOS XE NX-OS IOS XR Juniper Junos Palo Alto Check Point Wireless LAN CIS benchmarks vendor-agnostic management plane control plane data plane wireless firewall configuration management"
+  },
+  {
+    "id": "IT-NET-SOP-01",
+    "title": "Network Device Security Baseline",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-net-sop-01.html",
+    "desc": "Authoritative policy-level baseline for network and security-network devices across operating units, vendor-agnostic, CIS L1 aligned. Seven sections: Purpose, Scope (switches, routers, firewalls, wireless, OOB management; WAFs and load balancers out of scope to future Security Infrastructure domain), seven Baseline Principles (defence in depth, least privilege, strong authentication, secure protocols only, segmentation by purpose, configuration as documented state, comprehensive centralised logging), Minimum Security Requirements across six control domains each operationalised by a dedicated WI (section 4.1 Management Plane via WI-01; 4.2 Control Plane via WI-02; 4.3 Data Plane via WI-03; 4.4 Wireless via WI-04; 4.5 Firewall via WI-05; 4.6 Configuration Management via WI-06), Roles, Framework Alignment, Governance.",
+    "tags": "ASM SOP IT-NET-SOP-01 network baseline switch router firewall wireless access point controller default-deny CIS L1 NIST CSF ISO 27001 A.8.20 A.8.21 A.8.22 A.8.23 BCP 38 management plane control plane data plane segmentation AAA TACACS RADIUS Entra ID syslog NTP routing authentication CoPP BPDU port security DHCP snooping WPA3 WPA2 Enterprise rogue AP detection firewall rule hygiene egress filtering configuration management golden config drift detection"
+  },
+  {
+    "id": "IT-NET-WI-01",
+    "title": "Management Plane Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-net-wi-01.html",
+    "desc": "Vendor-agnostic implementation guidance for hardening the management plane of network devices: how administrators connect, authenticate, and configure. Operationalises IT-NET-SOP-01 section 4.1. Eight steps: disable plaintext protocols (Telnet, HTTP, SNMPv1v2, FTP, TFTP); enable secure protocols (SSHv2, HTTPS TLS1.2 plus, SNMPv3 authPriv, SCP/SFTP); configure AAA with MFA (TACACS+, RADIUS, Entra ID + break-glass local); restrict management to management network via ACL; idle session timeouts and authorised-use banner; NTP with authentication (two or more servers); centralised syslog forwarding to SIEM; console and auxiliary port hardening. Includes prerequisites, validation, rollback procedure, common errors.",
+    "tags": "ASM WI IT-NET-WI-01 management plane network device hardening Telnet HTTP HTTPS SSH SSHv2 SNMPv3 SCP SFTP AAA TACACS RADIUS Entra ID MFA break-glass management ACL session timeout banner NTP syslog SIEM console aux port OOB out-of-band CIS L1 vendor-agnostic"
+  },
+  {
+    "id": "IT-NET-WI-02",
+    "title": "Control Plane Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-net-wi-02.html",
+    "desc": "Vendor-agnostic implementation guidance for hardening the control plane of network devices: how the device decides where traffic goes. Operationalises IT-NET-SOP-01 section 4.2. Eight steps: routing-protocol authentication (OSPF, EIGRP, BGP, IS-IS with HMAC-SHA256 or TCP-AO; HSRP/VRRP authenticated); Control-Plane Policing (CoPP) with traffic classes and rate limits; spanning-tree protection (BPDU Guard, Root Guard, Loop Guard, UDLD, PortFast); storm control (broadcast/multicast/unknown-unicast); anti-spoofing via uRPF (strict on customer-facing) and BCP38 compliance; Dynamic ARP Inspection and IPv6 RA Guard; disable unused routing protocols and apply passive-interface defaults; route filtering at administrative boundaries.",
+    "tags": "ASM WI IT-NET-WI-02 control plane network device hardening routing authentication OSPF EIGRP BGP IS-IS HMAC SHA256 TCP-AO HSRP VRRP CoPP control-plane policing BPDU Guard Root Guard Loop Guard UDLD PortFast storm control broadcast multicast unicast uRPF Unicast Reverse Path Forwarding BCP38 anti-spoofing DAI Dynamic ARP Inspection IPv6 RA Guard ND inspection max-prefix prefix list route map"
+  },
+  {
+    "id": "IT-NET-WI-03",
+    "title": "Data Plane Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-net-wi-03.html",
+    "desc": "Vendor-agnostic implementation guidance for hardening the data plane of network devices: how user and application traffic is forwarded. Operationalises IT-NET-SOP-01 section 4.3. Eight steps: identify and administratively disable unused ports (parking VLAN); port security on access ports (MAC limit, sticky learning, violation action); VLAN hygiene (native VLAN non-default, trunk allow-list, DTP nonegotiate, VLAN 1 hygiene); DHCP snooping with trusted-port designation; inter-VLAN routing filtered by ACL or firewall (no flat L3 between segments); segment isolation (guest, IoT, OT separated, client isolation); disable unnecessary L2 services (CDP/LLDP outbound on user ports, VTP transparent or off); private VLANs for server farms and DMZ where appropriate.",
+    "tags": "ASM WI IT-NET-WI-03 data plane network device hardening unused ports parking VLAN port security MAC sticky learning violation native VLAN trunk allowed list DTP VLAN hopping VLAN 1 hygiene DHCP snooping trusted port inter-VLAN ACL segmentation guest IoT OT client isolation private VLAN PVLAN isolated promiscuous community CDP LLDP VTP transparent"
+  },
+  {
+    "id": "IT-NET-WI-04",
+    "title": "Wireless Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-net-wi-04.html",
+    "desc": "Vendor-agnostic implementation guidance for hardening wireless infrastructure (access points, controllers). Operationalises IT-NET-SOP-01 section 4.4. Ten steps: disable WEP, WPA-TKIP, WPS, open-on-corporate; deploy WPA3-Enterprise (or WPA2-Enterprise minimum) with 802.1X EAP-TLS or PEAP-MSCHAPv2 with mandatory cert validation; Protected Management Frames (802.11w PMF); guest network isolation (separate VLAN, firewall egress, client isolation, captive/sponsor portal); rogue-AP detection and classification; WIDS/WIPS where licensed; RF management with region, channel, power per site survey; SSID hygiene (limit count, broadcast remains enabled because hiding is not a control, no sensitive names); 802.1X dynamic VLAN assignment; logging to SIEM (auth, association, security events).",
+    "tags": "ASM WI IT-NET-WI-04 wireless hardening WPA3 WPA2 Enterprise 802.1X EAP-TLS PEAP-MSCHAPv2 RADIUS certificate validation 802.11w PMF Protected Management Frames guest network isolation client isolation captive portal sponsor portal rogue AP detection containment WIDS WIPS RF management channel plan transmit power band steering SSID hygiene dynamic VLAN assignment WLC controller access point AP"
+  },
+  {
+    "id": "IT-NET-WI-05",
+    "title": "Firewall Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-net-wi-05.html",
+    "desc": "Vendor-agnostic implementation guidance for hardening firewalls. Operationalises IT-NET-SOP-01 section 4.5. Ten steps: establish default-deny (no any-any allow rules; use observe-then-replace for legacy permissive); rule documentation and ownership (description, owner, dates, expiry/review); egress filtering on internet interfaces (block SMB, RDP, SSH, SMTP lateral, only documented outbound); stale-rule detection (90 day flag, 180 day removal); geo-blocking with judgement; IPS, IDS, AV where licensed; TLS inspection policy (categories on/off, cert deployed, log SNI where off); application-layer Layer-7 controls; anti-evasion (anti-spoofing, fragmentation, TCP-state, ICMP rate-limit); high availability for Tier 0/1 firewalls with annual failover test.",
+    "tags": "ASM WI IT-NET-WI-05 firewall hardening default-deny rule hygiene rule documentation egress filtering stale rules 90 days 180 days geo-blocking IPS IDS AV antivirus signature TLS inspection SNI Layer-7 application-layer anti-spoofing fragmentation TCP state ICMP rate limit high availability HA active standby failover NGFW perimeter internal segmentation"
+  },
+  {
+    "id": "IT-NET-WI-06",
+    "title": "Configuration Management & Change Control",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-net-wi-06.html",
+    "desc": "Vendor-agnostic implementation guidance for configuration management and change control on network devices: keeping the baseline real over time. Operationalises IT-NET-SOP-01 section 4.6. Eight steps: golden configuration per device class (templated, version-controlled); automated backups (daily T0/T1, weekly T2/T3, 90/30-day retention, annual restore test); change control workflow (standard, normal, emergency tracks); drift detection automated and triaged; firmware/OS version tracking and vendor advisory subscription; secure decommissioning per GRC-SOP-05 section 12 (final backup, cert revocation, factory reset, asset record); test/lab isolation and credential discipline; OOB management infrastructure in baseline scope.",
+    "tags": "ASM WI IT-NET-WI-06 configuration management change control golden config Git Jinja2 IaC template version control automated backup retention restore test SLA tier change advisory board standard normal emergency change drift detection comparator firmware OS lifecycle PSIRT advisory feed end of support decommissioning factory reset certificate revocation lab isolation test environment OOB out-of-band management"
   }
 ]

@@ -40,22 +40,26 @@
   .domain-card.vuln      { background:linear-gradient(135deg,#FAECE7 0%,#F5DDD7 100%); border:0.5px solid #F5C0B0; }
   .domain-card.patch     { background:linear-gradient(135deg,#E6F1FB 0%,#D6E8F8 100%); border:0.5px solid #B5D4F4; }
   .domain-card.ti        { background:linear-gradient(135deg,#EDF6ED 0%,#DDF0DD 100%); border:0.5px solid #A8D5A8; }
+  .domain-card.network   { background:linear-gradient(135deg,#E6F0F4 0%,#D2E5ED 100%); border:0.5px solid #A8CADB; }
   .domain-card-icon  { font-size:28px; margin-bottom:10px; }
   .domain-card-code  { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:2px 8px; border-radius:6px; margin-bottom:8px; display:inline-block; }
   .domain-card.baselines .domain-card-code { background:rgba(91,45,142,0.12); color:var(--asm); }
   .domain-card.vuln      .domain-card-code { background:rgba(153,60,29,0.1);  color:#993C1D; }
   .domain-card.patch     .domain-card-code { background:rgba(24,95,165,0.1);  color:#185FA5; }
   .domain-card.ti        .domain-card-code { background:rgba(45,90,45,0.1);   color:#2D5A2D; }
+  .domain-card.network   .domain-card-code { background:rgba(20,80,110,0.12); color:#145570; }
   .domain-card-title { font-size:16px; font-weight:700; margin-bottom:6px; }
   .domain-card.baselines .domain-card-title { color:var(--asm-dark); }
   .domain-card.vuln      .domain-card-title { color:#5C2E06; }
   .domain-card.patch     .domain-card-title { color:#0F3460; }
   .domain-card.ti        .domain-card-title { color:#1A3A1A; }
+  .domain-card.network   .domain-card-title { color:#0A3848; }
   .domain-card-desc { font-size:13px; line-height:1.6; margin-bottom:10px; }
   .domain-card.baselines .domain-card-desc { color:#4A2A7A; }
   .domain-card.vuln      .domain-card-desc { color:#7a2e10; }
   .domain-card.patch     .domain-card-desc { color:#0F3460; }
   .domain-card.ti        .domain-card-desc { color:#1A3A1A; }
+  .domain-card.network   .domain-card-desc { color:#0A3848; }
   .domain-card-footer { display:flex; align-items:center; justify-content:space-between; font-size:12px; font-weight:600; }
   .domain-card.baselines .domain-card-footer { color:var(--asm); }
   .domain-card.vuln      .domain-card-footer { color:#993C1D; }
@@ -121,9 +125,9 @@
 
   <!-- Stats -->
   <div class="asm-stats">
-    <div class="asm-stat"><div class="asm-stat-num">4</div><div class="asm-stat-label">ASM domains</div></div>
-    <div class="asm-stat"><div class="asm-stat-num">12+</div><div class="asm-stat-label">SOPs</div></div>
-    <div class="asm-stat"><div class="asm-stat-num">7</div><div class="asm-stat-label">Work instructions</div></div>
+    <div class="asm-stat"><div class="asm-stat-num">5</div><div class="asm-stat-label">ASM domains</div></div>
+    <div class="asm-stat"><div class="asm-stat-num">13+</div><div class="asm-stat-label">SOPs</div></div>
+    <div class="asm-stat"><div class="asm-stat-num">13</div><div class="asm-stat-label">Work instructions</div></div>
     <div class="asm-stat"><div class="asm-stat-num">3</div><div class="asm-stat-label">Framework alignments</div></div>
   </div>
 
@@ -185,12 +189,20 @@
         <div class="domain-card-footer"><span>3 SOPs · Work Instructions · Checklists</span><span>→</span></div>
       </a>
 
-      <a class="domain-card ti" href="asm-threat-intelligence.html">
+      <a class="domain-card ti" href="asm-threat-intel.html">
         <div class="domain-card-icon">🧠</div>
         <div class="domain-card-code">ASM-TI</div>
         <div class="domain-card-title">Threat Intelligence</div>
         <div class="domain-card-desc">Actionable intelligence about adversaries, TTPs, and active exploitation. Informs prioritisation across all ASM domains and feeds directly into SOC operations.</div>
         <div class="domain-card-footer"><span>Concepts · Sources · SOC integration</span><span>→</span></div>
+      </a>
+
+      <a class="domain-card network" href="asm-network-baselines.html">
+        <div class="domain-card-icon">🌐</div>
+        <div class="domain-card-code">ASM-NB</div>
+        <div class="domain-card-title">Network Device Baselines</div>
+        <div class="domain-card-desc">Vendor-agnostic security baselines for switches, routers, firewalls, wireless infrastructure. Organised by control domain (management, control, data, wireless, firewall, configuration management). CIS L1 aligned.</div>
+        <div class="domain-card-footer"><span>SOP · 6 Work Instructions · CIS L1</span><span>→</span></div>
       </a>
 
     </div>

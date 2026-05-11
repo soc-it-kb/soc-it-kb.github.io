@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-NET-SOP-01: Network Device Security Baseline — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F2EBF9; --asm-border:#C7B3DD; --asm-dark:#3A1A5C; }
+  .sop-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .sop-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .sop-meta-item strong { color:#1a1a1a; }
+  .sop-meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+
+  .sop-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .sop-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:4px; }
+  .sop-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .sop-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .sop-section p:last-child { margin-bottom:0; }
+  .sop-section h3 { font-size:14px; font-weight:600; color:var(--asm-dark); margin:14px 0 6px 0; }
+
+  .sop-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .sop-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .sop-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--asm); flex-shrink:0; margin-top:5px; }
+
+  .req-domain { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.2rem; margin-top:8px; }
+  .req-domain-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; padding-bottom:6px; border-bottom:0.5px solid var(--asm-border); }
+  .req-icon { width:32px; height:32px; border-radius:8px; background:var(--asm-light); color:var(--asm); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+  .req-domain-header h4 { font-size:13px; font-weight:700; color:var(--asm-dark); margin:0; }
+  .req-domain-header .wi-link { margin-left:auto; font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; color:var(--asm); text-decoration:none; background:var(--asm-light); padding:3px 9px; border-radius:5px; border:0.5px solid var(--asm-border); }
+  .req-domain-header .wi-link:hover { background:var(--asm); color:#fff; }
+  .req-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:4px; }
+  .req-list li { display:flex; gap:8px; font-size:13px; color:#333; line-height:1.55; padding:3px 0; }
+  .req-list li::before { content:'✓'; color:var(--asm); font-weight:700; flex-shrink:0; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--asm-dark); color:#fff; font-weight:600; padding:8px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:8px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--asm-dark); white-space:nowrap; }
+  .gt-table td.code { font-family:'SF Mono','Fira Code',monospace; font-size:12px; color:var(--asm); white-space:nowrap; font-weight:600; }
+
+  .roles-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .role-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.85rem 1rem; }
+  .role-card h4 { font-size:12px; font-weight:700; color:var(--asm); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; }
+  .role-card p  { font-size:13px; color:#444; line-height:1.5; margin:0; }
+  @media(max-width:640px){ .roles-grid{grid-template-columns:1fr;} }
+
+  .callout-info { background:var(--asm-light); border:0.5px solid var(--asm-border); border-left:3px solid var(--asm); border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:var(--asm-dark); line-height:1.55; margin-top:10px; }
+  .callout-info strong { color:var(--asm-dark); font-weight:700; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #d97706; border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:#5a330a; line-height:1.55; margin-top:10px; }
+  .callout-warn strong { color:#3d260a; }
+
+  .toc-box { background:#fafafa; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
+  .toc-title { font-size:11px; font-weight:700; color:var(--asm); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+  .toc-list { display:grid; grid-template-columns:1fr 1fr; gap:4px 16px; font-size:13px; }
+  .toc-list a { color:#444; text-decoration:none; padding:2px 0; display:flex; align-items:baseline; gap:8px; }
+  .toc-list a:hover { color:var(--asm); }
+  .toc-list a span { color:var(--asm); font-weight:600; font-family:'SF Mono','Fira Code',monospace; font-size:12px; min-width:24px; }
+  @media(max-width:640px){ .toc-list{grid-template-columns:1fr;} }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .sop-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .sop-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-network-baselines.html">Network Baselines</a><span>›</span>
+    <span>IT-NET-SOP-01</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%);">
+    <span class="kb-page-hero-icon">🌐</span>
+    <h1>IT-NET-SOP-01: Network Device Security Baseline</h1>
+    <p>The authoritative policy-level baseline for the security state of all network devices across operating units. Defines minimum security requirements organised by control domain (management, control, data, wireless, firewall, configuration management). Operationalised by IT-NET-WI-01 through IT-NET-WI-06. CIS L1 aligned, vendor-agnostic.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">ASM domain</span>
+      <span class="kb-meta-pill">All network devices</span>
+      <span class="kb-meta-pill">CIS L1 aligned</span>
+      <span class="kb-meta-pill">Vendor-agnostic</span>
+    </div>
+  </div>
+
+  <div class="sop-meta-bar">
+    <div class="sop-meta-item">📋 <strong>SOP ID:</strong> IT-NET-SOP-01</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">👤 <strong>Owner:</strong> Paulo Ferreira</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">📅 <strong>Published:</strong> 9 May 2026</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">🔄 <strong>Review:</strong> Annual</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item"><span class="badge-approved">Approved</span></div>
+  </div>
+
+  <div class="toc-box">
+    <div class="toc-title">Contents</div>
+    <div class="toc-list">
+      <a href="#s1"><span>1</span> Purpose</a>
+      <a href="#s2"><span>2</span> Scope</a>
+      <a href="#s3"><span>3</span> Baseline Principles</a>
+      <a href="#s4"><span>4</span> Minimum Security Requirements</a>
+      <a href="#s5"><span>5</span> Roles &amp; Responsibilities</a>
+      <a href="#s6"><span>6</span> Framework Alignment</a>
+      <a href="#s7"><span>7</span> Governance &amp; Review</a>
+    </div>
+  </div>
+
+  <div class="sop-section" id="s1">
+    <div class="sop-section-num">Section 1</div>
+    <div class="sop-section-title">Purpose</div>
+    <p>This SOP defines the minimum security baseline for network and security-network devices operated by or on behalf of the organisation. It establishes the controls every device must implement to be considered fit to carry organisational traffic, regardless of vendor, location, or operating unit.</p>
+    <p>Network devices sit at every boundary in the organisation's IT estate: between users and services, between segments, between sites, between the organisation and the internet. A weakness on these devices is uniquely impactful because it potentially exposes everything connected to them. This baseline reduces that risk to a defined, monitored, and audit-defensible state.</p>
+    <p>This SOP is operationalised by six Work Instructions — one per control domain — that provide implementation-level guidance for engineers. See §4 for the requirements summary and the linked WIs for execution detail.</p>
+  </div>
+
+  <div class="sop-section" id="s2">
+    <div class="sop-section-num">Section 2</div>
+    <div class="sop-section-title">Scope</div>
+    <h3>2.1 In scope</h3>
+    <ul class="sop-bullet">
+      <li><strong>Switches</strong> — access, distribution, and core switches at any site (Layer 2 and Layer 3)</li>
+      <li><strong>Routers</strong> — site-edge routers, branch routers, WAN routers, SD-WAN edge devices</li>
+      <li><strong>Firewalls</strong> — perimeter, internal-segmentation, and host-edge firewalls</li>
+      <li><strong>Wireless access points and controllers</strong> — campus, hospital, school, field-office wireless including guest networks</li>
+      <li><strong>Out-of-band management infrastructure</strong> — console servers, OOB switches, dedicated management networks</li>
+      <li>Devices in production, pre-production, disaster-recovery, and any environment carrying organisational traffic</li>
+      <li>Devices at any tier (Tier 0 / 1 / 2 / 3 per the existing tier model)</li>
+    </ul>
+    <h3>2.2 Out of scope</h3>
+    <ul class="sop-bullet">
+      <li>Web Application Firewalls (WAFs) and load balancers — covered under future Security Infrastructure baseline domain</li>
+      <li>End-user devices (laptops, desktops, mobile) — covered under Endpoint Security Baselines</li>
+      <li>Servers including jump hosts — covered under Server Security Baselines</li>
+      <li>OT-segment network kit dedicated to operational technology — covered under separate OT-specific guidance (where it exists); minimum management-plane requirements still apply</li>
+      <li>Vendor-cloud-managed devices where the vendor controls the security configuration entirely (these still appear in the Asset Register; the baseline applies to anything tenant-administered)</li>
+    </ul>
+  </div>
+
+  <div class="sop-section" id="s3">
+    <div class="sop-section-num">Section 3</div>
+    <div class="sop-section-title">Baseline Principles</div>
+    <p>The seven principles below shape every requirement in this baseline. Where an implementation choice arises, refer to these principles to resolve it consistently.</p>
+
+    <h3>3.1 Defence in depth</h3>
+    <p>No single control is sufficient. Management-plane controls assume the control plane could be attacked; control-plane controls assume the data plane could carry malicious traffic; data-plane controls assume something has bypassed the perimeter. Each layer assumes the others may fail.</p>
+
+    <h3>3.2 Least privilege at every interface</h3>
+    <p>Management interfaces accept only the protocols, sources, and accounts genuinely required. Traffic interfaces forward only the traffic genuinely required. Default-deny applies to filtering, segmentation, and administrative access alike.</p>
+
+    <h3>3.3 Strong authentication, audited authorisation</h3>
+    <p>No shared accounts. All administrative access via named accounts authenticated against a central directory with multi-factor authentication where the device supports it. Every action is attributable.</p>
+
+    <h3>3.4 Secure protocols only</h3>
+    <p>Plaintext management protocols (Telnet, HTTP, SNMPv1/v2, FTP, TFTP for config) are disabled. SSH (key-based where supported), HTTPS (TLS 1.2 minimum), SNMPv3 with authentication and privacy, SCP/SFTP for file transfer.</p>
+
+    <h3>3.5 Segmentation by purpose</h3>
+    <p>Management traffic is isolated from production traffic. Guest networks are isolated from corporate networks. OT segments are isolated from IT segments. Inter-VLAN traffic is filtered, not implicitly trusted.</p>
+
+    <h3>3.6 Configuration as documented state</h3>
+    <p>Every device has a documented golden configuration. Deviations are exceptions, recorded and time-bounded. Configuration backups are automated and recoverable. Drift from golden config is detected and reconciled.</p>
+
+    <h3>3.7 Comprehensive, centralised logging</h3>
+    <p>Every device forwards authentication events, configuration changes, and security-relevant events to the central log destination. Logs include accurate timestamps from a trusted time source. Logs are retained per the organisation's retention policy.</p>
+  </div>
+
+  <div class="sop-section" id="s4">
+    <div class="sop-section-num">Section 4</div>
+    <div class="sop-section-title">Minimum Security Requirements</div>
+    <p>The requirements below are mandatory for every in-scope device. Each requirement domain is operationalised by a dedicated Work Instruction (linked at the right of each domain header). Where a device cannot meet a requirement, a documented exception is required per §7.</p>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">🔑</div>
+        <h4>4.1 Management Plane</h4>
+        <a class="wi-link" href="it-net-wi-01.html">IT-NET-WI-01 →</a>
+      </div>
+      <ul class="req-list">
+        <li>Plaintext management protocols (Telnet, HTTP, SNMPv1/v2c, FTP, TFTP for configuration) are disabled</li>
+        <li>SSH version 2 with strong cipher suites; HTTPS with TLS 1.2 minimum; SNMPv3 with authPriv where SNMP is required</li>
+        <li>All administrative authentication is via a central directory (AAA: TACACS+ / RADIUS / Entra ID) with MFA where the device supports it</li>
+        <li>No shared accounts; the local emergency account is documented, password-vaulted, and used only with break-glass approval</li>
+        <li>Management-plane access is restricted to a defined management network or a small allow-list of administrative sources</li>
+        <li>Idle session timeout configured (≤15 minutes for privileged sessions)</li>
+        <li>Login banner displaying the authorised-use notice required by the organisation's policy</li>
+        <li>NTP configured to two or more authoritative time sources with authentication</li>
+        <li>Syslog forwarding to the central SIEM destination; events include authentication, configuration changes, and security-relevant alerts</li>
+        <li>Console access physically secured; console port disabled where remote management is the operational norm; auxiliary port disabled unless explicitly required</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">🧭</div>
+        <h4>4.2 Control Plane</h4>
+        <a class="wi-link" href="it-net-wi-02.html">IT-NET-WI-02 →</a>
+      </div>
+      <ul class="req-list">
+        <li>Routing-protocol authentication enabled (OSPF, EIGRP, BGP, IS-IS) with strong keys; key rotation procedure documented</li>
+        <li>Control-plane policing (CoPP) or equivalent configured to limit control-plane CPU consumption to known-good traffic rates</li>
+        <li>BPDU guard, root guard, and loop guard enabled on access-port spanning-tree edges</li>
+        <li>Storm control configured on access ports (broadcast, multicast, unknown-unicast)</li>
+        <li>Unicast Reverse Path Forwarding (uRPF) or equivalent anti-spoofing enabled on customer-facing and uplink interfaces (BCP38 compliance)</li>
+        <li>Dynamic ARP Inspection (DAI) on access switches; IPv6 RA Guard and ND inspection on IPv6-capable networks</li>
+        <li>Unused routing protocols disabled; passive-interface defaults applied for routing on user-facing segments</li>
+        <li>Route filtering at administrative boundaries (max-prefix, prefix lists, route maps)</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">🚦</div>
+        <h4>4.3 Data Plane</h4>
+        <a class="wi-link" href="it-net-wi-03.html">IT-NET-WI-03 →</a>
+      </div>
+      <ul class="req-list">
+        <li>Unused switch ports are administratively disabled and assigned to an unused VLAN</li>
+        <li>Port security configured on access ports (MAC limit, sticky learning, violation action of restrict or shutdown)</li>
+        <li>Native VLAN on trunk ports is a non-default VLAN ID, distinct from any user VLAN</li>
+        <li>Trunk ports allow only the VLANs they need to carry; default "allow all" trunk configurations are not used</li>
+        <li>DHCP snooping enabled with trusted-port designation only on DHCP-server-facing interfaces</li>
+        <li>Inter-VLAN routing filtered by ACL or firewall; flat L3 networks between user, server, and management segments are prohibited</li>
+        <li>Guest, IoT, OT, and high-risk segments are isolated; inter-segment traffic passes through a firewall</li>
+        <li>VLAN 1 is not used for production traffic; user VLANs start from a non-default ID per agency convention</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">📡</div>
+        <h4>4.4 Wireless</h4>
+        <a class="wi-link" href="it-net-wi-04.html">IT-NET-WI-04 →</a>
+      </div>
+      <ul class="req-list">
+        <li>WPA3-Enterprise where supported; WPA2-Enterprise (802.1X with EAP-TLS or PEAP-MSCHAPv2) as the minimum for corporate SSIDs</li>
+        <li>WPA2/3-Personal acceptable only for guest networks with rotated PSK or vendor-provided guest-access flows</li>
+        <li>WEP, WPA-TKIP, and open authentication on corporate SSIDs are prohibited</li>
+        <li>Protected Management Frames (802.11w PMF) enabled — required on WPA3, enabled-where-supported on WPA2</li>
+        <li>Guest networks fully isolated from corporate networks (separate VLAN, firewall-filtered egress, no corporate-resource reachability)</li>
+        <li>Client isolation enabled on guest SSIDs</li>
+        <li>SSID broadcast disabled is not a security control — broadcast remains enabled; security is enforced by authentication, not obscurity</li>
+        <li>Rogue-AP detection and containment enabled where the controller supports it</li>
+        <li>WIDS/WIPS or equivalent threat-detection enabled where licensed</li>
+        <li>RF region, channel plan, and transmit power configured per site survey; no "max-power-everywhere" defaults</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">🛡️</div>
+        <h4>4.5 Firewall</h4>
+        <a class="wi-link" href="it-net-wi-05.html">IT-NET-WI-05 →</a>
+      </div>
+      <ul class="req-list">
+        <li>Default-deny applied on all interfaces; explicit-allow rules required for permitted traffic</li>
+        <li>Egress filtering enforced on internet-facing interfaces; "any-any-outbound" rules are prohibited</li>
+        <li>Rule base is documented: every rule has a recorded purpose, owner, creation date, and expiry/review date</li>
+        <li>Rules without traffic for 90 days are flagged for review; rules without traffic for 180 days are removed unless justified</li>
+        <li>Geo-blocking applied where business needs do not include the blocked geography</li>
+        <li>IPS / IDS / antivirus engines enabled where licensed; signature updates current</li>
+        <li>TLS inspection policy documented; encrypted traffic without inspection is logged for visibility (banner certs, SNI logging)</li>
+        <li>Application-layer (Layer 7) controls enforced where the device supports them</li>
+        <li>Anti-spoofing, fragmentation protection, and reassembly enabled where the platform offers them</li>
+        <li>High-availability pair configured for Tier 0 and Tier 1 firewalls; failover tested at minimum annually</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">⚙️</div>
+        <h4>4.6 Configuration Management &amp; Change Control</h4>
+        <a class="wi-link" href="it-net-wi-06.html">IT-NET-WI-06 →</a>
+      </div>
+      <ul class="req-list">
+        <li>Every device has a documented golden configuration capturing the baseline state</li>
+        <li>Automated configuration backups daily for Tier 0/1 devices; weekly for Tier 2/3</li>
+        <li>Configuration changes pass through documented change control; emergency changes have an expedited path with post-hoc review</li>
+        <li>Drift detection automated; deviations from golden config are reported and remediated within defined SLAs</li>
+        <li>Firmware/OS versions tracked per device; vendor-supported versions only; security advisories tracked through patch management</li>
+        <li>Decommissioning follows GRC-SOP-05 §12: configuration backup retained, secrets revoked, certificates revoked, device wiped per data-classification destruction method, asset record updated to Decommissioned</li>
+        <li>Test/lab devices clearly identifiable and on isolated networks; no production credentials on test devices</li>
+        <li>Out-of-band management infrastructure (console servers, OOB switches) hardened to the same baseline</li>
+      </ul>
+    </div>
+
+    <div class="callout-warn"><strong>One requirement that's worth saying twice.</strong> Default-deny is not optional and is not a discussion. Any firewall with "any-any" allow rules at perimeter or between trust zones is in breach of this baseline, regardless of vendor or operational pressure. If business need cannot be met within default-deny, the path is a documented exception, not a permissive rule.</div>
+  </div>
+
+  <div class="sop-section" id="s5">
+    <div class="sop-section-num">Section 5</div>
+    <div class="sop-section-title">Roles &amp; Responsibilities</div>
+    <div class="roles-grid">
+      <div class="role-card"><h4>IT Operations Lead</h4><p>Owns this SOP. Approves baseline changes and exceptions. Owns the patch/firmware lifecycle. Sets change-window cadence. Accountable for baseline conformance metrics.</p></div>
+      <div class="role-card"><h4>Network Engineering</h4><p>Implements the baseline. Maintains golden configurations. Executes change windows. Investigates and remediates drift. First-line responder for network incidents.</p></div>
+      <div class="role-card"><h4>SOC</h4><p>Consumes logs from network devices. Investigates anomalous authentication, configuration changes, and traffic patterns. Coordinates with Network Engineering on incident response.</p></div>
+      <div class="role-card"><h4>GRC</h4><p>Owns governance and audit evidence. Reviews baseline annually. Maintains exception register. Reports baseline conformance to Risk Committee quarterly.</p></div>
+      <div class="role-card"><h4>Local IT (per agency)</h4><p>Applies baseline to devices in their operating unit. Submits exception requests through their LCSO/CSLC. Coordinates change windows with central Network Engineering.</p></div>
+      <div class="role-card"><h4>Architecture / Technical Authority</h4><p>Adjudicates interpretation questions and edge cases. Approves design-level exceptions. Reviews new technology before adoption to ensure baseline applicability.</p></div>
+    </div>
+    <div class="callout-info"><strong>Separation of duties.</strong> The engineer who configures a device is not the same person who approves its move to production. Configuration changes pass through change control. This separation exists for audit defensibility and to catch errors that single-person review misses.</div>
+  </div>
+
+  <div class="sop-section" id="s6">
+    <div class="sop-section-num">Section 6</div>
+    <div class="sop-section-title">Framework Alignment</div>
+    <p>This baseline is derived from the standards below. CIS L1 is the primary source-of-truth where a vendor-specific benchmark exists; controls have been generalised into vendor-agnostic form for portability across the organisation's mixed estate.</p>
+    <table class="gt-table">
+      <thead><tr><th>Framework / benchmark</th><th>Reference</th><th>Where applied</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">CIS Cisco IOS XE Benchmark</td><td class="code">Level 1, current version</td><td>Catalyst switches and routers — §4.1, §4.2, §4.3, §4.6</td></tr>
+        <tr><td class="lvl">CIS Cisco NX-OS Benchmark</td><td class="code">Level 1, current version</td><td>Nexus data-centre switches — §4.1, §4.2, §4.3, §4.6</td></tr>
+        <tr><td class="lvl">CIS Cisco IOS XR Benchmark</td><td class="code">Level 1, current version</td><td>Service-provider routers — §4.1, §4.2, §4.3, §4.6</td></tr>
+        <tr><td class="lvl">CIS Juniper Junos OS Benchmark</td><td class="code">Level 1, current version</td><td>Junos switches, routers, firewalls — §4.1–4.6 as applicable</td></tr>
+        <tr><td class="lvl">CIS Palo Alto Firewall Benchmark</td><td class="code">Level 1, current version</td><td>PAN-OS firewalls — §4.1, §4.5, §4.6</td></tr>
+        <tr><td class="lvl">CIS Check Point Firewall Benchmark</td><td class="code">Level 1, current version</td><td>Check Point Gaia firewalls — §4.1, §4.5, §4.6</td></tr>
+        <tr><td class="lvl">CIS Wireless LAN Benchmark</td><td class="code">Level 1, current version</td><td>Wireless access points and controllers — §4.4</td></tr>
+        <tr><td class="lvl">NIST CSF 2.0</td><td class="code">PR.AC, PR.DS, PR.PT, DE.CM</td><td>Identity and access (§4.1), data security (§4.3, §4.5), protective tech (§4.2–4.5), monitoring (§4.1, §4.6)</td></tr>
+        <tr><td class="lvl">NIST SP 800-53 r5</td><td class="code">AC-2/3/17, AU-2/3/12, CM-2/6/7, IA-2/5, SC-7/8/12/23</td><td>Cross-domain reference</td></tr>
+        <tr><td class="lvl">ISO/IEC 27001:2022</td><td class="code">A.5.15, A.8.20, A.8.21, A.8.22, A.8.23, A.8.16</td><td>Access control, networks security, network services security, segregation, web filtering, monitoring</td></tr>
+        <tr><td class="lvl">BCP 38 / RFC 2827</td><td class="code">Anti-spoofing</td><td>Control plane — §4.2</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:10px;font-size:13px;color:#666;">Where a vendor or product line has no specific CIS benchmark, the closest analogous benchmark applies (e.g. a less-common switch vendor maps to the Cisco IOS XE benchmark for management-plane controls), supplemented by the vendor's published hardening guide and the NIST 800-53 control families above. The relevant Work Instruction identifies where this substitution applies.</p>
+  </div>
+
+  <div class="sop-section" id="s7">
+    <div class="sop-section-num">Section 7</div>
+    <div class="sop-section-title">Governance &amp; Review</div>
+    <h3>7.1 Baseline ownership and update authority</h3>
+    <p>This SOP is owned by the IT Operations Lead with co-ownership by the Head of GRC. Material changes (new requirements, scope changes, framework-alignment changes) require sign-off from both. Minor clarifications and editorial improvements may be applied by the owner with notification to GRC.</p>
+
+    <h3>7.2 Review cadence</h3>
+    <ul class="sop-bullet">
+      <li><strong>Annual review</strong> — minimum, by the owner with GRC sign-off, on the anniversary of approval</li>
+      <li><strong>Out-of-cycle review</strong> — triggered by: a material CIS benchmark update; a major incident involving network devices; introduction of new vendor or technology; a regulatory change affecting network security (e.g. NIS2 implementing-act change); an audit finding</li>
+      <li><strong>Sub-WI review</strong> — each Work Instruction (IT-NET-WI-01 through 06) is reviewed independently and may update more frequently than the SOP</li>
+    </ul>
+
+    <h3>7.3 Exception handling</h3>
+    <p>Where a device cannot meet a requirement in §4, the operating unit follows IT-GOV-SOP-01 (Baseline Exception &amp; Risk Acceptance). Exceptions are time-bounded, recorded in GRC-REG-EXCEPTIONS, linked from the affected asset records in GRC-REG-ASSET, and reviewed annually. Permanent exceptions are reviewed annually for currency; an exception that persists for three years without remediation is escalated to the Risk Committee for review.</p>
+    <p>Common cases that warrant exceptions: vendor product limitations (no SNMPv3 support on legacy hardware), operational constraints (a device that must allow non-standard management for an integration), integration requirements (a tool that requires SNMPv2 read-only access). Acceptable mitigations include compensating controls (SNMP traffic restricted to a management VLAN, ACL-protected), monitoring uplift (enhanced log analysis for the affected device), and time-bounded remediation plans.</p>
+
+    <h3>7.4 Compliance &amp; audit</h3>
+    <p>Baseline conformance is measured continuously through automated reconciliation (configuration management tooling, periodic CIS-CAT or equivalent scans) and reported monthly to IT Operations. Quarterly aggregate reports are presented to GRC and to the Risk Committee. Audit evidence includes: golden configurations, scan results, exception register entries, change-control records, and incident records related to network-baseline gaps.</p>
+
+    <h3>7.5 Related documents</h3>
+    <ul class="sop-bullet">
+      <li><a href="asm-network-baselines.html" style="color:var(--asm);font-weight:600;">asm-network-baselines.html</a> — Network domain hub page</li>
+      <li><a href="it-net-wi-01.html" style="color:var(--asm);font-weight:600;">IT-NET-WI-01</a> through <a href="it-net-wi-06.html" style="color:var(--asm);font-weight:600;">IT-NET-WI-06</a> — control-domain Work Instructions</li>
+      <li><a href="it-gov-sop-01.html" style="color:var(--asm);font-weight:600;">IT-GOV-SOP-01</a> — Baseline Exception &amp; Risk Acceptance</li>
+      <li><a href="it-gov-sop-02.html" style="color:var(--asm);font-weight:600;">IT-GOV-SOP-02</a> — Baseline Drift &amp; Periodic Validation</li>
+      <li><a href="grc-reg-asset.html" style="color:var(--asm);font-weight:600;">GRC-REG-ASSET</a> — Asset Register (NET assets)</li>
+      <li><a href="grc-register-exceptions.html" style="color:var(--asm);font-weight:600;">GRC-REG-EXCEPTIONS</a> — Baseline Exceptions Register</li>
+      <li><a href="asm-cis-matrix.html" style="color:var(--asm);font-weight:600;">asm-cis-matrix.html</a> — CIS Benchmark coverage matrix</li>
+    </ul>
+  </div>
+
+  <div class="sop-nav"><a href="asm-network-baselines.html">← Network Baselines hub</a><a href="it-net-wi-01.html">IT-NET-WI-01 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-NET-SOP-01 v1.0 · Approved · 9 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-network-baselines.html" style="color:var(--asm);text-decoration:none;">← Back to Network Baselines</a></span>
+  </div>
+</div>
+</body>
+</html>

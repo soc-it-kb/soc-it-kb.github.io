@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-NET-WI-01: Management Plane Hardening — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --wi:#8B4A0E; --wi-light:#FEF0E6; --wi-border:#F5C89A; --wi-dark:#5C3008; --asm:#5B2D8E; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+
+  .wi-section { background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:8px; }
+  .wi-section-title { font-size:15px; font-weight:600; color:#1a1a1a; margin-bottom:0.7rem; padding-bottom:6px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0 0 8px 0; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-section h3 { font-size:13px; font-weight:600; color:var(--wi-dark); margin:12px 0 5px 0; }
+
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:6px; padding-left:0; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:#333; line-height:1.55; }
+  .wi-bullet li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:6px; }
+
+  /* Step boxes */
+  .step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.1rem; margin-top:8px; }
+  .step-header { display:flex; align-items:center; gap:10px; margin-bottom:7px; padding-bottom:5px; border-bottom:0.5px solid #f0f0ec; }
+  .step-num { width:24px; height:24px; border-radius:6px; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-title { font-size:13px; font-weight:700; color:var(--wi-dark); }
+  .step-objective { font-size:12px; color:#666; font-style:italic; margin-top:2px; line-height:1.5; }
+  .step-body { font-size:13px; color:#333; line-height:1.6; }
+  .step-body p { margin:6px 0; }
+  .step-body p:first-child { margin-top:0; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body strong { color:var(--wi-dark); }
+  .step-body ul { list-style:none; padding:0; margin:6px 0; display:flex; flex-direction:column; gap:3px; }
+  .step-body ul li { display:flex; gap:7px; font-size:12px; color:#444; line-height:1.5; padding-left:2px; }
+  .step-body ul li::before { content:'›'; color:var(--wi); font-weight:700; flex-shrink:0; }
+  .step-verify { background:#fff; border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:6px; padding:0.5rem 0.8rem; margin-top:8px; font-size:12px; color:#444; line-height:1.55; }
+  .step-verify strong { color:var(--wi-dark); }
+  .cis-ref { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--wi); background:var(--wi-light); border:0.5px solid var(--wi-border); padding:1px 7px; border-radius:4px; font-weight:600; margin-top:5px; }
+
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:var(--wi-dark); line-height:1.55; margin-top:10px; }
+  .callout-info strong { color:var(--wi-dark); font-weight:700; }
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#7a2e10; line-height:1.55; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--wi-dark); color:#fff; font-weight:600; padding:7px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--wi-dark); white-space:nowrap; }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-network-baselines.html">Network Baselines</a><span>›</span>
+    <span>IT-NET-WI-01</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#3D1F05 0%,#5C3008 40%,#8B4A0E 100%);">
+    <span class="kb-page-hero-icon">🔑</span>
+    <h1>IT-NET-WI-01: Management Plane Hardening</h1>
+    <p>Vendor-agnostic implementation guidance for hardening the management plane of network devices: how administrators connect, authenticate, and configure the device. Operationalises §4.1 of IT-NET-SOP-01.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Network · Management plane</span>
+      <span class="kb-meta-pill">Vendor-agnostic</span>
+      <span class="kb-meta-pill">CIS L1 derived</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">📋 <strong>WI ID:</strong> IT-NET-WI-01</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">🔗 <strong>Implements:</strong> <a href="it-net-sop-01.html" style="color:var(--wi);">IT-NET-SOP-01 §4.1</a></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Owner:</strong> Network Engineering</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 9 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <!-- Prerequisites -->
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <p>Before applying this WI:</p>
+    <ul class="wi-bullet">
+      <li>The device is in <strong>Onboarding</strong> status in GRC-REG-ASSET (or, for existing devices, an in-place hardening change is approved)</li>
+      <li>Out-of-band access to the device is available in case in-band access is lost during configuration</li>
+      <li>Current configuration is backed up to the central config repository</li>
+      <li>A change window is approved per IT-NET-WI-06 change-control procedures</li>
+      <li>The central AAA service (TACACS+, RADIUS, or Entra ID via cloud-managed equivalent) is reachable from the device and the device is provisioned in the AAA service</li>
+      <li>The central syslog destination, NTP servers, and authorised-use banner text are known</li>
+      <li>The management network (or admin allow-list) for this device is defined</li>
+    </ul>
+    <div class="callout-warn"><strong>OOB access matters.</strong> Several steps in this WI restrict in-band management access. If you do not have working out-of-band access (console, dedicated management port, vendor cloud-management), do not start. The most common cause of an outage during management-plane hardening is the engineer locking themselves out without a recovery path.</div>
+  </div>
+
+  <!-- Step-by-step -->
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <p>The steps below cover the management-plane controls required by IT-NET-SOP-01 §4.1. Apply them in order; later steps assume earlier ones are in place.</p>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div>
+        <div><div class="step-title">Disable plaintext management protocols</div>
+        <div class="step-objective">Eliminate cleartext credential and configuration exposure on the wire.</div></div>
+      </div>
+      <div class="step-body">
+        <p>On every in-scope device, disable:</p>
+        <ul>
+          <li>Telnet (TCP/23) — disable inbound; remove any "transport input telnet" or equivalent</li>
+          <li>HTTP web management (TCP/80) — disable the HTTP server feature</li>
+          <li>SNMPv1 and SNMPv2c — remove community strings; disable the protocol versions</li>
+          <li>FTP and TFTP for configuration transfer — disable inbound; remove any "ip ftp" / "ip tftp" service config</li>
+          <li>HTTP-based vendor "cloud connect" if not in use; if in use, ensure it uses TLS</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> From a non-management host, attempt connections to TCP/23, TCP/80, UDP/161 with snmpwalk. All should fail (connection refused, timeout, or unsupported version). On the device, the running configuration should show no "transport input telnet", no "ip http server" (HTTPS only), and no SNMPv1/v2 community strings.</div>
+        <span class="cis-ref">CIS: Mgmt-plane "disable insecure services"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div>
+        <div><div class="step-title">Enable secure management protocols with strong configuration</div>
+        <div class="step-objective">Replace plaintext with cryptographically strong management protocols.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Enable and configure:</p>
+        <ul>
+          <li><strong>SSH version 2 only</strong> — disable v1 fallback; restrict cipher suites to current-generation only (drop CBC-mode ciphers, drop SHA1 MACs where successor algorithms are available)</li>
+          <li><strong>HTTPS web management</strong> — TLS 1.2 minimum, prefer TLS 1.3 where supported; the device certificate is issued by the organisation's CA, not a vendor-default self-signed certificate</li>
+          <li><strong>SNMPv3 with authPriv</strong> if SNMP is required — authentication: SHA-256 minimum (SHA-1 only if the device cannot do better); privacy: AES-128 minimum, AES-256 preferred; per-user views restrict OIDs to monitoring needs only</li>
+          <li><strong>SCP or SFTP</strong> for file transfer (configuration export, image upload)</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Confirm SSH negotiates v2 only and rejects v1 ("ssh -1" should fail). HTTPS responds with a valid certificate from the organisation's CA. SNMPv3 walks succeed with authentication; SNMPv2 walks are rejected.</div>
+        <span class="cis-ref">CIS: Mgmt-plane "secure remote access"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div>
+        <div><div class="step-title">Configure central authentication (AAA) with MFA</div>
+        <div class="step-objective">All administrative authentication via central directory, attributable to a named individual.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Configure the device to authenticate administrators against the central AAA service:</p>
+        <ul>
+          <li><strong>Primary:</strong> TACACS+ or RADIUS to the central AAA platform (or vendor-cloud-mediated equivalent for cloud-managed devices)</li>
+          <li><strong>Fallback:</strong> a secondary AAA server in a different location for resilience</li>
+          <li><strong>Last-resort local account:</strong> one named "break-glass" local account, password vaulted in PAM, used only with approval and rotated after each use</li>
+          <li><strong>MFA:</strong> required wherever the AAA platform and device combination supports it; for devices that don't support inline MFA, require MFA on the bastion/jump host from which the device is reached</li>
+          <li><strong>Authorisation:</strong> use AAA groups to apply privilege levels — read-only, configuration, full administrative — rather than granting full privilege by default</li>
+          <li><strong>Accounting:</strong> log all authentication events and command executions to the AAA platform and to syslog</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Log in as a named administrator via SSH; confirm the AAA platform shows the authentication event and the device syslog records the login. Attempt login with a deliberately invalid password; confirm rejection and that the failed attempt is logged. Confirm the break-glass local account works when AAA is unreachable (test in a controlled manner).</div>
+        <span class="cis-ref">CIS: Mgmt-plane "AAA configuration"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div>
+        <div><div class="step-title">Restrict management access to the management network</div>
+        <div class="step-objective">Limit administrative reach to a known, controlled source set.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Configure a management-source allow-list:</p>
+        <ul>
+          <li>Identify the management-network range(s) and any specific administrative hosts (bastion/jump hosts, NOC workstations)</li>
+          <li>Apply an inbound access control list to the management protocols (SSH, HTTPS, SNMP, NETCONF) restricting them to those sources</li>
+          <li>For devices that support it, bind management services to a dedicated management interface and disable management on data-plane interfaces</li>
+          <li>For cloud-managed devices, restrict the vendor cloud-management dashboard access via the vendor's IP allow-list or SSO conditional-access policy</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Attempt SSH from a non-management host; the connection should be refused at the device's ACL layer (or by the platform's management-plane policer). Attempt SSH from the management network; the connection should proceed. Confirm the ACL counters increment on attempted denied connections.</div>
+        <span class="cis-ref">CIS: Mgmt-plane "restrict access by source"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div>
+        <div><div class="step-title">Configure session timeouts and banners</div>
+        <div class="step-objective">Limit exposure of unattended sessions; display the organisation's authorised-use notice.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Configure:</p>
+        <ul>
+          <li><strong>Idle session timeout</strong> — 15 minutes maximum for privileged sessions; 30 minutes for read-only sessions if used. Configure on each management plane (SSH, HTTPS, console)</li>
+          <li><strong>Login banner</strong> — pre-authentication banner stating the device is for authorised use only, that activity is monitored, and that unauthorised use may be prosecuted. Use the organisation's approved banner text (Legal-approved version, available from IT Operations)</li>
+          <li><strong>MOTD banner</strong> — post-authentication banner, optional, may include device classification (Tier 0/1/2/3) and key operational notes</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Connect via SSH; confirm the pre-login banner appears before the password prompt. Authenticate; confirm the MOTD if configured. Leave the session idle past the timeout; confirm the session terminates.</div>
+        <span class="cis-ref">CIS: Mgmt-plane "session controls and banners"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">6</div>
+        <div><div class="step-title">Configure NTP with authentication</div>
+        <div class="step-objective">Accurate, trusted time on every device — log timestamps are only useful if they're correct.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Configure NTP:</p>
+        <ul>
+          <li>Two or more authoritative NTP servers (the organisation's central NTP infrastructure)</li>
+          <li>NTP authentication enabled with a shared key (or NTPv4 autokey where supported)</li>
+          <li>Time zone set to the organisation's standard for log correlation (UTC is strongly recommended for all infrastructure regardless of site time zone)</li>
+          <li>NTP source interface bound to the management interface where applicable, so NTP traffic uses the management path</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Show NTP status; confirm the device is synchronised (stratum less than 15, offset less than 100ms). Confirm the authentication key is configured and the NTP server is marked authenticated.</div>
+        <span class="cis-ref">CIS: Mgmt-plane "time synchronisation"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">7</div>
+        <div><div class="step-title">Configure centralised logging (syslog)</div>
+        <div class="step-objective">All security-relevant events forwarded to the central SIEM.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Configure syslog forwarding:</p>
+        <ul>
+          <li>Two or more syslog destinations (primary and secondary SIEM ingest endpoints)</li>
+          <li>Use TCP or TLS-encrypted syslog where the device and SIEM both support it; fall back to UDP only where neither does</li>
+          <li>Severity level: informational (level 6) minimum for security-relevant events; debug levels reserved for active troubleshooting only</li>
+          <li>Source-interface bound to the management interface where applicable</li>
+          <li>Events to include: all authentication events (success and failure), configuration changes, interface state changes, AAA events, link-flap on critical interfaces, hardware alarms</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Trigger a known event (failed login, configuration change). Confirm the event appears in the central SIEM within expected latency (typically less than 60 seconds). Confirm timestamps are correct and the source IP is the management interface.</div>
+        <span class="cis-ref">CIS: Mgmt-plane "centralised logging"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">8</div>
+        <div><div class="step-title">Console &amp; auxiliary port hardening</div>
+        <div class="step-objective">Physical access does not bypass the controls applied to remote management.</div></div>
+      </div>
+      <div class="step-body">
+        <p>For physical console and auxiliary ports:</p>
+        <ul>
+          <li>Console port is physically secured (locked rack, controlled access room)</li>
+          <li>Console login uses the AAA configuration, not a local-only authentication path</li>
+          <li>Console session timeout configured (same as remote management)</li>
+          <li>Auxiliary port disabled where not in use (modem ports, secondary serial); if required for OOB modem, secure with strong authentication and call-back where supported</li>
+          <li>Vendor-default debug interfaces (e.g. "service password-recovery" semantics) reviewed; where the platform allows disabling password-recovery, this is a design decision with operational implications — document accordingly</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Connect via console; confirm the AAA-mediated login flow (not a local fall-through). Confirm idle timeout terminates the console session. Confirm the auxiliary port is disabled or appropriately secured.</div>
+        <span class="cis-ref">CIS: Mgmt-plane "physical access"</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Validation -->
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <p>After applying all steps, validate the device against the management-plane requirements as a whole. This is more than the per-step verifications; it's a sanity check that the configuration as deployed actually delivers the intended baseline.</p>
+
+    <h3>Functional validation</h3>
+    <ul class="wi-bullet">
+      <li>Log in as a named administrator from the management network — should succeed</li>
+      <li>Attempt to log in from a non-management host — should be refused at the ACL or platform layer</li>
+      <li>Attempt SSHv1, Telnet, HTTP, SNMPv2 from anywhere — all should fail</li>
+      <li>Generate a configuration change and confirm it is logged to the central SIEM with the right timestamp and source IP</li>
+      <li>Generate a failed authentication and confirm it is logged to both AAA and SIEM</li>
+      <li>Leave the session idle past the configured timeout and confirm it terminates</li>
+      <li>Confirm NTP is synchronised (stratum &lt;15, offset &lt;100ms)</li>
+    </ul>
+
+    <h3>Configuration review</h3>
+    <table class="gt-table">
+      <thead><tr><th>Check</th><th>Expected result</th></tr></thead>
+      <tbody>
+        <tr><td>Telnet, HTTP, SNMPv1/v2, FTP, TFTP-for-config</td><td>All disabled</td></tr>
+        <tr><td>SSH version</td><td>v2 only</td></tr>
+        <tr><td>HTTPS TLS version</td><td>TLS 1.2 minimum; TLS 1.3 where supported</td></tr>
+        <tr><td>SNMPv3</td><td>authPriv with SHA-256 / AES-128 minimum</td></tr>
+        <tr><td>AAA configured</td><td>Primary + secondary AAA server reachable</td></tr>
+        <tr><td>Local accounts</td><td>One break-glass account only; vaulted</td></tr>
+        <tr><td>Management ACL</td><td>Restricts SSH/HTTPS/SNMP to management network</td></tr>
+        <tr><td>Idle timeout</td><td>≤15 min privileged, ≤30 min read-only</td></tr>
+        <tr><td>Login banner</td><td>Approved authorised-use banner present</td></tr>
+        <tr><td>NTP</td><td>≥2 servers, authentication enabled, synchronised</td></tr>
+        <tr><td>Syslog</td><td>≥2 destinations, TCP/TLS where supported, informational level</td></tr>
+        <tr><td>Console</td><td>AAA-mediated, idle timeout, physical security in place</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout-info"><strong>Document the verification.</strong> Capture the validation output (show running-config, show ntp status, syslog confirmation) and attach to the change record. This is the audit evidence; without it the baseline can be claimed but not proved.</div>
+  </div>
+
+  <!-- Rollback -->
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <p>If applying these changes causes loss of management access or unexpected operational impact, rollback is via the OOB console using the pre-change backup configuration.</p>
+
+    <h3>Common loss-of-access scenarios</h3>
+    <ul class="wi-bullet">
+      <li><strong>Locked out via SSH</strong> — most common cause: the management ACL was applied before the AAA configuration was complete, and the administrator's source IP is outside the allow-list. Recovery: via console, remove the ACL or add the source to it; complete AAA configuration; reapply ACL.</li>
+      <li><strong>AAA unreachable, local fallback failed</strong> — cause: AAA primary and secondary both unreachable, no break-glass account, or break-glass credentials lost. Recovery: console + password-recovery procedure (where the platform allows); if password-recovery is disabled, this becomes a vendor-support call. <strong>Always test break-glass before relying on it.</strong></li>
+      <li><strong>NTP not synchronising</strong> — cause: management ACL blocking NTP traffic, or NTP servers unreachable via the management path. Recovery: confirm NTP server reachability from the device; ensure NTP traffic is permitted in the management ACL.</li>
+      <li><strong>Syslog not arriving at SIEM</strong> — cause: ACL blocking outbound syslog, wrong destination address, severity threshold too high. Recovery: capture syslog packets at the device interface or via SPAN to confirm they are emitted; validate the SIEM ingest configuration.</li>
+      <li><strong>SSH negotiation failing</strong> — cause: cipher mismatch (client too old, or device too strict). Recovery: confirm client supports the configured ciphers; do not weaken the device's cipher list — instead upgrade the client.</li>
+    </ul>
+
+    <h3>Rollback procedure</h3>
+    <ol style="padding-left:18px;font-size:13px;line-height:1.7;color:#333;">
+      <li>Connect via OOB console</li>
+      <li>Verify the device is responsive and authentication path works (use break-glass if AAA is the failed component)</li>
+      <li>Compare running configuration to pre-change backup; identify the changes that caused the issue</li>
+      <li>Restore the relevant configuration from backup; do not perform a wholesale restore unless the entire change is to be reverted</li>
+      <li>Confirm management access is restored from the management network</li>
+      <li>Update the change record with the rollback action and the root-cause finding for post-incident review</li>
+    </ol>
+  </div>
+
+  <!-- Common errors -->
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <ul class="wi-bullet">
+      <li><strong>Don't apply the management ACL before AAA works.</strong> The ACL will silently lock you out if AAA is the path you also use to administer the device. Order: AAA first, validate from management network, then ACL.</li>
+      <li><strong>Always have working OOB.</strong> If you cannot reach a console or vendor-cloud OOB, do not start this WI on a production device.</li>
+      <li><strong>SNMP v3 user creation is fiddly.</strong> Each vendor handles the SNMPv3 user/group/view model slightly differently. Test from a known-good NMS before declaring complete.</li>
+      <li><strong>NTP synchronisation can lag.</strong> A newly-configured device may take 5–15 minutes to fully synchronise. Don't conclude NTP is broken on the first "show ntp status" check after configuration.</li>
+      <li><strong>Banner text formatting differs by vendor.</strong> Newline handling and delimiter characters vary; verify the banner displays correctly via SSH after configuration.</li>
+      <li><strong>HTTPS certificates need a CA-issued cert, not a self-signed one.</strong> Self-signed certificates create training problems (administrators learn to click through warnings) and don't meet the baseline.</li>
+      <li><strong>Don't disable password-recovery casually.</strong> Some vendors offer a "service password-recovery disable" option. This is a strong control, but if applied without considering the recovery process for a forgotten password or lost device, recovery becomes a hardware swap. Treat this as a design decision.</li>
+      <li><strong>Cloud-managed devices need a slightly different framing.</strong> Many of these controls map to vendor-cloud-portal settings rather than CLI configuration. Apply the equivalent setting; the requirement (e.g. "MFA on admin access") doesn't change.</li>
+    </ul>
+  </div>
+
+  <div class="wi-nav"><a href="it-net-sop-01.html">← IT-NET-SOP-01</a><a href="it-net-wi-02.html">IT-NET-WI-02: Control Plane →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-NET-WI-01 v1.0 · Live · 9 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-network-baselines.html" style="color:var(--wi);text-decoration:none;">← Back to Network Baselines</a></span>
+  </div>
+</div>
+</body>
+</html>
