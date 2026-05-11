@@ -128,9 +128,9 @@
     <div class="asm-section-title">Scope</div>
     <p>This domain covers three classes of security-infrastructure platform:</p>
     <ul class="asm-bullet">
-      <li><strong>Web Application Firewalls (WAFs)</strong> — both on-premises appliances (F5 ASM, Imperva, FortiWeb, Barracuda) and cloud-managed WAFs at the application or CDN tier (Azure Front Door / Application Gateway WAF, Cloudflare, AWS WAF). Cloud-WAF tenant-platform integration specifics defer to the future Cloud Baselines domain; the controls in this domain cover what every WAF must enforce regardless of where it runs.</li>
-      <li><strong>Load balancers and application delivery controllers</strong> — F5 LTM, Citrix ADC (NetScaler), HAProxy Enterprise, NGINX Plus, A10, AVI Networks, and equivalent. Includes both hardware appliances and virtual/software instances.</li>
-      <li><strong>Privileged Access Management (PAM) platforms</strong> — CyberArk PAM, BeyondTrust Privileged Remote Access / Password Safe, Delinea (Thycotic) Secret Server, HashiCorp Vault (as a credential broker), and equivalent. Includes the appliance-hardening layer; credential-vault and session-brokering policy detail defer to the future Identity domain SOP.</li>
+      <li><span><strong>Web Application Firewalls (WAFs)</strong> — both on-premises appliances (F5 ASM, Imperva, FortiWeb, Barracuda) and cloud-managed WAFs at the application or CDN tier (Azure Front Door / Application Gateway WAF, Cloudflare, AWS WAF). Cloud-WAF tenant-platform integration specifics defer to the future Cloud Baselines domain; the controls in this domain cover what every WAF must enforce regardless of where it runs.</span></li>
+      <li><span><strong>Load balancers and application delivery controllers</strong> — F5 LTM, Citrix ADC (NetScaler), HAProxy Enterprise, NGINX Plus, A10, AVI Networks, and equivalent. Includes both hardware appliances and virtual/software instances.</span></li>
+      <li><span><strong>Privileged Access Management (PAM) platforms</strong> — CyberArk PAM, BeyondTrust Privileged Remote Access / Password Safe, Delinea (Thycotic) Secret Server, HashiCorp Vault (as a credential broker), and equivalent. Includes the appliance-hardening layer; credential-vault and session-brokering policy detail defer to the future Identity domain SOP.</span></li>
     </ul>
     <p style="margin-top:10px;"><strong>Out of scope:</strong> Reverse proxies and API gateways (NGINX as RP, Kong, Apigee, Azure APIM, AWS API Gateway) — deferred to a future Application Delivery sub-domain. End-user devices, servers, and network devices — covered under their respective ASM domains. SaaS-hosted PAM or WAF where the vendor controls the security configuration entirely — these still appear in the Asset Register; the baseline applies to anything tenant-administered.</p>
   </div>
@@ -238,14 +238,14 @@
     <div class="asm-section-title">Metrics &amp; Oversight</div>
     <p>The following metrics measure adherence to this baseline. They are reviewed monthly by IT Operations and quarterly by GRC:</p>
     <ul class="asm-bullet">
-      <li><strong>Baseline conformance rate</strong> — percentage of in-scope WAFs, load balancers, and PAM platforms fully conformant to IT-SI-SOP-01. Target: ≥95% for Tier 0/1 assets; ≥85% for Tier 2/3.</li>
-      <li><strong>WAF coverage</strong> — percentage of in-scope public-facing web applications protected by a WAF in active blocking mode (not monitor-only). Target: 100% for Tier 0/1 applications; ≥80% for Tier 2.</li>
-      <li><strong>WAF rule-set currency</strong> — percentage of WAFs running current signature/rule-set versions (≤30 days behind vendor release). Target: ≥95%.</li>
-      <li><strong>TLS cipher conformance</strong> — percentage of load-balancer virtual servers exposing only approved cipher suites (TLS 1.2 minimum, modern AEAD ciphers). Target: 100% for internet-facing; ≥95% for internal.</li>
-      <li><strong>Certificate currency</strong> — percentage of in-scope certificates expiring within the next 30 days that have a renewal in progress. Target: 100%.</li>
-      <li><strong>PAM coverage</strong> — percentage of in-scope privileged accounts and credentials managed through PAM (not stored elsewhere). Target: ≥95% for Tier 0/1 systems; ≥85% for Tier 2/3.</li>
-      <li><strong>PAM session-recording completeness</strong> — percentage of privileged sessions in scope of recording that have an intact recording in the retention store. Target: ≥99%.</li>
-      <li><strong>Open exceptions</strong> — count of approved deviations from baseline in force. Reviewed annually for currency.</li>
+      <li><span><strong>Baseline conformance rate</strong> — percentage of in-scope WAFs, load balancers, and PAM platforms fully conformant to IT-SI-SOP-01. Target: ≥95% for Tier 0/1 assets; ≥85% for Tier 2/3.</span></li>
+      <li><span><strong>WAF coverage</strong> — percentage of in-scope public-facing web applications protected by a WAF in active blocking mode (not monitor-only). Target: 100% for Tier 0/1 applications; ≥80% for Tier 2.</span></li>
+      <li><span><strong>WAF rule-set currency</strong> — percentage of WAFs running current signature/rule-set versions (≤30 days behind vendor release). Target: ≥95%.</span></li>
+      <li><span><strong>TLS cipher conformance</strong> — percentage of load-balancer virtual servers exposing only approved cipher suites (TLS 1.2 minimum, modern AEAD ciphers). Target: 100% for internet-facing; ≥95% for internal.</span></li>
+      <li><span><strong>Certificate currency</strong> — percentage of in-scope certificates expiring within the next 30 days that have a renewal in progress. Target: 100%.</span></li>
+      <li><span><strong>PAM coverage</strong> — percentage of in-scope privileged accounts and credentials managed through PAM (not stored elsewhere). Target: ≥95% for Tier 0/1 systems; ≥85% for Tier 2/3.</span></li>
+      <li><span><strong>PAM session-recording completeness</strong> — percentage of privileged sessions in scope of recording that have an intact recording in the retention store. Target: ≥99%.</span></li>
+      <li><span><strong>Open exceptions</strong> — count of approved deviations from baseline in force. Reviewed annually for currency.</span></li>
     </ul>
   </div>
 
