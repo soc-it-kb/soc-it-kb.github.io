@@ -137,7 +137,7 @@
     <div class="sop-section-num">Section 1</div>
     <div class="sop-section-title">Purpose</div>
     <p>This SOP defines the minimum security baseline for security-infrastructure platforms: Web Application Firewalls (WAFs), load balancers and application delivery controllers, and Privileged Access Management (PAM) platforms. It establishes the controls every such platform must implement to be considered fit for production use, regardless of vendor, hosting model (on-premises, cloud-managed), or operating unit.</p>
-    <p>These platforms sit at three of the highest-value boundaries in the organisation's IT estate. A WAF protects web applications that often contain regulated or sensitive data; a load balancer terminates TLS for those same applications and is therefore in the cryptographic critical path; a PAM platform holds the credentials that grant administrative access to everything else. A weakness on any of them is uniquely impactful — and unlike network devices, which the network domain treats as a single conceptual class, these three platforms have distinct architectures and threat models that warrant device-type-specific guidance.</p>
+    <p>These platforms sit at three of the highest-value boundaries in the Institution's IT estate. A WAF protects web applications that often contain regulated or sensitive data; a load balancer terminates TLS for those same applications and is therefore in the cryptographic critical path; a PAM platform holds the credentials that grant administrative access to everything else. A weakness on any of them is uniquely impactful — and unlike network devices, which the network domain treats as a single conceptual class, these three platforms have distinct architectures and threat models that warrant device-type-specific guidance.</p>
     <p>This SOP is operationalised by four Work Instructions: one shared management-plane WI (IT-SI-WI-01) and three device-type-specific WIs (IT-SI-WI-02 WAF; IT-SI-WI-03 Load Balancer; IT-SI-WI-04 PAM). See §4 for the requirements summary and the linked WIs for execution detail.</p>
   </div>
 
@@ -149,7 +149,7 @@
       <li><strong>WAFs (Web Application Firewalls)</strong> — on-premises appliances (F5 ASM, Imperva, FortiWeb, Barracuda) and cloud-managed WAFs (Azure Front Door / Application Gateway WAF, Cloudflare, AWS WAF). Includes virtual appliance instances.</li>
       <li><strong>Load balancers and application delivery controllers (ADCs)</strong> — F5 LTM, Citrix ADC, HAProxy Enterprise, NGINX Plus, A10, AVI Networks, and equivalents. Includes hardware appliances, virtual instances, and software-only deployments.</li>
       <li><strong>PAM platforms</strong> — CyberArk PAM, BeyondTrust, Delinea (Thycotic), HashiCorp Vault (as a credential broker), and equivalents. Covers the appliance and platform hardening aspects.</li>
-      <li>Devices in production, pre-production, disaster-recovery, and any environment carrying organisational traffic or holding production credentials</li>
+      <li>Devices in production, pre-production, disaster-recovery, and any environment carrying Institutional traffic or holding production credentials</li>
       <li>Devices at any tier (Tier 0 / 1 / 2 / 3 per the existing tier model)</li>
     </ul>
     <h3>2.2 Out of scope</h3>
