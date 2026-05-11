@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SOPs — Cyber Security Knowledge Base</title>
 <link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
 <style>
   :root { --sop:#4A5568; --sop-light:#F0F2F5; --sop-border:#CBD5E0; }
   .kb-entry-list { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; overflow:hidden; }
@@ -17,7 +22,6 @@
   .kb-entry-date   { font-size:12px; color:#aaa; white-space:nowrap; }
   .kb-entry-author { font-size:12px; color:#888; white-space:nowrap; }
   .kb-entry-arrow  { color:#ccc; font-size:14px; }
-  .sop-badge-draft { font-size:11px; font-weight:600; padding:2px 7px; border-radius:8px; background:#FAEEDA; color:#854F0B; white-space:nowrap; }
   .sop-what-box { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1.75rem; }
   .sop-what-box p { font-size:14px; color:#555; line-height:1.7; margin-bottom:0; }
   .nist-box { background:var(--sop-light); border:0.5px solid var(--sop-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:1.75rem; }
@@ -28,15 +32,11 @@
   .stat-card { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
   .stat-num   { font-size:28px; font-weight:700; color:var(--sop); line-height:1; margin-bottom:4px; }
   .stat-label { font-size:12px; color:#888; }
+  .sub-group-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#888; padding:0.7rem 1.1rem 0.4rem 1.1rem; background:#fafafa; border-bottom:0.5px solid #f0f0ec; }
   @media(max-width:600px){ .kb-entry-author{display:none;} }
 </style>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta name="referrer" content="no-referrer">
 </head>
-<script src="download-utils.js"></script>
-<script src="lang-switcher.js"></script>
-</body>
+<body>
 <nav class="kb-topnav">
   <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
   <a href="index.html">Home</a>
@@ -48,85 +48,221 @@
   <a href="tools-references.html">Tools &amp; References</a>
   <a href="governance.html">Governance</a>
   <a href="grc.html">GRC</a>
-    <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
 </nav>
 <div class="page-wrapper">
 
   <div class="kb-page-hero" style="background:linear-gradient(135deg,#2D3748 0%,#4A5568 100%);">
     <span class="kb-page-hero-icon">📄</span>
     <h1>Standard Operating Procedures</h1>
-    <p>Cross-domain SOC operating procedures defining roles, responsibilities, process flows, and governance for each threat category. SOPs sit above Playbooks and Runbooks — they define the operating standards; Playbooks and Runbooks execute them.</p>
+    <p>Standard Operating Procedures across SOC, IT Operations &amp; Attack Surface Management, and Governance, Risk &amp; Compliance. SOPs sit above Playbooks and Runbooks in the documentation hierarchy — they define the operating standards; Playbooks and Runbooks execute them. Every domain SOP defines who does what, in what order, under what authority, and against which compliance framework.</p>
     <div class="kb-page-hero-meta">
       <span class="kb-meta-pill">Governance</span>
       <span class="kb-meta-pill">All tiers</span>
       <span class="kb-meta-pill">NIST CSF 2.0</span>
+      <span class="kb-meta-pill">ISO 27001:2022</span>
       <span class="kb-meta-pill">ISO 27035</span>
     </div>
   </div>
 
   <div class="stats-row">
-    <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">SOPs published</div></div>
-    <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">v1.0 </div></div>
-    <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Threat domain SOPs</div></div>
-    <div class="stat-card"><div class="stat-num">1</div><div class="stat-label">Governance SOP</div></div>
+    <div class="stat-card"><div class="stat-num">27</div><div class="stat-label">SOPs total</div></div>
+    <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">SOC</div></div>
+    <div class="stat-card"><div class="stat-num">17</div><div class="stat-label">ASM &amp; IT Ops</div></div>
+    <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">GRC</div></div>
   </div>
 
   <div class="sop-what-box">
-    <p>SOPs establish mandatory operating standards for the SOC — who does what, in what order, under what authority. They govern the execution of <a href="playbooks.html" style="color:var(--sop);">Playbooks</a> and <a href="runbooks.html" style="color:var(--sop);">Runbooks</a>, and define escalation, communication, and compliance obligations.</p>
+    <p>SOPs establish mandatory operating standards across the institution and its agencies — who does what, in what order, under what authority, and against which framework. They govern the execution of <a href="playbooks.html" style="color:var(--sop);">Playbooks</a> and <a href="runbooks.html" style="color:var(--sop);">Runbooks</a>, define escalation, communication, and compliance obligations, and provide the audit trail that demonstrates due diligence to internal and external scrutiny.</p>
   </div>
 
   <div class="nist-box">
     <div class="nist-box-title">🏛️ Compliance alignment</div>
     <div class="nist-pills">
+      <span class="nist-pill">NIST CSF 2.0 — Govern</span>
+      <span class="nist-pill">NIST CSF 2.0 — Identify</span>
+      <span class="nist-pill">NIST CSF 2.0 — Protect</span>
       <span class="nist-pill">NIST CSF 2.0 — Detect</span>
       <span class="nist-pill">NIST CSF 2.0 — Respond</span>
       <span class="nist-pill">NIST CSF 2.0 — Recover</span>
+      <span class="nist-pill">ISO 27001:2022</span>
       <span class="nist-pill">ISO 27035 — Incident Management</span>
-      <span class="nist-pill">ISO 27001 — Access Control</span>
+      <span class="nist-pill">CIS Benchmarks</span>
     </div>
   </div>
 
-  <!-- Threat domain SOPs -->
+  <!-- ============ SOC SOPs ============ -->
   <div class="kb-section">
-    <div class="kb-section-title">Threat domain SOPs</div>
-    <div class="kb-entry-list">
-      <a class="kb-entry" href="sop-em-01.html">
-        <span class="sop-code">SOP-EM-01</span>
-        <span class="kb-entry-name">Email Threat Operations</span>
-        <span class="kb-entry-meta"></span><span class="kb-entry-date">5 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
-      </a>
-      <a class="kb-entry" href="sop-id-01.html">
-        <span class="sop-code">SOP-ID-01</span>
-        <span class="kb-entry-name">Identity Threat Operations</span>
-        <span class="kb-entry-meta"></span><span class="kb-entry-date">24 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
-      </a>
-      <a class="kb-entry" href="sop-nw-01.html">
-        <span class="sop-code">SOP-NW-01</span>
-        <span class="kb-entry-name">Network Threat Operations</span>
-        <span class="kb-entry-meta"></span><span class="kb-entry-date">5 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
-      </a>
-      <a class="kb-entry" href="sop-ep-01.html">
-        <span class="sop-code">SOP-EP-01</span>
-        <span class="kb-entry-name">Endpoint Threat Operations</span>
-        <span class="kb-entry-meta"></span><span class="kb-entry-date">24 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
-      </a>
-    </div>
-  </div>
-
-  <!-- Governance SOPs -->
-  <div class="kb-section" style="margin-top:1.5rem;">
-    <div class="kb-section-title">Governance SOPs</div>
+    <div class="kb-section-title">SOC SOPs</div>
     <div class="kb-entry-list">
       <a class="kb-entry" href="sop-im-01.html">
         <span class="sop-code">SOP-IM-01</span>
-        <span class="kb-entry-name">Incident Severity Classification &amp; Escalation</span>
-        <span class="kb-entry-meta"></span><span class="kb-entry-date">2 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        <span class="kb-entry-name">Incident Management SOP — Severity Classification &amp; Escalation</span>
+        <span class="kb-entry-meta"><span class="kb-entry-date">2 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="sop-em-01.html">
+        <span class="sop-code">SOP-EM-01</span>
+        <span class="kb-entry-name">Email Threat Response SOP</span>
+        <span class="kb-entry-meta"><span class="kb-entry-date">5 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="sop-id-01.html">
+        <span class="sop-code">SOP-ID-01</span>
+        <span class="kb-entry-name">Identity Incident Response SOP</span>
+        <span class="kb-entry-meta"><span class="kb-entry-date">24 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="sop-nw-01.html">
+        <span class="sop-code">SOP-NW-01</span>
+        <span class="kb-entry-name">Network Security Incident SOP</span>
+        <span class="kb-entry-meta"><span class="kb-entry-date">5 Jan 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="sop-ep-01.html">
+        <span class="sop-code">SOP-EP-01</span>
+        <span class="kb-entry-name">Endpoint Incident Response SOP</span>
+        <span class="kb-entry-meta"><span class="kb-entry-date">24 Dec 2025</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ============ ASM &amp; IT Operations SOPs ============ -->
+  <div class="kb-section" style="margin-top:1.5rem;">
+    <div class="kb-section-title">ASM &amp; IT Operations SOPs</div>
+    <div class="kb-entry-list">
+
+      <div class="sub-group-label">IT Governance — Baseline lifecycle &amp; exception management</div>
+      <a class="kb-entry" href="it-gov-sop-01.html">
+        <span class="sop-code">IT-GOV-SOP-01</span>
+        <span class="kb-entry-name">Baseline Exception &amp; Risk Acceptance</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="it-gov-sop-02.html">
+        <span class="sop-code">IT-GOV-SOP-02</span>
+        <span class="kb-entry-name">Baseline Drift &amp; Periodic Validation</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+
+      <div class="sub-group-label">Endpoint hardening baselines</div>
+      <a class="kb-entry" href="it-ep-sop-win-01.html">
+        <span class="sop-code">IT-EP-SOP-Win-01</span>
+        <span class="kb-entry-name">Endpoint Security Baseline — Windows</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="it-ep-sop-paw-01.html">
+        <span class="sop-code">IT-EP-SOP-PAW-01</span>
+        <span class="kb-entry-name">Privileged Access Workstation — Windows</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+
+      <div class="sub-group-label">Server hardening baselines</div>
+      <a class="kb-entry" href="it-srv-sop-win-01.html">
+        <span class="sop-code">IT-SRV-SOP-Win-01</span>
+        <span class="kb-entry-name">Server Security Baseline — Windows</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="it-srv-sop-dc-01.html">
+        <span class="sop-code">IT-SRV-SOP-DC-01</span>
+        <span class="kb-entry-name">Domain Controller Hardening Addendum</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="it-srv-sop-lnx-01.html">
+        <span class="sop-code">IT-SRV-SOP-LNX-01</span>
+        <span class="kb-entry-name">Server Security Baseline — Linux</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="it-srv-sop-lnx-02.html">
+        <span class="sop-code">IT-SRV-SOP-LNX-02</span>
+        <span class="kb-entry-name">Linux Identity &amp; SSH Hardening Addendum</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+
+      <div class="sub-group-label">Network &amp; security infrastructure baselines</div>
+      <a class="kb-entry" href="it-net-sop-01.html">
+        <span class="sop-code">IT-NET-SOP-01</span>
+        <span class="kb-entry-name">Network Device Security Baseline</span>
+        <span class="kb-entry-meta"><span class="kb-entry-date">9 May 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="it-si-sop-01.html">
+        <span class="sop-code">IT-SI-SOP-01</span>
+        <span class="kb-entry-name">Security Infrastructure Baseline (WAF / LB / PAM)</span>
+        <span class="kb-entry-meta"><span class="kb-entry-date">11 May 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+
+      <div class="sub-group-label">Vulnerability management</div>
+      <a class="kb-entry" href="it-vm-sop-01.html">
+        <span class="sop-code">IT-VM-SOP-01</span>
+        <span class="kb-entry-name">Vulnerability Management — Process &amp; Procedures</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+
+      <div class="sub-group-label">Patch management</div>
+      <a class="kb-entry" href="it-pm-sop-01.html">
+        <span class="sop-code">IT-PM-SOP-01</span>
+        <span class="kb-entry-name">Patch Management — Core SOP</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="it-pm-sop-02.html">
+        <span class="sop-code">IT-PM-SOP-02</span>
+        <span class="kb-entry-name">Patch Management — Emergency / Zero-Day</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="it-pm-sop-03.html">
+        <span class="sop-code">IT-PM-SOP-03</span>
+        <span class="kb-entry-name">Patch Exception &amp; Risk Acceptance</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+
+      <div class="sub-group-label">Threat intelligence</div>
+      <a class="kb-entry" href="it-ti-sop-01.html">
+        <span class="sop-code">IT-TI-SOP-01</span>
+        <span class="kb-entry-name">Threat Intelligence Programme — Governance &amp; Lifecycle</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="it-ti-sop-02.html">
+        <span class="sop-code">IT-TI-SOP-02</span>
+        <span class="kb-entry-name">Indicator of Compromise (IOC) Management</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="it-ti-sop-03.html">
+        <span class="sop-code">IT-TI-SOP-03</span>
+        <span class="kb-entry-name">Threat Intelligence — Vulnerability &amp; Patch Prioritisation</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ============ GRC SOPs ============ -->
+  <div class="kb-section" style="margin-top:1.5rem;">
+    <div class="kb-section-title">GRC SOPs</div>
+    <div class="kb-entry-list">
+      <a class="kb-entry" href="grc-sop-01.html">
+        <span class="sop-code">GRC-SOP-01</span>
+        <span class="kb-entry-name">SaaS / Cloud Supplier Security Assessment Procedure</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="grc-sop-02.html">
+        <span class="sop-code">GRC-SOP-02</span>
+        <span class="kb-entry-name">On-Prem Application Support Supplier Assessment Procedure</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="grc-sop-03.html">
+        <span class="sop-code">GRC-SOP-03</span>
+        <span class="kb-entry-name">General Supplier Security Assessment Procedure</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="grc-sop-04.html">
+        <span class="sop-code">GRC-SOP-04</span>
+        <span class="kb-entry-name">Cyber &amp; IT Risk Management Procedure</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+      </a>
+      <a class="kb-entry" href="grc-sop-05.html">
+        <span class="sop-code">GRC-SOP-05</span>
+        <span class="kb-entry-name">Asset Management &amp; Naming Convention Standard</span>
+        <span class="kb-entry-meta"><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
       </a>
     </div>
   </div>
 
   <div class="kb-footer">
-    <span><span class="live-dot"></span>Last Updated · 6 May 2026 · Paulo Ferreira</span>
+    <span><span class="live-dot"></span>Last Updated · 11 May 2026 · Paulo Ferreira</span>
     <span><a href="index.html" style="color:var(--sop);text-decoration:none;">← Back to home</a></span>
   </div>
 
