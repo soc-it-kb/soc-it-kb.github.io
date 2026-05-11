@@ -229,13 +229,13 @@
       <div class="sev-card-5 sev-1">
         <div class="sev-card-5-header"><h4>🚨 Sev 1 — Crisis</h4><span class="sla-mini">Declare ≤ 30 min · Escalate ≤ 1 h · Exec brief ≤ 2 h</span></div>
         <div class="sev-card-5-body">
-          <p>Material disruption to organisation-wide services, suspected or confirmed Tier-0 compromise, sovereign or highly sensitive data exposure, ransom demand, or potential global media exposure. The Incident Commander is the CISO; war-room is opened.</p>
+          <p>Material disruption to Institution-wide services, suspected or confirmed Tier-0 compromise, sovereign or highly sensitive data exposure, ransom demand, or potential global media exposure. The Incident Commander is the CISO; war-room is opened.</p>
           <p><strong>SOC analyst examples:</strong></p>
           <ul class="ex-list">
             <li>Confirmed ransomware deployment across multiple business units with active encryption</li>
             <li>Domain Administrator account compromise with confirmed Tier-0 lateral movement</li>
             <li>External party publishes proof of exfiltrated sensitive data with verifiable samples</li>
-            <li>Threat actor delivers ransom demand referencing organisation-specific assets</li>
+            <li>Threat actor delivers ransom demand referencing Institution-specific assets</li>
           </ul>
           <div class="callout-warn"><strong>SOC actions for suspected Sev 1:</strong> Do not declare unilaterally. Propose to the SOC Manager who escalates to the CISO for confirmation. Open the bridge, assign a Recorder, do not take destructive actions, preserve forensic evidence.</div>
         </div>
@@ -313,7 +313,7 @@
       <tbody>
         <tr>
           <td><strong>Scope of impact</strong></td>
-          <td>Multiple users, multiple systems, multiple business units, or organisation-wide services affected</td>
+          <td>Multiple users, multiple systems, multiple business units, or Institution-wide services affected</td>
           <td>Single user, single host, single application, or contained to a defined small group</td>
         </tr>
         <tr>
@@ -343,7 +343,7 @@
     <p>Every alert flows through three decision gates before a severity tag is applied. The decisions and their rationale are recorded in the incident journal at the time they are taken.</p>
     <div class="flow-box">
       <div class="flow-step"><span class="flow-q">Gate 1</span><span class="flow-text"><strong>Is this an event of interest?</strong> Has security tooling, an employee, a partner, or an external party reported something that may be an incident? <span class="out-yes">Yes</span> → continue. <span class="out-no">No</span> → close as nominal event with reason recorded.</span></div>
-      <div class="flow-step"><span class="flow-q">Gate 2</span><span class="flow-text"><strong>Is this a confirmed incident?</strong> Has a security policy, acceptable-use policy, or standard practice been violated, with potential or actual adverse effect on the organisation? <span class="out-yes">Yes</span> → declare incident, continue to Gate 3. <span class="out-no">No</span> → close as event of interest with investigation summary.</span></div>
+      <div class="flow-step"><span class="flow-q">Gate 2</span><span class="flow-text"><strong>Is this a confirmed incident?</strong> Has a security policy, acceptable-use policy, or standard practice been violated, with potential or actual adverse effect on the Institution? <span class="out-yes">Yes</span> → declare incident, continue to Gate 3. <span class="out-no">No</span> → close as event of interest with investigation summary.</span></div>
       <div class="flow-step"><span class="flow-q">Gate 3</span><span class="flow-text"><strong>What severity tier?</strong> Apply the criteria in §5 against the qualitative descriptors in §4. Propose a tier; the appropriate authority (per §7) confirms it.</span></div>
     </div>
     <p style="margin-top:12px;font-size:13px;color:#666;">For the broader 7-phase incident lifecycle (Prepare → Detect → Contain → Eradicate → Recover → Report → Remediate), see <a href="grc-irp-01.html#s6" style="color:var(--sop);font-weight:600;">GRC-IRP-01 §6</a>.</p>
@@ -371,7 +371,7 @@
   <div class="sop-section">
     <div class="sop-section-num">Section 8</div>
     <div class="sop-section-title">Roles &amp; Responsibilities</div>
-    <p>The roles below cover SOC operational responsibilities for incident severity classification and escalation. The full two-layer role model (organisational roles plus response roles activated during an active incident) is in <a href="grc-irp-01.html#s4" style="color:var(--sop);font-weight:600;">GRC-IRP-01 §4</a>.</p>
+    <p>The roles below cover SOC operational responsibilities for incident severity classification and escalation. The full two-layer role model (Institutional roles plus response roles activated during an active incident) is in <a href="grc-irp-01.html#s4" style="color:var(--sop);font-weight:600;">GRC-IRP-01 §4</a>.</p>
     <table class="sop-roles">
       <thead><tr><th>Role</th><th>Responsibilities</th></tr></thead>
       <tbody>
@@ -381,7 +381,6 @@
         <tr><td>SOC Lead</td><td>Programme oversight, governance of this SOP, post-incident review, audit liaison. Reviews Sev 3+ trends weekly; reviews Sev 4 trends monthly; reviews Sev 5 aggregate weekly.</td></tr>
       </tbody>
     </table>
-    <div class="callout-info"><strong>Terminology note.</strong> Earlier SOC documentation referred to "Incident Manager" or "IR Lead". Both terms are now superseded by <strong>Incident Commander</strong> across the IRP, this SOP, and the four sibling SOPs (SOP-EM/EP/ID/NW-01). The role definition is unchanged; only the name is aligned.</div>
   </div>
 
   <!-- Section 9 — Escalation rules -->
@@ -412,7 +411,7 @@
       <div class="trig-item"><span><strong>Ransom demand received</strong> — notify CISO, CIO, CEO, Legal, Cyber Insurer within 1 h. Preserve the demand exactly; do not respond.</span></div>
       <div class="trig-item"><span><strong>Compromise of leadership or board accounts</strong> — notify CISO, CIO, Legal within 30 min.</span></div>
       <div class="trig-item"><span><strong>Critical-data integrity or availability impact</strong> — notify BC/DR team, IT Operations, business service owners within 1 h.</span></div>
-      <div class="trig-item"><span><strong>Material organisational impact suspected</strong> — notify Legal, CFO, executive leadership within 1 h.</span></div>
+      <div class="trig-item"><span><strong>Material Institutional impact suspected</strong> — notify Legal, CFO, executive leadership within 1 h.</span></div>
       <div class="trig-item"><span><strong>Regulator-notifiable breach suspected</strong> — engage Privacy/DPO and Legal to start the regulator clock per local annex.</span></div>
       <div class="trig-item"><span><strong>Law-enforcement engagement under consideration</strong> — engage Legal first; LE engagement only with Legal sign-off.</span></div>
       <div class="trig-item"><span><strong>Media enquiry or social-media exposure</strong> — notify PR, Legal, CISO within 30 min of receipt.</span></div>
