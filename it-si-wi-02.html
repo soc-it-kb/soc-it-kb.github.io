@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-SI-WI-02: WAF Hardening — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --wi:#8B4A0E; --wi-light:#FEF0E6; --wi-border:#F5C89A; --wi-dark:#5C3008; --asm:#5B2D8E; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .wi-section { background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:8px; }
+  .wi-section-title { font-size:15px; font-weight:600; color:#1a1a1a; margin-bottom:0.7rem; padding-bottom:6px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0 0 8px 0; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-section h3 { font-size:13px; font-weight:600; color:var(--wi-dark); margin:12px 0 5px 0; }
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:6px; padding-left:0; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:#333; line-height:1.55; }
+  .wi-bullet li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:6px; }
+  .step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.1rem; margin-top:8px; }
+  .step-header { display:flex; align-items:center; gap:10px; margin-bottom:7px; padding-bottom:5px; border-bottom:0.5px solid #f0f0ec; }
+  .step-num { width:24px; height:24px; border-radius:6px; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-title { font-size:13px; font-weight:700; color:var(--wi-dark); }
+  .step-objective { font-size:12px; color:#666; font-style:italic; margin-top:2px; line-height:1.5; }
+  .step-body { font-size:13px; color:#333; line-height:1.6; }
+  .step-body p { margin:6px 0; }
+  .step-body p:first-child { margin-top:0; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body strong { color:var(--wi-dark); }
+  .step-body ul { list-style:none; padding:0; margin:6px 0; display:flex; flex-direction:column; gap:3px; }
+  .step-body ul li { display:flex; gap:7px; font-size:12px; color:#444; line-height:1.5; padding-left:2px; }
+  .step-body ul li::before { content:'\203A'; color:var(--wi); font-weight:700; flex-shrink:0; }
+  .step-verify { background:#fff; border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:6px; padding:0.5rem 0.8rem; margin-top:8px; font-size:12px; color:#444; line-height:1.55; }
+  .step-verify strong { color:var(--wi-dark); }
+  .cis-ref { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--wi); background:var(--wi-light); border:0.5px solid var(--wi-border); padding:1px 7px; border-radius:4px; font-weight:600; margin-top:5px; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:var(--wi-dark); line-height:1.55; margin-top:10px; }
+  .callout-info strong { color:var(--wi-dark); font-weight:700; }
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#7a2e10; line-height:1.55; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--wi-dark); color:#fff; font-weight:600; padding:7px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--wi-dark); white-space:nowrap; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>&rsaquo;</span>
+    <a href="asm.html">ASM</a><span>&rsaquo;</span>
+    <a href="asm-security-infrastructure-baselines.html">Security Infrastructure</a><span>&rsaquo;</span>
+    <span>IT-SI-WI-02</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#3D1F05 0%,#5C3008 40%,#8B4A0E 100%);">
+    <span class="kb-page-hero-icon">🌐</span>
+    <h1>IT-SI-WI-02: WAF Hardening</h1>
+    <p>Vendor-agnostic implementation guidance for hardening Web Application Firewalls: rule-set selection, monitor-then-block progression, OWASP Top 10 / CRS coverage, false-positive management, TLS termination, bot management. Operationalises &sect;4.2 of IT-SI-SOP-01.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Security Infrastructure</span>
+      <span class="kb-meta-pill">Vendor-agnostic</span>
+      <span class="kb-meta-pill">CIS / OWASP / NIST derived</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">📋 <strong>WI ID:</strong> IT-SI-WI-02</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">🔗 <strong>Implements:</strong> <a href="it-si-sop-01.html" style="color:var(--wi);">IT-SI-SOP-01 §4.2</a></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Owner:</strong> Network Engineering / IAE</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 11 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <p>Before applying this WI:</p>
+    <ul class="wi-bullet">
+      <li>WI-01 management-plane hardening complete on the WAF</li>
+      <li>Application inventory available: which applications the WAF protects, with each application's owner, criticality tier, public-facing or internal classification, technology stack (helps tune)</li>
+      <li>Application teams identified and committed to triaging false positives within agreed SLA — without this, the WAF either stays in monitor mode or loses operational support</li>
+      <li>The current OWASP Top 10 edition and (if applicable) the current OWASP CRS version are known</li>
+      <li>Baseline traffic profile available for at least one of the protected applications (peak request rate, typical request body sizes, common user-agents) so tuning is grounded in reality</li>
+      <li>Change window approved per WI-01 §10</li>
+    </ul>
+    <div class="callout-warn"><strong>Without application-team commitment, a WAF never reaches active blocking.</strong> The hardest part of WAF deployment is not technical; it is the operational discipline of false-positive triage. Confirm app-team buy-in before deploying in blocking mode; without it, the WAF will live in monitor-only for years and provide no real protection.</div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <p>The steps below cover the WAF-specific controls required by IT-SI-SOP-01 &sect;4.2. They assume WI-01 management-plane hardening is in place.</p>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div>
+        <div><div class="step-title">Inventory protected applications and assign WAF policy ownership</div>
+        <div class="step-objective">No application is silently protected or silently unprotected; every WAF policy has an owner.</div></div>
+      </div>
+      <div class="step-body">
+        <p>For each application behind the WAF:</p>
+        <ul>
+          <li>Application name, owner (named individual or team), criticality tier (T0/T1/T2/T3), public-facing or internal</li>
+          <li>Hosting model: on-premises, IaaS, PaaS, SaaS frontend</li>
+          <li>Authentication mechanism (SAML, OIDC, basic, none); the WAF needs to treat authentication endpoints differently</li>
+          <li>Known technology stack (e.g. Java/Spring, .NET, Node.js, PHP/WordPress) — informs which signatures matter most</li>
+          <li>Assigned WAF policy ID, current mode (monitor / block), policy version, last review date</li>
+        </ul>
+        <p>This inventory is the master list against which conformance is measured. It should live in (or link to) GRC-REG-ASSET; the WAF policy ID is the cross-reference.</p>
+        <div class="step-verify"><strong>Verify.</strong> Pull the application inventory; cross-check against the WAF's list of configured policies. Every application has a policy; every policy has an application. Orphans get investigated.</div>
+        <span class="cis-ref">WAF policy: "inventory and ownership"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div>
+        <div><div class="step-title">Select the rule set: OWASP Top 10 coverage + OWASP CRS where supported</div>
+        <div class="step-objective">Baseline signature coverage that addresses the documented common attack patterns.</div></div>
+      </div>
+      <div class="step-body">
+        <p>For each WAF policy, select rule-set coverage:</p>
+        <ul>
+          <li><strong>OWASP Top 10 coverage</strong> is the baseline; every WAF policy must cover the current Top 10 categories. Map vendor signature groups to Top 10 categories so coverage is auditable.</li>
+          <li><strong>OWASP CRS</strong> (Core Rule Set) where the WAF supports it — ModSecurity-derived signatures usable across many platforms. Deploy at <strong>paranoia level 2</strong> minimum after tuning; paranoia 3 for high-sensitivity applications (financial, health, identity). Paranoia 1 is a starting point only — leaving it there is insufficient.</li>
+          <li><strong>Vendor-specific signature engines</strong> (F5 ASM signatures, FortiWeb signatures, Cloudflare Managed Rules, Azure WAF Managed Rule Set) — enable on top of OWASP coverage</li>
+          <li><strong>Geo-IP rules</strong> as a complement, not as primary defence; never rely on geo-IP alone</li>
+          <li><strong>Application-specific signature groups</strong> where the vendor provides them (e.g. "WordPress signatures", "SharePoint signatures") — enable for the relevant applications only</li>
+        </ul>
+        <p>Document the chosen rule set, paranoia level, and exclusions per application policy.</p>
+        <div class="step-verify"><strong>Verify.</strong> For each policy, the configured rules include explicit OWASP Top 10 coverage. Run a deliberate test attack pattern (e.g. an obvious SQL injection string against a non-production endpoint of the application); confirm the WAF logs the event (in monitor mode) or blocks it (in block mode).</div>
+        <span class="cis-ref">WAF: "rule-set selection"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div>
+        <div><div class="step-title">Deploy in monitor mode, tune, transition to blocking — within 90 days for Tier 0/1</div>
+        <div class="step-objective">Manage the false-positive curve so the WAF reaches active blocking without breaking the application.</div></div>
+      </div>
+      <div class="step-body">
+        <p>The deployment progression:</p>
+        <ul>
+          <li><strong>Day 0&ndash;14: monitor mode.</strong> WAF logs what it would block; application traffic unaffected. Engineering and app team review logs daily.</li>
+          <li><strong>Day 14&ndash;45: tuning.</strong> Identify false positives in the monitor logs; build exclusions per legitimate traffic pattern. Tune signatures (raise threshold, exclude specific parameters from specific signatures, allowlist known administrators or partners). <strong>Tune by exclusion of false positives, not by disabling entire rule groups.</strong></li>
+          <li><strong>Day 45&ndash;75: dual-mode.</strong> WAF in transactional-block mode (block highest-confidence signatures, monitor lower-confidence) or canary blocking (block for a percentage of traffic). Watch the application closely.</li>
+          <li><strong>Day 75&ndash;90: full block.</strong> WAF in active blocking mode for the full rule set as tuned. Confirm no application functionality lost; final exclusion list documented.</li>
+        </ul>
+        <p>For Tier 0 and Tier 1 applications, this progression completes within 90 days of WAF deployment. Tier 2/3 applications have more flexibility but still aim for blocking within 6 months. <strong>Monitor-only is a transition state, not a permanent posture.</strong></p>
+        <div class="step-verify"><strong>Verify.</strong> WAF policy mode is "block" for each in-scope policy after the timeline. The exclusion list per policy is documented and reviewed. False-positive triage backlog is within SLA.</div>
+        <span class="cis-ref">WAF: "monitor-then-block transition"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div>
+        <div><div class="step-title">False-positive triage workflow with documented SLA</div>
+        <div class="step-objective">False positives are investigated and resolved promptly; the WAF policy stays current with application changes.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Operate the FP workflow:</p>
+        <ul>
+          <li><strong>Detection.</strong> WAF logs feed the SIEM; alerts on block events for legitimate-looking traffic; user-reported issues come in via service desk</li>
+          <li><strong>Triage SLA.</strong> ≤5 working days for Tier 0/1 application alerts; ≤10 working days for Tier 2/3. Track time-to-resolution per FP, not just per ticket.</li>
+          <li><strong>Resolution patterns</strong>:
+            <ul style="margin-top:4px;">
+              <li><strong>Application-side fix</strong> — application changes input handling to not look attacker-like</li>
+              <li><strong>WAF exclusion</strong> — specific parameter on specific path excluded from specific signature (narrow exclusion, never global)</li>
+              <li><strong>Signature tuning</strong> — threshold raised because the signature is too sensitive for this application's legitimate traffic</li>
+              <li><strong>Allowlist</strong> — specific trusted source allowed to bypass specific rules (used sparingly)</li>
+            </ul>
+          </li>
+          <li><strong>Avoid pitfall:</strong> "disable rule for this app" is the easy answer that erodes coverage; force triage to the narrowest viable resolution</li>
+          <li><strong>Quarterly review</strong> — review accumulated exclusions; are any no longer needed? Are application changes invalidating them?</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> FP triage queue current; oldest open item within SLA. Quarterly exclusion-review evidence in the change log.</div>
+        <span class="cis-ref">WAF: "false-positive management"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div>
+        <div><div class="step-title">Signature and rule-set update cadence</div>
+        <div class="step-objective">WAF coverage stays current with the vendor's threat intelligence and the wider community ruleset.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Update discipline:</p>
+        <ul>
+          <li><strong>Routine updates</strong> applied within 30 days of vendor release — include in standard change cadence</li>
+          <li><strong>Emergency signatures</strong> (active exploitation, named CVE coverage) applied within 7 days; for severe (e.g. RCE in a widely-deployed framework), apply within 24 hours via emergency change</li>
+          <li><strong>OWASP CRS</strong> minor versions tracked and adopted within 90 days of release; major versions tracked with a documented adoption plan (a CRS major version may include breaking changes that need re-tuning)</li>
+          <li><strong>Vendor PSIRT subscription</strong> — subscribe to the WAF vendor's security advisory feed; track separately from product release notes</li>
+          <li><strong>Update testing</strong> — for Tier 0/1 applications, signature updates pass through a canary policy (one application or one environment first) before broad rollout</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Show signature version per policy; cross-check against vendor's current release. Confirm subscription to PSIRT feed. Sample recent updates; each has a change record and verification step.</div>
+        <span class="cis-ref">WAF: "signature currency"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">6</div>
+        <div><div class="step-title">TLS termination policy and back-end re-encryption</div>
+        <div class="step-objective">TLS at the WAF tier uses approved cipher suites; back-end re-encryption for sensitive applications.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Where the WAF terminates TLS (most deployments):</p>
+        <ul>
+          <li>TLS 1.2 minimum, TLS 1.3 where supported; TLS 1.0/1.1 disabled</li>
+          <li>Cipher suites limited to AEAD ciphers (AES-GCM, ChaCha20-Poly1305); ephemeral key exchange (ECDHE) required; CBC-mode and RC4 disabled</li>
+          <li>Server certificate from organisation CA or public CA per the application's needs; tracked in central certificate inventory</li>
+          <li>HSTS enabled on public-facing applications with documented max-age</li>
+          <li><strong>Back-end re-encryption</strong> — for Tier 0/1 applications, the WAF re-encrypts before forwarding to the application server. Cleartext between WAF and application is not permitted for these tiers (the WAF can decrypt for inspection, but the wire from WAF to application server is TLS).</li>
+          <li>For Tier 2/3 applications, cleartext back-end may be acceptable where the WAF-to-application path is within a trusted segment with documented compensating controls</li>
+        </ul>
+        <p>Cross-reference: TLS configuration details (cipher selection, OCSP stapling, certificate chain) live in WI-03 (Load Balancer) where they overlap; this step is about the WAF-specific aspects.</p>
+        <div class="step-verify"><strong>Verify.</strong> Run testssl.sh or SSL Labs against the WAF's TLS endpoint; result is A or better (no protocol downgrades, no weak ciphers). For Tier 0/1 applications, confirm back-end traffic is TLS (e.g. tcpdump on the back-end network shows TLS handshake).</div>
+        <span class="cis-ref">WAF: "TLS termination"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">7</div>
+        <div><div class="step-title">Bot management and rate limiting on public-facing applications</div>
+        <div class="step-objective">Defend against automated abuse: credential stuffing, scraping, denial of service.</div></div>
+      </div>
+      <div class="step-body">
+        <p>For public-facing applications:</p>
+        <ul>
+          <li><strong>Bot detection</strong> where the WAF supports it — JavaScript challenge, behavioural analysis, known-bot signature database, CAPTCHA for high-risk endpoints</li>
+          <li><strong>Rate limiting</strong> — per source IP, per session, per endpoint. Authentication endpoints get tighter limits (typically 5&ndash;10 attempts per source per minute before challenge or block)</li>
+          <li><strong>Brute-force protection</strong> — explicit detection on login endpoints with progressive response (challenge → block source for X minutes → permanent block on repeated abuse)</li>
+          <li><strong>API rate limiting</strong> for any API endpoints (often missed; APIs are typically more abuse-prone than user-facing pages)</li>
+          <li><strong>Allowlists</strong> for known automation (monitoring, partner integrations) so legitimate automated traffic isn't blocked — these allowlists are time-bounded and reviewed</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Simulate a brute-force pattern against a non-production login endpoint; confirm the WAF challenges or blocks after threshold. Confirm legitimate automation (a known monitoring source) is not blocked.</div>
+        <span class="cis-ref">WAF: "bot management / rate limiting"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">8</div>
+        <div><div class="step-title">Application allowlist or learning (where supported)</div>
+        <div class="step-objective">Move from signature-based negative-only model toward a positive security model for high-sensitivity applications.</div></div>
+      </div>
+      <div class="step-body">
+        <p>For Tier 0 applications and high-sensitivity Tier 1 applications, where the WAF supports learning or positive-model policies:</p>
+        <ul>
+          <li>Enable application learning to build a profile of legitimate URLs, parameters, expected types and ranges</li>
+          <li>Curate the learned profile (review, accept, reject suggestions) — automatic-accept of learning is dangerous</li>
+          <li>Promote curated profiles to enforce: requests matching the learned profile pass; deviations are flagged or blocked</li>
+          <li>Re-learn after major application releases or when traffic patterns change significantly</li>
+        </ul>
+        <p>Application-level learning is high-value but high-effort. Reserve for genuinely high-sensitivity applications where signature-based defence alone is insufficient.</p>
+        <div class="step-verify"><strong>Verify.</strong> For applications under learning/positive-model: profile is documented; promotion to enforce reviewed; deviation alerts active.</div>
+        <span class="cis-ref">WAF: "application allowlist / learning"</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <p>After applying these steps, verify the WAF as a whole. Validation includes both technical checks and operational ones (the FP workflow has to actually be running, not just documented).</p>
+
+    <h3>Functional validation</h3>
+    <ul class="wi-bullet">
+      <li>Every protected application has a documented WAF policy with current owner</li>
+      <li>Tier 0/1 applications in active blocking mode; transitioned within 90-day target</li>
+      <li>OWASP Top 10 coverage verified per policy; deliberate test attacks logged or blocked</li>
+      <li>Signature versions current (≤30 days behind vendor release)</li>
+      <li>TLS configuration scores A or better via testssl.sh or SSL Labs</li>
+      <li>Back-end re-encryption verified for Tier 0/1 applications</li>
+      <li>Bot/rate-limit controls effective on a simulated brute-force test</li>
+      <li>FP triage queue within SLA; quarterly exclusion review in evidence</li>
+    </ul>
+
+    <h3>Configuration review</h3>
+    <table class="gt-table">
+      <thead><tr><th>Check</th><th>Expected result</th></tr></thead>
+      <tbody>
+        <tr><td>Application inventory ↔ policy</td><td>1:1 mapping, no orphans</td></tr>
+        <tr><td>OWASP Top 10 coverage</td><td>Documented per policy</td></tr>
+        <tr><td>OWASP CRS paranoia (if used)</td><td>Level 2 minimum; level 3 for high-sensitivity</td></tr>
+        <tr><td>Tier 0/1 applications</td><td>Active blocking within 90 days</td></tr>
+        <tr><td>FP triage SLA</td><td>≤5 working days T0/T1; ≤10 days T2/T3</td></tr>
+        <tr><td>Signature update cadence</td><td>≤30 days routine; ≤7 days emergency</td></tr>
+        <tr><td>TLS scan score</td><td>A or better</td></tr>
+        <tr><td>Back-end re-encryption</td><td>In place for T0/T1</td></tr>
+        <tr><td>Bot &amp; rate-limit on public apps</td><td>Active; brute-force test triggers protection</td></tr>
+        <tr><td>WAF event flow to SIEM</td><td>Rule ID, request metadata, source IP captured</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <p>WAF rollback approaches depend on which step caused the problem.</p>
+
+    <h3>Common scenarios</h3>
+    <ul class="wi-bullet">
+      <li><strong>Application broken after transition to blocking mode</strong> &mdash; cause: a signature blocks legitimate traffic that wasn't seen during monitor-mode tuning (rare path, occasional user). Fix: identify the blocking rule from WAF logs; add a targeted exclusion (narrowest scope); restore application; investigate root cause for permanent fix.</li>
+      <li><strong>Mass false positives after signature update</strong> &mdash; cause: vendor update changed signature behaviour. Fix: roll back to the previous signature version; engage vendor TAC; do not stay reverted indefinitely &mdash; address with vendor and re-update.</li>
+      <li><strong>WAF in blocking mode blocking legitimate API client</strong> &mdash; cause: API client uses request patterns that trigger generic signatures (e.g. tools that put JSON in URL parameters). Fix: targeted exclusion for the client's source + API path + specific rule.</li>
+      <li><strong>OWASP CRS paranoia bump caused widespread FP</strong> &mdash; cause: paranoia 3 is too aggressive for this application's traffic. Fix: revert to paranoia 2 with documented justification; raise again with application changes.</li>
+      <li><strong>TLS scan dropped below A grade</strong> &mdash; cause: a recent change re-enabled a deprecated cipher or protocol. Fix: re-tighten cipher policy; verify with rescan.</li>
+      <li><strong>Bot challenge breaking legitimate users</strong> &mdash; cause: JavaScript challenge unsupported in some legitimate user-agent contexts (older mobile browsers, screen readers). Fix: refine the challenge population; offer accessible-friendly alternatives.</li>
+      <li><strong>Learning profile incorrectly accepting attack-like traffic</strong> &mdash; cause: learning was run with an application bug present that exposed unusual parameters. Fix: discard the learned profile; relearn after the application is in a known-good state.</li>
+    </ul>
+
+    <h3>Rollback procedure</h3>
+    <ol style="padding-left:18px;font-size:13px;line-height:1.7;color:#333;">
+      <li>Switch the affected policy to monitor-only (immediate operational relief; protection is now alert-only but available)</li>
+      <li>Identify the specific signature or rule causing the issue from WAF logs</li>
+      <li>Apply a targeted exclusion or revert the specific change</li>
+      <li>Return policy to blocking; verify application functional</li>
+      <li>Update change record; document the root cause for prevention</li>
+    </ol>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <ul class="wi-bullet">
+      <li><strong>Don't disable rule groups to fix false positives.</strong> The right fix is a narrow exclusion (this parameter, this path, this signature). Disabling rule groups erodes coverage and accumulates technical debt.</li>
+      <li><strong>Monitor-only forever is a baseline violation.</strong> A WAF in monitor mode for 18 months provides no protection. Transition to blocking on schedule, even if it means smaller scope.</li>
+      <li><strong>FP triage without an SLA is FP triage that doesn't happen.</strong> The 5-working-day target for Tier 0/1 is what makes the workflow real.</li>
+      <li><strong>OWASP CRS at paranoia 1 is a starting point, not a destination.</strong> Paranoia 1 misses well-known attack patterns; if you stop at 1, you'd have been better off without the WAF.</li>
+      <li><strong>Application allowlists are not free.</strong> Every allowlist is a hole in WAF coverage; review them periodically; remove ones that no longer serve their purpose.</li>
+      <li><strong>Don't TLS-terminate in cleartext to the back-end for Tier 0 apps.</strong> Even on a trusted segment. The cost of re-encryption is small; the value of end-to-end TLS is large.</li>
+      <li><strong>Bot challenges have accessibility implications.</strong> Some users will hit them legitimately and need a path through; accessibility-friendly alternatives matter both ethically and legally.</li>
+      <li><strong>Vendor emergency signatures aren't always reliable.</strong> Some emergency signatures cause more harm than good (false positives on critical traffic). For Tier 0/1, canary the emergency signature in monitor mode first if you have a few hours; for active exploitation under attack, accept the risk and deploy in blocking.</li>
+      <li><strong>Cloud WAFs have different controls.</strong> Azure Front Door WAF, AWS WAF, Cloudflare each implement these requirements via their own console settings; the requirements don't change but the mechanism does. The future Cloud Baselines domain will cover the platform-integration aspects.</li>
+    </ul>
+  </div>
+
+  <div class="wi-nav"><a href="it-si-wi-01.html">&larr; IT-SI-WI-01: Common Mgmt</a><a href="it-si-wi-03.html">IT-SI-WI-03: Load Balancer &rarr;</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-SI-WI-02 v1.0 · Live · 11 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-security-infrastructure-baselines.html" style="color:var(--wi);text-decoration:none;">&larr; Back to Security Infrastructure</a></span>
+  </div>
+</div>
+</body>
+</html>

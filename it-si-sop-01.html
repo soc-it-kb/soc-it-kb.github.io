@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-SI-SOP-01: Security Infrastructure Baseline — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --asm:#5B2D8E; --asm-light:#F2EBF9; --asm-border:#C7B3DD; --asm-dark:#3A1A5C; }
+  .sop-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .sop-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .sop-meta-item strong { color:#1a1a1a; }
+  .sop-meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+
+  .sop-section { background:#fff; border:0.5px solid var(--asm-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .sop-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--asm); margin-bottom:4px; }
+  .sop-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .sop-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .sop-section p:last-child { margin-bottom:0; }
+  .sop-section h3 { font-size:14px; font-weight:600; color:var(--asm-dark); margin:14px 0 6px 0; }
+
+  .sop-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .sop-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .sop-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--asm); flex-shrink:0; margin-top:5px; }
+
+  .req-domain { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.2rem; margin-top:8px; }
+  .req-domain-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; padding-bottom:6px; border-bottom:0.5px solid var(--asm-border); }
+  .req-icon { width:32px; height:32px; border-radius:8px; background:var(--asm-light); color:var(--asm); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+  .req-domain-header h4 { font-size:13px; font-weight:700; color:var(--asm-dark); margin:0; }
+  .req-domain-header .wi-link { margin-left:auto; font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; color:var(--asm); text-decoration:none; background:var(--asm-light); padding:3px 9px; border-radius:5px; border:0.5px solid var(--asm-border); }
+  .req-domain-header .wi-link:hover { background:var(--asm); color:#fff; }
+  .req-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:4px; }
+  .req-list li { display:flex; gap:8px; font-size:13px; color:#333; line-height:1.55; padding:3px 0; }
+  .req-list li::before { content:'✓'; color:var(--asm); font-weight:700; flex-shrink:0; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--asm-dark); color:#fff; font-weight:600; padding:8px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:8px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--asm-dark); white-space:nowrap; }
+  .gt-table td.code { font-family:'SF Mono','Fira Code',monospace; font-size:12px; color:var(--asm); white-space:nowrap; font-weight:600; }
+
+  .roles-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .role-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.85rem 1rem; }
+  .role-card h4 { font-size:12px; font-weight:700; color:var(--asm); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; }
+  .role-card p  { font-size:13px; color:#444; line-height:1.5; margin:0; }
+  @media(max-width:640px){ .roles-grid{grid-template-columns:1fr;} }
+
+  .callout-info { background:var(--asm-light); border:0.5px solid var(--asm-border); border-left:3px solid var(--asm); border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:var(--asm-dark); line-height:1.55; margin-top:10px; }
+  .callout-info strong { color:var(--asm-dark); font-weight:700; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #d97706; border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:#5a330a; line-height:1.55; margin-top:10px; }
+  .callout-warn strong { color:#3d260a; }
+
+  .toc-box { background:#fafafa; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
+  .toc-title { font-size:11px; font-weight:700; color:var(--asm); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+  .toc-list { display:grid; grid-template-columns:1fr 1fr; gap:4px 16px; font-size:13px; }
+  .toc-list a { color:#444; text-decoration:none; padding:2px 0; display:flex; align-items:baseline; gap:8px; }
+  .toc-list a:hover { color:var(--asm); }
+  .toc-list a span { color:var(--asm); font-weight:600; font-family:'SF Mono','Fira Code',monospace; font-size:12px; min-width:24px; }
+  @media(max-width:640px){ .toc-list{grid-template-columns:1fr;} }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--asm); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .sop-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .sop-nav a { font-size:13px; color:var(--asm); text-decoration:none; }
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-security-infrastructure-baselines.html">Security Infrastructure Baselines</a><span>›</span>
+    <span>IT-SI-SOP-01</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A0A30 0%,#3A1A5C 40%,#5B2D8E 100%);">
+    <span class="kb-page-hero-icon">🛡️</span>
+    <h1>IT-SI-SOP-01: Security Infrastructure Baseline</h1>
+    <p>The authoritative policy-level baseline for Web Application Firewalls (WAFs), load balancers, and Privileged Access Management (PAM) platforms across operating units. Defines shared baseline principles plus device-type-specific minimum security requirements. Operationalised by IT-SI-WI-01 (shared management plane) and IT-SI-WI-02 through 04 (device-type-specific). Vendor-agnostic, CIS/OWASP/NIST-aligned.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">ASM domain</span>
+      <span class="kb-meta-pill">WAF · LB · PAM</span>
+      <span class="kb-meta-pill">CIS / OWASP / NIST aligned</span>
+      <span class="kb-meta-pill">Vendor-agnostic</span>
+    </div>
+  </div>
+
+  <div class="sop-meta-bar">
+    <div class="sop-meta-item">📋 <strong>SOP ID:</strong> IT-SI-SOP-01</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">👤 <strong>Owner:</strong> Paulo Ferreira</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">📅 <strong>Published:</strong> 11 May 2026</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">🔄 <strong>Review:</strong> Annual</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item"><span class="badge-approved">Approved</span></div>
+  </div>
+
+  <div class="toc-box">
+    <div class="toc-title">Contents</div>
+    <div class="toc-list">
+      <a href="#s1"><span>1</span> Purpose</a>
+      <a href="#s2"><span>2</span> Scope</a>
+      <a href="#s3"><span>3</span> Baseline Principles</a>
+      <a href="#s4"><span>4</span> Minimum Security Requirements</a>
+      <a href="#s5"><span>5</span> Roles &amp; Responsibilities</a>
+      <a href="#s6"><span>6</span> Framework Alignment</a>
+      <a href="#s7"><span>7</span> Governance &amp; Review</a>
+    </div>
+  </div>
+
+  <div class="sop-section" id="s1">
+    <div class="sop-section-num">Section 1</div>
+    <div class="sop-section-title">Purpose</div>
+    <p>This SOP defines the minimum security baseline for security-infrastructure platforms: Web Application Firewalls (WAFs), load balancers and application delivery controllers, and Privileged Access Management (PAM) platforms. It establishes the controls every such platform must implement to be considered fit for production use, regardless of vendor, hosting model (on-premises, cloud-managed), or operating unit.</p>
+    <p>These platforms sit at three of the highest-value boundaries in the organisation's IT estate. A WAF protects web applications that often contain regulated or sensitive data; a load balancer terminates TLS for those same applications and is therefore in the cryptographic critical path; a PAM platform holds the credentials that grant administrative access to everything else. A weakness on any of them is uniquely impactful — and unlike network devices, which the network domain treats as a single conceptual class, these three platforms have distinct architectures and threat models that warrant device-type-specific guidance.</p>
+    <p>This SOP is operationalised by four Work Instructions: one shared management-plane WI (IT-SI-WI-01) and three device-type-specific WIs (IT-SI-WI-02 WAF; IT-SI-WI-03 Load Balancer; IT-SI-WI-04 PAM). See §4 for the requirements summary and the linked WIs for execution detail.</p>
+  </div>
+
+  <div class="sop-section" id="s2">
+    <div class="sop-section-num">Section 2</div>
+    <div class="sop-section-title">Scope</div>
+    <h3>2.1 In scope</h3>
+    <ul class="sop-bullet">
+      <li><strong>WAFs (Web Application Firewalls)</strong> — on-premises appliances (F5 ASM, Imperva, FortiWeb, Barracuda) and cloud-managed WAFs (Azure Front Door / Application Gateway WAF, Cloudflare, AWS WAF). Includes virtual appliance instances.</li>
+      <li><strong>Load balancers and application delivery controllers (ADCs)</strong> — F5 LTM, Citrix ADC, HAProxy Enterprise, NGINX Plus, A10, AVI Networks, and equivalents. Includes hardware appliances, virtual instances, and software-only deployments.</li>
+      <li><strong>PAM platforms</strong> — CyberArk PAM, BeyondTrust, Delinea (Thycotic), HashiCorp Vault (as a credential broker), and equivalents. Covers the appliance and platform hardening aspects.</li>
+      <li>Devices in production, pre-production, disaster-recovery, and any environment carrying organisational traffic or holding production credentials</li>
+      <li>Devices at any tier (Tier 0 / 1 / 2 / 3 per the existing tier model)</li>
+    </ul>
+    <h3>2.2 Out of scope</h3>
+    <ul class="sop-bullet">
+      <li><strong>Reverse proxies and API gateways</strong> (standalone NGINX as RP, Kong, Apigee, Azure APIM, AWS API Gateway) — covered under a future Application Delivery sub-domain. Where a load balancer also performs reverse-proxy duties, this SOP's load-balancer requirements still apply to that aspect.</li>
+      <li><strong>Cloud-WAF tenant-platform integration</strong> — Azure Defender for Cloud / Azure Policy / Log Analytics integration specifics are covered under the future Cloud Baselines domain. The WAF rule-set and operational-policy controls in this SOP apply regardless of where the WAF runs.</li>
+      <li><strong>Identity governance for PAM</strong> — credential-vault rotation cadence, just-in-time access approval workflows, session-recording retention policy, and privileged-access governance are covered under a future Identity domain SOP. This SOP covers the platform hardening that protects the vault and brokering layer.</li>
+      <li><strong>Network devices</strong> (switches, routers, traditional perimeter firewalls, wireless) — covered under IT-NET-SOP-01.</li>
+      <li><strong>Endpoints and servers</strong> — covered under the existing Security Baselines domain.</li>
+      <li><strong>SaaS-hosted security infrastructure</strong> where the vendor controls the security configuration entirely — these still appear in the Asset Register; the baseline applies to anything tenant-administered.</li>
+    </ul>
+  </div>
+
+  <div class="sop-section" id="s3">
+    <div class="sop-section-num">Section 3</div>
+    <div class="sop-section-title">Baseline Principles</div>
+    <p>The seven principles below shape every requirement in this baseline. Where an implementation choice arises, refer to these principles to resolve it consistently.</p>
+
+    <h3>3.1 High-value targets need stronger baseline</h3>
+    <p>These platforms hold or protect high-value assets (credentials, encrypted sessions, application traffic). The baseline applies more strictly than for general infrastructure: tighter management access, stronger authentication, more comprehensive logging, more frequent review.</p>
+
+    <h3>3.2 Authentication strength matches what's protected</h3>
+    <p>PAM access — and any administrative access to WAF or load-balancer platforms — requires the strongest authentication the organisation operates. NIST 800-63B AAL2 minimum for general administration; AAL3 where PAM grants access to Tier 0 systems.</p>
+
+    <h3>3.3 Default-deny applies to everything, including the platforms themselves</h3>
+    <p>Management interfaces accept only the protocols, sources, and accounts genuinely required. WAFs default to monitor-then-block, never permit-by-default. Load balancers expose only the virtual servers and management interfaces that have a documented purpose.</p>
+
+    <h3>3.4 Cryptography in the critical path is not negotiable</h3>
+    <p>Load balancers and WAFs that terminate TLS are part of the cryptographic critical path. Cipher suites, certificate validation, and key handling on these platforms protect every application behind them. Outdated TLS configuration here is a baseline violation, not a tuning question.</p>
+
+    <h3>3.5 PAM has its own recovery path</h3>
+    <p>If the PAM platform is unreachable, recovery cannot depend on credentials only retrievable from PAM. Every PAM deployment has a documented, tested, vault-independent break-glass procedure. This is the single biggest operational risk in PAM deployment and the most common implementation gap.</p>
+
+    <h3>3.6 WAF tuning is continuous, not one-off</h3>
+    <p>A WAF deployed in active blocking mode without ongoing tuning produces either too many false positives (operations disable it) or too many false negatives (security gap). The baseline requires an ongoing tuning programme, not a one-time configuration.</p>
+
+    <h3>3.7 Comprehensive logging and audited privileged actions</h3>
+    <p>Every platform forwards authentication, configuration changes, and security-relevant events to the central log destination. PAM session recordings are integrity-protected and retained per the organisation's retention policy. The audit trail must be sufficient to reconstruct who did what when, on demand.</p>
+  </div>
+
+  <div class="sop-section" id="s4">
+    <div class="sop-section-num">Section 4</div>
+    <div class="sop-section-title">Minimum Security Requirements</div>
+    <p>The requirements below are mandatory for every in-scope platform. Each requirement domain is operationalised by a dedicated Work Instruction (linked at the right of each domain header). Where a platform cannot meet a requirement, a documented exception is required per §7.</p>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">🛡️</div>
+        <h4>4.1 Common Management Plane &amp; Logging (all platforms)</h4>
+        <a class="wi-link" href="it-si-wi-01.html">IT-SI-WI-01 →</a>
+      </div>
+      <ul class="req-list">
+        <li>Plaintext management protocols disabled (Telnet, HTTP, SNMPv1/v2c, FTP, TFTP); SSHv2, HTTPS TLS 1.2 minimum, SNMPv3 authPriv only</li>
+        <li>Administrative authentication via central directory (TACACS+, RADIUS, SAML, or Entra ID) with MFA required; PAM-administrator access requires AAL3 where the platform supports it</li>
+        <li>No shared accounts; the local emergency account is documented, vaulted (in a vault independent of this platform if this platform is the PAM itself), and used only with break-glass approval</li>
+        <li>Management-plane access restricted to a defined management network; bound to a dedicated management interface where the platform supports it</li>
+        <li>Idle session timeout ≤15 minutes for privileged sessions; AAL3-bound sessions follow more aggressive timeouts</li>
+        <li>Authorised-use banner displayed pre-authentication</li>
+        <li>NTP configured to two or more authoritative time sources with authentication</li>
+        <li>Syslog forwarding to two SIEM destinations; events include authentication (success and failure), configuration changes, and platform-specific security events</li>
+        <li>Certificate hygiene: organisation-CA-issued certificates for management interfaces (never self-signed); certificate inventory and renewal tracked centrally</li>
+        <li>Change-control workflow followed for every configuration change; emergency-change path exists with post-hoc review within 5 working days</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">🌐</div>
+        <h4>4.2 WAF-specific requirements</h4>
+        <a class="wi-link" href="it-si-wi-02.html">IT-SI-WI-02 →</a>
+      </div>
+      <ul class="req-list">
+        <li>Active rule set covers the current OWASP Top 10; for WAFs supporting OWASP CRS, paranoia level 2 minimum (level 3 for high-sensitivity applications) after tuning</li>
+        <li>Every protected application has a documented WAF policy — rule set, exclusions, learning state, owner, last review date</li>
+        <li>Public-facing applications at Tier 0/1 are in active blocking mode within 90 days of WAF deployment; monitor-only is a transition state, not a permanent posture</li>
+        <li>False-positive triage workflow is documented and assigned; alerts review within agreed SLA (≤5 working days for Tier 0/1 applications)</li>
+        <li>Signature and rule-set updates applied within 30 days of vendor release; emergency signatures (active exploitation) applied within 7 days</li>
+        <li>TLS termination on the WAF uses approved cipher suites only (see §4.3); back-end re-encryption to the application server is required for Tier 0/1 applications</li>
+        <li>Bot management or rate-limiting controls active for public-facing applications; brute-force protection on authentication endpoints</li>
+        <li>WAF block events forwarded to SIEM with sufficient context for SOC investigation (rule ID, request metadata, source)</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">⚖️</div>
+        <h4>4.3 Load balancer-specific requirements</h4>
+        <a class="wi-link" href="it-si-wi-03.html">IT-SI-WI-03 →</a>
+      </div>
+      <ul class="req-list">
+        <li>TLS 1.2 minimum on all virtual servers; TLS 1.3 preferred where back-end and clients support it; TLS 1.0 and 1.1 disabled</li>
+        <li>Cipher suites limited to AEAD ciphers (AES-GCM, ChaCha20-Poly1305); CBC-mode and RC4 disabled; ephemeral key exchange required (ECDHE preferred)</li>
+        <li>HSTS enabled on internet-facing virtual servers with a documented max-age (typically 1 year minimum); preload only after policy approval</li>
+        <li>Certificate management: tracked inventory with expiry alerting (≥30 days before expiry); auto-renewal where possible; certificate transparency logging awareness</li>
+        <li>Virtual server hygiene: every VS has a documented purpose, owner, last-used metric; orphaned VS removed within 90 days of no traffic</li>
+        <li>Health-check security: health-check endpoints do not expose application metadata; health checks reach the application via dedicated paths, not by faking application sessions</li>
+        <li>Connection rate limiting and SYN-flood protection enabled on internet-facing virtual servers</li>
+        <li>Source IP preservation (X-Forwarded-For with trusted-proxy validation, or transparent mode) so back-end logging retains real client IPs</li>
+        <li>HA pair configured for Tier 0 and Tier 1 load balancers; configuration sync verified; failover tested at minimum annually</li>
+        <li>Management interface and data-plane interfaces logically separated; management interface never reachable from data-plane VLANs</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">🔐</div>
+        <h4>4.4 PAM platform-specific requirements</h4>
+        <a class="wi-link" href="it-si-wi-04.html">IT-SI-WI-04 →</a>
+      </div>
+      <ul class="req-list">
+        <li>Vault encryption: at rest using vendor-approved cryptography; HSM integration where supported; encryption keys not stored on the PAM appliance itself</li>
+        <li>Session broker hardening: jump-host configuration follows the same baseline as Tier 0 servers (the SB is a Tier 0 system regardless of what it brokers to)</li>
+        <li>Session recording integrity: recordings written to write-once or integrity-protected storage; tamper detection alerts to SOC</li>
+        <li>Just-in-time access enforcement: standing privileged access is the exception, not the default; documented approval workflow for time-bounded access grants</li>
+        <li>Identity-source integration: PAM authenticates users against the central directory (Entra ID, AD) with MFA; PAM does not maintain its own user database except for the documented break-glass account</li>
+        <li>High-availability pair configured for the PAM platform; configuration sync verified; failover tested at minimum annually</li>
+        <li><strong>Break-glass procedure</strong>: documented, tested, vault-independent — recovery does not require credentials retrievable only from PAM. Tested annually under controlled conditions with results logged</li>
+        <li>Network exposure: PAM management plane and brokering interfaces on a dedicated management network; user-facing access endpoints reachable from administrative networks only</li>
+        <li>Privileged session events (start, end, command execution where captured, anomalies) forwarded to SIEM with retention matching session-recording retention</li>
+        <li>Backup of vault data (encrypted) included in the configuration-management WI's backup discipline; restore tested annually</li>
+      </ul>
+    </div>
+
+    <div class="callout-warn"><strong>One requirement that's worth saying twice.</strong> The single most common failure pattern in PAM deployment is a non-existent or untested break-glass procedure. When the PAM platform is unreachable and the only documented credentials are stored in it, recovery requires vendor intervention at best and a major incident at worst. Test the break-glass procedure annually. Test it before you need it.</div>
+  </div>
+
+  <div class="sop-section" id="s5">
+    <div class="sop-section-num">Section 5</div>
+    <div class="sop-section-title">Roles &amp; Responsibilities</div>
+    <div class="roles-grid">
+      <div class="role-card"><h4>IT Operations Lead</h4><p>Owns this SOP. Approves baseline changes and exceptions. Owns the patch/firmware lifecycle. Sets change-window cadence. Accountable for baseline conformance metrics.</p></div>
+      <div class="role-card"><h4>Network Engineering</h4><p>Implements WAF and load-balancer hardening. Maintains golden configurations. Executes change windows. First-line responder for WAF/LB incidents.</p></div>
+      <div class="role-card"><h4>Identity &amp; Access Engineering</h4><p>Implements PAM platform hardening. Maintains PAM configuration. Coordinates with Network Engineering on appliance-layer hardening. Owns the break-glass procedure.</p></div>
+      <div class="role-card"><h4>Application Teams</h4><p>Co-own WAF policy for their applications: rule-set selection, false-positive triage, allowlist requests, application-specific signature tuning.</p></div>
+      <div class="role-card"><h4>SOC</h4><p>Consumes logs from WAF (block events, anomalies), load balancers (anomalous traffic, TLS handshake failures), PAM (privileged session events, integrity anomalies). Investigates and escalates per the IRP.</p></div>
+      <div class="role-card"><h4>GRC</h4><p>Owns governance and audit evidence. Reviews baseline annually. Maintains exception register. Reports baseline conformance to the Risk Committee quarterly.</p></div>
+      <div class="role-card"><h4>Local IT (per agency)</h4><p>Applies baseline to platforms in their operating unit. Submits exception requests through their LCSO/CSLC. Coordinates change windows with central Network Engineering and IAE.</p></div>
+      <div class="role-card"><h4>Architecture / Technical Authority</h4><p>Adjudicates interpretation questions. Approves design-level exceptions. Reviews new platform adoption to confirm baseline applicability.</p></div>
+    </div>
+    <div class="callout-info"><strong>Separation of duties.</strong> The engineer who configures a WAF rule, load-balancer cipher list, or PAM access policy is not the same person who approves its move to production. Configuration changes pass through change control. For PAM specifically, the engineer with administrative access to the PAM platform is not the same person who approves a new privileged-access policy — this separation is foundational to PAM trustworthiness.</div>
+  </div>
+
+  <div class="sop-section" id="s6">
+    <div class="sop-section-num">Section 6</div>
+    <div class="sop-section-title">Framework Alignment</div>
+    <p>This baseline draws on the standards below. Unlike the network baselines, where CIS vendor-specific benchmarks cover most major vendors, the WAF and PAM space has partial CIS coverage; the baselines therefore lean more heavily on OWASP (WAF) and NIST 800-63B (PAM).</p>
+    <table class="gt-table">
+      <thead><tr><th>Framework / benchmark</th><th>Reference</th><th>Where applied</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">CIS F5 BIG-IP Benchmark</td><td class="code">Level 1, current version</td><td>F5 LTM, ASM, APM — §4.1, §4.2, §4.3</td></tr>
+        <tr><td class="lvl">OWASP Top 10 (current)</td><td class="code">A01–A10</td><td>WAF rule-set coverage — §4.2</td></tr>
+        <tr><td class="lvl">OWASP ASVS</td><td class="code">v4 Level 2 minimum</td><td>Application-security baseline reference — §4.2</td></tr>
+        <tr><td class="lvl">OWASP CRS</td><td class="code">v4.x paranoia 2+</td><td>WAF Core Rule Set where deployed — §4.2</td></tr>
+        <tr><td class="lvl">NIST CSF 2.0</td><td class="code">PR.AC, PR.DS, PR.PT, DE.CM</td><td>Identity (§4.1, §4.4), data security (§4.2, §4.3), protective tech, monitoring</td></tr>
+        <tr><td class="lvl">NIST SP 800-53 r5</td><td class="code">AC-2/3/6/17, AU-2/3/12, CM-2/6/7, IA-2/5, SC-8/12/13/23, SI-3/4</td><td>Cross-domain reference</td></tr>
+        <tr><td class="lvl">NIST SP 800-63B</td><td class="code">AAL2 minimum, AAL3 for Tier 0 PAM access</td><td>Authentication strength — §4.1, §4.4</td></tr>
+        <tr><td class="lvl">NIST SP 800-52 r2</td><td class="code">TLS configuration guidance</td><td>Cipher and protocol selection — §4.3</td></tr>
+        <tr><td class="lvl">ISO/IEC 27001:2022</td><td class="code">A.5.15, A.5.17, A.8.2, A.8.5, A.8.20, A.8.21, A.8.23, A.8.24</td><td>Access control, authentication info, privileged access, secure authentication, networks security, network services, web filtering, cryptography use</td></tr>
+        <tr><td class="lvl">PCI DSS v4.0</td><td class="code">6.4.1, 6.4.2, 8.3, 8.6</td><td>WAF for public-facing apps in PCI scope; PAM authentication requirements</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:10px;font-size:13px;color:#666;">For vendors without specific CIS coverage, the vendor's published hardening guide combined with the NIST 800-53 control families above applies. The relevant Work Instruction identifies where this substitution is needed and what evidence to retain for audit defensibility.</p>
+  </div>
+
+  <div class="sop-section" id="s7">
+    <div class="sop-section-num">Section 7</div>
+    <div class="sop-section-title">Governance &amp; Review</div>
+    <h3>7.1 Baseline ownership and update authority</h3>
+    <p>This SOP is owned by the IT Operations Lead with co-ownership by the Head of GRC and the Head of Identity &amp; Access Engineering (for the PAM aspects). Material changes (new requirements, scope changes, framework-alignment changes) require sign-off from all three. Minor clarifications and editorial improvements may be applied by the owner with notification to GRC.</p>
+
+    <h3>7.2 Review cadence</h3>
+    <ul class="sop-bullet">
+      <li><strong>Annual review</strong> — minimum, by the owner with GRC sign-off, on the anniversary of approval</li>
+      <li><strong>Out-of-cycle review</strong> — triggered by: a material OWASP Top 10 update; new vendor product adoption; a major incident involving these platforms; regulatory change affecting WAF or PAM (e.g. PCI DSS update, NIS2 implementing-act change); audit finding</li>
+      <li><strong>Sub-WI review</strong> — each Work Instruction (IT-SI-WI-01 through 04) is reviewed independently and may update more frequently than the SOP, particularly WI-02 (WAF), which tracks OWASP and signature-vendor releases</li>
+    </ul>
+
+    <h3>7.3 Exception handling</h3>
+    <p>Where a platform cannot meet a requirement in §4, the operating unit follows IT-GOV-SOP-01 (Baseline Exception &amp; Risk Acceptance). Exceptions are time-bounded, recorded in GRC-REG-EXCEPTIONS, linked from the affected asset records in GRC-REG-ASSET, and reviewed annually. An exception that persists for three years without remediation is escalated to the Risk Committee.</p>
+    <p>Common cases that warrant exceptions: legacy vendor product limitations (older PAM appliance without HSM support), operational constraints (a WAF that must run in monitor-only mode pending application-team capacity for false-positive triage), integration requirements (a load balancer that must support a deprecated cipher suite for a legacy partner integration with a documented sunset date). Acceptable mitigations include compensating controls, monitoring uplift, and time-bounded remediation plans.</p>
+
+    <h3>7.4 Compliance &amp; audit</h3>
+    <p>Baseline conformance is measured continuously through configuration-management tooling, periodic vendor-supplied scans (e.g. CIS-CAT, vendor-published audit scripts), and TLS configuration scanning (testssl.sh, SSL Labs, or vendor equivalents). Reports are produced monthly to IT Operations and quarterly to GRC and the Risk Committee. Audit evidence includes: golden configurations, scan results, exception register entries, change-control records, WAF tuning logs, PAM break-glass test records, and incident records related to security-infrastructure gaps.</p>
+
+    <h3>7.5 Related documents</h3>
+    <ul class="sop-bullet">
+      <li><a href="asm-security-infrastructure-baselines.html" style="color:var(--asm);font-weight:600;">asm-security-infrastructure-baselines.html</a> — Security Infrastructure domain hub page</li>
+      <li><a href="it-si-wi-01.html" style="color:var(--asm);font-weight:600;">IT-SI-WI-01</a> — Common Management Plane &amp; Logging (referenced by WI-02/03/04)</li>
+      <li><a href="it-si-wi-02.html" style="color:var(--asm);font-weight:600;">IT-SI-WI-02</a> — WAF Hardening</li>
+      <li><a href="it-si-wi-03.html" style="color:var(--asm);font-weight:600;">IT-SI-WI-03</a> — Load Balancer Hardening</li>
+      <li><a href="it-si-wi-04.html" style="color:var(--asm);font-weight:600;">IT-SI-WI-04</a> — PAM Platform Hardening</li>
+      <li><a href="it-gov-sop-01.html" style="color:var(--asm);font-weight:600;">IT-GOV-SOP-01</a> — Baseline Exception &amp; Risk Acceptance</li>
+      <li><a href="it-net-sop-01.html" style="color:var(--asm);font-weight:600;">IT-NET-SOP-01</a> — Network Device Security Baseline (analogous pattern)</li>
+      <li><a href="grc-reg-asset.html" style="color:var(--asm);font-weight:600;">GRC-REG-ASSET</a> — Asset Register</li>
+      <li><a href="grc-register-exceptions.html" style="color:var(--asm);font-weight:600;">GRC-REG-EXCEPTIONS</a> — Baseline Exceptions Register</li>
+      <li><a href="asm-cis-matrix.html" style="color:var(--asm);font-weight:600;">asm-cis-matrix.html</a> — CIS Benchmark coverage matrix</li>
+    </ul>
+  </div>
+
+  <div class="sop-nav"><a href="asm-security-infrastructure-baselines.html">← Security Infrastructure hub</a><a href="it-si-wi-01.html">IT-SI-WI-01 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-SI-SOP-01 v1.0 · Approved · 11 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-security-infrastructure-baselines.html" style="color:var(--asm);text-decoration:none;">← Back to Security Infrastructure</a></span>
+  </div>
+</div>
+</body>
+</html>

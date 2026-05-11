@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-SI-WI-03: Load Balancer Hardening — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --wi:#8B4A0E; --wi-light:#FEF0E6; --wi-border:#F5C89A; --wi-dark:#5C3008; --asm:#5B2D8E; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .wi-section { background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:8px; }
+  .wi-section-title { font-size:15px; font-weight:600; color:#1a1a1a; margin-bottom:0.7rem; padding-bottom:6px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0 0 8px 0; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-section h3 { font-size:13px; font-weight:600; color:var(--wi-dark); margin:12px 0 5px 0; }
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:6px; padding-left:0; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:#333; line-height:1.55; }
+  .wi-bullet li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:6px; }
+  .step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.1rem; margin-top:8px; }
+  .step-header { display:flex; align-items:center; gap:10px; margin-bottom:7px; padding-bottom:5px; border-bottom:0.5px solid #f0f0ec; }
+  .step-num { width:24px; height:24px; border-radius:6px; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-title { font-size:13px; font-weight:700; color:var(--wi-dark); }
+  .step-objective { font-size:12px; color:#666; font-style:italic; margin-top:2px; line-height:1.5; }
+  .step-body { font-size:13px; color:#333; line-height:1.6; }
+  .step-body p { margin:6px 0; }
+  .step-body p:first-child { margin-top:0; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body strong { color:var(--wi-dark); }
+  .step-body ul { list-style:none; padding:0; margin:6px 0; display:flex; flex-direction:column; gap:3px; }
+  .step-body ul li { display:flex; gap:7px; font-size:12px; color:#444; line-height:1.5; padding-left:2px; }
+  .step-body ul li::before { content:'\203A'; color:var(--wi); font-weight:700; flex-shrink:0; }
+  .step-verify { background:#fff; border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:6px; padding:0.5rem 0.8rem; margin-top:8px; font-size:12px; color:#444; line-height:1.55; }
+  .step-verify strong { color:var(--wi-dark); }
+  .cis-ref { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--wi); background:var(--wi-light); border:0.5px solid var(--wi-border); padding:1px 7px; border-radius:4px; font-weight:600; margin-top:5px; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:var(--wi-dark); line-height:1.55; margin-top:10px; }
+  .callout-info strong { color:var(--wi-dark); font-weight:700; }
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#7a2e10; line-height:1.55; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--wi-dark); color:#fff; font-weight:600; padding:7px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--wi-dark); white-space:nowrap; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>&rsaquo;</span>
+    <a href="asm.html">ASM</a><span>&rsaquo;</span>
+    <a href="asm-security-infrastructure-baselines.html">Security Infrastructure</a><span>&rsaquo;</span>
+    <span>IT-SI-WI-03</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#3D1F05 0%,#5C3008 40%,#8B4A0E 100%);">
+    <span class="kb-page-hero-icon">⚖️</span>
+    <h1>IT-SI-WI-03: Load Balancer Hardening</h1>
+    <p>Vendor-agnostic implementation guidance for hardening load balancers and application delivery controllers: TLS, certificate lifecycle, HSTS, virtual server hygiene, health-check security, rate limiting, source IP preservation, HA. Operationalises &sect;4.3 of IT-SI-SOP-01.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Security Infrastructure</span>
+      <span class="kb-meta-pill">Vendor-agnostic</span>
+      <span class="kb-meta-pill">CIS / OWASP / NIST derived</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">📋 <strong>WI ID:</strong> IT-SI-WI-03</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">🔗 <strong>Implements:</strong> <a href="it-si-sop-01.html" style="color:var(--wi);">IT-SI-SOP-01 §4.3</a></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Owner:</strong> Network Engineering / IAE</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 11 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <p>Before applying this WI:</p>
+    <ul class="wi-bullet">
+      <li>WI-01 management-plane hardening complete on the load balancer</li>
+      <li>Virtual server inventory available — what's published, on which IP, on which ports, with which back-end pool</li>
+      <li>Application owners identified per virtual server</li>
+      <li>Current certificate inventory available; auto-renewal mechanism (ACME, vendor-cloud, vault-integrated) in place where possible</li>
+      <li>Cipher policy decision made — TLS 1.2 minimum, modern AEAD ciphers (the approved cipher list from the central security policy)</li>
+      <li>HA pair configuration known (active/standby, active/active, sync-link configuration)</li>
+      <li>Change window approved per WI-01 §10</li>
+    </ul>
+    <div class="callout-warn"><strong>TLS configuration changes are visible immediately to every client.</strong> Disabling TLS 1.0 or removing CBC ciphers will break clients that don't support newer alternatives. Audit the client base first; understand the legitimate-old-client population before tightening.</div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <p>The steps below cover the load-balancer-specific controls required by IT-SI-SOP-01 &sect;4.3.</p>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div>
+        <div><div class="step-title">TLS protocol and cipher suite hardening</div>
+        <div class="step-objective">Modern TLS only; AEAD ciphers; ephemeral key exchange; verifiable security.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Configure TLS on every virtual server:</p>
+        <ul>
+          <li><strong>Protocols:</strong> TLS 1.2 minimum, TLS 1.3 enabled and preferred where back-end and clients support it. TLS 1.0 and 1.1 disabled. SSLv2 and SSLv3 disabled (these should not exist on any modern load balancer but verify).</li>
+          <li><strong>Cipher suites:</strong> AEAD only (AES-GCM, ChaCha20-Poly1305). CBC-mode ciphers disabled. RC4 disabled. 3DES disabled. DES and export ciphers disabled.</li>
+          <li><strong>Key exchange:</strong> ECDHE (elliptic curve ephemeral) preferred; DHE acceptable with ≥2048-bit groups; static RSA key exchange disabled (no forward secrecy)</li>
+          <li><strong>Curves:</strong> X25519 and P-256 minimum; P-384 acceptable; deprecated curves disabled</li>
+          <li><strong>Cipher order:</strong> server-preferred (the server picks from its prioritised list, not the client's preference)</li>
+          <li><strong>Renegotiation:</strong> secure renegotiation (RFC 5746) only; client-initiated renegotiation disabled</li>
+        </ul>
+        <p>For TLS 1.3, the cipher question is simpler (only AEAD ciphers exist in the spec); the focus is enabling TLS 1.3 itself and removing legacy TLS 1.2 ciphers from the offered list.</p>
+        <div class="step-verify"><strong>Verify.</strong> Run <code>testssl.sh</code> against every internet-facing virtual server. Result: A or A+ score (Mozilla "modern" or "intermediate" profile compliance). No protocol downgrades succeed. No legacy cipher accepted.</div>
+        <span class="cis-ref">LB: "TLS protocols &amp; ciphers"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div>
+        <div><div class="step-title">Certificate lifecycle management</div>
+        <div class="step-objective">No expired certificates in production; renewal happens before expiry; CT logging awareness.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Certificate management discipline:</p>
+        <ul>
+          <li><strong>Inventory.</strong> Every certificate on every virtual server tracked in the central certificate inventory: CN, SAN list, issuer, expiry, key type and length, where deployed, owner</li>
+          <li><strong>Expiry alerting.</strong> Alert ≥30 days before expiry to the certificate owner; ≥14 days escalate to IT Operations; ≥7 days escalate to leadership. Aim for renewal completed ≥10 days before expiry.</li>
+          <li><strong>Auto-renewal.</strong> Where possible (ACME for Let's Encrypt, ZeroSSL; vendor-cloud-managed for cloud WAFs; vault-integrated for enterprise CA) — auto-renewal eliminates the most common cause of unexpected outage.</li>
+          <li><strong>Key strength.</strong> RSA 2048-bit minimum, 3072 or ECDSA P-256 preferred for new certificates. RSA 1024 retired immediately if any remain.</li>
+          <li><strong>Certificate Transparency.</strong> Public certificates are CT-logged automatically (by the issuing CA). Monitor CT logs for unexpected certificates issued for organisation domains — these can indicate misissuance or compromise.</li>
+          <li><strong>Wildcard discipline.</strong> Wildcard certificates are convenient but distribute risk (one private key protects many services). For Tier 0 applications, use SAN certificates over wildcards. Where wildcards are used, the private key is treated as a high-value secret.</li>
+          <li><strong>Private key handling.</strong> Private keys never leave the load balancer's secure store (HSM where supported, secure key storage otherwise). Export only with documented approval; rotation when exported.</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Pull the certificate inventory; cross-reference against virtual servers — every cert tracked. Sample certificates: expiry &gt;30 days; key strength meets policy; alerting in place. Test the renewal automation (force a renewal in a non-production environment).</div>
+        <span class="cis-ref">LB: "certificate lifecycle"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div>
+        <div><div class="step-title">HSTS on internet-facing virtual servers</div>
+        <div class="step-objective">Browsers enforce HTTPS-only access; protocol-downgrade attacks blocked client-side.</div></div>
+      </div>
+      <div class="step-body">
+        <p>HSTS configuration:</p>
+        <ul>
+          <li><strong>Enable HSTS</strong> on all internet-facing virtual servers serving HTTPS</li>
+          <li><strong>max-age</strong> — 1 year (31536000 seconds) minimum for production; shorter (1 month) during initial rollout to allow recovery from misconfiguration</li>
+          <li><strong>includeSubDomains</strong> — enable for production domains where all subdomains support HTTPS</li>
+          <li><strong>preload</strong> — only after policy approval; preload is a near-permanent commitment (removal takes months and requires browser-vendor coordination)</li>
+          <li><strong>HTTP-to-HTTPS redirect</strong> — every HTTP virtual server redirects to HTTPS; no plaintext content served on production domains</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> <code>curl -I https://[application]</code> shows <code>Strict-Transport-Security</code> header with appropriate max-age. <code>curl -I http://[application]</code> shows 301/308 redirect to HTTPS.</div>
+        <span class="cis-ref">LB: "HSTS &amp; HTTP→HTTPS"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div>
+        <div><div class="step-title">Virtual server hygiene — purpose, ownership, lifecycle</div>
+        <div class="step-objective">No orphan virtual servers; every published endpoint has a documented purpose.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Virtual server hygiene rules:</p>
+        <ul>
+          <li>Every virtual server has: documented purpose, owner, application reference, creation date, last-review date</li>
+          <li><strong>Traffic monitoring.</strong> Virtual servers with no traffic in the last 30 days are flagged for review; 90 days with no traffic → removed unless documented justification (DR-only, scheduled batch)</li>
+          <li><strong>Deprecated services.</strong> When an application is retired, the corresponding virtual server is removed (not left as "just in case"). Asset register update triggers virtual-server cleanup.</li>
+          <li><strong>IP allocation.</strong> Internet-facing IP addresses on load balancers tracked centrally; reclamation of decommissioned IPs is part of the cleanup workflow</li>
+          <li><strong>Naming convention.</strong> Virtual servers follow an organisation naming convention (e.g. <code>vs-app-env-region</code>) so meaning is conveyed by the name</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Pull virtual server list; cross-reference against application inventory and recent traffic metrics. No-traffic VSes have documented justification or are removed. Naming convention applied.</div>
+        <span class="cis-ref">LB: "virtual server hygiene"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div>
+        <div><div class="step-title">Health-check security</div>
+        <div class="step-objective">Health checks do not leak application metadata or provide an alternative attack surface.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Health check configuration:</p>
+        <ul>
+          <li><strong>Dedicated health endpoint</strong> — applications expose a dedicated path (e.g. <code>/healthz</code>) for load-balancer probes; not a real application path that returns useful data to general callers</li>
+          <li><strong>No application metadata leaked</strong> — health response is minimal (HTTP 200 with no body, or a short "OK"); not a full application status page revealing component versions, database state, or internals</li>
+          <li><strong>Limit health endpoint reachability</strong> — the health endpoint accepts requests only from the load balancer's IP range; external callers get a 404 or a generic error</li>
+          <li><strong>TCP-only health checks</strong> on services where HTTP health would expose information — sometimes a TCP connect check is the right control</li>
+          <li><strong>Authenticate health checks</strong> where the platform supports it (HTTP-basic from the load balancer to the application, or mTLS) so the application can validate the source</li>
+          <li><strong>Health-check frequency</strong> — frequent enough for fast failover (typically 5&ndash;15 second intervals) but not so frequent it impacts the application</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> From the public internet, request the health endpoint of a Tier 0/1 application; should fail or return generic response (not full health detail). From the load balancer's network position, the health endpoint works normally.</div>
+        <span class="cis-ref">LB: "health checks"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">6</div>
+        <div><div class="step-title">Connection rate limiting and SYN-flood protection</div>
+        <div class="step-objective">Load balancer absorbs and shapes anomalous traffic before it reaches application servers.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Edge protection:</p>
+        <ul>
+          <li><strong>Per-source connection rate limiting</strong> on internet-facing virtual servers — typical baseline 100 new connections per second per source IP before throttling; tune per application</li>
+          <li><strong>SYN-flood protection</strong> — SYN cookies or platform equivalent enabled; configured thresholds tuned to legitimate burst patterns</li>
+          <li><strong>Per-virtual-server connection limit</strong> — prevents one popular VS from starving connection tables shared with other VSes</li>
+          <li><strong>HTTP slowloris protection</strong> — slow-request detection where the platform supports it; close idle connections aggressively</li>
+          <li><strong>Geo-IP rate limiting</strong> for traffic from geographies with no business case (complement, not replacement for, full geo-blocking decision)</li>
+          <li>Coordinate with upstream DDoS protection (where deployed) so the load balancer's protection is a second tier, not the only tier</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Simulate connection-rate burst from a test source (controlled lab); confirm rate limit triggers and logs. SYN flood test (controlled); SYN cookies engage as expected.</div>
+        <span class="cis-ref">LB: "anti-DDoS / rate limiting"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">7</div>
+        <div><div class="step-title">Source IP preservation</div>
+        <div class="step-objective">Back-end logs reflect real client IPs, not the load balancer's IP.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Two main approaches, each with its trade-offs:</p>
+        <ul>
+          <li><strong>X-Forwarded-For (and X-Real-IP) headers</strong> — load balancer adds the real client IP to a header; application reads and logs from the header. Risk: applications must trust the header only when it comes from the load balancer (otherwise attackers spoof IPs by injecting the header). Configure the application to accept these headers only from the load balancer's source IPs.</li>
+          <li><strong>PROXY protocol</strong> (haproxy's PROXY v1/v2) — pre-pends an IP marker to the TCP connection; back-end parses it. Cleaner than HTTP headers (works for non-HTTP protocols) but requires application support.</li>
+          <li><strong>Direct Server Return / transparent mode</strong> — load balancer forwards the original client IP at L3; application sees the real source IP directly. Most accurate but harder to architect and limits some load-balancer features.</li>
+        </ul>
+        <p>For Tier 0/1 applications where audit traceability matters, source IP preservation is mandatory (one of the three approaches). Document the chosen approach per application.</p>
+        <div class="step-verify"><strong>Verify.</strong> Generate a known-source request; confirm the application logs the real client IP, not the load balancer's. For X-Forwarded-For approach, attempt to spoof the header from a non-LB source; confirm the application ignores the spoofed header.</div>
+        <span class="cis-ref">LB: "source IP preservation"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">8</div>
+        <div><div class="step-title">High availability with annual failover test</div>
+        <div class="step-objective">Single load-balancer outages don't cause site-level outages.</div></div>
+      </div>
+      <div class="step-body">
+        <p>For Tier 0 and Tier 1 load balancers:</p>
+        <ul>
+          <li>HA pair configured (active/standby or active/active per vendor capabilities)</li>
+          <li>HA sync link on a dedicated interface; not shared with data plane</li>
+          <li>Configuration sync verified working — changes on primary propagate to secondary</li>
+          <li>Failover behaviour documented: convergence time, session preservation (for stateful apps), traffic loss budget</li>
+          <li><strong>Annual failover test</strong> under controlled conditions; results logged in the asset record</li>
+          <li>For internet-facing virtual servers, DNS or upstream-routing failover where the LB-pair-level HA isn't sufficient (multi-site)</li>
+        </ul>
+        <p>For Tier 2/3, HA is desirable but not always cost-justified; asset record documents the decision and acceptance criteria.</p>
+        <div class="step-verify"><strong>Verify.</strong> Trigger failover under controlled conditions; traffic continues; sessions preserved where supported; convergence within budget. Both members show "in sync" before declaring complete.</div>
+        <span class="cis-ref">LB: "high availability"</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <p>After applying these steps, validate the load balancer as a whole.</p>
+
+    <h3>Functional validation</h3>
+    <ul class="wi-bullet">
+      <li>TLS scan score A or A+ on every internet-facing virtual server</li>
+      <li>Certificate inventory complete; alerting in place; auto-renewal tested where applicable</li>
+      <li>HSTS active on internet-facing servers; HTTP→HTTPS redirect working</li>
+      <li>Virtual server inventory current; no orphans</li>
+      <li>Health endpoints don't leak metadata; restricted to load-balancer source</li>
+      <li>Rate-limiting and SYN-flood protection engage under simulated load</li>
+      <li>Source IP preservation verified at the application back-end</li>
+      <li>HA failover test completed annually with results logged</li>
+    </ul>
+
+    <h3>Configuration review</h3>
+    <table class="gt-table">
+      <thead><tr><th>Check</th><th>Expected result</th></tr></thead>
+      <tbody>
+        <tr><td>TLS protocol</td><td>1.2 minimum, 1.3 enabled; 1.0/1.1 disabled</td></tr>
+        <tr><td>Cipher suites</td><td>AEAD only; ECDHE/DHE; CBC and RC4 disabled</td></tr>
+        <tr><td>TLS scan score</td><td>A or A+</td></tr>
+        <tr><td>Certificate strength</td><td>RSA 2048+ or ECDSA P-256+; tracked in inventory</td></tr>
+        <tr><td>HSTS</td><td>Enabled with max-age ≥1 year on production</td></tr>
+        <tr><td>Virtual server hygiene</td><td>Owner, purpose, last-review documented; no orphans &gt;90 days</td></tr>
+        <tr><td>Health endpoints</td><td>Restricted source; minimal response</td></tr>
+        <tr><td>Connection rate limit</td><td>Active on internet-facing</td></tr>
+        <tr><td>SYN-flood protection</td><td>Engaged; tested annually</td></tr>
+        <tr><td>Source IP preservation</td><td>Documented approach; verified at back-end</td></tr>
+        <tr><td>HA pair (T0/T1)</td><td>Configured; sync verified; annual failover test logged</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <p>Load balancer changes are visible immediately; have rollback prepared.</p>
+
+    <h3>Common scenarios</h3>
+    <ul class="wi-bullet">
+      <li><strong>Clients can't connect after TLS tightening</strong> &mdash; cause: a population of legitimate clients only supports TLS 1.0/1.1 or older ciphers (legacy embedded devices, old enterprise software). Fix: identify the affected clients; either move them to a separate virtual server with relaxed policy (and a sunset date for the legacy) or accept and replace the clients.</li>
+      <li><strong>Certificate renewed but new cert not picked up</strong> &mdash; cause: cert installed but virtual server not reloaded; or cert installed in wrong store. Fix: reload the virtual server; verify cert via testssl.sh.</li>
+      <li><strong>HSTS deployed too aggressively; users can't reach the site</strong> &mdash; cause: a backend issue forced HTTP downgrade but HSTS prevents the browser from accepting it. Fix: resolve the backend issue; HSTS itself cannot be undone for clients that already received it &mdash; you wait for max-age, or accept the lockout period.</li>
+      <li><strong>Health-check fails after tightening</strong> &mdash; cause: load balancer source IP changed (added a node) and the application's allow-list isn't updated. Fix: update the application allow-list; verify health checks pass.</li>
+      <li><strong>Rate limit blocks legitimate burst</strong> &mdash; cause: rate limit set too tight for legitimate end-of-month batch traffic. Fix: tune the limit; consider per-account rather than per-IP for known partners.</li>
+      <li><strong>Failover doesn't complete</strong> &mdash; cause: HA-link issue, config-sync drift, vendor bug. Fix: investigate HA link health; force re-sync; vendor TAC engagement.</li>
+      <li><strong>Source IP preservation broken</strong> &mdash; cause: X-Forwarded-For misconfigured at the application end (application uses the wrong header field, or doesn't trust the LB source). Fix: align LB and application configuration.</li>
+    </ul>
+
+    <h3>Rollback procedure</h3>
+    <ol style="padding-left:18px;font-size:13px;line-height:1.7;color:#333;">
+      <li>OOB or management access</li>
+      <li>Identify the breaking change from pre/post config diff</li>
+      <li>Revert the specific change; not the entire change set unless required</li>
+      <li>For TLS changes affecting a population, consider a per-VS revert rather than global</li>
+      <li>Update change record; document root cause</li>
+    </ol>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <ul class="wi-bullet">
+      <li><strong>Test TLS configurations before deploying to internet-facing.</strong> A staging environment with the same cipher policy lets you catch broken legitimate clients before they reach production.</li>
+      <li><strong>HSTS preload is nearly permanent.</strong> Removal from preload lists takes months and browser-vendor coordination. Don't enable preload until you're certain.</li>
+      <li><strong>Certificate expiry alerting that nobody acts on is a non-control.</strong> Alerts must reach someone with authority and incentive to act. If the cert owner is no longer in the role, the alert routes to a vacant inbox.</li>
+      <li><strong>Don't trust X-Forwarded-For from arbitrary sources.</strong> Only trust the header when the connection came from a load-balancer source IP; otherwise an attacker spoofs origins by setting the header themselves.</li>
+      <li><strong>HSM key storage is meaningful for high-value certs.</strong> The single biggest improvement to certificate security for Tier 0 apps is moving the private key to an HSM.</li>
+      <li><strong>Wildcard certificates accumulate risk.</strong> A single compromised wildcard private key affects every service it protects. For T0, prefer SAN certs.</li>
+      <li><strong>Health checks that "always pass" are not health checks.</strong> If the health endpoint always returns 200, it's not detecting anything. Verify the endpoint actually exercises the application's critical path.</li>
+      <li><strong>Annual failover test is not optional.</strong> An untested HA pair is a single point of failure with a comforting illusion of redundancy.</li>
+      <li><strong>SYN-cookies have a small impact on TCP options.</strong> Some application performance tuning relies on TCP options that aren't preserved when SYN-cookies are engaged. The trade-off is rare and the protection is worth more.</li>
+    </ul>
+  </div>
+
+  <div class="wi-nav"><a href="it-si-wi-02.html">&larr; IT-SI-WI-02: WAF</a><a href="it-si-wi-04.html">IT-SI-WI-04: PAM &rarr;</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-SI-WI-03 v1.0 · Live · 11 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-security-infrastructure-baselines.html" style="color:var(--wi);text-decoration:none;">&larr; Back to Security Infrastructure</a></span>
+  </div>
+</div>
+</body>
+</html>

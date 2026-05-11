@@ -1789,5 +1789,59 @@
     "url": "it-net-wi-06.html",
     "desc": "Vendor-agnostic implementation guidance for configuration management and change control on network devices: keeping the baseline real over time. Operationalises IT-NET-SOP-01 section 4.6. Eight steps: golden configuration per device class (templated, version-controlled); automated backups (daily T0/T1, weekly T2/T3, 90/30-day retention, annual restore test); change control workflow (standard, normal, emergency tracks); drift detection automated and triaged; firmware/OS version tracking and vendor advisory subscription; secure decommissioning per GRC-SOP-05 section 12 (final backup, cert revocation, factory reset, asset record); test/lab isolation and credential discipline; OOB management infrastructure in baseline scope.",
     "tags": "ASM WI IT-NET-WI-06 configuration management change control golden config Git Jinja2 IaC template version control automated backup retention restore test SLA tier change advisory board standard normal emergency change drift detection comparator firmware OS lifecycle PSIRT advisory feed end of support decommissioning factory reset certificate revocation lab isolation test environment OOB out-of-band management"
+  },
+  {
+    "id": "Security Infrastructure Baselines",
+    "title": "Security Infrastructure Baselines — Domain hub",
+    "section": "ASM",
+    "sub": "Domain hub",
+    "url": "asm-security-infrastructure-baselines.html",
+    "desc": "Vendor-agnostic security baselines for Web Application Firewalls (WAFs), load balancers, and Privileged Access Management (PAM) platforms. Hub page covering scope (WAF/LB/PAM in scope; reverse proxies and API gateways deferred to future Application Delivery sub-domain; cloud-WAF tenant-platform integration deferred to future Cloud Baselines; PAM identity governance deferred to future Identity domain), device-type overview, framework alignment (CIS F5 BIG-IP, OWASP Top 10/ASVS/CRS, NIST CSF 2.0, NIST 800-53 r5, NIST 800-63B AAL2/AAL3, NIST 800-52, ISO 27001:2022, PCI DSS v4.0), roles, metrics (8 metrics including WAF coverage, signature currency, TLS cipher conformance, certificate currency, PAM coverage, session-recording completeness), exception handling, related domains.",
+    "tags": "ASM Security Infrastructure Baselines domain hub WAF load balancer PAM privileged access management F5 ASM Imperva FortiWeb Cloudflare Azure Front Door AWS WAF F5 LTM Citrix ADC HAProxy NGINX Plus A10 AVI CyberArk BeyondTrust Delinea HashiCorp Vault OWASP Top 10 OWASP ASVS OWASP CRS NIST CSF PR.AC PR.DS PR.PT DE.CM NIST 800-53 NIST 800-63B AAL2 AAL3 NIST 800-52 ISO 27001 A.5.15 A.5.17 A.8.2 A.8.5 A.8.20 A.8.21 A.8.23 PCI DSS 6.4.1 6.4.2 8.3 8.6 vendor-agnostic cross-agency"
+  },
+  {
+    "id": "IT-SI-SOP-01",
+    "title": "Security Infrastructure Baseline",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-si-sop-01.html",
+    "desc": "Authoritative policy-level baseline for WAFs, load balancers, and PAM platforms. Seven sections: Purpose, Scope (in/out scope with deferrals), Baseline Principles (7 principles: high-value targets, authentication matched to what is protected, default-deny including platforms themselves, cryptography in critical path, PAM has its own recovery path, WAF tuning continuous, comprehensive logging), Minimum Security Requirements (4.1 Common Mgmt 10 items; 4.2 WAF 8 items; 4.3 LB 10 items; 4.4 PAM 10 items), Roles & Responsibilities, Framework Alignment, Governance & Review. Operationalised by IT-SI-WI-01 through 04. Vendor-agnostic.",
+    "tags": "ASM SOP IT-SI-SOP-01 Security Infrastructure Baseline WAF load balancer PAM minimum security requirements baseline principles default-deny AAL3 break-glass cryptography critical path OWASP Top 10 NIST 800-63B framework alignment governance review exception handling vendor-agnostic IT Operations Lead Network Engineering Identity Access Engineering"
+  },
+  {
+    "id": "IT-SI-WI-01",
+    "title": "Common Management Plane & Logging",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-si-wi-01.html",
+    "desc": "Vendor-agnostic shared management-plane controls applicable to WAFs, load balancers, and PAM platforms alike. Operationalises IT-SI-SOP-01 section 4.1. Ten steps: disable plaintext (Telnet/HTTP/SNMPv1-v2/FTP/TFTP); enable secure protocols (SSHv2, HTTPS TLS 1.2+, SNMPv3 authPriv) with organisation-CA-issued management cert; AAA + MFA with AAL3 for Tier 0 PAM admin; restrict management to dedicated network (PAM logically separated from data plane); session timeouts (PAM admin tighter with absolute lifetime cap); NTP with authentication; centralised logging with platform-specific event coverage (WAF block events, LB TLS handshake failures, PAM privileged session events); certificate hygiene for the platform itself; console and OOB hardening; change control discipline. Referenced by WI-02, WI-03, WI-04.",
+    "tags": "ASM WI IT-SI-WI-01 common management plane logging AAA MFA TACACS RADIUS SAML Entra ID AAL2 AAL3 SSH HTTPS SNMPv3 syslog NTP authentication session timeout authorised use banner management network dedicated interface organisation CA certificate change control standard normal emergency console OOB break-glass vault-independent WAF load balancer PAM shared foundation"
+  },
+  {
+    "id": "IT-SI-WI-02",
+    "title": "WAF Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-si-wi-02.html",
+    "desc": "Vendor-agnostic WAF hardening. Operationalises IT-SI-SOP-01 section 4.2. Eight steps: inventory protected applications and assign WAF policy ownership; select rule set (OWASP Top 10 + OWASP CRS paranoia level 2 minimum, paranoia 3 for high-sensitivity); deploy monitor mode then tune then transition to blocking within 90 days for Tier 0/1; false-positive triage workflow with documented SLA (5 working days for Tier 0/1); signature update cadence (30 days routine, 7 days emergency, 24h for active exploitation); TLS termination with back-end re-encryption for Tier 0/1; bot management and rate limiting on public-facing apps with brute-force protection on auth endpoints; application allowlist or learning for high-sensitivity apps.",
+    "tags": "ASM WI IT-SI-WI-02 WAF web application firewall hardening OWASP Top 10 OWASP CRS Core Rule Set paranoia level signature engine learning false positive triage SLA monitor mode blocking mode TLS termination back-end re-encryption HSTS bot management rate limiting brute-force protection auth endpoints allowlist application learning F5 ASM Imperva FortiWeb Cloudflare Azure Front Door AWS WAF cloud WAF on-prem"
+  },
+  {
+    "id": "IT-SI-WI-03",
+    "title": "Load Balancer Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-si-wi-03.html",
+    "desc": "Vendor-agnostic load-balancer hardening. Operationalises IT-SI-SOP-01 section 4.3. Eight steps: TLS protocol and cipher suite hardening (TLS 1.2 minimum, AEAD only, ECDHE preferred, server-preferred order, secure renegotiation); certificate lifecycle management (inventory, 30-day expiry alerting, auto-renewal where possible, RSA 2048+ or ECDSA P-256+, CT log awareness, wildcard discipline, HSM for high-value); HSTS on internet-facing virtual servers; virtual server hygiene (90-day no-traffic removal); health-check security (no metadata leak, source-restricted, dedicated /healthz); connection rate limiting and SYN-flood protection; source IP preservation (XFF/PROXY protocol/DSR trade-offs); HA pair with annual failover test.",
+    "tags": "ASM WI IT-SI-WI-03 load balancer ADC application delivery controller hardening TLS 1.2 TLS 1.3 cipher suite AEAD ECDHE certificate lifecycle ACME auto-renewal RSA ECDSA CT certificate transparency wildcard HSM HSTS preload virtual server hygiene health check rate limiting SYN flood SYN cookies X-Forwarded-For XFF PROXY protocol DSR direct server return high availability HA failover F5 LTM Citrix ADC NetScaler HAProxy NGINX Plus A10 AVI"
+  },
+  {
+    "id": "IT-SI-WI-04",
+    "title": "PAM Platform Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-si-wi-04.html",
+    "desc": "Vendor-agnostic PAM platform hardening. Operationalises IT-SI-SOP-01 section 4.4. Ten steps: vault encryption at rest with HSM-backed master key not stored on appliance; session broker hardened to Tier 0 server baseline; session recording integrity (write-once or integrity-protected storage, hash chaining, tamper detection alerting SOC, retention enforced at storage tier); just-in-time access enforcement (standing access is the exception); identity-source integration (central directory, MFA, no local user database except break-glass); HA pair with annual failover test; vault-independent break-glass procedure documented and tested annually (single biggest implementation gap in PAM); vault backup with annual restore test; network exposure (dedicated management network, brokering from admin networks only); privileged session events to SIEM with extended retention.",
+    "tags": "ASM WI IT-SI-WI-04 PAM privileged access management vault encryption HSM PKCS11 KMIP session broker jump host PSM session recording integrity hash chain write-once WORM retention lock immutable blob just-in-time JIT access standing access exception identity source integration central directory Entra ID Active Directory leaver workflow high availability failover break-glass procedure vault-independent annual test backup restore network exposure dedicated management network brokering interface SIEM privileged session events CyberArk BeyondTrust Delinea Thycotic HashiCorp Vault"
   }
 ]

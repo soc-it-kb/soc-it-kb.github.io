@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-SI-WI-01: Common Management Plane &amp; Logging — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --wi:#8B4A0E; --wi-light:#FEF0E6; --wi-border:#F5C89A; --wi-dark:#5C3008; --asm:#5B2D8E; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .wi-section { background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:8px; }
+  .wi-section-title { font-size:15px; font-weight:600; color:#1a1a1a; margin-bottom:0.7rem; padding-bottom:6px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0 0 8px 0; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-section h3 { font-size:13px; font-weight:600; color:var(--wi-dark); margin:12px 0 5px 0; }
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:6px; padding-left:0; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:#333; line-height:1.55; }
+  .wi-bullet li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:6px; }
+  .step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.1rem; margin-top:8px; }
+  .step-header { display:flex; align-items:center; gap:10px; margin-bottom:7px; padding-bottom:5px; border-bottom:0.5px solid #f0f0ec; }
+  .step-num { width:24px; height:24px; border-radius:6px; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-title { font-size:13px; font-weight:700; color:var(--wi-dark); }
+  .step-objective { font-size:12px; color:#666; font-style:italic; margin-top:2px; line-height:1.5; }
+  .step-body { font-size:13px; color:#333; line-height:1.6; }
+  .step-body p { margin:6px 0; }
+  .step-body p:first-child { margin-top:0; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body strong { color:var(--wi-dark); }
+  .step-body ul { list-style:none; padding:0; margin:6px 0; display:flex; flex-direction:column; gap:3px; }
+  .step-body ul li { display:flex; gap:7px; font-size:12px; color:#444; line-height:1.5; padding-left:2px; }
+  .step-body ul li::before { content:'\203A'; color:var(--wi); font-weight:700; flex-shrink:0; }
+  .step-verify { background:#fff; border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:6px; padding:0.5rem 0.8rem; margin-top:8px; font-size:12px; color:#444; line-height:1.55; }
+  .step-verify strong { color:var(--wi-dark); }
+  .cis-ref { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--wi); background:var(--wi-light); border:0.5px solid var(--wi-border); padding:1px 7px; border-radius:4px; font-weight:600; margin-top:5px; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:var(--wi-dark); line-height:1.55; margin-top:10px; }
+  .callout-info strong { color:var(--wi-dark); font-weight:700; }
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#7a2e10; line-height:1.55; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--wi-dark); color:#fff; font-weight:600; padding:7px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--wi-dark); white-space:nowrap; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>&rsaquo;</span>
+    <a href="asm.html">ASM</a><span>&rsaquo;</span>
+    <a href="asm-security-infrastructure-baselines.html">Security Infrastructure</a><span>&rsaquo;</span>
+    <span>IT-SI-WI-01</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#3D1F05 0%,#5C3008 40%,#8B4A0E 100%);">
+    <span class="kb-page-hero-icon">🛡️</span>
+    <h1>IT-SI-WI-01: Common Management Plane &amp; Logging</h1>
+    <p>Vendor-agnostic implementation guidance for the shared management-plane controls that apply to WAFs, load balancers, and PAM platforms alike. Operationalises &sect;4.1 of IT-SI-SOP-01. Referenced by WI-02, WI-03, and WI-04 as the foundation each builds on.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Security Infrastructure</span>
+      <span class="kb-meta-pill">Vendor-agnostic</span>
+      <span class="kb-meta-pill">CIS / OWASP / NIST derived</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">📋 <strong>WI ID:</strong> IT-SI-WI-01</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">🔗 <strong>Implements:</strong> <a href="it-si-sop-01.html" style="color:var(--wi);">IT-SI-SOP-01 §4.1</a></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Owner:</strong> Network Engineering / IAE</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 11 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <p>Before applying this WI:</p>
+    <ul class="wi-bullet">
+      <li>The platform (WAF / load balancer / PAM) is in <strong>Onboarding</strong> status in GRC-REG-ASSET (or, for existing platforms, an in-place hardening change is approved)</li>
+      <li>Out-of-band access to the platform is available in case in-band access is lost during configuration (vendor console, dedicated OOB interface, or platform-cloud-management)</li>
+      <li>Current configuration is backed up to the central config repository</li>
+      <li>A change window is approved per organisation change-control procedures</li>
+      <li>The central AAA service (TACACS+, RADIUS, SAML provider, or Entra ID) is reachable and the platform is provisioned in the AAA service</li>
+      <li>The central syslog destinations, NTP servers, and authorised-use banner text are known</li>
+      <li>The management network (or admin allow-list) for the platform is defined; for PAM, a dedicated management network separated from data-plane is mandatory</li>
+      <li>The organisation CA can issue a certificate for the platform's management interface</li>
+    </ul>
+    <div class="callout-warn"><strong>This WI is the shared foundation for WI-02, WI-03, and WI-04.</strong> Each device-type WI assumes management-plane hardening from this WI is in place before its device-specific controls are applied. Apply this WI first, then proceed to the relevant device-type WI.</div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <p>The steps below cover the shared management-plane controls required by IT-SI-SOP-01 &sect;4.1. They apply to WAFs, load balancers, and PAM platforms alike, with platform-specific notes called out where they matter.</p>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div>
+        <div><div class="step-title">Disable plaintext management protocols</div>
+        <div class="step-objective">Eliminate cleartext credential and configuration exposure on the wire.</div></div>
+      </div>
+      <div class="step-body">
+        <p>On every in-scope platform, disable:</p>
+        <ul>
+          <li>Telnet (TCP/23)</li>
+          <li>HTTP web management (TCP/80) &mdash; on appliances that default to HTTP-redirect-to-HTTPS, ensure HTTP is fully disabled, not just redirecting</li>
+          <li>SNMPv1 and SNMPv2c &mdash; remove community strings; disable the protocol versions</li>
+          <li>FTP and TFTP for configuration transfer or log export</li>
+          <li>Vendor-specific debug or "easy management" services (e.g. specific platform debug daemons left on by default)</li>
+        </ul>
+        <p><strong>Platform notes.</strong> Load balancers often have a separate "management partition" or "config sync" interface — these need the same treatment. PAM platforms sometimes have a "support/diagnostic" service running on the appliance that bypasses the documented authentication path — confirm with the vendor's hardening guide and disable.</p>
+        <div class="step-verify"><strong>Verify.</strong> From a non-management host, attempt connections to TCP/23, TCP/80, UDP/161 with snmpwalk. All should fail. On the platform, the running configuration should show no Telnet listener, no HTTP listener (HTTPS only), and no SNMPv1/v2 community strings.</div>
+        <span class="cis-ref">Sec-Infra Mgmt: "disable plaintext"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div>
+        <div><div class="step-title">Enable secure management protocols with strong configuration</div>
+        <div class="step-objective">Replace plaintext with cryptographically strong management protocols, with the appliance's own certificate hygiene up to baseline.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Enable and configure:</p>
+        <ul>
+          <li><strong>SSH version 2 only</strong> &mdash; restrict cipher suites to modern AEAD ciphers; drop CBC-mode and SHA1 MACs where successor algorithms exist; key-based authentication preferred over password where the platform supports both</li>
+          <li><strong>HTTPS web management</strong> &mdash; TLS 1.2 minimum, prefer TLS 1.3 where supported. <strong>The platform's management certificate is organisation-CA-issued, never a vendor-default self-signed cert</strong> — training users to click through certificate warnings on the management UI is a baseline-defeating habit</li>
+          <li><strong>SNMPv3 with authPriv</strong> if SNMP is needed &mdash; SHA-256 authentication minimum, AES-128 privacy minimum (AES-256 preferred); per-user views restrict OIDs to monitoring needs only</li>
+          <li><strong>SCP or SFTP</strong> for file transfer (config export, signature/policy import, log export)</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> SSH negotiates v2 only. HTTPS responds with a valid certificate from the organisation's CA — confirm via browser or <code>openssl s_client</code>. SNMPv3 walks succeed with authentication; SNMPv2 walks rejected.</div>
+        <span class="cis-ref">Sec-Infra Mgmt: "secure remote access"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div>
+        <div><div class="step-title">Configure central authentication with MFA — AAL3 for Tier 0 PAM</div>
+        <div class="step-objective">All administrative authentication via central directory, attributable to a named individual, with authentication strength matched to what the platform protects.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Configure the platform to authenticate administrators against the central AAA service:</p>
+        <ul>
+          <li><strong>Primary:</strong> TACACS+, RADIUS, SAML, or Entra ID per the central identity architecture (the choice depends on what the platform supports natively)</li>
+          <li><strong>Secondary AAA</strong> in a different location for resilience</li>
+          <li><strong>MFA</strong>: required for all administrative access. For WAF and load balancer administration, AAL2 (typical TOTP or push MFA) is the minimum. <strong>For PAM administration where the PAM brokers access to Tier 0 systems, AAL3 is required</strong> (hardware-backed authenticators, FIDO2 security keys, or smartcard). This is a meaningful step-up from general administration and may require coordination with the identity team.</li>
+          <li><strong>Last-resort local account:</strong> one named "break-glass" local account per platform, password vaulted in PAM (or in a vault independent of this platform if it <em>is</em> the PAM &mdash; see step 8 of WI-04)</li>
+          <li><strong>Authorisation:</strong> AAA groups apply privilege levels (read-only, configuration, full administrative). Default grants are read-only; full administrative is exception-by-exception.</li>
+          <li><strong>Accounting:</strong> all authentication events and command executions logged to AAA platform and to syslog</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Log in as a named administrator; confirm AAA event in the identity platform and syslog event on the platform. Attempt with a deliberately invalid password; confirm rejection logged. For PAM, verify that AAL3 enforcement actually blocks AAL2-only sessions (try authenticating without the hardware factor — should fail).</div>
+        <span class="cis-ref">Sec-Infra Mgmt: "AAA + MFA"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div>
+        <div><div class="step-title">Restrict management access to a dedicated management network</div>
+        <div class="step-objective">Limit administrative reach to a known controlled source set.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Configure management-source restriction:</p>
+        <ul>
+          <li>Identify the management network and specific administrative sources (jump hosts, NOC workstations)</li>
+          <li>Apply inbound access control on management protocols (SSH, HTTPS, SNMP, NETCONF) restricting them to those sources</li>
+          <li><strong>Dedicated management interface</strong> &mdash; bind management services to a separate physical or logical interface where the platform supports it. Disable management on data-plane interfaces.</li>
+          <li><strong>For PAM specifically:</strong> the management plane is on a dedicated VLAN logically separated from data plane; the management network is unreachable from any data-plane VLAN; the management interface does not share an IP namespace with anything an end-user (or attacker via end-user) can reach</li>
+          <li>For cloud-managed WAFs, restrict the vendor cloud-portal access via the vendor's IP allow-list or SSO conditional-access policy</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Attempt SSH from a non-management host; refused at the platform's ACL layer. From the management network, succeed. For PAM, attempt to reach the management plane from a data-plane VLAN; should be unreachable (no route, or firewall-dropped). Confirm ACL counters increment on attempted denied connections.</div>
+        <span class="cis-ref">Sec-Infra Mgmt: "restrict by source"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div>
+        <div><div class="step-title">Session timeouts and authorised-use banner</div>
+        <div class="step-objective">Limit exposure of unattended sessions; display the authorised-use notice.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Configure:</p>
+        <ul>
+          <li><strong>Idle session timeout</strong> — 15 minutes maximum for privileged sessions; 30 minutes for read-only sessions if used. Configure on each management plane (SSH, HTTPS, console)</li>
+          <li><strong>PAM-specific:</strong> tighter timeout (typically 10 minutes) on PAM administrator sessions; absolute session lifetime (e.g. 4 hours regardless of activity)</li>
+          <li><strong>Pre-authentication banner</strong> &mdash; the organisation's approved authorised-use notice (Legal-approved version, available from IT Operations)</li>
+          <li><strong>Post-authentication MOTD</strong> &mdash; optional; can include platform classification (Tier 0/1/2/3), pointer to the relevant playbook for incidents involving this platform</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Connect; banner appears pre-login. Authenticate; MOTD if configured. Leave session idle past timeout; session terminates. For PAM, verify both idle and absolute timeouts.</div>
+        <span class="cis-ref">Sec-Infra Mgmt: "session controls"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">6</div>
+        <div><div class="step-title">NTP with authentication</div>
+        <div class="step-objective">Accurate trusted time; correlation of cross-platform events; non-repudiation in audit logs.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Configure NTP:</p>
+        <ul>
+          <li>Two or more authoritative NTP servers (the organisation's central NTP infrastructure)</li>
+          <li>NTP authentication enabled (shared key or NTPv4 autokey where supported)</li>
+          <li>Time zone set to UTC for log correlation; do not use local time on infrastructure</li>
+          <li>NTP source interface bound to the management interface where applicable</li>
+          <li><strong>PAM-specific:</strong> session recording timestamps depend on accurate time; check that the recording subsystem uses the same NTP-synchronised clock as the audit log subsystem (some platforms maintain separate clocks)</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Show NTP status; synchronised (stratum &lt;15, offset &lt;100ms). Authentication key configured. PAM: a brief test session's recording timestamp matches the audit log timestamp.</div>
+        <span class="cis-ref">Sec-Infra Mgmt: "time synchronisation"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">7</div>
+        <div><div class="step-title">Centralised logging with platform-specific event coverage</div>
+        <div class="step-objective">All security-relevant events forwarded to central SIEM with sufficient context for SOC investigation.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Configure syslog forwarding to two SIEM destinations. Beyond the standard events (authentication, configuration changes, interface state, AAA, hardware alarms), each platform type adds its own event categories:</p>
+        <ul>
+          <li><strong>WAF</strong> — block/alert events with rule ID, request metadata, source IP, URI, user-agent; signature update events; learning-mode transitions; mode changes (monitor↔block)</li>
+          <li><strong>Load balancer</strong> — TLS handshake failures (often indicative of scanning or downgrade attempts), pool member health-state changes, virtual server enable/disable, certificate expiry warnings</li>
+          <li><strong>PAM</strong> — privileged session start/end with target, brokered command execution where captured, JIT access grant/revoke, vault access events, integrity-check failures, anomaly detections</li>
+        </ul>
+        <p>Use TCP or TLS-encrypted syslog where the platform supports it. Source-interface bound to the management interface.</p>
+        <div class="step-verify"><strong>Verify.</strong> Trigger a known event per platform type (failed login + a WAF rule trigger / TLS handshake failure / PAM session). Events arrive at central SIEM within expected latency (typically &lt;60s). Confirm timestamps correct and source IP is the management interface.</div>
+        <span class="cis-ref">Sec-Infra Mgmt: "centralised logging"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">8</div>
+        <div><div class="step-title">Certificate hygiene for the platform itself</div>
+        <div class="step-objective">The appliance's own certificates are managed with the same discipline as production workload certificates.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Certificate management for the platform:</p>
+        <ul>
+          <li><strong>Management interface certificate</strong> — organisation-CA-issued; tracked in the central certificate inventory; expiry alerted ≥30 days before expiry; auto-renewal where possible (ACME or vendor-cloud-managed)</li>
+          <li><strong>SNMP/syslog client certificates</strong> where the platform uses certificate-based authentication to those services — same discipline</li>
+          <li><strong>API client certificates</strong> if the platform's API is consumed by automation — vaulted; rotation procedure documented</li>
+          <li><strong>Vendor support certificates</strong> (vendor cloud / call-home) — track and confirm; treat any vendor-side certificate as a third-party dependency that requires its own monitoring</li>
+          <li><strong>WAF-specific:</strong> certificates used for TLS termination on protected applications are tracked under WI-02 (WAF) and WI-03 (Load Balancer), not here — this step is the platform's own management certificate only</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Pull the platform's management certificate via <code>openssl s_client</code>; confirm issuer is the organisation's CA, expiry &gt;30 days, key strength meets policy (RSA 2048+ or ECDSA P-256+). Confirm tracking in the central certificate inventory.</div>
+        <span class="cis-ref">Sec-Infra Mgmt: "certificate hygiene"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">9</div>
+        <div><div class="step-title">Console and out-of-band access hardening</div>
+        <div class="step-objective">Physical or OOB access does not bypass the controls applied to remote management.</div></div>
+      </div>
+      <div class="step-body">
+        <p>For physical console and OOB ports:</p>
+        <ul>
+          <li>Console port physically secured (locked rack, controlled-access room)</li>
+          <li>Console login uses the AAA configuration, not a local-only path</li>
+          <li>Console session timeout configured to match remote management</li>
+          <li>OOB management network (where the platform has dedicated OOB) on a separate physical or logical infrastructure; OOB never carries data-plane traffic</li>
+          <li>Vendor cloud-OOB or call-home features reviewed and either disabled or configured per the vendor hardening guide; document the choice</li>
+          <li><strong>PAM-specific:</strong> console access to a PAM platform is a privileged action equivalent to PAM-admin login; treat console session with the same controls (AAL3 where applicable, recording where supported)</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Console login flows through AAA. Idle timeout terminates console session. OOB network confirmed separated. Vendor cloud-management state documented.</div>
+        <span class="cis-ref">Sec-Infra Mgmt: "physical/OOB access"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">10</div>
+        <div><div class="step-title">Change control discipline at the management plane</div>
+        <div class="step-objective">Every configuration change is traceable to an approved change record.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Establish change-control integration at the platform:</p>
+        <ul>
+          <li>Every configuration change is recorded in the change-management system with the standard fields (what, why, who, when, verification, rollback)</li>
+          <li><strong>Standard changes</strong> — pre-approved, low-risk (e.g. add a documented user to AAA, refresh a signature ruleset, add a known new IP to an existing allow-list)</li>
+          <li><strong>Normal changes</strong> — reviewed by change advisory board; covers rule additions, virtual server changes, certificate replacement, firmware updates</li>
+          <li><strong>Emergency changes</strong> — expedited path for security-related fixes (close an exposed management port, block a malicious source, deploy an emergency WAF signature); post-hoc review within 5 working days</li>
+          <li>For each change, capture pre/post configuration diff; this is the audit artefact</li>
+          <li>Maintenance windows defined by platform tier (Tier 0/1 have tighter windows and coordinated cross-team approval)</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Sample recent platform changes; each has a corresponding change record with the standard fields. Sample emergency changes; each has a post-hoc review entry within SLA.</div>
+        <span class="cis-ref">Sec-Infra Mgmt: "change control"</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <p>After applying all steps, verify the management plane is hardened to baseline. Many of these checks are identical across WAF/LB/PAM; the platform-specific aspects of the validation are minor.</p>
+
+    <h3>Functional validation</h3>
+    <ul class="wi-bullet">
+      <li>Log in as a named administrator from the management network &mdash; succeeds</li>
+      <li>Attempt login from a non-management host &mdash; refused</li>
+      <li>Attempt Telnet, HTTP, SNMPv2 &mdash; all fail</li>
+      <li>Trigger a configuration change; confirm it appears in central SIEM with correct timestamp and source IP</li>
+      <li>Trigger a failed authentication; confirm logged to both AAA and SIEM</li>
+      <li>Session idle past timeout terminates; for PAM, both idle and absolute timeouts confirmed</li>
+      <li>NTP synchronised (stratum &lt;15, offset &lt;100ms)</li>
+      <li>For PAM with AAL3: AAL2-only authentication fails as expected</li>
+    </ul>
+
+    <h3>Configuration review</h3>
+    <table class="gt-table">
+      <thead><tr><th>Check</th><th>Expected result</th></tr></thead>
+      <tbody>
+        <tr><td>Telnet, HTTP, SNMPv1/v2, FTP, TFTP</td><td>All disabled</td></tr>
+        <tr><td>SSH version</td><td>v2 only, modern cipher suites</td></tr>
+        <tr><td>HTTPS TLS version</td><td>TLS 1.2 minimum, organisation-CA-issued cert</td></tr>
+        <tr><td>SNMPv3</td><td>authPriv with SHA-256 / AES-128 minimum</td></tr>
+        <tr><td>AAA configured</td><td>Primary + secondary AAA, MFA enabled (AAL2 minimum, AAL3 for Tier 0 PAM)</td></tr>
+        <tr><td>Local accounts</td><td>One break-glass per platform; vaulted</td></tr>
+        <tr><td>Management restriction</td><td>Restricted to management network; dedicated interface where supported</td></tr>
+        <tr><td>Idle timeout</td><td>≤15 min privileged; PAM admin ≤10 min with absolute lifetime cap</td></tr>
+        <tr><td>Authorised-use banner</td><td>Present pre-authentication</td></tr>
+        <tr><td>NTP</td><td>≥2 servers with authentication; synchronised</td></tr>
+        <tr><td>Syslog</td><td>≥2 destinations; TCP/TLS where supported; platform-specific events included</td></tr>
+        <tr><td>Management certificate</td><td>Organisation-CA-issued; tracked in central inventory; &gt;30 days to expiry</td></tr>
+        <tr><td>Change control</td><td>Recent changes traceable through CR system</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout-info"><strong>Document the verification.</strong> Capture the validation evidence (configuration export, certificate verification, syslog confirmation, AAA test screenshots) and attach to the change record. This is the baseline conformance evidence for audit.</div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <p>Management-plane changes can lock administrators out of the platform. The general rollback approach: OOB or console access, restore the offending change from the pre-change backup, validate.</p>
+
+    <h3>Common loss-of-access scenarios</h3>
+    <ul class="wi-bullet">
+      <li><strong>Locked out via management ACL</strong> &mdash; same as the network-WI pattern; almost always because the ACL was applied before AAA was confirmed working from the management network. Recovery via console: remove the ACL or add the missing source; complete AAA validation; reapply.</li>
+      <li><strong>AAA unreachable and break-glass not tested</strong> &mdash; if the break-glass local account was never tested, this is the moment you discover it doesn't work. Vendor support call. <strong>Test break-glass before relying on it.</strong></li>
+      <li><strong>AAL3 step-up fails for everyone</strong> &mdash; cause: AAL3 enforcement enabled before all administrators have hardware authenticators provisioned. Fix: revert to AAL2; coordinate with identity team to provision hardware factors; re-enable AAL3 when ready.</li>
+      <li><strong>HTTPS management certificate not trusted</strong> &mdash; cause: CA chain not deployed to administrator workstations. Fix: deploy CA via MDM/GPO; do not work around with cert-warning click-through.</li>
+      <li><strong>Syslog flooding the SIEM</strong> &mdash; cause: severity threshold set too low (debug); fix: raise to informational; investigate the actual events later.</li>
+      <li><strong>NTP not synchronising</strong> &mdash; cause: management ACL blocking NTP, or wrong source-interface binding. Fix: verify NTP server reachability via management path.</li>
+    </ul>
+
+    <h3>Rollback procedure</h3>
+    <ol style="padding-left:18px;font-size:13px;line-height:1.7;color:#333;">
+      <li>Connect via OOB console (or vendor cloud-OOB)</li>
+      <li>Verify the platform responds; use break-glass if AAA is the failed component</li>
+      <li>Compare running config to pre-change backup; identify the breaking change</li>
+      <li>Reverse only the breaking change &mdash; not a wholesale restore unless the entire change is to be aborted</li>
+      <li>Confirm management access restored from the management network</li>
+      <li>Update change record with rollback action and root-cause finding; schedule the resubmission with the fix</li>
+    </ol>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <ul class="wi-bullet">
+      <li><strong>Don't apply management ACL before AAA is verified working.</strong> Same lesson as the network WI: order matters; AAA first then ACL.</li>
+      <li><strong>Always have working OOB.</strong> For PAM particularly, do not start this WI on a production platform without OOB; locking yourself out of PAM has cascading consequences.</li>
+      <li><strong>Test break-glass before you need it.</strong> The break-glass account is the recovery path. If it doesn't work, recovery is a vendor support case. Do an annual controlled test, document the result.</li>
+      <li><strong>AAL3 requires hardware factor provisioning across all admins.</strong> Coordinate with identity team; ensure every PAM administrator has their hardware factor before flipping AAL3 enforcement on.</li>
+      <li><strong>Self-signed certs on management UI train bad habits.</strong> Once admins learn to click through the warning, they'll do it on a phished imitation interface too. Deploy a CA-issued certificate even if it's just a few admins; the discipline matters.</li>
+      <li><strong>Cloud-managed platforms have a different control surface.</strong> Many controls in this WI map to cloud-portal settings rather than CLI; the requirement (e.g. "MFA on admin access") doesn't change but the mechanism does. Confirm via the vendor's hardening guide.</li>
+      <li><strong>Don't forget the call-home and vendor support backdoors.</strong> Many appliances have a vendor-cloud-management service running by default that effectively bypasses your management ACL. Disable it or harden it explicitly; document the choice.</li>
+      <li><strong>For PAM, management plane separation is harder than it sounds.</strong> Some PAM platforms host their administrator interface on the same network as the end-user-facing brokering service. If yours does, treat that as a known limitation and apply compensating controls (jump host + strict authentication) while raising with the vendor.</li>
+      <li><strong>Syslog volume from a WAF can dwarf everything else combined.</strong> When configuring WAF syslog forwarding, anticipate the volume; the SIEM and the platform's local buffer both need headroom. Start with sampling/tuning before unleashing full event flow.</li>
+    </ul>
+  </div>
+
+  <div class="wi-nav"><a href="it-si-sop-01.html">&larr; IT-SI-SOP-01</a><a href="it-si-wi-02.html">IT-SI-WI-02: WAF Hardening &rarr;</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-SI-WI-01 v1.0 · Live · 11 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-security-infrastructure-baselines.html" style="color:var(--wi);text-decoration:none;">&larr; Back to Security Infrastructure</a></span>
+  </div>
+</div>
+</body>
+</html>

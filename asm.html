@@ -41,6 +41,7 @@
   .domain-card.patch     { background:linear-gradient(135deg,#E6F1FB 0%,#D6E8F8 100%); border:0.5px solid #B5D4F4; }
   .domain-card.ti        { background:linear-gradient(135deg,#EDF6ED 0%,#DDF0DD 100%); border:0.5px solid #A8D5A8; }
   .domain-card.network   { background:linear-gradient(135deg,#E6F0F4 0%,#D2E5ED 100%); border:0.5px solid #A8CADB; }
+  .domain-card.security-infra { background:linear-gradient(135deg,#FCEEDA 0%,#F8DFB8 100%); border:0.5px solid #EBC58D; }
   .domain-card-icon  { font-size:28px; margin-bottom:10px; }
   .domain-card-code  { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:2px 8px; border-radius:6px; margin-bottom:8px; display:inline-block; }
   .domain-card.baselines .domain-card-code { background:rgba(91,45,142,0.12); color:var(--asm); }
@@ -48,23 +49,28 @@
   .domain-card.patch     .domain-card-code { background:rgba(24,95,165,0.1);  color:#185FA5; }
   .domain-card.ti        .domain-card-code { background:rgba(45,90,45,0.1);   color:#2D5A2D; }
   .domain-card.network   .domain-card-code { background:rgba(20,80,110,0.12); color:#145570; }
+  .domain-card.security-infra .domain-card-code { background:rgba(143,80,12,0.12); color:#8F500C; }
   .domain-card-title { font-size:16px; font-weight:700; margin-bottom:6px; }
   .domain-card.baselines .domain-card-title { color:var(--asm-dark); }
   .domain-card.vuln      .domain-card-title { color:#5C2E06; }
   .domain-card.patch     .domain-card-title { color:#0F3460; }
   .domain-card.ti        .domain-card-title { color:#1A3A1A; }
   .domain-card.network   .domain-card-title { color:#0A3848; }
+  .domain-card.security-infra .domain-card-title { color:#5A3208; }
   .domain-card-desc { font-size:13px; line-height:1.6; margin-bottom:10px; }
   .domain-card.baselines .domain-card-desc { color:#4A2A7A; }
   .domain-card.vuln      .domain-card-desc { color:#7a2e10; }
   .domain-card.patch     .domain-card-desc { color:#0F3460; }
   .domain-card.ti        .domain-card-desc { color:#1A3A1A; }
   .domain-card.network   .domain-card-desc { color:#0A3848; }
+  .domain-card.security-infra .domain-card-desc { color:#5A3208; }
   .domain-card-footer { display:flex; align-items:center; justify-content:space-between; font-size:12px; font-weight:600; }
   .domain-card.baselines .domain-card-footer { color:var(--asm); }
   .domain-card.vuln      .domain-card-footer { color:#993C1D; }
   .domain-card.patch     .domain-card-footer { color:#185FA5; }
   .domain-card.ti        .domain-card-footer { color:#2D5A2D; }
+  .domain-card.network   .domain-card-footer { color:#145570; }
+  .domain-card.security-infra .domain-card-footer { color:#8F500C; }
 
   /* ASM lifecycle */
   .lifecycle-bar { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-bottom:1.5rem; }
@@ -113,7 +119,7 @@
   <div class="asm-hero">
     <div class="asm-hero-eyebrow">Section overview</div>
     <h1>Attack Surface Management</h1>
-    <p>The ASM section governs how the Institution identifies, understands, and reduces its exploitable exposure across people, technology, and processes. It brings together Security Baselines, Vulnerability Management, Patch Management, and Threat Intelligence into a unified, risk-driven capability aligned to Zero Trust principles and NIST CSF 2.0.</p>
+    <p>The ASM section governs how the organisation identifies, understands, and reduces its exploitable exposure across people, technology, and processes. It brings together Security Baselines, Vulnerability Management, Patch Management, and Threat Intelligence into a unified, risk-driven capability aligned to Zero Trust principles and NIST CSF 2.0.</p>
     <div class="asm-hero-pills">
       <span class="asm-hero-pill">Zero Trust aligned</span>
       <span class="asm-hero-pill">NIST CSF 2.0</span>
@@ -125,15 +131,15 @@
 
   <!-- Stats -->
   <div class="asm-stats">
-    <div class="asm-stat"><div class="asm-stat-num">5</div><div class="asm-stat-label">ASM domains</div></div>
-    <div class="asm-stat"><div class="asm-stat-num">13+</div><div class="asm-stat-label">SOPs</div></div>
-    <div class="asm-stat"><div class="asm-stat-num">13</div><div class="asm-stat-label">Work instructions</div></div>
+    <div class="asm-stat"><div class="asm-stat-num">6</div><div class="asm-stat-label">ASM domains</div></div>
+    <div class="asm-stat"><div class="asm-stat-num">14+</div><div class="asm-stat-label">SOPs</div></div>
+    <div class="asm-stat"><div class="asm-stat-num">17</div><div class="asm-stat-label">Work instructions</div></div>
     <div class="asm-stat"><div class="asm-stat-num">3</div><div class="asm-stat-label">Framework alignments</div></div>
   </div>
 
   <!-- What is ASM -->
   <div class="asm-intro">
-    <p>Attack Surface Management is the continuous practice of discovering, inventorying, and reducing an Institution's exploitable exposure. In a Zero Trust model, every asset is a potential entry point — ASM ensures that no asset is unknown, no vulnerability is untracked, and no patch is indefinitely deferred without documented risk acceptance.</p>
+    <p>Attack Surface Management is the continuous practice of discovering, inventorying, and reducing an organisation's exploitable exposure. In a Zero Trust model, every asset is a potential entry point — ASM ensures that no asset is unknown, no vulnerability is untracked, and no patch is indefinitely deferred without documented risk acceptance.</p>
     <p>This section bridges Cyber Security and IT Operations. It provides the governance frameworks (SOPs) and operational procedures (Work Instructions) that local, regional, and global IT teams can consistently apply regardless of location or maturity level. All content is tool-agnostic — the <em>what</em> and <em>why</em> are defined here; the <em>how</em> is implemented through platform-specific Work Instructions.</p>
   </div>
 
@@ -203,6 +209,14 @@
         <div class="domain-card-title">Network Device Baselines</div>
         <div class="domain-card-desc">Vendor-agnostic security baselines for switches, routers, firewalls, wireless infrastructure. Organised by control domain (management, control, data, wireless, firewall, configuration management). CIS L1 aligned.</div>
         <div class="domain-card-footer"><span>SOP · 6 Work Instructions · CIS L1</span><span>→</span></div>
+      </a>
+
+      <a class="domain-card security-infra" href="asm-security-infrastructure-baselines.html">
+        <div class="domain-card-icon">🛡️</div>
+        <div class="domain-card-code">ASM-SI</div>
+        <div class="domain-card-title">Security Infrastructure Baselines</div>
+        <div class="domain-card-desc">Vendor-agnostic security baselines for Web Application Firewalls (WAFs), load balancers, and Privileged Access Management (PAM) platforms. Organised by device type with a shared management-plane WI. CIS / OWASP / NIST aligned.</div>
+        <div class="domain-card-footer"><span>SOP · 4 Work Instructions · WAF/LB/PAM</span><span>→</span></div>
       </a>
 
     </div>
