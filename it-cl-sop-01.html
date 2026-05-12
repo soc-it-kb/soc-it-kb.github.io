@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-CL-SOP-01: Cloud Security Baseline — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+<style>
+  :root { --cl:#2E5C8A; --cl-light:#E8F0F8; --cl-border:#A8C5DE; --cl-dark:#1A3A5C; }
+  .sop-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .sop-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .sop-meta-item strong { color:#1a1a1a; }
+  .sop-meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+
+  .sop-section { background:#fff; border:0.5px solid var(--cl-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .sop-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--cl); margin-bottom:4px; }
+  .sop-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .sop-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .sop-section p:last-child { margin-bottom:0; }
+  .sop-section h3 { font-size:14px; font-weight:600; color:var(--cl-dark); margin:14px 0 6px 0; }
+
+  .sop-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .sop-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .sop-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--cl); flex-shrink:0; margin-top:5px; }
+
+  .req-domain { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.2rem; margin-top:8px; }
+  .req-domain-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; padding-bottom:6px; border-bottom:0.5px solid var(--cl-border); }
+  .req-icon { width:32px; height:32px; border-radius:8px; background:var(--cl-light); color:var(--cl); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+  .req-domain-header h4 { font-size:13px; font-weight:700; color:var(--cl-dark); margin:0; }
+  .req-domain-header .wi-link { margin-left:auto; font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; color:var(--cl); text-decoration:none; background:var(--cl-light); padding:3px 9px; border-radius:5px; border:0.5px solid var(--cl-border); }
+  .req-domain-header .wi-link:hover { background:var(--cl); color:#fff; }
+  .req-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:5px; }
+  .req-list li { display:flex; gap:8px; font-size:13px; color:#333; line-height:1.55; padding:3px 0; }
+  .req-list li::before { content:'✓'; color:var(--cl); font-weight:700; flex-shrink:0; }
+  .tier-tag { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:10px; font-weight:700; padding:1px 6px; border-radius:4px; background:#fff; border:0.5px solid var(--cl-border); color:var(--cl); margin-right:5px; }
+  .tier-tag.all  { background:#E1F5EE; color:#0F6E56; border-color:#82D4B0; }
+  .tier-tag.e3   { background:#FEF0E6; color:#8B4A0E; border-color:#F5C89A; }
+  .tier-tag.e5   { background:#F2EBF9; color:#5B2D8E; border-color:#C7B3DD; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--cl-dark); color:#fff; font-weight:600; padding:8px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:8px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--cl-dark); white-space:nowrap; }
+
+  .roles-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .role-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.85rem 1rem; }
+  .role-card h4 { font-size:12px; font-weight:700; color:var(--cl); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; }
+  .role-card p  { font-size:13px; color:#444; line-height:1.55; margin:0; }
+  @media(max-width:640px){ .roles-grid{grid-template-columns:1fr;} }
+
+  .callout-info { background:var(--cl-light); border:0.5px solid var(--cl-border); border-left:3px solid var(--cl); border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:var(--cl-dark); line-height:1.6; margin-top:10px; }
+  .callout-info strong { color:var(--cl-dark); font-weight:700; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #d97706; border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:#5a330a; line-height:1.6; margin-top:10px; }
+  .callout-warn strong { color:#3d260a; }
+
+  .toc-box { background:#fafafa; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
+  .toc-title { font-size:11px; font-weight:700; color:var(--cl); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+  .toc-list { display:grid; grid-template-columns:1fr 1fr; gap:4px 16px; font-size:13px; }
+  .toc-list a { color:#444; text-decoration:none; padding:2px 0; display:flex; align-items:baseline; gap:8px; }
+  .toc-list a:hover { color:var(--cl); }
+  .toc-list a span { color:var(--cl); font-weight:600; font-family:'SF Mono','Fira Code',monospace; font-size:12px; min-width:24px; }
+  @media(max-width:640px){ .toc-list{grid-template-columns:1fr;} }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--cl); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .sop-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .sop-nav a { font-size:13px; color:var(--cl); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-cloud-baselines.html">Cloud Baselines</a><span>›</span>
+    <span>IT-CL-SOP-01</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#0F2540 0%,#1A3A5C 40%,#2E5C8A 100%);">
+    <span class="kb-page-hero-icon">☁️</span>
+    <h1>IT-CL-SOP-01: Cloud Security Baseline</h1>
+    <p>The authoritative policy-level baseline for Microsoft 365 and Microsoft Azure tenants across operating units. Defines shared principles plus platform-specific minimum security requirements with explicit licensing-tier awareness. Operationalised by IT-CL-WI-01 through IT-CL-WI-05.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">ASM domain</span>
+      <span class="kb-meta-pill">M365 · Azure</span>
+      <span class="kb-meta-pill">CIS Foundations L1</span>
+      <span class="kb-meta-pill">Tier-aware (A1/E1 → E5)</span>
+    </div>
+  </div>
+
+  <div class="sop-meta-bar">
+    <div class="sop-meta-item">📋 <strong>SOP ID:</strong> IT-CL-SOP-01</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">👤 <strong>Owner:</strong> Paulo Ferreira</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">📅 <strong>Published:</strong> 12 May 2026</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">🔄 <strong>Review:</strong> Annual</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item"><span class="badge-approved">Approved</span></div>
+  </div>
+
+  <div class="toc-box">
+    <div class="toc-title">Contents</div>
+    <div class="toc-list">
+      <a href="#s1"><span>1</span> Purpose</a>
+      <a href="#s2"><span>2</span> Scope</a>
+      <a href="#s3"><span>3</span> Baseline Principles</a>
+      <a href="#s4"><span>4</span> Minimum Security Requirements</a>
+      <a href="#s5"><span>5</span> Roles &amp; Responsibilities</a>
+      <a href="#s6"><span>6</span> Framework Alignment</a>
+      <a href="#s7"><span>7</span> Governance &amp; Review</a>
+    </div>
+  </div>
+
+  <div class="sop-section" id="s1">
+    <div class="sop-section-num">Section 1</div>
+    <div class="sop-section-title">Purpose</div>
+    <p>This SOP defines the minimum security baseline for cloud tenants across the institution and its agencies: Microsoft 365 (productivity tenants on any licensing tier from A1 / E1 through E5) and Microsoft Azure (IaaS / PaaS tenants where the institution or an agency operates subscriptions). It establishes the controls every such tenant must implement to be considered fit for production use, with controls grouped by platform and by licensing tier so that conformance is reported against achievable expectations.</p>
+    <p>Cloud tenants are different from on-premises infrastructure in one important way: the boundary between vendor-administered and tenant-administered controls is itself part of the baseline. Microsoft operates the underlying platform; we administer the tenant. This SOP and its operationalising Work Instructions cover only the tenant-administered surface — the configuration choices, policy settings, and integrations the operating agency is responsible for. The shared-responsibility model is the implicit framing.</p>
+    <p>This SOP is operationalised by five Work Instructions: IT-CL-WI-01 (Tenant Identity &amp; Conditional Access — cross-cutting M365 and Azure), IT-CL-WI-02 (M365 Tenant Hardening — tier-aware), IT-CL-WI-03 (Azure Subscription Baseline), IT-CL-WI-04 (Azure Workload Patterns), and IT-CL-WI-05 (Defender Suite Configuration — tier-aware). See §4 for the requirements summary and the linked WIs for implementation detail.</p>
+  </div>
+
+  <div class="sop-section" id="s2">
+    <div class="sop-section-num">Section 2</div>
+    <div class="sop-section-title">Scope</div>
+    <h3>2.1 In scope</h3>
+    <ul class="sop-bullet">
+      <li><span><strong>Microsoft 365 tenants</strong> across all agencies — Education tenants (A1 / A3 / A5) and Business / Enterprise tenants (E1 / E3 / E5). Includes Exchange Online, SharePoint Online, OneDrive, Teams, Purview, and the Defender for Office 365 features available at each licence tier.</span></li>
+      <li><span><strong>Microsoft Azure tenants</strong> — every subscription where the institution or an agency operates resources, in any region. Includes subscription-level controls (Defender for Cloud, Azure Policy, diagnostic settings, activity log), workload patterns (storage, key vault, networking, Azure WAF), and Entra ID at the tenant level.</span></li>
+      <li><span><strong>Entra ID (Azure AD)</strong> at the tenant-configuration level — Conditional Access policies, PIM enablement, Security Defaults, named locations, sign-in risk policies, break-glass account setup. Both M365-only tenants and combined M365 + Azure tenants are in scope.</span></li>
+      <li>Tenants in production, pre-production, disaster-recovery, and any environment carrying organisational data or production workloads</li>
+      <li>Tenants at any tier (Tier 0 / 1 / 2 / 3 per the existing tier model)</li>
+    </ul>
+    <h3>2.2 Out of scope</h3>
+    <ul class="sop-bullet">
+      <li><span><strong>AWS and GCP tenants</strong> — acknowledged but deferred. A small number of workloads exist on AWS and GCP across some agencies; these are recorded in GRC-REG-ASSET and a future multi-cloud extension to this domain will provide baselines. Until then, the operating agency applies the CIS AWS Foundations or CIS GCP Foundations benchmarks directly and records the choice in the asset register.</span></li>
+      <li><span><strong>Identity governance</strong> — joiner / mover / leaver lifecycle, access recertification, eligibility-list curation, role design — deferred to a future Identity domain SOP. <em>Tenant-level</em> identity controls (Conditional Access, PIM, break-glass, sign-in risk policies) are in scope of this SOP via WI-01.</span></li>
+      <li><span><strong>SOC operational use of cloud security tooling</strong> — alert triage, incident response procedures, hunt queries — covered under SOC SOPs (SOP-IM-01, SOP-EM-01, SOP-ID-01, SOP-EP-01). The tenant-side <em>configuration</em> of Defender (enablement, policy, baseline settings, log integration) is in scope of this SOP via WI-05.</span></li>
+      <li><span><strong>Third-party cloud-WAFs</strong> — Cloudflare, AWS WAF, Akamai — deferred to a future vendor-specific extension. <em>Azure-native</em> cloud-WAF (Azure WAF on Application Gateway and Front Door) is in scope of WI-04.</span></li>
+      <li><span><strong>Cloud architecture reference design</strong> — landing zone hierarchies, management group structure, hub-spoke network design, multi-region failover patterns — these belong in a Cloud Architecture document. <em>Azure Policy as enforcement mechanism</em> is in scope of WI-03 because it is the backbone for enforcing everything else.</span></li>
+      <li><span><strong>End-user devices, servers, and network devices</strong> connected to cloud tenants — covered under their respective ASM domains (Security Baselines, Network Baselines, Security Infrastructure Baselines).</span></li>
+    </ul>
+  </div>
+
+  <div class="sop-section" id="s3">
+    <div class="sop-section-num">Section 3</div>
+    <div class="sop-section-title">Baseline Principles</div>
+    <p>The seven principles below shape every requirement in this baseline. Where an implementation choice arises, refer to these principles to resolve it consistently.</p>
+
+    <h3>3.1 The shared-responsibility model is the framing</h3>
+    <p>Microsoft operates the platform; we administer the tenant. The baseline only covers what the tenant can administer. Where a control depends on the platform behaving correctly (regional failover, vendor data protection, vendor incident response), the baseline records the dependency rather than restating the control.</p>
+
+    <h3>3.2 Licensing-tier-aware, not tier-blind</h3>
+    <p>Each requirement specifies the minimum licence tier that supports it. Controls available only at higher tiers are documented as "available at tier X" with the corresponding implementation expectation. Conformance is reported per tier so deviations are visible against achievable expectations. The baseline does not pretend an A1 tenant can implement E5 features.</p>
+
+    <h3>3.3 Identity is the perimeter</h3>
+    <p>In cloud, the perimeter is the identity layer. Strong authentication (MFA universally; AAL3-grade where the platform supports it), Conditional Access by default, legacy authentication eliminated, privileged identities behind PIM where licensed. WI-01 is the foundation; the platform-specific WIs assume it is in place.</p>
+
+    <h3>3.4 Default-deny applies at the tenant boundary</h3>
+    <p>External sharing in SharePoint and OneDrive is restricted by default, not permissive. External collaboration in Teams is governed by federation policy. Tenant-to-tenant access is opt-in, not opt-out. New Azure subscriptions inherit Azure Policy denies for non-conformant configurations rather than relying on after-the-fact detection.</p>
+
+    <h3>3.5 Centralised logging is non-negotiable</h3>
+    <p>Every in-scope tenant forwards security-relevant logs to the central SIEM: M365 audit log (Exchange / SharePoint / Teams / Entra), Defender alerts, sign-in logs, Azure activity log, Defender for Cloud findings. This requirement is the most common gap in the estate today and is the largest single category of expected exceptions on initial publication of this baseline. See §3.7 for the transition treatment.</p>
+
+    <h3>3.6 Microsoft Secure Score as quantitative complement</h3>
+    <p>The Microsoft Secure Score and Azure Secure Score (Defender for Cloud) provide tenant-specific numerical conformance metrics that complement the binary baseline-conformance assessment. Targets are set per tier (see §7). They are not a replacement for the baseline; they are a leading indicator of trajectory and a useful conversation tool with tenant administrators.</p>
+
+    <h3>3.7 The central SIEM platform is under transition</h3>
+    <p>The institution's central SIEM is in transition during the lifetime of this SOP. Tenants integrate with the SIEM platform that is operationally current at the time of onboarding; the baseline requires the <em>integration</em>, not a specific vendor. The 12&ndash;18-month SIEM migration roadmap is the natural sunset window for the bulk of the initial exception register entries that this baseline crystallises.</p>
+  </div>
+
+  <div class="sop-section" id="s4">
+    <div class="sop-section-num">Section 4</div>
+    <div class="sop-section-title">Minimum Security Requirements</div>
+    <p>The requirements below are mandatory for every in-scope tenant. Each requirement domain is operationalised by a dedicated Work Instruction (linked at the right of each domain header). The tier tags indicate the minimum licence at which each requirement is achievable: <span class="tier-tag all">All</span> = required at every tier; <span class="tier-tag e3">A3 / E3+</span> = required at A3 / E3 and above; <span class="tier-tag e5">E5</span> = required where E5 licensing is in force. Where a tenant cannot meet a requirement at its licensing tier, the baseline considers this an exception only if the corresponding upgrade is feasible; otherwise it is a feature unavailability and not a deviation.</p>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">🔐</div>
+        <h4>4.1 Tenant Identity &amp; Conditional Access (cross-cutting Entra)</h4>
+        <a class="wi-link" href="it-cl-wi-01.html">IT-CL-WI-01 →</a>
+      </div>
+      <ul class="req-list">
+        <li><span class="tier-tag all">All</span>MFA enforced for all administrative accounts; AAL3-grade (FIDO2 / Windows Hello for Business / certificate-based) for tenant Global Administrators</li>
+        <li><span class="tier-tag all">All</span>MFA enforced for all standard user accounts via Security Defaults (free) or Conditional Access (A3 / E3+)</li>
+        <li><span class="tier-tag all">All</span>Legacy authentication (basic auth, IMAP, POP, SMTP AUTH, older Exchange protocols) fully blocked at tenant level</li>
+        <li><span class="tier-tag all">All</span>Break-glass / emergency-access accounts: two per tenant, documented, MFA-bypass-exempt where required by recovery procedure, passwords vaulted independently of the tenant, monthly sign-in monitoring</li>
+        <li><span class="tier-tag e3">A3 / E3+</span>Conditional Access deployed in preference to Security Defaults; named locations defined; baseline policies (require MFA for admins, block legacy auth, require compliant device for admins, geo-fence high-risk regions)</li>
+        <li><span class="tier-tag e3">A3 / E3+</span>Guest access governed by an explicit policy: invitation-only, MFA on first sign-in, conditional access applied to guests, periodic guest review</li>
+        <li><span class="tier-tag e5">E5</span>Sign-in risk and user risk policies enabled; risky sign-ins block or require step-up authentication; risky users require password change</li>
+        <li><span class="tier-tag e5">E5</span>Privileged Identity Management (PIM) enabled for Entra and Azure roles; time-bounded eligibility for all Global Administrator and equivalent roles; PIM reviews quarterly</li>
+        <li><span class="tier-tag all">All</span>Self-service password reset enabled and combined with MFA registration</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">📨</div>
+        <h4>4.2 M365 Tenant Hardening</h4>
+        <a class="wi-link" href="it-cl-wi-02.html">IT-CL-WI-02 →</a>
+      </div>
+      <ul class="req-list">
+        <li><span class="tier-tag all">All</span>Exchange Online: anti-spam, anti-malware, anti-phishing baseline policies enabled; mailbox audit logging on by default</li>
+        <li><span class="tier-tag all">All</span>SPF, DKIM, and DMARC configured for every accepted domain; DMARC policy at <code>p=quarantine</code> minimum (<code>p=reject</code> target)</li>
+        <li><span class="tier-tag all">All</span>External email tagging (warning banner on external messages) enabled</li>
+        <li><span class="tier-tag all">All</span>SharePoint and OneDrive: external sharing restricted by default; anonymous (anyone) links disabled or capped to specific scenarios with expiry</li>
+        <li><span class="tier-tag all">All</span>Teams: external access (federation) governed by allow-list; meeting policies prevent anonymous join for sensitive meetings; lobby on by default for external attendees</li>
+        <li><span class="tier-tag all">All</span>Unified Audit Log enabled and retention configured to maximum available at the tenant's licence tier</li>
+        <li><span class="tier-tag e3">A3 / E3+</span>Purview Information Protection sensitivity labels deployed for at least the high-confidentiality classification; auto-labelling for regulated data classes where supported</li>
+        <li><span class="tier-tag e3">A3 / E3+</span>Purview DLP policies for the data classes the organisation processes (PII, financial, health where applicable); test mode then enforce</li>
+        <li><span class="tier-tag e5">E5</span>Defender for Office 365 Plan 2: Safe Attachments, Safe Links, Attack Simulator deployed</li>
+        <li><span class="tier-tag e5">E5</span>Insider Risk Management policies for at least the high-risk indicator classes; Communication Compliance where regulatory requirements apply</li>
+        <li><span class="tier-tag e5">E5</span>Customer Lockbox enabled; Privileged Access Management for Exchange Online enabled</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">☁️</div>
+        <h4>4.3 Azure Subscription Baseline</h4>
+        <a class="wi-link" href="it-cl-wi-03.html">IT-CL-WI-03 →</a>
+      </div>
+      <ul class="req-list">
+        <li>Defender for Cloud enabled on every subscription; standard tier (Defender plans) on Tier 0 / 1 subscriptions; free tier acceptable only for Tier 3 with documented justification</li>
+        <li>Azure Policy assigned at management group scope (not per subscription) for the core baseline initiative: deny non-conformant resource types, enforce diagnostic settings, deny public network exposure where not justified</li>
+        <li>Diagnostic settings configured on every resource type that supports them; routed to a Log Analytics workspace and to the central SIEM via Event Hub or equivalent</li>
+        <li>Activity log forwarded to the central SIEM</li>
+        <li>Defender for Cloud findings forwarded to the central SIEM</li>
+        <li>Secure Score target ≥75% for Tier 0 / 1 subscriptions; ≥60% for Tier 2 / 3</li>
+        <li>Subscription RBAC follows least-privilege: no standing Owner role outside named platform administrators; Contributor and Reader scoped to resource groups, not subscriptions</li>
+        <li>Resource locks (CanNotDelete, ReadOnly) on critical resource groups (production data, key vaults, networking hubs)</li>
+        <li>Cost management alerting configured so unexpected spend (often the first signal of resource compromise) is visible</li>
+        <li>Tagging policy enforced: cost centre, owner, environment, sensitivity classification on every resource</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">🛠️</div>
+        <h4>4.4 Azure Workload Patterns</h4>
+        <a class="wi-link" href="it-cl-wi-04.html">IT-CL-WI-04 →</a>
+      </div>
+      <ul class="req-list">
+        <li>Storage accounts: secure transfer required (HTTPS only); public blob anonymous access disabled at the storage account level; minimum TLS 1.2; firewall rules restricting access to known networks or private endpoints</li>
+        <li>Storage accounts (Tier 0 / 1): customer-managed keys (CMK) for encryption at rest; soft-delete enabled with ≥7-day retention; immutable storage for compliance-relevant data</li>
+        <li>Key Vault: RBAC mode (preferred over access policies); soft-delete and purge protection enabled and not disablable; network access restricted (Private Endpoint preferred over service endpoints); diagnostic logging enabled</li>
+        <li>Key Vault (Tier 0): HSM-backed keys for production cryptography; key rotation procedure documented and tested annually</li>
+        <li>Virtual networks: NSGs on every subnet with explicit allow rules; default-deny inbound; flow logs enabled and forwarded to central SIEM</li>
+        <li>Private Endpoints preferred over public network exposure for PaaS data services (Storage, SQL, Key Vault, Cosmos); service endpoints permitted where Private Endpoint is unavailable</li>
+        <li>Azure WAF on Application Gateway / Front Door for public-facing web applications: managed rule set (OWASP Top 10) enabled in Prevention mode within 90 days for Tier 0 / 1 apps; custom rules documented; log streaming to central SIEM</li>
+        <li>SQL Database / Cosmos: Defender for SQL / Cosmos enabled where the workload tier justifies; transparent data encryption with CMK for Tier 0 / 1</li>
+        <li>Virtual machines: managed identities preferred over service principals; Defender for Servers integration; just-in-time VM access where exposed to management networks</li>
+        <li>App Service / Functions: managed identity to access dependencies; HTTPS only; minimum TLS version 1.2; authentication / authorisation enabled where the app does not handle its own; diagnostic logging on</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">🛡️</div>
+        <h4>4.5 Defender Suite Configuration</h4>
+        <a class="wi-link" href="it-cl-wi-05.html">IT-CL-WI-05 →</a>
+      </div>
+      <ul class="req-list">
+        <li><span class="tier-tag e3">A3 / E3+</span>Defender for Endpoint deployed to all managed endpoints (Windows, macOS, Linux servers, mobile where licensed); ASR rules in audit-then-block progression; EDR-in-block-mode enabled</li>
+        <li><span class="tier-tag e3">A3 / E3+</span>Defender for Endpoint security baseline assigned to every device group</li>
+        <li><span class="tier-tag e5">E5</span>Defender for Office 365 Plan 2: Safe Links and Safe Attachments policies enabled for all users; Attack Simulator used at least quarterly</li>
+        <li><span class="tier-tag e3">A3 / E3+</span>Defender for Identity sensor deployed on all domain controllers (where the agency operates AD); alert integration with central SIEM</li>
+        <li><span class="tier-tag e5">E5</span>Defender for Cloud Apps connected to M365 and Azure tenants; anomaly detection policies in default state minimum; OAuth app governance policies</li>
+        <li>Defender for Cloud (Azure): per WI-03 §4.3; the Defender plans enabled per subscription tier</li>
+        <li>All Defender alerts forwarded to the central SIEM; severity-to-priority mapping documented</li>
+        <li>Defender for Endpoint device-tagging convention (criticality tier, agency, environment) applied to every onboarded device</li>
+        <li>Threat &amp; Vulnerability Management (TVM) feeds vulnerability findings to the central vulnerability management programme (IT-VM-SOP-01)</li>
+      </ul>
+    </div>
+
+    <div class="callout-warn"><strong>The one expectation that's worth stating twice.</strong> The single largest gap this baseline crystallises is central SIEM integration. Today, one tenant (~7k accounts) is integrated; the rest are not. This baseline requires universal integration. On initial publication, every uncovered tenant is in a deviation state. These deviations are batch-tracked against the 12&ndash;18-month SIEM migration roadmap and are the natural way to make the gap visible to leadership.</div>
+  </div>
+
+  <div class="sop-section" id="s5">
+    <div class="sop-section-num">Section 5</div>
+    <div class="sop-section-title">Roles &amp; Responsibilities</div>
+    <div class="roles-grid">
+      <div class="role-card"><h4>IT Operations Lead</h4><p>Owns this SOP. Approves baseline changes and exceptions. Accountable to the Risk Committee for tenant conformance. Sets reporting cadence and oversees the SIEM-integration remediation programme.</p></div>
+      <div class="role-card"><h4>Cloud Engineering</h4><p>Implements the baseline in central / shared-services tenants. Maintains golden Azure Policy initiatives. Owns the central SIEM integration patterns (Event Hub, Azure Monitor agent, Graph API export). First-line responder for cloud-platform incidents.</p></div>
+      <div class="role-card"><h4>Identity &amp; Access Engineering</h4><p>Implements WI-01 (Conditional Access, PIM, Entra ID). Co-owner of break-glass account procedure. Coordinates with Cloud Engineering on Azure RBAC and with M365 admins on tenant identity policies.</p></div>
+      <div class="role-card"><h4>M365 Tenant Administrators (per agency)</h4><p>Implement WI-02 in their tenant per the agency's licence tier. Maintain Exchange / SharePoint / Teams / Purview configuration. Maintain the tenant's licence-tier record in GRC-REG-ASSET. Submit exception requests for unachievable controls.</p></div>
+      <div class="role-card"><h4>Azure Subscription Owners (per agency)</h4><p>Implement WI-03 and WI-04 in their subscriptions. Maintain Defender for Cloud configuration and Azure Policy compliance. Coordinate with Cloud Engineering on SIEM integration.</p></div>
+      <div class="role-card"><h4>SOC</h4><p>Consumes signals from Defender suite, sign-in logs, audit logs, Defender for Cloud findings. Investigates and escalates per SOC SOPs. Does not own tenant configuration; raises baseline-gap observations as input to GRC.</p></div>
+      <div class="role-card"><h4>GRC</h4><p>Owns governance of the baseline domain. Maintains exception register. Reports tenant conformance to the Risk Committee quarterly with separate views for SIEM-integration remediation. Reviews baseline annually.</p></div>
+      <div class="role-card"><h4>Architecture / Technical Authority</h4><p>Adjudicates interpretation questions. Approves design-level exceptions. Reviews new tenant onboarding to confirm baseline applicability and licensing-tier mapping.</p></div>
+    </div>
+    <div class="callout-info"><strong>Separation of duties.</strong> The engineer who configures a Conditional Access policy, Azure Policy assignment, or tenant DLP rule is not the same person who approves its move to production. Configuration changes pass through change control. Tenant Global Administrator access is held by named individuals only and is reviewed quarterly; Global Admin is not a working role.</div>
+  </div>
+
+  <div class="sop-section" id="s6">
+    <div class="sop-section-num">Section 6</div>
+    <div class="sop-section-title">Framework Alignment</div>
+    <p>This baseline draws on the standards below. CIS Foundations Benchmarks are the primary technical reference; NIST and ISO families provide the cross-cutting framing and the audit posture.</p>
+    <table class="gt-table">
+      <thead><tr><th>Framework / benchmark</th><th>Reference</th><th>Where applied</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">CIS Microsoft 365 Foundations</td><td>Level 1 (current version)</td><td>M365 tenant baseline — §4.1, §4.2, §4.5</td></tr>
+        <tr><td class="lvl">CIS Microsoft Azure Foundations</td><td>Level 1 (current version)</td><td>Azure tenant baseline — §4.1, §4.3, §4.4, §4.5</td></tr>
+        <tr><td class="lvl">Microsoft Secure Score</td><td>Tier targets per §7</td><td>Quantitative metric — all WIs</td></tr>
+        <tr><td class="lvl">Microsoft Cloud Security Benchmark (MCSB)</td><td>v1 (current)</td><td>Cross-referenced where it adds detail to CIS</td></tr>
+        <tr><td class="lvl">NIST CSF 2.0</td><td>GV.OC, ID.AM, PR.AC, PR.DS, PR.PT, DE.CM, RS.MI</td><td>Cross-cutting</td></tr>
+        <tr><td class="lvl">NIST SP 800-53 r5</td><td>AC-2/3/6/17, AU-2/3/12, CM-2/6/7, IA-2/5, SC-7/8/12/13, SI-3/4</td><td>Cross-domain reference</td></tr>
+        <tr><td class="lvl">NIST SP 800-63B</td><td>AAL2 minimum; AAL3 for Global Administrators</td><td>Authentication strength — §4.1</td></tr>
+        <tr><td class="lvl">ISO/IEC 27001:2022</td><td>A.5.15, A.5.17, A.5.23, A.8.2, A.8.5, A.8.16, A.8.20, A.8.21, A.8.24</td><td>Access, supplier, configuration, logging, cryptography</td></tr>
+        <tr><td class="lvl">ISO/IEC 27017</td><td>Cloud security controls — Code of Practice</td><td>Cloud-specific overlay; shared-responsibility framing</td></tr>
+        <tr><td class="lvl">ISO/IEC 27018</td><td>PII in public clouds</td><td>Personal-data handling — §4.2 (Purview DLP / Information Protection)</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:10px;font-size:13px;color:#666;">CIS Foundations Benchmarks publish version updates roughly annually. The baseline references "current version" rather than a frozen version number; conformance assessment uses the version in force at the time of assessment, and the per-WI implementation references that version for control IDs.</p>
+  </div>
+
+  <div class="sop-section" id="s7">
+    <div class="sop-section-num">Section 7</div>
+    <div class="sop-section-title">Governance &amp; Review</div>
+    <h3>7.1 Baseline ownership and update authority</h3>
+    <p>This SOP is owned by the IT Operations Lead with co-ownership by the Head of GRC and the Head of Identity &amp; Access Engineering (for the WI-01 aspects). Material changes (new requirements, scope changes, tier-mapping changes, framework-alignment changes) require sign-off from all three. Minor clarifications and editorial improvements may be applied by the owner with notification to GRC.</p>
+
+    <h3>7.2 Review cadence</h3>
+    <ul class="sop-bullet">
+      <li><span><strong>Annual review</strong> — minimum, by the owner with GRC sign-off, on the anniversary of approval</span></li>
+      <li><span><strong>Out-of-cycle review</strong> — triggered by: a CIS Foundations Benchmark version update (M365 or Azure); a Microsoft licensing-feature change that affects tier mappings; the central SIEM platform transition; a major incident involving cloud tenants; an audit finding</span></li>
+      <li><span><strong>Sub-WI review</strong> — each Work Instruction is reviewed independently and may update more frequently than the SOP, particularly WI-02 (M365) and WI-05 (Defender), which track Microsoft product changes</span></li>
+    </ul>
+
+    <h3>7.3 Tier-specific Secure Score targets</h3>
+    <p>Microsoft Secure Score and Azure Secure Score targets are reviewed quarterly and adjusted only with documented justification. Current targets:</p>
+    <ul class="sop-bullet">
+      <li><span><strong>M365 Secure Score:</strong> A1 / E1 — reported but not target-bound (limited feature surface); A3 / E3 — ≥70%; E5 — ≥80%</span></li>
+      <li><span><strong>Azure Secure Score (Defender for Cloud):</strong> Tier 0 / 1 subscriptions — ≥75%; Tier 2 / 3 — ≥60%</span></li>
+    </ul>
+
+    <h3>7.4 Exception handling</h3>
+    <p>Where a tenant cannot meet a requirement in §4 at its licensing tier, the operating agency follows IT-GOV-SOP-01 (Baseline Exception &amp; Risk Acceptance). Exceptions are time-bounded, recorded in GRC-REG-EXCEPTIONS, linked from the tenant's record in GRC-REG-ASSET, and reviewed annually.</p>
+    <p>Two exception categories deserve specific treatment:</p>
+    <ul class="sop-bullet">
+      <li><span><strong>Licence-tier unavailability.</strong> Where a control is unavailable at the tenant's licence tier (e.g. an A1 tenant cannot implement Conditional Access; only Security Defaults), this is recorded as a feature-unavailability with the upgrade-feasibility assessment. Annual review checks whether upgrade has become feasible.</span></li>
+      <li><span><strong>Central SIEM integration deferral.</strong> Tenants not yet integrated to the central SIEM are batch-tracked against the 12&ndash;18-month SIEM migration roadmap. Each tenant gets a single exception entry referencing the migration programme rather than a per-control set of entries. This is administratively necessary and audit-defensible.</span></li>
+    </ul>
+
+    <h3>7.5 Compliance &amp; audit</h3>
+    <p>Baseline conformance is measured through: Microsoft Secure Score and Azure Secure Score (quantitative); Defender for Cloud regulatory compliance dashboards (CIS, NIST, ISO mappings); Azure Policy compliance state; manual tenant-administrator attestation against the WI checklists (semi-annual). Reports are produced monthly to IT Operations and quarterly to GRC and the Risk Committee, with separate cuts per platform (M365 / Azure) and per licensing tier. Audit evidence includes: tenant Secure Score reports, Defender regulatory-compliance exports, Azure Policy compliance snapshots, exception register entries, change-control records, SIEM-integration status records.</p>
+
+    <h3>7.6 Related documents</h3>
+    <ul class="sop-bullet">
+      <li><span><a href="asm-cloud-baselines.html" style="color:var(--cl);font-weight:600;">asm-cloud-baselines.html</a> — Cloud Baselines domain hub</span></li>
+      <li><span><a href="it-cl-wi-01.html" style="color:var(--cl);font-weight:600;">IT-CL-WI-01</a> — Tenant Identity &amp; Conditional Access</span></li>
+      <li><span><a href="it-cl-wi-02.html" style="color:var(--cl);font-weight:600;">IT-CL-WI-02</a> — M365 Tenant Hardening</span></li>
+      <li><span><a href="it-cl-wi-03.html" style="color:var(--cl);font-weight:600;">IT-CL-WI-03</a> — Azure Subscription Baseline</span></li>
+      <li><span><a href="it-cl-wi-04.html" style="color:var(--cl);font-weight:600;">IT-CL-WI-04</a> — Azure Workload Patterns</span></li>
+      <li><span><a href="it-cl-wi-05.html" style="color:var(--cl);font-weight:600;">IT-CL-WI-05</a> — Defender Suite Configuration</span></li>
+      <li><span><a href="it-gov-sop-01.html" style="color:var(--cl);font-weight:600;">IT-GOV-SOP-01</a> — Baseline Exception &amp; Risk Acceptance</span></li>
+      <li><span><a href="it-si-sop-01.html" style="color:var(--cl);font-weight:600;">IT-SI-SOP-01</a> — Security Infrastructure Baseline (analogous pattern; defers cloud-WAF here)</span></li>
+      <li><span><a href="grc-reg-asset.html" style="color:var(--cl);font-weight:600;">GRC-REG-ASSET</a> — Asset Register (tenant entries with licensing tier)</span></li>
+      <li><span><a href="grc-register-exceptions.html" style="color:var(--cl);font-weight:600;">GRC-REG-EXCEPTIONS</a> — Baseline Exceptions Register</span></li>
+    </ul>
+  </div>
+
+  <div class="sop-nav"><a href="asm-cloud-baselines.html">← Cloud Baselines hub</a><a href="it-cl-wi-01.html">IT-CL-WI-01 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-CL-SOP-01 v1.0 · Approved · 12 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-cloud-baselines.html" style="color:var(--cl);text-decoration:none;">← Back to Cloud Baselines</a></span>
+  </div>
+</div>
+</body>
+</html>

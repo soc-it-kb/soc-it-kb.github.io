@@ -1,113 +1,98 @@
-# Security Infrastructure Baselines — Delivery Summary
+# Cloud Baselines Domain — Delivery Summary
 
-**Date:** 11 May 2026
-**Owner:** Paulo Ferreira
-**Domain:** ASM — Security Infrastructure Baselines (sixth ASM domain)
+**Date:** 12 May 2026
+**Author:** Paulo Ferreira
+**Scope:** 7th ASM domain — Microsoft 365 and Microsoft Azure tenant baselines
+**Status:** Complete; all files balanced and validated
 
-## What's delivered
+---
 
-A complete new ASM sub-domain covering Web Application Firewalls, load balancers, and Privileged Access Management platforms — the three classes of high-value security-infrastructure that the Network Device Baselines domain explicitly deferred. Six new content files + five maintenance files.
+## What's in this delivery (13 files)
 
-### New content files (6)
+### New (7 files — drop into repo root)
 
-| File | Type | Purpose |
+| File | Lines | Purpose |
 |---|---|---|
-| `asm-security-infrastructure-baselines.html` | Domain hub | Peer to the five existing ASM domain hubs; scope, device-type overview, framework alignment, roles, metrics, exception handling |
-| `it-si-sop-01.html` | SOP | 7-section policy-level baseline with 4 device-type req-domains and 7 baseline principles |
-| `it-si-wi-01.html` | WI | **Common Management Plane & Logging** — 10 steps; shared foundation referenced by WI-02/03/04 |
-| `it-si-wi-02.html` | WI | **WAF Hardening** — 8 steps; OWASP Top 10 + CRS coverage, monitor-then-block, FP triage SLA |
-| `it-si-wi-03.html` | WI | **Load Balancer Hardening** — 8 steps; TLS, cert lifecycle, HSTS, source-IP preservation, HA |
-| `it-si-wi-04.html` | WI | **PAM Platform Hardening** — 10 steps; vault encryption, session recording integrity, JIT access, **vault-independent break-glass procedure** |
+| `asm-cloud-baselines.html` | 308 | Cloud domain hub. 5 platform-cards (Tenant Identity / M365 / Azure Subscription / Azure Workloads / Defender Suite). Framework alignment table with 10 entries (CIS M365, CIS Azure, MS Secure Score, NIST CSF 2.0, 800-53 r5, 800-63B, ISO 27001, 27017, 27018, MCSB v1). Tier-aware metrics. Day-1 SIEM-gap callout. |
+| `it-cl-sop-01.html` | 394 | 7-section SOP. 5 requirement-domains (Tenant Identity 9 items, M365 11, Azure Subscription 10, Azure Workloads 10, Defender Suite 9) each tier-tagged. 8 roles. Secure Score targets per tier (M365 A3/E3 ≥70%, E5 ≥80%; Azure T0/1 ≥75%, T2/3 ≥60%). SIEM-under-transition callout in §3.7. |
+| `it-cl-wi-01.html` | 415 | Tenant Identity & CA. 9 steps cross-cutting M365 and Azure. Break-glass first (cloud-only, vaulted off-tenant, excluded from every CA, SOC-monitored — flagged as single most important). Eliminate legacy auth → MFA → CA-001..007 → named locations → Identity Protection (E5) → PIM (E5) → guest access → SSPR. |
+| `it-cl-wi-02.html` | 460 | M365 Tenant Hardening. 10 tier-aware steps. Exchange anti-phishing → SPF/DKIM/DMARC progression to `p=reject` → SharePoint/OneDrive sharing → Teams federation → Unified Audit Log (tiered retention) → Purview labels (A3/E3+; auto-labelling E5) → DLP → Defender for Office 365 P2 (E5) → IRM/CC (E5) → Customer Lockbox (E5). |
+| `it-cl-wi-03.html` | 456 | Azure Subscription Baseline. 10 steps. Management group hierarchy → Defender for Cloud plans per subscription tier → Azure Policy at MG scope (MCSB + custom deny set) → diagnostic settings via DeployIfNotExists → Activity Log forwarding → Defender continuous export → RBAC least-privilege → resource locks → cost-anomaly alerting (cryptomining/egress) → tagging enforcement. |
+| `it-cl-wi-04.html` | 475 | Azure Workload Patterns. 10 steps. Storage (CMK + soft-delete + immutable for T0/1) → Key Vault (purge protection mandatory) → VNet/NSG → Private Endpoints → **Azure WAF on App Gateway/Front Door** (absorbs cloud-WAF scope deferred from IT-SI-WI-02) → SQL/Cosmos → VMs → App Service/Functions → backup with MUA → DDoS Protection Standard. |
+| `it-cl-wi-05.html` | 437 | Defender Suite Configuration. 9 tier-aware steps. Tenant-side config only; SOC operational use boundary explicit. Defender for Endpoint (A3/E3+) → Defender for Office 365 (E5, x-ref WI-02 §8) → Defender for Identity (DC sensors) → Defender for Cloud Apps (E5) → Defender for Cloud (x-ref WI-03 §2) → TVM to central VM → SIEM ingestion with severity mapping → boundary maintained → suite-level metrics. |
 
-### Maintenance files (5)
+### Maintenance (6 files — replace in repo root)
 
 | File | Change |
 |---|---|
-| `search-index.json` | 199 → 205 entries (+6 SI entries) |
-| `index.html` | Total pages 199→205; WIs 65→69; SOPs 29→30; ASM 74→80; ASM Highlight description and ASM card updated; sixth ASM domain link (`.si` amber palette); footer 9→11 May |
-| `search.html` | Page count 199 → 205 |
-| `asm.html` | Stats 5→6 domains, 13+→14+ SOPs, 13→17 WIs; sixth domain card with amber palette (`.security-infra`); missing `.network .domain-card-footer` colour rule fixed in same pass |
-| `governance.html` | Inventory date 9→11 May; total 206→212; ASM domain pages 7→8; ASM SOPs 16→17; ASM WIs 48→52; breakdown table consolidated (added Network row that was missing + new SI row); new 11 May 2026 changelog entry; meta-pill date 4→11 May; footer 6→11 May |
+| `search-index.json` | 205 → 212 entries (7 cloud entries added with full desc/tags fields) |
+| `index.html` | Stats: 205→212 total pages, 69→74 WIs, 30→31 SOPs, 80→87 ASM pages. Added 7th ASM domain link with cloud slate-blue palette (`.cl`). ASM Highlight description and Work Instructions description updated. |
+| `asm.html` | Added 7th domain card "Cloud Baselines" (☁️ ASM-CL) with slate-blue palette (gradient `#E8F0F8`→`#C5DAEB`, border `#A8C5DE`, accent `#2E5C8A`). Stats reconciled to honest counts: 6→7 domains, 14+→18 SOPs, **17→57 WIs** (the previous 17 was stale; the search-index has 57 ASM WIs spanning 7 sub-domains). |
+| `governance.html` | Inventory date 11→12 May. ASM domain pages 8→9. ASM SOPs 17→18. ASM WIs 52→57. Added "ASM WIs — Cloud Baselines" inventory table row. Full 12 May 2026 changelog entry describing the cloud delivery, all 7 deferrals, the 7 baseline principles, the 5 WIs, framework alignment (10 entries), and the maintenance footprint. Footer date 11→12 May. |
+| `search.html` | Page count 205 → 212. |
+| `sops.html` | 27 → 28 SOPs total; ASM & IT Ops 17 → 18; added "Cloud baselines" sub-group with IT-CL-SOP-01 entry under ASM & IT Operations section, dated 12 May 2026. |
 
-## Design decisions
+---
 
-The three earlier ask_user_input_v0 choices shaped the domain:
+## Design decisions (locked via interactive Q&A earlier in session)
 
-1. **WAF scope: vendor-agnostic for both on-prem and cloud-managed**, with callout that cloud-WAF tenant-platform integration specifics defer to the future Cloud Baselines domain. Same vendor-agnostic discipline as the network domain — controls in vendor-neutral terms, no per-vendor steps.
+- **Scope:** M365 + Azure primary; AWS/GCP deferred (recorded in GRC-REG-ASSET; future multi-cloud extension)
+- **Entra ID:** tenant-level controls here (CA, PIM, break-glass, sign-in risk); identity governance (JML, recertification) deferred to future Identity domain SOP
+- **Defender suite:** tenant-side config here (WI-05); SOC operational use under SOC SOPs — boundary documented in WI-05 Step 8
+- **Cloud-WAF:** Azure-native here (WI-04 Step 5, absorbing the scope deferred from IT-SI-WI-02); third-party (Cloudflare, AWS WAF, Akamai) deferred to future vendor extension
+- **Azure landing zone:** Azure Policy as enforcement here (WI-03 Step 3); broader architecture (hub-spoke, management group reference design) deferred to future Cloud Architecture document
+- **SIEM treatment:** vendor-neutral "central SIEM" terminology throughout; current 1-tenant state is recorded as time-bounded exceptions vs the 12–18-month migration roadmap. The baseline crystallises the gap.
 
-2. **PAM included in this domain** (not deferred to a future Identity domain). Rationale: PAM platform hardening is genuinely security-infrastructure work and shares much of its baseline with WAF/LB. Identity *governance* aspects (rotation cadences, JIT approval workflows, recording retention policy) explicitly deferred to the future Identity domain SOP — boundary documented in scope notes.
+## Licensing-tier-aware throughout
 
-3. **Reverse proxies and API gateways deferred** to a future Application Delivery sub-domain, with a scope-notes callout. Avoided the temptation to force-fit them into the LB WI; the operational reality is different enough to warrant separate treatment when the time comes.
+- `.tier-tag.all` (green) — required at every tier
+- `.tier-tag.e3` (orange) — required at A3 / E3 and above
+- `.tier-tag.e5` (purple) — requires E5 licensing
 
-## Structural shape
+Each WI step indicates which tiers it applies to. Conformance is reported per tier so deviations are visible against achievable expectations rather than against an aspirational universal standard.
 
-Unlike the network domain — where switches/routers/firewalls/wireless APs share a common control-domain structure (management/control/data/etc.) — WAF/LB/PAM have distinct architectures. The domain is therefore organised by **device type** with a **shared common-management-plane WI** (IT-SI-WI-01) that the other three reference, rather than by control domain. Each device-type WI covers what's genuinely unique to that platform class.
+---
 
-The shared-WI approach means:
-- The common controls (AAA, MFA, syslog, NTP, change control) live in one place, not three near-identical copies
-- A change to the shared controls updates one document
-- Each device-type WI stays focused on what's actually unique
+## Bullet-wrap discipline
 
-## Framework alignment
-
-Lighter on vendor-specific CIS benchmarks than the network domain, since CIS coverage of WAFs and PAM is partial. The baselines lean more on:
-
-- **OWASP** for WAFs (Top 10, ASVS v4 L2 minimum, CRS v4.x paranoia 2+)
-- **NIST 800-63B** for PAM (AAL2 minimum; **AAL3 for Tier 0 PAM admin access** — explicit step-up requirement)
-- **NIST 800-52 r2** for TLS configuration on load balancers
-- **CIS F5 BIG-IP** Level 1 where the platform is F5
-- **NIST CSF 2.0**, NIST 800-53 r5, ISO 27001:2022, PCI DSS v4.0 cross-domain
-
-For non-F5 platforms, the vendor's published hardening guide combined with the NIST 800-53 control families substitutes for the missing CIS-equivalent benchmark.
-
-## The one control that's worth emphasising
-
-The SOP and WI-04 both call this out with a `callout-warn`: **the single most common failure pattern in PAM deployment is a non-existent or untested break-glass procedure.** When the PAM platform is unreachable and the only documented credentials are stored in it, recovery is a vendor support case at best and a major incident at worst. WI-04 Step 7 specifies the procedure: documented, vault-independent storage, named approvers with documented escalation, annual test under controlled conditions, post-test credential rotation, with explicit anti-patterns (break-glass credentials that themselves get auto-rotated; storage that depends on PAM; single-person break-glass).
-
-## Vendor-agnostic discipline
-
-The estate spans CyberArk, BeyondTrust, Delinea, HashiCorp Vault for PAM; F5, Citrix, HAProxy, NGINX Plus, A10, AVI for load balancers; F5 ASM, Imperva, FortiWeb, Cloudflare, Azure Front Door, AWS WAF for WAFs. Vendor-specific WIs would force false standardisation across 30+ countries. The baselines describe controls in vendor-neutral terms (what the control achieves, what feature implements it, acceptance criteria, vendor-doc pointer); the operating units apply the platform-specific steps using their vendor's hardening guide as reference.
+Applied to outer flex containers from the start. The SI hub Scope/Metrics bug (flex with `align-items:flex-start` splitting `<li><strong>` patterns to separate rows) did not recur in the cloud hub. Inner `step-body ul` lists use the same `<li><strong>` pattern that SI WIs use and that renders correctly — different CSS context, no bug.
 
 ## Validation
 
-All 6 new files structurally balanced:
+All 7 cloud files + 5 maintenance HTML files + 1 JSON have balanced tags:
 
-| File | Lines | div | tr | table |
-|---|---|---|---|---|
-| `asm-security-infrastructure-baselines.html` | 288 | 94/94 | 10/10 | 1/1 |
-| `it-si-sop-01.html` | 359 | 66/66 | 11/11 | 1/1 |
-| `it-si-wi-01.html` | 406 | 111/111 | 14/14 | 1/1 |
-| `it-si-wi-02.html` | 371 | 94/94 | 11/11 | 1/1 |
-| `it-si-wi-03.html` | 369 | 94/94 | 12/12 | 1/1 |
-| `it-si-wi-04.html` | 443 | 112/112 | 13/13 | 1/1 |
+- `<div>`/`</div>` pairs match
+- `<span>`/`</span>` pairs match  
+- `<tr>`/`</tr>` pairs match
+- `<a>`/`</a>` pairs match
+- `<table>`/`</table>` pairs match
+- 0 unwrapped outer `<li><strong>` patterns in flex containers
 
-All 5 maintenance files structurally balanced; all counter values internally consistent.
+Search index post-cloud: **212 entries** (7 cloud + 205 prior).
 
-## Deployment
+## Estate counts post-cloud (honest, from search-index)
 
-Replace these 11 files in the `soc-it-kb.github.io` repository root:
+- **ASM Domain hubs:** 9 (in search index: 3 dedicated hubs + 6 pre-search-index domain pages tracked in governance inventory)
+- **ASM SOPs:** 18 (added IT-CL-SOP-01)
+- **ASM WIs:** 57 (added 5 cloud WIs to existing 52)
+  - IT-EP-WI: 12 · IT-SRV-WI: 19 · IT-GOV-WI: 6 · IT-NET-WI: 6 · IT-TI-WI: 5 · IT-SI-WI: 4 · IT-CL-WI: 5
 
-```
-asm-security-infrastructure-baselines.html   (new)
-it-si-sop-01.html                            (new)
-it-si-wi-01.html                             (new)
-it-si-wi-02.html                             (new)
-it-si-wi-03.html                             (new)
-it-si-wi-04.html                             (new)
-search-index.json                            (replace, 205 entries)
-index.html                                   (replace)
-search.html                                  (replace)
-asm.html                                     (replace)
-governance.html                              (replace)
-```
+---
 
-Flat repo structure — all files at root, same as previous deliveries.
+## Pending follow-ups (not blocking this delivery)
 
-## Follow-ups (not for this session)
-
-- **Cloud Baselines domain** (M365 + Azure CIS Foundations) — next priority. Will pick up the cloud-WAF tenant-platform integration aspects this domain deferred.
-- **Application Delivery sub-domain** — reverse proxies (NGINX as RP, standalone HAProxy), API gateways (Kong, Apigee, Azure APIM, AWS API Gateway). Lower priority than Cloud Baselines.
-- **Identity domain SOP** — will absorb the PAM identity-governance aspects this domain explicitly deferred (rotation cadences, JIT approval policy, recording-retention policy).
-- Six broken link targets from the earlier sweep.
-- Tabletop exercise scenarios pack, BCP/DRP plans, the FRM-12-model migrations, Asset Onboarding Form (pending FRM-12-or-not lock).
-- Azure Static Web Apps migration (Phase 1) / GRC app on Azure (Phase 2).
+1. Future Identity domain SOP (JML / recertification / eligibility curation; cloud-WI-01 covers tenant-level controls only)
+2. Future Application Delivery sub-domain (reverse proxies, API gateways)
+3. Future multi-cloud extension (AWS + GCP baselines)
+4. Future Cloud Architecture document (landing zone reference design)
+5. Future vendor-specific cloud-WAF extension (Cloudflare, AWS WAF, Akamai)
+6. Tabletop exercise scenarios pack (GRC-TTX-01..NN)
+7. BCP / DRP plans
+8. FRM-06/08/10 + IRP Annex Template migration to FRM-12 model
+9. Asset Onboarding Form (pending FRM-12-or-not maturation)
+10. mailto: submit pattern on GRC-FRM-13
+11. Azure Static Web Apps migration with Entra ID (Phase 1)
+12. GRC app on Azure (Functions + Cosmos/SQL) Phase 2
+13. 6 broken link targets from earlier sweep
+14. `td.code` misuse sweep across other GRC/ASM pages
+15. Retro-fix bullet-wrap pattern across other ASM hubs if formatting issues found

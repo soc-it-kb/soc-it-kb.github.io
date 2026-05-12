@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-CL-WI-01: Tenant Identity &amp; Conditional Access — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+<style>
+  :root { --wi:#2E5C8A; --wi-light:#E8F0F8; --wi-border:#A8C5DE; --wi-dark:#1A3A5C; --cl:#2E5C8A; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .wi-section { background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:8px; }
+  .wi-section-title { font-size:15px; font-weight:600; color:#1a1a1a; margin-bottom:0.7rem; padding-bottom:6px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0 0 8px 0; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-section h3 { font-size:13px; font-weight:600; color:var(--wi-dark); margin:12px 0 5px 0; }
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:6px; padding-left:0; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:#333; line-height:1.6; }
+  .wi-bullet li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:7px; }
+  .step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.1rem; margin-top:8px; }
+  .step-header { display:flex; align-items:center; gap:10px; margin-bottom:7px; padding-bottom:5px; border-bottom:0.5px solid #f0f0ec; }
+  .step-num { width:24px; height:24px; border-radius:6px; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-title { font-size:13px; font-weight:700; color:var(--wi-dark); }
+  .step-objective { font-size:12px; color:#666; font-style:italic; margin-top:2px; line-height:1.5; }
+  .step-body { font-size:13px; color:#333; line-height:1.6; }
+  .step-body p { margin:6px 0; }
+  .step-body p:first-child { margin-top:0; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body strong { color:var(--wi-dark); }
+  .step-body ul { list-style:none; padding:0; margin:6px 0; display:flex; flex-direction:column; gap:3px; }
+  .step-body ul li { display:flex; gap:7px; font-size:12px; color:#444; line-height:1.55; padding-left:2px; }
+  .step-body ul li::before { content:'\203A'; color:var(--wi); font-weight:700; flex-shrink:0; }
+  .step-verify { background:#fff; border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:6px; padding:0.5rem 0.8rem; margin-top:8px; font-size:12px; color:#444; line-height:1.55; }
+  .step-verify strong { color:var(--wi-dark); }
+  .cis-ref { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--wi); background:var(--wi-light); border:0.5px solid var(--wi-border); padding:1px 7px; border-radius:4px; font-weight:600; margin-top:5px; }
+  .tier-tag { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:10px; font-weight:700; padding:1px 6px; border-radius:4px; background:#fff; border:0.5px solid var(--wi-border); color:var(--wi); margin-right:5px; }
+  .tier-tag.all  { background:#E1F5EE; color:#0F6E56; border-color:#82D4B0; }
+  .tier-tag.e3   { background:#FEF0E6; color:#8B4A0E; border-color:#F5C89A; }
+  .tier-tag.e5   { background:#F2EBF9; color:#5B2D8E; border-color:#C7B3DD; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:var(--wi-dark); line-height:1.6; margin-top:10px; }
+  .callout-info strong { color:var(--wi-dark); font-weight:700; }
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#7a2e10; line-height:1.6; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--wi-dark); color:#fff; font-weight:600; padding:7px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--wi-dark); white-space:nowrap; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>&rsaquo;</span>
+    <a href="asm.html">ASM</a><span>&rsaquo;</span>
+    <a href="asm-cloud-baselines.html">Cloud Baselines</a><span>&rsaquo;</span>
+    <span>IT-CL-WI-01</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#0F2540 0%,#1A3A5C 40%,#2E5C8A 100%);">
+    <span class="kb-page-hero-icon">🔐</span>
+    <h1>IT-CL-WI-01: Tenant Identity &amp; Conditional Access</h1>
+    <p>Vendor-neutral implementation guidance for the Entra ID tenant-identity controls shared between M365 and Azure: MFA, Conditional Access, named locations, legacy authentication elimination, break-glass accounts, PIM, Identity Protection. Operationalises &sect;4.1 of IT-CL-SOP-01. Licensing-tier-aware. Referenced as the foundation by WI-02, WI-03, WI-04, WI-05.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Cloud Baselines</span>
+      <span class="kb-meta-pill">Tier-aware</span>
+      <span class="kb-meta-pill">CIS Foundations L1</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">📋 <strong>WI ID:</strong> IT-CL-WI-01</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">🔗 <strong>Implements:</strong> <a href="it-cl-sop-01.html" style="color:var(--wi);">IT-CL-SOP-01 §4.1</a></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Owner:</strong> Cloud Eng / IAE</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 12 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <p>Before applying this WI:</p>
+    <ul class="wi-bullet">
+      <li><span>The tenant is in the <strong>Onboarding</strong> or <strong>Active</strong> state in GRC-REG-ASSET with the licensing tier recorded (A1 / E1 / A3 / E3 / A5 / E5)</span></li>
+      <li><span>Two break-glass / emergency-access account candidates identified (named individuals, documented justification, vaulting plan in place)</span></li>
+      <li><span>For tenants on A3 / E3 or above: at least two named Global Administrators with FIDO2 hardware keys provisioned, ready for AAL3-grade authentication</span></li>
+      <li><span>Existing Conditional Access policies (if any) reviewed and documented; the rollout plan accounts for current users with active sessions</span></li>
+      <li><span>Communication plan in place for users — MFA enrolment campaigns, legacy-auth deprecation notices, named-location rollouts</span></li>
+      <li><span>Change windows approved per organisation change-control procedures</span></li>
+    </ul>
+    <div class="callout-warn"><strong>WI-01 is the foundation for everything else in the cloud baseline.</strong> The platform-specific WIs (WI-02 M365, WI-03/04 Azure, WI-05 Defender) assume the identity controls in this WI are in place. Apply this WI first, then proceed to the relevant platform WIs.</div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <p>The steps below cover the tenant-identity controls required by IT-CL-SOP-01 &sect;4.1. They apply to both M365 and Azure tenants — the Entra ID layer is shared. Where tier matters, each step calls out the achievable scope at each licence tier.</p>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div>
+        <div><div class="step-title">Establish break-glass / emergency-access accounts <span class="tier-tag all">All</span></div>
+        <div class="step-objective">Tenant recovery is possible even if Conditional Access, MFA, or directory integration fail catastrophically.</div></div>
+      </div>
+      <div class="step-body">
+        <p>The break-glass accounts are the first thing configured because every later control could lock administrators out if misapplied. Standard pattern (two accounts per tenant):</p>
+        <ul>
+          <li>Cloud-only accounts (not synchronised from on-prem AD) — recovery cannot depend on AD connectivity</li>
+          <li>Named after the role, not an individual (e.g. <code>breakglass-01@tenant.onmicrosoft.com</code>) — accountability via the check-out log, not the account itself</li>
+          <li>Strong, unique passwords (minimum 30 characters), stored in a vault that is itself <strong>not in this tenant</strong> (offline, separate password manager, or physical safe)</li>
+          <li>Permanent Global Administrator role — not PIM-eligible — so PIM unavailability does not block use</li>
+          <li>Excluded from <strong>every</strong> Conditional Access policy so a policy misconfiguration cannot lock them out (see Step 4)</li>
+          <li>MFA configuration: per organisation choice — either MFA-exempt (the simplest recovery path) with strong compensating controls, or MFA-enrolled with a separate fallback factor; document the choice and the rationale</li>
+          <li>Sign-in monitoring: any sign-in by a break-glass account triggers an immediate high-severity alert to SOC; expected usage is annual test or genuine emergency only</li>
+          <li>Annual test (controlled): sign in with each break-glass account, confirm administrative access works, rotate password, log the test</li>
+        </ul>
+        <div class="callout-warn"><strong>The break-glass / emergency-access pattern is the single most important step in this WI.</strong> Tenants without break-glass accounts that lose Global Administrator access have no recovery path other than vendor support escalation, which is slow and unreliable. Document, test, monitor.</div>
+        <div class="step-verify"><strong>Verify.</strong> Both break-glass accounts created. Password vault location confirmed independent of tenant. Annual test scheduled. SOC monitoring rule active. Each account excluded from every CA policy (re-verify after Step 4).</div>
+        <span class="cis-ref">CIS M365 1.1.1 · CIS Azure 1.x · NIST 800-63B</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div>
+        <div><div class="step-title">Eliminate legacy authentication at tenant level <span class="tier-tag all">All</span></div>
+        <div class="step-objective">Block basic-auth protocols that bypass MFA — single largest source of credential-stuffing risk in M365.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Legacy authentication (basic auth, IMAP, POP, MAPI/HTTP, SMTP AUTH, older Exchange ActiveSync, EWS in basic mode) bypasses modern authentication and therefore MFA. The vast majority of credential-stuffing attacks against M365 use legacy auth.</p>
+        <ul>
+          <li><strong>Audit first.</strong> Use the Entra sign-in logs filtered by Client App = "Other clients" / "IMAP" / "POP" / "SMTP" / "Authenticated SMTP" / "MAPI" / "Exchange ActiveSync (basic)" to see what's currently using legacy auth. Look back ≥30 days.</li>
+          <li><strong>Identify legitimate users / applications.</strong> Common cases: shared mailboxes used by scripts, line-of-business apps still on basic SMTP, older mobile clients. Each gets a migration plan or a documented exception.</li>
+          <li><strong>Block via Conditional Access</strong> (A3 / E3+): CA policy "Block legacy authentication" targeting all users, all cloud apps, client app = legacy auth clients only, grant = block. Exclude break-glass accounts.</li>
+          <li><strong>Block via Security Defaults</strong> (A1 / E1): Security Defaults block legacy auth by default; ensure Security Defaults is enabled at tenant level (Properties &rarr; Manage Security Defaults).</li>
+          <li><strong>Exchange Online additional hardening.</strong> Disable basic auth at organisation level for Exchange protocols (<code>Set-AuthenticationPolicy</code>); apply the policy to all mailboxes; SMTP AUTH disabled by default at tenant level for new mailboxes.</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Entra sign-in logs filtered by Client App = legacy show only break-glass or documented exceptions in the previous 7 days. Exchange Online <code>Get-AuthenticationPolicy</code> shows the policy applied. Sample test: attempt IMAP authentication with valid credentials; rejected at tenant.</div>
+        <span class="cis-ref">CIS M365 1.2.x · "Block legacy authentication"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div>
+        <div><div class="step-title">Enforce MFA universally — Security Defaults or Conditional Access</div>
+        <div class="step-objective">All sign-ins (administrative and standard) protected by a second factor, with AAL3-grade for Global Administrators.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Two paths depending on tier:</p>
+        <ul>
+          <li><span class="tier-tag all">A1 / E1</span> <strong>Security Defaults</strong> — Entra Properties &rarr; Manage Security Defaults &rarr; Enabled. This enforces MFA on all users (with a 14-day registration window per user), blocks legacy auth, and protects privileged actions. It is binary — on or off — but is the right control for tenants without Conditional Access licensing.</li>
+          <li><span class="tier-tag e3">A3 / E3+</span> <strong>Conditional Access</strong> — granular MFA enforcement (see Step 4). Disable Security Defaults when CA is deployed; the two are mutually exclusive.</li>
+        </ul>
+        <h3>AAL3-grade authentication for Global Administrators</h3>
+        <ul>
+          <li>Global Administrators authenticate with phishing-resistant factors: <strong>FIDO2 security keys</strong>, <strong>Windows Hello for Business</strong> (where supported on managed devices), or <strong>certificate-based authentication</strong></li>
+          <li>SMS, voice-call, and basic Authenticator-push MFA are <strong>not sufficient</strong> for Global Administrator (these are AAL2 at best and have known interception risks)</li>
+          <li>Conditional Access policy: "Require phishing-resistant MFA for admin roles" targeting Entra directory roles = Global Administrator + Privileged Role Administrator + Security Administrator + Conditional Access Administrator</li>
+        </ul>
+        <h3>Authentication methods configuration</h3>
+        <ul>
+          <li>Entra Authentication Methods policy: enable Microsoft Authenticator (push, with number-matching), FIDO2 keys, Windows Hello for Business, certificate-based</li>
+          <li>Disable: SMS as primary factor (acceptable as fallback only), voice call, secondary email as recovery</li>
+          <li>Enable number-matching for Microsoft Authenticator push (eliminates "MFA fatigue" attacks)</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> All users have at least one strong factor registered (Entra Authentication Methods report). Global Administrators show a phishing-resistant factor as primary. Sign-in logs show MFA requirement on every interactive sign-in.</div>
+        <span class="cis-ref">CIS M365 1.1.x · NIST 800-63B AAL2/AAL3</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div>
+        <div><div class="step-title">Deploy Conditional Access baseline policies <span class="tier-tag e3">A3 / E3+</span></div>
+        <div class="step-objective">Granular, context-aware access control beyond simple MFA enforcement.</div></div>
+      </div>
+      <div class="step-body">
+        <p>The Conditional Access baseline consists of a small set of policies that every A3/E3+ tenant deploys. Each policy follows the <strong>report-only &rarr; enable</strong> pattern: deploy in report-only mode for 7–14 days, review sign-in impact, then enable.</p>
+        <h3>Baseline CA policies</h3>
+        <ul>
+          <li><strong>CA-001 Require MFA for all users</strong> — all cloud apps, all users (including guests), grant = require MFA; exclude break-glass accounts</li>
+          <li><strong>CA-002 Block legacy authentication</strong> — per Step 2</li>
+          <li><strong>CA-003 Require phishing-resistant MFA for admins</strong> — per Step 3, targeting directory roles</li>
+          <li><strong>CA-004 Require compliant device for admins</strong> — administrative sign-ins from Intune-compliant or hybrid-joined devices only</li>
+          <li><strong>CA-005 Block sign-in from high-risk countries</strong> — define the country set with the security and compliance teams; block or require additional verification</li>
+          <li><strong>CA-006 Session lifetime</strong> — sign-in frequency 8&ndash;24 hours for standard users, 4&ndash;8 hours for administrators; persistent browser session disabled</li>
+          <li><strong>CA-007 Block guest access to sensitive apps</strong> — guests cannot access named applications without justification; default-deny pattern</li>
+        </ul>
+        <h3>Exclusions discipline</h3>
+        <ul>
+          <li>Every CA policy excludes the break-glass accounts (verify after each policy creation)</li>
+          <li>Service-account exclusions documented and time-bounded; reviewed quarterly</li>
+          <li>"Emergency access" exclusion lists are auditable; additions logged</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Each CA policy created in report-only first, reviewed for unexpected impact, then enabled. Break-glass accounts excluded from all of them. Sign-in logs show CA result for every sign-in.</div>
+        <span class="cis-ref">CIS M365 1.x · MCSB IM-x</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div>
+        <div><div class="step-title">Configure named locations <span class="tier-tag e3">A3 / E3+</span></div>
+        <div class="step-objective">Defined trust boundaries usable in Conditional Access policies; visibility of geo-anomalous sign-ins.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Named locations are reusable IP ranges or country lists in Conditional Access. They enable policies like "block sign-in from outside expected geographies" or "skip MFA inside corporate networks" (the latter is discouraged but the capability exists).</p>
+        <ul>
+          <li><strong>Trusted IPs</strong> — known corporate egress IP ranges (HQ networks, agency office egress, VPN egress). Used for visibility, not for MFA-bypass.</li>
+          <li><strong>Country sets</strong> — define an expected-country list per tenant (where the agency operates); define a blocked-country list per the organisation's geo-risk policy.</li>
+          <li><strong>Use in CA</strong> — block sign-in from blocked countries (CA-005 above); flag sign-in from unexpected countries for additional verification.</li>
+          <li>Do <strong>not</strong> use named locations to skip MFA — even on corporate networks, MFA still applies. This is a common configuration drift to push back on.</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Named locations defined and used in CA policies. Sign-in logs show location attribution. Geo-anomaly alerts visible in Entra Identity Protection (where licensed) or via SOC SIEM queries.</div>
+        <span class="cis-ref">CIS M365 1.x · "Named locations"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">6</div>
+        <div><div class="step-title">Enable Identity Protection risk policies <span class="tier-tag e5">E5</span></div>
+        <div class="step-objective">Real-time risk-based response to compromised credentials and anomalous sign-in behaviour.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Entra Identity Protection (Entra ID P2; available in E5) detects sign-in risk (geo-velocity, anonymous IP, unfamiliar sign-in, leaked credentials) and user risk (cumulative). Risk policies act on these signals.</p>
+        <ul>
+          <li><strong>Sign-in risk policy</strong> — risk level High = block; risk level Medium = require MFA + additional verification. Implement as Conditional Access policy using risk as the condition.</li>
+          <li><strong>User risk policy</strong> — risk level High = require password change (with MFA); risk level Medium = require MFA. Same CA pattern.</li>
+          <li><strong>MFA registration policy</strong> — enforce MFA registration for all users (Identity Protection feature, not CA)</li>
+          <li><strong>Risk feedback loop</strong> — administrators confirm or dismiss risk events; the platform learns from feedback over time. Document the triage workflow.</li>
+          <li><strong>SOC integration</strong> — risk events forwarded to central SIEM (sign-in risk, user risk, alerts). SOC has playbooks for the higher-severity events.</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Risk policies enabled at the targeted levels. Sample test: simulate an anonymous IP sign-in (Tor or known anonymising proxy on a controlled test account); risk policy fires. Risk events flowing to SIEM.</div>
+        <span class="cis-ref">CIS M365 (E5) · MCSB IM-x</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">7</div>
+        <div><div class="step-title">Configure Privileged Identity Management (PIM) <span class="tier-tag e5">E5</span></div>
+        <div class="step-objective">Time-bounded eligibility for privileged roles; just-in-time activation; approval workflows for the highest-impact roles.</div></div>
+      </div>
+      <div class="step-body">
+        <p>PIM (Entra ID P2; E5) moves privileged roles from standing assignments to time-bounded eligible-then-active activations. The principle is the same as IT-SI-WI-04 (PAM) Step 4: standing access is the exception, not the default.</p>
+        <ul>
+          <li><strong>Roles in scope:</strong> Global Administrator, Privileged Role Administrator, Security Administrator, Conditional Access Administrator, Exchange Administrator, SharePoint Administrator, User Administrator, Application Administrator — start with these; expand as the model matures</li>
+          <li><strong>Eligibility, not assignment.</strong> Named individuals are <em>eligible</em> for each role with a defined assignment duration (typically 12 months); they activate when needed via a documented process</li>
+          <li><strong>Activation requirements:</strong> MFA required at activation; justification text mandatory; activation duration max 8 hours for most roles, 1 hour for Global Administrator; ticket/change reference where applicable</li>
+          <li><strong>Approval workflow for Global Administrator:</strong> activation requires approval from another named approver (not the requestor). For other roles, activation may be self-approval with auditing depending on the agency's risk appetite.</li>
+          <li><strong>PIM access reviews</strong> quarterly for all eligible assignments; expired eligibility is removed; new assignments require justification</li>
+          <li><strong>Alerts</strong> — PIM alerts (suspicious activation patterns, role assignments outside PIM, role activation without MFA) flow to SOC</li>
+          <li><strong>Exclude break-glass.</strong> Break-glass accounts hold permanent Global Administrator assignment (Step 1); they are not PIM-eligible.</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Privileged roles show eligible assignments (not active assignments) for named individuals; only break-glass and approved exceptions hold permanent assignments. Activation workflow tested. Quarterly access review scheduled.</div>
+        <span class="cis-ref">CIS M365 (E5) 1.x · CIS Azure 1.x</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">8</div>
+        <div><div class="step-title">Govern guest and external access <span class="tier-tag all">All</span></div>
+        <div class="step-objective">External collaboration is enabled deliberately, with auditable access control, not as a default-permissive state.</div></div>
+      </div>
+      <div class="step-body">
+        <p>External Entra users (B2B guests) have access to tenant resources through invitations. The default tenant settings are permissive; tighten them:</p>
+        <ul>
+          <li><strong>Entra External Identities settings.</strong> Guest invite settings: only administrators and users with named role assignments can invite; not "anyone." Collaboration restrictions: allow invitations only to specified domains where the organisation has explicit business relationships, OR deny invitations to specified high-risk domains.</li>
+          <li><strong>Guest user permissions.</strong> "Guests have limited access" — they cannot read other users' or groups' directory information by default. CIS M365 baseline setting.</li>
+          <li><strong>Guest MFA.</strong> Conditional Access policy CA-001 includes guests, so MFA is required for guest sign-in.</li>
+          <li><strong>Guest access review</strong> quarterly — list guests, validate ongoing business relationship, remove stale guests. Access reviews can be automated via Entra Identity Governance (E5) or run manually.</li>
+          <li><strong>Cross-tenant access settings</strong> (B2B Direct Connect, Teams shared channels) — opt-in per partner tenant; default-deny for organisations not explicitly approved.</li>
+          <li><strong>Sensitive applications.</strong> CA-007 blocks guest access to a named list of sensitive applications without explicit justification.</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Guest invite settings restricted. Cross-tenant access default-deny with allow-list. Guest user count auditable (Entra report). Recent guest sign-ins show MFA applied.</div>
+        <span class="cis-ref">CIS M365 1.x · "External collaboration settings"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">9</div>
+        <div><div class="step-title">Enable self-service password reset with MFA <span class="tier-tag all">All</span></div>
+        <div class="step-objective">Users recover from forgotten passwords without help-desk involvement; recovery itself is protected.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Self-Service Password Reset (SSPR) reduces help-desk load and improves user experience. Configure it once, correctly:</p>
+        <ul>
+          <li>SSPR enabled for all licensed users</li>
+          <li>Authentication methods for SSPR aligned with sign-in MFA — same factor set, no weaker recovery path</li>
+          <li>Number of methods required to reset: 2 (the platform default of 1 weakens the recovery path)</li>
+          <li>Combined registration enabled — users register their MFA factor and SSPR methods in one flow, not two</li>
+          <li>SSPR write-back to on-prem AD (where hybrid identity is in use) — Entra Connect SSPR write-back enabled</li>
+          <li>Administrator accounts use the same SSPR settings, not a relaxed admin-recovery path</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> SSPR enabled and tested by a non-privileged user. Combined registration in effect. Administrators show MFA methods registered. SSPR audit logs flow to central SIEM.</div>
+        <span class="cis-ref">CIS M365 1.x · "Self-service password reset"</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <p>After applying all steps, validate the tenant-identity baseline is in place. Many of these checks combine cross-WI conformance signals.</p>
+
+    <h3>Functional validation</h3>
+    <ul class="wi-bullet">
+      <li><span>Sign in as a standard user from an untrusted network — MFA prompted, succeeds</span></li>
+      <li><span>Sign in as a Global Administrator — phishing-resistant factor required; SMS / push alone insufficient</span></li>
+      <li><span>Attempt sign-in with a legacy auth client (IMAP, basic SMTP) — rejected at tenant</span></li>
+      <li><span>Sign in from a blocked country (test source via approved channel) — blocked with CA-005</span></li>
+      <li><span>Sign-in event appears in Entra logs with full context (location, client, CA result)</span></li>
+      <li><span>Break-glass account sign-in triggers immediate high-severity SOC alert (test under controlled conditions)</span></li>
+      <li><span>(E5) Risk policies fire on simulated anonymous-IP sign-in</span></li>
+      <li><span>(E5) PIM activation flow works end-to-end including approval where required</span></li>
+      <li><span>(E5) Identity Protection feedback loop tested (confirm-compromised, dismiss-as-false-positive)</span></li>
+      <li><span>Guest invitation requires named-role approver; new guest receives MFA challenge on first sign-in</span></li>
+    </ul>
+
+    <h3>Configuration review</h3>
+    <table class="gt-table">
+      <thead><tr><th>Check</th><th>Expected result</th></tr></thead>
+      <tbody>
+        <tr><td>Break-glass accounts</td><td>2 cloud-only accounts; password vaulted off-tenant; excluded from all CA; monitored</td></tr>
+        <tr><td>Legacy auth at tenant level</td><td>Disabled — no legacy auth sign-ins in last 7 days except break-glass / documented exceptions</td></tr>
+        <tr><td>MFA enforcement</td><td>Security Defaults (A1/E1) or CA-001 (A3/E3+) covers all users</td></tr>
+        <tr><td>Global Admin authentication</td><td>Phishing-resistant factor required (FIDO2 / WHfB / certificate)</td></tr>
+        <tr><td>CA policies in force</td><td>CA-001 through CA-007 deployed at A3/E3+; report-only validated then enabled</td></tr>
+        <tr><td>Named locations</td><td>Trusted IP ranges and country sets configured</td></tr>
+        <tr><td>Identity Protection (E5)</td><td>Sign-in risk and user risk policies enabled; feedback workflow documented</td></tr>
+        <tr><td>PIM (E5)</td><td>Privileged roles eligible (not active) for named individuals; access review quarterly</td></tr>
+        <tr><td>Guest access</td><td>Invitations restricted; cross-tenant default-deny; quarterly review scheduled</td></tr>
+        <tr><td>SSPR</td><td>Enabled with 2 methods required; combined registration on</td></tr>
+        <tr><td>Authentication methods</td><td>Strong factors enabled; SMS as primary disabled; number-matching on for Authenticator push</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <p>Identity changes are visible to every user immediately; a misconfiguration can lock out the entire tenant. Have OOB recovery prepared.</p>
+
+    <h3>Common scenarios</h3>
+    <ul class="wi-bullet">
+      <li><span><strong>Locked out by Conditional Access misconfiguration</strong> &mdash; cause: a CA policy was deployed enabled (not report-only), or break-glass exclusion was missed. Recovery: sign in with break-glass account (which is excluded from all CA), revert the policy, re-deploy in report-only. <strong>If break-glass also locked out:</strong> Microsoft support escalation; this is the failure mode break-glass exists to prevent.</span></li>
+      <li><span><strong>Phishing-resistant MFA enforced before all admins enrolled</strong> &mdash; cause: CA-003 deployed before all Global Administrators had FIDO2 keys. Fix via break-glass: temporarily disable CA-003; coordinate hardware-key issuance for remaining admins; re-enable.</span></li>
+      <li><span><strong>Mass legacy-auth disruption after Step 2</strong> &mdash; cause: legitimate line-of-business apps were using basic SMTP / IMAP. Fix: re-enable for the specific service-account / mailbox via tenant-level auth policy override; migrate the application to modern auth on a defined timeline; re-disable for that account afterwards.</span></li>
+      <li><span><strong>Security Defaults disabled accidentally and CA not deployed</strong> &mdash; cause: switching tenant from A1 to A3 mid-rollout; Security Defaults was disabled (it must be when CA is used) but the CA-001 policy was not yet active. Fix: re-enable Security Defaults until CA-001 is in place, or expedite CA-001 deployment.</span></li>
+      <li><span><strong>PIM activation broken</strong> &mdash; cause: approver group misconfigured or PIM service issue. Fix via break-glass admin access; correct approver configuration; for service issues, vendor support; in the interim, document-justified temporary assignment is acceptable but tracked.</span></li>
+      <li><span><strong>Guest access lost after CA-007</strong> &mdash; cause: a legitimate external collaborator is in a blocked guest set. Fix: targeted exception (named guest, named application, time-bounded); not a global CA-007 disablement.</span></li>
+      <li><span><strong>Identity Protection blocking false positives</strong> &mdash; cause: legitimate user behaviour resembles risk signals (VPN exit nodes, frequent travel). Fix: dismiss as false positive (Identity Protection learns over time); for persistent patterns, named-user exclusion from the risk policy with documented justification and quarterly review.</span></li>
+    </ul>
+
+    <h3>Rollback procedure</h3>
+    <ol style="padding-left:18px;font-size:13px;line-height:1.7;color:#333;">
+      <li>If administrators are locked out: use break-glass account; this is its purpose</li>
+      <li>Identify the breaking change from CA policy state, sign-in logs, and recent changes</li>
+      <li>Revert the specific change &mdash; not the whole change set unless required</li>
+      <li>For CA: switch policy to report-only or disabled; review and re-test before re-enabling</li>
+      <li>For PIM: extend specific eligibility temporarily; do not wholesale disable PIM</li>
+      <li>Update change record; document root cause; if break-glass was used, rotate the break-glass password and reconcile sign-in audit with the manual log</li>
+    </ol>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <ul class="wi-bullet">
+      <li><span><strong>Break-glass first, everything else after.</strong> Configuring CA before break-glass exists is how organisations lock themselves out of their own tenant. Pattern: break-glass &rarr; legacy auth block &rarr; MFA &rarr; CA &rarr; advanced.</span></li>
+      <li><span><strong>Break-glass passwords in the tenant they protect.</strong> Don't store the break-glass password in OneDrive, Teams, or SharePoint of the same tenant. If the tenant is the failure, the recovery credential is unreachable.</span></li>
+      <li><span><strong>Security Defaults vs Conditional Access.</strong> Mutually exclusive; if you enable CA, Security Defaults must be off. Forgetting this leaves users unprotected during transition.</span></li>
+      <li><span><strong>Phishing-resistant MFA requires hardware factor procurement.</strong> FIDO2 keys cost money and time to distribute. Order them before the rollout deadline, not during.</span></li>
+      <li><span><strong>Report-only mode is not optional.</strong> Every CA policy goes through report-only for at least a week before enabling. Skipping this is how policies break sign-in for real users you didn't anticipate.</span></li>
+      <li><span><strong>SMS as primary MFA is AAL2, not AAL3.</strong> For Global Administrators it is insufficient. The CIS M365 baseline calls this out specifically.</span></li>
+      <li><span><strong>Trusted IPs don't bypass MFA &mdash; they shouldn't.</strong> A common drift is "skip MFA inside corporate network." Network location is no longer a trust signal; CA-001 should require MFA regardless of location.</span></li>
+      <li><span><strong>Guest access defaults are permissive.</strong> Out-of-the-box, any user can invite a guest. Tighten this in Step 8; otherwise external collaboration is uncontrolled.</span></li>
+      <li><span><strong>PIM eligibility is not PIM activation.</strong> An admin being "eligible" for Global Administrator does not mean they have the role; they have to activate it. This is the whole point. Configure access reviews so eligibility itself is reviewed.</span></li>
+      <li><span><strong>Identity Protection is E5-only.</strong> For A3/E3 tenants, the risk-based controls are unavailable; baseline conformance is reported "feature unavailable at this licence tier" not "exception." Mark these clearly in the per-tenant conformance report.</span></li>
+      <li><span><strong>Combined registration matters.</strong> Without it, users register MFA in one place and SSPR in another, see two separate prompts, and often miss one. Single unified flow.</span></li>
+      <li><span><strong>SOC sign-in monitoring for break-glass is non-optional.</strong> A break-glass account that signs in unexpectedly is an incident, not a routine event. Alert on it in the SIEM with high severity.</span></li>
+    </ul>
+  </div>
+
+  <div class="wi-nav"><a href="it-cl-sop-01.html">&larr; IT-CL-SOP-01</a><a href="it-cl-wi-02.html">IT-CL-WI-02: M365 Tenant Hardening &rarr;</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-CL-WI-01 v1.0 · Live · 12 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-cloud-baselines.html" style="color:var(--wi);text-decoration:none;">&larr; Back to Cloud Baselines</a></span>
+  </div>
+</div>
+</body>
+</html>

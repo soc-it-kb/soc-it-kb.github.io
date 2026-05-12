@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-CL-WI-03: Azure Subscription Baseline — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+<style>
+  :root { --wi:#2E5C8A; --wi-light:#E8F0F8; --wi-border:#A8C5DE; --wi-dark:#1A3A5C; --cl:#2E5C8A; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .wi-section { background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:8px; }
+  .wi-section-title { font-size:15px; font-weight:600; color:#1a1a1a; margin-bottom:0.7rem; padding-bottom:6px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0 0 8px 0; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-section h3 { font-size:13px; font-weight:600; color:var(--wi-dark); margin:12px 0 5px 0; }
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:6px; padding-left:0; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:#333; line-height:1.6; }
+  .wi-bullet li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:7px; }
+  .step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.1rem; margin-top:8px; }
+  .step-header { display:flex; align-items:center; gap:10px; margin-bottom:7px; padding-bottom:5px; border-bottom:0.5px solid #f0f0ec; }
+  .step-num { width:24px; height:24px; border-radius:6px; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-title { font-size:13px; font-weight:700; color:var(--wi-dark); }
+  .step-objective { font-size:12px; color:#666; font-style:italic; margin-top:2px; line-height:1.5; }
+  .step-body { font-size:13px; color:#333; line-height:1.6; }
+  .step-body p { margin:6px 0; }
+  .step-body p:first-child { margin-top:0; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body strong { color:var(--wi-dark); }
+  .step-body ul { list-style:none; padding:0; margin:6px 0; display:flex; flex-direction:column; gap:3px; }
+  .step-body ul li { display:flex; gap:7px; font-size:12px; color:#444; line-height:1.55; padding-left:2px; }
+  .step-body ul li::before { content:'\203A'; color:var(--wi); font-weight:700; flex-shrink:0; }
+  .step-verify { background:#fff; border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:6px; padding:0.5rem 0.8rem; margin-top:8px; font-size:12px; color:#444; line-height:1.55; }
+  .step-verify strong { color:var(--wi-dark); }
+  .cis-ref { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--wi); background:var(--wi-light); border:0.5px solid var(--wi-border); padding:1px 7px; border-radius:4px; font-weight:600; margin-top:5px; }
+  .tier-tag { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:10px; font-weight:700; padding:1px 6px; border-radius:4px; background:#fff; border:0.5px solid var(--wi-border); color:var(--wi); margin-right:5px; }
+  .tier-tag.all  { background:#E1F5EE; color:#0F6E56; border-color:#82D4B0; }
+  .tier-tag.e3   { background:#FEF0E6; color:#8B4A0E; border-color:#F5C89A; }
+  .tier-tag.e5   { background:#F2EBF9; color:#5B2D8E; border-color:#C7B3DD; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:var(--wi-dark); line-height:1.6; margin-top:10px; }
+  .callout-info strong { color:var(--wi-dark); font-weight:700; }
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#7a2e10; line-height:1.6; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--wi-dark); color:#fff; font-weight:600; padding:7px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--wi-dark); white-space:nowrap; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>&rsaquo;</span>
+    <a href="asm.html">ASM</a><span>&rsaquo;</span>
+    <a href="asm-cloud-baselines.html">Cloud Baselines</a><span>&rsaquo;</span>
+    <span>IT-CL-WI-03</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#0F2540 0%,#1A3A5C 40%,#2E5C8A 100%);">
+    <span class="kb-page-hero-icon">☁️</span>
+    <h1>IT-CL-WI-03: Azure Subscription Baseline</h1>
+    <p>Implementation guidance for the Azure subscription-level controls: management group hierarchy, Defender for Cloud enablement and plans, Azure Policy at management group scope, diagnostic settings, Activity Log forwarding, Defender continuous export, RBAC least-privilege, resource locks, cost-anomaly alerting, tagging enforcement. Operationalises &sect;4.3 of IT-CL-SOP-01.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Cloud Baselines</span>
+      <span class="kb-meta-pill">Tier-aware</span>
+      <span class="kb-meta-pill">CIS Foundations L1</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">📋 <strong>WI ID:</strong> IT-CL-WI-03</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">🔗 <strong>Implements:</strong> <a href="it-cl-sop-01.html" style="color:var(--wi);">IT-CL-SOP-01 §4.3</a></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Owner:</strong> Cloud Eng / IAE</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 12 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <p>Before applying this WI:</p>
+    <ul class="wi-bullet">
+      <li><span>WI-01 (Tenant Identity &amp; Conditional Access) complete on the parent tenant &mdash; MFA, CA, break-glass, PIM in place</span></li>
+      <li><span>Azure tenant licensing and Defender for Cloud plan posture decided per subscription tier (Tier 0/1 = Standard / Defender plans; Tier 2/3 = Free is acceptable with documented justification)</span></li>
+      <li><span>Management group structure exists or will be created &mdash; flat structure (single root) acceptable for small estates; hierarchical (root &rarr; environment &rarr; agency) preferred</span></li>
+      <li><span>Central Log Analytics workspace identified (or per-region workspace where data residency requires it)</span></li>
+      <li><span>Central SIEM integration pattern chosen: Event Hub-based ingestion, native SIEM connector (vendor-specific), or Azure Monitor agent forwarding &mdash; document the choice and the data flow</span></li>
+      <li><span>Azure RBAC role design exists: who can be Owner (named platform admins only), who can be Contributor (engineering teams scoped to RGs), who reads (auditors, SOC)</span></li>
+      <li><span>Resource tagging policy agreed: cost centre, owner, environment (prod / non-prod / dev), sensitivity classification</span></li>
+    </ul>
+    <div class="callout-info"><strong>Apply at management group scope, not subscription scope.</strong> Azure Policy assignments at the subscription level have to be repeated for every new subscription. Assigning the baseline initiative at the management group root means every subscription, including ones created tomorrow, inherits the baseline by default. This is the entire point of management groups.</div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <p>The steps below cover the Azure subscription-level controls required by IT-CL-SOP-01 &sect;4.3. They apply to every Azure subscription in scope, regardless of the workload running inside it.</p>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div>
+        <div><div class="step-title">Establish management group hierarchy</div>
+        <div class="step-objective">Subscriptions inherit policy from a defined hierarchy rather than receiving repeated per-subscription assignments.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Management groups are the policy-inheritance backbone. Azure tenants come with a root management group ("Tenant Root Group") and a single default subscription parent. Build a hierarchy beneath:</p>
+        <ul>
+          <li><strong>Minimum useful structure</strong> &mdash; Tenant Root &rarr; Platform &rarr; Landing Zones &rarr; (Prod / NonProd / Sandbox). Subscriptions sit under the appropriate environment management group.</li>
+          <li><strong>For agency-segmented tenants</strong> &mdash; add an agency level (Tenant Root &rarr; Agency &rarr; Environment). This allows agency-specific policy overlays while keeping the institution baseline at the root.</li>
+          <li><strong>Avoid deep nesting</strong> &mdash; more than 4&ndash;5 levels makes RBAC and policy debugging painful; the platform supports 6 but operational reality favours fewer</li>
+          <li><strong>Naming convention</strong> &mdash; documented and consistent: <code>mg-&lt;institution&gt;-&lt;scope&gt;</code> e.g. <code>mg-akdn-platform-prod</code>, <code>mg-aga-landingzone-prod</code></li>
+          <li><strong>Subscription movement</strong> requires Owner role on both source and destination management group; document the change-control process</li>
+          <li><strong>Tenant Root Group access</strong> is restricted to a very small named group (platform-admin role); subscription Owners do not have access</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Management group hierarchy documented in architecture pages. Subscriptions placed in the correct environment management group. Tenant Root Group access list reviewed quarterly.</div>
+        <span class="cis-ref">MCSB GS-1 · "Management group hierarchy"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div>
+        <div><div class="step-title">Enable Defender for Cloud on every subscription</div>
+        <div class="step-objective">Subscription-level CSPM and workload-protection signal active; the central security posture view exists.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Defender for Cloud (DfC) is the Azure-native cloud security posture management (CSPM) platform. The Foundational CSPM tier is free; the Defender plans (per resource type) are paid. Both are required to varying extent.</p>
+        <ul>
+          <li><strong>Foundational CSPM</strong> &mdash; enabled on every subscription by default; gives Secure Score, regulatory compliance dashboards (CIS, NIST, ISO mappings), basic recommendations. <strong>Free.</strong></li>
+          <li><strong>Defender CSPM (Cloud Security Posture Management)</strong> &mdash; enhanced posture features including attack-path analysis, agentless scanning, governance rules. <strong>Paid; per resource per month.</strong> Required for Tier 0/1 subscriptions.</li>
+          <li><strong>Defender for &lt;resource type&gt; plans</strong> &mdash; per-resource-type workload protection. Each plan is independently priced. Required minimums per subscription tier:
+            <ul>
+              <li>Tier 0 / 1: Servers (P2), App Service, Storage, SQL, Containers, Key Vault, ARM, DNS, Open-Source Relational DB &mdash; all relevant plans enabled</li>
+              <li>Tier 2 / 3: at minimum Servers, Storage, Key Vault, ARM; others as workload type justifies</li>
+              <li>Free tier: only Foundational CSPM &mdash; acceptable only with documented justification (e.g. genuinely non-production, no sensitive data, time-bounded)</li>
+            </ul>
+          </li>
+          <li><strong>Auto-provisioning</strong> &mdash; Log Analytics agent / Azure Monitor agent on VMs auto-deployed via Defender; vulnerability assessment auto-deployed for SQL and VMs where applicable</li>
+          <li><strong>Email notifications</strong> &mdash; high-severity alerts emailed to a named distribution list (typically SOC + cloud platform engineering)</li>
+          <li><strong>Continuous export</strong> &mdash; configure Defender alerts and recommendations to flow to Event Hub (or directly to SIEM connector) for central SIEM ingestion</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Defender plans enabled per subscription tier (visible in DfC &rarr; Environment settings). Auto-provisioning operational; agents deployed on existing VMs. Continuous export functioning; sample alert visible in central SIEM.</div>
+        <span class="cis-ref">CIS Azure 2.x · MCSB LT-x</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div>
+        <div><div class="step-title">Assign the core Azure Policy baseline at management group scope</div>
+        <div class="step-objective">Configuration drift detected and (where appropriate) prevented at create-time; baseline conformance measurable.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Azure Policy is the enforcement mechanism. Built-in initiatives are the starting point; custom initiatives are added where the built-ins don't cover an organisation-specific requirement.</p>
+        <ul>
+          <li><strong>Starting initiative:</strong> assign <strong>Microsoft Cloud Security Benchmark</strong> (MCSB) at the Tenant Root management group scope. MCSB is Microsoft's reference and is the Defender for Cloud default; assigning it gives a regulatory-compliance view in DfC.</li>
+          <li><strong>Effect choice per policy</strong> &mdash; Azure Policy effects are <code>Audit</code>, <code>Deny</code>, <code>Modify</code>, <code>DeployIfNotExists</code>, <code>Disabled</code>. Start with <code>Audit</code> across the board for visibility; promote specific policies to <code>Deny</code> after operational review.</li>
+          <li><strong>Core deny set</strong> for baseline (assign these as a custom initiative or override the MCSB defaults):
+            <ul>
+              <li>Storage account public network access (deny unless exception)</li>
+              <li>Storage account secure transfer (deny non-HTTPS)</li>
+              <li>Storage account allow blob anonymous access (deny)</li>
+              <li>Key Vault soft-delete and purge protection (deny disable)</li>
+              <li>Public IP creation in production subscriptions (deny without justification tag)</li>
+              <li>Resource creation in non-approved regions (deny)</li>
+            </ul>
+          </li>
+          <li><strong>Diagnostic settings enforcement</strong> &mdash; <code>DeployIfNotExists</code> policies that configure diagnostic settings on every supported resource type, routing logs to the central Log Analytics workspace and an Event Hub. Without this, log coverage drifts as new resources are created.</li>
+          <li><strong>Exemptions</strong> are time-bounded and documented &mdash; Azure Policy supports policy exemptions natively; exemption justification stored in the exemption record; reviewed quarterly</li>
+          <li><strong>Compliance reporting</strong> &mdash; Azure Policy compliance dashboard reports the overall conformance state. This is one of the inputs to the tenant baseline conformance metric.</li>
+        </ul>
+        <div class="callout-info"><strong>Effects evolve.</strong> A new policy goes through <code>Audit</code> &rarr; <code>Audit-with-alerting</code> &rarr; <code>Deny</code> over weeks. Going straight to <code>Deny</code> on a busy estate triggers unexpected blocks at create-time and causes outages. Audit first, deny when the false-positive rate is known.</div>
+        <div class="step-verify"><strong>Verify.</strong> MCSB initiative assigned at root. Custom deny initiative assigned. <code>DeployIfNotExists</code> diagnostic settings deploying on test resource. Compliance dashboard populated. Exemption process documented.</div>
+        <span class="cis-ref">CIS Azure 5.x · MCSB GS-x</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div>
+        <div><div class="step-title">Configure diagnostic settings on every resource type</div>
+        <div class="step-objective">Resource-level activity (data plane and management plane) flows to Log Analytics and the central SIEM.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Diagnostic settings are the per-resource log-routing configuration. Without them, resource-level events live only inside the resource itself and are invisible to monitoring and SIEM.</p>
+        <ul>
+          <li><strong>Per resource type</strong> &mdash; each Azure resource type has its own diagnostic-settings surface (e.g. Storage has <code>StorageRead/Write/Delete</code> log categories; Key Vault has <code>AuditEvent</code>; Network Security Groups have NSG flow logs as a separate path)</li>
+          <li><strong>Destinations</strong> &mdash; for each resource:
+            <ul>
+              <li>Log Analytics workspace (for KQL queries, dashboards, Azure Workbooks) &mdash; required</li>
+              <li>Event Hub (for streaming to central SIEM) &mdash; required</li>
+              <li>Storage account archive (optional; for long retention beyond Log Analytics)</li>
+            </ul>
+          </li>
+          <li><strong>Enforce via Azure Policy</strong> &mdash; <code>DeployIfNotExists</code> policies per resource type (built-in policies exist for the major resource types). Without policy enforcement, diagnostic settings drift the moment a new resource type is added.</li>
+          <li><strong>Workspace placement</strong> &mdash; regional Log Analytics workspaces where data residency requires; a central workspace where it doesn't. Document the workspace topology.</li>
+          <li><strong>Retention</strong> &mdash; Log Analytics workspace retention 90&ndash;365 days typical; archive to Storage Account for longer retention (lower cost, slower retrieval); document the retention by data class</li>
+          <li><strong>Log volume monitoring</strong> &mdash; sudden drops in log volume from a resource indicate a problem (resource compromise, diagnostic setting deleted, agent broken); alert on it</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Sample resources of each in-scope type have diagnostic settings configured. Logs reaching Log Analytics workspace (KQL query confirms recent events). Event Hub ingestion functioning; central SIEM has the events.</div>
+        <span class="cis-ref">CIS Azure 5.x · "Diagnostic settings"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div>
+        <div><div class="step-title">Forward Azure Activity Log to the central SIEM</div>
+        <div class="step-objective">Subscription-level management-plane activity (resource creates, deletes, role assignments, policy changes) flows to the SIEM.</div></div>
+      </div>
+      <div class="step-body">
+        <p>The Activity Log is the subscription-level audit log: who did what, when, in the Azure control plane. It is distinct from the per-resource diagnostic settings and from Entra sign-in logs.</p>
+        <ul>
+          <li><strong>Per subscription</strong> &mdash; configure the Activity Log diagnostic setting to send to Log Analytics workspace and Event Hub</li>
+          <li><strong>Enforced via Azure Policy</strong> &mdash; built-in policy "Activity log should be archived to Storage Account" (or equivalent Log Analytics / Event Hub variants)</li>
+          <li><strong>High-value Activity Log events</strong> alerted in SIEM:
+            <ul>
+              <li>Role assignment Owner or User Access Administrator created</li>
+              <li>Diagnostic setting deleted</li>
+              <li>Network Security Group rule allowing 0.0.0.0/0 to a sensitive port</li>
+              <li>Storage account public access enabled</li>
+              <li>Key Vault soft-delete or purge protection disabled (this should be impossible if Step 3 deny is in place, but alert anyway)</li>
+              <li>Azure Policy initiative removed or modified at high-level scope</li>
+              <li>Defender for Cloud plan downgraded to Free</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Activity log entries from test subscription change visible in central SIEM within ~5 minutes. Sample alert rules firing on test events. Coverage gap analysis: every in-scope subscription is forwarding.</div>
+        <span class="cis-ref">CIS Azure 5.1.x · "Activity log"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">6</div>
+        <div><div class="step-title">Forward Defender for Cloud findings to the central SIEM</div>
+        <div class="step-objective">Defender alerts (security events, anomalies, recommendations) are visible to SOC in the central SIEM, not only in the Defender portal.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Defender for Cloud's continuous export configures Defender alerts and recommendations to flow to Event Hub or directly to the Log Analytics workspace. From there they integrate with central SIEM.</p>
+        <ul>
+          <li><strong>Continuous export</strong> &mdash; configure per subscription or via Azure Policy <code>DeployIfNotExists</code>; export to Event Hub for SIEM streaming and Log Analytics for query / dashboarding</li>
+          <li><strong>Export scope</strong> &mdash; all security alerts (always); recommendations of High and Medium severity; secure score updates (weekly)</li>
+          <li><strong>SIEM mapping</strong> &mdash; Defender alert severity (Informational / Low / Medium / High) mapped to central SIEM severity / priority per documented mapping; tested with sample alert</li>
+          <li><strong>Defender for Cloud workflow automation</strong> &mdash; for the highest-severity alerts, Logic App triggers can automate immediate response (e.g. quarantine a VM, disable a public IP). Document the automation and its trigger conditions; SOC reviews the playbook.</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Continuous export configured on every in-scope subscription. Sample High-severity test alert appears in central SIEM with correct severity mapping. SOC playbook references Defender alerts.</div>
+        <span class="cis-ref">CIS Azure 2.x · MCSB IR-x</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">7</div>
+        <div><div class="step-title">Subscription RBAC least-privilege</div>
+        <div class="step-objective">No standing Owner outside named platform admins; Contributor and Reader scoped to RG, not subscription.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Azure RBAC is granular but trivially over-scoped. The default pattern of "give everyone Contributor at subscription" creates a wide blast radius for any compromised account.</p>
+        <ul>
+          <li><strong>Owner role</strong> at subscription scope &mdash; only named platform administrators (typically 2&ndash;4 people per agency); managed via PIM (WI-01 Step 7); no standing assignments outside break-glass</li>
+          <li><strong>Contributor role</strong> &mdash; scoped to resource group, not subscription. Each application / workload team gets Contributor on their resource groups only.</li>
+          <li><strong>Reader role</strong> &mdash; broader; auditors, SOC, GRC can have Reader at subscription scope for visibility</li>
+          <li><strong>Custom roles</strong> for common scoped duties (e.g. "Network Operations" with rights on NSGs and route tables only; "Storage Operations" with rights on Storage and Backup only); avoid granting Contributor where a custom role would do</li>
+          <li><strong>Group-based assignment</strong> &mdash; assign roles to Entra groups, not individuals; group membership is the access record; group reviews via Identity Governance (E5)</li>
+          <li><strong>Service principals</strong> have least-privilege scoped to the resource group(s) they actually need; documented owner per service principal; secret expiry &lt;1 year; rotated</li>
+          <li><strong>Managed identities preferred over service principals</strong> for in-Azure workloads (no secret to manage; lifecycle tied to the resource)</li>
+          <li><strong>Quarterly access review</strong> &mdash; named approver per scope; expired / unjustified assignments removed</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Owner count per subscription matches the named platform admin list. Sample resource group shows Contributor scoped to RG. Service principals enumerated with owners. Quarterly review scheduled.</div>
+        <span class="cis-ref">CIS Azure 1.x · "Azure RBAC"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">8</div>
+        <div><div class="step-title">Apply resource locks on critical resource groups</div>
+        <div class="step-objective">Accidental deletion of production data, key vaults, and shared-services hubs prevented at platform level.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Resource locks are an in-platform safeguard against accidental delete or modify. They are removed only by Owner or User Access Administrator at the scope &mdash; trivial to reverse for a malicious actor with rights, but very effective against accidents.</p>
+        <ul>
+          <li><strong>CanNotDelete</strong> &mdash; the resource can be modified but not deleted. Apply to: production resource groups, shared-services hubs (networking, identity), key vaults holding production keys, storage accounts with compliance data</li>
+          <li><strong>ReadOnly</strong> &mdash; the resource cannot be modified or deleted. Apply to: completed projects / archived workloads, golden images, audited compliance evidence</li>
+          <li><strong>Lock at resource-group scope</strong> typically &mdash; child resources inherit; locking at subscription scope is too coarse</li>
+          <li><strong>Lock by Azure Policy</strong> &mdash; <code>DeployIfNotExists</code> policies that ensure named-critical RGs have CanNotDelete; avoids drift when RGs are recreated</li>
+          <li><strong>Lock removal</strong> goes through change control; sudden lock removal on a critical RG followed by destructive action is a SIEM-alert pattern</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> CanNotDelete locks on production resource groups. Test: attempt to delete a locked resource as a Contributor; refused. Lock removal logged in Activity Log; alerts fire in SIEM.</div>
+        <span class="cis-ref">MCSB GS-x · "Resource locks"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">9</div>
+        <div><div class="step-title">Configure cost-management alerting</div>
+        <div class="step-objective">Anomalous spend is a leading indicator of resource compromise (cryptomining, data exfiltration egress); detect it.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Cost is a security signal. A compromised subscription frequently shows as unusual spend before any conventional security alert &mdash; cryptominer VMs spin up at large scale, data egress bills jump, public-access storage accounts incur large blob-read traffic.</p>
+        <ul>
+          <li><strong>Budgets</strong> per subscription &mdash; monthly budget with thresholds at 50%, 75%, 90%, 100% of expected spend; alerts to subscription owner + cloud engineering + GRC at thresholds</li>
+          <li><strong>Cost anomaly detection</strong> &mdash; Cost Management's anomaly detection feature for AI-detected unusual patterns; weekly digest to subscription owners</li>
+          <li><strong>Resource-type spike alerts</strong> &mdash; Log Analytics queries on resource creation rate (VMs spun up beyond normal, public IPs created in non-expected RGs); cross-reference in SIEM with cost data</li>
+          <li><strong>Cryptomining-specific signals</strong> &mdash; large GPU VM SKUs, NCv-series, NDv-series &mdash; alert on any creation in a non-expected RG / non-expected subscription</li>
+          <li><strong>Egress bandwidth</strong> from a single storage account suddenly &gt;10&times; normal &mdash; potential exfiltration signal</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Budget configured per in-scope subscription; threshold alerts deliver. Cost Anomaly detection active. Resource-creation-rate query operational in Log Analytics / SIEM. Test alert chain fires correctly.</div>
+        <span class="cis-ref">MCSB IM-x · "Cost anomaly detection"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">10</div>
+        <div><div class="step-title">Enforce tagging policy</div>
+        <div class="step-objective">Every resource is attributable to a cost centre, owner, environment, and sensitivity classification.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Tags are the cross-cutting metadata used by cost management, RBAC scoping, automation, and incident response (whose resource is this, who do I call, how sensitive is it?). Without enforcement, tag coverage drifts to single digits.</p>
+        <ul>
+          <li><strong>Required tags</strong>:
+            <ul>
+              <li><code>CostCentre</code> &mdash; finance code; mandatory for billing reconciliation</li>
+              <li><code>Owner</code> &mdash; named individual or team distribution list; the operational owner</li>
+              <li><code>Environment</code> &mdash; <code>prod</code> / <code>nonprod</code> / <code>dev</code> / <code>sandbox</code></li>
+              <li><code>SensitivityClassification</code> &mdash; aligned to the organisation data classification taxonomy (e.g. Public / Internal / Confidential / Restricted)</li>
+              <li><code>Agency</code> &mdash; which operating agency the resource serves</li>
+            </ul>
+          </li>
+          <li><strong>Enforcement via Azure Policy</strong> &mdash; <code>Modify</code> effect to inherit tags from parent resource group; <code>Deny</code> effect to refuse resource creation without required tags; built-in policies exist for these patterns</li>
+          <li><strong>Tag value lists</strong> &mdash; for tags with a finite vocabulary (Environment, SensitivityClassification), constrain values via Azure Policy <code>allowedValues</code></li>
+          <li><strong>Reporting</strong> &mdash; tag-coverage dashboard; missing-tag report to owners weekly</li>
+          <li><strong>Incident response value</strong> &mdash; the Owner tag is the on-call escalation in a Defender alert; the SensitivityClassification tag drives incident priority; the Environment tag distinguishes outages from dev experiments</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Tag policy assigned at management group root. Resource creation without required tags refused (test in sandbox). Tag-coverage report shows ≥95% on production subscriptions.</div>
+        <span class="cis-ref">MCSB GS-x · "Resource tagging"</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <p>After applying these steps, validate the subscription baseline is in place.</p>
+
+    <h3>Functional validation</h3>
+    <ul class="wi-bullet">
+      <li><span>Management group hierarchy populated; subscriptions in the correct environment node</span></li>
+      <li><span>Defender for Cloud enabled per subscription tier; Secure Score visible and at or above target (≥75% T0/1, ≥60% T2/3)</span></li>
+      <li><span>Azure Policy compliance dashboard shows the MCSB and custom-deny initiatives assigned; compliance &gt;90% at policy level</span></li>
+      <li><span>Test: create a storage account with public network access &mdash; refused by policy (Deny)</span></li>
+      <li><span>Test: create a Key Vault with purge protection disabled &mdash; refused by policy</span></li>
+      <li><span>Test: create a resource without required tags &mdash; refused by policy</span></li>
+      <li><span>Diagnostic settings active on test resources; logs in Log Analytics workspace; events in central SIEM</span></li>
+      <li><span>Activity Log entries flowing to SIEM within ~5 minutes</span></li>
+      <li><span>Defender continuous export operational; sample alert in SIEM</span></li>
+      <li><span>Subscription Owner count matches platform admin list; Contributor scoped to RGs</span></li>
+      <li><span>CanNotDelete locks present on production RGs</span></li>
+      <li><span>Cost budget alerts deliver; cost-anomaly detection active</span></li>
+    </ul>
+
+    <h3>Configuration review</h3>
+    <table class="gt-table">
+      <thead><tr><th>Check</th><th>Expected result</th></tr></thead>
+      <tbody>
+        <tr><td>Management group hierarchy</td><td>Documented; subscriptions correctly placed; root access restricted</td></tr>
+        <tr><td>Defender for Cloud (T0/1)</td><td>Defender plans enabled (Servers P2, Storage, SQL, Key Vault, ARM, etc.); CSPM enabled</td></tr>
+        <tr><td>Defender for Cloud (T2/3)</td><td>Minimum: Servers, Storage, Key Vault, ARM enabled; Free tier acceptable only with documented justification</td></tr>
+        <tr><td>Azure Policy assignment</td><td>MCSB + custom-deny initiative at management group root</td></tr>
+        <tr><td>Diagnostic settings policy</td><td>DeployIfNotExists for major resource types; verified by sample resource creation</td></tr>
+        <tr><td>Activity Log forwarding</td><td>Every subscription forwarding to central SIEM</td></tr>
+        <tr><td>Defender continuous export</td><td>Operational on every in-scope subscription</td></tr>
+        <tr><td>RBAC</td><td>Owner restricted; Contributor RG-scoped; PIM used for privileged roles</td></tr>
+        <tr><td>Resource locks</td><td>CanNotDelete on production RGs; ReadOnly on archive scopes</td></tr>
+        <tr><td>Cost alerting</td><td>Budget + cost-anomaly active per subscription</td></tr>
+        <tr><td>Tagging</td><td>Required tags enforced; coverage ≥95% on production</td></tr>
+        <tr><td>Azure Secure Score</td><td>≥75% T0/1; ≥60% T2/3</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <p>Subscription-baseline rollout can be disruptive if Deny policies are enabled before the estate is conformant. Plan the rollout carefully.</p>
+
+    <h3>Common scenarios</h3>
+    <ul class="wi-bullet">
+      <li><span><strong>Azure Policy Deny is blocking legitimate resource creation</strong> &mdash; cause: a policy was promoted from Audit to Deny before the estate was conformant; resources that previously existed cannot be recreated identically. Fix: switch the policy back to Audit; identify the non-conformant pattern; either remediate the resource or document the exemption.</span></li>
+      <li><span><strong>Diagnostic settings policy is over-provisioning Log Analytics ingestion</strong> &mdash; cause: too many log categories enabled at once on too many resources; Log Analytics ingestion bill spikes. Fix: review log categories per resource type; some are extremely verbose (e.g. some Storage data-plane categories); deselect what isn't needed.</span></li>
+      <li><span><strong>Defender for Cloud agent installation broken</strong> &mdash; cause: VM image without the required prerequisites, network restrictions blocking agent communication. Fix: install agent manually; for image issue, update the golden image; for network issue, confirm required endpoints are reachable.</span></li>
+      <li><span><strong>Tagging policy refused critical hot-fix resource creation</strong> &mdash; cause: an emergency resource needed creation without all required tags. Fix: targeted exemption with time-bound and follow-up to apply tags within 24 hours; do not blanket-disable the policy.</span></li>
+      <li><span><strong>Subscription Owner permission required for activity that should be Contributor-scope</strong> &mdash; cause: misunderstanding of what requires Owner. Resource-level RBAC change requires Owner or User Access Administrator at the resource scope. Fix: clarify in the agency operating model; use User Access Administrator at RG scope where the only need is role assignment.</span></li>
+      <li><span><strong>Resource lock blocking a legitimate change</strong> &mdash; cause: lock at too-broad scope. Fix: temporarily remove lock for the change window; restore immediately after; document in change record. If pattern repeats, narrow the lock scope.</span></li>
+    </ul>
+
+    <h3>Rollback procedure</h3>
+    <ol style="padding-left:18px;font-size:13px;line-height:1.7;color:#333;">
+      <li>Identify the blocking change (Azure Policy compliance state, Activity Log, change record)</li>
+      <li>For policy: revert effect from <code>Deny</code> to <code>Audit</code> at the relevant scope</li>
+      <li>For diagnostic settings: narrow log categories; switch routing temporarily if SIEM ingestion is the issue</li>
+      <li>For RBAC: targeted role assignment; do not broaden default model</li>
+      <li>For lock: temporary removal with logged justification; restore</li>
+      <li>Update change record; document root cause; remediate the underlying gap before re-enabling Deny</li>
+    </ol>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <ul class="wi-bullet">
+      <li><span><strong>Apply policy at management group, not subscription.</strong> Per-subscription policy assignment scales poorly and drifts. Management group inheritance is why management groups exist.</span></li>
+      <li><span><strong>Audit before Deny, always.</strong> A policy promoted directly to Deny causes outages on any resource that doesn't already conform. Audit for at least 2 weeks; review compliance state; remediate or exempt; then Deny.</span></li>
+      <li><span><strong>Diagnostic-settings policies are the unsung hero.</strong> Without them, log coverage degrades silently as new resource types appear in the estate. They are the single most important set of policies in the baseline.</span></li>
+      <li><span><strong>Defender plans are per resource type, not per subscription.</strong> Enabling "Defender for Servers P2" doesn't enable "Defender for Storage." Each plan has its own configuration and pricing. Review the full Defender Plans surface per subscription tier.</span></li>
+      <li><span><strong>Free tier Defender for Tier 0/1 subscriptions is not acceptable.</strong> The CSPM is fine; the workload-protection plans are not. Tier 0/1 = paid plans, no exceptions outside a documented and time-bounded migration.</span></li>
+      <li><span><strong>Activity Log retention defaults to 90 days.</strong> Forensic investigations frequently need longer. Either Log Analytics retention extension or Storage Account archive.</span></li>
+      <li><span><strong>Subscription Owner is not "use this everyday."</strong> If standing Owner is needed for routine work, the RBAC design is wrong. Custom roles + PIM eligibility for the rare cases.</span></li>
+      <li><span><strong>Service principals proliferate.</strong> Old apps leave behind orphaned SPs; secrets expire without rotation; tracking gets lost. Quarterly review of all SPs in scope; deprecate aggressively; prefer managed identities.</span></li>
+      <li><span><strong>Resource locks are not RBAC.</strong> A user with Owner rights can remove a lock then delete the resource. The lock prevents accidents, not deliberate actions. Alert on lock removal.</span></li>
+      <li><span><strong>Cost spikes are security signals.</strong> A 10&times; spike on egress, a sudden GPU-VM creation, a public-blob being downloaded at TBs &mdash; these are incidents, not finance issues. The cost alert often beats the security alert by hours.</span></li>
+      <li><span><strong>Tagging without enforcement = 30% coverage.</strong> Self-attested tagging discipline drifts. Modify-and-Deny policies make it real.</span></li>
+      <li><span><strong>Continuous export to SIEM must be tested.</strong> Configuring it isn't enough; verify alerts actually reach the SIEM and are correctly mapped. The day you need the alert is the wrong day to discover the pipeline broke.</span></li>
+    </ul>
+  </div>
+
+  <div class="wi-nav"><a href="it-cl-wi-02.html">&larr; IT-CL-WI-02: M365 Tenant Hardening</a><a href="it-cl-wi-04.html">IT-CL-WI-04: Azure Workload Patterns &rarr;</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-CL-WI-03 v1.0 · Live · 12 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-cloud-baselines.html" style="color:var(--wi);text-decoration:none;">&larr; Back to Cloud Baselines</a></span>
+  </div>
+</div>
+</body>
+</html>

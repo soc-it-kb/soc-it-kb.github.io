@@ -70,6 +70,7 @@
   .asm-domain-link.ti { background:#EDF6ED; color:#2D5A2D; border:0.5px solid #A8D5A8; }
   .asm-domain-link.nb { background:#E6F0F4; color:#145570; border:0.5px solid #A8CADB; }
   .asm-domain-link.si { background:#FCEEDA; color:#8F500C; border:0.5px solid #EBC58D; }
+  .asm-domain-link.cl { background:#E8F0F8; color:#1A3A5C; border:0.5px solid #A8C5DE; }
 
   .kb-tiers { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; }
   .kb-tier { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
@@ -130,12 +131,12 @@
 
   <!-- Stats -->
   <div class="stats-row">
-    <div class="stat-card"><div class="stat-num" style="color:#297086;">205</div><div class="stat-label">Total pages</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#297086;">212</div><div class="stat-label">Total pages</div></div>
     <div class="stat-card"><div class="stat-num" style="color:#0F6E56;">23</div><div class="stat-label">Playbooks</div></div>
     <div class="stat-card"><div class="stat-num" style="color:#0F6E56;">22</div><div class="stat-label">Runbooks</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:#8B4A0E;">69</div><div class="stat-label">Work instructions</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:#4A5568;">30</div><div class="stat-label">SOPs &amp; policies</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:#5B2D8E;">80</div><div class="stat-label">ASM pages</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#8B4A0E;">74</div><div class="stat-label">Work instructions</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#4A5568;">31</div><div class="stat-label">SOPs &amp; policies</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#5B2D8E;">87</div><div class="stat-label">ASM pages</div></div>
     <div class="stat-card"><div class="stat-num" style="color:#6B3FA0;">20</div><div class="stat-label">Tier-1 checklists</div></div>
     <div class="stat-card"><div class="stat-num" style="color:#0E5C5C;">37</div><div class="stat-label">GRC pages</div></div>
   </div>
@@ -178,6 +179,7 @@
         <a class="asm-domain-link ti" href="asm-threat-intelligence.html">🧠 Threat Intelligence</a>
         <a class="asm-domain-link nb" href="asm-network-baselines.html">🌐 Network Baselines</a>
         <a class="asm-domain-link si" href="asm-security-infrastructure-baselines.html">🛡️ Security Infrastructure</a>
+        <a class="asm-domain-link cl" href="asm-cloud-baselines.html">☁️ Cloud Baselines</a>
       </div>
     </div>
   </div>
@@ -202,19 +204,19 @@
         <div class="kb-card-icon icon-amber">📐</div>
         <h3>Standard Operating Procedures</h3>
         <div class="kb-card-q">"How is this process meant to work?"</div>
-        <p>Governance, roles, responsibilities, escalation rules, and compliance requirements. 30 SOPs spanning SOC operations, IT operations, ASM, and GRC. NIST CSF 2.0 and ISO 27001:2022 aligned.</p>
+        <p>Governance, roles, responsibilities, escalation rules, and compliance requirements. 31 SOPs spanning SOC operations, IT operations, ASM, and GRC. NIST CSF 2.0 and ISO 27001:2022 aligned.</p>
       </a>
       <a class="kb-card" href="work-instructions.html">
         <div class="kb-card-icon icon-coral">🔧</div>
         <h3>Work Instructions</h3>
         <div class="kb-card-q">"Where exactly do I click?"</div>
-        <p>Tool-agnostic execution steps for containment, investigation, eradication, recovery, and infrastructure hardening. 69 WIs covering SOC, IT operations, ASM (endpoint, server, network device, and security-infrastructure hardening), and GRC workflows.</p>
+        <p>Tool-agnostic execution steps for containment, investigation, eradication, recovery, and infrastructure hardening. 74 WIs covering SOC, IT operations, ASM (endpoint, server, network device, security-infrastructure, and cloud-tenant hardening), and GRC workflows.</p>
       </a>
       <a class="kb-card asm-card" href="asm.html">
         <div class="kb-card-icon icon-asm">⬡</div>
         <h3>Attack Surface Management</h3>
         <div class="kb-card-q">"What is our exploitable exposure right now?"</div>
-        <p>Security Baselines, Vulnerability Management, Patch Management, Threat Intelligence, Network Device Baselines, and Security Infrastructure Baselines — six domains unified under a Zero Trust-aligned ASM capability across endpoints, servers, network infrastructure, and security-infrastructure platforms (WAF/LB/PAM).</p>
+        <p>Security Baselines, Vulnerability Management, Patch Management, Threat Intelligence, Network Device Baselines, Security Infrastructure Baselines, and Cloud Baselines — seven domains unified under a Zero Trust-aligned ASM capability across endpoints, servers, network infrastructure, security-infrastructure platforms (WAF/LB/PAM), and cloud tenants (M365/Azure).</p>
       </a>
       <a class="kb-card grc-card" href="grc.html">
         <div class="kb-card-icon icon-grc">⚖️</div>

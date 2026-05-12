@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-CL-WI-04: Azure Workload Patterns — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+<style>
+  :root { --wi:#2E5C8A; --wi-light:#E8F0F8; --wi-border:#A8C5DE; --wi-dark:#1A3A5C; --cl:#2E5C8A; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .wi-section { background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:8px; }
+  .wi-section-title { font-size:15px; font-weight:600; color:#1a1a1a; margin-bottom:0.7rem; padding-bottom:6px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0 0 8px 0; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-section h3 { font-size:13px; font-weight:600; color:var(--wi-dark); margin:12px 0 5px 0; }
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:6px; padding-left:0; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:#333; line-height:1.6; }
+  .wi-bullet li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:7px; }
+  .step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.1rem; margin-top:8px; }
+  .step-header { display:flex; align-items:center; gap:10px; margin-bottom:7px; padding-bottom:5px; border-bottom:0.5px solid #f0f0ec; }
+  .step-num { width:24px; height:24px; border-radius:6px; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-title { font-size:13px; font-weight:700; color:var(--wi-dark); }
+  .step-objective { font-size:12px; color:#666; font-style:italic; margin-top:2px; line-height:1.5; }
+  .step-body { font-size:13px; color:#333; line-height:1.6; }
+  .step-body p { margin:6px 0; }
+  .step-body p:first-child { margin-top:0; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body strong { color:var(--wi-dark); }
+  .step-body ul { list-style:none; padding:0; margin:6px 0; display:flex; flex-direction:column; gap:3px; }
+  .step-body ul li { display:flex; gap:7px; font-size:12px; color:#444; line-height:1.55; padding-left:2px; }
+  .step-body ul li::before { content:'\203A'; color:var(--wi); font-weight:700; flex-shrink:0; }
+  .step-verify { background:#fff; border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:6px; padding:0.5rem 0.8rem; margin-top:8px; font-size:12px; color:#444; line-height:1.55; }
+  .step-verify strong { color:var(--wi-dark); }
+  .cis-ref { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--wi); background:var(--wi-light); border:0.5px solid var(--wi-border); padding:1px 7px; border-radius:4px; font-weight:600; margin-top:5px; }
+  .tier-tag { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:10px; font-weight:700; padding:1px 6px; border-radius:4px; background:#fff; border:0.5px solid var(--wi-border); color:var(--wi); margin-right:5px; }
+  .tier-tag.all  { background:#E1F5EE; color:#0F6E56; border-color:#82D4B0; }
+  .tier-tag.e3   { background:#FEF0E6; color:#8B4A0E; border-color:#F5C89A; }
+  .tier-tag.e5   { background:#F2EBF9; color:#5B2D8E; border-color:#C7B3DD; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:var(--wi-dark); line-height:1.6; margin-top:10px; }
+  .callout-info strong { color:var(--wi-dark); font-weight:700; }
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#7a2e10; line-height:1.6; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--wi-dark); color:#fff; font-weight:600; padding:7px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--wi-dark); white-space:nowrap; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>&rsaquo;</span>
+    <a href="asm.html">ASM</a><span>&rsaquo;</span>
+    <a href="asm-cloud-baselines.html">Cloud Baselines</a><span>&rsaquo;</span>
+    <span>IT-CL-WI-04</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#0F2540 0%,#1A3A5C 40%,#2E5C8A 100%);">
+    <span class="kb-page-hero-icon">🛠️</span>
+    <h1>IT-CL-WI-04: Azure Workload Patterns</h1>
+    <p>Implementation guidance for the most frequent Azure workload patterns: storage accounts, Key Vault, virtual networks and NSGs, Private Endpoints, Azure WAF on Application Gateway and Front Door, SQL / Cosmos protection, virtual machines, App Service and Functions, backup and DDoS posture. Operationalises &sect;4.4 of IT-CL-SOP-01. Tier 0 / 1 additions called out per pattern.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Cloud Baselines</span>
+      <span class="kb-meta-pill">Tier-aware</span>
+      <span class="kb-meta-pill">CIS Foundations L1</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">📋 <strong>WI ID:</strong> IT-CL-WI-04</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">🔗 <strong>Implements:</strong> <a href="it-cl-sop-01.html" style="color:var(--wi);">IT-CL-SOP-01 §4.4</a></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Owner:</strong> Cloud Eng / IAE</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 12 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <p>Before applying this WI:</p>
+    <ul class="wi-bullet">
+      <li><span>WI-01 (Tenant Identity), WI-02 (M365), and WI-03 (Azure Subscription) complete &mdash; the subscription baseline policy framework needs to be in place before tightening individual workload patterns</span></li>
+      <li><span>The workload's tier (Tier 0 / 1 / 2 / 3) recorded in GRC-REG-ASSET; this determines several controls in this WI (CMK encryption, soft-delete retention, HSM-backed keys, Defender for SQL/Cosmos)</span></li>
+      <li><span>Network design decided &mdash; Private Endpoint topology, hub-spoke or VWAN, how on-prem connectivity reaches Azure (ExpressRoute, VPN), how Azure egress is filtered (Azure Firewall, third-party NVA)</span></li>
+      <li><span>For Tier 0 / 1 workloads: customer-managed key (CMK) strategy decided; the Key Vault hosting CMKs is itself baselined to the highest standard in this WI</span></li>
+      <li><span>For workloads with public-facing web applications: decision on Azure WAF placement (Application Gateway vs Front Door); SOC awareness of the WAF logging endpoint</span></li>
+    </ul>
+    <div class="callout-info"><strong>This WI addresses common Azure workload patterns, not every possible service.</strong> The patterns covered here are the most frequent attack surfaces in Azure: storage, key vault, networking, public-facing apps, databases, virtual machines, and App Service. Workloads using less common services (AKS, Service Fabric, HDInsight, Synapse) follow the same principles but require service-specific baselines that are deferred to future extensions.</div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <p>The steps below cover the Azure workload patterns required by IT-CL-SOP-01 &sect;4.4. They apply to every Azure workload within an in-scope subscription, with Tier 0/1 additions called out per step.</p>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div>
+        <div><div class="step-title">Storage account baseline</div>
+        <div class="step-objective">Public exposure eliminated by default; encryption strong; data immutable or soft-deletable where compliance requires.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Storage accounts are the most common cloud exposure in any estate. Default permissive settings have historically caused major data leaks. Tighten universally:</p>
+        <ul>
+          <li><strong>Secure transfer required</strong> &mdash; HTTPS only; <code>storageAccountProperties.supportsHttpsTrafficOnly = true</code>; enforced via Azure Policy (WI-03 Step 3)</li>
+          <li><strong>Public blob anonymous access disabled</strong> at the storage account level (<code>allowBlobPublicAccess = false</code>) &mdash; this prevents containers being set to public-anonymous regardless of container-level setting</li>
+          <li><strong>Minimum TLS 1.2</strong> &mdash; <code>minimumTlsVersion = TLS1_2</code>; TLS 1.0 / 1.1 disabled</li>
+          <li><strong>Network access controls</strong>:
+            <ul>
+              <li>Default action <code>Deny</code></li>
+              <li>Allow access only via Private Endpoint (preferred) or specific service endpoint / firewall allow-list</li>
+              <li>"Allow trusted Microsoft services" enabled where the storage account is read by other Azure services (Backup, Monitor, Defender)</li>
+            </ul>
+          </li>
+          <li><strong>Encryption at rest</strong> &mdash; AES-256 always (platform default). For Tier 0 / 1: <strong>customer-managed keys (CMK)</strong> using a key in Key Vault Premium or Managed HSM</li>
+          <li><strong>Soft-delete</strong> for blobs and containers &mdash; ≥7 days; for Tier 0/1: 30&ndash;90 days</li>
+          <li><strong>Immutable storage</strong> for compliance-relevant data &mdash; legal-hold or time-based policies prevent deletion / modification within retention window</li>
+          <li><strong>Cross-tenant replication</strong> disabled unless explicitly required (default-off in newer Azure regions; verify)</li>
+          <li><strong>Shared Key authorization</strong> &mdash; consider disabling and using Entra-only authentication for storage account access (limits the blast radius if a storage account key is leaked)</li>
+          <li><strong>Diagnostic logging</strong> &mdash; StorageRead, StorageWrite, StorageDelete to Log Analytics + Event Hub (per WI-03 Step 4); without these, blob-level access is invisible</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Test: create blob in test storage account, attempt anonymous public read; refused. Test: HTTP request to storage endpoint; rejected. Network restrictions confirmed via Defender for Cloud recommendations.</div>
+        <span class="cis-ref">CIS Azure 3.x · MCSB DP-x</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div>
+        <div><div class="step-title">Key Vault baseline</div>
+        <div class="step-objective">Key Vault is treated as a Tier 0 asset everywhere; soft-delete and purge protection are non-negotiable; network restricted.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Key Vault holds secrets, keys, and certificates &mdash; everything else's trust ultimately depends on it. Treat every Key Vault as Tier 0 even when the workload it supports is lower-tier.</p>
+        <ul>
+          <li><strong>RBAC mode (preferred over access policies)</strong> &mdash; Key Vault has two access models; RBAC is the modern model and is easier to audit and integrate with PIM</li>
+          <li><strong>Soft-delete enabled</strong> &mdash; non-disablable in new Key Vaults (Microsoft enforces it); retention 7&ndash;90 days configurable</li>
+          <li><strong>Purge protection enabled</strong> &mdash; once enabled, cannot be disabled; soft-deleted vaults / keys cannot be purged before retention expiry. <strong>This is the single most important Key Vault setting.</strong></li>
+          <li><strong>Network access</strong> &mdash; default-deny with Private Endpoint preferred; trusted Microsoft services allowed only where the dependency is genuine</li>
+          <li><strong>Diagnostic logging</strong> &mdash; <code>AuditEvent</code> category to Log Analytics + Event Hub; without this, key access is invisible</li>
+          <li><strong>Key types</strong> &mdash; software-protected keys for Tier 2/3 workloads; <strong>HSM-backed keys (Premium tier or Managed HSM)</strong> for Tier 0/1 production cryptography</li>
+          <li><strong>Key rotation</strong> &mdash; automatic rotation policies for all keys (typical: 1&ndash;2 years); rotation tested annually; previous key version retained for grace period</li>
+          <li><strong>Key Vault firewall</strong> &mdash; if Private Endpoint is not used, restrict to specific virtual networks and IP ranges; never &quot;Allow access from all networks&quot; in production</li>
+          <li><strong>Backup</strong> &mdash; Key Vault backup procedure documented; cross-region or cross-subscription depending on DR requirement</li>
+          <li><strong>Access by managed identities preferred</strong> over service principals or app-secret patterns; ties access to a resource lifecycle</li>
+        </ul>
+        <div class="callout-warn"><strong>If you do nothing else in this step, enable Purge Protection on every Key Vault.</strong> Without it, a malicious or accidental "delete and purge" can permanently lose keys, which can permanently lose the data they encrypt. With purge protection, every deletion waits out the retention window and can be recovered.</div>
+        <div class="step-verify"><strong>Verify.</strong> Soft-delete and purge protection enabled on every Key Vault. Network restrictions in place. Test: attempt to disable purge protection; refused. Diagnostic logs visible in Log Analytics.</div>
+        <span class="cis-ref">CIS Azure 8.x · MCSB DP-x · "Key Vault"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div>
+        <div><div class="step-title">Virtual network baseline (NSG, flow logs)</div>
+        <div class="step-objective">Every subnet has explicit allow rules with default-deny inbound; flow logs feed central SIEM for network forensics.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Network Security Groups (NSGs) are subnet-level (and NIC-level) firewalls. They are the primary segmentation control inside an Azure subscription.</p>
+        <ul>
+          <li><strong>NSG on every subnet</strong> &mdash; never leave a subnet without an NSG. The platform allows it; the baseline does not.</li>
+          <li><strong>Default-deny inbound</strong> at the subnet NSG. Azure's default rules allow VirtualNetwork-to-VirtualNetwork; tighten with explicit allows for the services that actually need cross-subnet communication.</li>
+          <li><strong>No 0.0.0.0/0 to sensitive ports</strong> &mdash; RDP (3389), SSH (22), WinRM, database ports (1433, 3306, 5432, etc.), management endpoints. Public access to these requires explicit JIT VM access (Defender for Servers) or documented exception.</li>
+          <li><strong>Application Security Groups (ASGs)</strong> for workload-internal segmentation &mdash; reference VMs by role tag rather than IP; NSG rules use ASG references; surviving IP changes</li>
+          <li><strong>NSG flow logs</strong> &mdash; enabled on every NSG (Network Watcher); Version 2 (with metadata); routed to Log Analytics workspace; analytics enabled for Traffic Analytics (or equivalent in central SIEM)</li>
+          <li><strong>Diagnostic settings on NSGs</strong> &mdash; NetworkSecurityGroupEvent and NetworkSecurityGroupRuleCounter categories</li>
+          <li><strong>Service Tags</strong> &mdash; use Microsoft-managed service tags (e.g. <code>AzureCloud</code>, <code>Sql</code>, <code>Storage</code>) for outbound rules instead of hardcoded IP ranges; the tag updates automatically as Microsoft IP ranges evolve</li>
+          <li><strong>Network Watcher</strong> &mdash; enabled per region (it is by default in newer subscriptions; verify); supports connectivity diagnostics</li>
+          <li><strong>Azure Firewall or third-party NVA</strong> for egress filtering on Tier 0/1 subscriptions &mdash; not a strict baseline requirement, but recommended; documented in cloud architecture rather than this baseline</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Every subnet has an NSG. Sample NSG shows explicit allow rules + default-deny inbound. Flow logs flowing to Log Analytics; Traffic Analytics dashboard populated.</div>
+        <span class="cis-ref">CIS Azure 6.x · "Network Security Groups"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div>
+        <div><div class="step-title">Prefer Private Endpoints over public exposure for PaaS data services</div>
+        <div class="step-objective">Data-plane access to PaaS services happens via private network paths; public endpoints disabled wherever feasible.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Most PaaS data services (Storage, SQL Database, Cosmos DB, Key Vault, Service Bus, Event Hubs) default to public endpoint exposure. Private Endpoint gives each instance a private IP inside the virtual network and disables the public endpoint.</p>
+        <ul>
+          <li><strong>Default pattern</strong>: PaaS data services accessed via Private Endpoint; public endpoint disabled. Network access on the resource set to "Disabled" or restricted-to-Private-Endpoint.</li>
+          <li><strong>Service Endpoints</strong> as fallback &mdash; older mechanism; the PaaS endpoint stays public but only VNet-routed traffic is allowed. Less secure than Private Endpoint (the public endpoint still exists). Acceptable only where Private Endpoint is not supported.</li>
+          <li><strong>Private DNS zones</strong> &mdash; required for Private Endpoint to work correctly; the private DNS zone for the PaaS resource type (e.g. <code>privatelink.blob.core.windows.net</code>) is linked to the VNet; without DNS resolution, the Private Endpoint is invisible to consumers</li>
+          <li><strong>DNS architecture</strong> &mdash; centralised in a hub VNet for hub-spoke topologies; each Private Endpoint registers in the central zones; spokes inherit via VNet link</li>
+          <li><strong>Network access on the PaaS resource</strong> &mdash; even with Private Endpoint, the resource may still allow public access. Disable explicitly.</li>
+          <li><strong>Enforced via Azure Policy</strong> &mdash; built-in policies "Storage accounts should restrict network access," "Key Vault should use a Private Endpoint," etc., assigned at management group scope; effect: Audit initially, Deny after estate remediated</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Sample Storage / Key Vault / SQL has Private Endpoint configured; public endpoint disabled. Test resolution: from a VM in the VNet, <code>nslookup</code> resolves to the private IP. Defender for Cloud recommendation "should use private link" cleared.</div>
+        <span class="cis-ref">CIS Azure 3.x, 4.x, 8.x · MCSB NS-x · "Private Endpoint"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div>
+        <div><div class="step-title">Azure WAF on Application Gateway or Front Door <span class="tier-tag e3">Tier 0 / 1 apps</span></div>
+        <div class="step-objective">Public-facing web apps protected by managed rule set in Prevention mode; logs visible to SOC.</div></div>
+      </div>
+      <div class="step-body">
+        <p>This step absorbs the Azure-native cloud-WAF scope that was deferred from IT-SI-WI-02 (the on-prem / vendor WAF baseline). Azure WAF is offered on Application Gateway (regional, scoped to one app per gateway typically) and Front Door (global, multi-app, anycast); both share the same managed rule set engine.</p>
+        <ul>
+          <li><strong>Placement</strong> &mdash; in front of every public-facing web application for Tier 0/1 apps; for Tier 2/3 apps where the workload type justifies it</li>
+          <li><strong>WAF policy attached</strong> &mdash; policy lives separately from the gateway/Front Door, referenced from the listener / route; one policy can apply across multiple endpoints</li>
+          <li><strong>Mode</strong>:
+            <ul>
+              <li>Initial deployment: <strong>Detection mode</strong> for 2&ndash;4 weeks; review logs for false positives</li>
+              <li>After tuning: <strong>Prevention mode</strong> within 90 days of go-live for Tier 0/1 apps</li>
+              <li>Detection-mode forever is a non-control; track the Detection &rarr; Prevention transition explicitly</li>
+            </ul>
+          </li>
+          <li><strong>Managed rule set</strong> &mdash; Azure's managed rule set (DRS &mdash; Default Rule Set; current version) covers the OWASP Top 10 patterns: SQL injection, XSS, command injection, LFI / RFI, protocol anomalies, scanner detection. Enable as the baseline.</li>
+          <li><strong>Bot Manager rules</strong> &mdash; Azure WAF bot protection rule set; enable to filter known-bad bot traffic; review false positives carefully on apps with legitimate scraper / monitoring traffic</li>
+          <li><strong>Custom rules</strong> for app-specific patterns:
+            <ul>
+              <li>Geo-restriction (block sign-in attempts from non-business regions)</li>
+              <li>Rate limiting per source IP (mitigate credential stuffing, scraping)</li>
+              <li>Path-specific bypass for legitimate scenarios where the managed rule set is over-triggering</li>
+            </ul>
+          </li>
+          <li><strong>Logging</strong> &mdash; WAF access log and firewall log to Log Analytics + Event Hub; sample dashboards (top blocked source IPs, top triggered rules, false-positive candidates); SIEM correlation with sign-in events</li>
+          <li><strong>Tuning discipline</strong> &mdash; named owner per WAF policy; documented exception process; quarterly review of triggered rule trends; do not blanket-disable rules &mdash; tune narrowly</li>
+          <li><strong>TLS</strong> &mdash; minimum TLS 1.2 on the listener; HTTPS-only redirects from HTTP; managed certificates (App Gateway / Front Door integration with Key Vault) for automatic renewal</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> WAF policy attached to every public-facing Tier 0/1 web app. Mode: Detection initially &rarr; Prevention after tuning. Logs flowing to SIEM. Test: send a known-malicious pattern (controlled test like an SQL-injection-shaped query string) &mdash; blocked in Prevention mode, logged in Detection mode. Tuning ownership documented.</div>
+        <span class="cis-ref">CIS Azure 7.x · MCSB NS-x · "Azure WAF"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">6</div>
+        <div><div class="step-title">SQL Database and Cosmos DB protection</div>
+        <div class="step-objective">Database services run with native security features enabled; sensitive data encrypted with CMK where tier justifies.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Database services are high-value targets. Several built-in security features need to be enabled rather than left at default-off.</p>
+        <ul>
+          <li><strong>Azure SQL Database / Managed Instance</strong>:
+            <ul>
+              <li>Entra authentication enabled; SQL authentication used only where unavoidable; Entra admin assigned (group preferred over individual)</li>
+              <li>Transparent Data Encryption (TDE) always-on; CMK with Key Vault for Tier 0/1</li>
+              <li>Defender for SQL enabled (vulnerability assessment + advanced threat protection) &mdash; for Tier 0/1; recommended for any sensitive data</li>
+              <li>Auditing to Log Analytics + Event Hub; retention per data classification</li>
+              <li>Server-level firewall: deny by default; named IPs only; Private Endpoint preferred per Step 4</li>
+              <li>Vulnerability assessment baseline run quarterly; findings tracked</li>
+              <li>Always Encrypted for highly sensitive columns (specific data subject to extra controls)</li>
+            </ul>
+          </li>
+          <li><strong>Cosmos DB</strong>:
+            <ul>
+              <li>Entra authentication preferred over key-based; data-plane RBAC enabled</li>
+              <li>Defender for Cosmos DB enabled for Tier 0/1</li>
+              <li>Network restrictions: Private Endpoint or VNet service endpoint; public access disabled</li>
+              <li>Diagnostic logging: DataPlaneRequests + control plane to Log Analytics + Event Hub</li>
+              <li>Continuous backup with PITR (Point-in-Time Restore) for Tier 0/1; 7&ndash;30 day window</li>
+              <li>CMK encryption for Tier 0/1</li>
+            </ul>
+          </li>
+          <li><strong>Other database services</strong> (Azure Database for PostgreSQL / MySQL / MariaDB) follow analogous patterns: Entra auth where supported, SSL enforcement, Defender plan for the database type, network restrictions, diagnostic logging</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Sample SQL Database has TDE on with CMK (Tier 0/1); Defender for SQL enabled. Sample Cosmos has Entra auth and Defender enabled. Test: SQL injection pattern caught by Defender; alert visible.</div>
+        <span class="cis-ref">CIS Azure 4.x · MCSB DP-x · "Defender for SQL"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">7</div>
+        <div><div class="step-title">Virtual machine baseline</div>
+        <div class="step-objective">VMs onboarded to Defender for Servers; managed identities preferred over service principals; JIT VM access where exposed.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Azure VMs combine all the usual server-hardening concerns (covered by the endpoint / server baseline domain in asm-security-baselines.html) with cloud-specific patterns. This step covers the Azure-specific additions; server-internal hardening remains under the server baseline domain.</p>
+        <ul>
+          <li><strong>Defender for Servers</strong> &mdash; P2 plan for Tier 0/1, P1 acceptable for Tier 2/3 with justification; onboarding auto-provisioned via DfC (WI-03 Step 2); EDR integration with Defender for Endpoint (WI-05)</li>
+          <li><strong>Just-in-Time (JIT) VM access</strong> &mdash; for VMs that require occasional inbound management access (RDP/SSH), JIT replaces standing inbound NSG rules with time-bounded, source-IP-bounded approval-based access; default deny inbound on management ports otherwise</li>
+          <li><strong>Managed identities</strong> &mdash; system-assigned or user-assigned, used for VM-to-Azure-service authentication; eliminates secrets-in-VM-config</li>
+          <li><strong>Disk encryption</strong> &mdash; Azure Disk Encryption (BitLocker / dm-crypt) or Server-Side Encryption with CMK; the latter is simpler and equivalent for most use cases; Tier 0/1 = CMK</li>
+          <li><strong>Trusted Launch (Gen 2 VMs)</strong> &mdash; vTPM, secure boot, boot integrity monitoring; enable for new VMs where the image supports it</li>
+          <li><strong>VM extension control</strong> &mdash; Azure Policy restricting which VM extensions can be installed; an attacker with Contributor on a VM can install arbitrary extensions, so restrict at policy level</li>
+          <li><strong>Guest configuration / Azure Automanage</strong> &mdash; assign the baseline guest-configuration policies to verify in-guest hardening continuously; integrates with the server baseline domain</li>
+          <li><strong>Update Management</strong> &mdash; Azure Update Manager for patch deployment per IT-PM-SOP-01; non-conformant VMs flagged in DfC</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Sample VMs show Defender for Servers active, JIT configured for management access, managed identity assigned, CMK on disk. Defender recommendations cleared.</div>
+        <span class="cis-ref">CIS Azure 7.x · "Defender for Servers" · "JIT"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">8</div>
+        <div><div class="step-title">App Service and Functions baseline</div>
+        <div class="step-objective">PaaS app hosting follows secure defaults: HTTPS-only, managed identity, authentication where the app doesn't handle its own, diagnostic logging on.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Azure App Service and Azure Functions are popular workload hosts. They have several "off by default" settings that need to be on by default for any production workload.</p>
+        <ul>
+          <li><strong>HTTPS only</strong> &mdash; <code>httpsOnly = true</code>; HTTP redirected to HTTPS</li>
+          <li><strong>Minimum TLS version</strong> &mdash; TLS 1.2 minimum</li>
+          <li><strong>FTP / FTPS deployment</strong> &mdash; disabled unless deliberately needed; deployment via Azure DevOps / GitHub Actions / Bicep + service principal preferred</li>
+          <li><strong>Authentication / authorisation</strong> &mdash; for apps that don't implement their own, enable Easy Auth (Entra ID integrated identity provider); for apps with their own, ensure they validate tokens correctly</li>
+          <li><strong>Managed identity</strong> for connections to Key Vault, Storage, SQL &mdash; no connection strings with secrets in app config</li>
+          <li><strong>Key Vault reference syntax</strong> for any app-config setting that holds a secret &mdash; <code>@Microsoft.KeyVault(...)</code> &mdash; centralises secret management and rotation</li>
+          <li><strong>Network restrictions</strong> &mdash; access restrictions to specific IP ranges / VNets; or VNet integration with private endpoint for inbound</li>
+          <li><strong>Defender for App Service</strong> &mdash; enabled for Tier 0/1 subscriptions per WI-03 Step 2</li>
+          <li><strong>Diagnostic logging</strong> &mdash; AppServiceHTTPLogs, AppServiceConsoleLogs, AppServiceAppLogs to Log Analytics + Event Hub</li>
+          <li><strong>Slot deployment</strong> &mdash; production slot protected by Azure Policy from direct deployment; deployments go to staging slot then swap; audit-trail and rollback in one step</li>
+          <li><strong>For Functions specifically</strong> &mdash; host keys rotated periodically; consider Function authentication via Entra integration rather than function keys for higher-security functions</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Sample App Service shows HTTPS-only, managed identity, Easy Auth where applicable, diagnostic logging on. Defender for App Service recommendations cleared.</div>
+        <span class="cis-ref">CIS Azure 9.x · "App Service" · MCSB DP-x</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">9</div>
+        <div><div class="step-title">Backup and recovery posture</div>
+        <div class="step-objective">Production workloads have tested backups; recovery scope and RPO/RTO match the asset tier.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Backup is operational hygiene that is also a security control &mdash; ransomware recovery depends entirely on backup integrity.</p>
+        <ul>
+          <li><strong>Azure Backup or service-native backup</strong> per workload type: VMs &rarr; Azure Backup; SQL &rarr; SQL automated backups + LTR (long-term retention); Cosmos &rarr; continuous backup; Storage &rarr; soft-delete + versioning + (where critical) Azure Backup for Blob</li>
+          <li><strong>Recovery Services Vault</strong> &mdash; in a different region or different subscription from the workload it protects; cross-region for DR scenarios</li>
+          <li><strong>Soft-delete on the vault</strong> &mdash; recovery points cannot be deleted within retention (14-day minimum); aligns with "immutable backups" pattern</li>
+          <li><strong>Multi-user authorisation (MUA)</strong> on the vault &mdash; high-risk operations (vault delete, retention reduction, soft-delete disable) require a second approver</li>
+          <li><strong>RPO/RTO per tier</strong> &mdash; documented in the asset record; Tier 0/1 typically RPO ≤ 24h, RTO ≤ 4h; Tier 2/3 longer windows acceptable</li>
+          <li><strong>Restore testing</strong> &mdash; quarterly for Tier 0/1; annual for Tier 2/3; documented test results retained as audit evidence</li>
+          <li><strong>Backup integration with SIEM</strong> &mdash; backup failures and unusual restore activity (especially restore to non-original RG) alerted</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Backup policies configured per tier; vault soft-delete and MUA enabled. Restore test completed within the cadence per tier; evidence retained.</div>
+        <span class="cis-ref">MCSB BR-x · "Azure Backup"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">10</div>
+        <div><div class="step-title">DDoS protection on public-facing workloads</div>
+        <div class="step-objective">Public IPs serving Tier 0/1 workloads are behind Azure DDoS Protection; defence-in-depth with WAF.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Azure provides DDoS protection at two levels &mdash; basic (free, network-layer, on every public IP) and standard (paid, with application-layer telemetry, mitigation tuning, attack notifications).</p>
+        <ul>
+          <li><strong>DDoS Protection Standard</strong> on the VNets containing Tier 0/1 public-facing resources &mdash; covers all public IPs in the VNet for a flat-rate per protected VNet</li>
+          <li><strong>DDoS Protection Plans</strong> reusable across VNets in the same subscription / scope &mdash; the cost is per plan, not per VNet, when plan is attached to multiple</li>
+          <li><strong>Telemetry</strong> &mdash; DDoS metrics in Log Analytics; alerts on mitigation events; SOC playbook for DDoS response (correlation with WAF logs and app availability)</li>
+          <li><strong>Coverage</strong> &mdash; Application Gateway with WAF, Front Door, exposed VMs, Public IPs on load balancers, Bastion external endpoints</li>
+          <li><strong>Tier 2/3</strong> &mdash; DDoS Basic acceptable; consider Standard where DDoS-risk profile justifies the cost</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> DDoS Protection Standard attached to VNets containing Tier 0/1 public IPs. Telemetry visible. DDoS-event alert chain tested.</div>
+        <span class="cis-ref">MCSB NS-x · "DDoS Protection"</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <p>After applying these steps to a workload, validate.</p>
+
+    <h3>Functional validation</h3>
+    <ul class="wi-bullet">
+      <li><span>Storage accounts deny public anonymous access; HTTPS-only; minimum TLS 1.2; CMK on Tier 0/1; soft-delete configured</span></li>
+      <li><span>Key Vault: soft-delete + purge protection enabled and not disablable; Private Endpoint; RBAC mode; diagnostic logging on</span></li>
+      <li><span>Subnets all have NSGs; default-deny inbound; flow logs to Log Analytics</span></li>
+      <li><span>Private Endpoints in place for PaaS data services; private DNS resolves correctly; public endpoints disabled</span></li>
+      <li><span>Azure WAF on public-facing Tier 0/1 apps; Prevention mode after tuning; logs in SIEM</span></li>
+      <li><span>SQL: TDE on with CMK (T0/1); Defender for SQL; Entra auth; auditing on</span></li>
+      <li><span>Cosmos: Entra auth where supported; Defender for Cosmos (T0/1); Private Endpoint</span></li>
+      <li><span>VMs: Defender for Servers; JIT for management; managed identity; disk CMK (T0/1)</span></li>
+      <li><span>App Service: HTTPS-only; managed identity; Easy Auth or app-validated tokens; diagnostic logging</span></li>
+      <li><span>Backup: configured per tier; vault soft-delete and MUA on; restore tested per cadence</span></li>
+      <li><span>DDoS Protection Standard on Tier 0/1 public VNets</span></li>
+    </ul>
+
+    <h3>Configuration review</h3>
+    <table class="gt-table">
+      <thead><tr><th>Workload pattern</th><th>All tiers</th><th>Tier 0 / 1 additions</th></tr></thead>
+      <tbody>
+        <tr><td>Storage</td><td>HTTPS-only, no public blob, TLS 1.2, network restricted, diagnostic logging</td><td>CMK encryption, soft-delete ≥30 days, immutable for compliance</td></tr>
+        <tr><td>Key Vault</td><td>RBAC mode, soft-delete + purge protection, Private Endpoint, diagnostic logging</td><td>HSM-backed keys, rotation tested annually</td></tr>
+        <tr><td>VNet / NSG</td><td>NSG every subnet, default-deny inbound, flow logs, ASGs</td><td>Azure Firewall / NVA for egress filtering</td></tr>
+        <tr><td>Private Endpoint</td><td>Preferred for PaaS data services</td><td>Mandatory; public endpoints disabled</td></tr>
+        <tr><td>Azure WAF</td><td>Recommended for public web apps</td><td>Mandatory; Prevention mode within 90 days</td></tr>
+        <tr><td>SQL / Cosmos</td><td>Entra auth, Defender plan, network restricted, auditing</td><td>CMK encryption, vulnerability baseline quarterly</td></tr>
+        <tr><td>VM</td><td>Defender for Servers, managed identity, disk encryption</td><td>P2 plan, JIT for management, Trusted Launch where supported</td></tr>
+        <tr><td>App Service</td><td>HTTPS-only, managed identity, diagnostic logging</td><td>Defender for App Service, slot-swap discipline</td></tr>
+        <tr><td>Backup</td><td>Configured per workload type, soft-delete on vault</td><td>MUA enabled, quarterly restore test, cross-region for DR</td></tr>
+        <tr><td>DDoS Protection</td><td>Basic (free) acceptable</td><td>Standard on VNets containing public IPs</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <p>Workload-level changes are typically isolated to the workload but can have surprising blast-radius (a network restriction can break a dependency two services away). Plan rollback per change.</p>
+
+    <h3>Common scenarios</h3>
+    <ul class="wi-bullet">
+      <li><span><strong>Private Endpoint deployed without DNS update</strong> &mdash; consumers still resolve to the public endpoint, get network-denied. Fix: confirm private DNS zone exists, VNet link configured, A record created. Test resolution from a VM in the VNet.</span></li>
+      <li><span><strong>WAF Prevention mode blocking legitimate traffic</strong> &mdash; cause: a managed rule triggers on legitimate app behaviour. Fix: switch back to Detection; tune the specific rule (exclusion by URI pattern or argument); re-enable Prevention. Do not blanket-disable the rule.</span></li>
+      <li><span><strong>NSG default-deny breaking an inter-subnet flow</strong> &mdash; cause: a previously-implicit VNet-to-VNet allow was relied on; explicit allow not added. Fix: add the explicit allow rule with documented justification; verify minimum necessary scope.</span></li>
+      <li><span><strong>Key Vault purge protection blocks restoring a deleted vault to a new name</strong> &mdash; this is the intended behaviour. The vault name is reserved during soft-delete period. Fix: wait out soft-delete period, OR recover the soft-deleted vault to original name, OR use a new vault name.</span></li>
+      <li><span><strong>JIT VM access requesting failed</strong> &mdash; cause: NSG rules don't reach the JIT-managed rules due to user-defined rule precedence. Fix: review NSG rule priorities; JIT-managed rules use specific priority range (typically 100&ndash;110); leave that range free.</span></li>
+      <li><span><strong>App Service managed identity not authorising to Key Vault</strong> &mdash; cause: RBAC role assignment missing on the Key Vault for the managed identity object ID. Fix: assign "Key Vault Secrets User" (or appropriate role) to the managed identity at the vault scope; allow a few minutes for replication.</span></li>
+      <li><span><strong>SQL Defender vulnerability scan failing</strong> &mdash; cause: storage account for scan results not configured or not accessible. Fix: configure the SQL Defender storage account; ensure SQL Managed Identity has Storage Blob Data Contributor on it.</span></li>
+      <li><span><strong>Backup operation failed</strong> &mdash; cause: VSS errors on Windows VM, agent issue, network connectivity to vault. Fix: per the Azure Backup error guide; verify agent health; retry; if pattern persists, snapshot-consistent backup may fail back to crash-consistent (acceptable for many workloads with documentation).</span></li>
+    </ul>
+
+    <h3>Rollback procedure</h3>
+    <ol style="padding-left:18px;font-size:13px;line-height:1.7;color:#333;">
+      <li>Identify the breaking change (recent change record, Activity Log, application telemetry)</li>
+      <li>Revert the specific config &mdash; do not blanket-roll-back the whole step</li>
+      <li>Test connectivity / function from the affected consumer</li>
+      <li>For WAF / Defender alerts: switch to Detection / suppress alerts narrowly; tune; re-enable</li>
+      <li>Update change record; document root cause; re-attempt with tuning</li>
+    </ol>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <ul class="wi-bullet">
+      <li><span><strong>Public blob anonymous is disabled at storage-account level for a reason.</strong> Even one container set to public-anonymous becomes a long-term data-leak risk. Disable at the account level so per-container settings can't surprise you.</span></li>
+      <li><span><strong>Key Vault purge protection cannot be turned off.</strong> Enable it deliberately, knowing the consequence: deleted resources cannot be permanently destroyed within the retention window. This is the desired behaviour for security; sometimes inconvenient for operations.</span></li>
+      <li><span><strong>Private Endpoint without DNS is broken Private Endpoint.</strong> The most common Private Endpoint failure mode is forgetting the private DNS zone. The PE works, but consumers resolve to the public endpoint and get blocked.</span></li>
+      <li><span><strong>WAF Detection mode forever is no WAF.</strong> The whole point is Prevention. The Detection &rarr; Prevention transition is a tracked milestone, not a "we'll get to it."</span></li>
+      <li><span><strong>WAF managed rules need tuning.</strong> Out of the box they will block some legitimate traffic. Plan the tuning effort; budget the time. Rule exclusions are surgical, not "disable rule N."</span></li>
+      <li><span><strong>NSGs and Azure Firewall are not redundant.</strong> NSGs are stateful per-subnet/NIC firewalls; Azure Firewall is a centralised L4-L7 firewall with FQDN filtering. Use both: NSG for east-west, Firewall for north-south.</span></li>
+      <li><span><strong>Service tags update automatically.</strong> Don't hard-code Microsoft IP ranges in NSG rules; use service tags (<code>AzureCloud</code>, <code>Storage.&lt;region&gt;</code>, <code>Sql.&lt;region&gt;</code>). Microsoft re-allocates IPs; your hard-coded list will drift.</span></li>
+      <li><span><strong>Managed identity is the preferred pattern, everywhere.</strong> If a workload uses a service principal with a secret, ask why; the answer should be "managed identity is not supported for this case." If the answer is "we did it this way historically," migrate.</span></li>
+      <li><span><strong>App Service slot swap is a security feature too.</strong> Direct deploy to production = no audit trail of pre-swap state. Slot deploy + swap = the previous code is one swap away if rollback is needed.</span></li>
+      <li><span><strong>Easy Auth doesn't validate inside the app.</strong> Easy Auth provides the identity to the app; the app still has to authorise what the identity can do. Identity != authorisation.</span></li>
+      <li><span><strong>Backup soft-delete is mandatory.</strong> Ransomware that compromises Azure RBAC can delete the backups too &mdash; unless the vault has soft-delete and MUA. These convert the backup from "deletable in one action" to "deletable in two actions across two principals across two weeks."</span></li>
+      <li><span><strong>DDoS Standard pricing is per-VNet, not per-IP.</strong> Plans-mode lets one paid plan cover many VNets in scope; check pricing model before assuming "this costs per public IP."</span></li>
+      <li><span><strong>Private DNS zones are often the trickiest part.</strong> Hub-spoke topology + Private Endpoint = a private DNS zone in the hub, linked to each spoke VNet, with a Private DNS Resolver if on-prem also needs to resolve the names. Diagram before implementing.</span></li>
+    </ul>
+  </div>
+
+  <div class="wi-nav"><a href="it-cl-wi-03.html">&larr; IT-CL-WI-03: Azure Subscription Baseline</a><a href="it-cl-wi-05.html">IT-CL-WI-05: Defender Suite Configuration &rarr;</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-CL-WI-04 v1.0 · Live · 12 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-cloud-baselines.html" style="color:var(--wi);text-decoration:none;">&larr; Back to Cloud Baselines</a></span>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-CL-WI-05: Defender Suite Configuration — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+<style>
+  :root { --wi:#2E5C8A; --wi-light:#E8F0F8; --wi-border:#A8C5DE; --wi-dark:#1A3A5C; --cl:#2E5C8A; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .wi-section { background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:8px; }
+  .wi-section-title { font-size:15px; font-weight:600; color:#1a1a1a; margin-bottom:0.7rem; padding-bottom:6px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0 0 8px 0; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-section h3 { font-size:13px; font-weight:600; color:var(--wi-dark); margin:12px 0 5px 0; }
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:6px; padding-left:0; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:#333; line-height:1.6; }
+  .wi-bullet li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:7px; }
+  .step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.1rem; margin-top:8px; }
+  .step-header { display:flex; align-items:center; gap:10px; margin-bottom:7px; padding-bottom:5px; border-bottom:0.5px solid #f0f0ec; }
+  .step-num { width:24px; height:24px; border-radius:6px; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-title { font-size:13px; font-weight:700; color:var(--wi-dark); }
+  .step-objective { font-size:12px; color:#666; font-style:italic; margin-top:2px; line-height:1.5; }
+  .step-body { font-size:13px; color:#333; line-height:1.6; }
+  .step-body p { margin:6px 0; }
+  .step-body p:first-child { margin-top:0; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body strong { color:var(--wi-dark); }
+  .step-body ul { list-style:none; padding:0; margin:6px 0; display:flex; flex-direction:column; gap:3px; }
+  .step-body ul li { display:flex; gap:7px; font-size:12px; color:#444; line-height:1.55; padding-left:2px; }
+  .step-body ul li::before { content:'\203A'; color:var(--wi); font-weight:700; flex-shrink:0; }
+  .step-verify { background:#fff; border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:6px; padding:0.5rem 0.8rem; margin-top:8px; font-size:12px; color:#444; line-height:1.55; }
+  .step-verify strong { color:var(--wi-dark); }
+  .cis-ref { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--wi); background:var(--wi-light); border:0.5px solid var(--wi-border); padding:1px 7px; border-radius:4px; font-weight:600; margin-top:5px; }
+  .tier-tag { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:10px; font-weight:700; padding:1px 6px; border-radius:4px; background:#fff; border:0.5px solid var(--wi-border); color:var(--wi); margin-right:5px; }
+  .tier-tag.all  { background:#E1F5EE; color:#0F6E56; border-color:#82D4B0; }
+  .tier-tag.e3   { background:#FEF0E6; color:#8B4A0E; border-color:#F5C89A; }
+  .tier-tag.e5   { background:#F2EBF9; color:#5B2D8E; border-color:#C7B3DD; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:var(--wi-dark); line-height:1.6; margin-top:10px; }
+  .callout-info strong { color:var(--wi-dark); font-weight:700; }
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#7a2e10; line-height:1.6; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--wi-dark); color:#fff; font-weight:600; padding:7px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--wi-dark); white-space:nowrap; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>&rsaquo;</span>
+    <a href="asm.html">ASM</a><span>&rsaquo;</span>
+    <a href="asm-cloud-baselines.html">Cloud Baselines</a><span>&rsaquo;</span>
+    <span>IT-CL-WI-05</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#0F2540 0%,#1A3A5C 40%,#2E5C8A 100%);">
+    <span class="kb-page-hero-icon">🛡️</span>
+    <h1>IT-CL-WI-05: Defender Suite Configuration</h1>
+    <p>Tier-aware implementation guidance for the Microsoft Defender suite: Defender for Endpoint, Defender for Office 365, Defender for Identity, Defender for Cloud Apps, Defender for Cloud, plus TVM integration and central SIEM ingestion. Operationalises &sect;4.5 of IT-CL-SOP-01. Tenant-side configuration only; SOC operational use under SOC SOPs.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Cloud Baselines</span>
+      <span class="kb-meta-pill">Tier-aware</span>
+      <span class="kb-meta-pill">CIS Foundations L1</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">📋 <strong>WI ID:</strong> IT-CL-WI-05</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">🔗 <strong>Implements:</strong> <a href="it-cl-sop-01.html" style="color:var(--wi);">IT-CL-SOP-01 §4.5</a></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Owner:</strong> Cloud Eng / IAE</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 12 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <p>Before applying this WI:</p>
+    <ul class="wi-bullet">
+      <li><span>WI-01 through WI-04 complete &mdash; the Defender suite consumes signals from configurations established in the earlier WIs (Conditional Access, M365 audit log, Azure activity log, subscription Defender plans)</span></li>
+      <li><span>Tenant licensing tiers confirmed per agency in GRC-REG-ASSET &mdash; each Defender product requires specific licensing (A3/E3 for some, E5 / Plan 2 for others, A5/E5 for the most advanced)</span></li>
+      <li><span>For Defender for Endpoint: list of devices to onboard (endpoints, servers, mobile where licensed); device-group taxonomy decided (criticality tier, agency, environment)</span></li>
+      <li><span>For Defender for Identity: list of domain controllers where the agency operates AD; service-account ready for sensor installation</span></li>
+      <li><span>For Defender for Cloud Apps: tenants to connect (M365, Azure, and any third-party SaaS where DfCA connectors exist)</span></li>
+      <li><span>SOC playbook owner identified for the Defender alert types &mdash; severity-to-priority mapping documented (see WI-03 Step 6)</span></li>
+      <li><span>Central SIEM ingestion paths for Defender alerts confirmed &mdash; either Microsoft 365 Defender connector, Graph Security API, or Defender for Cloud continuous export per product</span></li>
+    </ul>
+    <div class="callout-info"><strong>Defender is a suite, not one product.</strong> The Defender brand covers six distinct products with different licensing, different scopes, and different operational interfaces. The SOP (&sect;4.5) treats them as a unified set because the suite's value comes from cross-product signals (an Identity alert + an Endpoint alert = a different priority than either alone). This WI configures each product so the suite hangs together.</div>
+    <div class="callout-warn"><strong>Current-state note.</strong> Defender for Cloud is deployed inconsistently across tenants today. The baseline target is universal enablement at the appropriate licence tier; current gaps are tracked as time-bounded exceptions per IT-CL-SOP-01 &sect;7.4.</div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <p>The steps below cover the Defender suite configuration required by IT-CL-SOP-01 &sect;4.5. Steps are licence-tier-aware and target the configuration that the SOC actually consumes; SOC operational use (triage, response) remains under SOC SOPs.</p>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div>
+        <div><div class="step-title">Defender for Endpoint deployment <span class="tier-tag e3">A3 / E3+</span></div>
+        <div class="step-objective">EDR / XDR on every managed endpoint and server; ASR rules enforcing; baseline assigned uniformly.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Defender for Endpoint (MDE) is the EDR product. Licensing varies: P1 (anti-malware + ASR), P2 (full EDR + investigation), and Server SKU. Most A3/E3 includes P1; E5 includes P2.</p>
+        <ul>
+          <li><strong>Onboarding</strong> &mdash; via Intune device configuration for Intune-managed devices; via Group Policy / configuration management for unmanaged; via Defender for Cloud auto-provisioning for Azure VMs (WI-03 Step 2)</li>
+          <li><strong>Coverage</strong> &mdash; Windows endpoints, Windows Server (Azure and on-prem), macOS (where licensed), Linux servers (where licensed), iOS/Android (Defender for Endpoint mobile; E5 typically)</li>
+          <li><strong>Device-group taxonomy</strong> &mdash; documented and applied:
+            <ul>
+              <li>By criticality (Tier 0 / 1 / 2 / 3 from asset register)</li>
+              <li>By agency (which operating unit owns the device)</li>
+              <li>By environment (production / non-production / sandbox)</li>
+              <li>By platform (Windows / macOS / Linux / mobile)</li>
+            </ul>
+          </li>
+          <li><strong>Security baseline</strong> &mdash; the Microsoft Defender for Endpoint security baseline (in Intune or via direct policy) assigned to every device group; this is separate from the Defender for Endpoint <em>policy</em> but ensures the underlying device-hardening is in place</li>
+          <li><strong>Attack Surface Reduction (ASR) rules</strong> &mdash; the 16 ASR rules deployed in <em>Audit</em> mode, monitored 2&ndash;4 weeks per rule, then promoted to <em>Block</em>. Some rules have known false-positive patterns; tune narrowly. CIS-recommended ASR set is the starting reference.</li>
+          <li><strong>EDR in block mode</strong> &mdash; on for all Windows endpoints; ensures EDR can take action even when the primary AV is non-Microsoft</li>
+          <li><strong>Tamper protection</strong> &mdash; on by default in newer tenant configurations; verify; prevents local admin or malware from disabling Defender</li>
+          <li><strong>Network protection</strong> &mdash; enabled in Block mode; blocks outbound connections to known-malicious destinations from the endpoint itself</li>
+          <li><strong>Controlled folder access</strong> &mdash; ransomware mitigation; Audit mode first; deploy to high-risk users (finance, HR) before broad rollout</li>
+          <li><strong>Web content filtering</strong> &mdash; enabled where licensed; blocks categories per organisation policy</li>
+          <li><strong>Defender for Endpoint alerts forwarded to central SIEM</strong> via M365 Defender connector or Graph Security API; severity mapping documented</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Sample devices show "Onboarded" status in Defender portal. ASR rule deployment confirmed per device group. EDR-in-block-mode active. Test detection (EICAR file): alert generated, Defender takes action, alert reaches SIEM.</div>
+        <span class="cis-ref">CIS M365 (A3/E3+) · "Defender for Endpoint" · MCSB ES-x</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div>
+        <div><div class="step-title">Defender for Office 365 (cross-reference WI-02 Step 8) <span class="tier-tag e5">E5</span></div>
+        <div class="step-objective">Email-borne threats handled at the tenant gateway; URL and attachment detonation cover what signature engines miss.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Defender for Office 365 (Plan 1 and Plan 2) was configured in WI-02 Step 8 (M365 Tenant Hardening). This step cross-references that configuration and adds operational integration with the wider Defender suite.</p>
+        <ul>
+          <li><strong>Configuration</strong> &mdash; per WI-02 Step 8 (Safe Attachments Dynamic Delivery, Safe Links, anti-phishing impersonation protection, preset Strict policies for VIPs, Attack Simulator quarterly)</li>
+          <li><strong>Alert integration with the suite</strong>:
+            <ul>
+              <li>A Defender for Office 365 incident automatically correlates with Defender for Endpoint alerts on the recipient's device (did they click? did they execute the attachment?) in the M365 Defender unified portal</li>
+              <li>Sign-in risk from Identity Protection cross-correlates with email-delivery events (was the credential phished?)</li>
+              <li>Cross-product incidents in M365 Defender appear as a single incident with multiple alerts attached</li>
+            </ul>
+          </li>
+          <li><strong>Threat Explorer access</strong> &mdash; SOC analyst named roles; queries documented in SOC SOP-EM-01 (Email Threat Response)</li>
+          <li><strong>Quarantine review</strong> &mdash; periodic review of held messages for false-positive patterns; user-quarantine notifications already configured (WI-02 Step 1)</li>
+          <li><strong>Attack Simulator results</strong> integrated with user training tracking; high-failure users assigned remediation training</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> WI-02 Step 8 controls in place (already validated). Cross-product correlation visible in M365 Defender portal (sample incident covering both email-deliver and endpoint-detection events). SOC playbook reference up to date.</div>
+        <span class="cis-ref">CIS M365 (E5) · cross-reference WI-02 §8</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div>
+        <div><div class="step-title">Defender for Identity sensor on domain controllers <span class="tier-tag e3">A3 / E3+</span></div>
+        <div class="step-objective">On-prem AD activity visible in the cloud Defender suite; lateral-movement and credential-theft patterns detected.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Defender for Identity (MDI; formerly Azure ATP) is the on-prem AD detection product. It runs as a sensor on every domain controller, reading AD network traffic and event logs to detect attack patterns (Kerberoasting, Golden Ticket, DCSync, suspicious group membership changes, etc.).</p>
+        <ul>
+          <li><strong>Sensor coverage</strong> &mdash; one sensor per domain controller in every domain the agency operates; including read-only DCs and DCs in branch sites</li>
+          <li><strong>Service account</strong> &mdash; gMSA (group Managed Service Account) preferred over a standard service account; minimum permissions for AD reads; documented in identity governance</li>
+          <li><strong>Sensor health</strong> &mdash; monitor MDI sensor health metrics; sensor offline = blind spot. Alert on health degradation.</li>
+          <li><strong>Honeytoken accounts</strong> &mdash; a few decoy accounts placed in AD that legitimate users never touch; any auth attempt on a honeytoken is high-fidelity alert; document and configure them</li>
+          <li><strong>Entity tags</strong> &mdash; sensitive accounts and groups tagged in MDI so alerts on them are prioritised</li>
+          <li><strong>Integration with central SIEM</strong> &mdash; MDI alerts forwarded via M365 Defender connector or Graph Security API; alert detail visible in SIEM without portal-pivot</li>
+          <li><strong>VPN log integration</strong> &mdash; MDI can correlate sign-ins with VPN sessions where the VPN appliance forwards syslog to MDI</li>
+        </ul>
+        <div class="callout-info"><strong>Defender for Identity is on-prem AD only.</strong> Cloud-only tenants (no AD) do not need MDI; tenants with hybrid identity (Entra Connect synchronising on-prem AD) benefit significantly. The product is sometimes overlooked in cloud-first thinking; for any agency operating AD, it is essential.</div>
+        <div class="step-verify"><strong>Verify.</strong> Sensor deployed on every DC in scope; health green. Test detection: simulate Kerberoasting in lab (controlled), alert fires. Honeytoken alerts test-fired. SIEM ingestion confirmed.</div>
+        <span class="cis-ref">"Defender for Identity" · MCSB IM-x</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div>
+        <div><div class="step-title">Defender for Cloud Apps <span class="tier-tag e5">E5</span></div>
+        <div class="step-objective">Cloud-app usage visible; sanctioned vs unsanctioned apps; OAuth app governance; anomaly detection on cloud activity.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Defender for Cloud Apps (DfCA; formerly MCAS) is the CASB component. It provides cloud-app visibility (which SaaS apps are users using?), anomaly detection on M365 / Azure activity, OAuth app governance, and information-protection workflows.</p>
+        <ul>
+          <li><strong>App connectors</strong> &mdash; connect to M365 (mandatory), Entra ID, Azure (for activity log), and any third-party SaaS with a DfCA connector (Salesforce, ServiceNow, AWS, GCP, Workday, etc.). Each connector unlocks API-based monitoring and policy enforcement.</li>
+          <li><strong>Cloud Discovery</strong> &mdash; ingests firewall / proxy logs to enumerate cloud apps users access; produces a risk-scored inventory (sanctioned / unsanctioned / under review). Integration with on-prem proxy logs is the typical setup.</li>
+          <li><strong>Anomaly detection policies</strong> &mdash; enable the default set (impossible travel, mass download, mass deletion, unusual administrative activity, ransomware detection); tune over 4&ndash;6 weeks; review false-positive feedback</li>
+          <li><strong>OAuth app governance</strong> &mdash; review OAuth applications consented in the tenant; revoke unused or high-risk apps; require admin consent for high-permission apps (Conditional Access policy: "require admin consent for apps requesting high-permission scopes")</li>
+          <li><strong>Information-protection policies</strong> &mdash; DfCA can apply sensitivity labels and access controls in connected SaaS apps; ties into Purview Information Protection (WI-02 Step 6) for consistent classification across the estate</li>
+          <li><strong>Session policies</strong> &mdash; for selected scenarios (e.g. unmanaged-device access to a sensitive app), DfCA can proxy the session and apply per-action controls (block download, watermark, etc.); requires Conditional Access integration; use deliberately, not by default</li>
+          <li><strong>Alert integration</strong> &mdash; DfCA alerts to central SIEM via M365 Defender connector or Graph Security API</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> M365 and Azure connectors active; activity visible in DfCA portal. Anomaly policies enabled. OAuth app review completed for top-permission apps. Cloud Discovery ingesting (where proxy log integration in place).</div>
+        <span class="cis-ref">CIS M365 (E5) · "Defender for Cloud Apps"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div>
+        <div><div class="step-title">Defender for Cloud (cross-reference WI-03 Step 2)</div>
+        <div class="step-objective">Azure subscription-level CSPM and workload-protection plans configured per subscription tier (covered in WI-03 Step 2); cross-product correlation in the unified Defender portal.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Defender for Cloud (DfC) was configured per subscription in WI-03 Step 2 (Azure Subscription Baseline). This step cross-references and ensures DfC's signals integrate with the wider Defender suite.</p>
+        <ul>
+          <li><strong>Subscription coverage</strong> &mdash; per WI-03 Step 2 (Foundational CSPM on every subscription; Defender plans per tier; Tier 0/1 = paid Defender plans, Tier 2/3 = Free acceptable with justification)</li>
+          <li><strong>Unified portal integration</strong> &mdash; DfC alerts appear in the M365 Defender unified portal alongside endpoint, identity, and email alerts; cross-product incidents correlate across Azure resources and M365 entities</li>
+          <li><strong>Regulatory compliance dashboards</strong> &mdash; DfC's regulatory compliance views (CIS Azure, NIST 800-53, ISO 27001) are one of the inputs to the tenant baseline conformance report (IT-CL-SOP-01 §7.5)</li>
+          <li><strong>Attack-path analysis (Defender CSPM)</strong> &mdash; enabled for Tier 0/1 subscriptions; visualises chains of misconfiguration that an attacker could exploit; prioritises remediation</li>
+          <li><strong>Workflow automation</strong> &mdash; Logic Apps for automated response to defined alert types (per WI-03 Step 6); documented playbooks; tested response</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Configuration per WI-03 Step 2 already validated. Unified portal shows Azure incidents alongside M365 incidents. Regulatory compliance dashboards populated. Attack-path analysis (where licensed) shows current paths.</div>
+        <span class="cis-ref">CIS Azure 2.x · cross-reference WI-03 §2</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">6</div>
+        <div><div class="step-title">Threat &amp; Vulnerability Management feed to the central programme</div>
+        <div class="step-objective">Defender's vulnerability data flows to the central vulnerability management programme; remediation tracked in the same system regardless of source.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Defender for Endpoint includes Threat &amp; Vulnerability Management (TVM), which surfaces missing patches, vulnerable software versions, and configuration weaknesses on every onboarded device. TVM is a vulnerability source that feeds the central vulnerability management programme (IT-VM-SOP-01).</p>
+        <ul>
+          <li><strong>TVM integration with central VM</strong> &mdash; export of TVM findings to the central vulnerability management platform (Defender API, or via SIEM, or direct connector depending on platform)</li>
+          <li><strong>Asset attribution</strong> &mdash; TVM findings tagged with device-group taxonomy (Step 1); per-device owner identification for remediation routing</li>
+          <li><strong>Prioritisation</strong> &mdash; TVM's exposure score and CVSS feed into the central prioritisation per IT-VM-SOP-01</li>
+          <li><strong>Defender for Cloud vulnerability scanning</strong> for Azure VMs (where Defender for Servers enabled) &mdash; also feeds the central programme</li>
+          <li><strong>Defender for SQL vulnerability assessment</strong> &mdash; per WI-04 Step 6; findings to central VM</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> TVM data flowing to central VM platform; recent finding traceable end-to-end. Sample remediation tracked through the standard workflow.</div>
+        <span class="cis-ref">cross-reference IT-VM-SOP-01</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">7</div>
+        <div><div class="step-title">Defender alerts to central SIEM &mdash; unified ingestion</div>
+        <div class="step-objective">Every Defender alert reaches the central SIEM with consistent enrichment; SOC works from one queue, not five portals.</div></div>
+      </div>
+      <div class="step-body">
+        <p>The Defender suite produces alerts in each product. The SOC consumes them in the central SIEM (vendor-neutral; whichever platform is operationally current). Configure ingestion deliberately.</p>
+        <ul>
+          <li><strong>Ingestion path</strong> &mdash; depends on the central SIEM platform:
+            <ul>
+              <li>Microsoft 365 Defender connector for the unified incident stream (preferred where the SIEM supports it)</li>
+              <li>Graph Security API as a fallback / additional path</li>
+              <li>Defender for Cloud continuous export (Event Hub) for the Azure-side alerts</li>
+              <li>Direct per-product API integration where vendor-specific connectors don't yet support the M365 unified stream</li>
+            </ul>
+          </li>
+          <li><strong>Severity-to-priority mapping</strong> &mdash; documented in SOC playbook:
+            <ul>
+              <li>Defender High &rarr; SOC priority 1 (immediate response)</li>
+              <li>Defender Medium &rarr; SOC priority 2 (response within working day)</li>
+              <li>Defender Low &rarr; SOC priority 3 (review weekly)</li>
+              <li>Defender Informational &rarr; ingested but not routed to active queue</li>
+            </ul>
+          </li>
+          <li><strong>Enrichment</strong> &mdash; SIEM enriches Defender alerts with asset register data (tier, owner, agency); SOC analysts see the business context in the alert without portal-pivot</li>
+          <li><strong>Deduplication</strong> &mdash; cross-product incidents (one event, multiple Defender products alerting) deduplicated in SIEM where the unified-incident stream provides the correlation key</li>
+          <li><strong>Health monitoring</strong> &mdash; ingestion pipeline monitored; broken connector = silent blind spot. Alert when the ingestion volume drops below expected.</li>
+          <li><strong>SIEM platform transition</strong> &mdash; the central SIEM is under transition (per IT-CL-SOP-01 §3.7); during the migration, both platforms may run in parallel for some tenants; the integration design accommodates the transition</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Sample alert generated in each Defender product (controlled test) reaches the central SIEM with correct severity, enrichment, and entity context. Ingestion health dashboard operational.</div>
+        <span class="cis-ref">MCSB LT-x · "SIEM integration"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">8</div>
+        <div><div class="step-title">Tenant-side configuration vs SOC operational use &mdash; boundary maintained</div>
+        <div class="step-objective">This baseline configures the suite; SOC operating procedures consume it. The boundary is documented so neither team duplicates or misses work.</div></div>
+      </div>
+      <div class="step-body">
+        <p>The split is operationally important:</p>
+        <ul>
+          <li><strong>This WI's scope</strong> &mdash; <em>tenant-side configuration</em> of Defender products: enablement, policies, baselines, integrations, alert export</li>
+          <li><strong>SOC SOPs scope</strong> &mdash; <em>operational use</em> of Defender signals in the SIEM: triage, investigation, hunting, response, containment. Covered by SOP-IM-01, SOP-EM-01, SOP-ID-01, SOP-EP-01.</li>
+        </ul>
+        <p>Concrete handoff points:</p>
+        <ul>
+          <li>Configuration changes to Defender products &mdash; this WI's owner (Cloud Engineering / IAE / Tenant Admins); change-controlled</li>
+          <li>Tuning of alert thresholds where the change is tenant-wide &mdash; this WI's owner with SOC input</li>
+          <li>Alert suppression for known-benign patterns within an investigation &mdash; SOC analyst; documented in the incident record; suppression review monthly</li>
+          <li>Hunt query development &mdash; SOC; supported by Cloud Engineering for new data sources</li>
+          <li>Defender product roadmap (new feature evaluation) &mdash; this WI's owner with SOC input on operational value</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> RACI for Defender configuration vs operational use is documented and agreed between Cloud Engineering / IAE / Tenant Admins / SOC. No tickets routed to the wrong owner.</div>
+        <span class="cis-ref">Process boundary, not a control</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">9</div>
+        <div><div class="step-title">Suite-level metrics</div>
+        <div class="step-objective">The Defender suite has standing measurable outputs that feed governance and demonstrate baseline conformance.</div></div>
+      </div>
+      <div class="step-body">
+        <p>The Defender suite produces several quantitative metrics that complement the binary baseline-conformance assessment.</p>
+        <ul>
+          <li><strong>Defender for Endpoint exposure score</strong> &mdash; the TVM-driven posture score per device group; target: trend monotonically downward</li>
+          <li><strong>Defender for Endpoint device coverage</strong> &mdash; percentage of in-scope endpoints onboarded; target: ≥98%</li>
+          <li><strong>Defender for Endpoint ASR rule coverage</strong> &mdash; percentage of in-scope endpoints with ASR rules in Block (not Audit); target: ≥95% for the CIS-recommended ASR set</li>
+          <li><strong>Defender for Office 365 effective protection</strong> &mdash; Safe Attachments / Safe Links coverage; target: 100% of mailboxes</li>
+          <li><strong>Defender for Cloud Secure Score</strong> per WI-03 Step 2 (≥75% T0/1, ≥60% T2/3)</li>
+          <li><strong>Cross-product MTTD / MTTR</strong> for high-severity incidents &mdash; tracked in SOC SOPs; target per IRP</li>
+          <li><strong>Defender alert ingestion completeness</strong> &mdash; SIEM ingestion health; target: 100% with no &gt;5-minute gaps</li>
+          <li><strong>Defender suite conformance per tenant</strong> &mdash; binary: all applicable products enabled per licence tier; target 100% for tenants with sufficient licensing</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Metrics reportable per tenant and per agency. Monthly review by IT Operations; quarterly review by GRC and Risk Committee with separate cuts per platform.</div>
+        <span class="cis-ref">Suite-level governance</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <p>After applying the steps appropriate to the tenant's licence tier, validate.</p>
+
+    <h3>Functional validation</h3>
+    <ul class="wi-bullet">
+      <li><span>Defender for Endpoint onboarded ≥98% of in-scope devices; device groups tagged per taxonomy</span></li>
+      <li><span>ASR rules deployed in Block mode after Audit; tamper protection on; EDR-in-block-mode on</span></li>
+      <li><span>Test detection (EICAR or controlled lab malware) generates alert; reaches central SIEM with severity mapping correct</span></li>
+      <li><span>Defender for Office 365 P2 configured per WI-02 §8; cross-product correlation visible in unified portal</span></li>
+      <li><span>Defender for Identity sensor on every DC; health green; honeytoken accounts in place</span></li>
+      <li><span>Defender for Cloud Apps connectors active for M365, Entra, Azure; anomaly policies enabled; OAuth review completed</span></li>
+      <li><span>Defender for Cloud per WI-03 §2 (already validated)</span></li>
+      <li><span>TVM data flowing to central vulnerability management</span></li>
+      <li><span>SIEM ingestion of Defender alerts operational; severity-to-priority mapping documented; health monitored</span></li>
+      <li><span>RACI for tenant-side configuration vs SOC operational use documented</span></li>
+    </ul>
+
+    <h3>Configuration review by tier</h3>
+    <table class="gt-table">
+      <thead><tr><th>Product</th><th>A1 / E1</th><th>A3 / E3</th><th>E5</th></tr></thead>
+      <tbody>
+        <tr><td>Defender for Endpoint</td><td>—</td><td>P1 (anti-malware + ASR)</td><td>P2 (full EDR / XDR)</td></tr>
+        <tr><td>Defender for Office 365</td><td>—</td><td>P1 add-on possible</td><td>P2 included</td></tr>
+        <tr><td>Defender for Identity</td><td>—</td><td>✓ (where AD operated)</td><td>✓ (where AD operated)</td></tr>
+        <tr><td>Defender for Cloud Apps</td><td>—</td><td>—</td><td>✓</td></tr>
+        <tr><td>Defender for Cloud (Azure)</td><td>Foundational CSPM (free)</td><td>Foundational CSPM + plans per WI-03</td><td>Foundational CSPM + plans + Defender CSPM (Premium)</td></tr>
+        <tr><td>TVM (within Defender for Endpoint)</td><td>—</td><td>Available with MDE</td><td>Available with MDE</td></tr>
+        <tr><td>SIEM ingestion</td><td>Required (per IT-CL-SOP-01 §3.5)</td><td>Required</td><td>Required</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:10px;"><strong>Tier-specific exception note.</strong> A1 / E1 tenants have very limited Defender surface (Foundational CSPM in Azure is the main piece). For those tenants, the Defender suite conformance is reported as "feature unavailable at this licence tier" for most products; this is a licence-tier limitation, not a deviation per IT-CL-SOP-01 §7.4.</p>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <p>Defender configuration changes can affect end-user experience (false-positive blocks, performance impact) and SOC operations (alert volume changes). Plan rollout carefully.</p>
+
+    <h3>Common scenarios</h3>
+    <ul class="wi-bullet">
+      <li><span><strong>ASR rule false-positives blocking legitimate software</strong> &mdash; cause: a rule blocks behaviour that a line-of-business app uses. Fix: switch the specific rule to Audit; identify the FP pattern; add per-file or per-path exclusion (narrow); re-enable Block. Do not blanket-disable the rule.</span></li>
+      <li><span><strong>Defender for Endpoint performance impact on a workload</strong> &mdash; cause: aggressive real-time scanning on a high-IO server. Fix: managed exclusions (specific paths, specific processes) per Microsoft guidance for the workload type; never disable RTP wholesale.</span></li>
+      <li><span><strong>MDI sensor offline</strong> &mdash; cause: service-account issue, network restriction, or DC offline. Fix: validate service account permissions; verify required ports / endpoints reachable; check sensor logs. Track sensor health as a standing metric.</span></li>
+      <li><span><strong>DfCA Cloud Discovery shows huge unsanctioned list</strong> &mdash; expected on first ingestion; not a problem. Triage: which apps are actively used, by whom, for what; sanction the legitimate ones, block the high-risk, leave the rest in monitor mode.</span></li>
+      <li><span><strong>OAuth app revocation broke a legitimate integration</strong> &mdash; cause: an app with legitimate use was revoked during cleanup. Fix: re-consent the app with documented justification; review what permissions it actually needs (often less than initially requested).</span></li>
+      <li><span><strong>SIEM ingestion gap detected</strong> &mdash; cause: connector token expired, API rate limit, M365 Defender side outage. Fix: rotate the connector credential; check for pending Microsoft service health issue; re-test ingestion. Backfill if possible (most Defender APIs allow time-range query).</span></li>
+      <li><span><strong>Tamper protection prevents an admin-initiated config change</strong> &mdash; cause: trying to change a Defender setting locally on a device. Fix: change via Intune / portal, not locally; if local change genuinely needed, use the documented Tamper-Protection-bypass procedure (time-bounded, audit-logged).</span></li>
+      <li><span><strong>Alert storm after enabling a new product</strong> &mdash; cause: backlog of pre-existing patterns now visible. Fix: triage the storm; suppress the highest-volume known-benign patterns (with documented justification); narrow the rule that's over-firing. Storm subsides as the platform learns.</span></li>
+    </ul>
+
+    <h3>Rollback procedure</h3>
+    <ol style="padding-left:18px;font-size:13px;line-height:1.7;color:#333;">
+      <li>Identify the disruption source (specific Defender product, specific rule, specific device group)</li>
+      <li>For ASR / Defender behaviour: switch the rule to Audit, not disable</li>
+      <li>For sensor health: investigate root cause; do not skip sensor coverage as a workaround</li>
+      <li>For SIEM ingestion: check the ingestion pipeline; do not disable export at the Defender side as a workaround</li>
+      <li>Update change record; document root cause; address before re-enabling Block / re-enabling cleanup</li>
+    </ol>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <ul class="wi-bullet">
+      <li><span><strong>Defender is a suite, not a product.</strong> Each Defender product has its own licensing, portal surface, and configuration story. Configure all the applicable products in the suite, not just MDE.</span></li>
+      <li><span><strong>ASR rules need Audit before Block.</strong> Going straight to Block on rules like "Block Office applications from creating child processes" causes legitimate workflows to break (some line-of-business apps legitimately spawn child processes). Audit, review, tune, Block.</span></li>
+      <li><span><strong>Tamper protection is the answer to "Defender disabled by malware."</strong> If a tenant has Defender deployed but tamper protection off, a successful local privilege escalation can disable Defender before EDR detection kicks in. Tamper protection prevents this; turn it on.</span></li>
+      <li><span><strong>Defender for Identity needs network access from DCs.</strong> The sensor talks to Microsoft endpoints; in air-gapped environments or proxy-restricted environments, this fails silently. Verify connectivity.</span></li>
+      <li><span><strong>Honeytoken accounts are high-fidelity alerts.</strong> They never legitimately log in; any auth attempt is suspicious. Configure a handful, name them realistically, and alert on them with high priority.</span></li>
+      <li><span><strong>DfCA OAuth governance catches what other controls miss.</strong> Phishing-resistant MFA doesn't help if a user is tricked into consenting to a malicious OAuth app that gets persistent access to their mailbox. Review OAuth apps; revoke unused; require admin consent for high-permission scopes.</span></li>
+      <li><span><strong>Cloud Discovery is only as good as the proxy log ingestion.</strong> If the on-prem proxy logs aren't flowing to DfCA, Cloud Discovery is blank. Configure the log connector or accept that Cloud Discovery is a partial capability.</span></li>
+      <li><span><strong>SIEM ingestion health is itself a standing metric.</strong> Don't assume the connector is working because it was working last month. Alert on ingestion-volume drops.</span></li>
+      <li><span><strong>Unified portal vs per-product portal.</strong> The M365 Defender portal (security.microsoft.com) is the unified view; the per-product portals still exist for some configuration. Document which portal does what; train SOC accordingly.</span></li>
+      <li><span><strong>TVM is a vulnerability source, not a separate workflow.</strong> Don't track TVM remediation in a separate tracker; feed it into the central VM programme so an asset has one remediation queue regardless of where the finding came from.</span></li>
+      <li><span><strong>SOC operational use is not this WI's scope.</strong> Don't write hunt queries here; don't write incident response procedures here. Configure the suite; the SOC SOPs use it.</span></li>
+      <li><span><strong>Licensing matters.</strong> Many Defender features require specific tiers (Defender for Cloud Apps = E5; Defender for Office 365 P2 = E5 or P2 add-on; Defender for Endpoint P2 = E5). Don't over-claim capability in baseline conformance reports for tenants that don't license the product.</span></li>
+    </ul>
+  </div>
+
+  <div class="wi-nav"><a href="it-cl-wi-04.html">&larr; IT-CL-WI-04: Azure Workload Patterns</a><a href="asm-cloud-baselines.html">Cloud Baselines hub &rarr;</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-CL-WI-05 v1.0 · Live · 12 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-cloud-baselines.html" style="color:var(--wi);text-decoration:none;">&larr; Back to Cloud Baselines</a></span>
+  </div>
+</div>
+</body>
+</html>

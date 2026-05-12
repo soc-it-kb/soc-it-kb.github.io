@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-CL-WI-02: M365 Tenant Hardening — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+<style>
+  :root { --wi:#2E5C8A; --wi-light:#E8F0F8; --wi-border:#A8C5DE; --wi-dark:#1A3A5C; --cl:#2E5C8A; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .wi-section { background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:8px; }
+  .wi-section-title { font-size:15px; font-weight:600; color:#1a1a1a; margin-bottom:0.7rem; padding-bottom:6px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0 0 8px 0; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-section h3 { font-size:13px; font-weight:600; color:var(--wi-dark); margin:12px 0 5px 0; }
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:6px; padding-left:0; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:#333; line-height:1.6; }
+  .wi-bullet li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:7px; }
+  .step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.1rem; margin-top:8px; }
+  .step-header { display:flex; align-items:center; gap:10px; margin-bottom:7px; padding-bottom:5px; border-bottom:0.5px solid #f0f0ec; }
+  .step-num { width:24px; height:24px; border-radius:6px; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-title { font-size:13px; font-weight:700; color:var(--wi-dark); }
+  .step-objective { font-size:12px; color:#666; font-style:italic; margin-top:2px; line-height:1.5; }
+  .step-body { font-size:13px; color:#333; line-height:1.6; }
+  .step-body p { margin:6px 0; }
+  .step-body p:first-child { margin-top:0; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body strong { color:var(--wi-dark); }
+  .step-body ul { list-style:none; padding:0; margin:6px 0; display:flex; flex-direction:column; gap:3px; }
+  .step-body ul li { display:flex; gap:7px; font-size:12px; color:#444; line-height:1.55; padding-left:2px; }
+  .step-body ul li::before { content:'\203A'; color:var(--wi); font-weight:700; flex-shrink:0; }
+  .step-verify { background:#fff; border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:6px; padding:0.5rem 0.8rem; margin-top:8px; font-size:12px; color:#444; line-height:1.55; }
+  .step-verify strong { color:var(--wi-dark); }
+  .cis-ref { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--wi); background:var(--wi-light); border:0.5px solid var(--wi-border); padding:1px 7px; border-radius:4px; font-weight:600; margin-top:5px; }
+  .tier-tag { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:10px; font-weight:700; padding:1px 6px; border-radius:4px; background:#fff; border:0.5px solid var(--wi-border); color:var(--wi); margin-right:5px; }
+  .tier-tag.all  { background:#E1F5EE; color:#0F6E56; border-color:#82D4B0; }
+  .tier-tag.e3   { background:#FEF0E6; color:#8B4A0E; border-color:#F5C89A; }
+  .tier-tag.e5   { background:#F2EBF9; color:#5B2D8E; border-color:#C7B3DD; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:var(--wi-dark); line-height:1.6; margin-top:10px; }
+  .callout-info strong { color:var(--wi-dark); font-weight:700; }
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#7a2e10; line-height:1.6; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--wi-dark); color:#fff; font-weight:600; padding:7px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--wi-dark); white-space:nowrap; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>&rsaquo;</span>
+    <a href="asm.html">ASM</a><span>&rsaquo;</span>
+    <a href="asm-cloud-baselines.html">Cloud Baselines</a><span>&rsaquo;</span>
+    <span>IT-CL-WI-02</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#0F2540 0%,#1A3A5C 40%,#2E5C8A 100%);">
+    <span class="kb-page-hero-icon">📨</span>
+    <h1>IT-CL-WI-02: M365 Tenant Hardening</h1>
+    <p>Tier-aware implementation guidance for Microsoft 365 tenant hardening: Exchange Online anti-phishing, SPF / DKIM / DMARC, SharePoint / OneDrive sharing, Teams external access, Purview Information Protection and DLP, Defender for Office 365, Insider Risk Management, Customer Lockbox. Operationalises &sect;4.2 of IT-CL-SOP-01.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Cloud Baselines</span>
+      <span class="kb-meta-pill">Tier-aware</span>
+      <span class="kb-meta-pill">CIS Foundations L1</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">📋 <strong>WI ID:</strong> IT-CL-WI-02</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">🔗 <strong>Implements:</strong> <a href="it-cl-sop-01.html" style="color:var(--wi);">IT-CL-SOP-01 §4.2</a></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Owner:</strong> Cloud Eng / IAE</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 12 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <p>Before applying this WI:</p>
+    <ul class="wi-bullet">
+      <li><span>WI-01 (Tenant Identity &amp; Conditional Access) complete on this tenant &mdash; MFA, legacy-auth block, break-glass accounts in place</span></li>
+      <li><span>Tenant licensing tier confirmed and recorded in GRC-REG-ASSET (A1 / A3 / A5 / E1 / E3 / E5)</span></li>
+      <li><span>List of accepted email domains for the tenant available (every domain needs SPF / DKIM / DMARC)</span></li>
+      <li><span>External sharing policy decision made &mdash; what's the agency's posture on guest sharing, anonymous links, and federation? (the technical configuration follows the policy, not the other way around)</span></li>
+      <li><span>Data classification taxonomy available (typically Public / Internal / Confidential / Restricted) for sensitivity label deployment</span></li>
+      <li><span>Communication plan for users &mdash; external email banners, sharing policy changes, DLP enforcement notifications</span></li>
+      <li><span>For E5 tenants: list of pilot users for Defender for Office 365 features; Attack Simulator stakeholder agreement</span></li>
+    </ul>
+    <div class="callout-info"><strong>Tier-aware throughout.</strong> Each step indicates the minimum tier at which it applies. Items marked <span class="tier-tag all">All</span> apply to every tenant; <span class="tier-tag e3">A3 / E3+</span> require Entra ID P1 / Purview / Defender features; <span class="tier-tag e5">E5</span> require Entra ID P2 / Defender for Office 365 Plan 2 / advanced Purview. For each tenant, document which steps applied and which were "feature unavailable at this licence tier."</div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <p>The steps below cover the M365-tenant-specific controls required by IT-CL-SOP-01 &sect;4.2.</p>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div>
+        <div><div class="step-title">Exchange Online anti-spam, anti-malware, anti-phishing baseline <span class="tier-tag all">All</span></div>
+        <div class="step-objective">Default tenant protections enabled; spoof and phishing detection active for every mailbox.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Defender for Office 365 / Exchange Online Protection provides baseline anti-spam, anti-malware, and anti-phishing policies. Even A1 / E1 tenants get the basic policies.</p>
+        <ul>
+          <li><strong>Anti-spam policy</strong> &mdash; the default policy is acceptable for most tenants; review and confirm bulk-email threshold (typically BCL 7), action for spam (Junk Folder), and action for high-confidence spam (Quarantine)</li>
+          <li><strong>Anti-malware policy</strong> &mdash; common-attachment filter enabled (blocks dangerous file types: <code>.exe</code>, <code>.scr</code>, <code>.js</code>, <code>.vbs</code>, <code>.bat</code>, <code>.ps1</code>, <code>.msi</code>, etc.); zero-hour auto-purge enabled</li>
+          <li><strong>Anti-phishing policy</strong> &mdash; impersonation protection enabled, targeting key users (executives, finance, named high-risk roles), mailbox intelligence on; spoof intelligence on; first-contact safety tips on</li>
+          <li><strong>External tagging</strong> &mdash; external email tagging enabled at organisation level (<code>Set-ExternalInOutlook</code>); messages from outside the organisation show a banner / tag in Outlook</li>
+          <li><strong>Quarantine notifications</strong> &mdash; user-level quarantine notification policy enabled so users see their quarantined messages</li>
+          <li><strong>Mailbox audit logging</strong> &mdash; on by default at tenant level; confirm enabled (<code>Get-OrganizationConfig | fl AuditDisabled</code> should show <code>False</code>)</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Send test phishing-like message from external account; quarantined or junk-foldered with banner. Test malware attachment (EICAR test file or controlled lab); blocked. External tag visible on inbound external messages.</div>
+        <span class="cis-ref">CIS M365 2.1.x · Defender for Office 365 baselines</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div>
+        <div><div class="step-title">SPF, DKIM, DMARC for every accepted domain <span class="tier-tag all">All</span></div>
+        <div class="step-objective">Email authentication prevents spoofing of tenant domains by external attackers.</div></div>
+      </div>
+      <div class="step-body">
+        <p>SPF, DKIM, DMARC are DNS-level controls that the receiving side uses to verify sender authenticity. Configuring them correctly is the largest single anti-spoofing control available.</p>
+        <ul>
+          <li><strong>SPF</strong> &mdash; TXT record per domain listing authorised senders, ending in <code>-all</code> (hard fail) or <code>~all</code> (soft fail). For M365 the base: <code>v=spf1 include:spf.protection.outlook.com -all</code>. Add include records for other legitimate senders (marketing platforms, ticketing systems) that send as the domain.</li>
+          <li><strong>DKIM</strong> &mdash; enable in the Defender portal (<em>Policies &amp; rules &rarr; Email authentication &rarr; DKIM</em>) for each accepted domain; rotate the key pair annually; ensure the published CNAMEs point to Microsoft's selectors</li>
+          <li><strong>DMARC</strong> &mdash; TXT record at <code>_dmarc.&lt;domain&gt;</code>; deploy progressively:
+            <ul>
+              <li>Phase 1: <code>p=none; rua=mailto:dmarc-reports@&lt;domain&gt;</code> (monitor only; collect reports for 30&ndash;60 days)</li>
+              <li>Phase 2: <code>p=quarantine; pct=25</code> &rarr; <code>pct=100</code> (gradual enforcement)</li>
+              <li>Phase 3: <code>p=reject</code> (target state)</li>
+            </ul>
+          </li>
+          <li><strong>DMARC report processing</strong> &mdash; either a third-party DMARC reporting service or in-house parsing of the <code>rua</code> reports; without this DMARC is opaque</li>
+          <li><strong>Subdomain policy</strong> &mdash; <code>sp=reject</code> to prevent attackers from spoofing subdomains the tenant doesn't actively use</li>
+          <li><strong>Reject parked / unused domains</strong> &mdash; for domains the organisation owns but doesn't send from, publish <code>v=spf1 -all</code> and DMARC <code>p=reject</code> immediately</li>
+        </ul>
+        <div class="callout-info"><strong>Target: DMARC <code>p=reject</code>.</strong> <code>p=none</code> is a baseline starting point, not a destination. Each accepted domain progresses from <code>p=none</code> to <code>p=quarantine</code> to <code>p=reject</code> over a 90&ndash;180-day window with monitoring.</div>
+        <div class="step-verify"><strong>Verify.</strong> External tool (mxtoolbox or equivalent) shows valid SPF and DMARC records for every accepted domain. Test message from a spoofed external source rejected by DMARC. DMARC reports being ingested.</div>
+        <span class="cis-ref">CIS M365 2.1.x · RFC 7489 (DMARC)</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div>
+        <div><div class="step-title">SharePoint and OneDrive external sharing restrictions <span class="tier-tag all">All</span></div>
+        <div class="step-objective">External sharing is deliberate, not permissive; tenant-level controls prevent accidental data exposure.</div></div>
+      </div>
+      <div class="step-body">
+        <p>SharePoint Online and OneDrive default to permissive external sharing. Tighten at tenant level so individual users do not accidentally over-share.</p>
+        <ul>
+          <li><strong>Tenant-level external sharing</strong> &mdash; SharePoint admin centre &rarr; Policies &rarr; Sharing. Default for most tenants: "New and existing guests" (not "Anyone"). For high-sensitivity tenants: "Existing guests" only. Reduce as needed per agency risk posture.</li>
+          <li><strong>OneDrive sharing</strong> can be more restrictive than SharePoint (e.g. SharePoint = New and existing guests; OneDrive = Existing guests only); set the lower limit deliberately</li>
+          <li><strong>Anonymous (Anyone) links</strong> &mdash; disabled by default; if enabled for a specific scenario, set link expiry (≤30 days) and link permissions (View, not Edit)</li>
+          <li><strong>Link defaults</strong> &mdash; default sharing link type "Specific people" not "Anyone with the link"; default link permission View not Edit</li>
+          <li><strong>Allow / block domains list</strong> &mdash; allow-list specific trusted external domains for sharing; block-list known competitors / high-risk domains. Allow-list mode is more restrictive than block-list and is preferred for sensitive tenants.</li>
+          <li><strong>Guest access expiration</strong> &mdash; guest users automatically lose access to specific sites after a period (typically 60&ndash;180 days) unless reauthorised</li>
+          <li><strong>External user re-authentication</strong> &mdash; external users must re-authenticate every 30&ndash;90 days to maintain access</li>
+          <li><strong>Conditional Access for external users</strong> applies to SharePoint and OneDrive (per WI-01 CA-007); sensitive sites blocked for guests without explicit justification</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Test sharing scenarios from a standard user account: external sharing to an approved domain works; anonymous link creation refused or constrained; sharing to a blocked domain refused. Guest user count and recent guest activity visible in admin centre.</div>
+        <span class="cis-ref">CIS M365 7.2.x · "SharePoint external sharing"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div>
+        <div><div class="step-title">Teams external access, federation, and meeting policies <span class="tier-tag all">All</span></div>
+        <div class="step-objective">Teams external collaboration is allow-listed; anonymous meeting access controlled.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Teams external access (federation between organisations) and guest access (named external users in your tenant's Teams) are separate controls. Configure both.</p>
+        <ul>
+          <li><strong>External access (federation)</strong> &mdash; Teams admin centre &rarr; Users &rarr; External access. Default-deny pattern: "Allow only specific external domains" with an allow-list of partner-organisation tenants; or block known high-risk domains. Skype consumer federation: typically disabled.</li>
+          <li><strong>Guest access</strong> &mdash; enabled but governed by WI-01 §8 (Entra guest invite policy). Guest restrictions on Teams resources: cannot make private calls, cannot share screen by default in meetings with guests present.</li>
+          <li><strong>Meeting policies</strong> &mdash; default meeting policy and named-user policies for higher-risk roles:
+            <ul>
+              <li>Anonymous users can join meetings &mdash; restricted by default; enable per-meeting for legitimate external events only</li>
+              <li>Lobby for external attendees on by default; named lobby bypass for trusted partner tenants</li>
+              <li>Recording &mdash; allowed but transcripts default to off for sensitive groups; recordings expire after a documented retention</li>
+              <li>Live caption / transcription &mdash; consent-based; documented in the meeting policy</li>
+              <li>Whiteboard, chat retention, file sharing in chat &mdash; governed per policy and tenant data classification</li>
+            </ul>
+          </li>
+          <li><strong>Apps in Teams</strong> &mdash; Teams app permissions policy: block third-party apps by default; allow-list specific approved apps; review the catalogue quarterly</li>
+          <li><strong>Channel email integration</strong> &mdash; disabled by default unless the agency has a documented use case</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Attempt to invite a non-allow-listed external organisation to a Teams meeting; refused. Anonymous join attempt against a sensitive meeting hits the lobby. Third-party app installation by standard user fails.</div>
+        <span class="cis-ref">CIS M365 8.x · "Teams external access"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div>
+        <div><div class="step-title">Unified Audit Log and retention <span class="tier-tag all">All</span></div>
+        <div class="step-objective">Tenant-level audit captures user and administrative actions across services for the maximum period the tier allows.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Unified Audit Log (UAL) captures activity across Exchange, SharePoint, OneDrive, Teams, Entra, Power Platform, and Defender. It is the single most important forensic source for cloud incidents.</p>
+        <ul>
+          <li><strong>Enable UAL</strong> at tenant level &mdash; <code>Search-UnifiedAuditLog</code> works when enabled; check in Compliance / Purview portal under Audit. Most tenants have it on by default but verify.</li>
+          <li><strong>Retention</strong> &mdash; per tier:
+            <ul>
+              <li><span class="tier-tag all">A1 / E1</span> 90 days standard retention</li>
+              <li><span class="tier-tag e3">A3 / E3</span> 90 days standard; Audit (Premium) add-on extends to 1 year</li>
+              <li><span class="tier-tag e5">A5 / E5</span> 1 year by default; 10-year retention available as add-on for specific event types</li>
+            </ul>
+          </li>
+          <li><strong>Audit log search</strong> &mdash; named SOC analysts have Audit Log Search role (or scoped equivalent via PIM); routine searches documented in SOC playbooks</li>
+          <li><strong>Forwarding to central SIEM</strong> &mdash; via Microsoft Graph API (Office 365 Management Activity API), Azure Monitor, or vendor connector. Forward all audit records; do not pre-filter at the tenant side (the SIEM decides what to retain).</li>
+          <li><strong>High-value events</strong> alerted in SIEM: Global Administrator role assignment, eDiscovery hold creation, mailbox permission change to high-privilege user, large-volume export, sharing-policy change, audit-log-disabled event (this last is critical &mdash; if it fires, the tenant is compromised)</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> UAL on. Test event (e.g. file-share, mail-send) appears in UAL within ~30 minutes. SIEM ingestion pipeline operational. Sample alert rules firing on test events.</div>
+        <span class="cis-ref">CIS M365 1.x · "Unified Audit Log"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">6</div>
+        <div><div class="step-title">Purview Information Protection sensitivity labels <span class="tier-tag e3">A3 / E3+</span></div>
+        <div class="step-objective">Documents and emails are labelled with sensitivity; labels drive downstream controls (encryption, sharing restrictions, DLP).</div></div>
+      </div>
+      <div class="step-body">
+        <p>Sensitivity labels are the cornerstone of Microsoft Information Protection (MIP). They classify content (manual or automatic) and apply protection policies (encryption, watermark, sharing restrictions, retention).</p>
+        <ul>
+          <li><strong>Label taxonomy</strong> &mdash; align to the organisation classification (e.g. Public / Internal / Confidential / Restricted). Keep the taxonomy short (≤6 labels at top level) to be usable.</li>
+          <li><strong>Label configuration per level</strong>:
+            <ul>
+              <li>Public &mdash; no encryption; visual marking optional</li>
+              <li>Internal &mdash; no encryption; "Internal Use Only" footer / watermark</li>
+              <li>Confidential &mdash; encryption applied; usage restrictions (block forwarding, block printing for some sub-labels); visible marking</li>
+              <li>Restricted &mdash; encryption + named-user rights only; download/copy restrictions; visible marking</li>
+            </ul>
+          </li>
+          <li><strong>Label policy publication</strong> &mdash; publish labels to users / groups; document the rollout plan; train users (most labels remain unused without training)</li>
+          <li><strong>Default label</strong> &mdash; new documents and emails get a default label (typically Internal) unless the user chooses otherwise &mdash; reduces "Public by accident"</li>
+          <li><strong>Mandatory labelling</strong> &mdash; users cannot save / send without selecting a label; deploy after a training period</li>
+          <li><strong>Auto-labelling</strong> <span class="tier-tag e5">E5</span> &mdash; auto-apply labels based on content (sensitive info types like credit cards, government IDs, named data classes); start in simulation mode then enforce</li>
+          <li><strong>Co-authoring on encrypted documents</strong> &mdash; enable for usability; verify the tenant configuration supports it</li>
+          <li><strong>Label scope</strong> &mdash; Files &amp; Emails, Groups &amp; Sites (containers), Schematized data (Power BI) &mdash; configure per organisation need</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Labels visible in Office desktop, web, and mobile. Default label applied to new documents. Encrypted label opens correctly for authorised users; access denied for non-authorised. Auto-labelling (E5) flags sample sensitive content.</div>
+        <span class="cis-ref">CIS M365 6.x (Purview) · ISO 27001 A.5.13</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">7</div>
+        <div><div class="step-title">Purview DLP policies <span class="tier-tag e3">A3 / E3+</span></div>
+        <div class="step-objective">Sensitive data leaving the tenant is detected; policy-tip and block actions reduce accidental exfiltration.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Data Loss Prevention policies detect sensitive content in motion (email, sharing, Teams messages) and at rest (SharePoint, OneDrive). Deploy progressively.</p>
+        <ul>
+          <li><strong>Data classes</strong> &mdash; identify what the agency actually handles: personal data (per applicable regulation), payment card data, health data, government ID numbers, financial account numbers, intellectual property. Use Microsoft's built-in Sensitive Information Types where they match.</li>
+          <li><strong>Policy locations</strong> &mdash; Exchange Online, SharePoint, OneDrive, Teams chat &amp; channel messages, Devices (DLP for Endpoint, requires Defender for Endpoint). Cover all locations from the start; partial coverage gets bypassed.</li>
+          <li><strong>Rules per data class</strong>:
+            <ul>
+              <li>Notify user with a policy tip (do this first, monitor for FP)</li>
+              <li>After tuning: block the action with override allowed (user can override with justification, logged)</li>
+              <li>For high-sensitivity: block without override</li>
+              <li>Notify SOC / GRC on policy match for high-sensitivity classes</li>
+            </ul>
+          </li>
+          <li><strong>Rollout pattern</strong> &mdash; Test mode (no user notification) &rarr; Test mode with notification &rarr; Enforce. Each phase 2&ndash;4 weeks.</li>
+          <li><strong>Exclusions discipline</strong> &mdash; legitimate exclusions documented (e.g. legal team handling sensitive data by job nature); reviewed quarterly</li>
+          <li><strong>Endpoint DLP</strong> <span class="tier-tag e5">E5</span> &mdash; extends DLP to client-side actions (USB copy, print, browser upload to non-corporate destinations); requires Defender for Endpoint</li>
+          <li><strong>DLP alerts</strong> in central SIEM &mdash; cross-reference with sign-in and sharing logs to identify likely exfiltration patterns</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Test message containing sample sensitive data (controlled test) triggers DLP policy tip / block as configured. DLP alerts visible to SOC. Override actions logged.</div>
+        <span class="cis-ref">CIS M365 6.x · ISO 27018</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">8</div>
+        <div><div class="step-title">Defender for Office 365 Plan 2 — Safe Links, Safe Attachments, Attack Simulator <span class="tier-tag e5">E5</span></div>
+        <div class="step-objective">Inline detonation of attachments and time-of-click URL rewriting catches what signature engines miss; user training measures human risk.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Defender for Office 365 Plan 2 (included in E5; available as add-on to E3) adds significant protections beyond the baseline Exchange Online anti-phishing.</p>
+        <ul>
+          <li><strong>Safe Attachments policy</strong> &mdash; sandbox detonation of email attachments before delivery; <strong>Dynamic Delivery</strong> mode (body delivered immediately, attachment replaced after scanning) preferred over Block (better user experience, equivalent security); cover all users</li>
+          <li><strong>Safe Attachments for SharePoint, OneDrive, Teams</strong> &mdash; enabled; files identified as malicious are blocked from opening / download</li>
+          <li><strong>Safe Links policy</strong> &mdash; URL rewriting in email and Teams; time-of-click verification against Microsoft's reputation database; URLs scanned at click, not just at send (defeats delayed weaponisation); apply to all users</li>
+          <li><strong>Safe Links for Office apps</strong> &mdash; rewriting inside Word, Excel, PowerPoint, Outlook desktop and web</li>
+          <li><strong>Attack Simulator</strong> &mdash; quarterly minimum; campaigns per role / department; payloads include credential harvesting, malware attachment, link-click; results feed user training tracking</li>
+          <li><strong>Targeted threat protection &mdash; preset Strict policies</strong> for VIP / executive / finance users (more aggressive thresholds, more detonation, additional impersonation protection)</li>
+          <li><strong>Threat Explorer</strong> &mdash; SOC has access via Defender portal; queries documented in SOC playbooks for the email-threat scenarios</li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Test email with EICAR or controlled-test attachment &mdash; held for Safe Attachments scan, marked safe / unsafe correctly. Test URL in email &mdash; rewritten with safelinks domain. Attack Simulator campaign run, results visible.</div>
+        <span class="cis-ref">CIS M365 (E5) 2.x · "Defender for Office 365 P2"</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">9</div>
+        <div><div class="step-title">Insider Risk Management and Communication Compliance <span class="tier-tag e5">E5</span></div>
+        <div class="step-objective">Anomalous insider activity surfaced; regulated communications monitored where legally required.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Insider Risk Management (IRM) detects risky activity from internal users (data exfiltration before resignation, privilege escalation, anomalous download patterns). Communication Compliance (CC) monitors regulated communications channels.</p>
+        <ul>
+          <li><strong>Insider Risk indicators</strong> &mdash; configure the activity signals: data exfiltration to USB, anomalous download from SharePoint, unusual file deletion, departing-employee patterns (high download volume in weeks before HR-flagged departure), privilege escalation events</li>
+          <li><strong>IRM policies</strong> &mdash; start with Microsoft's preset templates (Data Theft by departing users; General data leaks; Risky browser usage). Tune per agency risk posture.</li>
+          <li><strong>Reviewers</strong> &mdash; named individuals with the Insider Risk Management Investigator role; not the SOC at large (privacy concern); coordinate with HR and Legal</li>
+          <li><strong>Privacy considerations</strong> &mdash; IRM displays pseudonymised user information by default; un-pseudonymisation requires named approver; document the approval workflow</li>
+          <li><strong>Communication Compliance</strong> &mdash; where regulated (financial services, healthcare, government), monitor communications channels (email, Teams chat) for prohibited content; investigate alerts via a separate role (Reviewer); document the legal basis</li>
+        </ul>
+        <div class="callout-info"><strong>Coordinate with HR and Legal.</strong> IRM and CC have legitimate workplace-monitoring concerns. The legal basis varies by jurisdiction and the agency's location. Engage HR and Legal before enabling; document the lawful-basis assessment and the data-handling policy.</div>
+        <div class="step-verify"><strong>Verify.</strong> IRM policy active; sample test activity (controlled) appears in the IRM dashboard. Reviewer role configured. Privacy / pseudonymisation defaults documented.</div>
+        <span class="cis-ref">CIS M365 (E5) · Local-law compliance</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">10</div>
+        <div><div class="step-title">Customer Lockbox and Privileged Access Management for Exchange <span class="tier-tag e5">E5</span></div>
+        <div class="step-objective">Microsoft engineer access to tenant data requires explicit approval; privileged Exchange actions require multi-party approval.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Two E5-only controls that meaningfully reduce the standing-trust footprint:</p>
+        <ul>
+          <li><strong>Customer Lockbox</strong> &mdash; when a Microsoft engineer needs access to tenant data to resolve a support case, the tenant administrator must approve; without approval, the engineer cannot proceed. Configure approval workflow with named approvers and SLA (typically 12 hours).</li>
+          <li><strong>Privileged Access Management (PAM) for Exchange Online</strong> &mdash; high-impact Exchange administrative actions (e.g. mailbox export, change journaling, modify role assignment) require activation through a PAM request with approval. Configure for the Exchange role groups and the high-impact tasks.</li>
+        </ul>
+        <p>These are separate from the broader Entra PIM (WI-01 Step 7); Exchange PAM is finer-grained to Exchange-specific operations.</p>
+        <div class="step-verify"><strong>Verify.</strong> Customer Lockbox enabled; test approval workflow with a Microsoft-initiated request (if available) or via the platform test. Exchange PAM operational; test a privileged Exchange action requiring approval.</div>
+        <span class="cis-ref">CIS M365 (E5) · "Customer Lockbox", "PAM for Exchange"</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <p>After applying the applicable steps for the tenant's licence tier, validate.</p>
+
+    <h3>Functional validation</h3>
+    <ul class="wi-bullet">
+      <li><span>Send test phishing-pattern email from external; quarantined / banner-tagged correctly</span></li>
+      <li><span>Inbound test malware (EICAR) blocked</span></li>
+      <li><span>SPF / DKIM / DMARC validate via mxtoolbox for every accepted domain</span></li>
+      <li><span>DMARC at <code>p=quarantine</code> minimum (target <code>p=reject</code>)</span></li>
+      <li><span>SharePoint external sharing restricted per tenant policy; anonymous link creation refused</span></li>
+      <li><span>Teams federation restricted; non-listed external organisation blocked</span></li>
+      <li><span>Unified Audit Log on; events flowing to central SIEM</span></li>
+      <li><span>(A3 / E3+) Purview labels visible; default label applied; DLP policy tip / block fires on test sensitive content</span></li>
+      <li><span>(E5) Safe Links rewrites URLs in email; Safe Attachments detonation visible in Threat Explorer</span></li>
+      <li><span>(E5) Attack Simulator campaign run; results integrated with training tracker</span></li>
+      <li><span>(E5) IRM policies active; sample activity visible to named reviewers; pseudonymisation confirmed</span></li>
+    </ul>
+
+    <h3>Configuration review (per tier)</h3>
+    <table class="gt-table">
+      <thead><tr><th>Control</th><th>A1 / E1</th><th>A3 / E3</th><th>E5</th></tr></thead>
+      <tbody>
+        <tr><td>Exchange anti-phishing baseline</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>SPF / DKIM / DMARC (target <code>p=reject</code>)</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>External sharing restrictions</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Teams external access allow-list</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Unified Audit Log enabled</td><td>✓ (90 day)</td><td>✓ (1 year w/ add-on)</td><td>✓ (1 year default)</td></tr>
+        <tr><td>Purview sensitivity labels</td><td>—</td><td>✓</td><td>✓ (incl. auto-labelling)</td></tr>
+        <tr><td>Purview DLP</td><td>—</td><td>✓</td><td>✓ (incl. Endpoint DLP)</td></tr>
+        <tr><td>Defender for Office 365 (Safe Links / Safe Attachments)</td><td>—</td><td>P1 (add-on)</td><td>✓ P2</td></tr>
+        <tr><td>Attack Simulator</td><td>—</td><td>—</td><td>✓</td></tr>
+        <tr><td>Insider Risk Management</td><td>—</td><td>—</td><td>✓</td></tr>
+        <tr><td>Customer Lockbox</td><td>—</td><td>—</td><td>✓</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Quantitative metric</h3>
+    <p>Microsoft Secure Score for M365 against the tenant's licence tier. Targets per IT-CL-SOP-01 §7.3: A1/E1 reported only (limited surface); A3/E3 ≥70%; E5 ≥80%.</p>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <p>M365 changes propagate quickly; have rollback ready especially for sharing and DLP policy changes that affect end-user workflow.</p>
+
+    <h3>Common scenarios</h3>
+    <ul class="wi-bullet">
+      <li><span><strong>DMARC <code>p=reject</code> rejecting legitimate email</strong> &mdash; cause: an unlisted legitimate sender (marketing platform, ticketing system, newsletter service) not in SPF. Fix: revert to <code>p=quarantine</code> temporarily; identify the sender from DMARC reports; add to SPF; re-progress to <code>p=reject</code>.</span></li>
+      <li><span><strong>Mass DLP false positives blocking legitimate business</strong> &mdash; cause: policy too broad; data class definition too loose (regex catches too much). Fix: switch policy to Test mode (no block) while tuning; refine the data class; refine the locations / users in scope; re-enable.</span></li>
+      <li><span><strong>External sharing tightening broke partner collaboration</strong> &mdash; cause: a legitimate external collaborator domain not in the allow-list. Fix: add to allow-list with documented justification and quarterly review; do not relax tenant-wide setting.</span></li>
+      <li><span><strong>Teams federation block isolated an agency from a partner</strong> &mdash; cause: partner's tenant not in allow-list after the federation change. Fix: add the partner tenant; verify cross-tenant access settings.</span></li>
+      <li><span><strong>Sensitivity label adoption stuck at low usage</strong> &mdash; cause: labels exist but users don't apply them; auto-labelling not deployed; training gap. Fix: enable default label assignment, mandatory labelling after training; deploy auto-labelling for the highest-volume data classes.</span></li>
+      <li><span><strong>Safe Attachments delaying critical delivery</strong> &mdash; cause: Dynamic Delivery not enabled; messages held during scan. Fix: switch to Dynamic Delivery mode (body delivered immediately).</span></li>
+      <li><span><strong>Attack Simulator backlash</strong> &mdash; cause: simulation perceived as entrapment; users distrust security communications. Fix: coordinate with HR / internal comms before campaigns; brief leadership before high-visibility simulations; debrief constructively with simulated victims.</span></li>
+    </ul>
+
+    <h3>Rollback procedure</h3>
+    <ol style="padding-left:18px;font-size:13px;line-height:1.7;color:#333;">
+      <li>Identify the breaking change &mdash; recent change record, DLP / audit log, user reports</li>
+      <li>For DLP: switch the policy to Test mode (immediate, no end-user impact)</li>
+      <li>For DMARC: lower the policy strength (<code>p=reject</code> &rarr; <code>p=quarantine</code> &rarr; <code>p=none</code> in extremis)</li>
+      <li>For sharing / federation: targeted exception, not tenant-wide loosening</li>
+      <li>Tune the underlying issue (data-class definition, allow-list entry, federation peer); re-test; re-enable</li>
+      <li>Update change record; document root cause</li>
+    </ol>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <ul class="wi-bullet">
+      <li><span><strong>DMARC at <code>p=none</code> is not a destination.</strong> A common gap is staying in monitor mode for years. Schedule the progression to <code>p=reject</code> as a tracked action.</span></li>
+      <li><span><strong>DMARC reports need to be processed.</strong> Without ingesting <code>rua</code> reports, the <code>p=none</code> phase produces no insight. Either subscribe to a DMARC processor or build the parsing.</span></li>
+      <li><span><strong>Parked domains are a free spoofing surface.</strong> Domains the organisation owns but doesn't send from need <code>v=spf1 -all</code> + DMARC <code>p=reject</code> from day one.</span></li>
+      <li><span><strong>External sharing tenant defaults are permissive.</strong> Out of the box, SharePoint allows "Anyone with the link." Tighten before users discover it.</span></li>
+      <li><span><strong>Anonymous Teams meeting access is sometimes legitimate.</strong> All-hands events, public webinars. Don't tenant-wide block; configure per-meeting allowances.</span></li>
+      <li><span><strong>UAL has gaps.</strong> Some workloads have delayed ingestion (some Power Platform events; some Defender events). Document the known gaps so SOC investigations don't assume completeness.</span></li>
+      <li><span><strong>Auto-labelling in simulation mode forever is a non-control.</strong> Move from simulation to enforce; revisit quarterly.</span></li>
+      <li><span><strong>DLP without endpoint DLP misses the most likely exfiltration path.</strong> A user copying to USB or uploading to a personal cloud bypasses tenant-side DLP. Endpoint DLP (E5 + Defender for Endpoint) is where the egress actually happens.</span></li>
+      <li><span><strong>Safe Attachments Block mode is poor UX.</strong> Dynamic Delivery has equivalent security with better experience; default to it.</span></li>
+      <li><span><strong>Attack Simulator without training is just punishment.</strong> Every simulated phish links to a training module; users who fail get the training, not just a "gotcha."</span></li>
+      <li><span><strong>IRM has legal complexity.</strong> Don't deploy without HR / Legal sign-off and a documented lawful-basis. The technical capability is well ahead of the policy clarity in most organisations.</span></li>
+      <li><span><strong>Customer Lockbox approval SLA matters.</strong> If the approval workflow can't respond within 12 hours, Microsoft support cases stall. Confirm the SLA against named approvers.</span></li>
+    </ul>
+  </div>
+
+  <div class="wi-nav"><a href="it-cl-wi-01.html">&larr; IT-CL-WI-01: Tenant Identity</a><a href="it-cl-wi-03.html">IT-CL-WI-03: Azure Subscription &rarr;</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-CL-WI-02 v1.0 · Live · 12 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-cloud-baselines.html" style="color:var(--wi);text-decoration:none;">&larr; Back to Cloud Baselines</a></span>
+  </div>
+</div>
+</body>
+</html>
