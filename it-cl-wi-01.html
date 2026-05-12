@@ -137,7 +137,7 @@
         <ul>
           <li>Cloud-only accounts (not synchronised from on-prem AD) — recovery cannot depend on AD connectivity</li>
           <li>Named after the role, not an individual (e.g. <code>breakglass-01@tenant.onmicrosoft.com</code>) — accountability via the check-out log, not the account itself</li>
-          <li>Strong, unique passwords (minimum 30 characters), stored in a vault that is itself <strong>not in this tenant</strong> (offline, separate password manager, or physical safe)</li>
+          <li><span>Strong, unique passwords (minimum 30 characters), stored in a vault that is itself <strong>not in this tenant</strong> (offline, separate password manager, or physical safe)</span></li>
           <li>Permanent Global Administrator role — not PIM-eligible — so PIM unavailability does not block use</li>
           <li>Excluded from <strong>every</strong> Conditional Access policy so a policy misconfiguration cannot lock them out (see Step 4)</li>
           <li>MFA configuration: per organisation choice — either MFA-exempt (the simplest recovery path) with strong compensating controls, or MFA-enrolled with a separate fallback factor; document the choice and the rationale</li>
@@ -158,11 +158,11 @@
       <div class="step-body">
         <p>Legacy authentication (basic auth, IMAP, POP, MAPI/HTTP, SMTP AUTH, older Exchange ActiveSync, EWS in basic mode) bypasses modern authentication and therefore MFA. The vast majority of credential-stuffing attacks against M365 use legacy auth.</p>
         <ul>
-          <li><strong>Audit first.</strong> Use the Entra sign-in logs filtered by Client App = "Other clients" / "IMAP" / "POP" / "SMTP" / "Authenticated SMTP" / "MAPI" / "Exchange ActiveSync (basic)" to see what's currently using legacy auth. Look back ≥30 days.</li>
-          <li><strong>Identify legitimate users / applications.</strong> Common cases: shared mailboxes used by scripts, line-of-business apps still on basic SMTP, older mobile clients. Each gets a migration plan or a documented exception.</li>
-          <li><strong>Block via Conditional Access</strong> (A3 / E3+): CA policy "Block legacy authentication" targeting all users, all cloud apps, client app = legacy auth clients only, grant = block. Exclude break-glass accounts.</li>
-          <li><strong>Block via Security Defaults</strong> (A1 / E1): Security Defaults block legacy auth by default; ensure Security Defaults is enabled at tenant level (Properties &rarr; Manage Security Defaults).</li>
-          <li><strong>Exchange Online additional hardening.</strong> Disable basic auth at organisation level for Exchange protocols (<code>Set-AuthenticationPolicy</code>); apply the policy to all mailboxes; SMTP AUTH disabled by default at tenant level for new mailboxes.</li>
+          <li><span><strong>Audit first.</strong> Use the Entra sign-in logs filtered by Client App = "Other clients" / "IMAP" / "POP" / "SMTP" / "Authenticated SMTP" / "MAPI" / "Exchange ActiveSync (basic)" to see what's currently using legacy auth. Look back ≥30 days.</span></li>
+          <li><span><strong>Identify legitimate users / applications.</strong> Common cases: shared mailboxes used by scripts, line-of-business apps still on basic SMTP, older mobile clients. Each gets a migration plan or a documented exception.</span></li>
+          <li><span><strong>Block via Conditional Access</strong> (A3 / E3+): CA policy "Block legacy authentication" targeting all users, all cloud apps, client app = legacy auth clients only, grant = block. Exclude break-glass accounts.</span></li>
+          <li><span><strong>Block via Security Defaults</strong> (A1 / E1): Security Defaults block legacy auth by default; ensure Security Defaults is enabled at tenant level (Properties &rarr; Manage Security Defaults).</span></li>
+          <li><span><strong>Exchange Online additional hardening.</strong> Disable basic auth at organisation level for Exchange protocols (<code>Set-AuthenticationPolicy</code>); apply the policy to all mailboxes; SMTP AUTH disabled by default at tenant level for new mailboxes.</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Entra sign-in logs filtered by Client App = legacy show only break-glass or documented exceptions in the previous 7 days. Exchange Online <code>Get-AuthenticationPolicy</code> shows the policy applied. Sample test: attempt IMAP authentication with valid credentials; rejected at tenant.</div>
         <span class="cis-ref">CIS M365 1.2.x · "Block legacy authentication"</span>
@@ -177,14 +177,14 @@
       <div class="step-body">
         <p>Two paths depending on tier:</p>
         <ul>
-          <li><span class="tier-tag all">A1 / E1</span> <strong>Security Defaults</strong> — Entra Properties &rarr; Manage Security Defaults &rarr; Enabled. This enforces MFA on all users (with a 14-day registration window per user), blocks legacy auth, and protects privileged actions. It is binary — on or off — but is the right control for tenants without Conditional Access licensing.</li>
-          <li><span class="tier-tag e3">A3 / E3+</span> <strong>Conditional Access</strong> — granular MFA enforcement (see Step 4). Disable Security Defaults when CA is deployed; the two are mutually exclusive.</li>
+          <li><span> class="tier-tag all">A1 / E1</span> <strong>Security Defaults</strong> — Entra Properties &rarr; Manage Security Defaults &rarr; Enabled. This enforces MFA on all users (with a 14-day registration window per user), blocks legacy auth, and protects privileged actions. It is binary — on or off — but is the right control for tenants without Conditional Access licensing.</li>
+          <li><span> class="tier-tag e3">A3 / E3+</span> <strong>Conditional Access</strong> — granular MFA enforcement (see Step 4). Disable Security Defaults when CA is deployed; the two are mutually exclusive.</li>
         </ul>
         <h3>AAL3-grade authentication for Global Administrators</h3>
         <ul>
-          <li>Global Administrators authenticate with phishing-resistant factors: <strong>FIDO2 security keys</strong>, <strong>Windows Hello for Business</strong> (where supported on managed devices), or <strong>certificate-based authentication</strong></li>
-          <li>SMS, voice-call, and basic Authenticator-push MFA are <strong>not sufficient</strong> for Global Administrator (these are AAL2 at best and have known interception risks)</li>
-          <li>Conditional Access policy: "Require phishing-resistant MFA for admin roles" targeting Entra directory roles = Global Administrator + Privileged Role Administrator + Security Administrator + Conditional Access Administrator</li>
+          <li><span>Global Administrators authenticate with phishing-resistant factors: <strong>FIDO2 security keys</strong>, <strong>Windows Hello for Business</strong> (where supported on managed devices), or <strong>certificate-based authentication</strong></span></li>
+          <li><span>SMS, voice-call, and basic Authenticator-push MFA are <strong>not sufficient</strong> for Global Administrator (these are AAL2 at best and have known interception risks)</span></li>
+          <li><span>Conditional Access policy: "Require phishing-resistant MFA for admin roles" targeting Entra directory roles = Global Administrator + Privileged Role Administrator + Security Administrator + Conditional Access Administrator</span></li>
         </ul>
         <h3>Authentication methods configuration</h3>
         <ul>
@@ -206,13 +206,13 @@
         <p>The Conditional Access baseline consists of a small set of policies that every A3/E3+ tenant deploys. Each policy follows the <strong>report-only &rarr; enable</strong> pattern: deploy in report-only mode for 7–14 days, review sign-in impact, then enable.</p>
         <h3>Baseline CA policies</h3>
         <ul>
-          <li><strong>CA-001 Require MFA for all users</strong> — all cloud apps, all users (including guests), grant = require MFA; exclude break-glass accounts</li>
-          <li><strong>CA-002 Block legacy authentication</strong> — per Step 2</li>
-          <li><strong>CA-003 Require phishing-resistant MFA for admins</strong> — per Step 3, targeting directory roles</li>
-          <li><strong>CA-004 Require compliant device for admins</strong> — administrative sign-ins from Intune-compliant or hybrid-joined devices only</li>
-          <li><strong>CA-005 Block sign-in from high-risk countries</strong> — define the country set with the security and compliance teams; block or require additional verification</li>
-          <li><strong>CA-006 Session lifetime</strong> — sign-in frequency 8&ndash;24 hours for standard users, 4&ndash;8 hours for administrators; persistent browser session disabled</li>
-          <li><strong>CA-007 Block guest access to sensitive apps</strong> — guests cannot access named applications without justification; default-deny pattern</li>
+          <li><span><strong>CA-001 Require MFA for all users</strong> — all cloud apps, all users (including guests), grant = require MFA; exclude break-glass accounts</span></li>
+          <li><span><strong>CA-002 Block legacy authentication</strong> — per Step 2</span></li>
+          <li><span><strong>CA-003 Require phishing-resistant MFA for admins</strong> — per Step 3, targeting directory roles</span></li>
+          <li><span><strong>CA-004 Require compliant device for admins</strong> — administrative sign-ins from Intune-compliant or hybrid-joined devices only</span></li>
+          <li><span><strong>CA-005 Block sign-in from high-risk countries</strong> — define the country set with the security and compliance teams; block or require additional verification</span></li>
+          <li><span><strong>CA-006 Session lifetime</strong> — sign-in frequency 8&ndash;24 hours for standard users, 4&ndash;8 hours for administrators; persistent browser session disabled</span></li>
+          <li><span><strong>CA-007 Block guest access to sensitive apps</strong> — guests cannot access named applications without justification; default-deny pattern</span></li>
         </ul>
         <h3>Exclusions discipline</h3>
         <ul>
@@ -233,10 +233,10 @@
       <div class="step-body">
         <p>Named locations are reusable IP ranges or country lists in Conditional Access. They enable policies like "block sign-in from outside expected geographies" or "skip MFA inside corporate networks" (the latter is discouraged but the capability exists).</p>
         <ul>
-          <li><strong>Trusted IPs</strong> — known corporate egress IP ranges (HQ networks, agency office egress, VPN egress). Used for visibility, not for MFA-bypass.</li>
-          <li><strong>Country sets</strong> — define an expected-country list per tenant (where the agency operates); define a blocked-country list per the organisation's geo-risk policy.</li>
-          <li><strong>Use in CA</strong> — block sign-in from blocked countries (CA-005 above); flag sign-in from unexpected countries for additional verification.</li>
-          <li>Do <strong>not</strong> use named locations to skip MFA — even on corporate networks, MFA still applies. This is a common configuration drift to push back on.</li>
+          <li><span><strong>Trusted IPs</strong> — known corporate egress IP ranges (HQ networks, agency office egress, VPN egress). Used for visibility, not for MFA-bypass.</span></li>
+          <li><span><strong>Country sets</strong> — define an expected-country list per tenant (where the agency operates); define a blocked-country list per the organisation's geo-risk policy.</span></li>
+          <li><span><strong>Use in CA</strong> — block sign-in from blocked countries (CA-005 above); flag sign-in from unexpected countries for additional verification.</span></li>
+          <li><span>Do <strong>not</strong> use named locations to skip MFA — even on corporate networks, MFA still applies. This is a common configuration drift to push back on.</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Named locations defined and used in CA policies. Sign-in logs show location attribution. Geo-anomaly alerts visible in Entra Identity Protection (where licensed) or via SOC SIEM queries.</div>
         <span class="cis-ref">CIS M365 1.x · "Named locations"</span>
@@ -251,11 +251,11 @@
       <div class="step-body">
         <p>Entra Identity Protection (Entra ID P2; available in E5) detects sign-in risk (geo-velocity, anonymous IP, unfamiliar sign-in, leaked credentials) and user risk (cumulative). Risk policies act on these signals.</p>
         <ul>
-          <li><strong>Sign-in risk policy</strong> — risk level High = block; risk level Medium = require MFA + additional verification. Implement as Conditional Access policy using risk as the condition.</li>
-          <li><strong>User risk policy</strong> — risk level High = require password change (with MFA); risk level Medium = require MFA. Same CA pattern.</li>
-          <li><strong>MFA registration policy</strong> — enforce MFA registration for all users (Identity Protection feature, not CA)</li>
-          <li><strong>Risk feedback loop</strong> — administrators confirm or dismiss risk events; the platform learns from feedback over time. Document the triage workflow.</li>
-          <li><strong>SOC integration</strong> — risk events forwarded to central SIEM (sign-in risk, user risk, alerts). SOC has playbooks for the higher-severity events.</li>
+          <li><span><strong>Sign-in risk policy</strong> — risk level High = block; risk level Medium = require MFA + additional verification. Implement as Conditional Access policy using risk as the condition.</span></li>
+          <li><span><strong>User risk policy</strong> — risk level High = require password change (with MFA); risk level Medium = require MFA. Same CA pattern.</span></li>
+          <li><span><strong>MFA registration policy</strong> — enforce MFA registration for all users (Identity Protection feature, not CA)</span></li>
+          <li><span><strong>Risk feedback loop</strong> — administrators confirm or dismiss risk events; the platform learns from feedback over time. Document the triage workflow.</span></li>
+          <li><span><strong>SOC integration</strong> — risk events forwarded to central SIEM (sign-in risk, user risk, alerts). SOC has playbooks for the higher-severity events.</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Risk policies enabled at the targeted levels. Sample test: simulate an anonymous IP sign-in (Tor or known anonymising proxy on a controlled test account); risk policy fires. Risk events flowing to SIEM.</div>
         <span class="cis-ref">CIS M365 (E5) · MCSB IM-x</span>
@@ -270,13 +270,13 @@
       <div class="step-body">
         <p>PIM (Entra ID P2; E5) moves privileged roles from standing assignments to time-bounded eligible-then-active activations. The principle is the same as IT-SI-WI-04 (PAM) Step 4: standing access is the exception, not the default.</p>
         <ul>
-          <li><strong>Roles in scope:</strong> Global Administrator, Privileged Role Administrator, Security Administrator, Conditional Access Administrator, Exchange Administrator, SharePoint Administrator, User Administrator, Application Administrator — start with these; expand as the model matures</li>
-          <li><strong>Eligibility, not assignment.</strong> Named individuals are <em>eligible</em> for each role with a defined assignment duration (typically 12 months); they activate when needed via a documented process</li>
-          <li><strong>Activation requirements:</strong> MFA required at activation; justification text mandatory; activation duration max 8 hours for most roles, 1 hour for Global Administrator; ticket/change reference where applicable</li>
-          <li><strong>Approval workflow for Global Administrator:</strong> activation requires approval from another named approver (not the requestor). For other roles, activation may be self-approval with auditing depending on the agency's risk appetite.</li>
-          <li><strong>PIM access reviews</strong> quarterly for all eligible assignments; expired eligibility is removed; new assignments require justification</li>
-          <li><strong>Alerts</strong> — PIM alerts (suspicious activation patterns, role assignments outside PIM, role activation without MFA) flow to SOC</li>
-          <li><strong>Exclude break-glass.</strong> Break-glass accounts hold permanent Global Administrator assignment (Step 1); they are not PIM-eligible.</li>
+          <li><span><strong>Roles in scope:</strong> Global Administrator, Privileged Role Administrator, Security Administrator, Conditional Access Administrator, Exchange Administrator, SharePoint Administrator, User Administrator, Application Administrator — start with these; expand as the model matures</span></li>
+          <li><span><strong>Eligibility, not assignment.</strong> Named individuals are <em>eligible</em> for each role with a defined assignment duration (typically 12 months); they activate when needed via a documented process</span></li>
+          <li><span><strong>Activation requirements:</strong> MFA required at activation; justification text mandatory; activation duration max 8 hours for most roles, 1 hour for Global Administrator; ticket/change reference where applicable</span></li>
+          <li><span><strong>Approval workflow for Global Administrator:</strong> activation requires approval from another named approver (not the requestor). For other roles, activation may be self-approval with auditing depending on the agency's risk appetite.</span></li>
+          <li><span><strong>PIM access reviews</strong> quarterly for all eligible assignments; expired eligibility is removed; new assignments require justification</span></li>
+          <li><span><strong>Alerts</strong> — PIM alerts (suspicious activation patterns, role assignments outside PIM, role activation without MFA) flow to SOC</span></li>
+          <li><span><strong>Exclude break-glass.</strong> Break-glass accounts hold permanent Global Administrator assignment (Step 1); they are not PIM-eligible.</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Privileged roles show eligible assignments (not active assignments) for named individuals; only break-glass and approved exceptions hold permanent assignments. Activation workflow tested. Quarterly access review scheduled.</div>
         <span class="cis-ref">CIS M365 (E5) 1.x · CIS Azure 1.x</span>
@@ -291,12 +291,12 @@
       <div class="step-body">
         <p>External Entra users (B2B guests) have access to tenant resources through invitations. The default tenant settings are permissive; tighten them:</p>
         <ul>
-          <li><strong>Entra External Identities settings.</strong> Guest invite settings: only administrators and users with named role assignments can invite; not "anyone." Collaboration restrictions: allow invitations only to specified domains where the organisation has explicit business relationships, OR deny invitations to specified high-risk domains.</li>
-          <li><strong>Guest user permissions.</strong> "Guests have limited access" — they cannot read other users' or groups' directory information by default. CIS M365 baseline setting.</li>
-          <li><strong>Guest MFA.</strong> Conditional Access policy CA-001 includes guests, so MFA is required for guest sign-in.</li>
-          <li><strong>Guest access review</strong> quarterly — list guests, validate ongoing business relationship, remove stale guests. Access reviews can be automated via Entra Identity Governance (E5) or run manually.</li>
-          <li><strong>Cross-tenant access settings</strong> (B2B Direct Connect, Teams shared channels) — opt-in per partner tenant; default-deny for organisations not explicitly approved.</li>
-          <li><strong>Sensitive applications.</strong> CA-007 blocks guest access to a named list of sensitive applications without explicit justification.</li>
+          <li><span><strong>Entra External Identities settings.</strong> Guest invite settings: only administrators and users with named role assignments can invite; not "anyone." Collaboration restrictions: allow invitations only to specified domains where the Institution has explicit business relationships, OR deny invitations to specified high-risk domains.</span></li>
+          <li><span><strong>Guest user permissions.</strong> "Guests have limited access" — they cannot read other users' or groups' directory information by default. CIS M365 baseline setting.</span></li>
+          <li><span><strong>Guest MFA.</strong> Conditional Access policy CA-001 includes guests, so MFA is required for guest sign-in.</span></li>
+          <li><span><strong>Guest access review</strong> quarterly — list guests, validate ongoing business relationship, remove stale guests. Access reviews can be automated via Entra Identity Governance (E5) or run manually.</span></li>
+          <li><span><strong>Cross-tenant access settings</strong> (B2B Direct Connect, Teams shared channels) — opt-in per partner tenant; default-deny for organisations not explicitly approved.</span></li>
+          <li><span><strong>Sensitive applications.</strong> CA-007 blocks guest access to a named list of sensitive applications without explicit justification.</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Guest invite settings restricted. Cross-tenant access default-deny with allow-list. Guest user count auditable (Entra report). Recent guest sign-ins show MFA applied.</div>
         <span class="cis-ref">CIS M365 1.x · "External collaboration settings"</span>
