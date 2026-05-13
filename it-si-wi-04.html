@@ -133,11 +133,11 @@
       <div class="step-body">
         <p>Vault encryption configuration:</p>
         <ul>
-          <li><strong>At-rest encryption</strong> using vendor-approved cryptography (typically AES-256 or vendor equivalent). Confirm the encryption is engaged; some PAM platforms have it as a configuration toggle that's off by default in older versions.</li>
-          <li><strong>HSM integration where supported</strong> &mdash; the master encryption key (or key-encryption key) lives in an HSM, not on the PAM appliance. PAM platforms that support PKCS#11 or KMIP can integrate with on-prem HSMs (Thales, Entrust nShield, Utimaco) or cloud KMS (Azure Key Vault HSM, AWS CloudHSM).</li>
-          <li><strong>If HSM is not supported by the platform</strong>, document the limitation as an exception, deploy with the strongest in-platform key protection available, and flag the platform for HSM-capable replacement on the asset roadmap. This is a real gap, not just a paper one.</li>
-          <li><strong>Key rotation.</strong> Master encryption key rotation procedure documented and tested annually; vendor-recommended rotation cadence followed</li>
-          <li><strong>Backup key handling.</strong> Backup of encryption keys (where required for disaster recovery) stored in a separate location with separate access control &mdash; physical safe, separate HSM, or escrow service. Backup-key recovery procedure is part of the break-glass workflow (Step 7).</li>
+          <li><span><strong>At-rest encryption</strong> using vendor-approved cryptography (typically AES-256 or vendor equivalent). Confirm the encryption is engaged; some PAM platforms have it as a configuration toggle that's off by default in older versions.</span></li>
+          <li><span><strong>HSM integration where supported</strong> &mdash; the master encryption key (or key-encryption key) lives in an HSM, not on the PAM appliance. PAM platforms that support PKCS#11 or KMIP can integrate with on-prem HSMs (Thales, Entrust nShield, Utimaco) or cloud KMS (Azure Key Vault HSM, AWS CloudHSM).</span></li>
+          <li><span><strong>If HSM is not supported by the platform</strong>, document the limitation as an exception, deploy with the strongest in-platform key protection available, and flag the platform for HSM-capable replacement on the asset roadmap. This is a real gap, not just a paper one.</span></li>
+          <li><span><strong>Key rotation.</strong> Master encryption key rotation procedure documented and tested annually; vendor-recommended rotation cadence followed</span></li>
+          <li><span><strong>Backup key handling.</strong> Backup of encryption keys (where required for disaster recovery) stored in a separate location with separate access control &mdash; physical safe, separate HSM, or escrow service. Backup-key recovery procedure is part of the break-glass workflow (Step 7).</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Show the vault encryption configuration; confirm at-rest encryption enabled. For HSM-integrated deployments, confirm the platform's connection to the HSM is healthy; force a cryptographic operation and verify it's served by the HSM. For non-HSM deployments, confirm the exception is documented in GRC-REG-EXCEPTIONS.</div>
         <span class="cis-ref">PAM: "vault encryption"</span>
@@ -152,12 +152,12 @@
       <div class="step-body">
         <p>The PAM session broker (jump host, "PSM" in some vendor terminology) brokers privileged sessions to target systems. Compromise of the broker compromises every session it brokers and credentials those sessions use.</p>
         <ul>
-          <li><strong>Broker is a Tier 0 system</strong> regardless of what tier of system it brokers to. If the broker can reach a Tier 0 server, the broker is Tier 0. Apply the Tier 0 server baseline to it.</li>
-          <li><strong>Network exposure.</strong> Broker accepts inbound connections only from administrative networks (defined source list); outbound to targets passes through documented paths only</li>
-          <li><strong>OS hardening</strong> per the Tier 0 server baseline &mdash; minimal services, latest patches, EDR enrolled, no shared accounts, MFA on access</li>
-          <li><strong>Broker-side controls</strong> &mdash; clipboard, drive mapping, file transfer disabled or controlled per session policy (a session that can copy a file off the target defeats much of the recording integrity)</li>
-          <li><strong>Process isolation</strong> &mdash; one session per broker instance where the platform supports it; ephemeral broker instances destroyed after session end (the "throwaway jumphost" model)</li>
-          <li><strong>Patching</strong> &mdash; broker OS and PAM agent patched on the Tier 0 patch cycle</li>
+          <li><span><strong>Broker is a Tier 0 system</strong> regardless of what tier of system it brokers to. If the broker can reach a Tier 0 server, the broker is Tier 0. Apply the Tier 0 server baseline to it.</span></li>
+          <li><span><strong>Network exposure.</strong> Broker accepts inbound connections only from administrative networks (defined source list); outbound to targets passes through documented paths only</span></li>
+          <li><span><strong>OS hardening</strong> per the Tier 0 server baseline &mdash; minimal services, latest patches, EDR enrolled, no shared accounts, MFA on access</span></li>
+          <li><span><strong>Broker-side controls</strong> &mdash; clipboard, drive mapping, file transfer disabled or controlled per session policy (a session that can copy a file off the target defeats much of the recording integrity)</span></li>
+          <li><span><strong>Process isolation</strong> &mdash; one session per broker instance where the platform supports it; ephemeral broker instances destroyed after session end (the "throwaway jumphost" model)</span></li>
+          <li><span><strong>Patching</strong> &mdash; broker OS and PAM agent patched on the Tier 0 patch cycle</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Broker host inventoried as Tier 0 in GRC-REG-ASSET. EDR enrolled and reporting. Patch level current. Initiate a brokered session; verify session-level controls (clipboard, drive map) behave per policy.</div>
         <span class="cis-ref">PAM: "session broker hardening"</span>
@@ -172,12 +172,12 @@
       <div class="step-body">
         <p>Session recording controls:</p>
         <ul>
-          <li><strong>Recording scope.</strong> Define which session types are recorded: typically all interactive privileged sessions to Tier 0/1 targets; selective for Tier 2/3 based on risk. Documented in the access policy per target class.</li>
-          <li><strong>Write-once storage.</strong> Recordings written to immutable storage where supported &mdash; WORM disk, object storage with retention lock (Azure immutable blob, AWS Object Lock), or write-once tape. Where true write-once is not available, use integrity-protected storage with cryptographic chaining.</li>
-          <li><strong>Hash chaining or signing.</strong> Recording files are hashed at write time; hashes are chained so that any modification of a previous recording invalidates the chain. The hash chain itself is signed or stored separately.</li>
-          <li><strong>Tamper detection.</strong> Integrity verification runs on a schedule (daily); failures alert SOC immediately. Tampered or missing recordings are an incident, not a maintenance item.</li>
-          <li><strong>Retention.</strong> Recordings retained per organisation retention policy (typically 1 year minimum for Tier 0/1 access, longer per regulatory requirement). Retention enforced by the storage layer, not by the PAM application alone (so an attacker with PAM admin cannot shorten retention).</li>
-          <li><strong>Access to recordings.</strong> Read access controlled separately from PAM administration; viewing a recording is itself a logged event.</li>
+          <li><span><strong>Recording scope.</strong> Define which session types are recorded: typically all interactive privileged sessions to Tier 0/1 targets; selective for Tier 2/3 based on risk. Documented in the access policy per target class.</span></li>
+          <li><span><strong>Write-once storage.</strong> Recordings written to immutable storage where supported &mdash; WORM disk, object storage with retention lock (Azure immutable blob, AWS Object Lock), or write-once tape. Where true write-once is not available, use integrity-protected storage with cryptographic chaining.</span></li>
+          <li><span><strong>Hash chaining or signing.</strong> Recording files are hashed at write time; hashes are chained so that any modification of a previous recording invalidates the chain. The hash chain itself is signed or stored separately.</span></li>
+          <li><span><strong>Tamper detection.</strong> Integrity verification runs on a schedule (daily); failures alert SOC immediately. Tampered or missing recordings are an incident, not a maintenance item.</span></li>
+          <li><span><strong>Retention.</strong> Recordings retained per organisation retention policy (typically 1 year minimum for Tier 0/1 access, longer per regulatory requirement). Retention enforced by the storage layer, not by the PAM application alone (so an attacker with PAM admin cannot shorten retention).</span></li>
+          <li><span><strong>Access to recordings.</strong> Read access controlled separately from PAM administration; viewing a recording is itself a logged event.</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Record a test session; the file appears in the recording store with hash. Modify the file (in a controlled lab); verify the integrity check detects the modification and alerts. Confirm retention lock prevents deletion before policy retention expires.</div>
         <span class="cis-ref">PAM: "session recording integrity"</span>
@@ -192,12 +192,12 @@
       <div class="step-body">
         <p>JIT model:</p>
         <ul>
-          <li><strong>Default posture:</strong> users have no standing privileged access; they request access via the PAM platform's access-request workflow when they need it</li>
-          <li><strong>Approval workflow</strong> &mdash; documented per target system or system class. Tier 0 targets typically require approval from two named approvers (one operational, one security); Tier 1 typically requires one approver; Tier 2/3 may have automatic approval against pre-defined eligibility</li>
-          <li><strong>Time-bounded grant</strong> &mdash; access granted for a documented duration (typically 1-4 hours for break-fix, 8 hours for planned change windows); auto-expires; no manual extension without re-approval</li>
-          <li><strong>Standing-access exceptions</strong> &mdash; some operational reality requires standing access (24/7 monitoring service accounts, automation, on-call engineers who can't wait for approval at 2am). Each standing-access exception is documented in GRC-REG-EXCEPTIONS with justification and review date.</li>
-          <li><strong>Account provisioning model</strong> &mdash; preferred: PAM provisions ephemeral target accounts at grant time, deprovisions at expiry. Alternative: persistent target account, PAM rotates password before and after each grant.</li>
-          <li><strong>Eligibility lists</strong> per target &mdash; not every user is eligible to even request access to every target; eligibility maintained per role with quarterly review</li>
+          <li><span><strong>Default posture:</strong> users have no standing privileged access; they request access via the PAM platform's access-request workflow when they need it</span></li>
+          <li><span><strong>Approval workflow</strong> &mdash; documented per target system or system class. Tier 0 targets typically require approval from two named approvers (one operational, one security); Tier 1 typically requires one approver; Tier 2/3 may have automatic approval against pre-defined eligibility</span></li>
+          <li><span><strong>Time-bounded grant</strong> &mdash; access granted for a documented duration (typically 1-4 hours for break-fix, 8 hours for planned change windows); auto-expires; no manual extension without re-approval</span></li>
+          <li><span><strong>Standing-access exceptions</strong> &mdash; some operational reality requires standing access (24/7 monitoring service accounts, automation, on-call engineers who can't wait for approval at 2am). Each standing-access exception is documented in GRC-REG-EXCEPTIONS with justification and review date.</span></li>
+          <li><span><strong>Account provisioning model</strong> &mdash; preferred: PAM provisions ephemeral target accounts at grant time, deprovisions at expiry. Alternative: persistent target account, PAM rotates password before and after each grant.</span></li>
+          <li><span><strong>Eligibility lists</strong> per target &mdash; not every user is eligible to even request access to every target; eligibility maintained per role with quarterly review</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Sample a JIT grant: request submitted, approval recorded, access granted for documented duration, access auto-revoked at expiry. Sample standing-access exceptions; each has a documented justification and a current review date.</div>
         <span class="cis-ref">PAM: "just-in-time access"</span>
@@ -212,12 +212,12 @@
       <div class="step-body">
         <p>Identity integration:</p>
         <ul>
-          <li><strong>Authentication source:</strong> central directory (Entra ID, AD) for all PAM users. SAML, OIDC, or LDAPS integration depending on platform support.</li>
-          <li><strong>MFA enforcement:</strong> per WI-01 step 3 &mdash; AAL2 minimum for general access; <strong>AAL3 for access that brokers to Tier 0 systems</strong>. Enforced at the identity provider, not just at the PAM platform.</li>
-          <li><strong>Group-based authorisation:</strong> central directory groups map to PAM roles (PAM admin, PAM operator, target-system administrator, auditor). Group memberships are the authorisation grant; PAM-local group memberships are not maintained.</li>
-          <li><strong>Lifecycle integration:</strong> joiner / mover / leaver process drives PAM access. A leaver in HR is removed from directory groups; access to PAM disappears the same day. No PAM-side cleanup needed.</li>
-          <li><strong>One exception &mdash; the break-glass local account.</strong> A single named local account exists for break-glass use. Password stored externally (see Step 7). All other authentication via the directory.</li>
-          <li><strong>Service accounts and automation.</strong> Where automation needs PAM access, use platform-specific service principals (e.g. Entra application registrations, AD service accounts) with certificate-based authentication; not human-style passwords.</li>
+          <li><span><strong>Authentication source:</strong> central directory (Entra ID, AD) for all PAM users. SAML, OIDC, or LDAPS integration depending on platform support.</span></li>
+          <li><span><strong>MFA enforcement:</strong> per WI-01 step 3 &mdash; AAL2 minimum for general access; <strong>AAL3 for access that brokers to Tier 0 systems</strong>. Enforced at the identity provider, not just at the PAM platform.</span></li>
+          <li><span><strong>Group-based authorisation:</strong> central directory groups map to PAM roles (PAM admin, PAM operator, target-system administrator, auditor). Group memberships are the authorisation grant; PAM-local group memberships are not maintained.</span></li>
+          <li><span><strong>Lifecycle integration:</strong> joiner / mover / leaver process drives PAM access. A leaver in HR is removed from directory groups; access to PAM disappears the same day. No PAM-side cleanup needed.</span></li>
+          <li><span><strong>One exception &mdash; the break-glass local account.</strong> A single named local account exists for break-glass use. Password stored externally (see Step 7). All other authentication via the directory.</span></li>
+          <li><span><strong>Service accounts and automation.</strong> Where automation needs PAM access, use platform-specific service principals (e.g. Entra application registrations, AD service accounts) with certificate-based authentication; not human-style passwords.</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> List local PAM user database; only the break-glass account exists. Authenticate as a directory user; succeeds; appears in audit. Test the leaver workflow with a non-production directory user; PAM access removed on directory-group removal.</div>
         <span class="cis-ref">PAM: "identity-source integration"</span>
@@ -235,9 +235,9 @@
           <li>HA pair (active/standby or active/active per vendor capability) for the PAM platform</li>
           <li>Geographic placement appropriate to the DR strategy &mdash; for organisations with multi-site DR, the second PAM node is in the DR site</li>
           <li>HA sync link on a dedicated path; replication health monitored</li>
-          <li>Replication includes vault contents, configuration, and session-recording metadata</li>
-          <li><strong>Annual failover test</strong> under controlled conditions &mdash; confirm the standby actually takes over, sessions remain functional, vault contents readable from the standby. Test the inverse failback too. Results logged in the asset record.</li>
-          <li><strong>DR (separate from HA).</strong> Backups (Step 8) and the break-glass procedure (Step 7) cover the case where both HA nodes are unreachable.</li>
+          <li>Replication includes vault contents, configuration, and session-recording metadata</span></li>
+          <li><span><strong>Annual failover test</strong> under controlled conditions &mdash; confirm the standby actually takes over, sessions remain functional, vault contents readable from the standby. Test the inverse failback too. Results logged in the asset record.</span></li>
+          <li><span><strong>DR (separate from HA).</strong> Backups (Step 8) and the break-glass procedure (Step 7) cover the case where both HA nodes are unreachable.</span></li>
         </ul>
         <p>For PAM, HA is not a Tier 0 / Tier 1 distinction &mdash; <strong>every production PAM platform is HA</strong>. There is no "Tier 3 PAM"; if it manages credentials in production, it's high-value.</p>
         <div class="step-verify"><strong>Verify.</strong> Trigger controlled failover; standby takes over; existing sessions either continue (active/active) or reconnect cleanly (active/standby). Run a privileged-access request end-to-end on the failed-over node. Failback test logged.</div>
@@ -255,11 +255,11 @@
         <p>What "break-glass" means in PAM context: PAM is unreachable for any reason (HA failure, network isolation, ransomware, vendor outage); the organisation needs to recover access to one or more target systems whose credentials are held in PAM.</p>
         <h3>Components:</h3>
         <ul>
-          <li><strong>Break-glass credential set</strong> &mdash; a small documented set of "last resort" credentials for the most critical target systems (Tier 0 domain admin, core network device emergency accounts, virtualisation platform emergency accounts, the PAM platform's own local break-glass account)</li>
-          <li><strong>Storage location independent of PAM</strong> &mdash; physical safe (sealed envelopes with check-in/check-out log), separate password manager unrelated to the PAM platform, or a documented split-secret arrangement among named individuals. The storage must be reachable when the PAM platform is not.</li>
-          <li><strong>Access control to break-glass storage</strong> &mdash; defined approvers (typically IT Operations Lead, Head of IAE, with a senior leadership escalation path); a check-out logged in writing (the physical safe approach makes this easy)</li>
-          <li><strong>Documented recovery procedure</strong> &mdash; the steps to follow: who to call, how to access the break-glass store, what credentials are available, how to restore PAM service afterwards, how to rotate all credentials that were exposed during break-glass</li>
-          <li><strong>Post-break-glass response</strong> &mdash; every credential exposed during break-glass is rotated within 24 hours of PAM recovery. Every action taken during break-glass is logged manually and reconciled with normal audit when PAM returns.</li>
+          <li><span><strong>Break-glass credential set</strong> &mdash; a small documented set of "last resort" credentials for the most critical target systems (Tier 0 domain admin, core network device emergency accounts, virtualisation platform emergency accounts, the PAM platform's own local break-glass account)</span></li>
+          <li><span><strong>Storage location independent of PAM</strong> &mdash; physical safe (sealed envelopes with check-in/check-out log), separate password manager unrelated to the PAM platform, or a documented split-secret arrangement among named individuals. The storage must be reachable when the PAM platform is not.</span></li>
+          <li><span><strong>Access control to break-glass storage</strong> &mdash; defined approvers (typically IT Operations Lead, Head of IAE, with a senior leadership escalation path); a check-out logged in writing (the physical safe approach makes this easy)</span></li>
+          <li><span><strong>Documented recovery procedure</strong> &mdash; the steps to follow: who to call, how to access the break-glass store, what credentials are available, how to restore PAM service afterwards, how to rotate all credentials that were exposed during break-glass</span></li>
+          <li><span><strong>Post-break-glass response</strong> &mdash; every credential exposed during break-glass is rotated within 24 hours of PAM recovery. Every action taken during break-glass is logged manually and reconciled with normal audit when PAM returns.</span></li>
           <li><strong>Annual test</strong> &mdash; under controlled conditions (production PAM remains running; the test simulates unavailability), the team executes the break-glass procedure end-to-end:
             <ul style="margin-top:4px;">
               <li>Approvers contacted in the documented escalation chain</li>
@@ -273,10 +273,10 @@
         </ul>
         <h3>Common pitfalls:</h3>
         <ul>
-          <li><strong>Break-glass credentials that have themselves expired</strong> &mdash; the procedure that hasn't been tested in two years discovers the emergency credentials no longer work (account locked, password rotated by automation that nobody flagged). Annual testing catches this.</li>
-          <li><strong>Approvers unreachable</strong> &mdash; the named approver left the company eighteen months ago. Quarterly review of the approver list against current HR data.</li>
-          <li><strong>Single-person break-glass</strong> &mdash; if only one person knows the safe combination, illness or unavailability is a problem. Split-knowledge or multiple approvers.</li>
-          <li><strong>Break-glass that depends on PAM</strong> &mdash; e.g. the break-glass credentials are stored "securely" in a network share whose access requires the AD admin password from PAM. Defeats the purpose entirely.</li>
+          <li><span><strong>Break-glass credentials that have themselves expired</strong> &mdash; the procedure that hasn't been tested in two years discovers the emergency credentials no longer work (account locked, password rotated by automation that nobody flagged). Annual testing catches this.</span></li>
+          <li><span><strong>Approvers unreachable</strong> &mdash; the named approver left the company eighteen months ago. Quarterly review of the approver list against current HR data.</span></li>
+          <li><span><strong>Single-person break-glass</strong> &mdash; if only one person knows the safe combination, illness or unavailability is a problem. Split-knowledge or multiple approvers.</span></li>
+          <li><span><strong>Break-glass that depends on PAM</strong> &mdash; e.g. the break-glass credentials are stored "securely" in a network share whose access requires the AD admin password from PAM. Defeats the purpose entirely.</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Break-glass procedure document is current. Storage location is reachable and the credentials are valid (annual test). Approver list reconciles with current HR. Last annual test completed within 12 months and documented.</div>
         <span class="cis-ref">PAM: "break-glass procedure"</span>
@@ -291,13 +291,13 @@
       <div class="step-body">
         <p>Backup discipline:</p>
         <ul>
-          <li><strong>Vault data backed up</strong> per the organisation backup policy &mdash; encrypted; off-platform; ideally off-site</li>
-          <li><strong>Backup encryption keys</strong> not stored exclusively on the PAM platform (otherwise a destroyed PAM means the backup is unreadable). Keys stored in HSM, separate vault, or escrow per Step 1's backup-key handling.</li>
-          <li><strong>Backup frequency</strong> appropriate to recovery point objective &mdash; typically daily, with the most recent N days retained on-line</li>
-          <li><strong>Backup integrity</strong> verified on write (vendor checksum or signature)</li>
-          <li><strong>Restore test annually</strong> &mdash; restore the backup to a non-production environment; verify vault contents readable; verify session-recording metadata intact; verify configuration restorable. Log the test results.</li>
-          <li><strong>Restore time objective</strong> documented for the PAM platform; the recovery procedure (full restore from backup, not break-glass) is timed during the annual test</li>
-          <li><strong>Backup destination security</strong> &mdash; the backup target inherits high-value classification; its access controls match the PAM platform's</li>
+          <li><span><strong>Vault data backed up</strong> per the organisation backup policy &mdash; encrypted; off-platform; ideally off-site</span></li>
+          <li><span><strong>Backup encryption keys</strong> not stored exclusively on the PAM platform (otherwise a destroyed PAM means the backup is unreadable). Keys stored in HSM, separate vault, or escrow per Step 1's backup-key handling.</span></li>
+          <li><span><strong>Backup frequency</strong> appropriate to recovery point objective &mdash; typically daily, with the most recent N days retained on-line</span></li>
+          <li><span><strong>Backup integrity</strong> verified on write (vendor checksum or signature)</span></li>
+          <li><span><strong>Restore test annually</strong> &mdash; restore the backup to a non-production environment; verify vault contents readable; verify session-recording metadata intact; verify configuration restorable. Log the test results.</span></li>
+          <li><span><strong>Restore time objective</strong> documented for the PAM platform; the recovery procedure (full restore from backup, not break-glass) is timed during the annual test</span></li>
+          <li><span><strong>Backup destination security</strong> &mdash; the backup target inherits high-value classification; its access controls match the PAM platform's</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Backups completing on schedule. Last restore test within 12 months and documented. Backup encryption keys location confirmed independent of PAM.</div>
         <span class="cis-ref">PAM: "backup &amp; restore"</span>
@@ -312,12 +312,12 @@
       <div class="step-body">
         <p>Network placement:</p>
         <ul>
-          <li><strong>Management plane</strong> on a dedicated management network (per WI-01 step 4); unreachable from data-plane VLANs</li>
-          <li><strong>Brokering interface</strong> (the interface end-users connect to when they request a privileged session) reachable only from defined administrative networks: NOC, jump-net, named administrator subnets. Not internet-facing. Not reachable from general corporate user VLANs.</li>
-          <li><strong>Target-side interface</strong> (the interface that connects to the target systems being brokered) reachable to target networks only; firewall rules restrict to documented paths and target-system management ports</li>
-          <li><strong>API interface</strong> (where automation calls PAM) similarly restricted to known automation sources; certificate-authenticated where possible</li>
-          <li><strong>Vendor cloud connectivity</strong> &mdash; if the PAM platform connects to vendor cloud (for updates, telemetry, support tunnel), the connection is documented, restricted to vendor-published IP ranges, and explicitly logged. Vendor support-tunnel access requires named on-platform approval at the time of need (not standing-on).</li>
-          <li><strong>For cloud-hosted PAM</strong> (PAM appliance running in IaaS or vendor-cloud SaaS), the equivalent controls are at the cloud network-security layer (NSG, security groups, private endpoints, vendor-published IP allow-lists)</li>
+          <li><span><strong>Management plane</strong> on a dedicated management network (per WI-01 step 4); unreachable from data-plane VLANs</span></li>
+          <li><span><strong>Brokering interface</strong> (the interface end-users connect to when they request a privileged session) reachable only from defined administrative networks: NOC, jump-net, named administrator subnets. Not internet-facing. Not reachable from general corporate user VLANs.</span></li>
+          <li><span><strong>Target-side interface</strong> (the interface that connects to the target systems being brokered) reachable to target networks only; firewall rules restrict to documented paths and target-system management ports</span></li>
+          <li><span><strong>API interface</strong> (where automation calls PAM) similarly restricted to known automation sources; certificate-authenticated where possible</span></li>
+          <li><span><strong>Vendor cloud connectivity</strong> &mdash; if the PAM platform connects to vendor cloud (for updates, telemetry, support tunnel), the connection is documented, restricted to vendor-published IP ranges, and explicitly logged. Vendor support-tunnel access requires named on-platform approval at the time of need (not standing-on).</span></li>
+          <li><span><strong>For cloud-hosted PAM</strong> (PAM appliance running in IaaS or vendor-cloud SaaS), the equivalent controls are at the cloud network-security layer (NSG, security groups, private endpoints, vendor-published IP allow-lists)</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> From a general corporate VLAN, attempt connection to the PAM brokering interface; refused. From a data-plane VLAN, attempt connection to the management interface; refused. Document network paths in the architecture diagram; archived in the asset record.</div>
         <span class="cis-ref">PAM: "network exposure"</span>
@@ -332,14 +332,14 @@
       <div class="step-body">
         <p>Beyond the standard syslog from WI-01 step 7, PAM-specific event coverage:</p>
         <ul>
-          <li><strong>Privileged session lifecycle:</strong> start (with user, target, approver, justification reference), end (with duration), failed authentication, denied access requests</li>
-          <li><strong>Command execution where captured</strong> &mdash; high-value commands on Tier 0 targets (user-add, sudo, registry edits, GPO changes) logged separately from session-recording for easier correlation</li>
-          <li><strong>JIT grant lifecycle:</strong> request submitted, approver action, grant active, grant expired, grant manually revoked</li>
-          <li><strong>Vault access:</strong> credential retrievals (who, what credential, when); credential rotations (scheduled vs manual); credential resets</li>
-          <li><strong>Integrity events:</strong> session-recording integrity check failures; tampered-record alerts; vault integrity warnings</li>
-          <li><strong>Admin actions:</strong> any change to PAM configuration, access policies, eligibility lists, target system definitions</li>
-          <li><strong>Anomaly detection</strong> in SIEM &mdash; off-hours privileged sessions; access to seldom-used targets; high-volume credential retrievals; geographic anomalies (where applicable). These are SOC playbook items.</li>
-          <li><strong>Retention</strong> matches session-recording retention (typically 1 year minimum, longer per regulation); enforced at the SIEM tier in addition to the platform</li>
+          <li><span><strong>Privileged session lifecycle:</strong> start (with user, target, approver, justification reference), end (with duration), failed authentication, denied access requests</span></li>
+          <li><span><strong>Command execution where captured</strong> &mdash; high-value commands on Tier 0 targets (user-add, sudo, registry edits, GPO changes) logged separately from session-recording for easier correlation</span></li>
+          <li><span><strong>JIT grant lifecycle:</strong> request submitted, approver action, grant active, grant expired, grant manually revoked</span></li>
+          <li><span><strong>Vault access:</strong> credential retrievals (who, what credential, when); credential rotations (scheduled vs manual); credential resets</span></li>
+          <li><span><strong>Integrity events:</strong> session-recording integrity check failures; tampered-record alerts; vault integrity warnings</span></li>
+          <li><span><strong>Admin actions:</strong> any change to PAM configuration, access policies, eligibility lists, target system definitions</span></li>
+          <li><span><strong>Anomaly detection</strong> in SIEM &mdash; off-hours privileged sessions; access to seldom-used targets; high-volume credential retrievals; geographic anomalies (where applicable). These are SOC playbook items.</span></li>
+          <li><span><strong>Retention</strong> matches session-recording retention (typically 1 year minimum, longer per regulation); enforced at the SIEM tier in addition to the platform</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Trigger a sample of each PAM event type; confirm SIEM ingestion. SOC has playbooks for the anomaly classes. Retention configured per policy.</div>
         <span class="cis-ref">PAM: "privileged session events"</span>
@@ -359,7 +359,7 @@
       <li>JIT access workflow functional; sample grant completed end-to-end</li>
       <li>Identity-source integration: only break-glass account in local DB; leaver workflow removes access</li>
       <li>HA failover tested annually; both members healthy</li>
-      <li><strong>Break-glass procedure tested annually</strong>; results logged; gaps remediated</li>
+      <li><span><strong>Break-glass procedure tested annually</strong>; results logged; gaps remediated</span></li>
       <li>Vault backup completing; restore tested annually</li>
       <li>Network exposure verified by attempted-connection tests from unauthorised networks (refused)</li>
       <li>Privileged session events flowing to SIEM with extended retention</li>
@@ -393,13 +393,13 @@
 
     <h3>Common scenarios</h3>
     <ul class="wi-bullet">
-      <li><strong>Identity-source integration lost; nobody can log in</strong> &mdash; cause: directory configuration error, certificate expired on the SAML trust, group mapping broken after a directory change. <strong>Use the break-glass local account.</strong> This is what it's for. Restore directory integration; rotate any credentials exposed during break-glass.</li>
-      <li><strong>HSM unreachable; vault operations failing</strong> &mdash; cause: HSM connectivity issue, partition key issue, HSM firmware update. The PAM platform may continue serving cached credentials briefly but will degrade. Engage HSM vendor; restore HSM connectivity; verify vault operations resume. If HSM is unrecoverable: backup-key recovery procedure from Step 1.</li>
-      <li><strong>HA failover left the platform in a split-brain state</strong> &mdash; cause: replication link failed during the failover. Identify the authoritative member (which one served traffic); demote the other; force re-sync. Engage vendor TAC for severe splits.</li>
-      <li><strong>JIT enforcement broke a scheduled automation</strong> &mdash; cause: an automation that relied on standing access now needs JIT, but no JIT workflow was set up for it. Fix: emergency standing-access exception with sunset date; properly engineer JIT-compatible automation before sunset.</li>
-      <li><strong>Recording integrity alert turned out to be a false positive</strong> &mdash; cause: clock skew, replication-induced re-hash. Verify the actual integrity (manual hash check); fix the underlying cause; document. Treat with suspicion: in PAM, "false positive" is the default explanation, but verify rather than dismiss.</li>
-      <li><strong>Break-glass test revealed credentials don't work</strong> &mdash; cause: the break-glass credentials were rotated by an automated job that nobody flagged for break-glass exclusion. Fix: re-establish working break-glass credentials immediately (this is now a real gap, not a hypothetical); investigate the rotation job; exclude break-glass from automatic rotation explicitly.</li>
-      <li><strong>Backup restore test revealed missing data</strong> &mdash; cause: vendor backup quirk that didn't include a particular configuration scope. Fix: engage vendor; expand backup scope; re-test. Treat as a baseline finding.</li>
+      <li><span><strong>Identity-source integration lost; nobody can log in</strong> &mdash; cause: directory configuration error, certificate expired on the SAML trust, group mapping broken after a directory change. <strong>Use the break-glass local account.</strong> This is what it's for. Restore directory integration; rotate any credentials exposed during break-glass.</span></li>
+      <li><span><strong>HSM unreachable; vault operations failing</strong> &mdash; cause: HSM connectivity issue, partition key issue, HSM firmware update. The PAM platform may continue serving cached credentials briefly but will degrade. Engage HSM vendor; restore HSM connectivity; verify vault operations resume. If HSM is unrecoverable: backup-key recovery procedure from Step 1.</span></li>
+      <li><span><strong>HA failover left the platform in a split-brain state</strong> &mdash; cause: replication link failed during the failover. Identify the authoritative member (which one served traffic); demote the other; force re-sync. Engage vendor TAC for severe splits.</span></li>
+      <li><span><strong>JIT enforcement broke a scheduled automation</strong> &mdash; cause: an automation that relied on standing access now needs JIT, but no JIT workflow was set up for it. Fix: emergency standing-access exception with sunset date; properly engineer JIT-compatible automation before sunset.</span></li>
+      <li><span><strong>Recording integrity alert turned out to be a false positive</strong> &mdash; cause: clock skew, replication-induced re-hash. Verify the actual integrity (manual hash check); fix the underlying cause; document. Treat with suspicion: in PAM, "false positive" is the default explanation, but verify rather than dismiss.</span></li>
+      <li><span><strong>Break-glass test revealed credentials don't work</strong> &mdash; cause: the break-glass credentials were rotated by an automated job that nobody flagged for break-glass exclusion. Fix: re-establish working break-glass credentials immediately (this is now a real gap, not a hypothetical); investigate the rotation job; exclude break-glass from automatic rotation explicitly.</span></li>
+      <li><span><strong>Backup restore test revealed missing data</strong> &mdash; cause: vendor backup quirk that didn't include a particular configuration scope. Fix: engage vendor; expand backup scope; re-test. Treat as a baseline finding.</span></li>
     </ul>
 
     <h3>Rollback procedure</h3>
@@ -418,18 +418,18 @@
   <div class="wi-section">
     <div class="wi-section-label">Common errors &amp; tips</div>
     <ul class="wi-bullet">
-      <li><strong>Untested break-glass is the single biggest implementation gap.</strong> If the procedure isn't tested annually, it's not real. Test it. Schedule the next test before closing this WI.</li>
-      <li><strong>Break-glass credentials excluded from automated rotation.</strong> Document this exclusion explicitly in the rotation job; otherwise routine rotation breaks the break-glass.</li>
-      <li><strong>Don't store break-glass credentials in a system protected by PAM.</strong> Circular dependency that defeats the entire purpose.</li>
-      <li><strong>HSM is genuinely worth it for Tier 0 PAM.</strong> The encryption key on the appliance is the single most valuable secret in the organisation. If a compromise of the PAM appliance compromises the key, the vault encryption is theatre.</li>
-      <li><strong>Session broker is Tier 0 regardless of what it brokers to.</strong> If it can reach a Tier 0 target, it's Tier 0. Patch it accordingly; harden it accordingly.</li>
-      <li><strong>Recording integrity needs storage that defeats PAM admins.</strong> If PAM admins can edit or delete recordings, the audit trail isn't trustworthy. Write-once storage with retention lock at the storage tier (not the application tier) is the right control.</li>
-      <li><strong>JIT enforcement breaks legacy automation.</strong> Expect to discover automations that "always had access" but were never properly engineered. Build the JIT-compatible automation; sunset the standing-access exception.</li>
-      <li><strong>AAL3 requires hardware authenticators.</strong> Plan the provisioning before enforcing; otherwise Tier 0 access is impossible from the moment AAL3 is enforced.</li>
-      <li><strong>HA replication health is not a "set and forget".</strong> Monitor it; alert on degraded sync; investigate within hours, not days. A PAM HA pair that has silently desynced is a single point of failure with a comforting illusion.</li>
-      <li><strong>The post-break-glass credential-rotation step is often skipped under stress.</strong> Build it into the procedure as a non-skippable step; assign explicit responsibility; track to completion.</li>
-      <li><strong>For SaaS-hosted PAM</strong>, many of these controls are vendor-administered. The tenant-administered controls (MFA, JIT policy, recording-retention configuration, network access lists) still apply. Confirm via vendor SOC 2 or equivalent attestation what's vendor's vs tenant's; document the boundary.</li>
-      <li><strong>Identity governance for PAM &mdash; rotation cadences, JIT approval policy, recording retention &mdash; live in the future Identity domain SOP.</strong> This WI covers platform hardening, not governance. Where the boundary is unclear (e.g. "what's the right JIT duration"), defer to that future SOP; in the interim, default to the conservative end of the typical range.</li>
+      <li><span><strong>Untested break-glass is the single biggest implementation gap.</strong> If the procedure isn't tested annually, it's not real. Test it. Schedule the next test before closing this WI.</span></li>
+      <li><span><strong>Break-glass credentials excluded from automated rotation.</strong> Document this exclusion explicitly in the rotation job; otherwise routine rotation breaks the break-glass.</span></li>
+      <li><span><strong>Don't store break-glass credentials in a system protected by PAM.</strong> Circular dependency that defeats the entire purpose.</span></li>
+      <li><span><strong>HSM is genuinely worth it for Tier 0 PAM.</strong> The encryption key on the appliance is the single most valuable secret in the organisation. If a compromise of the PAM appliance compromises the key, the vault encryption is theatre.</span></li>
+      <li><span><strong>Session broker is Tier 0 regardless of what it brokers to.</strong> If it can reach a Tier 0 target, it's Tier 0. Patch it accordingly; harden it accordingly.</span></li>
+      <li><span><strong>Recording integrity needs storage that defeats PAM admins.</strong> If PAM admins can edit or delete recordings, the audit trail isn't trustworthy. Write-once storage with retention lock at the storage tier (not the application tier) is the right control.</span></li>
+      <li><span><strong>JIT enforcement breaks legacy automation.</strong> Expect to discover automations that "always had access" but were never properly engineered. Build the JIT-compatible automation; sunset the standing-access exception.</span></li>
+      <li><span><strong>AAL3 requires hardware authenticators.</strong> Plan the provisioning before enforcing; otherwise Tier 0 access is impossible from the moment AAL3 is enforced.</span></li>
+      <li><span><strong>HA replication health is not a "set and forget".</strong> Monitor it; alert on degraded sync; investigate within hours, not days. A PAM HA pair that has silently desynced is a single point of failure with a comforting illusion.</span></li>
+      <li><span><strong>The post-break-glass credential-rotation step is often skipped under stress.</strong> Build it into the procedure as a non-skippable step; assign explicit responsibility; track to completion.</span></li>
+      <li><span><strong>For SaaS-hosted PAM</strong>, many of these controls are vendor-administered. The tenant-administered controls (MFA, JIT policy, recording-retention configuration, network access lists) still apply. Confirm via vendor SOC 2 or equivalent attestation what's vendor's vs tenant's; document the boundary.</span></li>
+      <li><span><strong>Identity governance for PAM &mdash; rotation cadences, JIT approval policy, recording retention &mdash; live in the future Identity domain SOP.</strong> This WI covers platform hardening, not governance. Where the boundary is unclear (e.g. "what's the right JIT duration"), defer to that future SOP; in the interim, default to the conservative end of the typical range.</span></li>
     </ul>
   </div>
 
