@@ -260,7 +260,7 @@
           <li><span><strong>Access control to break-glass storage</strong> &mdash; defined approvers (typically IT Operations Lead, Head of IAE, with a senior leadership escalation path); a check-out logged in writing (the physical safe approach makes this easy)</span></li>
           <li><span><strong>Documented recovery procedure</strong> &mdash; the steps to follow: who to call, how to access the break-glass store, what credentials are available, how to restore PAM service afterwards, how to rotate all credentials that were exposed during break-glass</span></li>
           <li><span><strong>Post-break-glass response</strong> &mdash; every credential exposed during break-glass is rotated within 24 hours of PAM recovery. Every action taken during break-glass is logged manually and reconciled with normal audit when PAM returns.</span></li>
-          <li><strong>Annual test</strong> &mdash; under controlled conditions (production PAM remains running; the test simulates unavailability), the team executes the break-glass procedure end-to-end:
+          <li><span><strong>Annual test</strong> &mdash; under controlled conditions (production PAM remains running; the test simulates unavailability), the team executes the break-glass procedure end-to-end:</span><li>
             <ul style="margin-top:4px;">
               <li>Approvers contacted in the documented escalation chain</li>
               <li>Break-glass storage accessed and credentials retrieved</li>
