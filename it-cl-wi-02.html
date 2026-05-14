@@ -158,7 +158,7 @@
         <ul>
           <li><span><strong>SPF</strong> &mdash; TXT record per domain listing authorised senders, ending in <code>-all</code> (hard fail) or <code>~all</code> (soft fail). For M365 the base: <code>v=spf1 include:spf.protection.outlook.com -all</code>. Add include records for other legitimate senders (marketing platforms, ticketing systems) that send as the domain.</span></li>
           <li><span><strong>DKIM</strong> &mdash; enable in the Defender portal (<em>Policies &amp; rules &rarr; Email authentication &rarr; DKIM</em>) for each accepted domain; rotate the key pair annually; ensure the published CNAMEs point to Microsoft's selectors</span></li>
-          <li><span><strong>DMARC</strong> &mdash; TXT record at <code>_dmarc.&lt;domain&gt;</code>; deploy progressively:</span>
+          <li><span><strong>DMARC</strong> &mdash; TXT record at <code>_dmarc.&lt;domain&gt;</code>; deploy progressively:</span></li>
             <ul>
               <li>Phase 1: <code>p=none; rua=mailto:dmarc-reports@&lt;domain&gt;</code> (monitor only; collect reports for 30&ndash;60 days)</li>
               <li>Phase 2: <code>p=quarantine; pct=25</code> &rarr; <code>pct=100</code> (gradual enforcement)</li>
