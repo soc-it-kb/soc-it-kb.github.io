@@ -131,11 +131,11 @@
       <div class="step-body">
         <p>Define golden configurations:</p>
         <ul>
-          <li><strong>Per device class</strong> &mdash; access switch, distribution switch, core switch, branch router, edge firewall, internal firewall, wireless controller, wireless AP</li>
-          <li><strong>Per agency where needed</strong> &mdash; if agencies have different conventions (VLAN IDs, IP ranges), document agency variations as named overlays on the base golden config</li>
-          <li><strong>Template format</strong> &mdash; configuration as code where possible (Jinja2 templates, vendor templating systems, IaC tools)</li>
-          <li><strong>Storage</strong> &mdash; version-controlled repository (Git), reviewed by Network Engineering before changes are accepted</li>
-          <li><strong>Variables</strong> &mdash; hostname, IP, VLAN IDs are variables; the structural configuration is templated</li>
+          <li><span><strong>Per device class</strong> &mdash; access switch, distribution switch, core switch, branch router, edge firewall, internal firewall, wireless controller, wireless AP</span></li>
+          <li><span><strong>Per agency where needed</strong> &mdash; if agencies have different conventions (VLAN IDs, IP ranges), document agency variations as named overlays on the base golden config</span></li>
+          <li><span><strong>Template format</strong> &mdash; configuration as code where possible (Jinja2 templates, vendor templating systems, IaC tools)</span></li>
+          <li><span><strong>Storage</strong> &mdash; version-controlled repository (Git), reviewed by Network Engineering before changes are accepted</span></li>
+          <li><span><strong>Variables</strong> &mdash; hostname, IP, VLAN IDs are variables; the structural configuration is templated</span></li>
         </ul>
         <p>The golden config is not the entire running configuration of any one device &mdash; it's the security-relevant structure that should be the same across the class.</p>
         <div class="step-verify"><strong>Verify.</strong> A golden config exists for each device class in scope. It is in version control. It is documented (purpose, last updated, owner). Spot-check: render the template for a real device; compare to expected.</div>
@@ -151,11 +151,11 @@
       <div class="step-body">
         <p>Backup configuration:</p>
         <ul>
-          <li><strong>Frequency</strong> &mdash; daily for Tier 0/1 devices, weekly for Tier 2/3; on every configuration change for any tier where the tooling supports it</li>
-          <li><strong>Destination</strong> &mdash; central repository, not on the device itself; not vendor-cloud-only (vendor outage shouldn't lock you out of recovery)</li>
-          <li><strong>Retention</strong> &mdash; 90 days minimum of historical backups for Tier 0/1; 30 days for Tier 2/3</li>
-          <li><strong>Encryption</strong> &mdash; backups encrypted at rest; passwords and shared secrets in backups treated as Confidential L3 minimum</li>
-          <li><strong>Tested restore</strong> &mdash; annual restoration test (controlled lab device) confirms the backups are usable</li>
+          <li><span><strong>Frequency</strong> &mdash; daily for Tier 0/1 devices, weekly for Tier 2/3; on every configuration change for any tier where the tooling supports it</span></li>
+          <li><span><strong>Destination</strong> &mdash; central repository, not on the device itself; not vendor-cloud-only (vendor outage shouldn't lock you out of recovery)</span></li>
+          <li><span><strong>Retention</strong> &mdash; 90 days minimum of historical backups for Tier 0/1; 30 days for Tier 2/3</span></li>
+          <li><span><strong>Encryption</strong> &mdash; backups encrypted at rest; passwords and shared secrets in backups treated as Confidential L3 minimum</span></li>
+          <li><span><strong>Tested restore</strong> &mdash; annual restoration test (controlled lab device) confirms the backups are usable</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Backup system shows recent successful backups for all in-scope devices. Pull a backup from a week ago; confirm it is intact and contains expected content. Run an annual restore test and document results.</div>
         <span class="cis-ref">CIS Configuration management: "backup &amp; recovery"</span>
@@ -170,11 +170,11 @@
       <div class="step-body">
         <p>Change control elements:</p>
         <ul>
-          <li><strong>Standard change</strong> &mdash; pre-approved, low-risk, repeatable (e.g. add a documented user to AAA, enable a port from the unused pool). Logged, not individually approved.</li>
-          <li><strong>Normal change</strong> &mdash; reviewed and approved via change advisory board or equivalent. Most rule changes, firmware updates, topology changes.</li>
-          <li><strong>Emergency change</strong> &mdash; rapid path for security-related fixes (close an open management port, block a malicious source). Expedited approval, post-hoc review within 5 working days.</li>
-          <li><strong>Change record</strong> &mdash; what was changed, why, who reviewed, who applied, when, how it was verified, rollback path</li>
-          <li><strong>Maintenance windows</strong> &mdash; defined by tier and operational impact; coordinated across operating units for shared infrastructure</li>
+          <li><span><strong>Standard change</strong> &mdash; pre-approved, low-risk, repeatable (e.g. add a documented user to AAA, enable a port from the unused pool). Logged, not individually approved.</span></li>
+          <li><span><strong>Normal change</strong> &mdash; reviewed and approved via change advisory board or equivalent. Most rule changes, firmware updates, topology changes.</span></li>
+          <li><span><strong>Emergency change</strong> &mdash; rapid path for security-related fixes (close an open management port, block a malicious source). Expedited approval, post-hoc review within 5 working days.</span></li>
+          <li><span><strong>Change record</strong> &mdash; what was changed, why, who reviewed, who applied, when, how it was verified, rollback path</span></li>
+          <li><span><strong>Maintenance windows</strong> &mdash; defined by tier and operational impact; coordinated across operating units for shared infrastructure</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Sample recent changes; each has a change record with the required fields. Sample emergency changes; each has a post-hoc review entry.</div>
         <span class="cis-ref">CIS Configuration management: "change control"</span>
@@ -320,25 +320,25 @@
 
     <h3>Common scenarios</h3>
     <ul class="wi-bullet">
-      <li><strong>Backup tool fails for a class of devices</strong> &mdash; cause: credential change, network path change, vendor protocol change. Fix: investigate, restore the tool, verify backups resume; meanwhile take manual configuration snapshots.</li>
-      <li><strong>Drift detection generating excessive false positives</strong> &mdash; cause: golden config doesn't accurately reflect legitimate variability (timestamp counters, dynamic state). Fix: tune the drift comparator to suppress incidental fields.</li>
-      <li><strong>Change-control workflow blocking emergency fix</strong> &mdash; cause: emergency-change path not properly documented or not followed. Fix: invoke the emergency path; conduct post-hoc review; refine the process so the next emergency is faster.</li>
-      <li><strong>Firmware update broke production</strong> &mdash; cause: insufficient pre-prod testing or unknown bug. Fix: rollback firmware on affected device using vendor-supported downgrade path; investigate; engage vendor TAC; pause further rollout.</li>
-      <li><strong>Decommissioned device data discovered after disposal</strong> &mdash; cause: configuration backup missed before reset, or backup discarded before retention met. Fix: investigate; if data is recoverable from other sources do so; if not, document the loss and update the decommissioning procedure.</li>
+      <li><span><strong>Backup tool fails for a class of devices</strong> &mdash; cause: credential change, network path change, vendor protocol change. Fix: investigate, restore the tool, verify backups resume; meanwhile take manual configuration snapshots.</span></li>
+      <li><span><strong>Drift detection generating excessive false positives</strong> &mdash; cause: golden config doesn't accurately reflect legitimate variability (timestamp counters, dynamic state). Fix: tune the drift comparator to suppress incidental fields.</span></li>
+      <li><span><strong>Change-control workflow blocking emergency fix</strong> &mdash; cause: emergency-change path not properly documented or not followed. Fix: invoke the emergency path; conduct post-hoc review; refine the process so the next emergency is faster.</span></li>
+      <li><span><strong>Firmware update broke production</strong> &mdash; cause: insufficient pre-prod testing or unknown bug. Fix: rollback firmware on affected device using vendor-supported downgrade path; investigate; engage vendor TAC; pause further rollout.</span></li>
+      <li><span><strong>Decommissioned device data discovered after disposal</strong> &mdash; cause: configuration backup missed before reset, or backup discarded before retention met. Fix: investigate; if data is recoverable from other sources do so; if not, document the loss and update the decommissioning procedure.</span></li>
     </ul>
   </div>
 
   <div class="wi-section">
     <div class="wi-section-label">Common errors &amp; tips</div>
     <ul class="wi-bullet">
-      <li><strong>"Golden config" is not the device's running config snapshot.</strong> It's the security-relevant structure; device-specific values (IPs, hostnames) are variables. Confusing these wastes time on differences that don't matter.</li>
-      <li><strong>Backup to a vendor cloud is not enough.</strong> Vendor outages happen; backups should be retrievable independent of vendor service availability. Keep a local copy.</li>
-      <li><strong>Change records that say "fixed it" are not records.</strong> Capture what was changed, the rationale, the verification steps; future-you (and the auditor) will need them.</li>
-      <li><strong>Drift detection without an owner is theatre.</strong> Generate the report, but the report only matters if drift items are closed; otherwise you're cataloguing the absence of discipline.</li>
-      <li><strong>"Latest firmware" isn't always the safest.</strong> New releases sometimes introduce bugs; vendor recommendations (and your own canary deployments) inform the right version to be on. Stay current, but stay informed.</li>
-      <li><strong>Lab device drift is not "lab problems".</strong> A lab device with production credentials is a production exposure. Treat lab isolation as a real control.</li>
-      <li><strong>OOB is not "the network we don't have to harden".</strong> If anything, OOB needs more discipline because it bypasses production monitoring and incident response.</li>
-      <li><strong>Maintain the golden config under the same change discipline as the devices.</strong> Otherwise the golden becomes a fiction that nothing actually matches.</li>
+      <li><span><strong>"Golden config" is not the device's running config snapshot.</strong> It's the security-relevant structure; device-specific values (IPs, hostnames) are variables. Confusing these wastes time on differences that don't matter.</span></li>
+      <li><span><strong>Backup to a vendor cloud is not enough.</strong> Vendor outages happen; backups should be retrievable independent of vendor service availability. Keep a local copy.</span></li>
+      <li><span><strong>Change records that say "fixed it" are not records.</strong> Capture what was changed, the rationale, the verification steps; future-you (and the auditor) will need them.</span></li>
+      <li><span><strong>Drift detection without an owner is theatre.</strong> Generate the report, but the report only matters if drift items are closed; otherwise you're cataloguing the absence of discipline.</span></li>
+      <li><span><strong>"Latest firmware" isn't always the safest.</strong> New releases sometimes introduce bugs; vendor recommendations (and your own canary deployments) inform the right version to be on. Stay current, but stay informed.</span></li>
+      <li><span><strong>Lab device drift is not "lab problems".</strong> A lab device with production credentials is a production exposure. Treat lab isolation as a real control.</span></li>
+      <li><span><strong>OOB is not "the network we don't have to harden".</strong> If anything, OOB needs more discipline because it bypasses production monitoring and incident response.</span></li>
+      <li><span><strong>Maintain the golden config under the same change discipline as the devices.</strong> Otherwise the golden becomes a fiction that nothing actually matches.</span></li>
     </ul>
   </div>
 

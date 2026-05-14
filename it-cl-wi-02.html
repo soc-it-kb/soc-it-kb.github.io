@@ -136,12 +136,12 @@
       <div class="step-body">
         <p>Defender for Office 365 / Exchange Online Protection provides baseline anti-spam, anti-malware, and anti-phishing policies. Even A1 / E1 tenants get the basic policies.</p>
         <ul>
-          <li><strong>Anti-spam policy</strong> &mdash; the default policy is acceptable for most tenants; review and confirm bulk-email threshold (typically BCL 7), action for spam (Junk Folder), and action for high-confidence spam (Quarantine)</li>
-          <li><strong>Anti-malware policy</strong> &mdash; common-attachment filter enabled (blocks dangerous file types: <code>.exe</code>, <code>.scr</code>, <code>.js</code>, <code>.vbs</code>, <code>.bat</code>, <code>.ps1</code>, <code>.msi</code>, etc.); zero-hour auto-purge enabled</li>
-          <li><strong>Anti-phishing policy</strong> &mdash; impersonation protection enabled, targeting key users (executives, finance, named high-risk roles), mailbox intelligence on; spoof intelligence on; first-contact safety tips on</li>
-          <li><strong>External tagging</strong> &mdash; external email tagging enabled at organisation level (<code>Set-ExternalInOutlook</code>); messages from outside the organisation show a banner / tag in Outlook</li>
-          <li><strong>Quarantine notifications</strong> &mdash; user-level quarantine notification policy enabled so users see their quarantined messages</li>
-          <li><strong>Mailbox audit logging</strong> &mdash; on by default at tenant level; confirm enabled (<code>Get-OrganizationConfig | fl AuditDisabled</code> should show <code>False</code>)</li>
+          <li><span><strong>Anti-spam policy</strong> &mdash; the default policy is acceptable for most tenants; review and confirm bulk-email threshold (typically BCL 7), action for spam (Junk Folder), and action for high-confidence spam (Quarantine)</span></li>
+          <li><span><strong>Anti-malware policy</strong> &mdash; common-attachment filter enabled (blocks dangerous file types: <code>.exe</code>, <code>.scr</code>, <code>.js</code>, <code>.vbs</code>, <code>.bat</code>, <code>.ps1</code>, <code>.msi</code>, etc.); zero-hour auto-purge enabled</span></li>
+          <li><span><strong>Anti-phishing policy</strong> &mdash; impersonation protection enabled, targeting key users (executives, finance, named high-risk roles), mailbox intelligence on; spoof intelligence on; first-contact safety tips on</span></li>
+          <li><span><strong>External tagging</strong> &mdash; external email tagging enabled at organisation level (<code>Set-ExternalInOutlook</code>); messages from outside the organisation show a banner / tag in Outlook</span></li>
+          <li><span><strong>Quarantine notifications</strong> &mdash; user-level quarantine notification policy enabled so users see their quarantined messages</span></li>
+          <li><span><strong>Mailbox audit logging</strong> &mdash; on by default at tenant level; confirm enabled (<code>Get-OrganizationConfig | fl AuditDisabled</code> should show <code>False</code>)</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Send test phishing-like message from external account; quarantined or junk-foldered with banner. Test malware attachment (EICAR test file or controlled lab); blocked. External tag visible on inbound external messages.</div>
         <span class="cis-ref">CIS M365 2.1.x · Defender for Office 365 baselines</span>
@@ -156,18 +156,18 @@
       <div class="step-body">
         <p>SPF, DKIM, DMARC are DNS-level controls that the receiving side uses to verify sender authenticity. Configuring them correctly is the largest single anti-spoofing control available.</p>
         <ul>
-          <li><strong>SPF</strong> &mdash; TXT record per domain listing authorised senders, ending in <code>-all</code> (hard fail) or <code>~all</code> (soft fail). For M365 the base: <code>v=spf1 include:spf.protection.outlook.com -all</code>. Add include records for other legitimate senders (marketing platforms, ticketing systems) that send as the domain.</li>
-          <li><strong>DKIM</strong> &mdash; enable in the Defender portal (<em>Policies &amp; rules &rarr; Email authentication &rarr; DKIM</em>) for each accepted domain; rotate the key pair annually; ensure the published CNAMEs point to Microsoft's selectors</li>
-          <li><strong>DMARC</strong> &mdash; TXT record at <code>_dmarc.&lt;domain&gt;</code>; deploy progressively:
+          <li><span><strong>SPF</strong> &mdash; TXT record per domain listing authorised senders, ending in <code>-all</code> (hard fail) or <code>~all</code> (soft fail). For M365 the base: <code>v=spf1 include:spf.protection.outlook.com -all</code>. Add include records for other legitimate senders (marketing platforms, ticketing systems) that send as the domain.</span></li>
+          <li><span><strong>DKIM</strong> &mdash; enable in the Defender portal (<em>Policies &amp; rules &rarr; Email authentication &rarr; DKIM</em>) for each accepted domain; rotate the key pair annually; ensure the published CNAMEs point to Microsoft's selectors</span></li>
+          <li><span><strong>DMARC</strong> &mdash; TXT record at <code>_dmarc.&lt;domain&gt;</code>; deploy progressively:</span>
             <ul>
               <li>Phase 1: <code>p=none; rua=mailto:dmarc-reports@&lt;domain&gt;</code> (monitor only; collect reports for 30&ndash;60 days)</li>
               <li>Phase 2: <code>p=quarantine; pct=25</code> &rarr; <code>pct=100</code> (gradual enforcement)</li>
               <li>Phase 3: <code>p=reject</code> (target state)</li>
             </ul>
           </li>
-          <li><strong>DMARC report processing</strong> &mdash; either a third-party DMARC reporting service or in-house parsing of the <code>rua</code> reports; without this DMARC is opaque</li>
-          <li><strong>Subdomain policy</strong> &mdash; <code>sp=reject</code> to prevent attackers from spoofing subdomains the tenant doesn't actively use</li>
-          <li><strong>Reject parked / unused domains</strong> &mdash; for domains the organisation owns but doesn't send from, publish <code>v=spf1 -all</code> and DMARC <code>p=reject</code> immediately</li>
+          <li><span><strong>DMARC report processing</strong> &mdash; either a third-party DMARC reporting service or in-house parsing of the <code>rua</code> reports; without this DMARC is opaque</span></li>
+          <li><span><strong>Subdomain policy</strong> &mdash; <code>sp=reject</code> to prevent attackers from spoofing subdomains the tenant doesn't actively use</span></li>
+          <li><span><strong>Reject parked / unused domains</strong> &mdash; for domains the organisation owns but doesn't send from, publish <code>v=spf1 -all</code> and DMARC <code>p=reject</code> immediately</span></li>
         </ul>
         <div class="callout-info"><strong>Target: DMARC <code>p=reject</code>.</strong> <code>p=none</code> is a baseline starting point, not a destination. Each accepted domain progresses from <code>p=none</code> to <code>p=quarantine</code> to <code>p=reject</code> over a 90&ndash;180-day window with monitoring.</div>
         <div class="step-verify"><strong>Verify.</strong> External tool (mxtoolbox or equivalent) shows valid SPF and DMARC records for every accepted domain. Test message from a spoofed external source rejected by DMARC. DMARC reports being ingested.</div>
@@ -183,14 +183,14 @@
       <div class="step-body">
         <p>SharePoint Online and OneDrive default to permissive external sharing. Tighten at tenant level so individual users do not accidentally over-share.</p>
         <ul>
-          <li><strong>Tenant-level external sharing</strong> &mdash; SharePoint admin centre &rarr; Policies &rarr; Sharing. Default for most tenants: "New and existing guests" (not "Anyone"). For high-sensitivity tenants: "Existing guests" only. Reduce as needed per agency risk posture.</li>
-          <li><strong>OneDrive sharing</strong> can be more restrictive than SharePoint (e.g. SharePoint = New and existing guests; OneDrive = Existing guests only); set the lower limit deliberately</li>
-          <li><strong>Anonymous (Anyone) links</strong> &mdash; disabled by default; if enabled for a specific scenario, set link expiry (≤30 days) and link permissions (View, not Edit)</li>
-          <li><strong>Link defaults</strong> &mdash; default sharing link type "Specific people" not "Anyone with the link"; default link permission View not Edit</li>
-          <li><strong>Allow / block domains list</strong> &mdash; allow-list specific trusted external domains for sharing; block-list known competitors / high-risk domains. Allow-list mode is more restrictive than block-list and is preferred for sensitive tenants.</li>
-          <li><strong>Guest access expiration</strong> &mdash; guest users automatically lose access to specific sites after a period (typically 60&ndash;180 days) unless reauthorised</li>
-          <li><strong>External user re-authentication</strong> &mdash; external users must re-authenticate every 30&ndash;90 days to maintain access</li>
-          <li><strong>Conditional Access for external users</strong> applies to SharePoint and OneDrive (per WI-01 CA-007); sensitive sites blocked for guests without explicit justification</li>
+          <li><span><strong>Tenant-level external sharing</strong> &mdash; SharePoint admin centre &rarr; Policies &rarr; Sharing. Default for most tenants: "New and existing guests" (not "Anyone"). For high-sensitivity tenants: "Existing guests" only. Reduce as needed per agency risk posture.</span></li>
+          <li><span><strong>OneDrive sharing</strong> can be more restrictive than SharePoint (e.g. SharePoint = New and existing guests; OneDrive = Existing guests only); set the lower limit deliberately</span></li>
+          <li><span><strong>Anonymous (Anyone) links</strong> &mdash; disabled by default; if enabled for a specific scenario, set link expiry (≤30 days) and link permissions (View, not Edit)</span></li>
+          <li><span><strong>Link defaults</strong> &mdash; default sharing link type "Specific people" not "Anyone with the link"; default link permission View not Edit</span></li>
+          <li><span><strong>Allow / block domains list</strong> &mdash; allow-list specific trusted external domains for sharing; block-list known competitors / high-risk domains. Allow-list mode is more restrictive than block-list and is preferred for sensitive tenants.</span></li>
+          <li><span><strong>Guest access expiration</strong> &mdash; guest users automatically lose access to specific sites after a period (typically 60&ndash;180 days) unless reauthorised</span></li>
+          <li><span><strong>External user re-authentication</strong> &mdash; external users must re-authenticate every 30&ndash;90 days to maintain access</span></li>
+          <li><span><strong>Conditional Access for external users</strong> applies to SharePoint and OneDrive (per WI-01 CA-007); sensitive sites blocked for guests without explicit justification</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Test sharing scenarios from a standard user account: external sharing to an approved domain works; anonymous link creation refused or constrained; sharing to a blocked domain refused. Guest user count and recent guest activity visible in admin centre.</div>
         <span class="cis-ref">CIS M365 7.2.x · "SharePoint external sharing"</span>
@@ -205,9 +205,9 @@
       <div class="step-body">
         <p>Teams external access (federation between organisations) and guest access (named external users in your tenant's Teams) are separate controls. Configure both.</p>
         <ul>
-          <li><strong>External access (federation)</strong> &mdash; Teams admin centre &rarr; Users &rarr; External access. Default-deny pattern: "Allow only specific external domains" with an allow-list of partner-organisation tenants; or block known high-risk domains. Skype consumer federation: typically disabled.</li>
-          <li><strong>Guest access</strong> &mdash; enabled but governed by WI-01 §8 (Entra guest invite policy). Guest restrictions on Teams resources: cannot make private calls, cannot share screen by default in meetings with guests present.</li>
-          <li><strong>Meeting policies</strong> &mdash; default meeting policy and named-user policies for higher-risk roles:
+          <li><span><strong>External access (federation)</strong> &mdash; Teams admin centre &rarr; Users &rarr; External access. Default-deny pattern: "Allow only specific external domains" with an allow-list of partner-organisation tenants; or block known high-risk domains. Skype consumer federation: typically disabled.</span></li>
+          <li><span><strong>Guest access</strong> &mdash; enabled but governed by WI-01 §8 (Entra guest invite policy). Guest restrictions on Teams resources: cannot make private calls, cannot share screen by default in meetings with guests present.</span></li>
+          <li><span><strong>Meeting policies</strong> &mdash; default meeting policy and named-user policies for higher-risk roles:</span>
             <ul>
               <li>Anonymous users can join meetings &mdash; restricted by default; enable per-meeting for legitimate external events only</li>
               <li>Lobby for external attendees on by default; named lobby bypass for trusted partner tenants</li>
@@ -216,8 +216,8 @@
               <li>Whiteboard, chat retention, file sharing in chat &mdash; governed per policy and tenant data classification</li>
             </ul>
           </li>
-          <li><strong>Apps in Teams</strong> &mdash; Teams app permissions policy: block third-party apps by default; allow-list specific approved apps; review the catalogue quarterly</li>
-          <li><strong>Channel email integration</strong> &mdash; disabled by default unless the agency has a documented use case</li>
+          <li><span><strong>Apps in Teams</strong> &mdash; Teams app permissions policy: block third-party apps by default; allow-list specific approved apps; review the catalogue quarterly</span></li>
+          <li><span><strong>Channel email integration</strong> &mdash; disabled by default unless the agency has a documented use case</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Attempt to invite a non-allow-listed external organisation to a Teams meeting; refused. Anonymous join attempt against a sensitive meeting hits the lobby. Third-party app installation by standard user fails.</div>
         <span class="cis-ref">CIS M365 8.x · "Teams external access"</span>
@@ -232,17 +232,17 @@
       <div class="step-body">
         <p>Unified Audit Log (UAL) captures activity across Exchange, SharePoint, OneDrive, Teams, Entra, Power Platform, and Defender. It is the single most important forensic source for cloud incidents.</p>
         <ul>
-          <li><strong>Enable UAL</strong> at tenant level &mdash; <code>Search-UnifiedAuditLog</code> works when enabled; check in Compliance / Purview portal under Audit. Most tenants have it on by default but verify.</li>
-          <li><strong>Retention</strong> &mdash; per tier:
+          <li><span><strong>Enable UAL</strong> at tenant level &mdash; <code>Search-UnifiedAuditLog</code> works when enabled; check in Compliance / Purview portal under Audit. Most tenants have it on by default but verify.</span></li>
+          <li><span><strong>Retention</strong> &mdash; per tier:</span>
             <ul>
               <li><span class="tier-tag all">A1 / E1</span> 90 days standard retention</li>
               <li><span class="tier-tag e3">A3 / E3</span> 90 days standard; Audit (Premium) add-on extends to 1 year</li>
               <li><span class="tier-tag e5">A5 / E5</span> 1 year by default; 10-year retention available as add-on for specific event types</li>
             </ul>
           </li>
-          <li><strong>Audit log search</strong> &mdash; named SOC analysts have Audit Log Search role (or scoped equivalent via PIM); routine searches documented in SOC playbooks</li>
-          <li><strong>Forwarding to central SIEM</strong> &mdash; via Microsoft Graph API (Office 365 Management Activity API), Azure Monitor, or vendor connector. Forward all audit records; do not pre-filter at the tenant side (the SIEM decides what to retain).</li>
-          <li><strong>High-value events</strong> alerted in SIEM: Global Administrator role assignment, eDiscovery hold creation, mailbox permission change to high-privilege user, large-volume export, sharing-policy change, audit-log-disabled event (this last is critical &mdash; if it fires, the tenant is compromised)</li>
+          <li><span><strong>Audit log search</strong> &mdash; named SOC analysts have Audit Log Search role (or scoped equivalent via PIM); routine searches documented in SOC playbooks</span></li>
+          <li><span><strong>Forwarding to central SIEM</strong> &mdash; via Microsoft Graph API (Office 365 Management Activity API), Azure Monitor, or vendor connector. Forward all audit records; do not pre-filter at the tenant side (the SIEM decides what to retain).</span></li>
+          <li><span><strong>High-value events</strong> alerted in SIEM: Global Administrator role assignment, eDiscovery hold creation, mailbox permission change to high-privilege user, large-volume export, sharing-policy change, audit-log-disabled event (this last is critical &mdash; if it fires, the tenant is compromised)</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> UAL on. Test event (e.g. file-share, mail-send) appears in UAL within ~30 minutes. SIEM ingestion pipeline operational. Sample alert rules firing on test events.</div>
         <span class="cis-ref">CIS M365 1.x · "Unified Audit Log"</span>
@@ -257,8 +257,8 @@
       <div class="step-body">
         <p>Sensitivity labels are the cornerstone of Microsoft Information Protection (MIP). They classify content (manual or automatic) and apply protection policies (encryption, watermark, sharing restrictions, retention).</p>
         <ul>
-          <li><strong>Label taxonomy</strong> &mdash; align to the organisation classification (e.g. Public / Internal / Confidential / Restricted). Keep the taxonomy short (≤6 labels at top level) to be usable.</li>
-          <li><strong>Label configuration per level</strong>:
+          <li><span><strong>Label taxonomy</strong> &mdash; align to the organisation classification (e.g. Public / Internal / Confidential / Restricted). Keep the taxonomy short (≤6 labels at top level) to be usable.</span></li>
+          <li><span><strong>Label configuration per level</strong></span>
             <ul>
               <li>Public &mdash; no encryption; visual marking optional</li>
               <li>Internal &mdash; no encryption; "Internal Use Only" footer / watermark</li>
@@ -266,12 +266,12 @@
               <li>Restricted &mdash; encryption + named-user rights only; download/copy restrictions; visible marking</li>
             </ul>
           </li>
-          <li><strong>Label policy publication</strong> &mdash; publish labels to users / groups; document the rollout plan; train users (most labels remain unused without training)</li>
-          <li><strong>Default label</strong> &mdash; new documents and emails get a default label (typically Internal) unless the user chooses otherwise &mdash; reduces "Public by accident"</li>
-          <li><strong>Mandatory labelling</strong> &mdash; users cannot save / send without selecting a label; deploy after a training period</li>
-          <li><strong>Auto-labelling</strong> <span class="tier-tag e5">E5</span> &mdash; auto-apply labels based on content (sensitive info types like credit cards, government IDs, named data classes); start in simulation mode then enforce</li>
-          <li><strong>Co-authoring on encrypted documents</strong> &mdash; enable for usability; verify the tenant configuration supports it</li>
-          <li><strong>Label scope</strong> &mdash; Files &amp; Emails, Groups &amp; Sites (containers), Schematized data (Power BI) &mdash; configure per organisation need</li>
+          <li><span><strong>Label policy publication</strong> &mdash; publish labels to users / groups; document the rollout plan; train users (most labels remain unused without training)</span></li>
+          <li><span><strong>Default label</strong> &mdash; new documents and emails get a default label (typically Internal) unless the user chooses otherwise &mdash; reduces "Public by accident"</span></li>
+          <li><span><strong>Mandatory labelling</strong> &mdash; users cannot save / send without selecting a label; deploy after a training period</span></li>
+          <li><span><strong>Auto-labelling</strong> <span class="tier-tag e5">E5</span> &mdash; auto-apply labels based on content (sensitive info types like credit cards, government IDs, named data classes); start in simulation mode then enforce</span></li>
+          <li><span><strong>Co-authoring on encrypted documents</strong> &mdash; enable for usability; verify the tenant configuration supports it</span></li>
+          <li><span><strong>Label scope</strong> &mdash; Files &amp; Emails, Groups &amp; Sites (containers), Schematized data (Power BI) &mdash; configure per organisation need</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Labels visible in Office desktop, web, and mobile. Default label applied to new documents. Encrypted label opens correctly for authorised users; access denied for non-authorised. Auto-labelling (E5) flags sample sensitive content.</div>
         <span class="cis-ref">CIS M365 6.x (Purview) · ISO 27001 A.5.13</span>
@@ -286,9 +286,9 @@
       <div class="step-body">
         <p>Data Loss Prevention policies detect sensitive content in motion (email, sharing, Teams messages) and at rest (SharePoint, OneDrive). Deploy progressively.</p>
         <ul>
-          <li><strong>Data classes</strong> &mdash; identify what the agency actually handles: personal data (per applicable regulation), payment card data, health data, government ID numbers, financial account numbers, intellectual property. Use Microsoft's built-in Sensitive Information Types where they match.</li>
-          <li><strong>Policy locations</strong> &mdash; Exchange Online, SharePoint, OneDrive, Teams chat &amp; channel messages, Devices (DLP for Endpoint, requires Defender for Endpoint). Cover all locations from the start; partial coverage gets bypassed.</li>
-          <li><strong>Rules per data class</strong>:
+          <li><span><strong>Data classes</strong> &mdash; identify what the agency actually handles: personal data (per applicable regulation), payment card data, health data, government ID numbers, financial account numbers, intellectual property. Use Microsoft's built-in Sensitive Information Types where they match.</span></li>
+          <li><span><strong>Policy locations</strong> &mdash; Exchange Online, SharePoint, OneDrive, Teams chat &amp; channel messages, Devices (DLP for Endpoint, requires Defender for Endpoint). Cover all locations from the start; partial coverage gets bypassed.</span></li>
+          <li><span><strong>Rules per data class</strong></span>
             <ul>
               <li>Notify user with a policy tip (do this first, monitor for FP)</li>
               <li>After tuning: block the action with override allowed (user can override with justification, logged)</li>
@@ -296,10 +296,10 @@
               <li>Notify SOC / GRC on policy match for high-sensitivity classes</li>
             </ul>
           </li>
-          <li><strong>Rollout pattern</strong> &mdash; Test mode (no user notification) &rarr; Test mode with notification &rarr; Enforce. Each phase 2&ndash;4 weeks.</li>
-          <li><strong>Exclusions discipline</strong> &mdash; legitimate exclusions documented (e.g. legal team handling sensitive data by job nature); reviewed quarterly</li>
-          <li><strong>Endpoint DLP</strong> <span class="tier-tag e5">E5</span> &mdash; extends DLP to client-side actions (USB copy, print, browser upload to non-corporate destinations); requires Defender for Endpoint</li>
-          <li><strong>DLP alerts</strong> in central SIEM &mdash; cross-reference with sign-in and sharing logs to identify likely exfiltration patterns</li>
+          <li><span><strong>Rollout pattern</strong> &mdash; Test mode (no user notification) &rarr; Test mode with notification &rarr; Enforce. Each phase 2&ndash;4 weeks.</span></li>
+          <li><span><strong>Exclusions discipline</strong> &mdash; legitimate exclusions documented (e.g. legal team handling sensitive data by job nature); reviewed quarterly</span></li>
+          <li><span><strong>Endpoint DLP</strong> <span class="tier-tag e5">E5</span> &mdash; extends DLP to client-side actions (USB copy, print, browser upload to non-corporate destinations); requires Defender for Endpoint</span></li>
+          <li><span><strong>DLP alerts</strong> in central SIEM &mdash; cross-reference with sign-in and sharing logs to identify likely exfiltration patterns</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Test message containing sample sensitive data (controlled test) triggers DLP policy tip / block as configured. DLP alerts visible to SOC. Override actions logged.</div>
         <span class="cis-ref">CIS M365 6.x · ISO 27018</span>
@@ -314,13 +314,13 @@
       <div class="step-body">
         <p>Defender for Office 365 Plan 2 (included in E5; available as add-on to E3) adds significant protections beyond the baseline Exchange Online anti-phishing.</p>
         <ul>
-          <li><strong>Safe Attachments policy</strong> &mdash; sandbox detonation of email attachments before delivery; <strong>Dynamic Delivery</strong> mode (body delivered immediately, attachment replaced after scanning) preferred over Block (better user experience, equivalent security); cover all users</li>
-          <li><strong>Safe Attachments for SharePoint, OneDrive, Teams</strong> &mdash; enabled; files identified as malicious are blocked from opening / download</li>
-          <li><strong>Safe Links policy</strong> &mdash; URL rewriting in email and Teams; time-of-click verification against Microsoft's reputation database; URLs scanned at click, not just at send (defeats delayed weaponisation); apply to all users</li>
-          <li><strong>Safe Links for Office apps</strong> &mdash; rewriting inside Word, Excel, PowerPoint, Outlook desktop and web</li>
-          <li><strong>Attack Simulator</strong> &mdash; quarterly minimum; campaigns per role / department; payloads include credential harvesting, malware attachment, link-click; results feed user training tracking</li>
-          <li><strong>Targeted threat protection &mdash; preset Strict policies</strong> for VIP / executive / finance users (more aggressive thresholds, more detonation, additional impersonation protection)</li>
-          <li><strong>Threat Explorer</strong> &mdash; SOC has access via Defender portal; queries documented in SOC playbooks for the email-threat scenarios</li>
+          <li><span><strong>Safe Attachments policy</strong> &mdash; sandbox detonation of email attachments before delivery; <strong>Dynamic Delivery</strong> mode (body delivered immediately, attachment replaced after scanning) preferred over Block (better user experience, equivalent security); cover all users</span></li>
+          <li><span><strong>Safe Attachments for SharePoint, OneDrive, Teams</strong> &mdash; enabled; files identified as malicious are blocked from opening / download</span></li>
+          <li><span><strong>Safe Links policy</strong> &mdash; URL rewriting in email and Teams; time-of-click verification against Microsoft's reputation database; URLs scanned at click, not just at send (defeats delayed weaponisation); apply to all users</span></li>
+          <li><span><strong>Safe Links for Office apps</strong> &mdash; rewriting inside Word, Excel, PowerPoint, Outlook desktop and web</span></li>
+          <li><span><strong>Attack Simulator</strong> &mdash; quarterly minimum; campaigns per role / department; payloads include credential harvesting, malware attachment, link-click; results feed user training tracking</span></li>
+          <li><span><strong>Targeted threat protection &mdash; preset Strict policies</strong> for VIP / executive / finance users (more aggressive thresholds, more detonation, additional impersonation protection)</span></li>
+          <li><span><strong>Threat Explorer</strong> &mdash; SOC has access via Defender portal; queries documented in SOC playbooks for the email-threat scenarios</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Test email with EICAR or controlled-test attachment &mdash; held for Safe Attachments scan, marked safe / unsafe correctly. Test URL in email &mdash; rewritten with safelinks domain. Attack Simulator campaign run, results visible.</div>
         <span class="cis-ref">CIS M365 (E5) 2.x · "Defender for Office 365 P2"</span>
@@ -335,11 +335,11 @@
       <div class="step-body">
         <p>Insider Risk Management (IRM) detects risky activity from internal users (data exfiltration before resignation, privilege escalation, anomalous download patterns). Communication Compliance (CC) monitors regulated communications channels.</p>
         <ul>
-          <li><strong>Insider Risk indicators</strong> &mdash; configure the activity signals: data exfiltration to USB, anomalous download from SharePoint, unusual file deletion, departing-employee patterns (high download volume in weeks before HR-flagged departure), privilege escalation events</li>
-          <li><strong>IRM policies</strong> &mdash; start with Microsoft's preset templates (Data Theft by departing users; General data leaks; Risky browser usage). Tune per agency risk posture.</li>
-          <li><strong>Reviewers</strong> &mdash; named individuals with the Insider Risk Management Investigator role; not the SOC at large (privacy concern); coordinate with HR and Legal</li>
-          <li><strong>Privacy considerations</strong> &mdash; IRM displays pseudonymised user information by default; un-pseudonymisation requires named approver; document the approval workflow</li>
-          <li><strong>Communication Compliance</strong> &mdash; where regulated (financial services, healthcare, government), monitor communications channels (email, Teams chat) for prohibited content; investigate alerts via a separate role (Reviewer); document the legal basis</li>
+          <li><span><strong>Insider Risk indicators</strong> &mdash; configure the activity signals: data exfiltration to USB, anomalous download from SharePoint, unusual file deletion, departing-employee patterns (high download volume in weeks before HR-flagged departure), privilege escalation events</span></li>
+          <li><span><strong>IRM policies</strong> &mdash; start with Microsoft's preset templates (Data Theft by departing users; General data leaks; Risky browser usage). Tune per agency risk posture.</span></li>
+          <li><span><strong>Reviewers</strong> &mdash; named individuals with the Insider Risk Management Investigator role; not the SOC at large (privacy concern); coordinate with HR and Legal</span></li>
+          <li><span><strong>Privacy considerations</strong> &mdash; IRM displays pseudonymised user information by default; un-pseudonymisation requires named approver; document the approval workflow</span></li>
+          <li><span><strong>Communication Compliance</strong> &mdash; where regulated (financial services, healthcare, government), monitor communications channels (email, Teams chat) for prohibited content; investigate alerts via a separate role (Reviewer); document the legal basis</span></li>
         </ul>
         <div class="callout-info"><strong>Coordinate with HR and Legal.</strong> IRM and CC have legitimate workplace-monitoring concerns. The legal basis varies by jurisdiction and the agency's location. Engage HR and Legal before enabling; document the lawful-basis assessment and the data-handling policy.</div>
         <div class="step-verify"><strong>Verify.</strong> IRM policy active; sample test activity (controlled) appears in the IRM dashboard. Reviewer role configured. Privacy / pseudonymisation defaults documented.</div>
@@ -355,8 +355,8 @@
       <div class="step-body">
         <p>Two E5-only controls that meaningfully reduce the standing-trust footprint:</p>
         <ul>
-          <li><strong>Customer Lockbox</strong> &mdash; when a Microsoft engineer needs access to tenant data to resolve a support case, the tenant administrator must approve; without approval, the engineer cannot proceed. Configure approval workflow with named approvers and SLA (typically 12 hours).</li>
-          <li><strong>Privileged Access Management (PAM) for Exchange Online</strong> &mdash; high-impact Exchange administrative actions (e.g. mailbox export, change journaling, modify role assignment) require activation through a PAM request with approval. Configure for the Exchange role groups and the high-impact tasks.</li>
+          <li><span><strong>Customer Lockbox</strong> &mdash; when a Microsoft engineer needs access to tenant data to resolve a support case, the tenant administrator must approve; without approval, the engineer cannot proceed. Configure approval workflow with named approvers and SLA (typically 12 hours).</span></li>
+          <li><span><strong>Privileged Access Management (PAM) for Exchange Online</strong> &mdash; high-impact Exchange administrative actions (e.g. mailbox export, change journaling, modify role assignment) require activation through a PAM request with approval. Configure for the Exchange role groups and the high-impact tasks.</span></li>
         </ul>
         <p>These are separate from the broader Entra PIM (WI-01 Step 7); Exchange PAM is finer-grained to Exchange-specific operations.</p>
         <div class="step-verify"><strong>Verify.</strong> Customer Lockbox enabled; test approval workflow with a Microsoft-initiated request (if available) or via the platform test. Exchange PAM operational; test a privileged Exchange action requiring approval.</div>

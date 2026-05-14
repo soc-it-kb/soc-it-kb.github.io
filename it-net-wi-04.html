@@ -131,10 +131,10 @@
       <div class="step-body">
         <p>On all SSIDs:</p>
         <ul>
-          <li><strong>WEP</strong> &mdash; disabled, removed from any SSID, including legacy SSIDs (legacy devices that only support WEP need to be replaced or moved to a strictly-isolated segment)</li>
-          <li><strong>Open authentication on corporate SSIDs</strong> &mdash; not permitted; guest SSIDs with open authentication require captive-portal and strict isolation</li>
-          <li><strong>WPA-TKIP</strong> &mdash; disabled; WPA2/WPA3 with AES-CCMP or GCMP only</li>
-          <li><strong>WPS (Wi-Fi Protected Setup)</strong> &mdash; disabled on all enterprise SSIDs</li>
+          <li><span><strong>WEP</strong> &mdash; disabled, removed from any SSID, including legacy SSIDs (legacy devices that only support WEP need to be replaced or moved to a strictly-isolated segment)</span></li>
+          <li><span><strong>Open authentication on corporate SSIDs</strong> &mdash; not permitted; guest SSIDs with open authentication require captive-portal and strict isolation</span></li>
+          <li><span><strong>WPA-TKIP</strong> &mdash; disabled; WPA2/WPA3 with AES-CCMP or GCMP only</span></li>
+          <li><span><strong>WPS (Wi-Fi Protected Setup)</strong> &mdash; disabled on all enterprise SSIDs</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Show running configuration on controller / cloud portal &mdash; confirm no SSID uses WEP, TKIP, or open authentication on corporate flows. Run a wireless scanner (e.g. Kismet, vendor's tooling) near the site; confirm advertised authentication suites are WPA2/WPA3 only.</div>
         <span class="cis-ref">CIS Wireless: "remove insecure encryption"</span>
@@ -149,12 +149,12 @@
       <div class="step-body">
         <p>Configure corporate SSIDs:</p>
         <ul>
-          <li><strong>WPA3-Enterprise</strong> where clients support it &mdash; provides forward secrecy and protected management frames</li>
-          <li><strong>WPA2-Enterprise</strong> as the minimum baseline for corporate SSIDs &mdash; 802.1X authentication</li>
-          <li><strong>EAP method</strong> &mdash; EAP-TLS (client certificate) is the strongest; PEAP-MSCHAPv2 acceptable as fallback where certificates are not yet deployed to all clients</li>
-          <li><strong>RADIUS configuration</strong> &mdash; primary and secondary RADIUS servers; RADIUS shared secrets strong and stored in vault</li>
-          <li><strong>RADIUS server certificate</strong> &mdash; signed by the organisation's CA, never self-signed; clients pinned to the issuing CA</li>
-          <li><strong>Client certificate validation</strong> &mdash; for PEAP, clients are configured to validate the RADIUS server certificate (often missed; if clients accept any cert, the entire EAP defence collapses to a relay attack)</li>
+          <li><span><strong>WPA3-Enterprise</strong> where clients support it &mdash; provides forward secrecy and protected management frames</span></li>
+          <li><span><strong>WPA2-Enterprise</strong> as the minimum baseline for corporate SSIDs &mdash; 802.1X authentication</span></li>
+          <li><span><strong>EAP method</strong> &mdash; EAP-TLS (client certificate) is the strongest; PEAP-MSCHAPv2 acceptable as fallback where certificates are not yet deployed to all clients</span></li>
+          <li><span><strong>RADIUS configuration</strong> &mdash; primary and secondary RADIUS servers; RADIUS shared secrets strong and stored in vault</span></li>
+          <li><span><strong>RADIUS server certificate</strong> &mdash; signed by the organisation's CA, never self-signed; clients pinned to the issuing CA</span></li>
+          <li><span><strong>Client certificate validation</strong> &mdash; for PEAP, clients are configured to validate the RADIUS server certificate (often missed; if clients accept any cert, the entire EAP defence collapses to a relay attack)</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Authenticate a known-good client; confirm RADIUS authentication, certificate validation occurred, and the client is on the correct VLAN. Capture the EAP handshake; confirm the server certificate chain is valid.</div>
         <span class="cis-ref">CIS Wireless: "WPA2/3-Enterprise"</span>
@@ -169,8 +169,8 @@
       <div class="step-body">
         <p>Configure PMF per SSID:</p>
         <ul>
-          <li><strong>WPA3 SSIDs</strong> &mdash; PMF required (this is mandatory in the WPA3 spec)</li>
-          <li><strong>WPA2 SSIDs</strong> &mdash; PMF enabled (capable mode where mixed client support, required where all clients support it)</li>
+          <li><span><strong>WPA3 SSIDs</strong> &mdash; PMF required (this is mandatory in the WPA3 spec)</span></li>
+          <li><span><strong>WPA2 SSIDs</strong> &mdash; PMF enabled (capable mode where mixed client support, required where all clients support it)</span></li>
           <li>PMF protects against deauthentication attacks that would otherwise force client roaming or disconnect</li>
           <li>Verify client support: most modern clients (Windows 10+, macOS 10.13+, recent iOS/Android) support PMF in capable mode; older clients may need replacement or strict-isolation</li>
         </ul>
@@ -187,12 +187,12 @@
       <div class="step-body">
         <p>Configure guest SSIDs:</p>
         <ul>
-          <li><strong>Separate VLAN</strong> &mdash; guest traffic on a dedicated VLAN with no L3 path to corporate VLANs</li>
-          <li><strong>Firewall-enforced egress</strong> &mdash; guest traffic egresses via the firewall, with rules permitting internet (TCP/80, 443, DNS to internet resolvers, NTP) and blocking everything else including corporate subnets, RFC1918 lateral, and private DNS</li>
-          <li><strong>Client isolation</strong> enabled on the guest SSID (where vendor supports) &mdash; guest clients cannot reach each other over wireless</li>
-          <li><strong>Captive portal / sponsor portal</strong> &mdash; users acknowledge AUP, optionally identified via sponsor or short-rotating PSK</li>
-          <li><strong>Session limits</strong> &mdash; reasonable session lifetime (typically 24 hours) requiring re-authentication; bandwidth limits per user where the platform supports them</li>
-          <li><strong>Logging</strong> &mdash; guest authentication and DHCP events logged centrally so abuse can be investigated</li>
+          <li><span><strong>Separate VLAN</strong> &mdash; guest traffic on a dedicated VLAN with no L3 path to corporate VLANs</span></li>
+          <li><span><strong>Firewall-enforced egress</strong> &mdash; guest traffic egresses via the firewall, with rules permitting internet (TCP/80, 443, DNS to internet resolvers, NTP) and blocking everything else including corporate subnets, RFC1918 lateral, and private DNS</span></li>
+          <li><span><strong>Client isolation</strong> enabled on the guest SSID (where vendor supports) &mdash; guest clients cannot reach each other over wireless</span></li>
+          <li><span><strong>Captive portal / sponsor portal</strong> &mdash; users acknowledge AUP, optionally identified via sponsor or short-rotating PSK</span></li>
+          <li><span><strong>Session limits</strong> &mdash; reasonable session lifetime (typically 24 hours) requiring re-authentication; bandwidth limits per user where the platform supports them</span></li>
+          <li><span><strong>Logging</strong> &mdash; guest authentication and DHCP events logged centrally so abuse can be investigated</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Connect a guest device; confirm captive portal flow. From the guest device, attempt to reach a corporate server &mdash; should fail. Attempt to reach another guest device &mdash; should fail. Reach the internet &mdash; should succeed.</div>
         <span class="cis-ref">CIS Wireless: "guest segregation"</span>
@@ -245,11 +245,11 @@
       <div class="step-body">
         <p>RF configuration:</p>
         <ul>
-          <li><strong>Region / regulatory domain</strong> set correctly per site &mdash; non-negotiable; wrong region selection can be a legal issue</li>
-          <li><strong>Transmit power</strong> per site survey, not "maximum everywhere" (over-power creates co-channel interference, encourages clients to roam less)</li>
-          <li><strong>Channel plan</strong> &mdash; non-overlapping channels on 2.4 GHz (1/6/11 only); 5 GHz channels chosen with DFS where the regulatory domain permits</li>
-          <li><strong>Band steering</strong> &mdash; encourage dual-band clients to 5 GHz; consider 6 GHz for Wi-Fi 6E capable clients in supported regions</li>
-          <li><strong>Disable unused radios</strong> on dual/tri-band APs where bands are not in use (rare; usually all bands are desired)</li>
+          <li><span><strong>Region / regulatory domain</strong> set correctly per site &mdash; non-negotiable; wrong region selection can be a legal issue</span></li>
+          <li><span><strong>Transmit power</strong> per site survey, not "maximum everywhere" (over-power creates co-channel interference, encourages clients to roam less)</span></li>
+          <li><span><strong>Channel plan</strong> &mdash; non-overlapping channels on 2.4 GHz (1/6/11 only); 5 GHz channels chosen with DFS where the regulatory domain permits</span></li>
+          <li><span><strong>Band steering</strong> &mdash; encourage dual-band clients to 5 GHz; consider 6 GHz for Wi-Fi 6E capable clients in supported regions</span></li>
+          <li><span><strong>Disable unused radios</strong> on dual/tri-band APs where bands are not in use (rare; usually all bands are desired)</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Show AP configuration and radio status; confirm region, channel, power match design. Post-deployment survey confirms RF coverage matches targets without over-coverage bleeding into adjacent floors/buildings.</div>
         <span class="cis-ref">CIS Wireless: "RF management"</span>
@@ -266,7 +266,7 @@
         <ul>
           <li>Minimise active SSIDs per AP &mdash; each SSID consumes airtime; 3-4 maximum is typical (corporate, guest, optional separate IoT)</li>
           <li>Disable SSIDs not in use on specific APs &mdash; not every SSID needs to broadcast in every location</li>
-          <li><strong>SSID hidden / broadcast disabled is not a security control</strong> &mdash; clients still leak the SSID, and obscurity slows neither attackers nor accidental connections. Leave broadcast enabled; rely on authentication for security.</li>
+          <li><span><strong>SSID hidden / broadcast disabled is not a security control</strong> &mdash; clients still leak the SSID, and obscurity slows neither attackers nor accidental connections. Leave broadcast enabled; rely on authentication for security.</span></li>
           <li>SSID naming should not reveal organisation-sensitive information (e.g. "AKDN-Finance" reveals more than "AKDN-Staff")</li>
           <li>Retire SSIDs from old projects, mergers, or migrations &mdash; SSID sprawl is a real source of confusion and attack surface</li>
         </ul>
@@ -353,12 +353,12 @@
 
     <h3>Common scenarios</h3>
     <ul class="wi-bullet">
-      <li><strong>Mass authentication failure after WPA3 migration</strong> &mdash; cause: clients don't support WPA3, fall back to WPA2 not configured. Fix: enable WPA2/WPA3 transition mode (advertises both) until client base migrates; document the transition end-date.</li>
-      <li><strong>EAP-TLS fails for some clients</strong> &mdash; cause: client certificate not yet deployed, or root CA not trusted by client. Fix: identify the affected user/device, verify certificate deployment via MDM, fix per-device or per-group.</li>
-      <li><strong>Guest captive portal not loading</strong> &mdash; cause: DNS or HTTP intercept rule failure, or certificate issue. Fix: from the guest network, run nslookup and curl tests; verify intercept; check captive-portal certificate is valid.</li>
-      <li><strong>Some clients drop after PMF enabled</strong> &mdash; cause: older clients don't support PMF and can't associate in "required" mode. Fix: switch to "capable" (optional) mode until client base is current; document the upgrade timeline.</li>
-      <li><strong>Rogue containment causes legal/operational concerns</strong> &mdash; cause: containment de-auths a neighbouring legitimate network. Fix: disable containment; rely on detection only; pursue physical investigation of rogues.</li>
-      <li><strong>RF coverage gaps after power-down</strong> &mdash; cause: too aggressive transmit-power reduction relative to actual AP density. Fix: ensure coverage overlap is sufficient before reducing power, particularly on the floor edges and stairwells.</li>
+      <li><span><strong>Mass authentication failure after WPA3 migration</strong> &mdash; cause: clients don't support WPA3, fall back to WPA2 not configured. Fix: enable WPA2/WPA3 transition mode (advertises both) until client base migrates; document the transition end-date.</span></li>
+      <li><span><strong>EAP-TLS fails for some clients</strong> &mdash; cause: client certificate not yet deployed, or root CA not trusted by client. Fix: identify the affected user/device, verify certificate deployment via MDM, fix per-device or per-group.</span></li>
+      <li><span><strong>Guest captive portal not loading</strong> &mdash; cause: DNS or HTTP intercept rule failure, or certificate issue. Fix: from the guest network, run nslookup and curl tests; verify intercept; check captive-portal certificate is valid.</span></li>
+      <li><span><strong>Some clients drop after PMF enabled</strong> &mdash; cause: older clients don't support PMF and can't associate in "required" mode. Fix: switch to "capable" (optional) mode until client base is current; document the upgrade timeline.</span></li>
+      <li><span><strong>Rogue containment causes legal/operational concerns</strong> &mdash; cause: containment de-auths a neighbouring legitimate network. Fix: disable containment; rely on detection only; pursue physical investigation of rogues.</span></li>
+      <li><span><strong>RF coverage gaps after power-down</strong> &mdash; cause: too aggressive transmit-power reduction relative to actual AP density. Fix: ensure coverage overlap is sufficient before reducing power, particularly on the floor edges and stairwells.</span></li>
     </ul>
 
     <h3>Rollback procedure</h3>
@@ -373,14 +373,14 @@
   <div class="wi-section">
     <div class="wi-section-label">Common errors &amp; tips</div>
     <ul class="wi-bullet">
-      <li><strong>PEAP without client certificate validation is barely better than WEP.</strong> If clients accept any RADIUS-server certificate, an attacker can stand up a rogue RADIUS, harvest credentials. The MDM / GPO configuration to validate certs is mandatory, not optional.</li>
-      <li><strong>EAP-TLS deployment is a project, not a step.</strong> Certificate provisioning to every user/device takes planning, MDM integration, and a fallback for non-MDM-managed devices. Plan accordingly.</li>
-      <li><strong>WPA3-Enterprise transition mode is your friend during migration.</strong> "WPA2/WPA3 mixed" allows old and new clients to coexist; flip to WPA3-only once you confirm the client base supports it.</li>
-      <li><strong>Guest captive-portal HTTPS interception breaks modern apps.</strong> Mobile apps that don't trust intercepted certs will fail; users may rage. Plan for a guest user experience that doesn't depend on captive-portal in-app behaviour.</li>
-      <li><strong>Don't disable SSID broadcast as a "security" measure.</strong> Clients will probe for the hidden SSID everywhere they go, leaking the SSID to anyone who listens.</li>
-      <li><strong>Rogue containment is operationally and legally fraught.</strong> Default is detection only; containment requires legal review.</li>
-      <li><strong>RF survey age matters.</strong> A 5-year-old survey doesn't reflect today's client density, building changes, or 6 GHz availability. Resurvey when changes accumulate.</li>
-      <li><strong>RADIUS shared secrets are credentials.</strong> Vault them, rotate them, treat them as secrets &mdash; don't email them.</li>
+      <li><span><strong>PEAP without client certificate validation is barely better than WEP.</strong> If clients accept any RADIUS-server certificate, an attacker can stand up a rogue RADIUS, harvest credentials. The MDM / GPO configuration to validate certs is mandatory, not optional.</span></li>
+      <li><span><strong>EAP-TLS deployment is a project, not a step.</strong> Certificate provisioning to every user/device takes planning, MDM integration, and a fallback for non-MDM-managed devices. Plan accordingly.</span></li>
+      <li><span><strong>WPA3-Enterprise transition mode is your friend during migration.</strong> "WPA2/WPA3 mixed" allows old and new clients to coexist; flip to WPA3-only once you confirm the client base supports it.</span></li>
+      <li><span><strong>Guest captive-portal HTTPS interception breaks modern apps.</strong> Mobile apps that don't trust intercepted certs will fail; users may rage. Plan for a guest user experience that doesn't depend on captive-portal in-app behaviour.</span></li>
+      <li><span><strong>Don't disable SSID broadcast as a "security" measure.</strong> Clients will probe for the hidden SSID everywhere they go, leaking the SSID to anyone who listens.</span></li>
+      <li><span><strong>Rogue containment is operationally and legally fraught.</strong> Default is detection only; containment requires legal review.</span></li>
+      <li><span><strong>RF survey age matters.</strong> A 5-year-old survey doesn't reflect today's client density, building changes, or 6 GHz availability. Resurvey when changes accumulate.</span></li>
+      <li><span><strong>RADIUS shared secrets are credentials.</strong> Vault them, rotate them, treat them as secrets &mdash; don't email them.</span></li>
     </ul>
   </div>
 

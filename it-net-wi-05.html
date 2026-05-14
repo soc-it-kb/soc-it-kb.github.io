@@ -151,9 +151,9 @@
       <div class="step-body">
         <p>For every rule in the rule base:</p>
         <ul>
-          <li><strong>Description / comment</strong> field populated with: business purpose, ticket / change reference, owner (named individual or team), creation date</li>
-          <li><strong>Expiry / review date</strong> &mdash; either a hard expiry (rule auto-disables) or a scheduled review (rule flagged for confirmation)</li>
-          <li><strong>Naming convention</strong> for rules and objects so meaning is conveyed by the rule name (e.g. "ALLOW-HR-APP-TO-SQL-PROD")</li>
+          <li><span><strong>Description / comment</strong> field populated with: business purpose, ticket / change reference, owner (named individual or team), creation date</span></li>
+          <li><span><strong>Expiry / review date</strong> &mdash; either a hard expiry (rule auto-disables) or a scheduled review (rule flagged for confirmation)</span></li>
+          <li><span><strong>Naming convention</strong> for rules and objects so meaning is conveyed by the rule name (e.g. "ALLOW-HR-APP-TO-SQL-PROD")</span></li>
           <li>For long-lived "infrastructure" rules (e.g. DNS, NTP, SIEM forwarding), tag clearly and apply a "perpetual" classification with annual review rather than expiry</li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Show rule base; spot-check rules &mdash; each should have description, owner, dates. Run an export and audit for rules missing these fields.</div>
@@ -359,12 +359,12 @@
 
     <h3>Common scenarios</h3>
     <ul class="wi-bullet">
-      <li><strong>Mass connectivity outage after default-deny removed permissive rule</strong> &mdash; cause: a permit-all was implicitly carrying legitimate traffic that wasn't enumerated in specific rules. Fix: revert; observe traffic; build explicit rules; re-attempt.</li>
-      <li><strong>Specific application broken after rule cleanup</strong> &mdash; cause: a "stale" rule was actually used by an infrequent flow (monthly batch, quarterly reporting). Fix: identify the flow from app team, restore the specific rule with proper documentation.</li>
-      <li><strong>HTTPS sites won't load after TLS inspection enabled</strong> &mdash; cause: firewall CA certificate not in client trust store. Fix: deploy CA via MDM/GPO; until then exclude critical flows.</li>
-      <li><strong>IPS prevention dropping legitimate application</strong> &mdash; cause: false-positive signature triggers on legitimate traffic pattern. Fix: switch the specific signature to alert mode; tune the policy; engage vendor for signature update if commonly affected.</li>
-      <li><strong>Geo-block dropping legitimate user from new country</strong> &mdash; cause: user travelled, or partner came online in a new geography. Fix: add a specific exception via firewall identity-based rule, not a blanket geo-unblock.</li>
-      <li><strong>HA failover doesn't complete</strong> &mdash; cause: HA-link issue, config-sync drift, vendor bug. Fix: investigate HA link health, force a re-sync, vendor TAC engagement.</li>
+      <li><span><strong>Mass connectivity outage after default-deny removed permissive rule</strong> &mdash; cause: a permit-all was implicitly carrying legitimate traffic that wasn't enumerated in specific rules. Fix: revert; observe traffic; build explicit rules; re-attempt.</span></li>
+      <li><span><strong>Specific application broken after rule cleanup</strong> &mdash; cause: a "stale" rule was actually used by an infrequent flow (monthly batch, quarterly reporting). Fix: identify the flow from app team, restore the specific rule with proper documentation.</span></li>
+      <li><span><strong>HTTPS sites won't load after TLS inspection enabled</strong> &mdash; cause: firewall CA certificate not in client trust store. Fix: deploy CA via MDM/GPO; until then exclude critical flows.</span></li>
+      <li><span><strong>IPS prevention dropping legitimate application</strong> &mdash; cause: false-positive signature triggers on legitimate traffic pattern. Fix: switch the specific signature to alert mode; tune the policy; engage vendor for signature update if commonly affected.</span></li>
+      <li><span><strong>Geo-block dropping legitimate user from new country</strong> &mdash; cause: user travelled, or partner came online in a new geography. Fix: add a specific exception via firewall identity-based rule, not a blanket geo-unblock.</span></li>
+      <li><span><strong>HA failover doesn't complete</strong> &mdash; cause: HA-link issue, config-sync drift, vendor bug. Fix: investigate HA link health, force a re-sync, vendor TAC engagement.</span></li>
     </ul>
 
     <h3>Rollback procedure</h3>
@@ -379,14 +379,14 @@
   <div class="wi-section">
     <div class="wi-section-label">Common errors &amp; tips</div>
     <ul class="wi-bullet">
-      <li><strong>Don't delete "permit any" rules cold.</strong> Enable logging, observe, build explicit rules, then remove. The right answer is rarely "just delete the permissive rule and see what breaks".</li>
-      <li><strong>Rule descriptions are not optional.</strong> A rule base where you can't tell what each rule does is a rule base nobody can maintain. Six months later, "ALLOW-TEMP" rules become permanent.</li>
-      <li><strong>Egress filtering is the single best lateral-movement control for endpoint compromise.</strong> Even imperfect egress filtering forces attackers to use noisier C2 channels.</li>
-      <li><strong>Stale-rule reports need an owner.</strong> Generating reports nobody acts on is worse than not generating them &mdash; it creates the appearance of process.</li>
-      <li><strong>Geo-blocking must consider humanitarian context.</strong> Beneficiaries and partners in sensitive geographies may be exactly the people you exist to serve. Apply judgement; don't blanket-block on threat-intel feeds alone.</li>
-      <li><strong>TLS inspection is privacy-relevant.</strong> Some jurisdictions and employment contexts require disclosure that traffic is inspected; coordinate with legal/HR.</li>
-      <li><strong>IPS in "alert" mode forever is theatre.</strong> The reason for buying IPS was to prevent; if everything is alert-only, the investment is undermined. Move signatures to prevention as confidence grows.</li>
-      <li><strong>HA tested in production is not a test.</strong> Use maintenance windows; have a backout plan; coordinate with operations.</li>
+      <li><span><strong>Don't delete "permit any" rules cold.</strong> Enable logging, observe, build explicit rules, then remove. The right answer is rarely "just delete the permissive rule and see what breaks".</span></li>
+      <li><span><strong>Rule descriptions are not optional.</strong> A rule base where you can't tell what each rule does is a rule base nobody can maintain. Six months later, "ALLOW-TEMP" rules become permanent.</span></li>
+      <li><span><strong>Egress filtering is the single best lateral-movement control for endpoint compromise.</strong> Even imperfect egress filtering forces attackers to use noisier C2 channels.</span></li>
+      <li><span><strong>Stale-rule reports need an owner.</strong> Generating reports nobody acts on is worse than not generating them &mdash; it creates the appearance of process.</span></li>
+      <li><span><strong>Geo-blocking must consider humanitarian context.</strong> Beneficiaries and partners in sensitive geographies may be exactly the people you exist to serve. Apply judgement; don't blanket-block on threat-intel feeds alone.</span></li>
+      <li><span><strong>TLS inspection is privacy-relevant.</strong> Some jurisdictions and employment contexts require disclosure that traffic is inspected; coordinate with legal/HR.</span></li>
+      <li><span><strong>IPS in "alert" mode forever is theatre.</strong> The reason for buying IPS was to prevent; if everything is alert-only, the investment is undermined. Move signatures to prevention as confidence grows.</span></li>
+      <li><span><strong>HA tested in production is not a test.</strong> Use maintenance windows; have a backout plan; coordinate with operations.</span></li>
     </ul>
   </div>
 

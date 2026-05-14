@@ -131,11 +131,11 @@
       <div class="step-body">
         <p>For every active routing protocol on the device, enable strong authentication:</p>
         <ul>
-          <li><strong>OSPF</strong> &mdash; cryptographic authentication (HMAC-SHA256 or strongest available; MD5 only as fallback for legacy compatibility)</li>
-          <li><strong>EIGRP</strong> &mdash; HMAC-SHA256 authentication; SHA-256 keys rotated annually</li>
-          <li><strong>BGP</strong> &mdash; TCP-AO (RFC 5925) where supported, otherwise MD5 with documented rotation schedule</li>
-          <li><strong>IS-IS</strong> &mdash; HMAC-SHA256 area and domain authentication</li>
-          <li><strong>HSRP / VRRP / GLBP</strong> &mdash; authentication enabled, strong keys</li>
+          <li><span><strong>OSPF</strong> &mdash; cryptographic authentication (HMAC-SHA256 or strongest available; MD5 only as fallback for legacy compatibility)</span></li>
+          <li><span><strong>EIGRP</strong> &mdash; HMAC-SHA256 authentication; SHA-256 keys rotated annually</span></li>
+          <li><span><strong>BGP</strong> &mdash; TCP-AO (RFC 5925) where supported, otherwise MD5 with documented rotation schedule</span></li>
+          <li><span><strong>IS-IS</strong> &mdash; HMAC-SHA256 area and domain authentication</span></li>
+          <li><span><strong>HSRP / VRRP / GLBP</strong> &mdash; authentication enabled, strong keys</span></li>
         </ul>
         <p>Keys are stored in PAM, rotated per organisation policy (annual minimum), and key-rotation procedures are documented per protocol.</p>
         <div class="step-verify"><strong>Verify.</strong> Show running configuration confirms authentication is configured on each routing instance. Show neighbour state confirms adjacencies are established (not stuck in init or 2-way pending auth). Attempt a deliberately mis-keyed neighbour from a lab; confirm it fails to form.</div>
@@ -169,11 +169,11 @@
       <div class="step-body">
         <p>On all access switches:</p>
         <ul>
-          <li><strong>BPDU Guard</strong> on every access port (where end users or unmanaged devices connect) &mdash; shuts the port down if a BPDU is received, defending against unauthorised switches</li>
-          <li><strong>Root Guard</strong> on ports that should never become the root bridge path &mdash; protects topology stability</li>
-          <li><strong>Loop Guard</strong> on point-to-point trunk links where unidirectional failure would otherwise create a loop</li>
-          <li><strong>UDLD</strong> (UniDirectional Link Detection) or equivalent on fibre uplinks where supported</li>
-          <li><strong>PortFast</strong> on access ports to speed convergence; combine with BPDU Guard, never deploy PortFast without it</li>
+          <li><span><strong>BPDU Guard</strong> on every access port (where end users or unmanaged devices connect) &mdash; shuts the port down if a BPDU is received, defending against unauthorised switches</span></li>
+          <li><span><strong>Root Guard</strong> on ports that should never become the root bridge path &mdash; protects topology stability</span></li>
+          <li><span><strong>Loop Guard</strong> on point-to-point trunk links where unidirectional failure would otherwise create a loop</span></li>
+          <li><span><strong>UDLD</strong> (UniDirectional Link Detection) or equivalent on fibre uplinks where supported</span></li>
+          <li><span><strong>PortFast</strong> on access ports to speed convergence; combine with BPDU Guard, never deploy PortFast without it</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Show spanning-tree details confirms BPDU Guard, Root Guard, Loop Guard active where intended. Plug a test switch into a protected port (controlled test); confirm the port shuts down and an err-disabled message logs to syslog.</div>
         <span class="cis-ref">CIS: Control-plane "spanning-tree hardening"</span>
@@ -206,7 +206,7 @@
       <div class="step-body">
         <p>On customer-facing and uplink interfaces of routers and L3 switches:</p>
         <ul>
-          <li><strong>Unicast Reverse Path Forwarding (uRPF)</strong> &mdash; strict mode on customer-facing interfaces (only forward if return path matches incoming interface); loose mode on multihomed interfaces where strict would drop legitimate traffic</li>
+          <li><span><strong>Unicast Reverse Path Forwarding (uRPF)</strong> &mdash; strict mode on customer-facing interfaces (only forward if return path matches incoming interface); loose mode on multihomed interfaces where strict would drop legitimate traffic</span></li>
           <li>Drop bogon and unallocated prefixes at the edge where the device terminates internet uplinks</li>
           <li>Drop traffic with private (RFC 1918) source addresses arriving on internet-facing interfaces</li>
           <li>For IPv6, equivalent uRPF or source-address verification per RFC 8704</li>
@@ -224,9 +224,9 @@
       <div class="step-body">
         <p>On access switches:</p>
         <ul>
-          <li><strong>Dynamic ARP Inspection (DAI)</strong> enabled on user VLANs, with DHCP snooping bindings as the source of truth (DAI relies on the binding table)</li>
-          <li><strong>IPv6 RA Guard</strong> on access ports of IPv6-capable networks &mdash; blocks rogue Router Advertisements from non-router sources</li>
-          <li><strong>IPv6 ND Inspection</strong> on access ports for neighbour-discovery integrity</li>
+          <li><span><strong>Dynamic ARP Inspection (DAI)</strong> enabled on user VLANs, with DHCP snooping bindings as the source of truth (DAI relies on the binding table)</span></li>
+          <li><span><strong>IPv6 RA Guard</strong> on access ports of IPv6-capable networks &mdash; blocks rogue Router Advertisements from non-router sources</span></li>
+          <li><span><strong>IPv6 ND Inspection</strong> on access ports for neighbour-discovery integrity</span></li>
           <li>Trust configuration: only the legitimate gateway port carries trust; user ports are untrusted</li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Show ARP inspection counters; check DHCP snooping binding table is populated. From a test client, attempt a gratuitous ARP for the gateway IP; confirm DAI blocks it.</div>
@@ -263,7 +263,7 @@
         <ul>
           <li>Configure prefix lists or route maps that explicitly enumerate accepted prefixes from each external peer</li>
           <li>Configure outbound filters that explicitly enumerate prefixes advertised to each external peer</li>
-          <li><strong>Maximum-prefix limits</strong> on every BGP neighbour (drops neighbour or warns if peer advertises more than expected, common attack/misconfiguration indicator)</li>
+          <li><span><strong>Maximum-prefix limits</strong> on every BGP neighbour (drops neighbour or warns if peer advertises more than expected, common attack/misconfiguration indicator)</span></li>
           <li>Filter bogon prefixes inbound from internet peers</li>
           <li>For internal routing, use route summarisation at boundaries and filter to expected ranges</li>
         </ul>
@@ -310,12 +310,12 @@
 
     <h3>Common scenarios</h3>
     <ul class="wi-bullet">
-      <li><strong>Routing adjacency drops after enabling authentication</strong> &mdash; cause: peer device not configured with matching key, or key strength mismatch. Fix: align keys on both sides simultaneously; coordinated change is essential.</li>
-      <li><strong>Legitimate traffic dropped by CoPP</strong> &mdash; cause: rate limit too aggressive for legitimate burst, or a traffic class missed in policy. Fix: identify the affected class via counters, widen the limit, or add a class.</li>
-      <li><strong>Network outage after BPDU Guard activation</strong> &mdash; cause: BPDU Guard applied to a port carrying legitimate switch-to-switch traffic (should be a trunk). Fix: re-classify the port; BPDU Guard belongs on access edges only.</li>
-      <li><strong>Storm control firing during normal operation</strong> &mdash; cause: threshold too tight for the actual traffic profile (e.g. PXE boot environment, IP multicast video). Fix: tune the threshold; consider exempting specific VLANs.</li>
-      <li><strong>uRPF dropping legitimate asymmetric traffic</strong> &mdash; cause: strict mode applied to a multihomed or asymmetric path. Fix: change to loose mode on that interface, or fix the upstream routing to be symmetric.</li>
-      <li><strong>BGP max-prefix shutting neighbour down</strong> &mdash; cause: peer legitimately grew table beyond the limit, or peer leaked. Fix: investigate the peer first; if growth is legitimate, raise the limit; if a leak, the protection worked.</li>
+      <li><span><strong>Routing adjacency drops after enabling authentication</strong> &mdash; cause: peer device not configured with matching key, or key strength mismatch. Fix: align keys on both sides simultaneously; coordinated change is essential.</span></li>
+      <li><span><strong>Legitimate traffic dropped by CoPP</strong> &mdash; cause: rate limit too aggressive for legitimate burst, or a traffic class missed in policy. Fix: identify the affected class via counters, widen the limit, or add a class.</span></li>
+      <li><span><strong>Network outage after BPDU Guard activation</strong> &mdash; cause: BPDU Guard applied to a port carrying legitimate switch-to-switch traffic (should be a trunk). Fix: re-classify the port; BPDU Guard belongs on access edges only.</span></li>
+      <li><span><strong>Storm control firing during normal operation</strong> &mdash; cause: threshold too tight for the actual traffic profile (e.g. PXE boot environment, IP multicast video). Fix: tune the threshold; consider exempting specific VLANs.</span></li>
+      <li><span><strong>uRPF dropping legitimate asymmetric traffic</strong> &mdash; cause: strict mode applied to a multihomed or asymmetric path. Fix: change to loose mode on that interface, or fix the upstream routing to be symmetric.</span></li>
+      <li><span><strong>BGP max-prefix shutting neighbour down</strong> &mdash; cause: peer legitimately grew table beyond the limit, or peer leaked. Fix: investigate the peer first; if growth is legitimate, raise the limit; if a leak, the protection worked.</span></li>
     </ul>
 
     <h3>Rollback procedure</h3>
@@ -331,14 +331,14 @@
   <div class="wi-section">
     <div class="wi-section-label">Common errors &amp; tips</div>
     <ul class="wi-bullet">
-      <li><strong>Coordinate routing-authentication changes across all peers simultaneously.</strong> One side configured, other side not, equals dropped adjacency. Use a controlled change window with both ends in scope.</li>
-      <li><strong>CoPP starting point should be a known-working vendor template, not "deny all".</strong> Building CoPP from scratch in production is how you lock yourself out from BGP, NTP, syslog, and SSH simultaneously.</li>
-      <li><strong>BPDU Guard belongs on access ports facing end-users.</strong> Putting it on trunks between switches will eventually err-disable an inter-switch link during a legitimate topology change.</li>
-      <li><strong>Don't enable DAI without DHCP snooping populated first.</strong> Empty binding table + DAI = all ARP dropped = all hosts disconnected.</li>
-      <li><strong>uRPF strict mode hates asymmetric paths.</strong> If your network has dual-homed sites with traffic engineering, loose mode is usually safer than strict.</li>
-      <li><strong>Max-prefix on BGP should be the "expected plus headroom", not the "current"</strong>. Set it 20&ndash;30% above the steady-state to avoid false positives on legitimate growth.</li>
-      <li><strong>Storm control thresholds vary by site profile.</strong> A campus with heavy multicast video needs different multicast thresholds than a typical office. One size does not fit all.</li>
-      <li><strong>Don't disable proxy-ARP on transit interfaces in legacy environments without checking</strong>. Some legacy applications and devices rely on proxy-ARP behaviour; investigate before flipping the switch in production.</li>
+      <li><span><strong>Coordinate routing-authentication changes across all peers simultaneously.</strong> One side configured, other side not, equals dropped adjacency. Use a controlled change window with both ends in scope.</span></li>
+      <li><span><strong>CoPP starting point should be a known-working vendor template, not "deny all".</strong> Building CoPP from scratch in production is how you lock yourself out from BGP, NTP, syslog, and SSH simultaneously.</span></li>
+      <li><span><strong>BPDU Guard belongs on access ports facing end-users.</strong> Putting it on trunks between switches will eventually err-disable an inter-switch link during a legitimate topology change.</span></li>
+      <li><span><strong>Don't enable DAI without DHCP snooping populated first.</strong> Empty binding table + DAI = all ARP dropped = all hosts disconnected.</span></li>
+      <li><span><strong>uRPF strict mode hates asymmetric paths.</strong> If your network has dual-homed sites with traffic engineering, loose mode is usually safer than strict.</span></li>
+      <li><span><strong>Max-prefix on BGP should be the "expected plus headroom", not the "current"</strong>. Set it 20&ndash;30% above the steady-state to avoid false positives on legitimate growth.</span></li>
+      <li><span><strong>Storm control thresholds vary by site profile.</strong> A campus with heavy multicast video needs different multicast thresholds than a typical office. One size does not fit all.</span></li>
+      <li><span><strong>Don't disable proxy-ARP on transit interfaces in legacy environments without checking</strong>. Some legacy applications and devices rely on proxy-ARP behaviour; investigate before flipping the switch in production.</span></li>
     </ul>
   </div>
 
