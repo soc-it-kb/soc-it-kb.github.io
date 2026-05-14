@@ -134,22 +134,22 @@
       <div class="step-body">
         <p>Storage accounts are the most common cloud exposure in any estate. Default permissive settings have historically caused major data leaks. Tighten universally:</p>
         <ul>
-          <li><strong>Secure transfer required</strong> &mdash; HTTPS only; <code>storageAccountProperties.supportsHttpsTrafficOnly = true</code>; enforced via Azure Policy (WI-03 Step 3)</li>
-          <li><strong>Public blob anonymous access disabled</strong> at the storage account level (<code>allowBlobPublicAccess = false</code>) &mdash; this prevents containers being set to public-anonymous regardless of container-level setting</li>
-          <li><strong>Minimum TLS 1.2</strong> &mdash; <code>minimumTlsVersion = TLS1_2</code>; TLS 1.0 / 1.1 disabled</li>
-          <li><strong>Network access controls</strong>:
+          <li><span><strong>Secure transfer required</strong> &mdash; HTTPS only; <code>storageAccountProperties.supportsHttpsTrafficOnly = true</code>; enforced via Azure Policy (WI-03 Step 3)</span></li>
+          <li><span><strong>Public blob anonymous access disabled</strong> at the storage account level (<code>allowBlobPublicAccess = false</code>) &mdash; this prevents containers being set to public-anonymous regardless of container-level setting</span></li>
+          <li><span><strong>Minimum TLS 1.2</strong> &mdash; <code>minimumTlsVersion = TLS1_2</code>; TLS 1.0 / 1.1 disabled</span></li>
+          <li><span><strong>Network access controls</strong>:</span></li>
             <ul>
               <li>Default action <code>Deny</code></li>
               <li>Allow access only via Private Endpoint (preferred) or specific service endpoint / firewall allow-list</li>
               <li>"Allow trusted Microsoft services" enabled where the storage account is read by other Azure services (Backup, Monitor, Defender)</li>
             </ul>
           </li>
-          <li><strong>Encryption at rest</strong> &mdash; AES-256 always (platform default). For Tier 0 / 1: <strong>customer-managed keys (CMK)</strong> using a key in Key Vault Premium or Managed HSM</li>
-          <li><strong>Soft-delete</strong> for blobs and containers &mdash; ≥7 days; for Tier 0/1: 30&ndash;90 days</li>
-          <li><strong>Immutable storage</strong> for compliance-relevant data &mdash; legal-hold or time-based policies prevent deletion / modification within retention window</li>
-          <li><strong>Cross-tenant replication</strong> disabled unless explicitly required (default-off in newer Azure regions; verify)</li>
-          <li><strong>Shared Key authorization</strong> &mdash; consider disabling and using Entra-only authentication for storage account access (limits the blast radius if a storage account key is leaked)</li>
-          <li><strong>Diagnostic logging</strong> &mdash; StorageRead, StorageWrite, StorageDelete to Log Analytics + Event Hub (per WI-03 Step 4); without these, blob-level access is invisible</li>
+          <li><span><strong>Encryption at rest</strong> &mdash; AES-256 always (platform default). For Tier 0 / 1: <strong>customer-managed keys (CMK)</strong> using a key in Key Vault Premium or Managed HSM</span></li>
+          <li><span><strong>Soft-delete</strong> for blobs and containers &mdash; ≥7 days; for Tier 0/1: 30&ndash;90 days</span></li>
+          <li><span><strong>Immutable storage</strong> for compliance-relevant data &mdash; legal-hold or time-based policies prevent deletion / modification within retention window</span></li>
+          <li><span><strong>Cross-tenant replication</strong> disabled unless explicitly required (default-off in newer Azure regions; verify)</span></li>
+          <li><span><strong>Shared Key authorization</strong> &mdash; consider disabling and using Entra-only authentication for storage account access (limits the blast radius if a storage account key is leaked)</span></li>
+          <li><span><strong>Diagnostic logging</strong> &mdash; StorageRead, StorageWrite, StorageDelete to Log Analytics + Event Hub (per WI-03 Step 4); without these, blob-level access is invisible</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Test: create blob in test storage account, attempt anonymous public read; refused. Test: HTTP request to storage endpoint; rejected. Network restrictions confirmed via Defender for Cloud recommendations.</div>
         <span class="cis-ref">CIS Azure 3.x · MCSB DP-x</span>
@@ -164,16 +164,16 @@
       <div class="step-body">
         <p>Key Vault holds secrets, keys, and certificates &mdash; everything else's trust ultimately depends on it. Treat every Key Vault as Tier 0 even when the workload it supports is lower-tier.</p>
         <ul>
-          <li><strong>RBAC mode (preferred over access policies)</strong> &mdash; Key Vault has two access models; RBAC is the modern model and is easier to audit and integrate with PIM</li>
-          <li><strong>Soft-delete enabled</strong> &mdash; non-disablable in new Key Vaults (Microsoft enforces it); retention 7&ndash;90 days configurable</li>
-          <li><strong>Purge protection enabled</strong> &mdash; once enabled, cannot be disabled; soft-deleted vaults / keys cannot be purged before retention expiry. <strong>This is the single most important Key Vault setting.</strong></li>
-          <li><strong>Network access</strong> &mdash; default-deny with Private Endpoint preferred; trusted Microsoft services allowed only where the dependency is genuine</li>
-          <li><strong>Diagnostic logging</strong> &mdash; <code>AuditEvent</code> category to Log Analytics + Event Hub; without this, key access is invisible</li>
-          <li><strong>Key types</strong> &mdash; software-protected keys for Tier 2/3 workloads; <strong>HSM-backed keys (Premium tier or Managed HSM)</strong> for Tier 0/1 production cryptography</li>
-          <li><strong>Key rotation</strong> &mdash; automatic rotation policies for all keys (typical: 1&ndash;2 years); rotation tested annually; previous key version retained for grace period</li>
-          <li><strong>Key Vault firewall</strong> &mdash; if Private Endpoint is not used, restrict to specific virtual networks and IP ranges; never &quot;Allow access from all networks&quot; in production</li>
-          <li><strong>Backup</strong> &mdash; Key Vault backup procedure documented; cross-region or cross-subscription depending on DR requirement</li>
-          <li><strong>Access by managed identities preferred</strong> over service principals or app-secret patterns; ties access to a resource lifecycle</li>
+          <li><span><strong>RBAC mode (preferred over access policies)</strong> &mdash; Key Vault has two access models; RBAC is the modern model and is easier to audit and integrate with PIM</span></li>
+          <li><span><strong>Soft-delete enabled</strong> &mdash; non-disablable in new Key Vaults (Microsoft enforces it); retention 7&ndash;90 days configurable</span></li>
+          <li><span><strong>Purge protection enabled</strong> &mdash; once enabled, cannot be disabled; soft-deleted vaults / keys cannot be purged before retention expiry. <strong>This is the single most important Key Vault setting.</strong></span></li>
+          <li><span><strong>Network access</strong> &mdash; default-deny with Private Endpoint preferred; trusted Microsoft services allowed only where the dependency is genuine</span></li>
+          <li><span><strong>Diagnostic logging</strong> &mdash; <code>AuditEvent</code> category to Log Analytics + Event Hub; without this, key access is invisible</span></li>
+          <li><span><strong>Key types</strong> &mdash; software-protected keys for Tier 2/3 workloads; <strong>HSM-backed keys (Premium tier or Managed HSM)</strong> for Tier 0/1 production cryptography</span></li>
+          <li><span><strong>Key rotation</strong> &mdash; automatic rotation policies for all keys (typical: 1&ndash;2 years); rotation tested annually; previous key version retained for grace period</span></li>
+          <li><span><strong>Key Vault firewall</strong> &mdash; if Private Endpoint is not used, restrict to specific virtual networks and IP ranges; never &quot;Allow access from all networks&quot; in production</span></li>
+          <li><span><strong>Backup</strong> &mdash; Key Vault backup procedure documented; cross-region or cross-subscription depending on DR requirement</span></li>
+          <li><span><strong>Access by managed identities preferred</strong> over service principals or app-secret patterns; ties access to a resource lifecycle</span></li>
         </ul>
         <div class="callout-warn"><strong>If you do nothing else in this step, enable Purge Protection on every Key Vault.</strong> Without it, a malicious or accidental "delete and purge" can permanently lose keys, which can permanently lose the data they encrypt. With purge protection, every deletion waits out the retention window and can be recovered.</div>
         <div class="step-verify"><strong>Verify.</strong> Soft-delete and purge protection enabled on every Key Vault. Network restrictions in place. Test: attempt to disable purge protection; refused. Diagnostic logs visible in Log Analytics.</div>
@@ -189,15 +189,15 @@
       <div class="step-body">
         <p>Network Security Groups (NSGs) are subnet-level (and NIC-level) firewalls. They are the primary segmentation control inside an Azure subscription.</p>
         <ul>
-          <li><strong>NSG on every subnet</strong> &mdash; never leave a subnet without an NSG. The platform allows it; the baseline does not.</li>
-          <li><strong>Default-deny inbound</strong> at the subnet NSG. Azure's default rules allow VirtualNetwork-to-VirtualNetwork; tighten with explicit allows for the services that actually need cross-subnet communication.</li>
-          <li><strong>No 0.0.0.0/0 to sensitive ports</strong> &mdash; RDP (3389), SSH (22), WinRM, database ports (1433, 3306, 5432, etc.), management endpoints. Public access to these requires explicit JIT VM access (Defender for Servers) or documented exception.</li>
-          <li><strong>Application Security Groups (ASGs)</strong> for workload-internal segmentation &mdash; reference VMs by role tag rather than IP; NSG rules use ASG references; surviving IP changes</li>
-          <li><strong>NSG flow logs</strong> &mdash; enabled on every NSG (Network Watcher); Version 2 (with metadata); routed to Log Analytics workspace; analytics enabled for Traffic Analytics (or equivalent in central SIEM)</li>
-          <li><strong>Diagnostic settings on NSGs</strong> &mdash; NetworkSecurityGroupEvent and NetworkSecurityGroupRuleCounter categories</li>
-          <li><strong>Service Tags</strong> &mdash; use Microsoft-managed service tags (e.g. <code>AzureCloud</code>, <code>Sql</code>, <code>Storage</code>) for outbound rules instead of hardcoded IP ranges; the tag updates automatically as Microsoft IP ranges evolve</li>
-          <li><strong>Network Watcher</strong> &mdash; enabled per region (it is by default in newer subscriptions; verify); supports connectivity diagnostics</li>
-          <li><strong>Azure Firewall or third-party NVA</strong> for egress filtering on Tier 0/1 subscriptions &mdash; not a strict baseline requirement, but recommended; documented in cloud architecture rather than this baseline</li>
+          <li><span><strong>NSG on every subnet</strong> &mdash; never leave a subnet without an NSG. The platform allows it; the baseline does not.</span></li>
+          <li><span><strong>Default-deny inbound</strong> at the subnet NSG. Azure's default rules allow VirtualNetwork-to-VirtualNetwork; tighten with explicit allows for the services that actually need cross-subnet communication.</span></li>
+          <li><span><strong>No 0.0.0.0/0 to sensitive ports</strong> &mdash; RDP (3389), SSH (22), WinRM, database ports (1433, 3306, 5432, etc.), management endpoints. Public access to these requires explicit JIT VM access (Defender for Servers) or documented exception.</span></li>
+          <li><span><strong>Application Security Groups (ASGs)</strong> for workload-internal segmentation &mdash; reference VMs by role tag rather than IP; NSG rules use ASG references; surviving IP changes</span></li>
+          <li><span><strong>NSG flow logs</strong> &mdash; enabled on every NSG (Network Watcher); Version 2 (with metadata); routed to Log Analytics workspace; analytics enabled for Traffic Analytics (or equivalent in central SIEM)</span></li>
+          <li><span><strong>Diagnostic settings on NSGs</strong> &mdash; NetworkSecurityGroupEvent and NetworkSecurityGroupRuleCounter categories</span></li>
+          <li><span><strong>Service Tags</strong> &mdash; use Microsoft-managed service tags (e.g. <code>AzureCloud</code>, <code>Sql</code>, <code>Storage</code>) for outbound rules instead of hardcoded IP ranges; the tag updates automatically as Microsoft IP ranges evolve</span></li>
+          <li><span><strong>Network Watcher</strong> &mdash; enabled per region (it is by default in newer subscriptions; verify); supports connectivity diagnostics</span></li>
+          <li><span><strong>Azure Firewall or third-party NVA</strong> for egress filtering on Tier 0/1 subscriptions &mdash; not a strict baseline requirement, but recommended; documented in cloud architecture rather than this baseline</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Every subnet has an NSG. Sample NSG shows explicit allow rules + default-deny inbound. Flow logs flowing to Log Analytics; Traffic Analytics dashboard populated.</div>
         <span class="cis-ref">CIS Azure 6.x · "Network Security Groups"</span>
@@ -212,12 +212,12 @@
       <div class="step-body">
         <p>Most PaaS data services (Storage, SQL Database, Cosmos DB, Key Vault, Service Bus, Event Hubs) default to public endpoint exposure. Private Endpoint gives each instance a private IP inside the virtual network and disables the public endpoint.</p>
         <ul>
-          <li><strong>Default pattern</strong>: PaaS data services accessed via Private Endpoint; public endpoint disabled. Network access on the resource set to "Disabled" or restricted-to-Private-Endpoint.</li>
-          <li><strong>Service Endpoints</strong> as fallback &mdash; older mechanism; the PaaS endpoint stays public but only VNet-routed traffic is allowed. Less secure than Private Endpoint (the public endpoint still exists). Acceptable only where Private Endpoint is not supported.</li>
-          <li><strong>Private DNS zones</strong> &mdash; required for Private Endpoint to work correctly; the private DNS zone for the PaaS resource type (e.g. <code>privatelink.blob.core.windows.net</code>) is linked to the VNet; without DNS resolution, the Private Endpoint is invisible to consumers</li>
-          <li><strong>DNS architecture</strong> &mdash; centralised in a hub VNet for hub-spoke topologies; each Private Endpoint registers in the central zones; spokes inherit via VNet link</li>
-          <li><strong>Network access on the PaaS resource</strong> &mdash; even with Private Endpoint, the resource may still allow public access. Disable explicitly.</li>
-          <li><strong>Enforced via Azure Policy</strong> &mdash; built-in policies "Storage accounts should restrict network access," "Key Vault should use a Private Endpoint," etc., assigned at management group scope; effect: Audit initially, Deny after estate remediated</li>
+          <li><span><strong>Default pattern</strong>: PaaS data services accessed via Private Endpoint; public endpoint disabled. Network access on the resource set to "Disabled" or restricted-to-Private-Endpoint.</span></li>
+          <li><span><strong>Service Endpoints</strong> as fallback &mdash; older mechanism; the PaaS endpoint stays public but only VNet-routed traffic is allowed. Less secure than Private Endpoint (the public endpoint still exists). Acceptable only where Private Endpoint is not supported.</span></li>
+          <li><span><strong>Private DNS zones</strong> &mdash; required for Private Endpoint to work correctly; the private DNS zone for the PaaS resource type (e.g. <code>privatelink.blob.core.windows.net</code>) is linked to the VNet; without DNS resolution, the Private Endpoint is invisible to consumers</span></li>
+          <li><span><strong>DNS architecture</strong> &mdash; centralised in a hub VNet for hub-spoke topologies; each Private Endpoint registers in the central zones; spokes inherit via VNet link</span></li>
+          <li><span><strong>Network access on the PaaS resource</strong> &mdash; even with Private Endpoint, the resource may still allow public access. Disable explicitly.</span></li>
+          <li><span><strong>Enforced via Azure Policy</strong> &mdash; built-in policies "Storage accounts should restrict network access," "Key Vault should use a Private Endpoint," etc., assigned at management group scope; effect: Audit initially, Deny after estate remediated</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Sample Storage / Key Vault / SQL has Private Endpoint configured; public endpoint disabled. Test resolution: from a VM in the VNet, <code>nslookup</code> resolves to the private IP. Defender for Cloud recommendation "should use private link" cleared.</div>
         <span class="cis-ref">CIS Azure 3.x, 4.x, 8.x · MCSB NS-x · "Private Endpoint"</span>
@@ -232,27 +232,27 @@
       <div class="step-body">
         <p>This step absorbs the Azure-native cloud-WAF scope that was deferred from IT-SI-WI-02 (the on-prem / vendor WAF baseline). Azure WAF is offered on Application Gateway (regional, scoped to one app per gateway typically) and Front Door (global, multi-app, anycast); both share the same managed rule set engine.</p>
         <ul>
-          <li><strong>Placement</strong> &mdash; in front of every public-facing web application for Tier 0/1 apps; for Tier 2/3 apps where the workload type justifies it</li>
-          <li><strong>WAF policy attached</strong> &mdash; policy lives separately from the gateway/Front Door, referenced from the listener / route; one policy can apply across multiple endpoints</li>
-          <li><strong>Mode</strong>:
+          <li><span><strong>Placement</strong> &mdash; in front of every public-facing web application for Tier 0/1 apps; for Tier 2/3 apps where the workload type justifies it</span></li>
+          <li><span><strong>WAF policy attached</strong> &mdash; policy lives separately from the gateway/Front Door, referenced from the listener / route; one policy can apply across multiple endpoints</span></li>
+          <li><span><strong>Mode</strong>:</span></li>
             <ul>
               <li>Initial deployment: <strong>Detection mode</strong> for 2&ndash;4 weeks; review logs for false positives</li>
               <li>After tuning: <strong>Prevention mode</strong> within 90 days of go-live for Tier 0/1 apps</li>
               <li>Detection-mode forever is a non-control; track the Detection &rarr; Prevention transition explicitly</li>
             </ul>
           </li>
-          <li><strong>Managed rule set</strong> &mdash; Azure's managed rule set (DRS &mdash; Default Rule Set; current version) covers the OWASP Top 10 patterns: SQL injection, XSS, command injection, LFI / RFI, protocol anomalies, scanner detection. Enable as the baseline.</li>
-          <li><strong>Bot Manager rules</strong> &mdash; Azure WAF bot protection rule set; enable to filter known-bad bot traffic; review false positives carefully on apps with legitimate scraper / monitoring traffic</li>
-          <li><strong>Custom rules</strong> for app-specific patterns:
+          <li><span><strong>Managed rule set</strong> &mdash; Azure's managed rule set (DRS &mdash; Default Rule Set; current version) covers the OWASP Top 10 patterns: SQL injection, XSS, command injection, LFI / RFI, protocol anomalies, scanner detection. Enable as the baseline.</span></li>
+          <li><span><strong>Bot Manager rules</strong> &mdash; Azure WAF bot protection rule set; enable to filter known-bad bot traffic; review false positives carefully on apps with legitimate scraper / monitoring traffic</span></li>
+          <li><span><strong>Custom rules</strong> for app-specific patterns:</span></li>
             <ul>
               <li>Geo-restriction (block sign-in attempts from non-business regions)</li>
               <li>Rate limiting per source IP (mitigate credential stuffing, scraping)</li>
               <li>Path-specific bypass for legitimate scenarios where the managed rule set is over-triggering</li>
             </ul>
           </li>
-          <li><strong>Logging</strong> &mdash; WAF access log and firewall log to Log Analytics + Event Hub; sample dashboards (top blocked source IPs, top triggered rules, false-positive candidates); SIEM correlation with sign-in events</li>
-          <li><strong>Tuning discipline</strong> &mdash; named owner per WAF policy; documented exception process; quarterly review of triggered rule trends; do not blanket-disable rules &mdash; tune narrowly</li>
-          <li><strong>TLS</strong> &mdash; minimum TLS 1.2 on the listener; HTTPS-only redirects from HTTP; managed certificates (App Gateway / Front Door integration with Key Vault) for automatic renewal</li>
+          <li><span><strong>Logging</strong> &mdash; WAF access log and firewall log to Log Analytics + Event Hub; sample dashboards (top blocked source IPs, top triggered rules, false-positive candidates); SIEM correlation with sign-in events</span></li>
+          <li><span><strong>Tuning discipline</strong> &mdash; named owner per WAF policy; documented exception process; quarterly review of triggered rule trends; do not blanket-disable rules &mdash; tune narrowly</span></li>
+          <li><span><strong>TLS</strong> &mdash; minimum TLS 1.2 on the listener; HTTPS-only redirects from HTTP; managed certificates (App Gateway / Front Door integration with Key Vault) for automatic renewal</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> WAF policy attached to every public-facing Tier 0/1 web app. Mode: Detection initially &rarr; Prevention after tuning. Logs flowing to SIEM. Test: send a known-malicious pattern (controlled test like an SQL-injection-shaped query string) &mdash; blocked in Prevention mode, logged in Detection mode. Tuning ownership documented.</div>
         <span class="cis-ref">CIS Azure 7.x · MCSB NS-x · "Azure WAF"</span>
@@ -267,7 +267,7 @@
       <div class="step-body">
         <p>Database services are high-value targets. Several built-in security features need to be enabled rather than left at default-off.</p>
         <ul>
-          <li><strong>Azure SQL Database / Managed Instance</strong>:
+          <li><span><strong>Azure SQL Database / Managed Instance</strong>:</span></li>
             <ul>
               <li>Entra authentication enabled; SQL authentication used only where unavoidable; Entra admin assigned (group preferred over individual)</li>
               <li>Transparent Data Encryption (TDE) always-on; CMK with Key Vault for Tier 0/1</li>
@@ -278,7 +278,7 @@
               <li>Always Encrypted for highly sensitive columns (specific data subject to extra controls)</li>
             </ul>
           </li>
-          <li><strong>Cosmos DB</strong>:
+          <li><span><strong>Cosmos DB</strong>:</span></li>
             <ul>
               <li>Entra authentication preferred over key-based; data-plane RBAC enabled</li>
               <li>Defender for Cosmos DB enabled for Tier 0/1</li>
@@ -288,7 +288,7 @@
               <li>CMK encryption for Tier 0/1</li>
             </ul>
           </li>
-          <li><strong>Other database services</strong> (Azure Database for PostgreSQL / MySQL / MariaDB) follow analogous patterns: Entra auth where supported, SSL enforcement, Defender plan for the database type, network restrictions, diagnostic logging</li>
+          <li><span><strong>Other database services</strong> (Azure Database for PostgreSQL / MySQL / MariaDB) follow analogous patterns: Entra auth where supported, SSL enforcement, Defender plan for the database type, network restrictions, diagnostic logging</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Sample SQL Database has TDE on with CMK (Tier 0/1); Defender for SQL enabled. Sample Cosmos has Entra auth and Defender enabled. Test: SQL injection pattern caught by Defender; alert visible.</div>
         <span class="cis-ref">CIS Azure 4.x · MCSB DP-x · "Defender for SQL"</span>
@@ -303,14 +303,14 @@
       <div class="step-body">
         <p>Azure VMs combine all the usual server-hardening concerns (covered by the endpoint / server baseline domain in asm-security-baselines.html) with cloud-specific patterns. This step covers the Azure-specific additions; server-internal hardening remains under the server baseline domain.</p>
         <ul>
-          <li><strong>Defender for Servers</strong> &mdash; P2 plan for Tier 0/1, P1 acceptable for Tier 2/3 with justification; onboarding auto-provisioned via DfC (WI-03 Step 2); EDR integration with Defender for Endpoint (WI-05)</li>
-          <li><strong>Just-in-Time (JIT) VM access</strong> &mdash; for VMs that require occasional inbound management access (RDP/SSH), JIT replaces standing inbound NSG rules with time-bounded, source-IP-bounded approval-based access; default deny inbound on management ports otherwise</li>
-          <li><strong>Managed identities</strong> &mdash; system-assigned or user-assigned, used for VM-to-Azure-service authentication; eliminates secrets-in-VM-config</li>
-          <li><strong>Disk encryption</strong> &mdash; Azure Disk Encryption (BitLocker / dm-crypt) or Server-Side Encryption with CMK; the latter is simpler and equivalent for most use cases; Tier 0/1 = CMK</li>
-          <li><strong>Trusted Launch (Gen 2 VMs)</strong> &mdash; vTPM, secure boot, boot integrity monitoring; enable for new VMs where the image supports it</li>
-          <li><strong>VM extension control</strong> &mdash; Azure Policy restricting which VM extensions can be installed; an attacker with Contributor on a VM can install arbitrary extensions, so restrict at policy level</li>
-          <li><strong>Guest configuration / Azure Automanage</strong> &mdash; assign the baseline guest-configuration policies to verify in-guest hardening continuously; integrates with the server baseline domain</li>
-          <li><strong>Update Management</strong> &mdash; Azure Update Manager for patch deployment per IT-PM-SOP-01; non-conformant VMs flagged in DfC</li>
+          <li><span><strong>Defender for Servers</strong> &mdash; P2 plan for Tier 0/1, P1 acceptable for Tier 2/3 with justification; onboarding auto-provisioned via DfC (WI-03 Step 2); EDR integration with Defender for Endpoint (WI-05)</li>
+          <li><span><strong>Just-in-Time (JIT) VM access</strong> &mdash; for VMs that require occasional inbound management access (RDP/SSH), JIT replaces standing inbound NSG rules with time-bounded, source-IP-bounded approval-based access; default deny inbound on management ports otherwise</span></li>
+          <li><span><strong>Managed identities</strong> &mdash; system-assigned or user-assigned, used for VM-to-Azure-service authentication; eliminates secrets-in-VM-config</span></li>
+          <li><span><strong>Disk encryption</strong> &mdash; Azure Disk Encryption (BitLocker / dm-crypt) or Server-Side Encryption with CMK; the latter is simpler and equivalent for most use cases; Tier 0/1 = CMK</span></li>
+          <li><span><strong>Trusted Launch (Gen 2 VMs)</strong> &mdash; vTPM, secure boot, boot integrity monitoring; enable for new VMs where the image supports it</span></li>
+          <li><span><strong>VM extension control</strong> &mdash; Azure Policy restricting which VM extensions can be installed; an attacker with Contributor on a VM can install arbitrary extensions, so restrict at policy level</span></li>
+          <li><span><strong>Guest configuration / Azure Automanage</strong> &mdash; assign the baseline guest-configuration policies to verify in-guest hardening continuously; integrates with the server baseline domain</span></li>
+          <li><span><strong>Update Management</strong> &mdash; Azure Update Manager for patch deployment per IT-PM-SOP-01; non-conformant VMs flagged in DfC</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Sample VMs show Defender for Servers active, JIT configured for management access, managed identity assigned, CMK on disk. Defender recommendations cleared.</div>
         <span class="cis-ref">CIS Azure 7.x · "Defender for Servers" · "JIT"</span>
@@ -325,17 +325,17 @@
       <div class="step-body">
         <p>Azure App Service and Azure Functions are popular workload hosts. They have several "off by default" settings that need to be on by default for any production workload.</p>
         <ul>
-          <li><strong>HTTPS only</strong> &mdash; <code>httpsOnly = true</code>; HTTP redirected to HTTPS</li>
-          <li><strong>Minimum TLS version</strong> &mdash; TLS 1.2 minimum</li>
-          <li><strong>FTP / FTPS deployment</strong> &mdash; disabled unless deliberately needed; deployment via Azure DevOps / GitHub Actions / Bicep + service principal preferred</li>
-          <li><strong>Authentication / authorisation</strong> &mdash; for apps that don't implement their own, enable Easy Auth (Entra ID integrated identity provider); for apps with their own, ensure they validate tokens correctly</li>
-          <li><strong>Managed identity</strong> for connections to Key Vault, Storage, SQL &mdash; no connection strings with secrets in app config</li>
-          <li><strong>Key Vault reference syntax</strong> for any app-config setting that holds a secret &mdash; <code>@Microsoft.KeyVault(...)</code> &mdash; centralises secret management and rotation</li>
-          <li><strong>Network restrictions</strong> &mdash; access restrictions to specific IP ranges / VNets; or VNet integration with private endpoint for inbound</li>
-          <li><strong>Defender for App Service</strong> &mdash; enabled for Tier 0/1 subscriptions per WI-03 Step 2</li>
-          <li><strong>Diagnostic logging</strong> &mdash; AppServiceHTTPLogs, AppServiceConsoleLogs, AppServiceAppLogs to Log Analytics + Event Hub</li>
-          <li><strong>Slot deployment</strong> &mdash; production slot protected by Azure Policy from direct deployment; deployments go to staging slot then swap; audit-trail and rollback in one step</li>
-          <li><strong>For Functions specifically</strong> &mdash; host keys rotated periodically; consider Function authentication via Entra integration rather than function keys for higher-security functions</li>
+          <li><span><strong>HTTPS only</strong> &mdash; <code>httpsOnly = true</code>; HTTP redirected to HTTPS</span></li>
+          <li><span><strong>Minimum TLS version</strong> &mdash; TLS 1.2 minimum</span></li>
+          <li><span><strong>FTP / FTPS deployment</strong> &mdash; disabled unless deliberately needed; deployment via Azure DevOps / GitHub Actions / Bicep + service principal preferred</span></li>
+          <li><span><strong>Authentication / authorisation</strong> &mdash; for apps that don't implement their own, enable Easy Auth (Entra ID integrated identity provider); for apps with their own, ensure they validate tokens correctly</span></li>
+          <li><span><strong>Managed identity</strong> for connections to Key Vault, Storage, SQL &mdash; no connection strings with secrets in app config</span></li>
+          <li><span><strong>Key Vault reference syntax</strong> for any app-config setting that holds a secret &mdash; <code>@Microsoft.KeyVault(...)</code> &mdash; centralises secret management and rotation</span></li>
+          <li><span><strong>Network restrictions</strong> &mdash; access restrictions to specific IP ranges / VNets; or VNet integration with private endpoint for inbound</span></li>
+          <li><span><strong>Defender for App Service</strong> &mdash; enabled for Tier 0/1 subscriptions per WI-03 Step 2</span></li>
+          <li><span><strong>Diagnostic logging</strong> &mdash; AppServiceHTTPLogs, AppServiceConsoleLogs, AppServiceAppLogs to Log Analytics + Event Hub</span></li>
+          <li><span><strong>Slot deployment</strong> &mdash; production slot protected by Azure Policy from direct deployment; deployments go to staging slot then swap; audit-trail and rollback in one step</span></li>
+          <li><span><strong>For Functions specifically</strong> &mdash; host keys rotated periodically; consider Function authentication via Entra integration rather than function keys for higher-security functions</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Sample App Service shows HTTPS-only, managed identity, Easy Auth where applicable, diagnostic logging on. Defender for App Service recommendations cleared.</div>
         <span class="cis-ref">CIS Azure 9.x · "App Service" · MCSB DP-x</span>
@@ -350,13 +350,13 @@
       <div class="step-body">
         <p>Backup is operational hygiene that is also a security control &mdash; ransomware recovery depends entirely on backup integrity.</p>
         <ul>
-          <li><strong>Azure Backup or service-native backup</strong> per workload type: VMs &rarr; Azure Backup; SQL &rarr; SQL automated backups + LTR (long-term retention); Cosmos &rarr; continuous backup; Storage &rarr; soft-delete + versioning + (where critical) Azure Backup for Blob</li>
-          <li><strong>Recovery Services Vault</strong> &mdash; in a different region or different subscription from the workload it protects; cross-region for DR scenarios</li>
-          <li><strong>Soft-delete on the vault</strong> &mdash; recovery points cannot be deleted within retention (14-day minimum); aligns with "immutable backups" pattern</li>
-          <li><strong>Multi-user authorisation (MUA)</strong> on the vault &mdash; high-risk operations (vault delete, retention reduction, soft-delete disable) require a second approver</li>
-          <li><strong>RPO/RTO per tier</strong> &mdash; documented in the asset record; Tier 0/1 typically RPO ≤ 24h, RTO ≤ 4h; Tier 2/3 longer windows acceptable</li>
-          <li><strong>Restore testing</strong> &mdash; quarterly for Tier 0/1; annual for Tier 2/3; documented test results retained as audit evidence</li>
-          <li><strong>Backup integration with SIEM</strong> &mdash; backup failures and unusual restore activity (especially restore to non-original RG) alerted</li>
+          <li><span><strong>Azure Backup or service-native backup</strong> per workload type: VMs &rarr; Azure Backup; SQL &rarr; SQL automated backups + LTR (long-term retention); Cosmos &rarr; continuous backup; Storage &rarr; soft-delete + versioning + (where critical) Azure Backup for Blob</span></li>
+          <li><span><strong>Recovery Services Vault</strong> &mdash; in a different region or different subscription from the workload it protects; cross-region for DR scenarios</span></li>
+          <li><span><strong>Soft-delete on the vault</strong> &mdash; recovery points cannot be deleted within retention (14-day minimum); aligns with "immutable backups" pattern</span></li>
+          <li><span><strong>Multi-user authorisation (MUA)</strong> on the vault &mdash; high-risk operations (vault delete, retention reduction, soft-delete disable) require a second approver</span></li>
+          <li><span><strong>RPO/RTO per tier</strong> &mdash; documented in the asset record; Tier 0/1 typically RPO ≤ 24h, RTO ≤ 4h; Tier 2/3 longer windows acceptable</span></li>
+          <li><span><strong>Restore testing</strong> &mdash; quarterly for Tier 0/1; annual for Tier 2/3; documented test results retained as audit evidence</span></li>
+          <li><span><strong>Backup integration with SIEM</strong> &mdash; backup failures and unusual restore activity (especially restore to non-original RG) alerted</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Backup policies configured per tier; vault soft-delete and MUA enabled. Restore test completed within the cadence per tier; evidence retained.</div>
         <span class="cis-ref">MCSB BR-x · "Azure Backup"</span>
@@ -371,11 +371,11 @@
       <div class="step-body">
         <p>Azure provides DDoS protection at two levels &mdash; basic (free, network-layer, on every public IP) and standard (paid, with application-layer telemetry, mitigation tuning, attack notifications).</p>
         <ul>
-          <li><strong>DDoS Protection Standard</strong> on the VNets containing Tier 0/1 public-facing resources &mdash; covers all public IPs in the VNet for a flat-rate per protected VNet</li>
-          <li><strong>DDoS Protection Plans</strong> reusable across VNets in the same subscription / scope &mdash; the cost is per plan, not per VNet, when plan is attached to multiple</li>
-          <li><strong>Telemetry</strong> &mdash; DDoS metrics in Log Analytics; alerts on mitigation events; SOC playbook for DDoS response (correlation with WAF logs and app availability)</li>
-          <li><strong>Coverage</strong> &mdash; Application Gateway with WAF, Front Door, exposed VMs, Public IPs on load balancers, Bastion external endpoints</li>
-          <li><strong>Tier 2/3</strong> &mdash; DDoS Basic acceptable; consider Standard where DDoS-risk profile justifies the cost</li>
+          <li><span><strong>DDoS Protection Standard</strong> on the VNets containing Tier 0/1 public-facing resources &mdash; covers all public IPs in the VNet for a flat-rate per protected VNet</span></li>
+          <li><span><strong>DDoS Protection Plans</strong> reusable across VNets in the same subscription / scope &mdash; the cost is per plan, not per VNet, when plan is attached to multiple</span></li>
+          <li><span><strong>Telemetry</strong> &mdash; DDoS metrics in Log Analytics; alerts on mitigation events; SOC playbook for DDoS response (correlation with WAF logs and app availability)</span></li>
+          <li><span><strong>Coverage</strong> &mdash; Application Gateway with WAF, Front Door, exposed VMs, Public IPs on load balancers, Bastion external endpoints</span></li>
+          <li><span><strong>Tier 2/3</strong> &mdash; DDoS Basic acceptable; consider Standard where DDoS-risk profile justifies the cost</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> DDoS Protection Standard attached to VNets containing Tier 0/1 public IPs. Telemetry visible. DDoS-event alert chain tested.</div>
         <span class="cis-ref">MCSB NS-x · "DDoS Protection"</span>

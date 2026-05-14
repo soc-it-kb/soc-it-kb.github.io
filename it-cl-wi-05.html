@@ -137,9 +137,9 @@
       <div class="step-body">
         <p>Defender for Endpoint (MDE) is the EDR product. Licensing varies: P1 (anti-malware + ASR), P2 (full EDR + investigation), and Server SKU. Most A3/E3 includes P1; E5 includes P2.</p>
         <ul>
-          <li><strong>Onboarding</strong> &mdash; via Intune device configuration for Intune-managed devices; via Group Policy / configuration management for unmanaged; via Defender for Cloud auto-provisioning for Azure VMs (WI-03 Step 2)</li>
-          <li><strong>Coverage</strong> &mdash; Windows endpoints, Windows Server (Azure and on-prem), macOS (where licensed), Linux servers (where licensed), iOS/Android (Defender for Endpoint mobile; E5 typically)</li>
-          <li><strong>Device-group taxonomy</strong> &mdash; documented and applied:
+          <li><span><strong>Onboarding</strong> &mdash; via Intune device configuration for Intune-managed devices; via Group Policy / configuration management for unmanaged; via Defender for Cloud auto-provisioning for Azure VMs (WI-03 Step 2)</span></li>
+          <li><span><strong>Coverage</strong> &mdash; Windows endpoints, Windows Server (Azure and on-prem), macOS (where licensed), Linux servers (where licensed), iOS/Android (Defender for Endpoint mobile; E5 typically)</span></li>
+          <li><span><strong>Device-group taxonomy</strong> &mdash; documented and applied:</span></li>
             <ul>
               <li>By criticality (Tier 0 / 1 / 2 / 3 from asset register)</li>
               <li>By agency (which operating unit owns the device)</li>
@@ -147,14 +147,14 @@
               <li>By platform (Windows / macOS / Linux / mobile)</li>
             </ul>
           </li>
-          <li><strong>Security baseline</strong> &mdash; the Microsoft Defender for Endpoint security baseline (in Intune or via direct policy) assigned to every device group; this is separate from the Defender for Endpoint <em>policy</em> but ensures the underlying device-hardening is in place</li>
-          <li><strong>Attack Surface Reduction (ASR) rules</strong> &mdash; the 16 ASR rules deployed in <em>Audit</em> mode, monitored 2&ndash;4 weeks per rule, then promoted to <em>Block</em>. Some rules have known false-positive patterns; tune narrowly. CIS-recommended ASR set is the starting reference.</li>
-          <li><strong>EDR in block mode</strong> &mdash; on for all Windows endpoints; ensures EDR can take action even when the primary AV is non-Microsoft</li>
-          <li><strong>Tamper protection</strong> &mdash; on by default in newer tenant configurations; verify; prevents local admin or malware from disabling Defender</li>
-          <li><strong>Network protection</strong> &mdash; enabled in Block mode; blocks outbound connections to known-malicious destinations from the endpoint itself</li>
-          <li><strong>Controlled folder access</strong> &mdash; ransomware mitigation; Audit mode first; deploy to high-risk users (finance, HR) before broad rollout</li>
-          <li><strong>Web content filtering</strong> &mdash; enabled where licensed; blocks categories per organisation policy</li>
-          <li><strong>Defender for Endpoint alerts forwarded to central SIEM</strong> via M365 Defender connector or Graph Security API; severity mapping documented</li>
+          <li><span><strong>Security baseline</strong> &mdash; the Microsoft Defender for Endpoint security baseline (in Intune or via direct policy) assigned to every device group; this is separate from the Defender for Endpoint <em>policy</em> but ensures the underlying device-hardening is in place</span></li>
+          <li><span><strong>Attack Surface Reduction (ASR) rules</strong> &mdash; the 16 ASR rules deployed in <em>Audit</em> mode, monitored 2&ndash;4 weeks per rule, then promoted to <em>Block</em>. Some rules have known false-positive patterns; tune narrowly. CIS-recommended ASR set is the starting reference.</span></li>
+          <li><span><strong>EDR in block mode</strong> &mdash; on for all Windows endpoints; ensures EDR can take action even when the primary AV is non-Microsoft</span></li>
+          <li><span><strong>Tamper protection</strong> &mdash; on by default in newer tenant configurations; verify; prevents local admin or malware from disabling Defender</span></li>
+          <li><span><strong>Network protection</strong> &mdash; enabled in Block mode; blocks outbound connections to known-malicious destinations from the endpoint itself</span></li>
+          <li><span><strong>Controlled folder access</strong> &mdash; ransomware mitigation; Audit mode first; deploy to high-risk users (finance, HR) before broad rollout</span></li>
+          <li><span><strong>Web content filtering</strong> &mdash; enabled where licensed; blocks categories per organisation policy</span></li>
+          <li><span><strong>Defender for Endpoint alerts forwarded to central SIEM</strong> via M365 Defender connector or Graph Security API; severity mapping documented</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Sample devices show "Onboarded" status in Defender portal. ASR rule deployment confirmed per device group. EDR-in-block-mode active. Test detection (EICAR file): alert generated, Defender takes action, alert reaches SIEM.</div>
         <span class="cis-ref">CIS M365 (A3/E3+) · "Defender for Endpoint" · MCSB ES-x</span>
@@ -169,17 +169,17 @@
       <div class="step-body">
         <p>Defender for Office 365 (Plan 1 and Plan 2) was configured in WI-02 Step 8 (M365 Tenant Hardening). This step cross-references that configuration and adds operational integration with the wider Defender suite.</p>
         <ul>
-          <li><strong>Configuration</strong> &mdash; per WI-02 Step 8 (Safe Attachments Dynamic Delivery, Safe Links, anti-phishing impersonation protection, preset Strict policies for VIPs, Attack Simulator quarterly)</li>
-          <li><strong>Alert integration with the suite</strong>:
+          <li><span><strong>Configuration</strong> &mdash; per WI-02 Step 8 (Safe Attachments Dynamic Delivery, Safe Links, anti-phishing impersonation protection, preset Strict policies for VIPs, Attack Simulator quarterly)</span></li>
+          <li><span><strong>Alert integration with the suite</strong>:</span></li>
             <ul>
               <li>A Defender for Office 365 incident automatically correlates with Defender for Endpoint alerts on the recipient's device (did they click? did they execute the attachment?) in the M365 Defender unified portal</li>
               <li>Sign-in risk from Identity Protection cross-correlates with email-delivery events (was the credential phished?)</li>
               <li>Cross-product incidents in M365 Defender appear as a single incident with multiple alerts attached</li>
             </ul>
           </li>
-          <li><strong>Threat Explorer access</strong> &mdash; SOC analyst named roles; queries documented in SOC SOP-EM-01 (Email Threat Response)</li>
-          <li><strong>Quarantine review</strong> &mdash; periodic review of held messages for false-positive patterns; user-quarantine notifications already configured (WI-02 Step 1)</li>
-          <li><strong>Attack Simulator results</strong> integrated with user training tracking; high-failure users assigned remediation training</li>
+          <li><span><strong>Threat Explorer access</strong> &mdash; SOC analyst named roles; queries documented in SOC SOP-EM-01 (Email Threat Response)</span></li>
+          <li><span><strong>Quarantine review</strong> &mdash; periodic review of held messages for false-positive patterns; user-quarantine notifications already configured (WI-02 Step 1)</span></li>
+          <li><span><strong>Attack Simulator results</strong> integrated with user training tracking; high-failure users assigned remediation training</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> WI-02 Step 8 controls in place (already validated). Cross-product correlation visible in M365 Defender portal (sample incident covering both email-deliver and endpoint-detection events). SOC playbook reference up to date.</div>
         <span class="cis-ref">CIS M365 (E5) · cross-reference WI-02 §8</span>
@@ -194,13 +194,13 @@
       <div class="step-body">
         <p>Defender for Identity (MDI; formerly Azure ATP) is the on-prem AD detection product. It runs as a sensor on every domain controller, reading AD network traffic and event logs to detect attack patterns (Kerberoasting, Golden Ticket, DCSync, suspicious group membership changes, etc.).</p>
         <ul>
-          <li><strong>Sensor coverage</strong> &mdash; one sensor per domain controller in every domain the agency operates; including read-only DCs and DCs in branch sites</li>
-          <li><strong>Service account</strong> &mdash; gMSA (group Managed Service Account) preferred over a standard service account; minimum permissions for AD reads; documented in identity governance</li>
-          <li><strong>Sensor health</strong> &mdash; monitor MDI sensor health metrics; sensor offline = blind spot. Alert on health degradation.</li>
-          <li><strong>Honeytoken accounts</strong> &mdash; a few decoy accounts placed in AD that legitimate users never touch; any auth attempt on a honeytoken is high-fidelity alert; document and configure them</li>
-          <li><strong>Entity tags</strong> &mdash; sensitive accounts and groups tagged in MDI so alerts on them are prioritised</li>
-          <li><strong>Integration with central SIEM</strong> &mdash; MDI alerts forwarded via M365 Defender connector or Graph Security API; alert detail visible in SIEM without portal-pivot</li>
-          <li><strong>VPN log integration</strong> &mdash; MDI can correlate sign-ins with VPN sessions where the VPN appliance forwards syslog to MDI</li>
+          <li><span><strong>Sensor coverage</strong> &mdash; one sensor per domain controller in every domain the agency operates; including read-only DCs and DCs in branch sites</span></li>
+          <li><span><strong>Service account</strong> &mdash; gMSA (group Managed Service Account) preferred over a standard service account; minimum permissions for AD reads; documented in identity governance</span></li>
+          <li><span><strong>Sensor health</strong> &mdash; monitor MDI sensor health metrics; sensor offline = blind spot. Alert on health degradation.</span></li>
+          <li><span><strong>Honeytoken accounts</strong> &mdash; a few decoy accounts placed in AD that legitimate users never touch; any auth attempt on a honeytoken is high-fidelity alert; document and configure them</span></li>
+          <li><span><strong>Entity tags</strong> &mdash; sensitive accounts and groups tagged in MDI so alerts on them are prioritised</span></li>
+          <li><span><strong>Integration with central SIEM</strong> &mdash; MDI alerts forwarded via M365 Defender connector or Graph Security API; alert detail visible in SIEM without portal-pivot</span></li>
+          <li><span><strong>VPN log integration</strong> &mdash; MDI can correlate sign-ins with VPN sessions where the VPN appliance forwards syslog to MDI</span></li>
         </ul>
         <div class="callout-info"><strong>Defender for Identity is on-prem AD only.</strong> Cloud-only tenants (no AD) do not need MDI; tenants with hybrid identity (Entra Connect synchronising on-prem AD) benefit significantly. The product is sometimes overlooked in cloud-first thinking; for any agency operating AD, it is essential.</div>
         <div class="step-verify"><strong>Verify.</strong> Sensor deployed on every DC in scope; health green. Test detection: simulate Kerberoasting in lab (controlled), alert fires. Honeytoken alerts test-fired. SIEM ingestion confirmed.</div>
@@ -216,13 +216,13 @@
       <div class="step-body">
         <p>Defender for Cloud Apps (DfCA; formerly MCAS) is the CASB component. It provides cloud-app visibility (which SaaS apps are users using?), anomaly detection on M365 / Azure activity, OAuth app governance, and information-protection workflows.</p>
         <ul>
-          <li><strong>App connectors</strong> &mdash; connect to M365 (mandatory), Entra ID, Azure (for activity log), and any third-party SaaS with a DfCA connector (Salesforce, ServiceNow, AWS, GCP, Workday, etc.). Each connector unlocks API-based monitoring and policy enforcement.</li>
-          <li><strong>Cloud Discovery</strong> &mdash; ingests firewall / proxy logs to enumerate cloud apps users access; produces a risk-scored inventory (sanctioned / unsanctioned / under review). Integration with on-prem proxy logs is the typical setup.</li>
-          <li><strong>Anomaly detection policies</strong> &mdash; enable the default set (impossible travel, mass download, mass deletion, unusual administrative activity, ransomware detection); tune over 4&ndash;6 weeks; review false-positive feedback</li>
-          <li><strong>OAuth app governance</strong> &mdash; review OAuth applications consented in the tenant; revoke unused or high-risk apps; require admin consent for high-permission apps (Conditional Access policy: "require admin consent for apps requesting high-permission scopes")</li>
-          <li><strong>Information-protection policies</strong> &mdash; DfCA can apply sensitivity labels and access controls in connected SaaS apps; ties into Purview Information Protection (WI-02 Step 6) for consistent classification across the estate</li>
-          <li><strong>Session policies</strong> &mdash; for selected scenarios (e.g. unmanaged-device access to a sensitive app), DfCA can proxy the session and apply per-action controls (block download, watermark, etc.); requires Conditional Access integration; use deliberately, not by default</li>
-          <li><strong>Alert integration</strong> &mdash; DfCA alerts to central SIEM via M365 Defender connector or Graph Security API</li>
+          <li><span><strong>App connectors</strong> &mdash; connect to M365 (mandatory), Entra ID, Azure (for activity log), and any third-party SaaS with a DfCA connector (Salesforce, ServiceNow, AWS, GCP, Workday, etc.). Each connector unlocks API-based monitoring and policy enforcement.</span></li>
+          <li><span><strong>Cloud Discovery</strong> &mdash; ingests firewall / proxy logs to enumerate cloud apps users access; produces a risk-scored inventory (sanctioned / unsanctioned / under review). Integration with on-prem proxy logs is the typical setup.</span></li>
+          <li><span><strong>Anomaly detection policies</strong> &mdash; enable the default set (impossible travel, mass download, mass deletion, unusual administrative activity, ransomware detection); tune over 4&ndash;6 weeks; review false-positive feedback</span></li>
+          <li><span><strong>OAuth app governance</strong> &mdash; review OAuth applications consented in the tenant; revoke unused or high-risk apps; require admin consent for high-permission apps (Conditional Access policy: "require admin consent for apps requesting high-permission scopes")</span></li>
+          <li><span><strong>Information-protection policies</strong> &mdash; DfCA can apply sensitivity labels and access controls in connected SaaS apps; ties into Purview Information Protection (WI-02 Step 6) for consistent classification across the estate</span></li>
+          <li><span><strong>Session policies</strong> &mdash; for selected scenarios (e.g. unmanaged-device access to a sensitive app), DfCA can proxy the session and apply per-action controls (block download, watermark, etc.); requires Conditional Access integration; use deliberately, not by default</span></li>
+          <li><span><strong>Alert integration</strong> &mdash; DfCA alerts to central SIEM via M365 Defender connector or Graph Security API</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> M365 and Azure connectors active; activity visible in DfCA portal. Anomaly policies enabled. OAuth app review completed for top-permission apps. Cloud Discovery ingesting (where proxy log integration in place).</div>
         <span class="cis-ref">CIS M365 (E5) · "Defender for Cloud Apps"</span>
@@ -237,11 +237,11 @@
       <div class="step-body">
         <p>Defender for Cloud (DfC) was configured per subscription in WI-03 Step 2 (Azure Subscription Baseline). This step cross-references and ensures DfC's signals integrate with the wider Defender suite.</p>
         <ul>
-          <li><strong>Subscription coverage</strong> &mdash; per WI-03 Step 2 (Foundational CSPM on every subscription; Defender plans per tier; Tier 0/1 = paid Defender plans, Tier 2/3 = Free acceptable with justification)</li>
-          <li><strong>Unified portal integration</strong> &mdash; DfC alerts appear in the M365 Defender unified portal alongside endpoint, identity, and email alerts; cross-product incidents correlate across Azure resources and M365 entities</li>
-          <li><strong>Regulatory compliance dashboards</strong> &mdash; DfC's regulatory compliance views (CIS Azure, NIST 800-53, ISO 27001) are one of the inputs to the tenant baseline conformance report (IT-CL-SOP-01 §7.5)</li>
-          <li><strong>Attack-path analysis (Defender CSPM)</strong> &mdash; enabled for Tier 0/1 subscriptions; visualises chains of misconfiguration that an attacker could exploit; prioritises remediation</li>
-          <li><strong>Workflow automation</strong> &mdash; Logic Apps for automated response to defined alert types (per WI-03 Step 6); documented playbooks; tested response</li>
+          <li><span><strong>Subscription coverage</strong> &mdash; per WI-03 Step 2 (Foundational CSPM on every subscription; Defender plans per tier; Tier 0/1 = paid Defender plans, Tier 2/3 = Free acceptable with justification)</span></li>
+          <li><span><strong>Unified portal integration</strong> &mdash; DfC alerts appear in the M365 Defender unified portal alongside endpoint, identity, and email alerts; cross-product incidents correlate across Azure resources and M365 entities</span></li>
+          <li><span><strong>Regulatory compliance dashboards</strong> &mdash; DfC's regulatory compliance views (CIS Azure, NIST 800-53, ISO 27001) are one of the inputs to the tenant baseline conformance report (IT-CL-SOP-01 §7.5)</span></li>
+          <li><span><strong>Attack-path analysis (Defender CSPM)</strong> &mdash; enabled for Tier 0/1 subscriptions; visualises chains of misconfiguration that an attacker could exploit; prioritises remediation</span></li>
+          <li><span><strong>Workflow automation</strong> &mdash; Logic Apps for automated response to defined alert types (per WI-03 Step 6); documented playbooks; tested response</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Configuration per WI-03 Step 2 already validated. Unified portal shows Azure incidents alongside M365 incidents. Regulatory compliance dashboards populated. Attack-path analysis (where licensed) shows current paths.</div>
         <span class="cis-ref">CIS Azure 2.x · cross-reference WI-03 §2</span>
@@ -256,11 +256,11 @@
       <div class="step-body">
         <p>Defender for Endpoint includes Threat &amp; Vulnerability Management (TVM), which surfaces missing patches, vulnerable software versions, and configuration weaknesses on every onboarded device. TVM is a vulnerability source that feeds the central vulnerability management programme (IT-VM-SOP-01).</p>
         <ul>
-          <li><strong>TVM integration with central VM</strong> &mdash; export of TVM findings to the central vulnerability management platform (Defender API, or via SIEM, or direct connector depending on platform)</li>
-          <li><strong>Asset attribution</strong> &mdash; TVM findings tagged with device-group taxonomy (Step 1); per-device owner identification for remediation routing</li>
-          <li><strong>Prioritisation</strong> &mdash; TVM's exposure score and CVSS feed into the central prioritisation per IT-VM-SOP-01</li>
-          <li><strong>Defender for Cloud vulnerability scanning</strong> for Azure VMs (where Defender for Servers enabled) &mdash; also feeds the central programme</li>
-          <li><strong>Defender for SQL vulnerability assessment</strong> &mdash; per WI-04 Step 6; findings to central VM</li>
+          <li><span><strong>TVM integration with central VM</strong> &mdash; export of TVM findings to the central vulnerability management platform (Defender API, or via SIEM, or direct connector depending on platform)</span></li>
+          <li><span><strong>Asset attribution</strong> &mdash; TVM findings tagged with device-group taxonomy (Step 1); per-device owner identification for remediation routing</span></li>
+          <li><span><strong>Prioritisation</strong> &mdash; TVM's exposure score and CVSS feed into the central prioritisation per IT-VM-SOP-01</span></li>
+          <li><span><strong>Defender for Cloud vulnerability scanning</strong> for Azure VMs (where Defender for Servers enabled) &mdash; also feeds the central programme</span></li>
+          <li><span><strong>Defender for SQL vulnerability assessment</strong> &mdash; per WI-04 Step 6; findings to central VM</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> TVM data flowing to central VM platform; recent finding traceable end-to-end. Sample remediation tracked through the standard workflow.</div>
         <span class="cis-ref">cross-reference IT-VM-SOP-01</span>
@@ -275,7 +275,7 @@
       <div class="step-body">
         <p>The Defender suite produces alerts in each product. The SOC consumes them in the central SIEM (vendor-neutral; whichever platform is operationally current). Configure ingestion deliberately.</p>
         <ul>
-          <li><strong>Ingestion path</strong> &mdash; depends on the central SIEM platform:
+          <li><span><strong>Ingestion path</strong> &mdash; depends on the central SIEM platform:</span></li>
             <ul>
               <li>Microsoft 365 Defender connector for the unified incident stream (preferred where the SIEM supports it)</li>
               <li>Graph Security API as a fallback / additional path</li>
@@ -283,7 +283,7 @@
               <li>Direct per-product API integration where vendor-specific connectors don't yet support the M365 unified stream</li>
             </ul>
           </li>
-          <li><strong>Severity-to-priority mapping</strong> &mdash; documented in SOC playbook:
+          <li><span><strong>Severity-to-priority mapping</strong> &mdash; documented in SOC playbook:</span></li>
             <ul>
               <li>Defender High &rarr; SOC priority 1 (immediate response)</li>
               <li>Defender Medium &rarr; SOC priority 2 (response within working day)</li>
@@ -291,10 +291,10 @@
               <li>Defender Informational &rarr; ingested but not routed to active queue</li>
             </ul>
           </li>
-          <li><strong>Enrichment</strong> &mdash; SIEM enriches Defender alerts with asset register data (tier, owner, agency); SOC analysts see the business context in the alert without portal-pivot</li>
-          <li><strong>Deduplication</strong> &mdash; cross-product incidents (one event, multiple Defender products alerting) deduplicated in SIEM where the unified-incident stream provides the correlation key</li>
-          <li><strong>Health monitoring</strong> &mdash; ingestion pipeline monitored; broken connector = silent blind spot. Alert when the ingestion volume drops below expected.</li>
-          <li><strong>SIEM platform transition</strong> &mdash; the central SIEM is under transition (per IT-CL-SOP-01 §3.7); during the migration, both platforms may run in parallel for some tenants; the integration design accommodates the transition</li>
+          <li><span><strong>Enrichment</strong> &mdash; SIEM enriches Defender alerts with asset register data (tier, owner, agency); SOC analysts see the business context in the alert without portal-pivot</span></li>
+          <li><span><strong>Deduplication</strong> &mdash; cross-product incidents (one event, multiple Defender products alerting) deduplicated in SIEM where the unified-incident stream provides the correlation key</span></li>
+          <li><span><strong>Health monitoring</strong> &mdash; ingestion pipeline monitored; broken connector = silent blind spot. Alert when the ingestion volume drops below expected.</span></li>
+          <li><span><strong>SIEM platform transition</strong> &mdash; the central SIEM is under transition (per IT-CL-SOP-01 §3.7); during the migration, both platforms may run in parallel for some tenants; the integration design accommodates the transition</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Sample alert generated in each Defender product (controlled test) reaches the central SIEM with correct severity, enrichment, and entity context. Ingestion health dashboard operational.</div>
         <span class="cis-ref">MCSB LT-x · "SIEM integration"</span>
@@ -309,8 +309,8 @@
       <div class="step-body">
         <p>The split is operationally important:</p>
         <ul>
-          <li><strong>This WI's scope</strong> &mdash; <em>tenant-side configuration</em> of Defender products: enablement, policies, baselines, integrations, alert export</li>
-          <li><strong>SOC SOPs scope</strong> &mdash; <em>operational use</em> of Defender signals in the SIEM: triage, investigation, hunting, response, containment. Covered by SOP-IM-01, SOP-EM-01, SOP-ID-01, SOP-EP-01.</li>
+          <li><span><strong>This WI's scope</strong> &mdash; <em>tenant-side configuration</em> of Defender products: enablement, policies, baselines, integrations, alert export</span></li>
+          <li><span><strong>SOC SOPs scope</strong> &mdash; <em>operational use</em> of Defender signals in the SIEM: triage, investigation, hunting, response, containment. Covered by SOP-IM-01, SOP-EM-01, SOP-ID-01, SOP-EP-01.</span></li>
         </ul>
         <p>Concrete handoff points:</p>
         <ul>
@@ -333,14 +333,14 @@
       <div class="step-body">
         <p>The Defender suite produces several quantitative metrics that complement the binary baseline-conformance assessment.</p>
         <ul>
-          <li><strong>Defender for Endpoint exposure score</strong> &mdash; the TVM-driven posture score per device group; target: trend monotonically downward</li>
-          <li><strong>Defender for Endpoint device coverage</strong> &mdash; percentage of in-scope endpoints onboarded; target: ≥98%</li>
-          <li><strong>Defender for Endpoint ASR rule coverage</strong> &mdash; percentage of in-scope endpoints with ASR rules in Block (not Audit); target: ≥95% for the CIS-recommended ASR set</li>
-          <li><strong>Defender for Office 365 effective protection</strong> &mdash; Safe Attachments / Safe Links coverage; target: 100% of mailboxes</li>
-          <li><strong>Defender for Cloud Secure Score</strong> per WI-03 Step 2 (≥75% T0/1, ≥60% T2/3)</li>
-          <li><strong>Cross-product MTTD / MTTR</strong> for high-severity incidents &mdash; tracked in SOC SOPs; target per IRP</li>
-          <li><strong>Defender alert ingestion completeness</strong> &mdash; SIEM ingestion health; target: 100% with no &gt;5-minute gaps</li>
-          <li><strong>Defender suite conformance per tenant</strong> &mdash; binary: all applicable products enabled per licence tier; target 100% for tenants with sufficient licensing</li>
+          <li><span><strong>Defender for Endpoint exposure score</strong> &mdash; the TVM-driven posture score per device group; target: trend monotonically downward</span></li>
+          <li><span><strong>Defender for Endpoint device coverage</strong> &mdash; percentage of in-scope endpoints onboarded; target: ≥98%</span></li>
+          <li><span><strong>Defender for Endpoint ASR rule coverage</strong> &mdash; percentage of in-scope endpoints with ASR rules in Block (not Audit); target: ≥95% for the CIS-recommended ASR set</span></li>
+          <li><span><strong>Defender for Office 365 effective protection</strong> &mdash; Safe Attachments / Safe Links coverage; target: 100% of mailboxes</span></li>
+          <li><span><strong>Defender for Cloud Secure Score</strong> per WI-03 Step 2 (≥75% T0/1, ≥60% T2/3)</span></li>
+          <li><span><strong>Cross-product MTTD / MTTR</strong> for high-severity incidents &mdash; tracked in SOC SOPs; target per IRP</span></li>
+          <li><span><strong>Defender alert ingestion completeness</strong> &mdash; SIEM ingestion health; target: 100% with no &gt;5-minute gaps</span></li>
+          <li><span><strong>Defender suite conformance per tenant</strong> &mdash; binary: all applicable products enabled per licence tier; target 100% for tenants with sufficient licensing</span></li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Metrics reportable per tenant and per agency. Monthly review by IT Operations; quarterly review by GRC and Risk Committee with separate cuts per platform.</div>
         <span class="cis-ref">Suite-level governance</span>

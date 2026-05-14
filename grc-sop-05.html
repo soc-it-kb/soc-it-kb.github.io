@@ -424,18 +424,18 @@
     <h3>6.4 Length considerations</h3>
     <p>The minimum compliant name length is 13 characters (3+2+3+3+4 with shortest sequence). The maximum is 19 characters (5+2+3+3+6). This may exceed the legacy NetBIOS limit of 15 characters for some agencies and sequence widths. The Institution accepts this trade-off:</p>
     <ul class="sop-bullet">
-      <li><strong>Modern Active Directory and DNS</strong> support computer names up to 63 characters. NetBIOS is largely irrelevant in modern environments.</li>
-      <li><strong>SMB/CIFS browsing</strong> by NetBIOS name is no longer required where DNS resolution is functional, which is the standard for all modern AD environments.</li>
-      <li><strong>Where a specific tool or vendor product</strong> imposes a hard 15-character limit, the local operating unit submits a deviation request per §14.</li>
-      <li><strong>Sequence width is chosen by the operating unit</strong> based on expected asset volume per (Agency × Country × City × Type) tuple. Use 4 digits where total volume will not exceed 9,999; use 6 digits for higher-volume sites.</li>
+      <li><span><strong>Modern Active Directory and DNS</strong> support computer names up to 63 characters. NetBIOS is largely irrelevant in modern environments.</li>
+      <li><span><strong>SMB/CIFS browsing</strong> by NetBIOS name is no longer required where DNS resolution is functional, which is the standard for all modern AD environments.</span></li>
+      <li><span><strong>Where a specific tool or vendor product</strong> imposes a hard 15-character limit, the local operating unit submits a deviation request per §14.</span></li>
+      <li><span><strong>Sequence width is chosen by the operating unit</strong> based on expected asset volume per (Agency × Country × City × Type) tuple. Use 4 digits where total volume will not exceed 9,999; use 6 digits for higher-volume sites.</span></li>
     </ul>
 
     <h3>6.5 Capitalisation, characters, and separators</h3>
     <ul class="sop-bullet">
       <li>All segments are <strong>uppercase</strong>; lowercase is non-conformant</li>
-      <li><strong>No separators</strong> between segments; the full name is one continuous string</li>
-      <li><strong>Alpha segments</strong> use A–Z only; no digits, no special characters</li>
-      <li><strong>The sequence segment</strong> uses 0–9 only; no alpha</li>
+      <li><span><strong>No separators</strong> between segments; the full name is one continuous string</span></li>
+      <li><span><strong>Alpha segments</strong> use A–Z only; no digits, no special characters</span></li>
+      <li><span><strong>The sequence segment</strong> uses 0–9 only; no alpha</span></li>
       <li>Hyphens, underscores, and other symbols are <strong>not permitted</strong> in any segment</li>
     </ul>
   </div>
@@ -470,10 +470,10 @@
     <h3>7.4 Multi-instance and clustered assets</h3>
     <p>The treatment of clustered or multi-instance assets depends on the asset type:</p>
     <ul class="sop-bullet">
-      <li><strong>Physical hosts</strong> get one record per host. A 6-node cluster of database servers is six asset records (six hostnames). The cluster relationship is captured via dependency links, not via merging.</li>
-      <li><strong>Applications and SaaS services</strong> get one record per logical service. A clustered application running on six hosts is one application asset record; the six hosts are six separate server records, linked via "hosts" dependency.</li>
-      <li><strong>Cloud workloads</strong> follow the unit-of-management. If a Kubernetes deployment is managed as a single unit, it is one asset record; if individual pods or VMs are independently managed, they are separate records.</li>
-      <li><strong>Clusters</strong> defined explicitly: where a parent–child relationship matters (e.g. a database cluster), create a parent record (one CLD or APP) and link child records (the underlying SRVs) via dependency.</li>
+      <li><span><strong>Physical hosts</strong> get one record per host. A 6-node cluster of database servers is six asset records (six hostnames). The cluster relationship is captured via dependency links, not via merging.</span></li>
+      <li><span><strong>Applications and SaaS services</strong> get one record per logical service. A clustered application running on six hosts is one application asset record; the six hosts are six separate server records, linked via "hosts" dependency.</span></li>
+      <li><span><strong>Cloud workloads</strong> follow the unit-of-management. If a Kubernetes deployment is managed as a single unit, it is one asset record; if individual pods or VMs are independently managed, they are separate records.</span></li>
+      <li><span><strong>Clusters</strong> defined explicitly: where a parent–child relationship matters (e.g. a database cluster), create a parent record (one CLD or APP) and link child records (the underlying SRVs) via dependency.</span></li>
     </ul>
 
     <h3>7.5 Hostname change handling</h3>
@@ -673,18 +673,18 @@
     <h3>11.3 Automated reconciliation</h3>
     <p>The Head of IT Operations operates automated reconciliation between the Asset Register and authoritative source systems. The minimum reconciliation set is:</p>
     <ul class="sop-bullet">
-      <li><strong>Active Directory / Entra ID</strong> — every server, endpoint, and identity-store record reconciled against directory presence</li>
-      <li><strong>Endpoint management (Intune, JAMF, equivalent)</strong> — workstation and laptop records reconciled against managed-device fleet</li>
-      <li><strong>EDR (CrowdStrike or equivalent)</strong> — server, workstation, laptop records reconciled against EDR coverage</li>
-      <li><strong>Vulnerability scanner</strong> — IP-routable assets reconciled against scanner coverage</li>
-      <li><strong>Cloud subscription inventory</strong> — cloud workload records reconciled against subscription/tenant inventory</li>
+      <li><span><strong>Active Directory / Entra ID</strong> — every server, endpoint, and identity-store record reconciled against directory presence</span></li>
+      <li><span><strong>Endpoint management (Intune, JAMF, equivalent)</strong> — workstation and laptop records reconciled against managed-device fleet</span></li>
+      <li><span><strong>EDR (CrowdStrike or equivalent)</strong> — server, workstation, laptop records reconciled against EDR coverage</span></li>
+      <li><span><strong>Vulnerability scanner</strong> — IP-routable assets reconciled against scanner coverage</span></li>
+      <li><span><strong>Cloud subscription inventory</strong> — cloud workload records reconciled against subscription/tenant inventory</span></li>
     </ul>
     <p>Reconciliation findings are categorised:</p>
     <ul class="sop-bullet">
-      <li><strong>In-register, in-source:</strong> match — no action</li>
-      <li><strong>In-register, not in-source:</strong> stale record — investigate (asset retired without record update?)</li>
-      <li><strong>Not in-register, in-source:</strong> missing record — initiate retroactive onboarding</li>
-      <li><strong>Attribute drift:</strong> ownership, OS version, environment differs — update or investigate</li>
+      <li><span><strong>In-register, in-source:</strong> match — no action</span></li>
+      <li><span><strong>In-register, not in-source:</strong> stale record — investigate (asset retired without record update?)</span></li>
+      <li><span><strong>Not in-register, in-source:</strong> missing record — initiate retroactive onboarding</span></li>
+      <li><span><strong>Attribute drift:</strong> ownership, OS version, environment differs — update or investigate</span></li>
     </ul>
     <p>Reconciliation reports are produced monthly and reviewed by the Head of GRC and the Head of IT Operations.</p>
   </div>
@@ -808,11 +808,11 @@
 
     <h3>15.2 Retention</h3>
     <ul class="sop-bullet">
-      <li><strong>Active asset records:</strong> retained while asset is in any non-Archived state</li>
-      <li><strong>Decommissioned asset records:</strong> retained for 7 years from decommissioning date, then archived</li>
-      <li><strong>Certificates of destruction (L3/L4):</strong> 7 years</li>
-      <li><strong>Reconciliation reports:</strong> 3 years</li>
-      <li><strong>Deviation approvals:</strong> retained while deviation is in force, plus 3 years</li>
+      <li><span><strong>Active asset records:</strong> retained while asset is in any non-Archived state</span></li>
+      <li><span><strong>Decommissioned asset records:</strong> retained for 7 years from decommissioning date, then archived</span></li>
+      <li><span><strong>Certificates of destruction (L3/L4):</strong> 7 years</span></li>
+      <li><span><strong>Reconciliation reports:</strong> 3 years</span></li>
+      <li><span><strong>Deviation approvals:</strong> retained while deviation is in force, plus 3 years</span></li>
     </ul>
 
     <h3>15.3 Related documents</h3>
