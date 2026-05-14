@@ -207,7 +207,7 @@
         <ul>
           <li><span><strong>External access (federation)</strong> &mdash; Teams admin centre &rarr; Users &rarr; External access. Default-deny pattern: "Allow only specific external domains" with an allow-list of partner-organisation tenants; or block known high-risk domains. Skype consumer federation: typically disabled.</span></li>
           <li><span><strong>Guest access</strong> &mdash; enabled but governed by WI-01 §8 (Entra guest invite policy). Guest restrictions on Teams resources: cannot make private calls, cannot share screen by default in meetings with guests present.</span></li>
-          <li><span><strong>Meeting policies</strong> &mdash; default meeting policy and named-user policies for higher-risk roles:</span>
+          <li><span><strong>Meeting policies</strong> &mdash; default meeting policy and named-user policies for higher-risk roles:</span></li>
             <ul>
               <li>Anonymous users can join meetings &mdash; restricted by default; enable per-meeting for legitimate external events only</li>
               <li>Lobby for external attendees on by default; named lobby bypass for trusted partner tenants</li>
@@ -258,7 +258,7 @@
         <p>Sensitivity labels are the cornerstone of Microsoft Information Protection (MIP). They classify content (manual or automatic) and apply protection policies (encryption, watermark, sharing restrictions, retention).</p>
         <ul>
           <li><span><strong>Label taxonomy</strong> &mdash; align to the organisation classification (e.g. Public / Internal / Confidential / Restricted). Keep the taxonomy short (≤6 labels at top level) to be usable.</span></li>
-          <li><span><strong>Label configuration per level</strong></span>
+          <li><span><strong>Label configuration per level</strong></span></li>
             <ul>
               <li>Public &mdash; no encryption; visual marking optional</li>
               <li>Internal &mdash; no encryption; "Internal Use Only" footer / watermark</li>
@@ -288,7 +288,7 @@
         <ul>
           <li><span><strong>Data classes</strong> &mdash; identify what the agency actually handles: personal data (per applicable regulation), payment card data, health data, government ID numbers, financial account numbers, intellectual property. Use Microsoft's built-in Sensitive Information Types where they match.</span></li>
           <li><span><strong>Policy locations</strong> &mdash; Exchange Online, SharePoint, OneDrive, Teams chat &amp; channel messages, Devices (DLP for Endpoint, requires Defender for Endpoint). Cover all locations from the start; partial coverage gets bypassed.</span></li>
-          <li><span><strong>Rules per data class</strong></span>
+          <li><span><strong>Rules per data class</strong></span></li>
             <ul>
               <li>Notify user with a policy tip (do this first, monitor for FP)</li>
               <li>After tuning: block the action with override allowed (user can override with justification, logged)</li>
