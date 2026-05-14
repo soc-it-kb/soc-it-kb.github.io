@@ -26,11 +26,51 @@
   .tool-card-caps { font-size:12px; color:#666; margin-bottom:6px; line-height:1.4; }
   .tool-card-tags { display:flex; flex-wrap:wrap; gap:4px; }
   .tool-tag { font-size:10px; background:#f5f5f3; border:0.5px solid #e0e0dc; border-radius:8px; padding:2px 7px; color:#888; }
+
+  /* New: comprehensive ATT&CK coverage */
+  .cov-summary { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin-bottom:0.6rem; }
+  .cov-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:10px; padding:0.9rem 0.6rem; text-align:center; }
+  .cov-stat-num { font-size:24px; font-weight:700; color:#297086; line-height:1; margin-bottom:4px; }
+  .cov-stat-lbl { font-size:11px; color:#888; }
+  .cov-stat-full .cov-stat-num    { color:#0F6E56; }
+  .cov-stat-partial .cov-stat-num { color:#8B4A0E; }
+  .cov-stat-gap .cov-stat-num     { color:#993C1D; }
+
+  .cov-tactic details summary { cursor:pointer; padding:0.7rem 0; display:flex; align-items:center; gap:10px; flex-wrap:wrap; list-style:none; }
+  .cov-tactic details summary::-webkit-details-marker { display:none; }
+  .cov-tactic details summary::before { content:'▸'; color:#297086; font-size:14px; transition:transform 0.15s; }
+  .cov-tactic details[open] summary::before { transform:rotate(90deg); }
+  .cov-tac-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; background:#f0f0ec; color:#555; padding:2px 8px; border-radius:5px; }
+  .cov-tac-name { font-size:15px; font-weight:600; color:#1a1a1a; }
+  .cov-tac-counts { font-size:12px; color:#888; }
+  .cov-tac-badges { margin-left:auto; display:flex; gap:5px; flex-wrap:wrap; }
+  .cov-tac-badge { font-size:10px; font-weight:600; padding:2px 7px; border-radius:5px; border:0.5px solid; }
+  .cov-tac-badge.cov-full    { background:#E1F5EE; color:#0F6E56; border-color:#82D4B0; }
+  .cov-tac-badge.cov-partial { background:#FEF0E6; color:#8B4A0E; border-color:#F5C89A; }
+  .cov-tac-badge.cov-gap     { background:#FAECE7; color:#993C1D; border-color:#F5C0B0; }
+  .cov-tac-desc { font-size:13px; color:#666; line-height:1.6; margin:0.5rem 0 0.8rem 18px; font-style:italic; }
+
+  .cov-table { font-size:12px; }
+  .cov-table td { vertical-align:top; line-height:1.5; }
+  .cov-table td a { color:#297086; text-decoration:none; font-family:'SF Mono','Fira Code',monospace; font-size:11px; background:#E6F1FB; padding:1px 5px; border-radius:4px; border:0.5px solid #B5D4F4; margin-right:3px; display:inline-block; margin-bottom:2px; }
+  .cov-table td a:hover { background:#297086; color:#fff; border-color:#297086; }
+  .cov-table td code { font-size:11px; }
+  .cov-table .ref-none { color:#bbb; }
+  .cov-table .ref-missing { font-family:'SF Mono','Fira Code',monospace; font-size:11px; background:#FAECE7; color:#993C1D; padding:1px 5px; border-radius:4px; border:0.5px solid #F5C0B0; }
+
+  .cov-badge { font-size:10px; font-weight:600; padding:2px 7px; border-radius:5px; border:0.5px solid; display:inline-block; }
+  .cov-badge.cov-full    { background:#E1F5EE; color:#0F6E56; border-color:#82D4B0; }
+  .cov-badge.cov-partial { background:#FEF0E6; color:#8B4A0E; border-color:#F5C89A; }
+  .cov-badge.cov-gap     { background:#FAECE7; color:#993C1D; border-color:#F5C0B0; }
+
+  .cov-row-gap td { background:#FCF4F0; }
+
 </style>
-</head>
 <script src="download-utils.js"></script>
 <script src="lang-switcher.js"></script>
-</body>
+</head>
+
+<body>
 
 <nav class="kb-topnav">
   <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
@@ -51,11 +91,11 @@
   <div class="kb-page-hero">
     <span class="kb-page-hero-icon">🛠️</span>
     <h1>Tools &amp; References</h1>
-    <p>Centralised reference for SOC tools mapped to MITRE ATT&amp;CK tactics and techniques. Supports alert triage, investigation, response, threat hunting, and development of new playbooks and runbooks.</p>
+    <p>Centralised reference for SOC tools and the full preventive / detective / responsive control coverage across this knowledge base, mapped to MITRE ATT&amp;CK. Supports alert triage, investigation, threat hunting, and capability planning.</p>
     <div class="kb-page-hero-meta">
       <span class="kb-meta-pill">MITRE ATT&amp;CK aligned</span>
-      <span class="kb-meta-pill">Authoritative</span>
-      <span class="kb-meta-pill">All tiers</span>
+      <span class="kb-meta-pill">14 tactics · 139 techniques</span>
+      <span class="kb-meta-pill">Prevent · Detect · Respond</span>
     </div>
   </div>
 
@@ -107,150 +147,1668 @@
     </div>
   </div>
 
-  <!-- ATT&CK Coverage by Tactic -->
+    <!-- ============ NEW: Comprehensive ATT&CK coverage ============ -->
   <div class="kb-section">
-    <div class="kb-section-title">ATT&amp;CK techniques covered by published playbooks &amp; runbooks</div>
-    <div class="kb-notice" style="margin-bottom:1rem;">Framework reference: MITRE ATT&amp;CK &nbsp;·&nbsp; Status: Authoritative — reflects current published SOC content</div>
-
-    <div class="tactic-grid">
-
-      <div class="tactic-card">
-        <div class="tactic-card-header">
-          <span class="tactic-id">TA0001</span>
-          <span class="tactic-name">Initial Access</span>
-        </div>
-        <div class="tactic-entries">
-          <div class="tactic-entry"><code>T1566.001</code><span>Spearphishing Attachment — EM-PB-01, EM-PB-03, EM-RB-*</span></div>
-          <div class="tactic-entry"><code>T1566.002</code><span>Spearphishing Link — EM-PB-01, EM-PB-02, EM-RB-*</span></div>
-          <div class="tactic-entry"><code>T1566.003</code><span>Spearphishing via Service — EM-PB-04</span></div>
-          <div class="tactic-entry"><code>T1190</code><span>Exploit Public-Facing App — NW-PB-01, NW-RB-01</span></div>
-          <div class="tactic-entry"><code>T1078</code><span>Valid Accounts — ID-PB-01, ID-PB-02</span></div>
-        </div>
-      </div>
-
-      <div class="tactic-card">
-        <div class="tactic-card-header">
-          <span class="tactic-id">TA0002</span>
-          <span class="tactic-name">Execution</span>
-        </div>
-        <div class="tactic-entries">
-          <div class="tactic-entry"><code>T1059.001</code><span>PowerShell — EP-PB-01, EP-RB-01</span></div>
-          <div class="tactic-entry"><code>T1059.003</code><span>Windows Command Shell — EP-PB-01</span></div>
-          <div class="tactic-entry"><code>T1204.002</code><span>User Execution: Malicious File — EM-PB-01, EP-PB-01</span></div>
-          <div class="tactic-entry"><code>T1106</code><span>Native API — EP-PB-02</span></div>
-        </div>
-      </div>
-
-      <div class="tactic-card">
-        <div class="tactic-card-header">
-          <span class="tactic-id">TA0003</span>
-          <span class="tactic-name">Persistence</span>
-        </div>
-        <div class="tactic-entries">
-          <div class="tactic-entry"><code>T1053.005</code><span>Scheduled Task — EP-PB-03</span></div>
-          <div class="tactic-entry"><code>T1547.001</code><span>Registry Run Keys — EP-PB-03</span></div>
-          <div class="tactic-entry"><code>T1136</code><span>Create Account — ID-PB-03</span></div>
-        </div>
-      </div>
-
-      <div class="tactic-card">
-        <div class="tactic-card-header">
-          <span class="tactic-id">TA0004</span>
-          <span class="tactic-name">Privilege Escalation</span>
-        </div>
-        <div class="tactic-entries">
-          <div class="tactic-entry"><code>T1068</code><span>Exploitation for Privilege Escalation — EP-PB-02</span></div>
-          <div class="tactic-entry"><code>T1078</code><span>Valid Accounts — ID-PB-02</span></div>
-        </div>
-      </div>
-
-      <div class="tactic-card">
-        <div class="tactic-card-header">
-          <span class="tactic-id">TA0005</span>
-          <span class="tactic-name">Defense Evasion</span>
-        </div>
-        <div class="tactic-entries">
-          <div class="tactic-entry"><code>T1562.001</code><span>Disable/Modify Security Tools — EP-PB-02, EP-PB-04</span></div>
-          <div class="tactic-entry"><code>T1027</code><span>Obfuscated Files — EM-PB-03, EP-PB-01</span></div>
-          <div class="tactic-entry"><code>T1036</code><span>Masquerading — EM-PB-02, EP-PB-01</span></div>
-        </div>
-      </div>
-
-      <div class="tactic-card">
-        <div class="tactic-card-header">
-          <span class="tactic-id">TA0006</span>
-          <span class="tactic-name">Credential Access</span>
-        </div>
-        <div class="tactic-entries">
-          <div class="tactic-entry"><code>T1003.001</code><span>LSASS Memory — EP-PB-02</span></div>
-          <div class="tactic-entry"><code>T1110</code><span>Brute Force — ID-PB-02</span></div>
-          <div class="tactic-entry"><code>T1556</code><span>Modify Auth Process — ID-PB-03</span></div>
-        </div>
-      </div>
-
-      <div class="tactic-card">
-        <div class="tactic-card-header">
-          <span class="tactic-id">TA0007</span>
-          <span class="tactic-name">Discovery</span>
-        </div>
-        <div class="tactic-entries">
-          <div class="tactic-entry"><code>T1087</code><span>Account Discovery — ID-PB-01, EP-PB-01</span></div>
-          <div class="tactic-entry"><code>T1046</code><span>Network Service Discovery — NW-PB-02</span></div>
-          <div class="tactic-entry"><code>T1018</code><span>Remote System Discovery — NW-PB-02</span></div>
-        </div>
-      </div>
-
-      <div class="tactic-card">
-        <div class="tactic-card-header">
-          <span class="tactic-id">TA0008</span>
-          <span class="tactic-name">Lateral Movement</span>
-        </div>
-        <div class="tactic-entries">
-          <div class="tactic-entry"><code>T1021.001</code><span>Remote Services: RDP — NW-PB-03, EP-PB-01</span></div>
-          <div class="tactic-entry"><code>T1021.002</code><span>SMB/Windows Admin Shares — NW-PB-03</span></div>
-          <div class="tactic-entry"><code>T1078</code><span>Valid Accounts — ID-PB-02, NW-PB-03</span></div>
-        </div>
-      </div>
-
-      <div class="tactic-card">
-        <div class="tactic-card-header">
-          <span class="tactic-id">TA0011</span>
-          <span class="tactic-name">Command &amp; Control</span>
-        </div>
-        <div class="tactic-entries">
-          <div class="tactic-entry"><code>T1071.001</code><span>Web Protocols — NW-PB-04</span></div>
-          <div class="tactic-entry"><code>T1095</code><span>Non-Application Layer Protocol — NW-PB-04</span></div>
-          <div class="tactic-entry"><code>T1043</code><span>Commonly Used Port — NW-PB-04</span></div>
-        </div>
-      </div>
-
-      <div class="tactic-card">
-        <div class="tactic-card-header">
-          <span class="tactic-id">TA0010</span>
-          <span class="tactic-name">Exfiltration</span>
-        </div>
-        <div class="tactic-entries">
-          <div class="tactic-entry"><code>T1041</code><span>Exfiltration Over C2 Channel — NW-PB-05</span></div>
-          <div class="tactic-entry"><code>T1567.002</code><span>Exfiltration to Cloud Storage — EM-PB-05, NW-PB-05</span></div>
-        </div>
-      </div>
-
-      <div class="tactic-card">
-        <div class="tactic-card-header">
-          <span class="tactic-id">TA0040</span>
-          <span class="tactic-name">Impact</span>
-        </div>
-        <div class="tactic-entries">
-          <div class="tactic-entry"><code>T1486</code><span>Data Encrypted for Impact — EP-PB-05</span></div>
-          <div class="tactic-entry"><code>T1490</code><span>Inhibit System Recovery — EP-PB-05</span></div>
-          <div class="tactic-entry"><code>T1489</code><span>Service Stop — EP-PB-04</span></div>
-        </div>
-      </div>
-
+    <div class="kb-section-title">ATT&amp;CK coverage by technique — preventive, detective, responsive controls</div>
+    <p style="font-size:13px;color:#666;line-height:1.65;margin:0 0 0.9rem 0;">Every published technique mapping below shows the full chain of controls in this knowledge base: <strong>preventive</strong> (ASM SOPs and Work Instructions that stop the technique from succeeding), <strong>detective</strong> (Tier-1 checklists, SOC Work Instructions, and Investigation procedures that surface the technique when it occurs), and <strong>responsive</strong> (SOC Playbooks, Runbooks, and SOPs that contain, eradicate, and recover from it). Mapping derived from artefact titles and content scope; per-step ATT&amp;CK IDs may be added to individual playbooks in a future pass.</p>
+    <div class="cov-summary">
+      <div class="cov-stat"><div class="cov-stat-num">14</div><div class="cov-stat-lbl">ATT&amp;CK tactics</div></div>
+      <div class="cov-stat"><div class="cov-stat-num">139</div><div class="cov-stat-lbl">Techniques mapped</div></div>
+      <div class="cov-stat cov-stat-full"><div class="cov-stat-num">125</div><div class="cov-stat-lbl">Full coverage</div></div>
+      <div class="cov-stat cov-stat-partial"><div class="cov-stat-num">8</div><div class="cov-stat-lbl">Partial coverage</div></div>
+      <div class="cov-stat cov-stat-gap"><div class="cov-stat-num">6</div><div class="cov-stat-lbl">Gap (no coverage)</div></div>
+    </div>
+    <div class="kb-notice" style="margin:0.9rem 0 0 0;">
+      <strong>How to read this.</strong> Click a tactic to expand its techniques. Each row links to the actual SOPs / WIs / playbooks / runbooks / checklists referenced. The mapping is intentionally explicit about gaps — techniques where the knowledge base has no relevant content show a "Gap" badge and missing cells, which is honest and feeds the planning pipeline.
     </div>
   </div>
+  <div class="kb-section cov-tactic" id="TA0043">
+    <details>
+      <summary>
+        <span class="cov-tac-id">TA0043</span>
+        <span class="cov-tac-name">Reconnaissance</span>
+        <span class="cov-tac-counts">6 techniques</span>
+        <span class="cov-tac-badges"><span class="cov-tac-badge cov-full" title="Full coverage">1 full</span><span class="cov-tac-badge cov-partial" title="Partial coverage">3 partial</span><span class="cov-tac-badge cov-gap" title="Gap — no controls">2 gap</span></span>
+      </summary>
+      <p class="cov-tac-desc">Adversary gathers information about the target before attempting intrusion.</p>
+      <div class="kb-table-wrap">
+        <table class="kb-table cov-table">
+          <thead>
+            <tr>
+              <th style="width:11%;">Technique</th>
+              <th style="width:24%;">Name</th>
+              <th style="width:8%;">State</th>
+              <th style="width:19%;">Preventive (ASM)</th>
+              <th style="width:19%;">Detective (SOC)</th>
+              <th style="width:19%;">Responsive (SOC)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cov-row cov-row-partial">
+              <td><a href="https://attack.mitre.org/techniques/T1595" target="_blank" rel="noopener"><code>T1595</code></a></td>
+              <td>Active Scanning</td>
+              <td><span class="cov-badge cov-partial">Partial</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a> <a href="it-si-wi-02.html" title="WAF Hardening">IT-SI-WI-02</a> <a href="it-cl-wi-04.html" title="Azure Workload Patterns">IT-CL-WI-04</a></td>
+              <td><a href="tier1-nw-04.html" title="Firewall / IDS Alert">NW-T1-04</a></td>
+              <td><span class="ref-none">—</span></td>
+            </tr>
+            <tr class="cov-row cov-row-partial">
+              <td><a href="https://attack.mitre.org/techniques/T1595/001" target="_blank" rel="noopener"><code>T1595.001</code></a></td>
+              <td>Scanning IP Blocks</td>
+              <td><span class="cov-badge cov-partial">Partial</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a> <a href="it-cl-wi-04.html" title="Azure Workload Patterns">IT-CL-WI-04</a></td>
+              <td><a href="tier1-nw-04.html" title="Firewall / IDS Alert">NW-T1-04</a></td>
+              <td><span class="ref-none">—</span></td>
+            </tr>
+            <tr class="cov-row cov-row-partial">
+              <td><a href="https://attack.mitre.org/techniques/T1595/002" target="_blank" rel="noopener"><code>T1595.002</code></a></td>
+              <td>Vulnerability Scanning (by adversary)</td>
+              <td><span class="cov-badge cov-partial">Partial</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a> <a href="it-si-wi-02.html" title="WAF Hardening">IT-SI-WI-02</a></td>
+              <td><a href="tier1-nw-04.html" title="Firewall / IDS Alert">NW-T1-04</a></td>
+              <td><span class="ref-none">—</span></td>
+            </tr>
+            <tr class="cov-row cov-row-gap">
+              <td><a href="https://attack.mitre.org/techniques/T1589" target="_blank" rel="noopener"><code>T1589</code></a></td>
+              <td>Gather Victim Identity Information</td>
+              <td><span class="cov-badge cov-gap">Gap</span></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+            </tr>
+            <tr class="cov-row cov-row-gap">
+              <td><a href="https://attack.mitre.org/techniques/T1590" target="_blank" rel="noopener"><code>T1590</code></a></td>
+              <td>Gather Victim Network Information</td>
+              <td><span class="cov-badge cov-gap">Gap</span></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1598" target="_blank" rel="noopener"><code>T1598</code></a></td>
+              <td>Phishing for Information</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a></td>
+              <td><a href="tier1-em-01.html" title="Suspected Phishing Email">EM-T1-01</a> <a href="tier1-em-04.html" title="Email Spoofing / Impersonation">EM-T1-04</a></td>
+              <td><a href="em-pb-01.html" title="Phishing Email — Triage &amp; Investigation">EM-PB-01</a> <a href="em-pb-04.html" title="Email Account Takeover">EM-PB-04</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+  <div class="kb-section cov-tactic" id="TA0042">
+    <details>
+      <summary>
+        <span class="cov-tac-id">TA0042</span>
+        <span class="cov-tac-name">Resource Development</span>
+        <span class="cov-tac-counts">4 techniques</span>
+        <span class="cov-tac-badges"><span class="cov-tac-badge cov-gap" title="Gap — no controls">4 gap</span></span>
+      </summary>
+      <p class="cov-tac-desc">Adversary establishes resources to support operations (mostly external to the org).</p>
+      <div class="kb-table-wrap">
+        <table class="kb-table cov-table">
+          <thead>
+            <tr>
+              <th style="width:11%;">Technique</th>
+              <th style="width:24%;">Name</th>
+              <th style="width:8%;">State</th>
+              <th style="width:19%;">Preventive (ASM)</th>
+              <th style="width:19%;">Detective (SOC)</th>
+              <th style="width:19%;">Responsive (SOC)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cov-row cov-row-gap">
+              <td><a href="https://attack.mitre.org/techniques/T1583" target="_blank" rel="noopener"><code>T1583</code></a></td>
+              <td>Acquire Infrastructure</td>
+              <td><span class="cov-badge cov-gap">Gap</span></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+            </tr>
+            <tr class="cov-row cov-row-gap">
+              <td><a href="https://attack.mitre.org/techniques/T1586" target="_blank" rel="noopener"><code>T1586</code></a></td>
+              <td>Compromise Accounts (external)</td>
+              <td><span class="cov-badge cov-gap">Gap</span></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+            </tr>
+            <tr class="cov-row cov-row-gap">
+              <td><a href="https://attack.mitre.org/techniques/T1588" target="_blank" rel="noopener"><code>T1588</code></a></td>
+              <td>Obtain Capabilities (tooling)</td>
+              <td><span class="cov-badge cov-gap">Gap</span></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+            </tr>
+            <tr class="cov-row cov-row-gap">
+              <td><a href="https://attack.mitre.org/techniques/T1608" target="_blank" rel="noopener"><code>T1608</code></a></td>
+              <td>Stage Capabilities</td>
+              <td><span class="cov-badge cov-gap">Gap</span></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+  <div class="kb-section cov-tactic" id="TA0001">
+    <details>
+      <summary>
+        <span class="cov-tac-id">TA0001</span>
+        <span class="cov-tac-name">Initial Access</span>
+        <span class="cov-tac-counts">11 techniques</span>
+        <span class="cov-tac-badges"><span class="cov-tac-badge cov-full" title="Full coverage">10 full</span><span class="cov-tac-badge cov-partial" title="Partial coverage">1 partial</span></span>
+      </summary>
+      <p class="cov-tac-desc">Adversary attempts to gain initial foothold in the environment.</p>
+      <div class="kb-table-wrap">
+        <table class="kb-table cov-table">
+          <thead>
+            <tr>
+              <th style="width:11%;">Technique</th>
+              <th style="width:24%;">Name</th>
+              <th style="width:8%;">State</th>
+              <th style="width:19%;">Preventive (ASM)</th>
+              <th style="width:19%;">Detective (SOC)</th>
+              <th style="width:19%;">Responsive (SOC)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1566" target="_blank" rel="noopener"><code>T1566</code></a></td>
+              <td>Phishing</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a></td>
+              <td><a href="tier1-em-01.html" title="Suspected Phishing Email">EM-T1-01</a> <a href="tier1-em-03.html" title="Malicious Attachment">EM-T1-03</a> <a href="tier1-em-04.html" title="Email Spoofing / Impersonation">EM-T1-04</a> <a href="tier1-em-05.html" title="BEC Indicator">EM-T1-05</a> <a href="em-wi-01.html" title="Analyse Email Headers">EM-WI-01</a></td>
+              <td><a href="sop-em-01.html" title="Email Threat Response SOP">SOP-EM-01</a> <a href="em-pb-01.html" title="Phishing Email — Triage &amp; Investigation">EM-PB-01</a> <a href="em-pb-02.html" title="Business Email Compromise (BEC)">EM-PB-02</a> <a href="em-pb-03.html" title="Malware Delivered via Email">EM-PB-03</a> <a href="em-pb-06.html" title="Email Data Exfiltration">EM-PB-06</a> <a href="em-rb-04.html" title="Analyse Email Headers">EM-RB-04</a> <a href="em-rb-05.html" title="Extract &amp; Analyse URLs">EM-RB-05</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1566/001" target="_blank" rel="noopener"><code>T1566.001</code></a></td>
+              <td>Spearphishing Attachment</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a></td>
+              <td><a href="tier1-em-03.html" title="Malicious Attachment">EM-T1-03</a> <a href="em-wi-01.html" title="Analyse Email Headers">EM-WI-01</a></td>
+              <td><a href="em-pb-01.html" title="Phishing Email — Triage &amp; Investigation">EM-PB-01</a> <a href="em-pb-02.html" title="Business Email Compromise (BEC)">EM-PB-02</a> <a href="em-rb-03.html" title="Reset Compromised Mailbox">EM-RB-03</a> <a href="em-rb-04.html" title="Analyse Email Headers">EM-RB-04</a> <a href="em-rb-06.html" title="Block Malicious File Hash">EM-RB-06</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1566/002" target="_blank" rel="noopener"><code>T1566.002</code></a></td>
+              <td>Spearphishing Link</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a></td>
+              <td><a href="tier1-em-01.html" title="Suspected Phishing Email">EM-T1-01</a> <a href="em-wi-01.html" title="Analyse Email Headers">EM-WI-01</a></td>
+              <td><a href="em-pb-01.html" title="Phishing Email — Triage &amp; Investigation">EM-PB-01</a> <a href="em-pb-03.html" title="Malware Delivered via Email">EM-PB-03</a> <a href="em-rb-04.html" title="Analyse Email Headers">EM-RB-04</a> <a href="em-rb-05.html" title="Extract &amp; Analyse URLs">EM-RB-05</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1566/003" target="_blank" rel="noopener"><code>T1566.003</code></a></td>
+              <td>Spearphishing via Service</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a></td>
+              <td><a href="tier1-em-01.html" title="Suspected Phishing Email">EM-T1-01</a></td>
+              <td><a href="em-pb-04.html" title="Email Account Takeover">EM-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1190" target="_blank" rel="noopener"><code>T1190</code></a></td>
+              <td>Exploit Public-Facing Application</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-si-sop-01.html" title="Security Infrastructure Baseline">IT-SI-SOP-01</a> <a href="it-si-wi-02.html" title="WAF Hardening">IT-SI-WI-02</a> <a href="it-cl-sop-01.html" title="Cloud Security Baseline">IT-CL-SOP-01</a> <a href="it-cl-wi-04.html" title="Azure Workload Patterns">IT-CL-WI-04</a> <a href="it-vm-sop-01.html" title="Vulnerability Management — Process &amp; Procedures">IT-VM-SOP-01</a> <a href="it-pm-sop-02.html" title="Patch Management — Emergency / Zero-Day">IT-PM-SOP-02</a></td>
+              <td><a href="tier1-nw-01.html" title="Suspicious Outbound Traffic / C2">NW-T1-01</a> <a href="tier1-nw-04.html" title="Firewall / IDS Alert">NW-T1-04</a> <a href="nw-wi-01.html" title="Block IP at Firewall">NW-WI-01</a></td>
+              <td><a href="sop-nw-01.html" title="Network Security Incident SOP">SOP-NW-01</a> <a href="nw-pb-01.html" title="Suspicious Network Traffic">NW-PB-01</a> <a href="nw-rb-01.html" title="Block IP / Domain at Firewall">NW-RB-01</a> <a href="nw-rb-02.html" title="Capture &amp; Analyse Network Traffic">NW-RB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1133" target="_blank" rel="noopener"><code>T1133</code></a></td>
+              <td>External Remote Services</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a> <a href="it-si-wi-04.html" title="PAM Platform Hardening">IT-SI-WI-04</a> <a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a></td>
+              <td><a href="tier1-id-01.html" title="Suspicious Sign-In Activity">ID-T1-01</a> <a href="tier1-nw-04.html" title="Firewall / IDS Alert">NW-T1-04</a></td>
+              <td><a href="id-pb-01.html" title="Suspicious Sign-In / Impossible Travel">ID-PB-01</a> <a href="id-pb-06.html" title="Guest / External Account Abuse">ID-PB-06</a> <a href="nw-pb-01.html" title="Suspicious Network Traffic">NW-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1078" target="_blank" rel="noopener"><code>T1078</code></a></td>
+              <td>Valid Accounts</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-srv-wi-dc-01.html" title="Tier-0 Administrative Access Enforcement">IT-SRV-WI-DC-01</a> <a href="it-ep-wi-win-01.html" title="Local Administrator &amp; Privilege Hardening">IT-EP-WI-Win-01</a> <a href="it-si-wi-04.html" title="PAM Platform Hardening">IT-SI-WI-04</a></td>
+              <td><a href="tier1-id-01.html" title="Suspicious Sign-In Activity">ID-T1-01</a> <a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a> <a href="id-wi-01.html" title="Disable Account in Entra ID">ID-WI-01</a></td>
+              <td><a href="sop-id-01.html" title="Identity Incident Response SOP">SOP-ID-01</a> <a href="id-pb-01.html" title="Suspicious Sign-In / Impossible Travel">ID-PB-01</a> <a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a> <a href="id-pb-06.html" title="Guest / External Account Abuse">ID-PB-06</a> <a href="id-rb-01.html" title="Disable Compromised Account">ID-RB-01</a> <a href="id-rb-03.html" title="Investigate Sign-In Logs">ID-RB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1078/004" target="_blank" rel="noopener"><code>T1078.004</code></a></td>
+              <td>Cloud Accounts</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-sop-01.html" title="Cloud Security Baseline">IT-CL-SOP-01</a> <a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-cl-wi-05.html" title="Defender Suite Configuration">IT-CL-WI-05</a></td>
+              <td><a href="tier1-id-01.html" title="Suspicious Sign-In Activity">ID-T1-01</a> <a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="id-pb-01.html" title="Suspicious Sign-In / Impossible Travel">ID-PB-01</a> <a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a> <a href="id-rb-01.html" title="Disable Compromised Account">ID-RB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-partial">
+              <td><a href="https://attack.mitre.org/techniques/T1195" target="_blank" rel="noopener"><code>T1195</code></a></td>
+              <td>Supply Chain Compromise</td>
+              <td><span class="cov-badge cov-partial">Partial</span></td>
+              <td><a href="it-vm-sop-01.html" title="Vulnerability Management — Process &amp; Procedures">IT-VM-SOP-01</a> <a href="it-ti-sop-01.html" title="Threat Intelligence Programme — Governance &amp; Lifecycle">IT-TI-SOP-01</a></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1199" target="_blank" rel="noopener"><code>T1199</code></a></td>
+              <td>Trusted Relationship</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a></td>
+              <td><a href="tier1-id-05.html" title="Guest / External User Alert">ID-T1-05</a></td>
+              <td><a href="id-pb-06.html" title="Guest / External Account Abuse">ID-PB-06</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1200" target="_blank" rel="noopener"><code>T1200</code></a></td>
+              <td>Hardware Additions</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-05.html" title="User Security Configuration">IT-EP-WI-Win-05</a> <a href="it-ep-wi-paw-05.html" title="Software Restrictions &amp; Network Controls">IT-EP-WI-PAW-05</a></td>
+              <td><a href="tier1-ep-05.html" title="USB / Removable Media Alert">EP-T1-05</a></td>
+              <td><a href="ep-wi-usb-01.html" title="Handle USB / Removable Media">EP-WI-USB</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+  <div class="kb-section cov-tactic" id="TA0002">
+    <details>
+      <summary>
+        <span class="cov-tac-id">TA0002</span>
+        <span class="cov-tac-name">Execution</span>
+        <span class="cov-tac-counts">13 techniques</span>
+        <span class="cov-tac-badges"><span class="cov-tac-badge cov-full" title="Full coverage">12 full</span><span class="cov-tac-badge cov-partial" title="Partial coverage">1 partial</span></span>
+      </summary>
+      <p class="cov-tac-desc">Adversary runs malicious code on local or remote system.</p>
+      <div class="kb-table-wrap">
+        <table class="kb-table cov-table">
+          <thead>
+            <tr>
+              <th style="width:11%;">Technique</th>
+              <th style="width:24%;">Name</th>
+              <th style="width:8%;">State</th>
+              <th style="width:19%;">Preventive (ASM)</th>
+              <th style="width:19%;">Detective (SOC)</th>
+              <th style="width:19%;">Responsive (SOC)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1059" target="_blank" rel="noopener"><code>T1059</code></a></td>
+              <td>Command and Scripting Interpreter</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a> <a href="it-srv-wi-win-03.html" title="Endpoint Protection &amp; Anti-Malware — Windows Server">IT-SRV-WI-Win-03</a> <a href="it-ep-wi-paw-04.html" title="Endpoint Protection &amp; ASR on PAW">IT-EP-WI-PAW-04</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="sop-ep-01.html" title="Endpoint Incident Response SOP">SOP-EP-01</a> <a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a> <a href="ep-pb-02.html" title="Malware / EDR Detection">EP-PB-02</a> <a href="ep-rb-01.html" title="Isolate Endpoint">EP-RB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1059/001" target="_blank" rel="noopener"><code>T1059.001</code></a></td>
+              <td>PowerShell</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a> <a href="it-srv-wi-win-03.html" title="Endpoint Protection &amp; Anti-Malware — Windows Server">IT-SRV-WI-Win-03</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a> <a href="ep-rb-01.html" title="Isolate Endpoint">EP-RB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1059/003" target="_blank" rel="noopener"><code>T1059.003</code></a></td>
+              <td>Windows Command Shell</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a></td>
+              <td><a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a> <a href="ep-rb-01.html" title="Isolate Endpoint">EP-RB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-partial">
+              <td><a href="https://attack.mitre.org/techniques/T1059/004" target="_blank" rel="noopener"><code>T1059.004</code></a></td>
+              <td>Unix Shell</td>
+              <td><span class="cov-badge cov-partial">Partial</span></td>
+              <td><a href="it-srv-wi-lnx-02.html" title="Identity, SSH &amp; Privileged Access — Linux">IT-SRV-WI-LNX-02</a> <a href="it-srv-wi-lnx-03.html" title="Service Reduction, SELinux &amp; File Permissions — Linux">IT-SRV-WI-LNX-03</a></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1059/005" target="_blank" rel="noopener"><code>T1059.005</code></a></td>
+              <td>Visual Basic</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a></td>
+              <td><a href="tier1-ep-02.html" title="Malware Detection / EDR Alert">EP-T1-02</a> <a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a></td>
+              <td><a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1059/007" target="_blank" rel="noopener"><code>T1059.007</code></a></td>
+              <td>JavaScript</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a></td>
+              <td><a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1106" target="_blank" rel="noopener"><code>T1106</code></a></td>
+              <td>Native API</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a> <a href="it-srv-wi-win-03.html" title="Endpoint Protection &amp; Anti-Malware — Windows Server">IT-SRV-WI-Win-03</a></td>
+              <td><a href="tier1-ep-02.html" title="Malware Detection / EDR Alert">EP-T1-02</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-02.html" title="Malware / EDR Detection">EP-PB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1204" target="_blank" rel="noopener"><code>T1204</code></a></td>
+              <td>User Execution</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a> <a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a></td>
+              <td><a href="tier1-em-03.html" title="Malicious Attachment">EM-T1-03</a> <a href="tier1-ep-02.html" title="Malware Detection / EDR Alert">EP-T1-02</a></td>
+              <td><a href="em-pb-01.html" title="Phishing Email — Triage &amp; Investigation">EM-PB-01</a> <a href="em-pb-02.html" title="Business Email Compromise (BEC)">EM-PB-02</a> <a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1204/001" target="_blank" rel="noopener"><code>T1204.001</code></a></td>
+              <td>Malicious Link</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a></td>
+              <td><a href="tier1-em-01.html" title="Suspected Phishing Email">EM-T1-01</a> <a href="tier1-em-03.html" title="Malicious Attachment">EM-T1-03</a></td>
+              <td><a href="em-pb-01.html" title="Phishing Email — Triage &amp; Investigation">EM-PB-01</a> <a href="em-pb-03.html" title="Malware Delivered via Email">EM-PB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1204/002" target="_blank" rel="noopener"><code>T1204.002</code></a></td>
+              <td>Malicious File</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a> <a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a></td>
+              <td><a href="tier1-em-03.html" title="Malicious Attachment">EM-T1-03</a> <a href="tier1-ep-02.html" title="Malware Detection / EDR Alert">EP-T1-02</a></td>
+              <td><a href="em-pb-01.html" title="Phishing Email — Triage &amp; Investigation">EM-PB-01</a> <a href="em-pb-02.html" title="Business Email Compromise (BEC)">EM-PB-02</a> <a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a> <a href="em-rb-03.html" title="Reset Compromised Mailbox">EM-RB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1053" target="_blank" rel="noopener"><code>T1053</code></a></td>
+              <td>Scheduled Task/Job</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a> <a href="it-srv-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring — Windows Server">IT-SRV-WI-Win-04</a></td>
+              <td><a href="tier1-ep-01.html" title="Suspicious Endpoint Activity">EP-T1-01</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-03.html" title="Ransomware Response">EP-PB-03</a> <a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1053/005" target="_blank" rel="noopener"><code>T1053.005</code></a></td>
+              <td>Scheduled Task (Windows)</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a> <a href="it-srv-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring — Windows Server">IT-SRV-WI-Win-04</a></td>
+              <td><a href="tier1-ep-01.html" title="Suspicious Endpoint Activity">EP-T1-01</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-03.html" title="Ransomware Response">EP-PB-03</a> <a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1569" target="_blank" rel="noopener"><code>T1569</code></a></td>
+              <td>System Services</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-01.html" title="Local Administrator &amp; Privilege Hardening">IT-EP-WI-Win-01</a> <a href="it-srv-wi-win-02.html" title="OS Hardening &amp; Service Reduction — Windows Server">IT-SRV-WI-Win-02</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a></td>
+              <td><a href="ep-pb-02.html" title="Malware / EDR Detection">EP-PB-02</a> <a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+  <div class="kb-section cov-tactic" id="TA0003">
+    <details>
+      <summary>
+        <span class="cov-tac-id">TA0003</span>
+        <span class="cov-tac-name">Persistence</span>
+        <span class="cov-tac-counts">15 techniques</span>
+        <span class="cov-tac-badges"><span class="cov-tac-badge cov-full" title="Full coverage">15 full</span></span>
+      </summary>
+      <p class="cov-tac-desc">Adversary maintains access across reboots, password changes, and other interruptions.</p>
+      <div class="kb-table-wrap">
+        <table class="kb-table cov-table">
+          <thead>
+            <tr>
+              <th style="width:11%;">Technique</th>
+              <th style="width:24%;">Name</th>
+              <th style="width:8%;">State</th>
+              <th style="width:19%;">Preventive (ASM)</th>
+              <th style="width:19%;">Detective (SOC)</th>
+              <th style="width:19%;">Responsive (SOC)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1547" target="_blank" rel="noopener"><code>T1547</code></a></td>
+              <td>Boot or Logon Autostart</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a> <a href="it-srv-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring — Windows Server">IT-SRV-WI-Win-04</a> <a href="it-ep-wi-paw-06.html" title="Logging, Telemetry &amp; SOC Visibility on PAW">IT-EP-WI-PAW-06</a></td>
+              <td><a href="tier1-ep-01.html" title="Suspicious Endpoint Activity">EP-T1-01</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a> <a href="ep-rb-03.html" title="Remove Malware Artefacts">EP-RB-03</a> <a href="ep-wi-04.html" title="Validate Persistence Removal">EP-WI-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1547/001" target="_blank" rel="noopener"><code>T1547.001</code></a></td>
+              <td>Registry Run Keys / Startup Folder</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a> <a href="it-srv-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring — Windows Server">IT-SRV-WI-Win-04</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a> <a href="ep-rb-03.html" title="Remove Malware Artefacts">EP-RB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1543" target="_blank" rel="noopener"><code>T1543</code></a></td>
+              <td>Create or Modify System Process</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-01.html" title="Local Administrator &amp; Privilege Hardening">IT-EP-WI-Win-01</a> <a href="it-srv-wi-win-01.html" title="Local Admin &amp; Privileged Access Hardening — Windows Server">IT-SRV-WI-Win-01</a> <a href="it-srv-wi-lnx-02.html" title="Identity, SSH &amp; Privileged Access — Linux">IT-SRV-WI-LNX-02</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a> <a href="ep-rb-03.html" title="Remove Malware Artefacts">EP-RB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1543/003" target="_blank" rel="noopener"><code>T1543.003</code></a></td>
+              <td>Windows Service</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-01.html" title="Local Administrator &amp; Privilege Hardening">IT-EP-WI-Win-01</a> <a href="it-srv-wi-win-01.html" title="Local Admin &amp; Privileged Access Hardening — Windows Server">IT-SRV-WI-Win-01</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a> <a href="ep-rb-03.html" title="Remove Malware Artefacts">EP-RB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1136" target="_blank" rel="noopener"><code>T1136</code></a></td>
+              <td>Create Account</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-srv-wi-dc-01.html" title="Tier-0 Administrative Access Enforcement">IT-SRV-WI-DC-01</a></td>
+              <td><a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a> <a href="id-wi-01.html" title="Disable Account in Entra ID">ID-WI-01</a></td>
+              <td><a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a> <a href="id-rb-03.html" title="Investigate Sign-In Logs">ID-RB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1136/003" target="_blank" rel="noopener"><code>T1136.003</code></a></td>
+              <td>Cloud Account</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a></td>
+              <td><a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1098" target="_blank" rel="noopener"><code>T1098</code></a></td>
+              <td>Account Manipulation</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-srv-wi-dc-02.html" title="Credential Protection — Domain Controller">IT-SRV-WI-DC-02</a> <a href="it-ep-wi-paw-02.html" title="Account Separation &amp; Logon Restrictions">IT-EP-WI-PAW-02</a></td>
+              <td><a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a> <a href="id-rb-01.html" title="Disable Compromised Account">ID-RB-01</a> <a href="id-rb-03.html" title="Investigate Sign-In Logs">ID-RB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1098/001" target="_blank" rel="noopener"><code>T1098.001</code></a></td>
+              <td>Add Cloud Credentials</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a></td>
+              <td><a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a> <a href="id-pb-04.html" title="Account Enumeration / Password Spray">ID-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1078" target="_blank" rel="noopener"><code>T1078</code></a></td>
+              <td>Valid Accounts (persistence)</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-si-wi-04.html" title="PAM Platform Hardening">IT-SI-WI-04</a></td>
+              <td><a href="tier1-id-01.html" title="Suspicious Sign-In Activity">ID-T1-01</a> <a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="sop-id-01.html" title="Identity Incident Response SOP">SOP-ID-01</a> <a href="id-pb-01.html" title="Suspicious Sign-In / Impossible Travel">ID-PB-01</a> <a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1505/003" target="_blank" rel="noopener"><code>T1505.003</code></a></td>
+              <td>Web Shell</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-si-wi-02.html" title="WAF Hardening">IT-SI-WI-02</a> <a href="it-cl-wi-04.html" title="Azure Workload Patterns">IT-CL-WI-04</a> <a href="it-srv-wi-win-03.html" title="Endpoint Protection &amp; Anti-Malware — Windows Server">IT-SRV-WI-Win-03</a> <a href="it-srv-wi-lnx-04.html" title="Endpoint Protection &amp; Integrity — Linux">IT-SRV-WI-LNX-04</a></td>
+              <td><a href="tier1-nw-01.html" title="Suspicious Outbound Traffic / C2">NW-T1-01</a> <a href="tier1-ep-01.html" title="Suspicious Endpoint Activity">EP-T1-01</a></td>
+              <td><a href="nw-pb-01.html" title="Suspicious Network Traffic">NW-PB-01</a> <a href="nw-pb-02.html" title="C2 / Beaconing Detection">NW-PB-02</a> <a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1546" target="_blank" rel="noopener"><code>T1546</code></a></td>
+              <td>Event Triggered Execution</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a> <a href="it-srv-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring — Windows Server">IT-SRV-WI-Win-04</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1574" target="_blank" rel="noopener"><code>T1574</code></a></td>
+              <td>Hijack Execution Flow</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1556" target="_blank" rel="noopener"><code>T1556</code></a></td>
+              <td>Modify Authentication Process</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-srv-wi-dc-02.html" title="Credential Protection — Domain Controller">IT-SRV-WI-DC-02</a></td>
+              <td><a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="id-pb-02.html" title="MFA Bypass / Fatigue Attack">ID-PB-02</a> <a href="id-pb-03.html" title="Privileged Account Compromise">ID-PB-03</a> <a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1137" target="_blank" rel="noopener"><code>T1137</code></a></td>
+              <td>Office Application Startup</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a> <a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a></td>
+              <td><a href="tier1-ep-02.html" title="Malware Detection / EDR Alert">EP-T1-02</a></td>
+              <td><a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1078/004" target="_blank" rel="noopener"><code>T1078.004</code></a></td>
+              <td>Valid Cloud Accounts (persistence)</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a></td>
+              <td><a href="tier1-id-01.html" title="Suspicious Sign-In Activity">ID-T1-01</a></td>
+              <td><a href="id-pb-01.html" title="Suspicious Sign-In / Impossible Travel">ID-PB-01</a> <a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+  <div class="kb-section cov-tactic" id="TA0004">
+    <details>
+      <summary>
+        <span class="cov-tac-id">TA0004</span>
+        <span class="cov-tac-name">Privilege Escalation</span>
+        <span class="cov-tac-counts">8 techniques</span>
+        <span class="cov-tac-badges"><span class="cov-tac-badge cov-full" title="Full coverage">7 full</span><span class="cov-tac-badge cov-partial" title="Partial coverage">1 partial</span></span>
+      </summary>
+      <p class="cov-tac-desc">Adversary gains higher-level permissions on a system or network.</p>
+      <div class="kb-table-wrap">
+        <table class="kb-table cov-table">
+          <thead>
+            <tr>
+              <th style="width:11%;">Technique</th>
+              <th style="width:24%;">Name</th>
+              <th style="width:8%;">State</th>
+              <th style="width:19%;">Preventive (ASM)</th>
+              <th style="width:19%;">Detective (SOC)</th>
+              <th style="width:19%;">Responsive (SOC)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1068" target="_blank" rel="noopener"><code>T1068</code></a></td>
+              <td>Exploitation for Privilege Escalation</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-pm-sop-01.html" title="Patch Management — Core SOP">IT-PM-SOP-01</a> <a href="it-pm-sop-02.html" title="Patch Management — Emergency / Zero-Day">IT-PM-SOP-02</a> <a href="it-vm-sop-01.html" title="Vulnerability Management — Process &amp; Procedures">IT-VM-SOP-01</a> <a href="it-gov-wi-pm-01.html" title="Endpoint Patch Management">IT-GOV-WI-PM-01</a> <a href="it-gov-wi-pm-02.html" title="Server Patch Management">IT-GOV-WI-PM-02</a> <a href="it-gov-wi-vm-01.html" title="Vulnerability Scan Execution">IT-GOV-WI-VM-01</a> <a href="it-gov-wi-vm-02.html" title="Vulnerability Triage &amp; Prioritisation">IT-GOV-WI-VM-02</a></td>
+              <td><a href="tier1-ep-02.html" title="Malware Detection / EDR Alert">EP-T1-02</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-02.html" title="Malware / EDR Detection">EP-PB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1078" target="_blank" rel="noopener"><code>T1078</code></a></td>
+              <td>Valid Accounts (priv-esc)</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-si-wi-04.html" title="PAM Platform Hardening">IT-SI-WI-04</a> <a href="it-srv-wi-dc-01.html" title="Tier-0 Administrative Access Enforcement">IT-SRV-WI-DC-01</a></td>
+              <td><a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a> <a href="id-rb-01.html" title="Disable Compromised Account">ID-RB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1548" target="_blank" rel="noopener"><code>T1548</code></a></td>
+              <td>Abuse Elevation Control Mechanism</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-01.html" title="Local Administrator &amp; Privilege Hardening">IT-EP-WI-Win-01</a> <a href="it-srv-wi-win-01.html" title="Local Admin &amp; Privileged Access Hardening — Windows Server">IT-SRV-WI-Win-01</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a></td>
+              <td><a href="ep-pb-02.html" title="Malware / EDR Detection">EP-PB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1548/002" target="_blank" rel="noopener"><code>T1548.002</code></a></td>
+              <td>Bypass User Account Control</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-01.html" title="Local Administrator &amp; Privilege Hardening">IT-EP-WI-Win-01</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-02.html" title="Malware / EDR Detection">EP-PB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1134" target="_blank" rel="noopener"><code>T1134</code></a></td>
+              <td>Access Token Manipulation</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a> <a href="it-srv-wi-win-03.html" title="Endpoint Protection &amp; Anti-Malware — Windows Server">IT-SRV-WI-Win-03</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-02.html" title="Malware / EDR Detection">EP-PB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1484" target="_blank" rel="noopener"><code>T1484</code></a></td>
+              <td>Domain or Tenant Policy Modification</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-srv-wi-dc-01.html" title="Tier-0 Administrative Access Enforcement">IT-SRV-WI-DC-01</a> <a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a></td>
+              <td><a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a> <a href="id-pb-07.html" title="Identity Provider Compromise">ID-PB-07</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1484/002" target="_blank" rel="noopener"><code>T1484.002</code></a></td>
+              <td>Trust Modification (Cloud)</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-cl-wi-03.html" title="Azure Subscription Baseline">IT-CL-WI-03</a></td>
+              <td><a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a></td>
+            </tr>
+            <tr class="cov-row cov-row-partial">
+              <td><a href="https://attack.mitre.org/techniques/T1611" target="_blank" rel="noopener"><code>T1611</code></a></td>
+              <td>Escape to Host (containers)</td>
+              <td><span class="cov-badge cov-partial">Partial</span></td>
+              <td><a href="it-cl-wi-04.html" title="Azure Workload Patterns">IT-CL-WI-04</a></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+  <div class="kb-section cov-tactic" id="TA0005">
+    <details>
+      <summary>
+        <span class="cov-tac-id">TA0005</span>
+        <span class="cov-tac-name">Defense Evasion</span>
+        <span class="cov-tac-counts">12 techniques</span>
+        <span class="cov-tac-badges"><span class="cov-tac-badge cov-full" title="Full coverage">12 full</span></span>
+      </summary>
+      <p class="cov-tac-desc">Adversary avoids detection by security controls.</p>
+      <div class="kb-table-wrap">
+        <table class="kb-table cov-table">
+          <thead>
+            <tr>
+              <th style="width:11%;">Technique</th>
+              <th style="width:24%;">Name</th>
+              <th style="width:8%;">State</th>
+              <th style="width:19%;">Preventive (ASM)</th>
+              <th style="width:19%;">Detective (SOC)</th>
+              <th style="width:19%;">Responsive (SOC)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1562" target="_blank" rel="noopener"><code>T1562</code></a></td>
+              <td>Impair Defenses</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a> <a href="it-srv-wi-win-03.html" title="Endpoint Protection &amp; Anti-Malware — Windows Server">IT-SRV-WI-Win-03</a> <a href="it-cl-wi-05.html" title="Defender Suite Configuration">IT-CL-WI-05</a></td>
+              <td><a href="tier1-ep-02.html" title="Malware Detection / EDR Alert">EP-T1-02</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-02.html" title="Malware / EDR Detection">EP-PB-02</a> <a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1562/001" target="_blank" rel="noopener"><code>T1562.001</code></a></td>
+              <td>Disable or Modify Tools</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a> <a href="it-cl-wi-05.html" title="Defender Suite Configuration">IT-CL-WI-05</a></td>
+              <td><a href="tier1-ep-02.html" title="Malware Detection / EDR Alert">EP-T1-02</a></td>
+              <td><a href="ep-pb-02.html" title="Malware / EDR Detection">EP-PB-02</a> <a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1027" target="_blank" rel="noopener"><code>T1027</code></a></td>
+              <td>Obfuscated Files or Information</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a></td>
+              <td><a href="tier1-ep-02.html" title="Malware Detection / EDR Alert">EP-T1-02</a> <a href="tier1-em-03.html" title="Malicious Attachment">EM-T1-03</a></td>
+              <td><a href="em-pb-03.html" title="Malware Delivered via Email">EM-PB-03</a> <a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1036" target="_blank" rel="noopener"><code>T1036</code></a></td>
+              <td>Masquerading</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a></td>
+              <td><a href="tier1-em-04.html" title="Email Spoofing / Impersonation">EM-T1-04</a> <a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a></td>
+              <td><a href="em-pb-02.html" title="Business Email Compromise (BEC)">EM-PB-02</a> <a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1070" target="_blank" rel="noopener"><code>T1070</code></a></td>
+              <td>Indicator Removal</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a> <a href="it-srv-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring — Windows Server">IT-SRV-WI-Win-04</a> <a href="it-srv-wi-lnx-05.html" title="Logging, Auditd &amp; SOC Visibility — Linux">IT-SRV-WI-LNX-05</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1070/004" target="_blank" rel="noopener"><code>T1070.004</code></a></td>
+              <td>File Deletion</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1140" target="_blank" rel="noopener"><code>T1140</code></a></td>
+              <td>Deobfuscate/Decode Files</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a></td>
+              <td><a href="tier1-ep-02.html" title="Malware Detection / EDR Alert">EP-T1-02</a></td>
+              <td><a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1218" target="_blank" rel="noopener"><code>T1218</code></a></td>
+              <td>System Binary Proxy Execution (LOLBin)</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a> <a href="ep-pb-02.html" title="Malware / EDR Detection">EP-PB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1550" target="_blank" rel="noopener"><code>T1550</code></a></td>
+              <td>Use Alternate Authentication Material</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-srv-wi-dc-02.html" title="Credential Protection — Domain Controller">IT-SRV-WI-DC-02</a></td>
+              <td><a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1550/001" target="_blank" rel="noopener"><code>T1550.001</code></a></td>
+              <td>Application Access Token</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a></td>
+              <td><a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="id-pb-04.html" title="Account Enumeration / Password Spray">ID-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1564" target="_blank" rel="noopener"><code>T1564</code></a></td>
+              <td>Hide Artifacts</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1112" target="_blank" rel="noopener"><code>T1112</code></a></td>
+              <td>Modify Registry</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+  <div class="kb-section cov-tactic" id="TA0006">
+    <details>
+      <summary>
+        <span class="cov-tac-id">TA0006</span>
+        <span class="cov-tac-name">Credential Access</span>
+        <span class="cov-tac-counts">12 techniques</span>
+        <span class="cov-tac-badges"><span class="cov-tac-badge cov-full" title="Full coverage">10 full</span><span class="cov-tac-badge cov-partial" title="Partial coverage">2 partial</span></span>
+      </summary>
+      <p class="cov-tac-desc">Adversary steals account names and passwords.</p>
+      <div class="kb-table-wrap">
+        <table class="kb-table cov-table">
+          <thead>
+            <tr>
+              <th style="width:11%;">Technique</th>
+              <th style="width:24%;">Name</th>
+              <th style="width:8%;">State</th>
+              <th style="width:19%;">Preventive (ASM)</th>
+              <th style="width:19%;">Detective (SOC)</th>
+              <th style="width:19%;">Responsive (SOC)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1003" target="_blank" rel="noopener"><code>T1003</code></a></td>
+              <td>OS Credential Dumping</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-01.html" title="Local Administrator &amp; Privilege Hardening">IT-EP-WI-Win-01</a> <a href="it-srv-wi-dc-02.html" title="Credential Protection — Domain Controller">IT-SRV-WI-DC-02</a> <a href="it-ep-wi-paw-03.html" title="Credential Protection &amp; Authentication Hardening">IT-EP-WI-PAW-03</a> <a href="it-ep-wi-paw-02.html" title="Account Separation &amp; Logon Restrictions">IT-EP-WI-PAW-02</a> <a href="it-ep-wi-paw-01.html" title="PAW Build &amp; Device Designation">IT-EP-WI-PAW-01</a></td>
+              <td><a href="tier1-ep-02.html" title="Malware Detection / EDR Alert">EP-T1-02</a> <a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a></td>
+              <td><a href="ep-pb-02.html" title="Malware / EDR Detection">EP-PB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1003/001" target="_blank" rel="noopener"><code>T1003.001</code></a></td>
+              <td>LSASS Memory</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-01.html" title="Local Administrator &amp; Privilege Hardening">IT-EP-WI-Win-01</a> <a href="it-srv-wi-dc-02.html" title="Credential Protection — Domain Controller">IT-SRV-WI-DC-02</a></td>
+              <td><a href="tier1-ep-02.html" title="Malware Detection / EDR Alert">EP-T1-02</a></td>
+              <td><a href="ep-pb-02.html" title="Malware / EDR Detection">EP-PB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1003/002" target="_blank" rel="noopener"><code>T1003.002</code></a></td>
+              <td>Security Account Manager (SAM)</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-01.html" title="Local Administrator &amp; Privilege Hardening">IT-EP-WI-Win-01</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-02.html" title="Malware / EDR Detection">EP-PB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1110" target="_blank" rel="noopener"><code>T1110</code></a></td>
+              <td>Brute Force</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-si-wi-02.html" title="WAF Hardening">IT-SI-WI-02</a></td>
+              <td><a href="tier1-id-01.html" title="Suspicious Sign-In Activity">ID-T1-01</a> <a href="tier1-id-03.html" title="Account Lockout">ID-T1-03</a></td>
+              <td><a href="id-pb-07.html" title="Identity Provider Compromise">ID-PB-07</a> <a href="id-rb-03.html" title="Investigate Sign-In Logs">ID-RB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1110/003" target="_blank" rel="noopener"><code>T1110.003</code></a></td>
+              <td>Password Spraying</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a></td>
+              <td><a href="tier1-id-01.html" title="Suspicious Sign-In Activity">ID-T1-01</a></td>
+              <td><a href="id-pb-07.html" title="Identity Provider Compromise">ID-PB-07</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1110/004" target="_blank" rel="noopener"><code>T1110.004</code></a></td>
+              <td>Credential Stuffing</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a></td>
+              <td><a href="tier1-id-01.html" title="Suspicious Sign-In Activity">ID-T1-01</a></td>
+              <td><a href="id-pb-07.html" title="Identity Provider Compromise">ID-PB-07</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1556" target="_blank" rel="noopener"><code>T1556</code></a></td>
+              <td>Modify Authentication Process</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-srv-wi-dc-02.html" title="Credential Protection — Domain Controller">IT-SRV-WI-DC-02</a></td>
+              <td><a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="id-pb-02.html" title="MFA Bypass / Fatigue Attack">ID-PB-02</a> <a href="id-pb-03.html" title="Privileged Account Compromise">ID-PB-03</a> <a href="id-rb-05.html" title="Conditional Access Review">ID-RB-05</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1621" target="_blank" rel="noopener"><code>T1621</code></a></td>
+              <td>Multi-Factor Authentication Request Generation (MFA fatigue)</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a></td>
+              <td><a href="tier1-id-02.html" title="MFA Alert">ID-T1-02</a></td>
+              <td><a href="id-pb-03.html" title="Privileged Account Compromise">ID-PB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1555" target="_blank" rel="noopener"><code>T1555</code></a></td>
+              <td>Credentials from Password Stores</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-01.html" title="Local Administrator &amp; Privilege Hardening">IT-EP-WI-Win-01</a> <a href="it-si-wi-04.html" title="PAM Platform Hardening">IT-SI-WI-04</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a></td>
+              <td><a href="ep-pb-02.html" title="Malware / EDR Detection">EP-PB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-partial">
+              <td><a href="https://attack.mitre.org/techniques/T1212" target="_blank" rel="noopener"><code>T1212</code></a></td>
+              <td>Exploitation for Credential Access</td>
+              <td><span class="cov-badge cov-partial">Partial</span></td>
+              <td><a href="it-pm-sop-01.html" title="Patch Management — Core SOP">IT-PM-SOP-01</a> <a href="it-pm-sop-02.html" title="Patch Management — Emergency / Zero-Day">IT-PM-SOP-02</a> <a href="it-vm-sop-01.html" title="Vulnerability Management — Process &amp; Procedures">IT-VM-SOP-01</a> <a href="it-gov-wi-pm-01.html" title="Endpoint Patch Management">IT-GOV-WI-PM-01</a> <a href="it-gov-wi-pm-02.html" title="Server Patch Management">IT-GOV-WI-PM-02</a></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+            </tr>
+            <tr class="cov-row cov-row-partial">
+              <td><a href="https://attack.mitre.org/techniques/T1187" target="_blank" rel="noopener"><code>T1187</code></a></td>
+              <td>Forced Authentication</td>
+              <td><span class="cov-badge cov-partial">Partial</span></td>
+              <td><a href="it-srv-wi-dc-02.html" title="Credential Protection — Domain Controller">IT-SRV-WI-DC-02</a> <a href="it-net-wi-03.html" title="Data Plane Hardening">IT-NET-WI-03</a></td>
+              <td><span class="ref-none">—</span></td>
+              <td><span class="ref-none">—</span></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1606" target="_blank" rel="noopener"><code>T1606</code></a></td>
+              <td>Forge Web Credentials</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-si-wi-04.html" title="PAM Platform Hardening">IT-SI-WI-04</a></td>
+              <td><a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="id-pb-04.html" title="Account Enumeration / Password Spray">ID-PB-04</a> <a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+  <div class="kb-section cov-tactic" id="TA0007">
+    <details>
+      <summary>
+        <span class="cov-tac-id">TA0007</span>
+        <span class="cov-tac-name">Discovery</span>
+        <span class="cov-tac-counts">12 techniques</span>
+        <span class="cov-tac-badges"><span class="cov-tac-badge cov-full" title="Full coverage">12 full</span></span>
+      </summary>
+      <p class="cov-tac-desc">Adversary learns about the environment after initial compromise.</p>
+      <div class="kb-table-wrap">
+        <table class="kb-table cov-table">
+          <thead>
+            <tr>
+              <th style="width:11%;">Technique</th>
+              <th style="width:24%;">Name</th>
+              <th style="width:8%;">State</th>
+              <th style="width:19%;">Preventive (ASM)</th>
+              <th style="width:19%;">Detective (SOC)</th>
+              <th style="width:19%;">Responsive (SOC)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1087" target="_blank" rel="noopener"><code>T1087</code></a></td>
+              <td>Account Discovery</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-srv-wi-dc-04.html" title="Logging &amp; SOC Visibility — Domain Controller">IT-SRV-WI-DC-04</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a> <a href="ep-pb-03.html" title="Ransomware Response">EP-PB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1087/002" target="_blank" rel="noopener"><code>T1087.002</code></a></td>
+              <td>Domain Account Discovery</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-srv-wi-dc-04.html" title="Logging &amp; SOC Visibility — Domain Controller">IT-SRV-WI-DC-04</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-03.html" title="Ransomware Response">EP-PB-03</a> <a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1018" target="_blank" rel="noopener"><code>T1018</code></a></td>
+              <td>Remote System Discovery</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-03.html" title="Data Plane Hardening">IT-NET-WI-03</a></td>
+              <td><a href="tier1-nw-02.html" title="Internal Reconnaissance / Lateral Movement">NW-T1-02</a></td>
+              <td><a href="nw-pb-03.html" title="Internal Reconnaissance / Lateral Movement">NW-PB-03</a> <a href="nw-rb-03.html" title="DNS Sinkhole / Block">NW-RB-03</a> <a href="nw-wi-03.html" title="Network Segment Isolation">NW-WI-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1046" target="_blank" rel="noopener"><code>T1046</code></a></td>
+              <td>Network Service Discovery</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a></td>
+              <td><a href="tier1-nw-02.html" title="Internal Reconnaissance / Lateral Movement">NW-T1-02</a> <a href="tier1-nw-04.html" title="Firewall / IDS Alert">NW-T1-04</a></td>
+              <td><a href="nw-pb-03.html" title="Internal Reconnaissance / Lateral Movement">NW-PB-03</a> <a href="nw-rb-03.html" title="DNS Sinkhole / Block">NW-RB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1057" target="_blank" rel="noopener"><code>T1057</code></a></td>
+              <td>Process Discovery</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1083" target="_blank" rel="noopener"><code>T1083</code></a></td>
+              <td>File and Directory Discovery</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1135" target="_blank" rel="noopener"><code>T1135</code></a></td>
+              <td>Network Share Discovery</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-03.html" title="Data Plane Hardening">IT-NET-WI-03</a> <a href="it-srv-wi-win-02.html" title="OS Hardening &amp; Service Reduction — Windows Server">IT-SRV-WI-Win-02</a></td>
+              <td><a href="tier1-nw-02.html" title="Internal Reconnaissance / Lateral Movement">NW-T1-02</a></td>
+              <td><a href="nw-pb-03.html" title="Internal Reconnaissance / Lateral Movement">NW-PB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1069" target="_blank" rel="noopener"><code>T1069</code></a></td>
+              <td>Permission Groups Discovery</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-srv-wi-dc-04.html" title="Logging &amp; SOC Visibility — Domain Controller">IT-SRV-WI-DC-04</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-03.html" title="Ransomware Response">EP-PB-03</a> <a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1482" target="_blank" rel="noopener"><code>T1482</code></a></td>
+              <td>Domain Trust Discovery</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-srv-wi-dc-04.html" title="Logging &amp; SOC Visibility — Domain Controller">IT-SRV-WI-DC-04</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-03.html" title="Ransomware Response">EP-PB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1538" target="_blank" rel="noopener"><code>T1538</code></a></td>
+              <td>Cloud Service Dashboard</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-cl-wi-03.html" title="Azure Subscription Baseline">IT-CL-WI-03</a></td>
+              <td><a href="tier1-id-01.html" title="Suspicious Sign-In Activity">ID-T1-01</a></td>
+              <td><a href="id-pb-01.html" title="Suspicious Sign-In / Impossible Travel">ID-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1526" target="_blank" rel="noopener"><code>T1526</code></a></td>
+              <td>Cloud Service Discovery</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-03.html" title="Azure Subscription Baseline">IT-CL-WI-03</a></td>
+              <td><a href="tier1-id-01.html" title="Suspicious Sign-In Activity">ID-T1-01</a></td>
+              <td><a href="id-pb-01.html" title="Suspicious Sign-In / Impossible Travel">ID-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1518" target="_blank" rel="noopener"><code>T1518</code></a></td>
+              <td>Software Discovery</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+  <div class="kb-section cov-tactic" id="TA0008">
+    <details>
+      <summary>
+        <span class="cov-tac-id">TA0008</span>
+        <span class="cov-tac-name">Lateral Movement</span>
+        <span class="cov-tac-counts">9 techniques</span>
+        <span class="cov-tac-badges"><span class="cov-tac-badge cov-full" title="Full coverage">9 full</span></span>
+      </summary>
+      <p class="cov-tac-desc">Adversary moves through the environment to reach the objective.</p>
+      <div class="kb-table-wrap">
+        <table class="kb-table cov-table">
+          <thead>
+            <tr>
+              <th style="width:11%;">Technique</th>
+              <th style="width:24%;">Name</th>
+              <th style="width:8%;">State</th>
+              <th style="width:19%;">Preventive (ASM)</th>
+              <th style="width:19%;">Detective (SOC)</th>
+              <th style="width:19%;">Responsive (SOC)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1021" target="_blank" rel="noopener"><code>T1021</code></a></td>
+              <td>Remote Services</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-03.html" title="Data Plane Hardening">IT-NET-WI-03</a> <a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a> <a href="it-srv-wi-dc-05.html" title="Network Isolation &amp; Access Control — Domain Controller">IT-SRV-WI-DC-05</a></td>
+              <td><a href="tier1-nw-02.html" title="Internal Reconnaissance / Lateral Movement">NW-T1-02</a> <a href="nw-wi-03.html" title="Network Segment Isolation">NW-WI-03</a></td>
+              <td><a href="nw-pb-03.html" title="Internal Reconnaissance / Lateral Movement">NW-PB-03</a> <a href="nw-rb-03.html" title="DNS Sinkhole / Block">NW-RB-03</a> <a href="ep-pb-03.html" title="Ransomware Response">EP-PB-03</a> <a href="ep-rb-04.html" title="Rebuild &amp; Restore Endpoint">EP-RB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1021/001" target="_blank" rel="noopener"><code>T1021.001</code></a></td>
+              <td>Remote Desktop Protocol</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a> <a href="it-srv-wi-win-05.html" title="Network Security &amp; Firewall — Windows Server">IT-SRV-WI-Win-05</a> <a href="it-cl-wi-04.html" title="Azure Workload Patterns">IT-CL-WI-04</a></td>
+              <td><a href="tier1-nw-02.html" title="Internal Reconnaissance / Lateral Movement">NW-T1-02</a></td>
+              <td><a href="nw-pb-03.html" title="Internal Reconnaissance / Lateral Movement">NW-PB-03</a> <a href="ep-pb-03.html" title="Ransomware Response">EP-PB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1021/002" target="_blank" rel="noopener"><code>T1021.002</code></a></td>
+              <td>SMB / Windows Admin Shares</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-03.html" title="Data Plane Hardening">IT-NET-WI-03</a> <a href="it-srv-wi-win-02.html" title="OS Hardening &amp; Service Reduction — Windows Server">IT-SRV-WI-Win-02</a></td>
+              <td><a href="tier1-nw-02.html" title="Internal Reconnaissance / Lateral Movement">NW-T1-02</a></td>
+              <td><a href="nw-pb-03.html" title="Internal Reconnaissance / Lateral Movement">NW-PB-03</a> <a href="ep-pb-03.html" title="Ransomware Response">EP-PB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1021/004" target="_blank" rel="noopener"><code>T1021.004</code></a></td>
+              <td>SSH</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-srv-wi-lnx-02.html" title="Identity, SSH &amp; Privileged Access — Linux">IT-SRV-WI-LNX-02</a> <a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a></td>
+              <td><a href="tier1-nw-02.html" title="Internal Reconnaissance / Lateral Movement">NW-T1-02</a></td>
+              <td><a href="nw-pb-03.html" title="Internal Reconnaissance / Lateral Movement">NW-PB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1021/006" target="_blank" rel="noopener"><code>T1021.006</code></a></td>
+              <td>Windows Remote Management</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-srv-wi-win-02.html" title="OS Hardening &amp; Service Reduction — Windows Server">IT-SRV-WI-Win-02</a></td>
+              <td><a href="tier1-nw-02.html" title="Internal Reconnaissance / Lateral Movement">NW-T1-02</a></td>
+              <td><a href="nw-pb-03.html" title="Internal Reconnaissance / Lateral Movement">NW-PB-03</a> <a href="ep-pb-03.html" title="Ransomware Response">EP-PB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1570" target="_blank" rel="noopener"><code>T1570</code></a></td>
+              <td>Lateral Tool Transfer</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-03.html" title="Data Plane Hardening">IT-NET-WI-03</a> <a href="it-srv-wi-win-05.html" title="Network Security &amp; Firewall — Windows Server">IT-SRV-WI-Win-05</a></td>
+              <td><a href="tier1-ep-01.html" title="Suspicious Endpoint Activity">EP-T1-01</a> <a href="tier1-nw-02.html" title="Internal Reconnaissance / Lateral Movement">NW-T1-02</a></td>
+              <td><a href="ep-pb-03.html" title="Ransomware Response">EP-PB-03</a> <a href="ep-rb-04.html" title="Rebuild &amp; Restore Endpoint">EP-RB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1078" target="_blank" rel="noopener"><code>T1078</code></a></td>
+              <td>Valid Accounts (lateral)</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-si-wi-04.html" title="PAM Platform Hardening">IT-SI-WI-04</a></td>
+              <td><a href="tier1-id-01.html" title="Suspicious Sign-In Activity">ID-T1-01</a> <a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="id-pb-01.html" title="Suspicious Sign-In / Impossible Travel">ID-PB-01</a> <a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a> <a href="ep-pb-03.html" title="Ransomware Response">EP-PB-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1550" target="_blank" rel="noopener"><code>T1550</code></a></td>
+              <td>Use Alternate Auth Material (lateral)</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-srv-wi-dc-02.html" title="Credential Protection — Domain Controller">IT-SRV-WI-DC-02</a> <a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a></td>
+              <td><a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1210" target="_blank" rel="noopener"><code>T1210</code></a></td>
+              <td>Exploitation of Remote Services</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-pm-sop-01.html" title="Patch Management — Core SOP">IT-PM-SOP-01</a> <a href="it-pm-sop-02.html" title="Patch Management — Emergency / Zero-Day">IT-PM-SOP-02</a> <a href="it-vm-sop-01.html" title="Vulnerability Management — Process &amp; Procedures">IT-VM-SOP-01</a> <a href="it-gov-wi-pm-02.html" title="Server Patch Management">IT-GOV-WI-PM-02</a> <a href="it-gov-wi-vm-03.html" title="Remediation Validation">IT-GOV-WI-VM-03</a></td>
+              <td><a href="tier1-nw-04.html" title="Firewall / IDS Alert">NW-T1-04</a></td>
+              <td><a href="nw-pb-01.html" title="Suspicious Network Traffic">NW-PB-01</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+  <div class="kb-section cov-tactic" id="TA0009">
+    <details>
+      <summary>
+        <span class="cov-tac-id">TA0009</span>
+        <span class="cov-tac-name">Collection</span>
+        <span class="cov-tac-counts">9 techniques</span>
+        <span class="cov-tac-badges"><span class="cov-tac-badge cov-full" title="Full coverage">9 full</span></span>
+      </summary>
+      <p class="cov-tac-desc">Adversary gathers information relevant to the objective.</p>
+      <div class="kb-table-wrap">
+        <table class="kb-table cov-table">
+          <thead>
+            <tr>
+              <th style="width:11%;">Technique</th>
+              <th style="width:24%;">Name</th>
+              <th style="width:8%;">State</th>
+              <th style="width:19%;">Preventive (ASM)</th>
+              <th style="width:19%;">Detective (SOC)</th>
+              <th style="width:19%;">Responsive (SOC)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1005" target="_blank" rel="noopener"><code>T1005</code></a></td>
+              <td>Data from Local System</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-02.html" title="Disk Encryption &amp; Secure Boot">IT-EP-WI-Win-02</a> <a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a> <a href="it-srv-wi-lnx-07.html" title="Data Protection, Backups &amp; Recovery — Linux">IT-SRV-WI-LNX-07</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1039" target="_blank" rel="noopener"><code>T1039</code></a></td>
+              <td>Data from Network Shared Drive</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-srv-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring — Windows Server">IT-SRV-WI-Win-04</a> <a href="it-srv-wi-lnx-05.html" title="Logging, Auditd &amp; SOC Visibility — Linux">IT-SRV-WI-LNX-05</a></td>
+              <td><a href="tier1-nw-05.html" title="Data Exfiltration Indicators">NW-T1-05</a></td>
+              <td><a href="nw-pb-04.html" title="Data Exfiltration via Network">NW-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1213" target="_blank" rel="noopener"><code>T1213</code></a></td>
+              <td>Data from Information Repositories</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a></td>
+              <td><a href="tier1-em-02.html" title="Email Account Compromise">EM-T1-02</a></td>
+              <td><a href="em-pb-06.html" title="Email Data Exfiltration">EM-PB-06</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1114" target="_blank" rel="noopener"><code>T1114</code></a></td>
+              <td>Email Collection</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a></td>
+              <td><a href="tier1-em-02.html" title="Email Account Compromise">EM-T1-02</a> <a href="tier1-id-01.html" title="Suspicious Sign-In Activity">ID-T1-01</a> <a href="id-wi-05.html" title="Review Sign-In Logs">ID-WI-05</a></td>
+              <td><a href="em-pb-04.html" title="Email Account Takeover">EM-PB-04</a> <a href="em-pb-06.html" title="Email Data Exfiltration">EM-PB-06</a> <a href="em-pb-07.html" title="Mass Phishing Campaign">EM-PB-07</a> <a href="em-rb-07.html" title="Enable MFA for User">EM-RB-07</a> <a href="id-pb-02.html" title="MFA Bypass / Fatigue Attack">ID-PB-02</a> <a href="id-rb-02.html" title="Revoke OAuth App Access">ID-RB-02</a> <a href="id-wi-02.html" title="Revoke Sessions in Entra ID">ID-WI-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1114/003" target="_blank" rel="noopener"><code>T1114.003</code></a></td>
+              <td>Email Forwarding Rule</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a></td>
+              <td><a href="tier1-em-02.html" title="Email Account Compromise">EM-T1-02</a></td>
+              <td><a href="em-pb-04.html" title="Email Account Takeover">EM-PB-04</a> <a href="em-pb-06.html" title="Email Data Exfiltration">EM-PB-06</a> <a href="em-pb-07.html" title="Mass Phishing Campaign">EM-PB-07</a> <a href="em-rb-07.html" title="Enable MFA for User">EM-RB-07</a> <a href="id-pb-02.html" title="MFA Bypass / Fatigue Attack">ID-PB-02</a> <a href="id-rb-02.html" title="Revoke OAuth App Access">ID-RB-02</a> <a href="id-rb-04.html" title="Remove Malicious Inbox Rules">ID-RB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1119" target="_blank" rel="noopener"><code>T1119</code></a></td>
+              <td>Automated Collection</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1530" target="_blank" rel="noopener"><code>T1530</code></a></td>
+              <td>Data from Cloud Storage</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-04.html" title="Azure Workload Patterns">IT-CL-WI-04</a> <a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a></td>
+              <td><a href="tier1-nw-05.html" title="Data Exfiltration Indicators">NW-T1-05</a></td>
+              <td><a href="nw-pb-04.html" title="Data Exfiltration via Network">NW-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1074" target="_blank" rel="noopener"><code>T1074</code></a></td>
+              <td>Data Staged</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a> <a href="tier1-nw-05.html" title="Data Exfiltration Indicators">NW-T1-05</a></td>
+              <td><a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a> <a href="nw-pb-04.html" title="Data Exfiltration via Network">NW-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1056" target="_blank" rel="noopener"><code>T1056</code></a></td>
+              <td>Input Capture (keylogging)</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a></td>
+              <td><a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+  <div class="kb-section cov-tactic" id="TA0011">
+    <details>
+      <summary>
+        <span class="cov-tac-id">TA0011</span>
+        <span class="cov-tac-name">Command and Control</span>
+        <span class="cov-tac-counts">10 techniques</span>
+        <span class="cov-tac-badges"><span class="cov-tac-badge cov-full" title="Full coverage">10 full</span></span>
+      </summary>
+      <p class="cov-tac-desc">Adversary communicates with compromised systems to control them.</p>
+      <div class="kb-table-wrap">
+        <table class="kb-table cov-table">
+          <thead>
+            <tr>
+              <th style="width:11%;">Technique</th>
+              <th style="width:24%;">Name</th>
+              <th style="width:8%;">State</th>
+              <th style="width:19%;">Preventive (ASM)</th>
+              <th style="width:19%;">Detective (SOC)</th>
+              <th style="width:19%;">Responsive (SOC)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1071" target="_blank" rel="noopener"><code>T1071</code></a></td>
+              <td>Application Layer Protocol</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-sop-01.html" title="Network Device Security Baseline">IT-NET-SOP-01</a> <a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a> <a href="it-si-wi-01.html" title="Common Management Plane &amp; Logging">IT-SI-WI-01</a></td>
+              <td><a href="tier1-nw-01.html" title="Suspicious Outbound Traffic / C2">NW-T1-01</a> <a href="nw-wi-01.html" title="Block IP at Firewall">NW-WI-01</a></td>
+              <td><a href="sop-nw-01.html" title="Network Security Incident SOP">SOP-NW-01</a> <a href="nw-pb-02.html" title="C2 / Beaconing Detection">NW-PB-02</a> <a href="nw-rb-01.html" title="Block IP / Domain at Firewall">NW-RB-01</a> <a href="nw-rb-02.html" title="Capture &amp; Analyse Network Traffic">NW-RB-02</a> <a href="nw-wi-02.html" title="Block Domain in DNS">NW-WI-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1071/001" target="_blank" rel="noopener"><code>T1071.001</code></a></td>
+              <td>Web Protocols (HTTP/S C2)</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a> <a href="it-si-wi-02.html" title="WAF Hardening">IT-SI-WI-02</a></td>
+              <td><a href="tier1-nw-01.html" title="Suspicious Outbound Traffic / C2">NW-T1-01</a></td>
+              <td><a href="nw-pb-02.html" title="C2 / Beaconing Detection">NW-PB-02</a> <a href="nw-rb-01.html" title="Block IP / Domain at Firewall">NW-RB-01</a> <a href="nw-rb-02.html" title="Capture &amp; Analyse Network Traffic">NW-RB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1071/004" target="_blank" rel="noopener"><code>T1071.004</code></a></td>
+              <td>DNS C2</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a></td>
+              <td><a href="tier1-nw-03.html" title="DNS Anomaly">NW-T1-03</a></td>
+              <td><a href="nw-pb-02.html" title="C2 / Beaconing Detection">NW-PB-02</a> <a href="nw-rb-02.html" title="Capture &amp; Analyse Network Traffic">NW-RB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1095" target="_blank" rel="noopener"><code>T1095</code></a></td>
+              <td>Non-Application Layer Protocol</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a></td>
+              <td><a href="tier1-nw-01.html" title="Suspicious Outbound Traffic / C2">NW-T1-01</a></td>
+              <td><a href="nw-pb-02.html" title="C2 / Beaconing Detection">NW-PB-02</a> <a href="nw-rb-02.html" title="Capture &amp; Analyse Network Traffic">NW-RB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1572" target="_blank" rel="noopener"><code>T1572</code></a></td>
+              <td>Protocol Tunneling</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a></td>
+              <td><a href="tier1-nw-01.html" title="Suspicious Outbound Traffic / C2">NW-T1-01</a> <a href="tier1-nw-03.html" title="DNS Anomaly">NW-T1-03</a></td>
+              <td><a href="nw-pb-02.html" title="C2 / Beaconing Detection">NW-PB-02</a> <a href="nw-rb-02.html" title="Capture &amp; Analyse Network Traffic">NW-RB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1090" target="_blank" rel="noopener"><code>T1090</code></a></td>
+              <td>Proxy</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a></td>
+              <td><a href="tier1-nw-01.html" title="Suspicious Outbound Traffic / C2">NW-T1-01</a></td>
+              <td><a href="nw-pb-02.html" title="C2 / Beaconing Detection">NW-PB-02</a> <a href="nw-rb-02.html" title="Capture &amp; Analyse Network Traffic">NW-RB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1568" target="_blank" rel="noopener"><code>T1568</code></a></td>
+              <td>Dynamic Resolution</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a></td>
+              <td><a href="tier1-nw-03.html" title="DNS Anomaly">NW-T1-03</a></td>
+              <td><a href="nw-pb-02.html" title="C2 / Beaconing Detection">NW-PB-02</a> <a href="nw-rb-02.html" title="Capture &amp; Analyse Network Traffic">NW-RB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1102" target="_blank" rel="noopener"><code>T1102</code></a></td>
+              <td>Web Service (C2 over legitimate platforms)</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a></td>
+              <td><a href="tier1-nw-01.html" title="Suspicious Outbound Traffic / C2">NW-T1-01</a></td>
+              <td><a href="nw-pb-02.html" title="C2 / Beaconing Detection">NW-PB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1573" target="_blank" rel="noopener"><code>T1573</code></a></td>
+              <td>Encrypted Channel</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a> <a href="it-si-wi-02.html" title="WAF Hardening">IT-SI-WI-02</a></td>
+              <td><a href="tier1-nw-01.html" title="Suspicious Outbound Traffic / C2">NW-T1-01</a></td>
+              <td><a href="nw-pb-02.html" title="C2 / Beaconing Detection">NW-PB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1105" target="_blank" rel="noopener"><code>T1105</code></a></td>
+              <td>Ingress Tool Transfer</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a> <a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a></td>
+              <td><a href="tier1-nw-01.html" title="Suspicious Outbound Traffic / C2">NW-T1-01</a> <a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a></td>
+              <td><a href="nw-pb-02.html" title="C2 / Beaconing Detection">NW-PB-02</a> <a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+  <div class="kb-section cov-tactic" id="TA0010">
+    <details>
+      <summary>
+        <span class="cov-tac-id">TA0010</span>
+        <span class="cov-tac-name">Exfiltration</span>
+        <span class="cov-tac-counts">8 techniques</span>
+        <span class="cov-tac-badges"><span class="cov-tac-badge cov-full" title="Full coverage">8 full</span></span>
+      </summary>
+      <p class="cov-tac-desc">Adversary steals data from the environment.</p>
+      <div class="kb-table-wrap">
+        <table class="kb-table cov-table">
+          <thead>
+            <tr>
+              <th style="width:11%;">Technique</th>
+              <th style="width:24%;">Name</th>
+              <th style="width:8%;">State</th>
+              <th style="width:19%;">Preventive (ASM)</th>
+              <th style="width:19%;">Detective (SOC)</th>
+              <th style="width:19%;">Responsive (SOC)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1041" target="_blank" rel="noopener"><code>T1041</code></a></td>
+              <td>Exfiltration Over C2 Channel</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a></td>
+              <td><a href="tier1-nw-05.html" title="Data Exfiltration Indicators">NW-T1-05</a></td>
+              <td><a href="nw-pb-04.html" title="Data Exfiltration via Network">NW-PB-04</a> <a href="nw-rb-02.html" title="Capture &amp; Analyse Network Traffic">NW-RB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1048" target="_blank" rel="noopener"><code>T1048</code></a></td>
+              <td>Exfiltration Over Alternative Protocol</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a></td>
+              <td><a href="tier1-nw-05.html" title="Data Exfiltration Indicators">NW-T1-05</a></td>
+              <td><a href="nw-pb-04.html" title="Data Exfiltration via Network">NW-PB-04</a> <a href="nw-rb-02.html" title="Capture &amp; Analyse Network Traffic">NW-RB-02</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1048/003" target="_blank" rel="noopener"><code>T1048.003</code></a></td>
+              <td>Unencrypted Non-C2 Protocol Exfil</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a></td>
+              <td><a href="tier1-nw-05.html" title="Data Exfiltration Indicators">NW-T1-05</a></td>
+              <td><a href="nw-pb-04.html" title="Data Exfiltration via Network">NW-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1567" target="_blank" rel="noopener"><code>T1567</code></a></td>
+              <td>Exfiltration Over Web Service</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a> <a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a></td>
+              <td><a href="tier1-nw-05.html" title="Data Exfiltration Indicators">NW-T1-05</a></td>
+              <td><a href="nw-pb-04.html" title="Data Exfiltration via Network">NW-PB-04</a> <a href="em-pb-06.html" title="Email Data Exfiltration">EM-PB-06</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1567/002" target="_blank" rel="noopener"><code>T1567.002</code></a></td>
+              <td>Exfiltration to Cloud Storage</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-02.html" title="M365 Tenant Hardening">IT-CL-WI-02</a> <a href="it-cl-wi-04.html" title="Azure Workload Patterns">IT-CL-WI-04</a></td>
+              <td><a href="tier1-nw-05.html" title="Data Exfiltration Indicators">NW-T1-05</a></td>
+              <td><a href="nw-pb-04.html" title="Data Exfiltration via Network">NW-PB-04</a> <a href="em-pb-06.html" title="Email Data Exfiltration">EM-PB-06</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1052" target="_blank" rel="noopener"><code>T1052</code></a></td>
+              <td>Exfiltration Over Physical Medium (USB)</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-05.html" title="User Security Configuration">IT-EP-WI-Win-05</a> <a href="it-ep-wi-paw-05.html" title="Software Restrictions &amp; Network Controls">IT-EP-WI-PAW-05</a></td>
+              <td><a href="tier1-ep-05.html" title="USB / Removable Media Alert">EP-T1-05</a></td>
+              <td><a href="ep-wi-usb-01.html" title="Handle USB / Removable Media">EP-WI-USB</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1029" target="_blank" rel="noopener"><code>T1029</code></a></td>
+              <td>Scheduled Transfer</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a></td>
+              <td><a href="tier1-nw-05.html" title="Data Exfiltration Indicators">NW-T1-05</a></td>
+              <td><a href="nw-pb-04.html" title="Data Exfiltration via Network">NW-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1030" target="_blank" rel="noopener"><code>T1030</code></a></td>
+              <td>Data Transfer Size Limits</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a></td>
+              <td><a href="tier1-nw-05.html" title="Data Exfiltration Indicators">NW-T1-05</a></td>
+              <td><a href="nw-pb-04.html" title="Data Exfiltration via Network">NW-PB-04</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+  <div class="kb-section cov-tactic" id="TA0040">
+    <details>
+      <summary>
+        <span class="cov-tac-id">TA0040</span>
+        <span class="cov-tac-name">Impact</span>
+        <span class="cov-tac-counts">10 techniques</span>
+        <span class="cov-tac-badges"><span class="cov-tac-badge cov-full" title="Full coverage">10 full</span></span>
+      </summary>
+      <p class="cov-tac-desc">Adversary disrupts availability or compromises integrity of systems and data.</p>
+      <div class="kb-table-wrap">
+        <table class="kb-table cov-table">
+          <thead>
+            <tr>
+              <th style="width:11%;">Technique</th>
+              <th style="width:24%;">Name</th>
+              <th style="width:8%;">State</th>
+              <th style="width:19%;">Preventive (ASM)</th>
+              <th style="width:19%;">Detective (SOC)</th>
+              <th style="width:19%;">Responsive (SOC)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1486" target="_blank" rel="noopener"><code>T1486</code></a></td>
+              <td>Data Encrypted for Impact (Ransomware)</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-03.html" title="Endpoint Protection &amp; ASR Baseline">IT-EP-WI-Win-03</a> <a href="it-srv-wi-win-03.html" title="Endpoint Protection &amp; Anti-Malware — Windows Server">IT-SRV-WI-Win-03</a> <a href="it-srv-wi-lnx-04.html" title="Endpoint Protection &amp; Integrity — Linux">IT-SRV-WI-LNX-04</a> <a href="it-cl-wi-04.html" title="Azure Workload Patterns">IT-CL-WI-04</a></td>
+              <td><a href="tier1-ep-03.html" title="Ransomware Indicators">EP-T1-03</a> <a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="em-pb-05.html" title="Spoofed Email / Domain Impersonation">EM-PB-05</a> <a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a> <a href="ep-wi-02.html" title="Isolate Endpoint via EDR">EP-WI-02</a> <a href="ep-wi-03.html" title="Remove Malware Artefacts">EP-WI-03</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1490" target="_blank" rel="noopener"><code>T1490</code></a></td>
+              <td>Inhibit System Recovery</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a> <a href="it-srv-wi-win-06.html" title="Data Protection, Encryption &amp; Backups — Windows Server">IT-SRV-WI-Win-06</a> <a href="it-srv-wi-lnx-07.html" title="Data Protection, Backups &amp; Recovery — Linux">IT-SRV-WI-LNX-07</a> <a href="it-srv-wi-dc-06.html" title="Backup, Recovery &amp; Integrity — Domain Controller">IT-SRV-WI-DC-06</a> <a href="it-cl-wi-04.html" title="Azure Workload Patterns">IT-CL-WI-04</a></td>
+              <td><a href="tier1-ep-03.html" title="Ransomware Indicators">EP-T1-03</a></td>
+              <td><a href="em-pb-05.html" title="Spoofed Email / Domain Impersonation">EM-PB-05</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1489" target="_blank" rel="noopener"><code>T1489</code></a></td>
+              <td>Service Stop</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-04.html" title="Logging, Telemetry &amp; Monitoring Readiness">IT-EP-WI-Win-04</a></td>
+              <td><a href="tier1-ep-04.html" title="Suspicious Process / LOLBin Activity">EP-T1-04</a></td>
+              <td><a href="ep-pb-04.html" title="Insider Threat — Endpoint">EP-PB-04</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1485" target="_blank" rel="noopener"><code>T1485</code></a></td>
+              <td>Data Destruction</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-srv-wi-win-06.html" title="Data Protection, Encryption &amp; Backups — Windows Server">IT-SRV-WI-Win-06</a> <a href="it-srv-wi-lnx-07.html" title="Data Protection, Backups &amp; Recovery — Linux">IT-SRV-WI-LNX-07</a> <a href="it-srv-wi-dc-06.html" title="Backup, Recovery &amp; Integrity — Domain Controller">IT-SRV-WI-DC-06</a></td>
+              <td><a href="tier1-ep-03.html" title="Ransomware Indicators">EP-T1-03</a></td>
+              <td><a href="em-pb-05.html" title="Spoofed Email / Domain Impersonation">EM-PB-05</a> <a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1565" target="_blank" rel="noopener"><code>T1565</code></a></td>
+              <td>Data Manipulation</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-02.html" title="Disk Encryption &amp; Secure Boot">IT-EP-WI-Win-02</a> <a href="it-srv-wi-win-06.html" title="Data Protection, Encryption &amp; Backups — Windows Server">IT-SRV-WI-Win-06</a></td>
+              <td><a href="ep-inv-win-01.html" title="Windows Endpoint Investigation">EP-INV-Win-01</a></td>
+              <td><a href="ep-pb-01.html" title="Suspicious Endpoint Activity">EP-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1491" target="_blank" rel="noopener"><code>T1491</code></a></td>
+              <td>Defacement</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-si-wi-02.html" title="WAF Hardening">IT-SI-WI-02</a> <a href="it-cl-wi-04.html" title="Azure Workload Patterns">IT-CL-WI-04</a></td>
+              <td><a href="tier1-nw-04.html" title="Firewall / IDS Alert">NW-T1-04</a></td>
+              <td><a href="nw-pb-01.html" title="Suspicious Network Traffic">NW-PB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1499" target="_blank" rel="noopener"><code>T1499</code></a></td>
+              <td>Endpoint Denial of Service</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a> <a href="it-si-wi-02.html" title="WAF Hardening">IT-SI-WI-02</a> <a href="it-cl-wi-04.html" title="Azure Workload Patterns">IT-CL-WI-04</a></td>
+              <td><a href="tier1-nw-04.html" title="Firewall / IDS Alert">NW-T1-04</a></td>
+              <td><a href="nw-pb-05.html" title="DNS Anomaly / Tunnelling">NW-PB-05</a> <a href="nw-rb-05.html" title="Review Firewall / IDS Logs">NW-RB-05</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1498" target="_blank" rel="noopener"><code>T1498</code></a></td>
+              <td>Network Denial of Service</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-net-wi-05.html" title="Firewall Hardening">IT-NET-WI-05</a> <a href="it-si-wi-03.html" title="Load Balancer Hardening">IT-SI-WI-03</a> <a href="it-cl-wi-04.html" title="Azure Workload Patterns">IT-CL-WI-04</a></td>
+              <td><a href="tier1-nw-04.html" title="Firewall / IDS Alert">NW-T1-04</a></td>
+              <td><a href="nw-pb-05.html" title="DNS Anomaly / Tunnelling">NW-PB-05</a> <a href="nw-rb-05.html" title="Review Firewall / IDS Logs">NW-RB-05</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1531" target="_blank" rel="noopener"><code>T1531</code></a></td>
+              <td>Account Access Removal</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-cl-wi-01.html" title="Tenant Identity &amp; Conditional Access">IT-CL-WI-01</a> <a href="it-srv-wi-dc-01.html" title="Tier-0 Administrative Access Enforcement">IT-SRV-WI-DC-01</a></td>
+              <td><a href="tier1-id-04.html" title="Privileged Account Alert">ID-T1-04</a></td>
+              <td><a href="id-pb-05.html" title="Suspicious OAuth / App Consent">ID-PB-05</a> <a href="id-rb-01.html" title="Disable Compromised Account">ID-RB-01</a></td>
+            </tr>
+            <tr class="cov-row cov-row-full">
+              <td><a href="https://attack.mitre.org/techniques/T1561" target="_blank" rel="noopener"><code>T1561</code></a></td>
+              <td>Disk Wipe</td>
+              <td><span class="cov-badge cov-full">Full</span></td>
+              <td><a href="it-ep-wi-win-02.html" title="Disk Encryption &amp; Secure Boot">IT-EP-WI-Win-02</a> <a href="it-srv-wi-win-06.html" title="Data Protection, Encryption &amp; Backups — Windows Server">IT-SRV-WI-Win-06</a></td>
+              <td><a href="tier1-ep-03.html" title="Ransomware Indicators">EP-T1-03</a></td>
+              <td><a href="em-pb-05.html" title="Spoofed Email / Domain Impersonation">EM-PB-05</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+  <!-- ============ Gap report ============ -->
+  <div class="kb-section">
+    <div class="kb-section-title">Coverage gap report — techniques and tactics without controls</div>
+    <p style="font-size:13px;color:#666;line-height:1.65;margin:0 0 0.9rem 0;">An honest enumeration of where the knowledge base currently has no control, partial control, or external-only relevance. Each entry is a planning input.</p>
+    <h3 style="font-size:14px;font-weight:600;color:#1a1a1a;margin:1rem 0 0.5rem 0;">Techniques with no coverage (gap)</h3>
+    <div class="kb-table-wrap">
+      <table class="kb-table">
+        <thead><tr><th style="width:14%;">Tactic</th><th style="width:14%;">Technique</th><th style="width:36%;">Name</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td><code>TA0043</code> Reconnaissance</td><td><code>T1589</code></td><td>Gather Victim Identity Information</td><td style="font-size:12px;color:#666;">Pre-intrusion intelligence-gathering. Limited preventive surface; partial detective signal from internet-facing log analysis.</td></tr>
+          <tr><td><code>TA0043</code> Reconnaissance</td><td><code>T1590</code></td><td>Gather Victim Network Information</td><td style="font-size:12px;color:#666;">Pre-intrusion intelligence-gathering. Limited preventive surface; partial detective signal from internet-facing log analysis.</td></tr>
+          <tr><td><code>TA0042</code> Resource Development</td><td><code>T1583</code></td><td>Acquire Infrastructure</td><td style="font-size:12px;color:#666;">External to the organisation — adversary builds capability before contact. Genuine, defensible gap.</td></tr>
+          <tr><td><code>TA0042</code> Resource Development</td><td><code>T1586</code></td><td>Compromise Accounts (external)</td><td style="font-size:12px;color:#666;">External to the organisation — adversary builds capability before contact. Genuine, defensible gap.</td></tr>
+          <tr><td><code>TA0042</code> Resource Development</td><td><code>T1588</code></td><td>Obtain Capabilities (tooling)</td><td style="font-size:12px;color:#666;">External to the organisation — adversary builds capability before contact. Genuine, defensible gap.</td></tr>
+          <tr><td><code>TA0042</code> Resource Development</td><td><code>T1608</code></td><td>Stage Capabilities</td><td style="font-size:12px;color:#666;">External to the organisation — adversary builds capability before contact. Genuine, defensible gap.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3 style="font-size:14px;font-weight:600;color:#1a1a1a;margin:1.3rem 0 0.5rem 0;">Techniques with partial coverage</h3>
+    <div class="kb-table-wrap">
+      <table class="kb-table">
+        <thead><tr><th style="width:14%;">Tactic</th><th style="width:14%;">Technique</th><th style="width:32%;">Name</th><th>Missing</th></tr></thead>
+        <tbody>
+          <tr><td><code>TA0043</code> Reconnaissance</td><td><code>T1595</code></td><td>Active Scanning</td><td style="font-size:12px;color:#666;">Responsive missing</td></tr>
+          <tr><td><code>TA0043</code> Reconnaissance</td><td><code>T1595.001</code></td><td>Scanning IP Blocks</td><td style="font-size:12px;color:#666;">Responsive missing</td></tr>
+          <tr><td><code>TA0043</code> Reconnaissance</td><td><code>T1595.002</code></td><td>Vulnerability Scanning (by adversary)</td><td style="font-size:12px;color:#666;">Responsive missing</td></tr>
+          <tr><td><code>TA0001</code> Initial Access</td><td><code>T1195</code></td><td>Supply Chain Compromise</td><td style="font-size:12px;color:#666;">Detective / Responsive missing</td></tr>
+          <tr><td><code>TA0002</code> Execution</td><td><code>T1059.004</code></td><td>Unix Shell</td><td style="font-size:12px;color:#666;">Detective / Responsive missing</td></tr>
+          <tr><td><code>TA0004</code> Privilege Escalation</td><td><code>T1611</code></td><td>Escape to Host (containers)</td><td style="font-size:12px;color:#666;">Detective / Responsive missing</td></tr>
+          <tr><td><code>TA0006</code> Credential Access</td><td><code>T1212</code></td><td>Exploitation for Credential Access</td><td style="font-size:12px;color:#666;">Detective / Responsive missing</td></tr>
+          <tr><td><code>TA0006</code> Credential Access</td><td><code>T1187</code></td><td>Forced Authentication</td><td style="font-size:12px;color:#666;">Detective / Responsive missing</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-  <!-- Tool Capability Reference -->
+    <h3 style="font-size:14px;font-weight:600;color:#1a1a1a;margin:1.3rem 0 0.5rem 0;">Coverage by tactic</h3>
+    <div class="kb-table-wrap">
+      <table class="kb-table">
+        <thead><tr><th>Tactic</th><th style="text-align:center;">Techniques mapped</th><th style="text-align:center;">Full</th><th style="text-align:center;">Partial</th><th style="text-align:center;">Gap</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>TA0043</code> Reconnaissance</td>
+            <td style="text-align:center;">6</td>
+            <td style="text-align:center;color:#0F6E56;font-weight:600;">1</td>
+            <td style="text-align:center;color:#8B4A0E;font-weight:600;">3</td>
+            <td style="text-align:center;color:#993C1D;font-weight:600;">2</td>
+            <td style="font-size:12px;color:#666;">Limited preventive surface; pre-intrusion phase. Honest partial-to-gap profile.</td>
+          </tr>
+          <tr>
+            <td><code>TA0042</code> Resource Development</td>
+            <td style="text-align:center;">4</td>
+            <td style="text-align:center;color:#0F6E56;font-weight:600;">0</td>
+            <td style="text-align:center;color:#8B4A0E;font-weight:600;">0</td>
+            <td style="text-align:center;color:#993C1D;font-weight:600;">4</td>
+            <td style="font-size:12px;color:#666;">Adversary capability development happens external to the organisation. Defensible gap.</td>
+          </tr>
+          <tr>
+            <td><code>TA0001</code> Initial Access</td>
+            <td style="text-align:center;">11</td>
+            <td style="text-align:center;color:#0F6E56;font-weight:600;">10</td>
+            <td style="text-align:center;color:#8B4A0E;font-weight:600;">1</td>
+            <td style="text-align:center;color:#993C1D;font-weight:600;">0</td>
+            <td style="font-size:12px;color:#666;">Strong email + identity + WAF coverage; cloud account vectors fully addressed.</td>
+          </tr>
+          <tr>
+            <td><code>TA0002</code> Execution</td>
+            <td style="text-align:center;">13</td>
+            <td style="text-align:center;color:#0F6E56;font-weight:600;">12</td>
+            <td style="text-align:center;color:#8B4A0E;font-weight:600;">1</td>
+            <td style="text-align:center;color:#993C1D;font-weight:600;">0</td>
+            <td style="font-size:12px;color:#666;">EDR + ASR + Defender suite cover Windows execution. Linux execution detection is the partial gap.</td>
+          </tr>
+          <tr>
+            <td><code>TA0003</code> Persistence</td>
+            <td style="text-align:center;">15</td>
+            <td style="text-align:center;color:#0F6E56;font-weight:600;">15</td>
+            <td style="text-align:center;color:#8B4A0E;font-weight:600;">0</td>
+            <td style="text-align:center;color:#993C1D;font-weight:600;">0</td>
+            <td style="font-size:12px;color:#666;">Full coverage across Windows, AD, and cloud persistence patterns.</td>
+          </tr>
+          <tr>
+            <td><code>TA0004</code> Privilege Escalation</td>
+            <td style="text-align:center;">8</td>
+            <td style="text-align:center;color:#0F6E56;font-weight:600;">7</td>
+            <td style="text-align:center;color:#8B4A0E;font-weight:600;">1</td>
+            <td style="text-align:center;color:#993C1D;font-weight:600;">0</td>
+            <td style="font-size:12px;color:#666;">Identity priv-esc fully addressed; container escape is the only gap pending AKS onboarding.</td>
+          </tr>
+          <tr>
+            <td><code>TA0005</code> Defense Evasion</td>
+            <td style="text-align:center;">12</td>
+            <td style="text-align:center;color:#0F6E56;font-weight:600;">12</td>
+            <td style="text-align:center;color:#8B4A0E;font-weight:600;">0</td>
+            <td style="text-align:center;color:#993C1D;font-weight:600;">0</td>
+            <td style="font-size:12px;color:#666;">EDR telemetry, ASR, and tamper protection cover the defense-evasion surface.</td>
+          </tr>
+          <tr>
+            <td><code>TA0006</code> Credential Access</td>
+            <td style="text-align:center;">12</td>
+            <td style="text-align:center;color:#0F6E56;font-weight:600;">10</td>
+            <td style="text-align:center;color:#8B4A0E;font-weight:600;">2</td>
+            <td style="text-align:center;color:#993C1D;font-weight:600;">0</td>
+            <td style="font-size:12px;color:#666;">Strong identity + endpoint credential protection; exploitation-for-CA and forced-auth partial on detect.</td>
+          </tr>
+          <tr>
+            <td><code>TA0007</code> Discovery</td>
+            <td style="text-align:center;">12</td>
+            <td style="text-align:center;color:#0F6E56;font-weight:600;">12</td>
+            <td style="text-align:center;color:#8B4A0E;font-weight:600;">0</td>
+            <td style="text-align:center;color:#993C1D;font-weight:600;">0</td>
+            <td style="font-size:12px;color:#666;">Endpoint and network discovery covered; cloud discovery via Defender for Cloud Apps.</td>
+          </tr>
+          <tr>
+            <td><code>TA0008</code> Lateral Movement</td>
+            <td style="text-align:center;">9</td>
+            <td style="text-align:center;color:#0F6E56;font-weight:600;">9</td>
+            <td style="text-align:center;color:#8B4A0E;font-weight:600;">0</td>
+            <td style="text-align:center;color:#993C1D;font-weight:600;">0</td>
+            <td style="font-size:12px;color:#666;">Network segmentation + identity controls + EDR fully address Windows / Linux / cloud lateral movement.</td>
+          </tr>
+          <tr>
+            <td><code>TA0009</code> Collection</td>
+            <td style="text-align:center;">9</td>
+            <td style="text-align:center;color:#0F6E56;font-weight:600;">9</td>
+            <td style="text-align:center;color:#8B4A0E;font-weight:600;">0</td>
+            <td style="text-align:center;color:#993C1D;font-weight:600;">0</td>
+            <td style="font-size:12px;color:#666;">Email + DLP + endpoint covered; cloud-storage data-staging via Azure Defender.</td>
+          </tr>
+          <tr>
+            <td><code>TA0011</code> Command and Control</td>
+            <td style="text-align:center;">10</td>
+            <td style="text-align:center;color:#0F6E56;font-weight:600;">10</td>
+            <td style="text-align:center;color:#8B4A0E;font-weight:600;">0</td>
+            <td style="text-align:center;color:#993C1D;font-weight:600;">0</td>
+            <td style="font-size:12px;color:#666;">Network device baselines + WAF + Azure egress filtering provide full C2 coverage.</td>
+          </tr>
+          <tr>
+            <td><code>TA0010</code> Exfiltration</td>
+            <td style="text-align:center;">8</td>
+            <td style="text-align:center;color:#0F6E56;font-weight:600;">8</td>
+            <td style="text-align:center;color:#8B4A0E;font-weight:600;">0</td>
+            <td style="text-align:center;color:#993C1D;font-weight:600;">0</td>
+            <td style="font-size:12px;color:#666;">DLP + egress filtering + USB control cover all major exfil paths.</td>
+          </tr>
+          <tr>
+            <td><code>TA0040</code> Impact</td>
+            <td style="text-align:center;">10</td>
+            <td style="text-align:center;color:#0F6E56;font-weight:600;">10</td>
+            <td style="text-align:center;color:#8B4A0E;font-weight:600;">0</td>
+            <td style="text-align:center;color:#993C1D;font-weight:600;">0</td>
+            <td style="font-size:12px;color:#666;">Backup, recovery, EDR, and DDoS protection give full impact coverage.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<!-- Tool Capability Reference -->
   <div class="kb-section">
     <div class="kb-section-title">Tool capability reference</div>
     <div class="tool-grid">
@@ -306,31 +1864,6 @@
           <span class="tool-tag">Hunting</span>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Coverage Validation -->
-  <div class="kb-section">
-    <div class="kb-section-title">ATT&amp;CK coverage validation matrix</div>
-    <div class="kb-table-wrap">
-      <table class="kb-table">
-        <thead>
-          <tr><th>ATT&amp;CK Tactic</th><th>Coverage</th><th>Notes</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Initial Access</td><td><span class="badge badge-covered">Covered</span></td><td>Strong email + EDR coverage</td></tr>
-          <tr><td>Execution</td><td><span class="badge badge-covered">Covered</span></td><td>EDR provides good telemetry</td></tr>
-          <tr><td>Persistence</td><td><span class="badge badge-partial">Partial</span></td><td>Endpoint covered; cloud persistence gaps remain</td></tr>
-          <tr><td>Privilege Escalation</td><td><span class="badge badge-partial">Partial</span></td><td>Identity coverage developing</td></tr>
-          <tr><td>Defense Evasion</td><td><span class="badge badge-partial">Partial</span></td><td>Limited memory telemetry</td></tr>
-          <tr><td>Credential Access</td><td><span class="badge badge-covered">Covered</span></td><td>IAM + EDR combination effective</td></tr>
-          <tr><td>Discovery</td><td><span class="badge badge-covered">Covered</span></td><td>Network + endpoint covered</td></tr>
-          <tr><td>Lateral Movement</td><td><span class="badge badge-covered">Covered</span></td><td>RDP and SMB well covered</td></tr>
-          <tr><td>Command &amp; Control</td><td><span class="badge badge-covered">Covered</span></td><td>Network security primary</td></tr>
-          <tr><td>Exfiltration</td><td><span class="badge badge-partial">Partial</span></td><td>DLP partial — improvement planned</td></tr>
-          <tr><td>Impact</td><td><span class="badge badge-covered">Covered</span></td><td>Good EDR + backup/DR coverage</td></tr>
-        </tbody>
-      </table>
     </div>
   </div>
 
@@ -421,22 +1954,10 @@
         </div>
       </div>
     </a>
-    <a href="asm-cis-matrix.html" style="display:flex;align-items:flex-start;gap:14px;background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:1.1rem 1.4rem;text-decoration:none;color:inherit;margin-bottom:10px;">
-      <div style="font-size:28px;flex-shrink:0;">📊</div>
-      <div>
-        <div style="font-size:14px;font-weight:600;color:#5B2D8E;margin-bottom:4px;">CIS Benchmark Alignment Matrix</div>
-        <div style="font-size:13px;color:#666;line-height:1.5;margin-bottom:8px;">Mapping of organisational security baselines (Endpoint, PAW, Server, Domain Controller, Linux) to CIS Benchmarks Level 1 and 2 — used to demonstrate baseline coverage and identify gaps for compliance evidence.</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;">
-          <span style="font-size:11px;background:#F3EEF9;color:#5B2D8E;border:0.5px solid #C9B3E8;padding:2px 8px;border-radius:6px;font-weight:600;">CIS L1 / L2</span>
-          <span style="font-size:11px;background:#F3EEF9;color:#5B2D8E;border:0.5px solid #C9B3E8;padding:2px 8px;border-radius:6px;font-weight:600;">Baseline Mapping</span>
-          <span style="font-size:11px;background:#F3EEF9;color:#5B2D8E;border:0.5px solid #C9B3E8;padding:2px 8px;border-radius:6px;font-weight:600;">Compliance Evidence</span>
-        </div>
-      </div>
-    </a>
   </div>
 
   <div class="kb-footer">
-    <span><span class="live-dot"></span>Last Updated · 6 May 2026 · Paulo Ferreira</span>
+    <span><span class="live-dot"></span>Last Updated · 12 May 2026 · Paulo Ferreira</span>
     <span><a href="index.html" style="color:#297086;text-decoration:none;">← Back to home</a></span>
   </div>
 
