@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-ID-WI-05: Privileged Identity Governance — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+<style>
+  :root { --wi:#8B2D5C; --wi-light:#FAEBF2; --wi-border:#E2B3C8; --wi-dark:#5C1A3A; --id:#8B2D5C; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .wi-section { background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:8px; }
+  .wi-section-title { font-size:15px; font-weight:600; color:#1a1a1a; margin-bottom:0.7rem; padding-bottom:6px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0 0 8px 0; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-section h3 { font-size:13px; font-weight:600; color:var(--wi-dark); margin:12px 0 5px 0; }
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:6px; padding-left:0; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:#333; line-height:1.6; }
+  .wi-bullet li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:7px; }
+  .step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.1rem; margin-top:8px; }
+  .step-header { display:flex; align-items:center; gap:10px; margin-bottom:7px; padding-bottom:5px; border-bottom:0.5px solid #f0f0ec; }
+  .step-num { width:24px; height:24px; border-radius:6px; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-title { font-size:13px; font-weight:700; color:var(--wi-dark); }
+  .step-objective { font-size:12px; color:#666; font-style:italic; margin-top:2px; line-height:1.5; }
+  .step-body { font-size:13px; color:#333; line-height:1.6; }
+  .step-body p { margin:6px 0; }
+  .step-body p:first-child { margin-top:0; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body strong { color:var(--wi-dark); }
+  .step-body ul { list-style:none; padding:0; margin:6px 0; display:flex; flex-direction:column; gap:3px; }
+  .step-body ul li { display:flex; gap:7px; font-size:12px; color:#444; line-height:1.55; padding-left:2px; }
+  .step-body ul li::before { content:'\203A'; color:var(--wi); font-weight:700; flex-shrink:0; }
+  .step-verify { background:#fff; border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:6px; padding:0.5rem 0.8rem; margin-top:8px; font-size:12px; color:#444; line-height:1.55; }
+  .step-verify strong { color:var(--wi-dark); }
+  .cis-ref { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--wi); background:var(--wi-light); border:0.5px solid var(--wi-border); padding:1px 7px; border-radius:4px; font-weight:600; margin-top:5px; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:var(--wi-dark); line-height:1.6; margin-top:10px; }
+  .callout-info strong { color:var(--wi-dark); font-weight:700; }
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#7a2e10; line-height:1.6; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--wi-dark); color:#fff; font-weight:600; padding:7px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--wi-dark); white-space:nowrap; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>&rsaquo;</span>
+    <a href="asm.html">ASM</a><span>&rsaquo;</span>
+    <a href="asm-identity-governance.html">Identity Governance &amp; Lifecycle</a><span>&rsaquo;</span>
+    <span>IT-ID-WI-05</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#3A1530 0%,#5C1A3A 40%,#8B2D5C 100%);">
+    <span class="kb-page-hero-icon">👑</span>
+    <h1>IT-ID-WI-05: Privileged Identity Governance</h1>
+    <p>The eligibility layer above PIM activation. Who is eligible for which privileged role, why, for how long, reviewed by whom. Privileged role catalogue. Eligibility duration limits. Two-person approval for Tier-0. Separation of duties at Tier-0. Standing-privilege minimisation. Quarterly eligibility review. Privileged access request workflow. PAW-correlated activation. Tier-0 activity to immutable SIEM. Operationalises &sect;4.5 of IT-ID-SOP-01.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Identity Governance</span>
+      <span class="kb-meta-pill">Hybrid (AD + Entra)</span>
+      <span class="kb-meta-pill">NIST CSF PR.AA</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">📋 <strong>WI ID:</strong> IT-ID-WI-05</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">🔗 <strong>Implements:</strong> <a href="it-id-sop-01.html" style="color:var(--wi);">IT-ID-SOP-01 §4.5</a></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Owner:</strong> Identity &amp; Access Engineering</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 15 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <p>Before applying this WI:</p>
+    <ul class="wi-bullet">
+      <li><span>IT-CL-WI-01 (Tenant Identity &amp; Conditional Access) in place &mdash; PIM activation mechanism configured at tenant level; this WI is the governance layer above</span></li>
+      <li><span>IT-SI-WI-04 (PAM Platform Hardening) in place where on-prem privileged credentials are vaulted</span></li>
+      <li><span>IT-SRV-WI-DC-01 (Tier-0 Administrative Access Enforcement) in place &mdash; the technical enforcement of tier separation for AD</span></li>
+      <li><span>IT-EP-SOP-PAW-01 (PAW) in place &mdash; Tier-0 activation needs PAW for trustworthy administrative source</span></li>
+      <li><span>Core concepts (Tier 0/1/2/3 model) understood across IAE, GRC, and the Privileged Access Authority</span></li>
+      <li><span>Privileged Access Authority constituted &mdash; named individuals or named group acting as approval authority (typically CISO + Head of IT + nominee)</span></li>
+      <li><span>Centralised logging in place for all administrative activity &mdash; cannot govern what cannot be observed</span></li>
+      <li><span>Break-glass accounts documented per IT-CL-WI-01; counted, named, monitored &mdash; this WI tracks them but does not create them</span></li>
+    </ul>
+    <div class="callout-warn"><strong>This WI is the governance of <em>who is eligible</em>; the activation mechanics live in IT-CL-WI-01 Step 7 (Entra PIM activation) and IT-SI-WI-04 (PAM session for on-prem). Activation = how someone temporarily elevates. Eligibility = whether they should be allowed to. The two layers cooperate; don't conflate.</strong></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <p>The steps below operationalise IT-ID-SOP-01 &sect;4.5.</p>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div>
+        <div><div class="step-title">Maintain the privileged role catalogue</div>
+        <div class="step-objective">Every privileged role (Tier-0 and Tier-1) is documented with scope, currently-eligible individuals, eligibility duration, last-review date.</div></div>
+      </div>
+      <div class="step-body">
+        <p>This is the privileged-identity-focused subset of IT-ID-WI-03's role catalogue. Same record format, deeper review cadence, more constrained eligibility list.</p>
+        <ul>
+          <li><span><strong>Tier-0 roles</strong>: Global Administrator (Entra), Privileged Role Administrator (Entra), Enterprise Admin / Schema Admin / Domain Admin (AD), Tenant Admin equivalents across platforms.</span></li>
+          <li><span><strong>Tier-1 roles</strong>: Subscription Owner / Contributor at high scopes, AD admin accounts not in T0 groups, Exchange Admin, SharePoint Admin, security tooling admin roles (Defender, CrowdStrike administrative consoles), backup-platform admin.</span></li>
+          <li><span><strong>Per-role record</strong>: role identifier, scope (what it grants), tier, named individuals currently eligible (not assigned), eligibility duration per individual, last-review date, last-reviewer.</span></li>
+          <li><span><strong>Source-of-truth</strong>: catalogue is authoritative; directory state reconciled monthly against catalogue (Step 9 of IT-ID-WI-03 drift check feeds here).</span></li>
+          <li><span><strong>Tier-0 catalogue snapshots</strong> retained for 1 year minimum &mdash; "who was eligible for what when" is forensics gold during incident response.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Catalogue exists; T0 / T1 roles enumerated with per-individual eligibility; counts reconciled against directory state within tolerance (drift items in flight).</div>
+        <span class="cis-ref">NIST 800-53 AC-6(7) · CIS Controls 6.8 · ISO 27001 A.8.2</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div>
+        <div><div class="step-title">Eligibility, not assignment &mdash; activation required</div>
+        <div class="step-objective">Privileged role membership is held as activation-required (PIM eligible) rather than as standing assignment, except for documented break-glass accounts.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Standing privileged assignment is the absence of the control. If a role is "always on" for an identity, every compromise of that identity is automatically a privileged compromise.</p>
+        <ul>
+          <li><span><strong>Cloud (Entra)</strong>: Privileged roles assigned via Entra PIM as <em>eligible</em>; activation requires the user to request through PIM with MFA, justification, and (for high-tier roles) approval.</span></li>
+          <li><span><strong>On-prem AD</strong>: Privileged group membership controlled via PAM platform (IT-SI-WI-04) where vaulted-credential checkout serves as activation; or via shadow-group / time-bounded membership patterns where direct PIM-equivalent isn't available.</span></li>
+          <li><span><strong>Break-glass exception</strong>: documented break-glass accounts (per IT-CL-WI-01) hold standing Global Admin; these are the exception and counted (Step 6).</span></li>
+          <li><span><strong>Any other standing assignment</strong>: an exception per IT-GOV-SOP-01; named, justified, time-bounded, reviewed quarterly.</span></li>
+          <li><span><strong>Direct-assignment detection</strong>: monthly check (per IT-ID-WI-03 Step 9 drift check) catches privileged direct-assignments outside eligibility; investigated and remediated.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Tier-0 role memberships: PIM-eligible identities &gt;&gt; PIM-active identities. Standing assignments equal to (or fewer than) documented break-glass count. No unexplained standing privilege.</div>
+        <span class="cis-ref">NIST 800-53 AC-6(1) · CIS Controls 6.8 · MITRE ATT&amp;CK M1026</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div>
+        <div><div class="step-title">Time-bound eligibility duration</div>
+        <div class="step-objective">Eligibility itself has a fixed end-date; renewal requires fresh justification, not automatic continuation.</div></div>
+      </div>
+      <div class="step-body">
+        <p>"Eligible permanently" is "standing privilege" wearing a different hat. Eligibility must expire.</p>
+        <ul>
+          <li><span><strong>Tier-0 eligibility</strong>: maximum 12 months. Renewal requires re-justification with current need; Privileged Access Authority decision.</span></li>
+          <li><span><strong>Tier-1 eligibility</strong>: maximum 18 months. Renewal requires re-justification; approver per role definition.</span></li>
+          <li><span><strong>Project / time-bounded eligibility</strong>: where the privileged role is tied to a finite project, eligibility duration matches project end date; not extended past project closure.</span></li>
+          <li><span><strong>Eligibility expiry alerts</strong>: 30 days before expiry, 7 days before, 1 day before, on expiry. Sent to the eligible individual, their manager, and Privileged Access Authority.</span></li>
+          <li><span><strong>On expiry</strong>: eligibility automatically removed by PIM / tooling; manual cleanup where automation absent. No silent extension.</span></li>
+          <li><span><strong>Reinstatement</strong>: requires fresh approval per Step 4; not silent re-grant on the same approval as the expired eligibility.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Sample 5 Tier-0 eligibilities; each has a documented end-date within 12 months of grant; renewal events have fresh justification records. Eligibility expiry alerts firing.</div>
+        <span class="cis-ref">NIST 800-53 AC-6(7) · ISO 27001 A.8.2</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div>
+        <div><div class="step-title">Approval workflow with two-person rule for Tier-0</div>
+        <div class="step-objective">Granting privileged eligibility requires approval; Tier-0 requires two-person approval; both approvals are logged and retained.</div></div>
+      </div>
+      <div class="step-body">
+        <ul>
+          <li><span><strong>Tier-0 approval</strong>: requesting manager + Privileged Access Authority. Two separate decisions, two separate records. Neither approval alone suffices.</span></li>
+          <li><span><strong>Tier-1 approval</strong>: single approver per role definition (typically system owner or Privileged Access Authority depending on the role).</span></li>
+          <li><span><strong>Approval evidence</strong>: requestor, justification, approvers, decisions, timestamps. Retained at minimum 3 years (longer per regulatory requirement).</span></li>
+          <li><span><strong>Approval workflow tool</strong>: ServiceNow, Entra IG entitlement packages with multi-stage approval, or equivalent. Manual workflow as fallback with the same evidence captured.</span></li>
+          <li><span><strong>Forbidden patterns</strong>: self-approval, approver-of-approver (the same individual approving in both Tier-0 stages), approval by an individual who would be a beneficiary of the access.</span></li>
+          <li><span><strong>Emergency grants</strong>: a documented expedited path for incident response. The grant happens; the approval is contemporaneous (not retrospective); approval is by a designated emergency-approver (typically the on-call CISO / Head of IT). Post-incident review verifies the grant was justified.</span></li>
+          <li><span><strong>Approver availability</strong>: deputies designated for each approver so that absence doesn't block legitimate requests; deputies are themselves named and limited to a deputy list (not "anyone can stand in").</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Recent Tier-0 grants have two-person approval evidence. No self-approval events. Deputy list current. Emergency grants in last quarter (if any) have contemporaneous approval and post-incident review evidence.</div>
+        <span class="cis-ref">NIST 800-53 AC-2(1) · CIS Controls 6.8 · SOC 2 CC6.1</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div>
+        <div><div class="step-title">Separation of duties at Tier-0</div>
+        <div class="step-objective">No single individual holds Tier-0 eligibility across functionally separated domains; cross-domain Tier-0 is a finding requiring explicit approval.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Tier-0 separation of duties is more constrained than the general SoD policy (IT-ID-WI-03 Step 6).</p>
+        <ul>
+          <li><span><strong>Functional domains at Tier-0</strong>: cloud identity (Entra Global Admin / Privileged Role Admin), on-prem identity (AD Enterprise / Domain / Schema Admin), security operations (SIEM admin, EDR tenant admin), audit / compliance (read-only across all). One individual eligible across two of these is a finding.</span></li>
+          <li><span><strong>Cross-domain Tier-0</strong> permitted only with explicit Privileged Access Authority approval, documented compensating controls (enhanced activity logging, frequent attestation), and time-bound duration (typically &le;6 months).</span></li>
+          <li><span><strong>Detection</strong>: monthly cross-tabulation of Tier-0 eligibility across functional domains; matches flagged for review.</span></li>
+          <li><span><strong>Common legitimate case</strong>: very small agencies where staffing genuinely requires one individual to hold multiple Tier-0 eligibilities; documented as exception with named approver and compensating controls.</span></li>
+          <li><span><strong>Documented anti-pattern</strong>: individuals holding T0 eligibility "for redundancy" or "in case of emergency" without compensating controls; these get reviewed and removed.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Cross-domain T0 cross-tabulation report current. Identified matches either documented exceptions with compensating controls, or in remediation.</div>
+        <span class="cis-ref">NIST 800-53 AC-5 · ISO 27001 A.5.3 · MITRE ATT&amp;CK M1018</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">6</div>
+        <div><div class="step-title">Track and minimise standing privileged assignments</div>
+        <div class="step-objective">Standing privileged assignment count is monitored monthly; target is the break-glass count only.</div></div>
+      </div>
+      <div class="step-body">
+        <ul>
+          <li><span><strong>Monthly standing-privilege count</strong>: directory query for Tier-0 and Tier-1 roles assigned as <em>active</em> (not eligible); cross-referenced with break-glass list.</span></li>
+          <li><span><strong>Target</strong>: count equals break-glass count (typically 2&ndash;4 accounts). Any other standing privilege is an exception requiring remediation.</span></li>
+          <li><span><strong>Trending</strong>: month-over-month standing privilege count; upward trend triggers IT Ops review.</span></li>
+          <li><span><strong>Standing-privilege exception register</strong>: per IT-GOV-SOP-01; named identities, named approvers, justifications, time-bound expiries.</span></li>
+          <li><span><strong>Tier-0 standing privilege governance</strong>: even the break-glass accounts (which need standing privilege by design) are governed: hardware MFA, monitored, accessed only under documented break-glass scenarios.</span></li>
+          <li><span><strong>Quarterly report to Risk Committee</strong>: standing privilege count, trend, exceptions, break-glass usage events.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Monthly standing-privilege count = break-glass count, or exceptions documented. Quarterly Risk Committee paper available. Break-glass usage events in last quarter (if any) post-event-reviewed.</div>
+        <span class="cis-ref">NIST 800-53 AC-6(7) · ISO 27001 A.8.2</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">7</div>
+        <div><div class="step-title">Quarterly eligibility review</div>
+        <div class="step-objective">Every privileged eligibility is re-examined quarterly by the Privileged Access Authority; unjustified eligibility is removed.</div></div>
+      </div>
+      <div class="step-body">
+        <p>This is the privileged-specific subset of IT-ID-WI-02 recertification, with stricter rules.</p>
+        <ul>
+          <li><span><strong>Per-quarter</strong> the full list of T0 and T1 eligibilities is reviewed by the Privileged Access Authority.</span></li>
+          <li><span><strong>Per-eligibility decision</strong>: certify (continue), revoke (remove), modify (adjust scope or duration). Bulk-approve forbidden.</span></li>
+          <li><span><strong>Per-eligibility justification re-examined</strong>: is the original business reason still current? has the individual's role changed? is the duration still appropriate?</span></li>
+          <li><span><strong>Activity correlation</strong>: identities with eligibility but zero activations in the last quarter are scrutinised &mdash; either the access isn't needed, or the user is going around the eligibility (which is its own problem). Decision: revoke or address the workflow gap.</span></li>
+          <li><span><strong>Eligibility-vs-activity discrepancy reports</strong>: which eligibilities are active and unused, which activations come from individuals whose eligibility is about to expire, which approval-required activations are repeatedly approved &mdash; all signals informing the review.</span></li>
+          <li><span><strong>Annual deeper review</strong>: in addition to quarterly, one quarterly review per year is enhanced &mdash; full justification re-attestation, manager re-confirmation, cross-domain SoD re-check.</span></li>
+          <li><span><strong>Evidence retention</strong>: per-eligibility decision record with justification, decision, decider, timestamp; retained 3 years minimum.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Most recent quarterly review complete; decision records exist per eligibility; revocations executed in directory; annual deep review schedule on calendar.</div>
+        <span class="cis-ref">NIST 800-53 AC-2(j) · CIS Controls 6.7 · ISO 27001 A.8.2</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">8</div>
+        <div><div class="step-title">Privileged access request workflow</div>
+        <div class="step-objective">Requests for new privileged eligibility follow a documented workflow with capture of requestor, justification, approver, decision; the workflow is the audit trail.</div></div>
+      </div>
+      <div class="step-body">
+        <ul>
+          <li><span><strong>Entry points</strong>: ServiceNow request catalogue, Entra IG entitlement-package request, equivalent in agencies without those tools. One entry point per agency; ad-hoc email / IM requests rejected and redirected.</span></li>
+          <li><span><strong>Required fields</strong>: requestor (auto-from-identity), requested role, scope, justification (business reason), proposed duration, sponsoring manager.</span></li>
+          <li><span><strong>Approval routing</strong>: per Step 4 (single approver for T1, two-person for T0).</span></li>
+          <li><span><strong>Workflow states tracked</strong>: submitted, in-approval, approved, granted, expired, revoked. Each transition timestamped.</span></li>
+          <li><span><strong>SLA</strong>: standard requests decided within 5 business days; expedited path for legitimate urgency (documented in justification).</span></li>
+          <li><span><strong>Workflow is the audit trail</strong>: a properly captured request is the audit evidence; no separate logging needed beyond directory state changes which are platform-logged anyway.</span></li>
+          <li><span><strong>Forbidden out-of-band grants</strong>: an admin who grants privileged eligibility outside the workflow (direct PIM modification, AD group add) triggers a high-priority alert; investigated as potential compromise or as procedural violation requiring backfill.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Sample 3 recent privileged grants; each has a workflow record with required fields and approval evidence. No out-of-band-grant alerts in last 30 days, or those that fired have been investigated and resolved.</div>
+        <span class="cis-ref">NIST 800-53 AC-2(1) · ISO 27001 A.5.18</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">9</div>
+        <div><div class="step-title">Tier-0 activation correlated with PAW usage</div>
+        <div class="step-objective">Tier-0 administrative actions originate from PAW devices (per IT-EP-SOP-PAW-01); non-PAW Tier-0 activity generates alerts.</div></div>
+      </div>
+      <div class="step-body">
+        <p>The PAW is a trustworthy administrative source. Tier-0 activation outside that source defeats the model.</p>
+        <ul>
+          <li><span><strong>Device-of-origin captured</strong> at PIM activation: device identifier from Entra Conditional Access; correlated with PAW device registry (per IT-EP-SOP-PAW-01).</span></li>
+          <li><span><strong>SIEM rule</strong>: Tier-0 activation from a non-PAW device fires an alert; SOC investigates as potential compromise or as procedural violation (Tier-0 admin using their standard workstation).</span></li>
+          <li><span><strong>Conditional Access enforcement</strong>: where Entra Workload Identities Premium is licensed, Conditional Access policy can restrict Tier-0 activation to compliant PAW devices &mdash; making the rule preventive, not just detective. Configured per IT-CL-WI-01 Step 7.</span></li>
+          <li><span><strong>Break-glass exception</strong>: break-glass accounts have their own access path with hardware MFA; PAW requirement adapted per the documented break-glass procedure.</span></li>
+          <li><span><strong>Off-network legitimate cases</strong> (admin travelling, emergency response): documented exceptions; admin uses their PAW remotely; remote-PAW-access path documented and tested.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> SIEM rule active; recent non-PAW T0 alerts investigated to resolution; PAW device registry current; Conditional Access enforcement applied where licensed.</div>
+        <span class="cis-ref">NIST 800-53 AC-3(7) · MITRE ATT&amp;CK M1026 · M1027</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">10</div>
+        <div><div class="step-title">Tier-0 administrative activity to immutable SIEM</div>
+        <div class="step-objective">Tier-0 administrative actions are logged to the central SIEM with tamper-resistant retention; review monthly.</div></div>
+      </div>
+      <div class="step-body">
+        <ul>
+          <li><span><strong>Log sources</strong>: Entra audit log (administrative actions), Entra sign-in log (activations, MFA events), AD security log (privileged-group changes, Tier-0 authentication), Azure activity log (subscription-level actions).</span></li>
+          <li><span><strong>SIEM destination</strong>: central SIEM (QRadar currently, planned migration documented elsewhere); retention &ge;1 year for Tier-0 activity (longer per regulatory requirement).</span></li>
+          <li><span><strong>Immutability</strong>: SIEM retention configured so that Tier-0 events cannot be deleted by administrators of the source systems; segregation of duties between log producer and log custodian.</span></li>
+          <li><span><strong>Detection rules</strong>: Tier-0 activation outside business hours, Tier-0 from new device, Tier-0 from new location, Tier-0 with anomalous duration, repeated Tier-0 activation by same user.</span></li>
+          <li><span><strong>Monthly review</strong>: SOC reviews Tier-0 activity for the month; cross-references against approved change records and incident records; unexplained activity investigated.</span></li>
+          <li><span><strong>Tier-0 logging gaps</strong> are themselves a finding: if a Tier-0 action happened but didn't log, the logging configuration is broken &mdash; investigated as high priority.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Recent T0 activity visible in SIEM; retention configured per target; detection rules active; monthly SOC review evidence available.</div>
+        <span class="cis-ref">NIST 800-53 AU-2 · AU-12 · ISO 27001 A.8.15 · MITRE ATT&amp;CK D3-PAM</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <p>Validate the privileged identity governance programme.</p>
+
+    <h3>Catalogue &amp; eligibility</h3>
+    <ul class="wi-bullet">
+      <li><span>Privileged role catalogue current; T0/T1 roles and per-individual eligibility documented</span></li>
+      <li><span>Eligibility durations: T0 &le;12 months, T1 &le;18 months</span></li>
+      <li><span>Eligibility expiry alerts firing; expiries enforced (no silent extensions)</span></li>
+      <li><span>Standing-privilege count = break-glass count (or exceptions documented)</span></li>
+    </ul>
+
+    <h3>Approval &amp; SoD</h3>
+    <ul class="wi-bullet">
+      <li><span>Tier-0 grants in last quarter have two-person approval evidence</span></li>
+      <li><span>No self-approval events</span></li>
+      <li><span>Deputy approver list current</span></li>
+      <li><span>Cross-domain T0 SoD check current; identified matches resolved or exception-tracked</span></li>
+      <li><span>Emergency grants (if any) have contemporaneous approval and post-incident review</span></li>
+    </ul>
+
+    <h3>Review &amp; activity</h3>
+    <ul class="wi-bullet">
+      <li><span>Quarterly eligibility review complete; decision records exist; revocations applied</span></li>
+      <li><span>Eligibility-vs-activity correlation report reviewed (zero-activation eligibilities scrutinised)</span></li>
+      <li><span>Annual deep review on schedule</span></li>
+      <li><span>Privileged access request workflow active; out-of-band-grant alerts firing</span></li>
+      <li><span>Non-PAW T0 activation alerts firing; investigations to resolution</span></li>
+      <li><span>T0 activity in SIEM; retention per target; immutability validated; monthly SOC review evidence</span></li>
+    </ul>
+
+    <h3>Programme health indicators</h3>
+    <table class="gt-table">
+      <thead><tr><th>Indicator</th><th>Target</th><th>Action if missed</th></tr></thead>
+      <tbody>
+        <tr><td>Standing T0 count</td><td>= break-glass count</td><td>Immediate exception review; remediate or document</td></tr>
+        <tr><td>T0 eligibility duration</td><td>&le;12 months</td><td>Forced expiry; new approval required for continuation</td></tr>
+        <tr><td>T0 two-person approval rate</td><td>100%</td><td>Procedure failure; investigate; backfill</td></tr>
+        <tr><td>Cross-domain T0 holdings</td><td>0 (or named exception)</td><td>Remediate; compensating controls</td></tr>
+        <tr><td>Quarterly review completion</td><td>100% on time</td><td>Escalate to Risk Committee</td></tr>
+        <tr><td>Eligibility-zero-activation rate</td><td>Tracked, scrutinised &gt;20%</td><td>Revoke or address workflow gap</td></tr>
+        <tr><td>Non-PAW T0 activation</td><td>0 (or named exception)</td><td>Investigate as potential compromise or procedural violation</td></tr>
+        <tr><td>Out-of-band privileged grants</td><td>0</td><td>High-priority investigation; backfill or reverse</td></tr>
+        <tr><td>T0 activity logging gaps</td><td>0</td><td>High-priority investigation; restore logging</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <p>Privileged identity governance changes are operationally consequential. Wrong revocation can lock out legitimate admins; wrong eligibility grant can over-empower. Stage carefully.</p>
+
+    <h3>Common scenarios</h3>
+    <ul class="wi-bullet">
+      <li><span><strong>Eligibility revoked through quarterly review, but the individual needed it</strong> &mdash; cause: reviewer judged based on incomplete information; individual is a legitimate ongoing user. Recovery: emergency re-grant through workflow (with documented urgency); investigate why the review didn't surface the legitimate need; improve activity-correlation reporting for next review.</span></li>
+      <li><span><strong>Eligibility expired automatically with no warning reaching the individual</strong> &mdash; cause: alert routing failed; individual was on leave; manager change in last 30 days. Recovery: emergency grant; investigate alert routing; ensure manager change updates the alert distribution.</span></li>
+      <li><span><strong>Two-person approval blocked a legitimate emergency grant</strong> &mdash; cause: second approver unavailable, deputy chain didn't resolve. Recovery: emergency-approver path used (documented in Step 4); post-grant review verifies legitimacy. Update deputy chain to handle the recurring case.</span></li>
+      <li><span><strong>Cross-domain T0 holdings are exceeded due to one individual covering two functions during reorganisation</strong> &mdash; cause: transitional state during agency restructure. Recovery: documented time-bound exception with compensating controls (enhanced logging, monthly activity review); planned remediation by reorganisation end date.</span></li>
+      <li><span><strong>Standing-privilege count exceeded break-glass count from a forgotten T0 service account</strong> &mdash; cause: a Tier-0-scoped service account not classified as such (per IT-ID-WI-04 Step 10). Recovery: re-classify; bring under privileged governance; either reduce scope or document as standing exception.</span></li>
+      <li><span><strong>Non-PAW T0 alert misfired</strong> &mdash; cause: legitimate emergency response from on-call admin's standard device because PAW wasn't available. Recovery: post-event review of legitimacy; if legitimate, document and update the remote-PAW-access path so the case is handled correctly next time.</span></li>
+      <li><span><strong>T0 logging gap discovered retrospectively</strong> &mdash; cause: log forwarder failed silently; SIEM index dropped events. Recovery: restore logging; back-fill where possible; gap period flagged for SOC retrospective review.</span></li>
+    </ul>
+
+    <h3>Rollback procedure</h3>
+    <ol style="padding-left:18px;font-size:13px;line-height:1.7;color:#333;">
+      <li>Identify the affected eligibility / grant / revocation and the impact</li>
+      <li>Apply the corrective change via the standard workflow (no out-of-band edits)</li>
+      <li>Document the rollback as a discrete event in the audit trail</li>
+      <li>Investigate root cause &mdash; was the original control too strict, too loose, or correctly applied?</li>
+      <li>Adjust the relevant procedure if systemic; communicate; close the loop with affected individuals</li>
+    </ol>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <ul class="wi-bullet">
+      <li><span><strong>Eligibility is the control. Activation is the action.</strong> Confusing the two is the most common conceptual error. Don't treat PIM activation as if it were governance &mdash; activation is the mechanism that <em>uses</em> the governance defined here.</span></li>
+      <li><span><strong>Standing privilege is the failure mode.</strong> Every standing assignment is the absence of the control. Push everything possible to eligibility; the friction of activation is the control surface.</span></li>
+      <li><span><strong>"Always-eligible" is standing privilege.</strong> If eligibility has no expiry, it never expires; if it never expires, it never gets re-justified; if it never gets re-justified, the access continues past its legitimate need. Time-bind eligibility itself.</span></li>
+      <li><span><strong>Two-person approval at T0 catches social-engineering.</strong> An attacker who has compromised one approver still has to compromise a second; the second approver is selected for being independent of the first. This is the single highest-leverage control in privileged governance.</span></li>
+      <li><span><strong>Self-approval is automatic.</strong> If your tooling allows self-approval, an attacker who has compromised one privileged identity can grant themselves more. Disable self-approval in the tool, not just in policy.</span></li>
+      <li><span><strong>Cross-domain T0 is the lateral-movement freeway.</strong> An attacker who pivots through the cloud-identity admin role can do far more if that admin also holds AD Enterprise Admin. Keep them separate.</span></li>
+      <li><span><strong>Quarterly review without activity correlation is hollow.</strong> Reviewing "should this person be eligible" without "are they actually using it" misses the most important signal: zero-activation eligibilities are either unneeded (revoke) or being routed around (workflow gap).</span></li>
+      <li><span><strong>Out-of-band grants are how the workflow stops mattering.</strong> If admins can grant T0 eligibility by directly editing the directory, the request workflow is theatre. Detect, alert, investigate, backfill, prevent.</span></li>
+      <li><span><strong>PAW is the trustworthy administrative source.</strong> T0 activity from non-PAW devices &mdash; even by the legitimate admin &mdash; defeats the model because compromise of the admin's standard workstation is now a T0 compromise.</span></li>
+      <li><span><strong>T0 logging is non-negotiable.</strong> Every T0 action must be logged to immutable destination. Logging gaps are not "we'll fix it later" &mdash; they are forensic blind spots that incidents will inevitably fall into.</span></li>
+      <li><span><strong>Break-glass is the controlled exception, not the convenient bypass.</strong> Break-glass accounts have standing privilege by design; they are the smallest possible set; their use is monitored; they are not a way to avoid PIM activation for routine work.</span></li>
+      <li><span><strong>Emergency grants need a post-event review.</strong> The expedited path is necessary; without it, real emergencies get blocked. The post-event review is what keeps it from becoming a routine bypass &mdash; the urgency justification gets checked after the fact.</span></li>
+      <li><span><strong>Privileged non-human identities deserve this treatment too.</strong> Per IT-ID-WI-04 Step 10. Service principal with Global Admin equivalent scope is a T0 identity even though no human signs in to it.</span></li>
+    </ul>
+  </div>
+
+  <div class="wi-nav"><a href="it-id-wi-04.html">&larr; IT-ID-WI-04: Non-Human Identity</a><a href="asm-identity-governance.html">Identity Governance hub &rarr;</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-ID-WI-05 v1.0 · Live · 15 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-identity-governance.html" style="color:var(--wi);text-decoration:none;">&larr; Back to Identity Governance</a></span>
+  </div>
+</div>
+</body>
+</html>

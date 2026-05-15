@@ -43,6 +43,7 @@
   .domain-card.network   { background:linear-gradient(135deg,#E6F0F4 0%,#D2E5ED 100%); border:0.5px solid #A8CADB; }
   .domain-card.security-infra { background:linear-gradient(135deg,#FCEEDA 0%,#F8DFB8 100%); border:0.5px solid #EBC58D; }
   .domain-card.cloud     { background:linear-gradient(135deg,#E8F0F8 0%,#C5DAEB 100%); border:0.5px solid #A8C5DE; }
+  .domain-card.identity  { background:linear-gradient(135deg,#FAEBF2 0%,#F0D5E1 100%); border:0.5px solid #E2B3C8; }
   .domain-card-icon  { font-size:28px; margin-bottom:10px; }
   .domain-card-code  { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:2px 8px; border-radius:6px; margin-bottom:8px; display:inline-block; }
   .domain-card.baselines .domain-card-code { background:rgba(91,45,142,0.12); color:var(--asm); }
@@ -52,6 +53,7 @@
   .domain-card.network   .domain-card-code { background:rgba(20,80,110,0.12); color:#145570; }
   .domain-card.security-infra .domain-card-code { background:rgba(143,80,12,0.12); color:#8F500C; }
   .domain-card.cloud     .domain-card-code { background:rgba(46,92,138,0.12); color:#2E5C8A; }
+  .domain-card.identity  .domain-card-code { background:rgba(139,45,92,0.12); color:#8B2D5C; }
   .domain-card-title { font-size:16px; font-weight:700; margin-bottom:6px; }
   .domain-card.baselines .domain-card-title { color:var(--asm-dark); }
   .domain-card.vuln      .domain-card-title { color:#5C2E06; }
@@ -60,6 +62,7 @@
   .domain-card.network   .domain-card-title { color:#0A3848; }
   .domain-card.security-infra .domain-card-title { color:#5A3208; }
   .domain-card.cloud     .domain-card-title { color:#1A3A5C; }
+  .domain-card.identity  .domain-card-title { color:#5C1A3A; }
   .domain-card-desc { font-size:13px; line-height:1.6; margin-bottom:10px; }
   .domain-card.baselines .domain-card-desc { color:#4A2A7A; }
   .domain-card.vuln      .domain-card-desc { color:#7a2e10; }
@@ -68,6 +71,7 @@
   .domain-card.network   .domain-card-desc { color:#0A3848; }
   .domain-card.security-infra .domain-card-desc { color:#5A3208; }
   .domain-card.cloud     .domain-card-desc { color:#1A3A5C; }
+  .domain-card.identity  .domain-card-desc { color:#5C1A3A; }
   .domain-card-footer { display:flex; align-items:center; justify-content:space-between; font-size:12px; font-weight:600; }
   .domain-card.baselines .domain-card-footer { color:var(--asm); }
   .domain-card.vuln      .domain-card-footer { color:#993C1D; }
@@ -76,6 +80,7 @@
   .domain-card.network   .domain-card-footer { color:#145570; }
   .domain-card.security-infra .domain-card-footer { color:#8F500C; }
   .domain-card.cloud     .domain-card-footer { color:#2E5C8A; }
+  .domain-card.identity  .domain-card-footer { color:#8B2D5C; }
 
   /* ASM lifecycle */
   .lifecycle-bar { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-bottom:1.5rem; }
@@ -136,9 +141,9 @@
 
   <!-- Stats -->
   <div class="asm-stats">
-    <div class="asm-stat"><div class="asm-stat-num">7</div><div class="asm-stat-label">ASM domains</div></div>
-    <div class="asm-stat"><div class="asm-stat-num">18</div><div class="asm-stat-label">SOPs</div></div>
-    <div class="asm-stat"><div class="asm-stat-num">57</div><div class="asm-stat-label">Work instructions</div></div>
+    <div class="asm-stat"><div class="asm-stat-num">8</div><div class="asm-stat-label">ASM domains</div></div>
+    <div class="asm-stat"><div class="asm-stat-num">19</div><div class="asm-stat-label">SOPs</div></div>
+    <div class="asm-stat"><div class="asm-stat-num">62</div><div class="asm-stat-label">Work instructions</div></div>
     <div class="asm-stat"><div class="asm-stat-num">3</div><div class="asm-stat-label">Framework alignments</div></div>
   </div>
 
@@ -230,6 +235,14 @@
         <div class="domain-card-title">Cloud Baselines</div>
         <div class="domain-card-desc">Tenant-level security baselines for Microsoft 365 and Microsoft Azure. Licensing-tier-aware (A1 / E1 / A3 / E3 / E5). Covers tenant identity (Conditional Access, PIM, break-glass), M365 hardening, Azure subscription baseline, Azure workload patterns (including Azure-native cloud-WAF), and Defender suite configuration. CIS Foundations / MCSB / NIST / ISO aligned.</div>
         <div class="domain-card-footer"><span>SOP · 5 Work Instructions · M365/Azure</span><span>→</span></div>
+      </a>
+
+      <a class="domain-card identity" href="asm-identity-governance.html">
+        <div class="domain-card-icon">🔑</div>
+        <div class="domain-card-code">ASM-ID</div>
+        <div class="domain-card-title">Identity Governance &amp; Lifecycle</div>
+        <div class="domain-card-desc">Lifecycle controls for every identity in the estate. Hybrid (Entra ID + on-prem AD). Human identities (JML, recertification, role design) and non-human identities (service accounts, service principals, managed identities, certificates). Privileged identity governance &mdash; the eligibility layer above PIM activation. Sits above IT-CL-WI-01 tenant identity controls by governing who should have access in the first place.</div>
+        <div class="domain-card-footer"><span>SOP · 5 Work Instructions · Hybrid + Non-human</span><span>→</span></div>
       </a>
 
     </div>

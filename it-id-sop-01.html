@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-ID-SOP-01: Identity Governance &amp; Lifecycle — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+<style>
+  :root { --id:#8B2D5C; --id-light:#FAEBF2; --id-border:#E2B3C8; --id-dark:#5C1A3A; }
+  .sop-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .sop-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .sop-meta-item strong { color:#1a1a1a; }
+  .sop-meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+
+  .sop-section { background:#fff; border:0.5px solid var(--id-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .sop-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--id); margin-bottom:4px; }
+  .sop-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .sop-section p { font-size:14px; color:#444; line-height:1.75; margin-bottom:8px; }
+  .sop-section p:last-child { margin-bottom:0; }
+  .sop-section h3 { font-size:14px; font-weight:600; color:var(--id-dark); margin:14px 0 6px 0; }
+
+  .sop-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .sop-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .sop-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--id); flex-shrink:0; margin-top:5px; }
+
+  .req-domain { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.2rem; margin-top:8px; }
+  .req-domain-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; padding-bottom:6px; border-bottom:0.5px solid var(--id-border); }
+  .req-icon { width:32px; height:32px; border-radius:8px; background:var(--id-light); color:var(--id); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+  .req-domain-header h4 { font-size:13px; font-weight:700; color:var(--id-dark); margin:0; }
+  .req-domain-header .wi-link { margin-left:auto; font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; color:var(--id); text-decoration:none; background:var(--id-light); padding:3px 9px; border-radius:5px; border:0.5px solid var(--id-border); }
+  .req-domain-header .wi-link:hover { background:var(--id); color:#fff; }
+  .req-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:5px; }
+  .req-list li { display:flex; gap:8px; font-size:13px; color:#333; line-height:1.55; padding:3px 0; }
+  .req-list li::before { content:'✓'; color:var(--id); font-weight:700; flex-shrink:0; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--id-dark); color:#fff; font-weight:600; padding:8px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:8px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--id-dark); white-space:nowrap; }
+
+  .roles-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px; }
+  .role-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.85rem 1rem; }
+  .role-card h4 { font-size:12px; font-weight:700; color:var(--id); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; }
+  .role-card p  { font-size:13px; color:#444; line-height:1.55; margin:0; }
+  @media(max-width:640px){ .roles-grid{grid-template-columns:1fr;} }
+
+  .callout-info { background:var(--id-light); border:0.5px solid var(--id-border); border-left:3px solid var(--id); border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:var(--id-dark); line-height:1.6; margin-top:10px; }
+  .callout-info strong { color:var(--id-dark); font-weight:700; }
+  .callout-warn { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #d97706; border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:#5a330a; line-height:1.6; margin-top:10px; }
+  .callout-warn strong { color:#3d260a; }
+
+  .toc-box { background:#fafafa; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
+  .toc-title { font-size:11px; font-weight:700; color:var(--id); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+  .toc-list { display:grid; grid-template-columns:1fr 1fr; gap:4px 16px; font-size:13px; }
+  .toc-list a { color:#444; text-decoration:none; padding:2px 0; display:flex; align-items:baseline; gap:8px; }
+  .toc-list a:hover { color:var(--id); }
+  .toc-list a span { color:var(--id); font-weight:600; font-family:'SF Mono','Fira Code',monospace; font-size:12px; min-width:24px; }
+  @media(max-width:640px){ .toc-list{grid-template-columns:1fr;} }
+
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--id); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .sop-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .sop-nav a { font-size:13px; color:var(--id); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>›</span>
+    <a href="asm.html">ASM</a><span>›</span>
+    <a href="asm-identity-governance.html">Identity Governance &amp; Lifecycle</a><span>›</span>
+    <span>IT-ID-SOP-01</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#3A1530 0%,#5C1A3A 40%,#8B2D5C 100%);">
+    <span class="kb-page-hero-icon">🔑</span>
+    <h1>IT-ID-SOP-01: Identity Governance &amp; Lifecycle</h1>
+    <p>The authoritative policy-level baseline for identity governance across hybrid Entra ID and on-premises Active Directory environments. Covers human identities (joiners, movers, leavers, recertification) and non-human identities (service accounts, service principals, managed identities, certificates). Operationalised by IT-ID-WI-01 through IT-ID-WI-05.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">ASM domain</span>
+      <span class="kb-meta-pill">Hybrid (Entra + AD)</span>
+      <span class="kb-meta-pill">Human + Non-human</span>
+      <span class="kb-meta-pill">NIST CSF PR.AA</span>
+    </div>
+  </div>
+
+  <div class="sop-meta-bar">
+    <div class="sop-meta-item">📋 <strong>SOP ID:</strong> IT-ID-SOP-01</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">👤 <strong>Owner:</strong> Paulo Ferreira</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">📅 <strong>Published:</strong> 15 May 2026</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item">🔄 <strong>Review:</strong> Annual</div>
+    <div class="sop-meta-sep">·</div>
+    <div class="sop-meta-item"><span class="badge-approved">Approved</span></div>
+  </div>
+
+  <div class="toc-box">
+    <div class="toc-title">Contents</div>
+    <div class="toc-list">
+      <a href="#s1"><span>1</span> Purpose</a>
+      <a href="#s2"><span>2</span> Scope</a>
+      <a href="#s3"><span>3</span> Governance Principles</a>
+      <a href="#s4"><span>4</span> Minimum Requirements</a>
+      <a href="#s5"><span>5</span> Roles &amp; Responsibilities</a>
+      <a href="#s6"><span>6</span> Framework Alignment</a>
+      <a href="#s7"><span>7</span> Governance &amp; Review</a>
+    </div>
+  </div>
+
+  <div class="sop-section" id="s1">
+    <div class="sop-section-num">Section 1</div>
+    <div class="sop-section-title">Purpose</div>
+    <p>This SOP defines the minimum requirements for identity governance and lifecycle management across the institution and its agencies. It covers two distinct identity classes — human (employees, contractors, students, alumni, guests, external collaborators) and non-human (service accounts, Entra service principals, managed identities, certificate-based identities, workload identities) — across a hybrid environment of on-premises Active Directory and Entra ID.</p>
+    <p>This SOP sits <em>above</em> the technical identity platform configuration. The configuration of Conditional Access policies, MFA enforcement, PIM activation rules, named locations, and break-glass accounts is covered by IT-CL-WI-01 — the <em>how</em> of tenant identity. This SOP covers the <em>who</em>, <em>why</em>, <em>for how long</em>, and <em>reviewed by whom</em> — the policy and lifecycle layer that makes the technical platform actually govern access rather than just enable it.</p>
+    <p>This SOP is operationalised by five Work Instructions: IT-ID-WI-01 (Joiner / Mover / Leaver Lifecycle), IT-ID-WI-02 (Access Recertification &amp; Attestation), IT-ID-WI-03 (Role Design &amp; Entitlement Management), IT-ID-WI-04 (Non-Human Identity Governance), and IT-ID-WI-05 (Privileged Identity Governance). See §4 for the requirements summary and the linked WIs for implementation detail.</p>
+  </div>
+
+  <div class="sop-section" id="s2">
+    <div class="sop-section-num">Section 2</div>
+    <div class="sop-section-title">Scope</div>
+    <h3>2.1 In scope</h3>
+    <ul class="sop-bullet">
+      <li><span><strong>Human identities</strong> — every identity associated with a natural person who interacts with organisational systems, regardless of employment status (employee, contractor, intern, student, alumni, guest, external collaborator) and regardless of which identity platform hosts the account (on-premises AD, Entra ID synced from AD, cloud-only Entra ID).</span></li>
+      <li><span><strong>Non-human identities</strong> — service accounts in AD (user accounts, gMSA, sMSA), Entra service principals, app registrations, system-assigned and user-assigned managed identities in Azure, workload identity federation, certificate-based identities used for service authentication.</span></li>
+      <li><span><strong>Hybrid scope</strong> — identities that exist in both AD and Entra ID via synchronisation (Entra Connect), identities only in Entra (cloud-only), and identities only in AD (on-prem-only). The governance is unified; the technical mechanics differ.</span></li>
+      <li><span><strong>Privileged identity governance</strong> — the eligibility layer above PIM activation: who is eligible for which privileged role, why, for how long, reviewed by whom. This is distinct from the activation mechanism itself.</span></li>
+      <li><span>All operating agencies of the institution where identity systems are in use.</span></li>
+    </ul>
+    <h3>2.2 Out of scope</h3>
+    <ul class="sop-bullet">
+      <li><span><strong>Tenant-level identity platform configuration</strong> — Conditional Access policies, MFA enforcement, PIM activation rules, named locations, break-glass accounts, Identity Protection risk policies, SSPR — covered by <strong>IT-CL-WI-01</strong> (Tenant Identity &amp; Conditional Access).</span></li>
+      <li><span><strong>PAM platform mechanics</strong> — credential vaulting, session recording, password rotation — covered by <strong>IT-SI-WI-04</strong> (PAM Platform Hardening).</span></li>
+      <li><span><strong>PAW build and lifecycle</strong> — covered by <strong>IT-EP-SOP-PAW-01</strong> and the PAW Work Instructions.</span></li>
+      <li><span><strong>Tier-0 AD administrative access enforcement</strong> — the technical implementation of tier separation — covered by <strong>IT-SRV-WI-DC-01</strong>.</span></li>
+      <li><span><strong>Identity incident response</strong> — account compromise triage, sign-in investigation, OAuth abuse response, MFA bypass response — covered by SOC SOPs (<strong>SOP-ID-01</strong>) and the ID-PB / ID-RB content.</span></li>
+      <li><span><strong>HR system internal processes</strong> — how HR captures joiner data, validates contractor onboarding, executes termination — is HR's responsibility. The interface between HR and identity systems is in scope; the HR processes themselves are not.</span></li>
+      <li><span><strong>Application-internal authorisation</strong> — once an identity exists and has been granted access to a system, the system's internal role / permission model is the system owner's responsibility, not this SOP's.</span></li>
+    </ul>
+  </div>
+
+  <div class="sop-section" id="s3">
+    <div class="sop-section-num">Section 3</div>
+    <div class="sop-section-title">Governance Principles</div>
+    <p>The seven principles below shape every requirement. Where an implementation choice arises, resolve it consistently with these principles.</p>
+
+    <h3>3.1 Identity flows from an authoritative source</h3>
+    <p>Every human identity in the estate originates from a single authoritative source for that identity class: HR system for employees and contractors; Student Information System for students; sponsor-driven for guests and external collaborators. There are no "shadow" identity creation paths — accounts created outside the authoritative flow are exceptions, time-bounded, and tracked.</p>
+
+    <h3>3.2 Least privilege by default</h3>
+    <p>New identities start with the minimum access required to perform their role. Additional access is added by request, justified, and recorded. The opposite pattern — clone the previous starter's access — is forbidden because it permanently elevates the baseline as access accumulates across joiners.</p>
+
+    <h3>3.3 Standing privilege is time-bounded</h3>
+    <p>No human account holds permanent privileged role assignment except documented break-glass accounts (see IT-CL-WI-01 Step 1). Privileged access is held as <em>eligibility</em> (the right to activate when needed), not as standing assignment. The eligibility itself has a defined duration; on expiry, the user reapplies through the access request workflow.</p>
+
+    <h3>3.4 Recertification is a control, not a chore</h3>
+    <p>Access that is not periodically re-justified is access that should not exist. Cadence is per access tier — quarterly for Tier-0, semi-annual for Tier-1, annual for Tier-2/3. Reviewers are named by role (line manager, system owner, privileged access authority) and accountable for the review they perform. Rubber-stamping is a finding.</p>
+
+    <h3>3.5 Every identity has a named owner</h3>
+    <p>Human identities are owned by the named individual and their line manager. Non-human identities (service accounts, service principals, managed identities) are owned by a named human or named team — never by "IT" generically. Identities without owners are orphaned identities, which are a high-priority remediation category.</p>
+
+    <h3>3.6 Non-human identities are first-class</h3>
+    <p>The estate's service accounts, service principals, and managed identities outnumber its human accounts. The governance applied to them is equivalent in rigour to that applied to humans: named owner, justified scope, credential rotation discipline, periodic review, planned decommissioning. The principle "service accounts are someone else's problem" is the principle this SOP rejects.</p>
+
+    <h3>3.7 Governance is separate from incident response</h3>
+    <p>This SOP and its WIs cover <em>governance</em> — how identities are created, modified, reviewed, retired in steady state. Identity-related <em>incident response</em> — what to do when an account is compromised, when MFA fatigue occurs, when an OAuth grant is malicious — is covered by SOC SOPs (SOP-ID-01) and ID-PB / ID-RB playbook content. The boundary is deliberately maintained so neither team duplicates or misses work, and so that governance findings (e.g. orphaned account discovered) feed the incident-response side cleanly.</p>
+  </div>
+
+  <div class="sop-section" id="s4">
+    <div class="sop-section-num">Section 4</div>
+    <div class="sop-section-title">Minimum Requirements</div>
+    <p>The requirements below are mandatory across the in-scope identity surface. Each requirement domain is operationalised by a dedicated Work Instruction (linked at the right of each domain header).</p>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">🔄</div>
+        <h4>4.1 Joiner / Mover / Leaver Lifecycle</h4>
+        <a class="wi-link" href="it-id-wi-01.html">IT-ID-WI-01 →</a>
+      </div>
+      <ul class="req-list">
+        <li>Joiner: account provisioning triggered by authoritative source event (HR hire, SIS enrolment, sponsor invitation); not by request ticket</li>
+        <li>Joiner: account active no earlier than start date; provisioning within 1 business day of start date</li>
+        <li>Joiner: minimum required access at start — role-appropriate base bundle from the role catalogue (IT-ID-WI-03); additional access by separate request</li>
+        <li>Joiner: clone-previous-user pattern explicitly forbidden — every starter gets a clean baseline</li>
+        <li>Mover: access changes triggered by authoritative source role change; previous role access revoked at the time of grant, not later ("revoke-then-grant", not "grant-then-revoke")</li>
+        <li>Mover: temporary dual-role periods bounded to ≤30 days with explicit approval; longer periods documented as exceptions</li>
+        <li>Leaver: account disabled same business day as termination (immediate for involuntary departures)</li>
+        <li>Leaver: account retained in disabled state for 30–90 days for forensics and handover access; deleted thereafter unless legal hold applies</li>
+        <li>Leaver: privileged access revoked at the same moment as account disable — never relies on account-disable cascade</li>
+        <li>Leaver: forwarding and delegations reviewed (managed in IT-CL-WI-02 territory, but cross-checked here for completeness)</li>
+        <li>Student and alumni transitions: bulk lifecycle events per academic calendar; access bundle transitions documented (e.g. graduating student → alumni access bundle)</li>
+        <li>Guest: invitation by named sponsor; time-bounded to ≤180 days; renewal requires justification and re-sponsorship</li>
+        <li>Identity-source data quality: monthly reconciliation between authoritative source and identity platform; orphaned accounts and orphaned source records both flagged</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">📋</div>
+        <h4>4.2 Access Recertification &amp; Attestation</h4>
+        <a class="wi-link" href="it-id-wi-02.html">IT-ID-WI-02 →</a>
+      </div>
+      <ul class="req-list">
+        <li>Recertification cadence per access tier: Tier-0 quarterly; Tier-1 semi-annual; Tier-2/3 annual</li>
+        <li>Privileged role eligibility recertified quarterly regardless of resource tier</li>
+        <li>Guest / external user access recertified quarterly</li>
+        <li>Named reviewer per access scope: line manager (direct reports), system owner (system-specific roles), Privileged Access Authority (Tier-0/1 privileged eligibility), team manager (service accounts and service principals owned by their team)</li>
+        <li>Review actions explicit: <em>certify</em> (continue access), <em>revoke</em> (remove access), <em>modify</em> (adjust scope) — "ignored" or "no response" defaults to <em>revoke</em> on the relevant tier</li>
+        <li>Evidence retention: reviewer identity, decision, justification (for certify-with-comment), date — retained 3 years minimum or per regulatory requirement</li>
+        <li>Automated where possible: Entra Identity Governance access reviews (where licensed, typically E5); manual workflow where not</li>
+        <li>Bulk-attest forbidden — reviewers must engage with each item individually for Tier-0 and Tier-1; Tier-2/3 may use sampling-based attestation with documented sample size</li>
+        <li>Non-attestation of Tier-0 / Tier-1 reviews escalates to the role's eligibility being suspended (not revoked) until attested</li>
+        <li>Annual full-population recertification for all human accounts regardless of access tier (catches any tier-misclassification)</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">🎭</div>
+        <h4>4.3 Role Design &amp; Entitlement Management</h4>
+        <a class="wi-link" href="it-id-wi-03.html">IT-ID-WI-03 →</a>
+      </div>
+      <ul class="req-list">
+        <li>Role catalogue maintained: every assignable role / group has a documented owner, defined scope, justification, last-review date</li>
+        <li>Role design follows least-privilege — roles aggregate the minimum permissions for a defined job function, not the maximum</li>
+        <li>Standard role naming convention applied: domain prefix, scope descriptor, role descriptor (e.g. <code>azure-vm-operations-contributor-prod</code>)</li>
+        <li>Group hygiene: maximum nesting depth 3 levels; circular references prohibited; empty groups removed after 30 days; group ownership documented</li>
+        <li>Entitlement packages (Entra Identity Governance, where licensed) for common access bundles — joiner pack, role-change packs, project-team packs — reduces ad-hoc requests</li>
+        <li>Separation of duties enforced for sensitive role combinations: no single user holds combinations like "create payment + approve payment", "modify firewall rule + delete firewall log"</li>
+        <li>Role-change requests routed through documented workflow with system-owner approval; ad-hoc changes (e.g. direct group membership change without ticket) trigger an alert and a backfill ticket</li>
+        <li>Quarterly role catalogue review: roles unused for 12 months flagged for retirement; over-broad roles flagged for splitting</li>
+        <li>Tier-0 / Tier-1 role assignments visible in Entra PIM (or equivalent for AD) and reviewed against the role catalogue monthly for drift</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">🔧</div>
+        <h4>4.4 Non-Human Identity Governance</h4>
+        <a class="wi-link" href="it-id-wi-04.html">IT-ID-WI-04 →</a>
+      </div>
+      <ul class="req-list">
+        <li>Inventory: every service account, gMSA, Entra service principal, app registration, system-assigned managed identity, user-assigned managed identity, and certificate-based service identity has an inventory record</li>
+        <li>Named owner per non-human identity — named human or named team, not "IT" or "DevOps" generically; owner reviewed annually</li>
+        <li>Scope justification documented per non-human identity: what permissions, why, when granted, by whom — captured at creation, not retrospectively</li>
+        <li>Credential rotation: AD service account passwords rotated annually minimum (60-day target where the service supports it); gMSA passwords managed automatically; service principal secrets max 1-year expiry, rotated before expiry; certificates rotated per certificate-lifecycle policy</li>
+        <li>Managed identities preferred over service principals in Azure — no secret to manage; lifecycle tied to the resource</li>
+        <li>Secret expiry tracking: dashboard of upcoming credential expiries; owner notified ≥30 days before expiry; SOC alerted on expired-but-still-used credentials</li>
+        <li>OAuth scope review (Entra service principals): permissions reviewed quarterly; over-permissive scopes reduced; consent grant audit-trailed</li>
+        <li>Decommissioning: non-human identity unused for 90 days flagged; 180 days disabled; 365 days deleted (with named-owner approval at each step)</li>
+        <li>Service accounts with interactive sign-in capability flagged for review — service accounts should not be sign-in-capable in modern designs</li>
+        <li>Workload identity federation preferred over long-lived service principal secrets where the workload pattern supports it</li>
+        <li>Privileged non-human identities (Tier-0 service accounts, high-scope service principals) follow the same eligibility / activation pattern as privileged human identities where the platform supports it</li>
+      </ul>
+    </div>
+
+    <div class="req-domain">
+      <div class="req-domain-header">
+        <div class="req-icon">👑</div>
+        <h4>4.5 Privileged Identity Governance</h4>
+        <a class="wi-link" href="it-id-wi-05.html">IT-ID-WI-05 →</a>
+      </div>
+      <ul class="req-list">
+        <li>Privileged role catalogue: every privileged role (Tier-0 and Tier-1) is documented with scope, named individuals currently eligible, eligibility duration, last-review date</li>
+        <li>Eligibility, not assignment — privileged role membership is held as PIM-eligible (cloud) or equivalent (on-prem) with activation required; standing assignments forbidden except documented break-glass accounts (see IT-CL-WI-01)</li>
+        <li>Eligibility duration: maximum 12 months for Tier-0; maximum 18 months for Tier-1; renewal requires re-justification</li>
+        <li>Approval workflow: Tier-0 eligibility requires two-person approval (requesting manager + Privileged Access Authority); Tier-1 may use single approver per role definition</li>
+        <li>Separation of duties: no single individual holds Tier-0 eligibility across functionally separated domains (e.g. cloud identity admin + AD enterprise admin in the same person is a finding unless deliberately approved)</li>
+        <li>Standing-privilege count tracked monthly: target ≤4 (the documented break-glass accounts only); any other standing privilege is an exception</li>
+        <li>Quarterly eligibility review: every eligible assignment re-examined; expired or unjustified eligibility removed; new eligibility requires fresh approval</li>
+        <li>Privileged access request workflow: requestor justifies, approver decides, both events logged; the request itself is the audit trail</li>
+        <li>Tier-0 activation correlated with PAW use (see IT-EP-SOP-PAW-01) — Tier-0 administrative actions from non-PAW devices are alerts</li>
+        <li>Tier-0 administrative activity logged to immutable destination (central SIEM via WI-03/WI-04 of Cloud domain); retention ≥1 year</li>
+      </ul>
+    </div>
+
+    <div class="callout-warn"><strong>Boundary with IT-CL-WI-01 §7.</strong> The PIM activation mechanism — how a user activates an eligible role, what MFA is required, how long the activation lasts, whether approval is required at activation time — lives in IT-CL-WI-01 Step 7 because it's tenant-platform configuration. <em>This SOP §4.5 governs who is eligible in the first place</em>, and how that eligibility is itself reviewed. Activation = WI-01; eligibility = WI-05.</div>
+  </div>
+
+  <div class="sop-section" id="s5">
+    <div class="sop-section-num">Section 5</div>
+    <div class="sop-section-title">Roles &amp; Responsibilities</div>
+    <div class="roles-grid">
+      <div class="role-card"><h4>Head of IT</h4><p>Owns this SOP. Approves baseline changes and material exceptions. Accountable to the Risk Committee for identity-related control state. Sets reporting cadence and oversees domain conformance.</p></div>
+      <div class="role-card"><h4>Identity &amp; Access Engineering</h4><p>Implements the WIs. Maintains the role catalogue, JML automation, recertification campaigns. Operates Entra Identity Governance where licensed. Co-owns non-human identity inventory. First-line responder for identity-system operational issues.</p></div>
+      <div class="role-card"><h4>HR Information Systems</h4><p>Owns the authoritative source for human identity attributes. Maintains HR → identity integration. Triggers JML events. Quarterly data-quality review with IAE.</p></div>
+      <div class="role-card"><h4>Line Managers</h4><p>Recertify direct-report access at cadence per tier. Sponsor mover changes. Initiate leaver events when not automated. Accountable for the accuracy of certifications they perform.</p></div>
+      <div class="role-card"><h4>System Owners</h4><p>Recertify access to their systems. Define role / entitlement structure for their application. Named contact for access requests outside the standard catalogue. Maintain their portion of the role catalogue.</p></div>
+      <div class="role-card"><h4>Privileged Access Authority</h4><p>Approves Tier-0 and Tier-1 privileged eligibility. Owns privileged access request workflow. Quarterly eligibility review. Separation-of-duties enforcement. Typically a small named group (CISO + Head of IT + nominee).</p></div>
+      <div class="role-card"><h4>Non-Human Identity Owners</h4><p>Named human or team per service account / service principal / managed identity. Responsible for credential rotation, scope review, decommissioning. Reviewed quarterly.</p></div>
+      <div class="role-card"><h4>GRC</h4><p>Owns governance of the domain. Maintains recertification evidence. Reports access posture to Risk Committee quarterly. Tracks orphaned accounts and standing-privilege exceptions. Reviews baseline annually.</p></div>
+    </div>
+    <div class="callout-info"><strong>Separation of identity governance and identity incident response.</strong> The roles in this SOP own steady-state identity governance. Identity <em>incident</em> response — account compromise, sign-in anomaly, OAuth abuse, MFA bypass — is the SOC's responsibility per SOP-ID-01. Governance findings (e.g. orphaned privileged account discovered during recertification) flow to SOC for investigation; SOC incident findings (e.g. compromised account) flow to IAE for remediation. The handoff in both directions is via the standard ticket / incident workflow.</div>
+  </div>
+
+  <div class="sop-section" id="s6">
+    <div class="sop-section-num">Section 6</div>
+    <div class="sop-section-title">Framework Alignment</div>
+    <p>This baseline derives from the standards below. NIST CSF 2.0 PR.AA is the primary alignment framework; ISO 27001:2022 and CIS Controls v8 provide control-level detail.</p>
+    <table class="gt-table">
+      <thead><tr><th>Framework / standard</th><th>Reference</th><th>Where applied</th></tr></thead>
+      <tbody>
+        <tr><td class="lvl">NIST CSF 2.0</td><td>PR.AA-01 through PR.AA-06 (Identity Management, Authentication, Access Control)</td><td>Cross-cutting — primary framework</td></tr>
+        <tr><td class="lvl">NIST SP 800-53 r5</td><td>AC-2 Account Management, AC-5 Separation of Duties, AC-6 Least Privilege, IA-2 Identification &amp; Authentication, IA-5 Authenticator Management</td><td>§4.1, §4.3, §4.4, §4.5</td></tr>
+        <tr><td class="lvl">NIST SP 800-63A</td><td>Identity Proofing</td><td>§4.1 joiner provisioning</td></tr>
+        <tr><td class="lvl">ISO/IEC 27001:2022</td><td>A.5.16 Identity Management, A.5.17 Authentication Information, A.5.18 Access Rights, A.8.2 Privileged Access Rights, A.8.3 Information Access Restriction</td><td>Cross-cutting</td></tr>
+        <tr><td class="lvl">ISO/IEC 27002:2022</td><td>5.16, 5.18, 8.2, 8.3</td><td>Detailed control guidance</td></tr>
+        <tr><td class="lvl">CIS Controls v8</td><td>Control 5 Account Management, Control 6 Access Control Management</td><td>§4.1, §4.2, §4.4</td></tr>
+        <tr><td class="lvl">CIS M365 Foundations</td><td>Section 1 (Account / Authentication), Section 5 (Information Protection)</td><td>Entra-specific patterns</td></tr>
+        <tr><td class="lvl">SOC 2 Trust Services Criteria</td><td>CC6.1, CC6.2, CC6.3 (Logical Access)</td><td>Provisioning, modification, removal evidence</td></tr>
+        <tr><td class="lvl">MITRE ATT&amp;CK mitigations</td><td>M1018 User Account Management, M1026 Privileged Account Management, M1032 MFA</td><td>Preventive mapping in tools-references.html</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sop-section" id="s7">
+    <div class="sop-section-num">Section 7</div>
+    <div class="sop-section-title">Governance &amp; Review</div>
+    <h3>7.1 Ownership and update authority</h3>
+    <p>This SOP is owned by the Head of IT with co-ownership by the Head of GRC and the Head of Identity &amp; Access Engineering. Material changes (new requirements, scope changes, cadence changes) require sign-off from all three. Minor clarifications and editorial improvements may be applied by the owner with notification to GRC.</p>
+
+    <h3>7.2 Review cadence</h3>
+    <ul class="sop-bullet">
+      <li><span><strong>Annual review</strong> — minimum, on the anniversary of approval, by the owner with GRC sign-off</span></li>
+      <li><span><strong>Out-of-cycle review</strong> — triggered by: HR system change, Entra licensing change affecting access reviews, major incident involving identity, new identity class (e.g. workload identity federation maturation), audit finding</span></li>
+      <li><span><strong>Per-WI review</strong> — each Work Instruction is reviewed independently and may update more frequently than the SOP, particularly WI-04 (non-human identities) as the cloud identity landscape evolves</span></li>
+    </ul>
+
+    <h3>7.3 Metrics &amp; reporting</h3>
+    <p>The metrics below are monitored monthly by IT Operations and reported quarterly to GRC and the Risk Committee:</p>
+    <ul class="sop-bullet">
+      <li><span><strong>JML SLA conformance</strong> — joiner ≤1 day, mover ≤5 days, leaver same-day. Target ≥95% on time.</span></li>
+      <li><span><strong>Orphaned account count</strong> — target 0 within 30 days of termination event.</span></li>
+      <li><span><strong>Recertification completion rate</strong> — 100% for Tier-0/1, ≥95% Tier-2/3, within campaign window.</span></li>
+      <li><span><strong>Recertification revocation rate</strong> — tracked as a trend. Too low → rubber-stamping concern; too high → over-provisioning at grant.</span></li>
+      <li><span><strong>Standing privileged access count</strong> — target ≤4 (break-glass only).</span></li>
+      <li><span><strong>Non-human identity coverage</strong> — named owner + last-review ≤12 months. Target 100% by end FY 2026.</span></li>
+      <li><span><strong>Service principal secret expiry hygiene</strong> — &lt;1 year expiry, rotated on schedule. Target ≥98%.</span></li>
+      <li><span><strong>Role catalogue health</strong> — documented owner + scope + last-review ≤12 months. Target ≥95%.</span></li>
+    </ul>
+
+    <h3>7.4 Exception handling</h3>
+    <p>Where a requirement in §4 cannot be met, the operating team follows IT-GOV-SOP-01 (Baseline Exception &amp; Risk Acceptance). Exceptions are time-bounded, recorded in GRC-REG-EXCEPTIONS, linked from the relevant identity-class record, and reviewed annually.</p>
+    <p>Three exception categories deserve specific treatment:</p>
+    <ul class="sop-bullet">
+      <li><span><strong>Orphaned service accounts of unknown lineage.</strong> Discovery efforts (codepath search, log analysis, controlled disable test) given a defined window; after that, forced decommission with named approver. Stalled discovery is not a permanent exception.</span></li>
+      <li><span><strong>Legacy applications that cannot consume modern identity</strong> (LDAP-only, certificate-only without rotation). Documented as platform-debt items with remediation roadmaps and compensating controls (network restriction, monitoring intensity).</span></li>
+      <li><span><strong>HR-system integration gaps</strong> preventing automatic JML for specific identity classes (e.g. contractors not in HR, students in a separate SIS without integration). Manual JML procedures documented as transitional state; integration maturation tracked as a programme item.</span></li>
+    </ul>
+
+    <h3>7.5 Compliance &amp; audit</h3>
+    <p>Baseline conformance is measured through: JML SLA dashboard, recertification campaign reports with reviewer attestation evidence, standing-privilege report, non-human identity inventory with last-review dates, role catalogue health report, exception register entries. Audit evidence includes named-reviewer attestation records, role-change approval tickets, eligibility approval workflow records, credential rotation logs, decommissioning records. Reports produced monthly to IT Operations and quarterly to GRC and the Risk Committee.</p>
+
+    <h3>7.6 Related documents</h3>
+    <ul class="sop-bullet">
+      <li><span><a href="asm-identity-governance.html" style="color:var(--id);font-weight:600;">asm-identity-governance.html</a> — Identity Governance &amp; Lifecycle domain hub</span></li>
+      <li><span><a href="it-id-wi-01.html" style="color:var(--id);font-weight:600;">IT-ID-WI-01</a> — Joiner / Mover / Leaver Lifecycle</span></li>
+      <li><span><a href="it-id-wi-02.html" style="color:var(--id);font-weight:600;">IT-ID-WI-02</a> — Access Recertification &amp; Attestation</span></li>
+      <li><span><a href="it-id-wi-03.html" style="color:var(--id);font-weight:600;">IT-ID-WI-03</a> — Role Design &amp; Entitlement Management</span></li>
+      <li><span><a href="it-id-wi-04.html" style="color:var(--id);font-weight:600;">IT-ID-WI-04</a> — Non-Human Identity Governance</span></li>
+      <li><span><a href="it-id-wi-05.html" style="color:var(--id);font-weight:600;">IT-ID-WI-05</a> — Privileged Identity Governance</span></li>
+      <li><span><a href="it-cl-wi-01.html" style="color:var(--id);font-weight:600;">IT-CL-WI-01</a> — Tenant Identity &amp; Conditional Access (technical platform configuration)</span></li>
+      <li><span><a href="it-si-wi-04.html" style="color:var(--id);font-weight:600;">IT-SI-WI-04</a> — PAM Platform Hardening</span></li>
+      <li><span><a href="it-srv-wi-dc-01.html" style="color:var(--id);font-weight:600;">IT-SRV-WI-DC-01</a> — Tier-0 Administrative Access Enforcement</span></li>
+      <li><span><a href="it-ep-sop-paw-01.html" style="color:var(--id);font-weight:600;">IT-EP-SOP-PAW-01</a> — Privileged Access Workstation</span></li>
+      <li><span><a href="sop-id-01.html" style="color:var(--id);font-weight:600;">SOP-ID-01</a> — Identity Threat Operations (SOC incident response side)</span></li>
+      <li><span><a href="it-gov-sop-01.html" style="color:var(--id);font-weight:600;">IT-GOV-SOP-01</a> — Baseline Exception &amp; Risk Acceptance</span></li>
+    </ul>
+  </div>
+
+  <div class="sop-nav"><a href="asm-identity-governance.html">← Identity Governance hub</a><a href="it-id-wi-01.html">IT-ID-WI-01 →</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-ID-SOP-01 v1.0 · Approved · 15 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-identity-governance.html" style="color:var(--id);text-decoration:none;">← Back to Identity Governance</a></span>
+  </div>
+</div>
+</body>
+</html>

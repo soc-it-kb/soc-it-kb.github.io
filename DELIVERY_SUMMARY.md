@@ -1,145 +1,161 @@
-# Tools & References — MITRE ATT&CK Comprehensive Coverage Rebuild
+# Identity Governance & Lifecycle — Domain Delivery
 
-**Date:** 12 May 2026
+**Date:** 15 May 2026
 **Author:** Paulo Ferreira
-**Scope:** Full rebuild of MITRE ATT&CK coverage section in `tools-references.html`
-**Status:** Complete; balanced and validated; all referenced IDs verified against search-index
+**Domain:** ASM-ID — 8th ASM sub-domain
+**Closes off:** ASM section completeness — final ASM domain in the planned set
 
 ---
 
-## What changed
+## Scope locked
 
-The previous page had a sparse "ATT&CK techniques covered by published playbooks & runbooks" section mapping ~40 techniques to playbook/runbook IDs across 10 ATT&CK tactics, with some references to wildcard `EM-RB-*` patterns that didn't represent actual files. That section, plus the old "ATT&CK coverage validation matrix", has been replaced with a comprehensive mapping.
+Per the in-conversation Q&A:
 
-### Before → After
+- **Shape:** Option A — single SOP + 5 WIs (JML, recert, role design, non-human, privileged identity governance). Tight scope; finishes in one delivery.
+- **Placement:** Standalone Identity domain — new ASM sub-domain alongside Cloud, Security Infrastructure, Network.
+- **Coverage:** Hybrid + non-human — Entra ID + on-prem AD; humans + service accounts/principals/managed identities/certs.
 
-| Aspect | Before | After |
-|---|---|---|
-| ATT&CK tactics covered | 10 | **14** (added Reconnaissance, Resource Development, Collection, separated Discovery/Lateral) |
-| Techniques mapped | ~40 (many wildcard refs) | **139** (every ref validated against search-index) |
-| Control types shown | Playbooks + Runbooks only | **Preventive (ASM) · Detective (SOC) · Responsive (SOC)** for every technique |
-| KB content referenced | Playbooks + Runbooks (~15 IDs) | **126 unique IDs** spanning Playbooks, Runbooks, SOC SOPs, SOC WIs, Tier-1 Checklists, Investigation WIs, ASM SOPs, ASM WIs |
-| Gap visibility | None | **Honest gap report** for 6 techniques with no coverage + 8 with partial coverage |
-| Cross-tactic stats | One Tactic / Coverage / Notes table | **Per-tactic coverage breakdown** + summary stats card |
-| External link | None | Every technique ID links to its MITRE ATT&CK page (`attack.mitre.org/techniques/Tnnn[/nnn]`) |
-| Broken references | Several (`EM-RB-*` wildcards) | **Zero** — every link target verified to exist |
+Delivery shape ended up at 7 files (hub + SOP + 5 WIs) matching the Cloud delivery shape, for structural consistency with the other ASM sub-domains which all have hub pages. The hub is lightweight; the SOP carries the substantive policy content.
 
 ---
 
-## Coverage profile
+## 7 new files
 
-- **125 techniques (90%)** have full coverage — preventive ASM control + detective SOC content + responsive SOC content
-- **8 techniques (6%)** have partial coverage — at least one of the three control types missing
-- **6 techniques (4%)** are honestly marked as gap — no coverage in the current KB
+| File | Purpose | Lines |
+|------|---------|-------|
+| `asm-identity-governance.html` | Domain hub — 5-class identity scope, framework alignment, roles, metrics, related domains | 309 |
+| `it-id-sop-01.html` | Policy-level SOP — 7 principles, 5 requirement domains (53 items total), 8 roles, framework alignment | 402 |
+| `it-id-wi-01.html` | JML Lifecycle — 7 steps, joiner / mover / leaver / student / guest / reconciliation. SLA dashboard table. | 362 |
+| `it-id-wi-02.html` | Access Recertification — 8 steps, cadence per tier, named reviewers, non-response default, evidence retention | 395 |
+| `it-id-wi-03.html` | Role Design & Entitlement — 9 steps, role catalogue, naming convention, SoD, drift check | 392 |
+| `it-id-wi-04.html` | Non-Human Identity Governance — 10 steps, inventory, ownership, rotation, OAuth review, decommissioning | 438 |
+| `it-id-wi-05.html` | Privileged Identity Governance — 10 steps, eligibility layer above PIM activation, T0 two-person approval, PAW correlation | 423 |
 
-### Per-tactic breakdown
-
-| Tactic | Total | Full | Partial | Gap |
-|---|---:|---:|---:|---:|
-| TA0043 Reconnaissance | 6 | 1 | 3 | 2 |
-| TA0042 Resource Development | 4 | 0 | 0 | 4 |
-| TA0001 Initial Access | 11 | 10 | 1 | 0 |
-| TA0002 Execution | 13 | 12 | 1 | 0 |
-| TA0003 Persistence | 15 | 15 | 0 | 0 |
-| TA0004 Privilege Escalation | 8 | 7 | 0 | 1 |
-| TA0005 Defense Evasion | 12 | 12 | 0 | 0 |
-| TA0006 Credential Access | 12 | 10 | 2 | 0 |
-| TA0007 Discovery | 12 | 12 | 0 | 0 |
-| TA0008 Lateral Movement | 9 | 9 | 0 | 0 |
-| TA0009 Collection | 9 | 9 | 0 | 0 |
-| TA0011 Command and Control | 10 | 10 | 0 | 0 |
-| TA0010 Exfiltration | 8 | 8 | 0 | 0 |
-| TA0040 Impact | 10 | 10 | 0 | 0 |
-
-### Known gaps and rationale (in the page itself as well)
-
-| Technique | Tactic | Reason |
-|---|---|---|
-| T1583 / T1586 / T1588 / T1608 | Resource Development | External to the organisation — adversary builds capability before contact. Defensible gap. |
-| T1589 / T1590 | Reconnaissance | Pre-intrusion intelligence-gathering with limited preventive surface. |
-| T1611 | Privilege Escalation | Container runtime escape — no AKS / container workloads onboarded yet. Plan for when they are. |
+All 7 files HTML-validated (div / span / tr / table tag balance).
 
 ---
 
-## Method (how mappings were derived)
+## 6 maintenance files updated
 
-The SOC playbooks, runbooks, and Tier-1 checklists currently **do not declare their ATT&CK technique mappings inline**. The mapping in this delivery is authoritative — derived from artefact titles, descriptions in search-index, and content scope as built. Implication: this page becomes the canonical source-of-truth for KB ↔ ATT&CK mapping, and a future pass could back-inject per-step ATT&CK IDs into individual playbooks using this mapping as input.
-
-ASM content (Baselines, SOPs, WIs) is mapped to ATT&CK on the basis of which technique the control intends to prevent:
-- `IT-CL-WI-01 Tenant Identity` → T1078 (Valid Accounts), T1110 (Brute Force), T1556 (Modify Auth Process), T1098 (Account Manipulation), T1621 (MFA fatigue)
-- `IT-CL-WI-02 M365 Tenant Hardening` → T1566 (Phishing), T1204 (User Execution), T1114 (Email Collection), T1567 (Web Service exfil)
-- `IT-CL-WI-04 Azure Workload Patterns` → T1190 (Exploit Public-Facing), T1530 (Cloud Storage data), T1486 (Ransomware impact), T1498 (Network DoS)
-- `IT-CL-WI-05 Defender Suite` → T1562 (Impair Defenses)
-- `IT-NET-WI-05 Firewall Hardening` → broad C2 and lateral movement coverage
-- `IT-SI-WI-02 WAF Hardening` → T1190, T1071.001 (HTTP/S C2), T1491 (Defacement)
-- `IT-SI-WI-04 PAM Platform Hardening` → T1078 (priv-esc & lateral), T1555 (password stores)
-- `IT-PM-SOP-01..02 + IT-VM-SOP-01` → T1068 (Exploitation for Priv-Esc), T1210 (Exploit Remote Services), T1212 (Exploit for Cred Access)
-- `IT-EP-WI-PAW-*` → T1003 (Credential Dumping), T1078 (priv-esc on Tier-0)
-
-This is the first time the KB has a clear "how does prevention + detection + response stack up against each technique?" view, which is precisely the question an auditor, a new analyst, or a planning session needs to answer quickly.
+| File | Change |
+|------|--------|
+| `search-index.json` | 212 → 219 entries (7 identity entries with full `desc` and `tags`) |
+| `asm.html` | Added `.domain-card.identity` rose-pink CSS variant. 8th domain card (ASM-ID). Stats 7→8 domains, 18→19 SOPs, 57→62 WIs. |
+| `index.html` | Added `.asm-domain-link.id` CSS. 8th ASM link 🔑 Identity Governance. Stats 212→219 pages, 74→79 WIs, 31→32 SOPs, 87→94 ASM pages. ASM Highlight + WI descriptions updated. |
+| `governance.html` | Date pill + inventory date 12→15 May 2026. Inventory cards 9→10 / 18→19 / 57→62. ASM domain pages + ASM SOPs rows updated. New Identity Governance WIs row in breakdown. New 15 May 2026 changelog entry with 31 tags. Footer date updated. |
+| `search.html` | Page count 212 → 219. |
+| `sops.html` | Identity governance sub-group added under ASM & IT Operations with IT-ID-SOP-01. SOPs-total counter 28→29 (ASM/IT/SOC sub-total; site-wide is 32 including GRC). |
 
 ---
 
-## File structure preserved
+## Design choices worth flagging
 
-The new page **preserves** all sections that were not part of the rebuild scope:
+### 1. Boundary discipline against adjacent domains
 
-- SOC tool × MITRE ATT&CK mapping (primary matrix) — kept as-is
-- Technique-level drill-down (T1059, T1055, T1078, T1021 forensic table) — kept as-is
-- Tool capability reference (EDR, SIEM, Email Security, IAM, Network, TI cards) — kept as-is
-- NIST CSF 2.0 framework reference card and 6-function quick reference — kept as-is
-- External framework references (MITRE, ISO 27035) — kept as-is
-- Core concepts (Infrastructure Tiers, PAW) — kept as-is
+This domain governs **identity itself**; it does NOT duplicate:
 
-Two sections were **replaced**:
-- Old "ATT&CK techniques covered by published playbooks & runbooks" tactic-grid (12 cards with ~40 techniques) → **new comprehensive 14-tactic technique mapping with 139 techniques**
-- Old "ATT&CK coverage validation matrix" (11-row summary table) → **new gap report + per-tactic coverage summary**
+- `IT-CL-WI-01` covers tenant-platform identity config (CA, PIM activation, MFA, break-glass) — the *how*
+- `IT-SI-WI-04` covers PAM platform mechanics (vault, session recording, credential rotation)
+- `IT-EP-SOP-PAW-01` covers PAW build and lifecycle
+- `IT-SRV-WI-DC-01` covers Tier-0 AD administrative access enforcement
+- SOC `SOP-ID-01` + ID-PB / ID-RB cover identity incident response (compromise, MFA bypass, OAuth abuse)
 
-Two **structural fixes** applied to existing pre-existing defects:
-- The `<script>` tags were outside `<head>` but before `<body>` (and there was a premature `</body>` immediately after); both fixed so the document structure is `<html>` → `<head>` (with scripts) → `<body>` → content → `</body>` → `</html>`.
+The most important boundary: **WI-05 is the eligibility governance layer; IT-CL-WI-01 §7 is the activation mechanism**. Activation = how someone temporarily elevates. Eligibility = whether they should be allowed to. The two cooperate; this delivery is the second.
 
----
+### 2. Five identity classes, not one
 
-## Design choices
+The domain treats identities in five operational classes — employees/contractors, students/alumni, guests, on-prem service accounts, non-human cloud identities — each with its own lifecycle pattern, governance owner, and cadence. This matters because student JML is calendar-driven and bulk; staff JML is event-driven; service accounts have no JML at all in the traditional sense; guests need sponsors not managers.
 
-**Collapsible tactic sections.** Each of the 14 tactics is a `<details>` element. Collapsed by default so the page is scannable; click to expand the technique table for that tactic. No JavaScript required — pure HTML semantics.
+### 3. Non-human as first-class
 
-**Coverage state badges.** Each technique row shows a `Full` / `Partial` / `Gap` badge in green / orange / red. Each tactic summary shows aggregate counts so the most active tactics (e.g. Persistence with 15 fully-covered techniques) stand out visually from the gaps (e.g. Resource Development with 0 / 0 / 4).
+WI-04 exists because in most estates non-human identities outnumber humans 5-30x and are the largest under-governed surface. Treating service accounts and service principals as an afterthought is the dominant industry failure mode. The WI gives them dedicated inventory, ownership, rotation, OAuth review, and decommissioning processes equivalent in rigour to human-identity governance.
 
-**Every reference is a working link.** Each cell renders referenced KB content IDs as small inline pill-links. Hover shows the title via `title=` attribute. Each technique ID also links to its canonical MITRE ATT&CK page on attack.mitre.org. No wildcard or placeholder references remain.
+### 4. Privileged eligibility, not activation
 
-**Gap-row styling.** Rows where `state == 'gap'` get a subtle background tint so they're visible during a quick scan without being alarming.
+WI-05 is deliberately distinct from PIM activation. PIM activation is the mechanism — request, MFA, justification, time-window — and lives in IT-CL-WI-01 because it's tenant-platform configuration. WI-05 is the governance layer: who's *eligible* to activate, why, for how long, reviewed by whom, with two-person approval at T0 and cross-domain SoD enforcement. Standing privilege is the failure mode; eligibility-not-assignment is the principle.
 
-**Empty-cell style.** Where a control type is genuinely missing, the cell shows an em-dash in light grey — distinguishable from "I forgot to fill this in" and consistent with the gap badge.
+### 5. Hybrid scope
 
-**Per-tactic stats card.** Summary card at the top of the section shows 14 tactics / 139 techniques / 125 full / 8 partial / 6 gap. Quick orientation for an auditor or new joiner.
+The estate has on-prem AD in most agencies plus Entra. Cloud-only treatment would create real gaps. The WIs explicitly cover both: AD-driven sync, Entra-only identities, AD-only identities, and the propagation discipline between them.
 
----
+### 6. Bullet-wrap discipline
 
-## Files delivered
-
-| File | Purpose |
-|---|---|
-| `tools-references.html` | The rebuilt page. Drop into repo root, replaces the existing file. |
-| `mitre_mapping.py` | The mapping data structure used to generate the page. Kept as a build artefact in case future content additions (new playbooks, new ASM domains) need to extend the mapping. Run `python3 mitre_mapping.py` to print coverage stats. |
+Same approach as Cloud / SI WIs: outer flex containers from the start, inner `.step-body ul` lists using `<li><strong>...</strong>` pattern. False-positive count from naive grep matches Cloud/SI baselines.
 
 ---
 
-## Pending follow-ups (not blocking this delivery)
+## Palette
 
-1. **Back-inject ATT&CK technique IDs into individual playbook / runbook content** — currently the mapping lives only in `tools-references.html`. A future pass could add a "MITRE ATT&CK coverage" callout to each playbook's hero metadata, using this file as the source-of-truth.
-2. **Add a search-index entry for `tools-references.html`** — the page is in the top nav but has no search-index entry today. Add one with appropriate tags during the next maintenance pass.
-3. **Linux execution detection** (T1059.004) — currently a partial: prevention via baseline, no Tier-1 detection. Future Linux Tier-1 checklist would close this.
-4. **Container security** (T1611 and broader container coverage) — gap pending AKS / container workload onboarding.
-5. **Recon detective signals** — if internet-facing log analysis becomes a deliberate practice, recon-tactic partial → full.
-6. **Cloud Discovery TI mapping** — `IT-TI-WI-01..05` and `IT-TI-SOP-02..03` support detection across the entire technique surface; currently not referenced inline to keep the table readable. Consider a separate "Threat Intelligence supports all tactics" callout in a future iteration.
+Identity rose / pink — distinctive across all existing domain palettes:
+
+- Primary: `#8B2D5C` deep rose
+- Light: `#FAEBF2`
+- Border: `#E2B3C8`
+- Dark: `#5C1A3A`
+- Hero gradient: `#3A1530` → `#5C1A3A` → `#8B2D5C`
+
+Existing domain palettes for reference:
+- ASM hub: `#5B2D8E` purple
+- Network: `#145570` teal
+- Security Infrastructure: `#8F500C` amber
+- Cloud: `#2E5C8A` slate blue
+- **Identity: `#8B2D5C` rose** ← this delivery
+- GRC: `#0E5C5C` teal
 
 ---
 
-## Validation
+## File counts (post-delivery)
 
-- All tags balanced: `<div>` 135/135 · `<span>` 278/278 · `<tr>` 201/201 · `<table>` 19/19 · `<a>` 830/830 · `<details>` 14/14 · `<summary>` 14/14
-- HTML structure clean: one `<html>`, one `<head>`, one `<body>`, properly nested
-- All 126 referenced KB content IDs validated against search-index (zero broken references)
-- All 14 ATT&CK tactics rendered with correct technique counts (6+4+11+13+15+8+12+12+12+9+9+10+8+10 = 139 ✓)
-- Coverage stats arithmetic: 125 + 8 + 6 = 139 ✓
+| Category | Before | After | Delta |
+|----------|--------|-------|-------|
+| Total pages | 212 | 219 | +7 |
+| ASM domain pages | 9 | 10 | +1 |
+| ASM SOPs | 18 | 19 | +1 |
+| ASM WIs | 57 | 62 | +5 |
+| All SOPs | 31 | 32 | +1 |
+| All WIs | 74 | 79 | +5 |
+| All ASM pages | 87 | 94 | +7 |
+| search-index entries | 212 | 219 | +7 |
+
+---
+
+## Pending future follow-ups (not in this delivery)
+
+Carried forward for future sessions, not blocking this delivery:
+
+1. Future Application Delivery sub-domain (reverse proxies, API gateways)
+2. Future multi-cloud extension (AWS + GCP baselines)
+3. Future Cloud Architecture document (landing zone reference design)
+4. Future vendor-specific cloud-WAF extension (Cloudflare, AWS WAF, Akamai)
+5. Tabletop exercise scenarios pack (GRC-TTX-01..NN)
+6. BCP / DRP plans
+7. FRM-06/08/10 + IRP Annex Template migration to FRM-12 model
+8. Asset Onboarding Form (pending FRM-12-or-not maturation)
+9. `mailto:` submit pattern on GRC-FRM-13
+10. Azure Static Web Apps migration with Entra ID (Phase 1)
+11. GRC app on Azure (Functions + Cosmos/SQL) Phase 2
+12. 6 broken link targets from earlier sweep
+13. `td.code` misuse sweep across other GRC/ASM pages
+14. Retro-fix bullet-wrap pattern across other ASM hubs if formatting issues found
+15. Back-inject ATT&CK technique IDs into individual playbook/runbook content
+16. Add search-index entry for tools-references.html
+17. **Update MITRE mapping to include identity WIs (T1136 Create Account, T1078 Valid Accounts, T1098 Account Manipulation, T1078.004 Cloud Accounts, T1098.001 Add Cloud Credentials, T1484 Domain/Tenant Policy Modification, T1078.002 Domain Accounts, T1098.003 Add Privileged Role)** — natural next pass given the new WIs cover several mitigation patterns
+
+---
+
+## How to deploy
+
+1. Drop the 7 new files (`asm-identity-governance.html`, `it-id-sop-01.html`, `it-id-wi-01.html` through `it-id-wi-05.html`) into the soc-it-kb.github.io repo root.
+2. Replace the 5 modified HTML files (`asm.html`, `index.html`, `governance.html`, `search.html`, `sops.html`).
+3. Replace `search-index.json`.
+4. Commit and push to GitHub Pages.
+
+No new shared CSS or JS — the identity rose-pink palette is scoped to the new pages via inline `:root` CSS variables; the `.domain-card.identity` and `.asm-domain-link.id` variants are added inline to `asm.html` and `index.html` respectively.
+
+---
+
+## Closing note
+
+This delivery rounds out the ASM section as originally planned: 8 domains covering the full preventive control surface across endpoint / server / network / security-infrastructure / cloud / identity, each with policy SOP and operational WIs, vendor-agnostic where the estate is mixed, framework-aligned throughout, with deliberate boundaries against adjacent SOC and GRC content.
+
+The next natural enhancement is the MITRE mapping pass (item 17 above) to thread the new identity WIs into the existing T-code coverage on `tools-references.html` — but that's optional and not blocking.

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-ID-WI-04: Non-Human Identity Governance — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+<style>
+  :root { --wi:#8B2D5C; --wi-light:#FAEBF2; --wi-border:#E2B3C8; --wi-dark:#5C1A3A; --id:#8B2D5C; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .wi-section { background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:8px; }
+  .wi-section-title { font-size:15px; font-weight:600; color:#1a1a1a; margin-bottom:0.7rem; padding-bottom:6px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0 0 8px 0; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-section h3 { font-size:13px; font-weight:600; color:var(--wi-dark); margin:12px 0 5px 0; }
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:6px; padding-left:0; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:#333; line-height:1.6; }
+  .wi-bullet li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:7px; }
+  .step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.1rem; margin-top:8px; }
+  .step-header { display:flex; align-items:center; gap:10px; margin-bottom:7px; padding-bottom:5px; border-bottom:0.5px solid #f0f0ec; }
+  .step-num { width:24px; height:24px; border-radius:6px; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-title { font-size:13px; font-weight:700; color:var(--wi-dark); }
+  .step-objective { font-size:12px; color:#666; font-style:italic; margin-top:2px; line-height:1.5; }
+  .step-body { font-size:13px; color:#333; line-height:1.6; }
+  .step-body p { margin:6px 0; }
+  .step-body p:first-child { margin-top:0; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body strong { color:var(--wi-dark); }
+  .step-body ul { list-style:none; padding:0; margin:6px 0; display:flex; flex-direction:column; gap:3px; }
+  .step-body ul li { display:flex; gap:7px; font-size:12px; color:#444; line-height:1.55; padding-left:2px; }
+  .step-body ul li::before { content:'\203A'; color:var(--wi); font-weight:700; flex-shrink:0; }
+  .step-verify { background:#fff; border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:6px; padding:0.5rem 0.8rem; margin-top:8px; font-size:12px; color:#444; line-height:1.55; }
+  .step-verify strong { color:var(--wi-dark); }
+  .cis-ref { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--wi); background:var(--wi-light); border:0.5px solid var(--wi-border); padding:1px 7px; border-radius:4px; font-weight:600; margin-top:5px; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:var(--wi-dark); line-height:1.6; margin-top:10px; }
+  .callout-info strong { color:var(--wi-dark); font-weight:700; }
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#7a2e10; line-height:1.6; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--wi-dark); color:#fff; font-weight:600; padding:7px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--wi-dark); white-space:nowrap; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>&rsaquo;</span>
+    <a href="asm.html">ASM</a><span>&rsaquo;</span>
+    <a href="asm-identity-governance.html">Identity Governance &amp; Lifecycle</a><span>&rsaquo;</span>
+    <span>IT-ID-WI-04</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#3A1530 0%,#5C1A3A 40%,#8B2D5C 100%);">
+    <span class="kb-page-hero-icon">🔧</span>
+    <h1>IT-ID-WI-04: Non-Human Identity Governance</h1>
+    <p>Service accounts (AD user-style, gMSA, sMSA), Entra service principals, app registrations, managed identities (system / user-assigned), workload identity federation, certificate-based identities. Inventory, named ownership, credential rotation discipline, secret expiry tracking, OAuth scope review, decommissioning workflow. Operationalises &sect;4.4 of IT-ID-SOP-01.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Identity Governance</span>
+      <span class="kb-meta-pill">Hybrid (AD + Entra)</span>
+      <span class="kb-meta-pill">NIST CSF PR.AA</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">📋 <strong>WI ID:</strong> IT-ID-WI-04</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">🔗 <strong>Implements:</strong> <a href="it-id-sop-01.html" style="color:var(--wi);">IT-ID-SOP-01 §4.4</a></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Owner:</strong> Identity &amp; Access Engineering</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 15 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <p>Before applying this WI:</p>
+    <ul class="wi-bullet">
+      <li><span>IT-ID-WI-03 (Role Design) at least partially established &mdash; non-human identities need scoped roles, not unbounded permission grants</span></li>
+      <li><span>Asset register (GRC-REG-ASSET) available &mdash; service accounts and service principals link to the systems and applications they serve</span></li>
+      <li><span>Secret-management capability available &mdash; Azure Key Vault, HashiCorp Vault, or equivalent for service principal secrets and certificates</span></li>
+      <li><span>Centralised logging of authentication events &mdash; identity sign-in events feed SIEM (IT-CL-WI-01 logging configuration and IT-SRV-WI-DC-04 for AD)</span></li>
+      <li><span>For Azure tenants: Microsoft Entra Workload Identities (Premium) licence checked &mdash; advanced workload identity features (conditional access for workload identities) need this</span></li>
+      <li><span>Awareness of legacy applications that may require service accounts with interactive sign-in (LDAP-only, vendor appliances) &mdash; documented as platform-debt</span></li>
+      <li><span>Inventory-source identified per non-human identity class &mdash; AD service accounts via directory query, Entra service principals via Graph API, managed identities via Azure Resource Graph</span></li>
+    </ul>
+    <div class="callout-warn"><strong>Non-human identities outnumber human identities in most estates.</strong> A typical mid-size tenant has 1,000&ndash;5,000 human identities and 5,000&ndash;30,000 non-human identities (counting AD service accounts, Entra service principals, managed identities, certificates, app-only authentication contexts). They rarely rotate credentials, often hold standing privilege, frequently lack named owners, and almost never get recertified. This is the largest under-governed surface in most estates &mdash; treat it accordingly.</div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <p>The steps below operationalise IT-ID-SOP-01 &sect;4.4.</p>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div>
+        <div><div class="step-title">Inventory non-human identities across all platforms</div>
+        <div class="step-objective">A complete list of every non-human identity in the estate &mdash; service accounts, service principals, managed identities, certificates &mdash; with type, scope, and last-activity data.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Governance starts from inventory. Identities that aren't enumerated aren't governed.</p>
+        <ul>
+          <li><span><strong>AD service accounts</strong>: directory query for user accounts flagged as service accounts (naming convention, OU placement, attribute markers). Includes user-style service accounts (legacy pattern), <strong>gMSA</strong> (Group Managed Service Accounts &mdash; modern AD pattern with auto-rotation), <strong>sMSA</strong> (Standalone Managed Service Accounts &mdash; less used but extant).</span></li>
+          <li><span><strong>Entra service principals</strong>: Microsoft Graph API enumeration. Two classes: <em>application service principals</em> (from app registrations) and <em>managed identity service principals</em> (auto-created by Azure resources).</span></li>
+          <li><span><strong>Entra app registrations</strong>: the application objects backing service principals. Includes multi-tenant apps used by the organisation.</span></li>
+          <li><span><strong>System-assigned managed identities</strong>: tied to Azure resources (VMs, app services, function apps, storage); lifecycle bound to the resource.</span></li>
+          <li><span><strong>User-assigned managed identities</strong>: standalone identity objects assignable to multiple resources; lifecycle is independent of the resources using them.</span></li>
+          <li><span><strong>Workload identity federation</strong>: federated credentials configured on app registrations / user-assigned managed identities; replace long-lived secrets with short-lived tokens from external identity providers.</span></li>
+          <li><span><strong>Certificates</strong>: identity-bearing certificates (client authentication, code signing identities) maintained in PKI / certificate vault.</span></li>
+          <li><span><strong>Per-identity inventory record</strong>: identity ID, type, scope (what it can access), creation date, last sign-in / last activity, credential type (password / secret / certificate / federated), credential expiry, named owner, owner-confirmed date.</span></li>
+          <li><span><strong>Refresh cadence</strong>: nightly automated; manual reconciliation monthly.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Inventory query runs successfully across all platforms; identity counts plausible (no large unexplained jumps); per-identity record has required fields populated for &ge;90% of inventory; remaining 10% have an in-flight remediation plan.</div>
+        <span class="cis-ref">NIST 800-53 AC-2 · CIS Controls 5.2 · ISO 27001 A.5.16</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div>
+        <div><div class="step-title">Assign a named human owner to every non-human identity</div>
+        <div class="step-objective">Every non-human identity has an accountable named human owner; "IT" or "DevOps" generically does not count.</div></div>
+      </div>
+      <div class="step-body">
+        <p>The most common non-human identity problem is unaccountability. "I think Jane set it up but Jane left in 2022" is the orphaned state that defeats every other control.</p>
+        <ul>
+          <li><span><strong>Owner is a named individual</strong> who can be contacted, who can attest to ongoing need, who is responsible for credential rotation. Backup owner (second-person) required for production identities to handle primary-owner absence.</span></li>
+          <li><span><strong>Forbidden owner values</strong>: "IT," "DevOps," "Platform Team," "Cloud Operations," shared mailboxes, distribution lists, no value at all. These all mean "no one."</span></li>
+          <li><span><strong>Team-level ownership</strong> permitted with caveat: a named team (with documented current membership) where the team is small enough that members all know about the identity. Larger teams must designate a named primary owner.</span></li>
+          <li><span><strong>Owner confirmation on creation</strong>: identity creation workflow captures the owner; owner receives notification and explicitly confirms.</span></li>
+          <li><span><strong>Owner review annually</strong>: per IT-ID-WI-02 quarterly cadence for non-human owner attestation.</span></li>
+          <li><span><strong>Owner change on leaver</strong>: per IT-ID-WI-01 Step 4 &mdash; departing owner's identities transfer to their line manager pending re-assignment within 30 days.</span></li>
+          <li><span><strong>Orphan remediation</strong>: identities with no named owner identified or with departed owners; investigated for true ownership; if none can be established, decommissioned per Step 8.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Sample 10 random non-human identities; for each, owner is a named individual (not generic), individual is currently with the organisation, individual confirms ownership when asked. Orphan count tracked and trending down.</div>
+        <span class="cis-ref">NIST 800-53 AC-2 · ISO 27001 A.5.16</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div>
+        <div><div class="step-title">Document scope and justification at creation</div>
+        <div class="step-objective">Every non-human identity has a documented reason for existing, what it can access, and why.</div></div>
+      </div>
+      <div class="step-body">
+        <ul>
+          <li><span><strong>Per-identity justification record</strong>: purpose statement (what the identity does), permissions / scope (what it can access), business requestor (which team or project needed it), creation justification (why it couldn't be done another way &mdash; e.g. without a managed identity, without a service principal). Captured at creation, not added retrospectively.</span></li>
+          <li><span><strong>Scope discipline</strong>: same least-privilege principles as IT-ID-WI-03 &mdash; permissions match function; scope at lowest meaningful level; reader variant where applicable; resource-level rather than subscription-level wherever possible.</span></li>
+          <li><span><strong>"Why not managed identity"</strong> question at service principal creation: managed identities are preferred over service principals in Azure because there's no secret to manage. Creation workflow asks the question; documented answer required.</span></li>
+          <li><span><strong>"Why interactive sign-in capability"</strong> question at AD service account creation: modern designs avoid interactive sign-in for service accounts; documented answer required if the capability is needed.</span></li>
+          <li><span><strong>Permission justification per OAuth scope</strong> (service principals): each delegated / application permission has a documented business reason. "Sites.ReadWrite.All" needs more justification than "User.Read."</span></li>
+          <li><span><strong>Quarterly scope review</strong>: per IT-ID-WI-02; owners attest to ongoing necessity of granted scopes.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Recent service principal creations have documented justification including "why not managed identity" answer. Sample 5 long-lived service accounts (created &gt;1 year ago); justification is present and current.</div>
+        <span class="cis-ref">NIST 800-53 AC-6 · CIS Controls 6.8 · ISO 27001 A.5.18</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div>
+        <div><div class="step-title">Credential rotation discipline</div>
+        <div class="step-objective">Credentials for non-human identities rotate on a documented schedule; expired credentials are replaced before expiry, not after.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Credential rotation is where many non-human governance programmes fall over. The platform allows long-lived secrets; the path of least resistance is to set "expires never" or "5 years"; rotation becomes a future problem that is also a current problem.</p>
+        <h3>Per-credential-type targets</h3>
+        <table class="gt-table">
+          <thead><tr><th>Identity / credential type</th><th>Rotation target</th><th>Mechanism</th></tr></thead>
+          <tbody>
+            <tr><td class="lvl">gMSA password</td><td>Automatic (default 30 days)</td><td>AD-managed; no manual rotation needed</td></tr>
+            <tr><td class="lvl">AD service account (user-style)</td><td>Annual minimum; 60 days target where supported</td><td>Manual or scripted; coordinated with consuming application</td></tr>
+            <tr><td class="lvl">Service principal secret</td><td>Max 1-year expiry; rotate at &le;30 days before expiry</td><td>Generated in Entra; stored in Key Vault; consuming application re-reads from vault</td></tr>
+            <tr><td class="lvl">Managed identity</td><td>N/A &mdash; no credential to rotate</td><td>Token issuance is platform-managed</td></tr>
+            <tr><td class="lvl">Workload identity federation</td><td>Token is short-lived (minutes/hours)</td><td>Token issuance per request; no long-lived credential</td></tr>
+            <tr><td class="lvl">Identity-bearing certificates</td><td>Per certificate policy (typically 1&ndash;2 years)</td><td>Automated via PKI / certificate vault; pre-expiry alerts</td></tr>
+          </tbody>
+        </table>
+        <ul style="margin-top:8px;">
+          <li><span><strong>Rotation evidence</strong> retained: when rotated, by whom (or "automatic"), credential ID old / new.</span></li>
+          <li><span><strong>Pre-expiry alerts</strong> at 30 days, 14 days, 7 days, 1 day &mdash; to owner and IAE; tracked to resolution.</span></li>
+          <li><span><strong>Post-expiry use detection</strong>: authentication attempts using an expired credential (typically platform rejects but logs); SOC alert.</span></li>
+          <li><span><strong>Emergency rotation</strong> path: documented for compromise scenarios; coordinate with SOC IR.</span></li>
+          <li><span><strong>Forbidden patterns</strong>: passwords / secrets in source code, in container images, in config files committed to repos. Scanning tools (GitHub secret scanning, equivalent) deployed; findings remediated.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Service principal secret expiry dashboard available; secrets &gt;1-year expiry: zero or named exception. Recent rotation evidence sampled (3 identities); all have audit trail. Post-expiry use detection firing.</div>
+        <span class="cis-ref">NIST 800-53 IA-5 · CIS Controls 5.4 · ISO 27001 A.5.17</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div>
+        <div><div class="step-title">Prefer managed identities &amp; workload federation over secrets</div>
+        <div class="step-objective">New non-human identity needs are met with secret-less patterns where the workload supports them.</div></div>
+      </div>
+      <div class="step-body">
+        <p>The simplest credential is no credential. Managed identities and workload identity federation are the modern patterns.</p>
+        <ul>
+          <li><span><strong>Managed identities (Azure)</strong> for Azure-resident workloads &mdash; the workload requests an access token from the Azure platform; no client secret to rotate, no secret to leak, no expiry to track.</span></li>
+          <li><span><strong>System-assigned vs user-assigned</strong>:</span></li>
+            <ul>
+              <li>System-assigned for single-resource workloads where the identity lifecycle should match the resource.</li>
+              <li>User-assigned for workloads that span multiple resources, that need to survive a resource recreate, or where the identity is shared (with care) across multiple resources.</li>
+            </ul>
+          </li>
+          <li><span><strong>Workload identity federation</strong> for non-Azure workloads (GitHub Actions, on-prem CI/CD, AWS roles assuming into Azure): federated credentials replace long-lived service principal secrets with short-lived tokens.</span></li>
+          <li><span><strong>Migration from secrets to secret-less</strong>: existing service principals with secrets reviewed for managed-identity / federation migration; planned and tracked.</span></li>
+          <li><span><strong>Where managed identity / federation don't fit</strong>: documented in the justification (Step 3); typical cases &mdash; SaaS application that doesn't support Azure managed identity, legacy on-prem system without federation capability, vendor product with vendor-controlled secret management.</span></li>
+          <li><span><strong>Conditional Access for workload identities</strong> (Entra ID P2 / Workload Identities Premium): apply CA policies to service principals &mdash; location restrictions, risk-based blocking. Especially valuable for high-scope service principals.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Recent service principal creations: ratio of managed-identity to secret-bearing service principal trending toward managed-identity. Migration backlog visible. Conditional Access for workload identities applied where licensed.</div>
+        <span class="cis-ref">NIST 800-53 IA-9 · platform-modern pattern</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">6</div>
+        <div><div class="step-title">Secret expiry tracking dashboard</div>
+        <div class="step-objective">Upcoming credential expiries are visible to owners and IAE; secrets do not expire by surprise.</div></div>
+      </div>
+      <div class="step-body">
+        <ul>
+          <li><span><strong>Centralised dashboard</strong>: all credentials with their expiry dates and owner; built from the inventory (Step 1) and key vault telemetry.</span></li>
+          <li><span><strong>Sortable / filterable</strong>: by expiry date (urgent first), by owner (per-team views), by scope (high-impact first).</span></li>
+          <li><span><strong>Pre-expiry alerts</strong> automated: 30 days, 14 days, 7 days, 1 day; sent to named owner and IAE.</span></li>
+          <li><span><strong>Post-expiry alerts</strong>: failed authentication using expired credential; SIEM rule; SOC notification.</span></li>
+          <li><span><strong>Ownership of stale credentials</strong>: credentials still active past target rotation date are tracked; the owner is on the hook to rotate or document exception; failure to act escalates to owner's manager.</span></li>
+          <li><span><strong>Quarterly trend report</strong>: how many credentials currently within 30 days of expiry, how many overdue, how many are managed identities (rotation N/A). Reported to GRC quarterly.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Dashboard accessible to IAE and named owners; alerts firing at the expected pre-expiry intervals; sample alert from last 30 days resulted in rotation. Quarterly trend report exists.</div>
+        <span class="cis-ref">NIST 800-53 IA-5(1) · ISO 27001 A.5.17 · operational hygiene</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">7</div>
+        <div><div class="step-title">OAuth permission &amp; consent grant review</div>
+        <div class="step-objective">Entra service principal permissions and tenant-wide consent grants are reviewed quarterly; over-permissive scopes are reduced.</div></div>
+      </div>
+      <div class="step-body">
+        <p>OAuth permissions are how third-party apps and internal apps interact with tenant data. They accumulate. Quarterly review prevents the accumulation from becoming a breach.</p>
+        <ul>
+          <li><span><strong>Tenant-wide admin consents</strong>: enumerate all admin-consented permissions across all service principals. Each consent has a record (who granted, when, why); old consents whose business reason is unclear are candidates for revocation.</span></li>
+          <li><span><strong>User-consented permissions</strong>: per IT-CL-WI-02, user consent should be restricted to low-risk scopes only; verify the policy is enforced.</span></li>
+          <li><span><strong>High-risk permissions</strong> reviewed first: <code>Sites.ReadWrite.All</code>, <code>Mail.ReadWrite</code>, <code>Files.ReadWrite.All</code>, <code>Directory.ReadWrite.All</code>, <code>Application.ReadWrite.All</code>, <code>RoleManagement.ReadWrite.Directory</code>. Application-permission variants of these are particularly high-impact (no user delegated context).</span></li>
+          <li><span><strong>Permission-scope reduction</strong>: where a service principal has read-write permissions but only needs read, the application owner is engaged to scope down; tracked as a remediation item.</span></li>
+          <li><span><strong>Sign-in activity</strong> per service principal reviewed: identities not used in 90 days flagged for decommissioning (Step 8); identities used but with significantly fewer scopes than they have are scope-reduction candidates.</span></li>
+          <li><span><strong>Anomalous OAuth activity</strong> alerts: new consents granted by users with privileged roles, consents granted outside business hours, consent grants for newly-registered applications; SOC investigates.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Most recent quarterly OAuth review evidence; high-risk-permission service principals justified; scope-reduction backlog visible; anomalous-consent SIEM rule active.</div>
+        <span class="cis-ref">CIS M365 1.x · ISO 27001 A.5.16 · MITRE ATT&amp;CK T1098.003</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">8</div>
+        <div><div class="step-title">Decommissioning unused or orphaned identities</div>
+        <div class="step-objective">Non-human identities not used in defined intervals are flagged, disabled, then deleted; orphan identities are remediated.</div></div>
+      </div>
+      <div class="step-body">
+        <h3>Stale-identity lifecycle</h3>
+        <table class="gt-table">
+          <thead><tr><th>Status</th><th>Threshold</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td class="lvl">Active</td><td>Used within last 90 days</td><td>Standard governance applies (Steps 2&ndash;7)</td></tr>
+            <tr><td class="lvl">Stale</td><td>Unused 90&ndash;180 days</td><td>Flagged; owner consulted; legitimate ongoing need attested or moved to disabled</td></tr>
+            <tr><td class="lvl">Disabled</td><td>Unused &gt;180 days, owner-confirmed inactive, or owner unresponsive</td><td>Identity disabled; retained for 6 months for restoration if newly needed</td></tr>
+            <tr><td class="lvl">Decommissioned</td><td>Unused &gt;365 days from disabled state</td><td>Identity deleted; secret / certificate revoked; permissions removed from target systems</td></tr>
+          </tbody>
+        </table>
+        <ul style="margin-top:8px;">
+          <li><span><strong>Owner approval at each transition</strong>: not silent. Each transition records owner consultation result.</span></li>
+          <li><span><strong>Test-disable before decommission</strong>: disabling a "stale" service account or service principal sometimes breaks an unknown consumer (a forgotten scheduled task, a vendor integration). Disable first, observe for breakage, then proceed to delete.</span></li>
+          <li><span><strong>Orphan identities (no owner can be identified)</strong>: special pathway &mdash; controlled-disable test (Step 8 disable mechanic); observe for 30 days; if nothing breaks, decommission with named-approver sign-off.</span></li>
+          <li><span><strong>System-assigned managed identities</strong>: lifecycle bound to the parent resource; deletion of the resource removes the identity. Orphaned system-assigned identities indicate a deleted resource where the identity wasn't cleaned up &mdash; investigate.</span></li>
+          <li><span><strong>Decommission evidence</strong> retained: who approved, when disabled, when deleted, what was the test-disable observation.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Stale-identity report current; decommission backlog visible; owners engaging at lifecycle transitions; test-disable observations recorded; recent deletions have audit trail.</div>
+        <span class="cis-ref">NIST 800-53 AC-2(3) · CIS Controls 5.3 · ISO 27001 A.5.16</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">9</div>
+        <div><div class="step-title">Flag interactive sign-in capability on service accounts</div>
+        <div class="step-objective">Service accounts that can sign in interactively are reviewed for legitimate need; the modern default is no interactive capability.</div></div>
+      </div>
+      <div class="step-body">
+        <ul>
+          <li><span><strong>Detection</strong>: AD service accounts not denied <em>Logon Locally</em> / <em>Logon through Remote Desktop Services</em>; Entra service principals where a user has signed in as the principal interactively (rare but possible with certain configurations).</span></li>
+          <li><span><strong>Legitimate cases</strong>: legacy applications that require interactive sign-in for service accounts (LDAP-only middleware, vendor appliances with old credential models); documented as platform-debt with remediation roadmap.</span></li>
+          <li><span><strong>Remediation default</strong>: deny interactive sign-in rights for service accounts where the consuming application doesn't require it; documented exception path for those that do.</span></li>
+          <li><span><strong>Coordinated with IT-SRV-WI-DC-01</strong> for Tier-0 enforcement: Tier-0 service accounts must have no interactive sign-in capability.</span></li>
+          <li><span><strong>Monitoring</strong>: SIEM alert on interactive sign-in by service account where deny rule should apply &mdash; misconfiguration or compromise.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Service account interactive-sign-in audit; legitimate exceptions documented; SIEM alert active for unexpected interactive sign-ins.</div>
+        <span class="cis-ref">CIS Controls 5.4 · MITRE ATT&amp;CK T1078.002</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">10</div>
+        <div><div class="step-title">Privileged non-human identities follow the eligibility pattern</div>
+        <div class="step-objective">Service principals and service accounts with Tier-0 / Tier-1 scope are treated with the same eligibility / activation discipline as privileged human identities, where the platform supports it.</div></div>
+      </div>
+      <div class="step-body">
+        <ul>
+          <li><span><strong>Tier classification</strong> applied to non-human identities: a service principal with Global Administrator-equivalent scope is Tier-0; a service principal that can read all SharePoint sites is Tier-1.</span></li>
+          <li><span><strong>Eligibility where supported</strong>: Entra PIM for Groups (with Entra Workload Identities Premium) enables PIM-style eligibility for service principals via group membership. Apply to high-tier non-human identities where licensed.</span></li>
+          <li><span><strong>Standing high-scope assignments minimised</strong>: high-tier service principals reviewed quarterly (per IT-ID-WI-02); standing assignment kept only where workload doesn't support activation pattern.</span></li>
+          <li><span><strong>Coordinated with IT-ID-WI-05</strong>: the privileged eligibility governance there extends to non-human identities; non-human privileged inventory feeds the privileged inventory.</span></li>
+          <li><span><strong>Activity logging intensified</strong>: high-tier non-human identity actions logged to immutable destination; quarterly review of activity patterns.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Tier classification applied to non-human identities; high-tier identities under enhanced review; activity logging in place; eligibility pattern applied where licensed.</div>
+        <span class="cis-ref">NIST 800-53 AC-6(7) · ISO 27001 A.8.2</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <p>Validate the non-human identity governance programme.</p>
+
+    <h3>Inventory &amp; ownership</h3>
+    <ul class="wi-bullet">
+      <li><span>Inventory across all platforms current; counts plausible</span></li>
+      <li><span>Named owner populated for &ge;95% of non-human identities (target 100% by end FY26)</span></li>
+      <li><span>Orphan identity count trending down; aged orphans (&gt;30 days) in active remediation</span></li>
+      <li><span>Per-identity scope justification documented; recent creations have justification at creation time</span></li>
+    </ul>
+
+    <h3>Credential hygiene</h3>
+    <ul class="wi-bullet">
+      <li><span>Service principal secrets &gt;1-year expiry: zero or named exception</span></li>
+      <li><span>AD service account passwords rotated within annual target; gMSA in use where applicable</span></li>
+      <li><span>Pre-expiry alerts firing; recent rotation evidence available</span></li>
+      <li><span>Post-expiry use detection active; no expired-credential usage in last 30 days</span></li>
+      <li><span>Secrets-in-code scanning deployed; findings remediated within SLA</span></li>
+    </ul>
+
+    <h3>Pattern modernisation</h3>
+    <ul class="wi-bullet">
+      <li><span>Managed identities preferred for new Azure workloads</span></li>
+      <li><span>Workload identity federation applied where workload pattern fits (GitHub Actions, external CI/CD)</span></li>
+      <li><span>Migration backlog of legacy service principals visible</span></li>
+      <li><span>Conditional Access for workload identities applied (where licensed)</span></li>
+    </ul>
+
+    <h3>Lifecycle</h3>
+    <ul class="wi-bullet">
+      <li><span>Stale-identity report current</span></li>
+      <li><span>Decommission backlog visible; test-disable observations recorded</span></li>
+      <li><span>Interactive sign-in audit current; exceptions documented</span></li>
+      <li><span>Quarterly OAuth permission review evidence available; high-risk scopes justified</span></li>
+      <li><span>High-tier non-human identities under enhanced governance (eligibility pattern where supported)</span></li>
+    </ul>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <p>Non-human identity changes are operationally sensitive &mdash; a misjudged disable / decommission can break unknown consumers.</p>
+
+    <h3>Common scenarios</h3>
+    <ul class="wi-bullet">
+      <li><span><strong>Disabled service account broke a critical scheduled task</strong> &mdash; cause: stale-identity assessment was incorrect; the account was used by a quarterly job, not visible in 90-day window. Recovery: re-enable; coordinate with consuming team; revise stale threshold for the identity (some genuinely have long usage cycles).</span></li>
+      <li><span><strong>Service principal secret rotation broke a vendor integration</strong> &mdash; cause: vendor didn't pick up the new secret from key vault (caching, configuration). Recovery: vendor coordinates secret update on their side; consider longer overlap period for next rotation; document vendor-specific rotation procedure.</span></li>
+      <li><span><strong>Managed identity migration broke a workload</strong> &mdash; cause: migration changed the identity used by the application; downstream permissions hadn't been granted to the new identity. Recovery: grant required permissions to managed identity; verify; complete the migration. Document the dependency map for future migrations.</span></li>
+      <li><span><strong>Decommissioned identity needed for a recovery / audit</strong> &mdash; cause: identity deleted before downstream needs were fully understood. Recovery: limited &mdash; deleted identities cannot be undeleted; restore from inventory documentation (purpose, scope) and re-create with new ID; address the gap with affected stakeholders.</span></li>
+      <li><span><strong>OAuth permission revoked broke a third-party app</strong> &mdash; cause: app actually was using the permission; the quarterly review judged it unused based on incomplete telemetry. Recovery: re-grant with documented justification; investigate the telemetry gap.</span></li>
+      <li><span><strong>Owner attested to ongoing need but identity remained stale</strong> &mdash; cause: identity is technically owned but not actively used; "we might need it" syndrome. Recovery: time-bound the attestation ("active for 6 months"); revisit if still unused at next cycle; tighten the attestation requirement to evidence of recent use.</span></li>
+    </ul>
+
+    <h3>Rollback procedure</h3>
+    <ol style="padding-left:18px;font-size:13px;line-height:1.7;color:#333;">
+      <li>Identify the affected identity and the breaking change</li>
+      <li>Re-enable / restore credentials / re-grant permissions as needed</li>
+      <li>Communicate with affected owners and consumers</li>
+      <li>Update inventory record with the lesson learned</li>
+      <li>Adjust the relevant threshold (stale window, rotation overlap, decommission criteria) if the failure was systemic</li>
+    </ol>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <ul class="wi-bullet">
+      <li><span><strong>Inventory is the gate.</strong> Every other control depends on knowing what exists. An incomplete inventory means undefended identities. Build the inventory first, refresh it nightly, accept that the first cycles will be discovery-heavy.</span></li>
+      <li><span><strong>Ownership is the hardest part.</strong> The inventory is technically straightforward; finding named human owners for 5,000 service accounts created over 15 years is the long, painful work. Don't shortcut it. "Owner unknown" defeats every other control downstream.</span></li>
+      <li><span><strong>Managed identities are a strict upgrade where they fit.</strong> No secret to rotate, no expiry to track, lifecycle tied to the resource. Default to them; deviate with justification.</span></li>
+      <li><span><strong>Service principals with "expires never" are technical debt.</strong> Some platforms let you create them; doing so means the secret will eventually be a problem. Set the maximum permitted expiry; rotate before expiry; treat "never" as forbidden.</span></li>
+      <li><span><strong>Quarterly OAuth review is the consent-grant safety net.</strong> Users grant consent to apps over time; admins grant tenant-wide consent over time; without review, the grants accumulate. The quarterly cycle is the deliberate housekeeping.</span></li>
+      <li><span><strong>Tenant-wide admin consents are the high-leverage targets.</strong> User-consented permissions affect one user's data; admin-consented application permissions affect <em>all</em> tenant data. Prioritise review accordingly.</span></li>
+      <li><span><strong>Interactive sign-in by service account = compromise indicator.</strong> Modern service accounts don't sign in interactively. When one does, either the configuration is wrong or someone is using the account in ways it shouldn't be used. Detect, investigate.</span></li>
+      <li><span><strong>Test-disable before decommission catches surprises cheaply.</strong> 30 days of "disabled but recoverable" surfaces consumers you didn't know about. Skip this step and you'll find them via outages instead.</span></li>
+      <li><span><strong>Privileged non-human identities are the highest-impact attack target.</strong> A compromised user account is bad; a compromised Global Admin service principal can rewrite tenant policy. Treat them with the same rigour as Tier-0 human accounts.</span></li>
+      <li><span><strong>Workload identity federation eliminates a whole class of credential leakage.</strong> Short-lived tokens issued per-request mean no secret to leak. Adopt aggressively for CI/CD, external workloads.</span></li>
+      <li><span><strong>"DevOps owns it" means no one owns it.</strong> Team-level ownership is acceptable only when the team is small enough that members actually know about each identity. Otherwise it's an unfalsifiable claim and the identity is effectively orphaned.</span></li>
+      <li><span><strong>Service accounts owned by leavers are unexploded ordnance.</strong> Per IT-ID-WI-01 Step 4, leaver process re-assigns. But verify it actually happened &mdash; this is the most common reassignment-miss.</span></li>
+    </ul>
+  </div>
+
+  <div class="wi-nav"><a href="it-id-wi-03.html">&larr; IT-ID-WI-03: Role Design</a><a href="it-id-wi-05.html">IT-ID-WI-05: Privileged Identity &rarr;</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-ID-WI-04 v1.0 · Live · 15 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-identity-governance.html" style="color:var(--wi);text-decoration:none;">&larr; Back to Identity Governance</a></span>
+  </div>
+</div>
+</body>
+</html>

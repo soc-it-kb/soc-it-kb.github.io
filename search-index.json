@@ -1906,5 +1906,68 @@
     "url": "it-cl-wi-05.html",
     "desc": "Tier-aware implementation guidance for the Microsoft Defender suite (tenant-side configuration only; SOC operational use under SOC SOPs). Operationalises IT-CL-SOP-01 section 4.5. 9 steps: Defender for Endpoint deployment (A3/E3+ — onboarding all managed endpoints Win/macOS/Linux/mobile where licensed, ASR rules audit-then-block, EDR-in-block-mode, security baseline assigned, device-tagging convention by criticality/agency/environment); Defender for Office 365 P2 cross-reference WI-02 §8 (E5); Defender for Identity sensor on all DCs (A3/E3+ where AD operated — gMSA, honeytoken accounts, sensor health monitoring); Defender for Cloud Apps connected to M365 and Azure tenants with anomaly detection and OAuth app governance (E5); Defender for Cloud cross-reference WI-03 §2; TVM feeds findings to IT-VM-SOP-01; all Defender alerts to central SIEM with severity-to-priority mapping; tenant-side configuration vs SOC operational use boundary maintained; suite-level metrics (exposure score, device coverage, ASR coverage, Secure Score, MTTD/MTTR, ingestion completeness).",
     "tags": "ASM WI IT-CL-WI-05 Defender Suite Configuration Microsoft Defender for Endpoint MDE P1 P2 ASR attack surface reduction EDR in block mode tamper protection network protection controlled folder access web content filtering Defender for Office 365 DfO Safe Links Safe Attachments Defender for Identity MDI sensor domain controller gMSA honeytoken Defender for Cloud Apps DfCA MCAS CASB Cloud Discovery anomaly detection OAuth app governance session policy Defender for Cloud DfC Foundational CSPM Premium CSPM Defender plans attack path analysis Threat Vulnerability Management TVM exposure score vulnerability assessment central SIEM ingestion M365 Defender connector Graph Security API continuous export severity priority mapping deduplication unified portal RACI tenant configuration SOC operational use boundary suite level metrics MTTD MTTR device coverage A1 E1 A3 E3 A5 E5 tier-aware"
+  },
+  {
+    "id": "Identity Governance",
+    "title": "Identity Governance & Lifecycle — Domain hub",
+    "url": "asm-identity-governance.html",
+    "section": "ASM",
+    "sub": "Domain hub",
+    "desc": "Lifecycle controls for every identity in the estate: human identities (joiners, movers, leavers) and non-human identities (service accounts, managed identities, service principals, certificates). Hybrid scope — Entra ID and on-premises Active Directory. Sits above tenant-level identity controls in IT-CL-WI-01 by governing who should have access in the first place, for how long, reviewed by whom. Five identity classes (employees/contractors, students/alumni, guests, on-prem service accounts, non-human cloud identities). Framework alignment table (9 entries: NIST CSF PR.AA, 800-53 r5, 800-63A, ISO 27001/27002, CIS Controls v8, CIS M365 Foundations, SOC 2). 8 roles. 8 metrics including JML SLA conformance, orphaned account count, recertification completion, standing-privilege count target ≤4, service principal secret expiry hygiene. Day-1 callout that non-human identities deserve special attention as the largest under-governed surface in most estates.",
+    "tags": "ASM Identity Governance Lifecycle domain hub JML joiner mover leaver recertification attestation role design entitlement non-human service account service principal managed identity hybrid AD Active Directory Entra ID Azure AD privileged identity PIM eligibility break-glass cross-agency NIST CSF PR.AA ISO 27001 A.5.16 A.5.18 A.8.2 CIS Controls 5 6 SOC 2 CC6"
+  },
+  {
+    "id": "IT-ID-SOP-01",
+    "title": "IT-ID-SOP-01: Identity Governance & Lifecycle",
+    "url": "it-id-sop-01.html",
+    "section": "ASM",
+    "sub": "SOPs",
+    "desc": "Authoritative policy-level baseline for identity governance across hybrid Entra / Active Directory environments, covering both human and non-human identities. Seven governance principles (authoritative source, least privilege by default, time-bounded standing privilege, recertification cadence, named ownership, non-human identities are first-class, separation of governance from incident response). Five requirement domains: JML lifecycle (13 items), Access Recertification (10 items), Role Design (9 items), Non-Human Identity (11 items), Privileged Identity Governance (10 items). Operationalised by IT-ID-WI-01 through IT-ID-WI-05. Framework alignment with NIST CSF PR.AA, 800-53 r5 (AC-2/5/6, IA-2/5), 800-63A, ISO 27001:2022, ISO 27002:2022, CIS Controls v8, CIS M365 Foundations, SOC 2 CC6, MITRE ATT&CK mitigations M1018/M1026/M1032. 8 named roles. Exception handling pattern for HR-integration gaps, legacy-platform identity, and orphan service accounts.",
+    "tags": "IT-ID-SOP-01 Identity Governance Lifecycle SOP hybrid Entra Active Directory AD JML joiner mover leaver recertification role design entitlement non-human service account managed identity service principal privileged eligibility PIM standing privilege break-glass authoritative source least privilege named owner separation of duties exception NIST CSF PR.AA ISO 27001 A.5.16 A.5.18 A.8.2 CIS Controls 5 6 SOC 2 CC6 MITRE M1018 M1026 M1032"
+  },
+  {
+    "id": "IT-ID-WI-01",
+    "title": "IT-ID-WI-01: Joiner / Mover / Leaver Lifecycle",
+    "url": "it-id-wi-01.html",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "desc": "Hybrid JML across HR system → on-prem AD → Entra ID. Seven steps: joiner provisioning from authoritative source (HR / SIS / sponsor-driven workflow); joiner access bundle with forbid-clone-previous-user; mover with revoke-then-grant discipline (≤30-day dual-role exception); leaver with same-day disable, time-bounded retention (30-90 days), clean termination; student/alumni cohort transitions per academic calendar; guest sponsor-driven lifecycle (180-day default, quarterly recert); monthly identity-source reconciliation. Hybrid AD-Entra propagation guidance. SLA dashboard table (joiner ≤1 day, mover ≤5 days, leaver same-day). Implements IT-ID-SOP-01 §4.1.",
+    "tags": "IT-ID-WI-01 JML joiner mover leaver lifecycle HR authoritative source provisioning access bundle clone-previous-user revoke-then-grant dual-role retention termination guest sponsor student alumni cohort reconciliation orphan account hybrid Active Directory Entra ID Azure AD same-day disable involuntary leaver TAP Temporary Access Pass"
+  },
+  {
+    "id": "IT-ID-WI-02",
+    "title": "IT-ID-WI-02: Access Recertification & Attestation",
+    "url": "it-id-wi-02.html",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "desc": "Periodic review of who has what access. Eight steps: cadence per tier (T0 quarterly, T1 semi-annual for resource access / quarterly for privileged, T2/T3 annual, guest quarterly); named reviewers per scope (line manager, system owner, Privileged Access Authority, sponsor); campaign execution via Entra Identity Governance access reviews or manual workflow; non-response handling (T0/T1 suspend, T2/T3 revoke as default); forbid bulk-attest at high tiers; apply decisions for real (auto-apply preferred, ≤7-day SLA manual); evidence retention 3 years minimum; orphan remediation 30 days. Cadence table and programme health indicators table. Implements IT-ID-SOP-01 §4.2.",
+    "tags": "IT-ID-WI-02 access recertification attestation review campaign cadence Entra Identity Governance reviewer attestor line manager system owner Privileged Access Authority sponsor bulk-attest revocation rate apply auto-apply evidence retention rubber-stamping non-response suspend revoke orphan remediation E5 P2 quarterly semi-annual annual"
+  },
+  {
+    "id": "IT-ID-WI-03",
+    "title": "IT-ID-WI-03: Role Design & Entitlement Management",
+    "url": "it-id-wi-03.html",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "desc": "The role catalogue: every assignable role has documented owner, defined scope, naming convention, last-review date. Nine steps: establish catalogue (100% T0/T1 coverage day-one, 95% T2/T3 by FY26 end); naming convention discipline (domain-scope-function-environment-tier); least-privilege role design (built-in preferred, custom when needed, scope at lowest level, read variants); group hygiene (max 3 nest levels, no circular refs, empty cleanup 30/90 days, named owners, dynamic group rule audit); entitlement packages (Entra IG / manual catalogue) for joiner-pack / project-team / role-change bundles; separation of duties enforcement with detection where prevention not supported; role-change workflow with direct-edit detection and backfill; quarterly catalogue review (retirement, splitting, consolidation, owner stale-check); monthly T0/T1 drift check. Implements IT-ID-SOP-01 §4.3.",
+    "tags": "IT-ID-WI-03 role design entitlement management catalogue RBAC least privilege naming convention group hygiene nesting empty group dynamic group entitlement package Entra Identity Governance MyAccess separation of duties SoD role change direct edit drift quarterly review tier"
+  },
+  {
+    "id": "IT-ID-WI-04",
+    "title": "IT-ID-WI-04: Non-Human Identity Governance",
+    "url": "it-id-wi-04.html",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "desc": "Service accounts (AD user-style, gMSA, sMSA), Entra service principals, app registrations, managed identities (system / user-assigned), workload identity federation, certificate-based identities. Ten steps: inventory across all platforms (nightly refresh, monthly reconciliation); named human owner per identity (team-level acceptable for small teams); scope justification at creation including why-not-managed-identity question; credential rotation discipline per type (gMSA auto, AD password annual/60d, SP secret <1yr, certs per policy); prefer managed identities and workload federation; secret expiry tracking dashboard with 30/14/7/1-day alerts; quarterly OAuth permission and consent grant review; decommissioning lifecycle (90d stale → 180d disabled → 365d deleted with test-disable); flag interactive sign-in on service accounts; privileged non-human identities follow eligibility pattern. Implements IT-ID-SOP-01 §4.4.",
+    "tags": "IT-ID-WI-04 non-human identity service account gMSA sMSA Entra service principal app registration managed identity system-assigned user-assigned workload identity federation certificate inventory ownership credential rotation secret expiry Key Vault OAuth permission consent grant admin consent decommissioning stale interactive sign-in privileged secrets in code GitHub scanning"
+  },
+  {
+    "id": "IT-ID-WI-05",
+    "title": "IT-ID-WI-05: Privileged Identity Governance",
+    "url": "it-id-wi-05.html",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "desc": "The eligibility layer above PIM activation. Ten steps: privileged role catalogue (T0/T1 roles with per-individual eligibility, duration, last-review); eligibility-not-assignment principle (break-glass exception only); time-bound eligibility (T0 max 12mo, T1 max 18mo); approval workflow (T0 two-person, T1 single, no self-approval); separation of duties at T0 across functional domains (cloud-identity, on-prem-identity, security operations, audit/compliance); track and minimise standing privilege (target = break-glass count); quarterly eligibility review with activity correlation; privileged access request workflow with out-of-band-grant detection; T0 activation correlated with PAW usage (per IT-EP-SOP-PAW-01); T0 activity to immutable SIEM with monthly SOC review. Boundary: activation = IT-CL-WI-01 §7 (PIM mechanics); eligibility = this WI. Implements IT-ID-SOP-01 §4.5.",
+    "tags": "IT-ID-WI-05 privileged identity governance eligibility activation PIM Tier-0 Tier-1 catalogue duration approval two-person separation of duties SoD standing privilege break-glass quarterly review activity correlation request workflow out-of-band PAW Privileged Access Workstation immutable SIEM Privileged Access Authority CISO Global Administrator Enterprise Admin Schema Admin Domain Admin emergency grant deputy approver MITRE M1026"
   }
 ]

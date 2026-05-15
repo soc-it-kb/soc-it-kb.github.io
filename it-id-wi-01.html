@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-ID-WI-01: Joiner / Mover / Leaver Lifecycle — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+<style>
+  :root { --wi:#8B2D5C; --wi-light:#FAEBF2; --wi-border:#E2B3C8; --wi-dark:#5C1A3A; --id:#8B2D5C; }
+  .wi-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .wi-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .wi-meta-item strong { color:#1a1a1a; }
+  .wi-meta-sep { color:#e0e0dc; }
+  .badge-live { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .wi-section { background:#fff; border:0.5px solid var(--wi-border); border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:10px; }
+  .wi-section-label { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--wi); margin-bottom:8px; }
+  .wi-section-title { font-size:15px; font-weight:600; color:#1a1a1a; margin-bottom:0.7rem; padding-bottom:6px; border-bottom:0.5px solid #f0f0ec; }
+  .wi-section p { font-size:14px; color:#444; line-height:1.7; margin:0 0 8px 0; }
+  .wi-section p:last-child { margin-bottom:0; }
+  .wi-section h3 { font-size:13px; font-weight:600; color:var(--wi-dark); margin:12px 0 5px 0; }
+  .wi-bullet { list-style:none; display:flex; flex-direction:column; gap:6px; padding-left:0; margin-top:4px; }
+  .wi-bullet li { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:#333; line-height:1.6; }
+  .wi-bullet li::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--wi); flex-shrink:0; margin-top:7px; }
+  .step { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:0.9rem 1.1rem; margin-top:8px; }
+  .step-header { display:flex; align-items:center; gap:10px; margin-bottom:7px; padding-bottom:5px; border-bottom:0.5px solid #f0f0ec; }
+  .step-num { width:24px; height:24px; border-radius:6px; background:var(--wi); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-title { font-size:13px; font-weight:700; color:var(--wi-dark); }
+  .step-objective { font-size:12px; color:#666; font-style:italic; margin-top:2px; line-height:1.5; }
+  .step-body { font-size:13px; color:#333; line-height:1.6; }
+  .step-body p { margin:6px 0; }
+  .step-body p:first-child { margin-top:0; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body strong { color:var(--wi-dark); }
+  .step-body ul { list-style:none; padding:0; margin:6px 0; display:flex; flex-direction:column; gap:3px; }
+  .step-body ul li { display:flex; gap:7px; font-size:12px; color:#444; line-height:1.55; padding-left:2px; }
+  .step-body ul li::before { content:'\203A'; color:var(--wi); font-weight:700; flex-shrink:0; }
+  .step-verify { background:#fff; border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:6px; padding:0.5rem 0.8rem; margin-top:8px; font-size:12px; color:#444; line-height:1.55; }
+  .step-verify strong { color:var(--wi-dark); }
+  .cis-ref { display:inline-block; font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--wi); background:var(--wi-light); border:0.5px solid var(--wi-border); padding:1px 7px; border-radius:4px; font-weight:600; margin-top:5px; }
+  .callout-info { background:var(--wi-light); border:0.5px solid var(--wi-border); border-left:3px solid var(--wi); border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:var(--wi-dark); line-height:1.6; margin-top:10px; }
+  .callout-info strong { color:var(--wi-dark); font-weight:700; }
+  .callout-warn { background:#FAECE7; border:0.5px solid #F5C0B0; border-left:3px solid #993C1D; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#7a2e10; line-height:1.6; margin-top:10px; }
+  .callout-warn strong { color:#5a1f08; }
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--wi-dark); color:#fff; font-weight:600; padding:7px 10px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gt-table td { padding:7px 10px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; line-height:1.55; }
+  .gt-table tr:nth-child(even) td { background:#fafafa; }
+  .gt-table td.lvl { font-weight:600; color:var(--wi-dark); white-space:nowrap; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--wi); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .wi-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .wi-nav a { font-size:13px; color:var(--wi); text-decoration:none; }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html" class="active">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a><span>&rsaquo;</span>
+    <a href="asm.html">ASM</a><span>&rsaquo;</span>
+    <a href="asm-identity-governance.html">Identity Governance &amp; Lifecycle</a><span>&rsaquo;</span>
+    <span>IT-ID-WI-01</span>
+  </div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#3A1530 0%,#5C1A3A 40%,#8B2D5C 100%);">
+    <span class="kb-page-hero-icon">🔄</span>
+    <h1>IT-ID-WI-01: Joiner / Mover / Leaver Lifecycle</h1>
+    <p>Hybrid JML lifecycle for human identities across HR system &rarr; on-prem AD &rarr; Entra ID. Joiner provisioning from authoritative source. Mover with revoke-then-grant discipline. Leaver with same-day disable, time-bounded retention, clean termination. Covers staff, contractor, student, alumni, and guest sub-flows. Operationalises &sect;4.1 of IT-ID-SOP-01.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">Identity Governance</span>
+      <span class="kb-meta-pill">Hybrid (AD + Entra)</span>
+      <span class="kb-meta-pill">NIST CSF PR.AA</span>
+    </div>
+  </div>
+
+  <div class="wi-meta-bar">
+    <div class="wi-meta-item">📋 <strong>WI ID:</strong> IT-ID-WI-01</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📌 <strong>Version:</strong> v1.0</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">🔗 <strong>Implements:</strong> <a href="it-id-sop-01.html" style="color:var(--wi);">IT-ID-SOP-01 §4.1</a></div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">👤 <strong>Owner:</strong> Identity &amp; Access Engineering</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item">📅 <strong>Published:</strong> 15 May 2026</div>
+    <div class="wi-meta-sep">·</div>
+    <div class="wi-meta-item"><span class="badge-live">Live</span></div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Prerequisites</div>
+    <p>Before applying this WI:</p>
+    <ul class="wi-bullet">
+      <li><span>Authoritative source(s) identified per identity class: HR Information System for employees and contractors; Student Information System for students; sponsor-driven workflow for guests and external collaborators</span></li>
+      <li><span>HR-to-identity integration design documented &mdash; whether via Entra Connect with on-prem AD as the writable side, SCIM provisioning to Entra, native HR connector (Workday, SuccessFactors), or manual extract-transform-load on a defined cadence</span></li>
+      <li><span>Role catalogue (IT-ID-WI-03) at least partially established &mdash; joiner provisioning needs a defined "joiner pack" per role family or department</span></li>
+      <li><span>IT-CL-WI-01 (Tenant Identity) in place &mdash; new identities inherit Conditional Access, MFA enforcement, and named-locations policies on provisioning</span></li>
+      <li><span>GRC-REG-ASSET available so each operating agency's identity-source mapping is recorded</span></li>
+      <li><span>Communication plan for line managers covering their role in mover and leaver events</span></li>
+      <li><span>For agencies with students: academic calendar visibility &mdash; cohort transitions, enrolment windows, graduation dates &mdash; available to IAE</span></li>
+    </ul>
+    <div class="callout-info"><strong>Authoritative source first, technical platform second.</strong> The most common JML failure mode is technical provisioning that drifts from the authoritative source &mdash; an employee terminated in HR but still active in Entra weeks later, or a contractor active in Entra who was never in HR to begin with. The integration is the control; without it, every JML step degrades to manual best-effort.</div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Step-by-step instructions</div>
+    <p>The steps below operationalise IT-ID-SOP-01 &sect;4.1. The pattern is consistent across identity classes (employee, contractor, student, guest) with class-specific variations called out per step.</p>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">1</div>
+        <div><div class="step-title">Joiner provisioning &mdash; sourcing from the authoritative system</div>
+        <div class="step-objective">Account creation is event-driven from the authoritative source, not request-driven from a ticket queue.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Provisioning starts from a record in the authoritative source. For employees and contractors that's the HR Information System; for students the SIS; for guests a named-sponsor invitation workflow.</p>
+        <ul>
+          <li><span><strong>HR-to-AD/Entra integration</strong> &mdash; the integration runs on a defined cadence (typically every 15&ndash;30 minutes for cloud integrations, hourly for on-prem-driven flows). New HR records become identity records automatically. No ticket required.</span></li>
+          <li><span><strong>Identity attributes</strong> sourced from HR: legal name, preferred name, employee ID, manager, department, cost centre, employment type (FTE / contractor / intern), start date, end date (for fixed-term), location, agency. The integration writes these to the identity platform; they are not edited locally except via documented exception.</span></li>
+          <li><span><strong>Naming convention</strong> applied at provisioning &mdash; samAccountName / UPN format documented per agency. Conflicts (duplicate names) handled by a deterministic disambiguation rule (e.g. middle initial, employee ID suffix) rather than ad-hoc resolution.</span></li>
+          <li><span><strong>Account active no earlier than start date</strong> &mdash; provisioning may create the account in a disabled state ahead of start date; activation matches the documented start date. Pre-start access is an exception with named justification.</span></li>
+          <li><span><strong>Provisioning within 1 business day of start date</strong> &mdash; SLA target; missed targets logged for IAE quarterly review.</span></li>
+          <li><span><strong>Initial password handling</strong> &mdash; secure first-time-password delivery to the user's manager or to a temporary mailbox, with mandatory change at first sign-in; or password-less onboarding (TAP &mdash; Temporary Access Pass in Entra) where the platform supports it. TAP is strongly preferred for security.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Sample a recent hire's HR record and trace through to the identity platform &mdash; account exists, attributes match HR, naming conforms to convention, active state matches start date. SLA dashboard shows ≥95% provisioning within 1 business day for the previous month.</div>
+        <span class="cis-ref">NIST 800-53 AC-2 · CIS Controls 5.1 · ISO 27001 A.5.16</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">2</div>
+        <div><div class="step-title">Joiner access bundle &mdash; minimum required, never cloned</div>
+        <div class="step-objective">Every new starter gets a clean baseline from the role catalogue; clone-previous-user pattern is forbidden.</div></div>
+      </div>
+      <div class="step-body">
+        <p>The "joiner pack" defines what access a new starter gets at day one. It is derived from the role catalogue (IT-ID-WI-03), not from copying another individual's permissions.</p>
+        <ul>
+          <li><span><strong>Joiner pack per role family</strong> &mdash; documented bundles: standard staff (Office 365, baseline groups, agency-wide collaboration); finance (above + finance system roles); HR (above + HR system roles); etc. Each pack is in the role catalogue with named owner.</span></li>
+          <li><span><strong>Provisioning workflow</strong> assigns the pack automatically based on department / job code from HR; manual assignment is an exception.</span></li>
+          <li><span><strong>Additional access</strong> beyond the joiner pack is requested separately through the access request workflow with manager and system-owner approval. Same access, separate justification, separate audit trail.</span></li>
+          <li><span><strong>Clone-previous-user is forbidden</strong> &mdash; it is the most common cause of access creep across organisations because the previous user's accumulated access becomes the new baseline. Identity tooling that supports "copy from" should have it disabled for end-users; IAE may use it for migration scenarios with explicit logging.</span></li>
+          <li><span><strong>Joiner-pack review</strong> quarterly &mdash; packs that have grown wide are split; packs that have not been used are retired.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Sample 5 recent joiners; for each, the access assigned matches the documented joiner pack for their role family. No copy-from-user audit entries in the previous 30 days outside named exceptions.</div>
+        <span class="cis-ref">NIST 800-53 AC-6 · CIS Controls 6.1 · ISO 27001 A.5.18</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">3</div>
+        <div><div class="step-title">Mover &mdash; access change with revoke-then-grant discipline</div>
+        <div class="step-objective">When someone changes role, previous-role access is revoked at the time of grant; access never simply accumulates.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Movers are the silent cause of access creep. An employee transferred from Finance to Marketing keeps their finance access "just in case" and never loses it; over a career, they accumulate access across every department they've worked in.</p>
+        <ul>
+          <li><span><strong>Mover trigger</strong> &mdash; HR records a role change. The identity integration flags the change to IAE for action; mover access change is initiated within 5 business days.</span></li>
+          <li><span><strong>Revoke-then-grant</strong> &mdash; the new role's joiner pack is applied <em>and</em> the previous role's access is removed. The two happen together, not the new role first and the old role "later" (which becomes never).</span></li>
+          <li><span><strong>Identify previous access</strong> &mdash; the access review at mover time considers: previous joiner pack (auto-revoked), additional access granted during previous role (reviewed by previous line manager), system-specific access granted by system owners (reviewed by system owners), group memberships outside the role catalogue (reviewed by IAE).</span></li>
+          <li><span><strong>Temporary dual-role periods</strong> &mdash; legitimate for transitions (handover periods). Bounded to ≤30 days with explicit named approval; tracked as a time-bounded exception; alerts at 25 days warning of overrun.</span></li>
+          <li><span><strong>Promotion within the same department</strong> &mdash; treated as a mover event even though "previous access" may overlap heavily with new access. The review still happens; the additional senior-role access is granted with the same discipline.</span></li>
+          <li><span><strong>Manager change without role change</strong> &mdash; the identity attribute is updated; access changes only if the new role family differs. Recertification cycle for the new line manager begins from the change date.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Sample 3 recent movers; for each, confirm previous role access has been revoked. Random sample of staff with &gt;5 years tenure to check for accumulated access from prior roles. Dashboard tracks mover SLA (≤5 business days target).</div>
+        <span class="cis-ref">NIST 800-53 AC-2(7) · ISO 27001 A.5.18</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">4</div>
+        <div><div class="step-title">Leaver &mdash; same-day disable, time-bounded retention, clean termination</div>
+        <div class="step-objective">Departing identities lose access immediately; data retention is time-bounded; final deletion happens deliberately.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Leavers are the highest-risk JML event. A departing employee with active access is a known threat vector, especially for involuntary terminations.</p>
+        <ul>
+          <li><span><strong>Same-business-day disable</strong> &mdash; account disabled within the business day of the documented termination event. For involuntary terminations, disable is immediate and coordinated with HR / security before the termination meeting.</span></li>
+          <li><span><strong>Privileged access revoked first</strong> &mdash; the leaver's privileged role eligibilities are removed at the same moment as account disable. Privileged access is never assumed to fall away when the account is disabled &mdash; it's revoked explicitly, then the account is disabled.</span></li>
+          <li><span><strong>Forwarding and delegations</strong> &mdash; mailbox forwarding (auto-forward, delegate access, inbox rules) reviewed and removed; calendar delegations removed; OneDrive shares preserved per business continuity (transfer to manager or successor); Teams ownership transferred where the leaver was sole owner.</span></li>
+          <li><span><strong>Service account / service principal ownership</strong> &mdash; if the leaver owned any non-human identities (IT-ID-WI-04), ownership transfers to their line manager pending re-assignment within 30 days.</span></li>
+          <li><span><strong>Account retention</strong> &mdash; account remains disabled (not deleted) for 30&ndash;90 days for forensic availability and handover access. Default 30 days; extended to 90 days for executives, leavers under investigation, or where legal hold applies.</span></li>
+          <li><span><strong>Deletion</strong> &mdash; after retention window, account deleted unless legal hold applies. Mailbox content archived per data retention policy; SharePoint sites with the leaver as sole owner reassigned then archived if no replacement owner.</span></li>
+          <li><span><strong>Cross-tenant cleanup</strong> &mdash; if the leaver was a guest in partner tenants, sponsor those tenants of the departure for their guest cleanup (B2B reciprocity is a courtesy, not a control they're obligated to perform).</span></li>
+          <li><span><strong>Hybrid sync</strong> &mdash; for AD-synced identities, disable in AD first; let Entra Connect propagate; verify Entra account is also disabled within sync cycle. Don't disable in Entra only &mdash; AD sync would re-enable.</span></li>
+        </ul>
+        <div class="callout-warn"><strong>Same-day disable is the single most important step in JML.</strong> Every other leaver action can be done in the following days. The disable cannot. A delay of even a few hours after a hostile departure is a real risk &mdash; data exfiltration to personal cloud, deletion of records, sabotage. The control needs to work even when HR notification is delayed, even when IAE is short-staffed, even at weekends.</div>
+        <div class="step-verify"><strong>Verify.</strong> Sample 3 recent leavers; for each, confirm account disabled same-day, privileged access revoked, retention window applied. Test the rapid-disable workflow under controlled conditions (named test account) to confirm response time at off-hours. Dashboard tracks leaver same-day SLA (≥95% target).</div>
+        <span class="cis-ref">NIST 800-53 AC-2(3) · CIS Controls 5.3 · ISO 27001 A.5.18</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">5</div>
+        <div><div class="step-title">Student and alumni lifecycle &mdash; cohort transitions</div>
+        <div class="step-objective">Bulk lifecycle events handled at scale: enrolment, year transitions, graduation, alumni transition.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Education tenants (AKES, AKA) have a different JML rhythm to staff: bulk cohort events at academic calendar boundaries rather than individual hires and departures.</p>
+        <ul>
+          <li><span><strong>Enrolment cohort</strong> &mdash; new students provisioned in bulk before term start; SIS feed drives the provisioning; bulk verification check after run completes.</span></li>
+          <li><span><strong>Year transition</strong> &mdash; rising-year students gain the access bundle for their new year; previous-year-only access is removed; class groups updated. Done in bulk during summer / between terms.</span></li>
+          <li><span><strong>Graduation</strong> &mdash; graduates transition to alumni access bundle: limited (e.g. alumni email forwarding, alumni community access) and time-bounded. Student-only access (course materials, school systems) revoked.</span></li>
+          <li><span><strong>Alumni retention</strong> &mdash; alumni account active per policy (typically 1&ndash;5 years post-graduation) with limited scope. Long-term alumni accounts reviewed annually; transitioned to read-only or deleted per institutional policy.</span></li>
+          <li><span><strong>Withdrawal / suspension</strong> &mdash; non-graduation departure (withdrawal, expulsion) treated as a leaver event per Step 4, with SIS as the trigger rather than HR.</span></li>
+          <li><span><strong>Returning students</strong> &mdash; re-enrolling students get a fresh account where retention window has expired; reactivated account where within the retention window with current attributes from SIS.</span></li>
+          <li><span><strong>Cohort group hygiene</strong> &mdash; year-group, class, club groups maintained; empty groups archived after the academic year closes.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Recent cohort transition completed without manual exceptions exceeding 5% of cohort size. Alumni accounts ≥1-year post-graduation show alumni access bundle, not student bundle. Verification spot-check of one withdrawal record.</div>
+        <span class="cis-ref">Aligned to NIST 800-53 AC-2 (institutional adaptation)</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">6</div>
+        <div><div class="step-title">Guest and external collaborator lifecycle</div>
+        <div class="step-objective">External identities have a named sponsor, a defined purpose, a time limit, and a renewal discipline.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Entra B2B guests and external collaborator identities are necessary &mdash; legitimate cross-organisation collaboration depends on them &mdash; but they are also a common source of access creep. Tighten the lifecycle.</p>
+        <ul>
+          <li><span><strong>Sponsor required</strong> &mdash; every guest invitation has a named internal sponsor recorded as a tenant attribute. The sponsor is accountable for the guest's continued legitimacy.<a</li>
+          <li><span><strong>Time bound</strong> &mdash; default 180 days; extension requires explicit re-justification by sponsor with re-attestation that the collaboration is ongoing. Open-ended guest access is forbidden.</span></li>
+          <li><span><strong>Minimum required scope</strong> at invitation &mdash; access to specific resources, not blanket "guests can read everything" patterns. Cross-tenant access settings (per IT-CL-WI-01 Step 8) provide the technical enforcement.</span></li>
+          <li><span><strong>Sponsor departure</strong> triggers guest review &mdash; if the sponsor leaves, their guests are reviewed for re-sponsorship or removal within 30 days.</span></li>
+          <li><span><strong>Inactive guest cleanup</strong> &mdash; guests with no sign-in in 90 days flagged; 180 days disabled; 365 days removed unless sponsor re-attests. Automated where Entra Identity Governance lifecycle workflows are available.</span></li>
+          <li><span><strong>Quarterly guest recertification</strong> &mdash; per IT-ID-WI-02. Sponsors attest to each of their guests' continued need.</span></li>
+          <li><span><strong>Special case: long-term external partners</strong> &mdash; some collaborations are multi-year (e.g. major implementation partners). These are documented as long-running with annual re-justification but not the standard 180-day cycle. Tracked as named exceptions.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Random sample of 10 active guests &mdash; each has a named sponsor (alive, employed, attribute present), defined scope, time-bound expiry. No "any" guest invitation patterns. Quarterly recert log shows ≥95% completion.</div>
+        <span class="cis-ref">CIS M365 1.x · ISO 27001 A.5.18 (external)</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><div class="step-num">7</div>
+        <div><div class="step-title">Identity-source data quality reconciliation</div>
+        <div class="step-objective">Authoritative source and identity platform stay in sync; drift is detected before it becomes incidents.</div></div>
+      </div>
+      <div class="step-body">
+        <p>Even with well-designed integrations, drift happens: an identity in Entra without an HR record (orphan), an HR record without an identity (provisioning failure), attribute mismatch between the two (manager change not propagated). Reconcile monthly.</p>
+        <ul>
+          <li><span><strong>Monthly reconciliation</strong> &mdash; full comparison between HR / SIS authoritative records and identity platform records.</span></li>
+          <li><span><strong>Three drift categories</strong>:</span></li>
+            <ul>
+              <li>Identity without authoritative record &mdash; "orphan identity"; could be a missed leaver, a never-onboarded contractor, or a manually-created account. Investigated and resolved within 30 days.</li>
+              <li>Authoritative record without identity &mdash; "missed joiner / provisioning failure"; addressed by re-running provisioning or fixing the integration.</li>
+              <li>Attribute mismatch &mdash; manager, department, employment type differs. Identity platform updated to match authoritative source unless documented variance.</li>
+            </ul>
+          </li>
+          <li><span><strong>Orphan identity remediation</strong> &mdash; not auto-deleted; investigated for legitimacy. Possible outcomes: documented exception (e.g. system account exempt from HR), conversion to a tracked non-human identity (IT-ID-WI-04), decommission via leaver process.</span></li>
+          <li><span><strong>Reconciliation evidence</strong> retained as audit material &mdash; quarterly GRC review references the reconciliation reports.</span></li>
+          <li><span><strong>Trending</strong> &mdash; drift volumes month-over-month. Trending up suggests integration degradation, increasing manual exception use, or scaling pressure outpacing automation.</span></li>
+        </ul>
+        <div class="step-verify"><strong>Verify.</strong> Most recent reconciliation report available. Orphan identity count decreasing trend or stable at low number. No reconciliation skipped in last 12 months.</div>
+        <span class="cis-ref">CIS Controls 5.5 · ISO 27001 A.5.16</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Validation &amp; verification</div>
+    <p>After applying this WI, validate the JML lifecycle is operating in steady state.</p>
+
+    <h3>Functional validation</h3>
+    <ul class="wi-bullet">
+      <li><span>HR-to-identity integration running on its defined cadence; recent runs successful</span></li>
+      <li><span>Sample joiner (recent hire) — account exists, active state matches start date, attributes match HR, joiner pack applied</span></li>
+      <li><span>Sample mover (recent role change) — new role pack applied, previous role access removed, mover SLA met</span></li>
+      <li><span>Sample leaver (recent departure) — account disabled same-day, privileged access revoked, forwarding cleaned, retention applied</span></li>
+      <li><span>Bulk cohort transition (education tenants) — most recent academic boundary transition completed within tolerance</span></li>
+      <li><span>Guest sample — named sponsor, time-bound, quarterly recert log entry</span></li>
+      <li><span>Monthly reconciliation report — most recent available; drift counts within tolerance; orphan remediation in progress</span></li>
+      <li><span>Off-hours leaver disable workflow tested under controlled conditions; response time within SLA</span></li>
+      <li><span>Hybrid AD-Entra propagation tested — disable on AD side propagates to Entra within sync cycle</span></li>
+      <li><span>Clone-previous-user audit entries: zero outside named exceptions in last 30 days</span></li>
+    </ul>
+
+    <h3>SLA dashboard</h3>
+    <table class="gt-table">
+      <thead><tr><th>Lifecycle event</th><th>SLA target</th><th>Conformance target</th></tr></thead>
+      <tbody>
+        <tr><td>Joiner provisioning (start date to active)</td><td>≤1 business day</td><td>≥95%</td></tr>
+        <tr><td>Mover access change (HR change to applied)</td><td>≤5 business days</td><td>≥95%</td></tr>
+        <tr><td>Leaver account disable (termination to disabled)</td><td>Same business day</td><td>≥99%</td></tr>
+        <tr><td>Leaver privileged access revocation</td><td>Same business day (with disable)</td><td>100%</td></tr>
+        <tr><td>Involuntary leaver immediate disable</td><td>Coordinated with HR (typically minutes)</td><td>100%</td></tr>
+        <tr><td>Bulk cohort transition completion</td><td>Within academic calendar window</td><td>100%</td></tr>
+        <tr><td>Guest sponsor attestation</td><td>Quarterly</td><td>≥95%</td></tr>
+        <tr><td>Monthly reconciliation</td><td>Within the month</td><td>100%</td></tr>
+        <tr><td>Orphan identity remediation</td><td>30 days from detection</td><td>≥90%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Rollback &amp; troubleshooting</div>
+    <p>JML actions are reversible up to a point. Account-disable and access-revoke can be undone; account-delete cannot. Forwarding-rule removal can be re-applied; mailbox content lost to retention cannot. Stage accordingly.</p>
+
+    <h3>Common scenarios</h3>
+    <ul class="wi-bullet">
+      <li><span><strong>Account disabled by mistake on a current employee</strong> &mdash; cause: HR record error (incorrect termination flag), name-collision auto-cleanup, manual ticket misdirection. Recovery: re-enable account; restore privileged eligibilities where applicable (these may need named-approver re-grant rather than just toggle); investigate root cause to prevent recurrence. Communication to the affected user is part of the recovery.</span></li>
+      <li><span><strong>Joiner provisioning didn't run for a new hire</strong> &mdash; cause: HR integration failed silently, attribute missing in HR record, joiner pack lookup failed. Recovery: manual provisioning following the documented pack; backfill the integration to handle the case next time; log the missed-SLA event.</span></li>
+      <li><span><strong>Mover overlap period exceeded 30 days</strong> &mdash; cause: extended handover, manager unaware of the cutoff, ticketing system didn't surface the deadline. Recovery: review remaining access; either revoke or document exception with new time-bound; alert the previous-role manager and the new-role manager.</span></li>
+      <li><span><strong>Leaver retained access after termination</strong> &mdash; cause: HR delay in recording termination, integration lag, manual ticket not raised. <strong>This is a high-priority incident.</strong> Recovery: immediate disable; SOC notified to review access during the gap period; SOC SOP-ID-01 may apply if compromise is suspected.</span></li>
+      <li><span><strong>Alumni transition lost current students</strong> &mdash; cause: bulk job included students with similar SIS attributes to graduates. Recovery: re-provision affected students with student bundle; verify SIS query criteria; run reconciliation to catch any others.</span></li>
+      <li><span><strong>Guest sponsor left, guests not reviewed</strong> &mdash; cause: 30-day review didn't trigger because the sponsor-attribute index lagged. Recovery: manual review of orphaned guests; either re-sponsor or remove; fix the automation.</span></li>
+      <li><span><strong>Reconciliation flagged hundreds of orphans</strong> &mdash; cause: integration outage caused multiple days of missed propagation. Recovery: bulk re-run integration; re-reconcile; verify volume drops. Don't process orphans individually until integration is confirmed clean.</span></li>
+    </ul>
+
+    <h3>Rollback procedure</h3>
+    <ol style="padding-left:18px;font-size:13px;line-height:1.7;color:#333;">
+      <li>Identify the affected accounts and the breaking change (HR record, integration run, manual action)</li>
+      <li>For disabled-by-mistake: re-enable accounts; restore privileged eligibilities where applicable</li>
+      <li>For mass provisioning issues: pause the integration; identify the bad batch; re-run with corrected logic</li>
+      <li>For leavers retained: immediate disable; SOC notification; document the timeline for post-incident review</li>
+      <li>Update change record; document root cause; if user-affecting, communicate to affected users</li>
+    </ol>
+  </div>
+
+  <div class="wi-section">
+    <div class="wi-section-label">Common errors &amp; tips</div>
+    <ul class="wi-bullet">
+      <li><span><strong>Authoritative source is the control.</strong> Without HR-to-identity integration that fires automatically, every JML step is best-effort. Invest in the integration first; the procedural steps follow it. Manual JML is an exception state, not a long-term plan.</span></li>
+      <li><span><strong>Clone-previous-user is how access creep starts.</strong> It's tempting because it's fast. It's dangerous because every starter inherits the accumulated access of the previous starter, who inherited from the one before, and so on. Forbid it; if the tool supports it, disable it for everyone except IAE.</span></li>
+      <li><span><strong>Privileged access doesn't fall away when an account is disabled.</strong> An eligible PIM role on a disabled account can still be activated by an admin restoring the account. Revoke privileged eligibilities <em>before</em> or <em>with</em> account disable, not "later when we clean up."</span></li>
+      <li><span><strong>Forwarding rules are how leavers exfiltrate after departure.</strong> A mailbox rule that forwards everything to a personal address survives account disable in some configurations. Remove forwarding rules and delegations explicitly during the leaver process; don't trust them to be inert.</span></li>
+      <li><span><strong>Involuntary terminations need a different SLA.</strong> Same-business-day is too slow for hostile departures. Have a pre-coordinated rapid-disable workflow with HR / security that fires before the termination meeting, not after.</span></li>
+      <li><span><strong>Mover events are easier to miss than joiners or leavers.</strong> Joiners are obvious (new starter, ticket raised). Leavers are obvious (someone left). Movers are subtle (same person, different role) and the HR record change can be quiet. Build mover alerts into the integration so changes don't slip through.</span></li>
+      <li><span><strong>Education tenants have a different rhythm.</strong> Don't apply staff JML cadences to students. The academic calendar is the heartbeat; design around it.</span></li>
+      <li><span><strong>Guest invitations need sponsors, not just inviters.</strong> The person who clicked "invite" is often not the right accountability owner. Sponsor is a named attribute, separate from inviter, and used for guest recertification.</span></li>
+      <li><span><strong>Hybrid sync direction matters.</strong> AD-driven sync: disable in AD, Entra follows. Entra-only identity: disable in Entra directly. Mixed environments have both. Document which is which per agency; mistakes here cause "re-enabling" on next sync cycle.</span></li>
+      <li><span><strong>Reconciliation is not a one-time tidy-up.</strong> Monthly reconciliation surfaces drift early. Skip it and the drift becomes a year-end audit finding instead of a routine cleanup.</span></li>
+      <li><span><strong>Account retention vs deletion are different decisions.</strong> Retention is "disabled but kept for handover / forensics." Deletion is permanent. Have an explicit deletion step; don't let it happen as a side-effect of cleanup.</span></li>
+      <li><span><strong>Service accounts owned by leavers are landmines.</strong> If a leaver owned service accounts (IT-ID-WI-04), their leaver event must include re-assignment. Otherwise the service accounts become orphaned and either accumulate without governance or break when the leaver's signature is no longer trusted.</span></li>
+    </ul>
+  </div>
+
+  <div class="wi-nav"><a href="it-id-sop-01.html">&larr; IT-ID-SOP-01</a><a href="it-id-wi-02.html">IT-ID-WI-02: Recertification &rarr;</a></div>
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>IT-ID-WI-01 v1.0 · Live · 15 May 2026 · Paulo Ferreira</span>
+    <span><a href="asm-identity-governance.html" style="color:var(--wi);text-decoration:none;">&larr; Back to Identity Governance</a></span>
+  </div>
+</div>
+</body>
+</html>
