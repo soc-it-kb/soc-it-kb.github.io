@@ -1,161 +1,127 @@
-# Identity Governance & Lifecycle — Domain Delivery
+# BCDR Domain — First-Pass Delivery
 
 **Date:** 15 May 2026
 **Author:** Paulo Ferreira
-**Domain:** ASM-ID — 8th ASM sub-domain
-**Closes off:** ASM section completeness — final ASM domain in the planned set
+**Scope:** Business Continuity & Disaster Recovery domain — first of two passes.
 
----
+## Decisions locked before authoring
 
-## Scope locked
+| Question | Decision |
+|---|---|
+| Document shape | **Option B** — Two parallel suites: GRC-BCP-* (business-audience) and GRC-DR-* (IT-audience). Mirrors industry practice; clean separation. |
+| Scope breadth | **Framework + templates** — central authorship of policy/methodology/templates; agencies populate their own plans. Centre-of-excellence model. |
+| Cloud DR | **First-class concern** — Azure region failure, M365 outage, Entra tenant lockout/compromise treated as named designed-for scenarios. |
+| Methodology placement | **B1** — three SOPs: shared methodology (`GRC-BCDR-SOP-01`) + BCP policy + DR policy. Avoids drift from authoring shared concepts twice. |
+| Palette | **Two variants of forest green** — BCP warmer (`#2D6B3F`), DR cooler/teal (`#1F5A4A`). Family identity with audience differentiation. |
+| Delivery cadence | **Split into two passes** — this is pass 1 (7 files); pass 2 will deliver 3 DR-specific WIs + 3 templates. |
 
-Per the in-conversation Q&A:
+## Files in this delivery (7 new + 6 maintenance = 13)
 
-- **Shape:** Option A — single SOP + 5 WIs (JML, recert, role design, non-human, privileged identity governance). Tight scope; finishes in one delivery.
-- **Placement:** Standalone Identity domain — new ASM sub-domain alongside Cloud, Security Infrastructure, Network.
-- **Coverage:** Hybrid + non-human — Entra ID + on-prem AD; humans + service accounts/principals/managed identities/certs.
+### New BCDR content
 
-Delivery shape ended up at 7 files (hub + SOP + 5 WIs) matching the Cloud delivery shape, for structural consistency with the other ASM sub-domains which all have hub pages. The hub is lightweight; the SOP carries the substantive policy content.
+| File | Code | Type | Audience | Lines |
+|---|---|---|---|---|
+| `grc-bcp.html` | GRC-BCP | Domain hub | Business | 284 |
+| `grc-dr.html` | GRC-DR | Domain hub | IT | 304 |
+| `grc-bcdr-sop-01.html` | GRC-BCDR-SOP-01 | SOP (methodology, shared) | Shared | 291 |
+| `grc-bcp-sop-01.html` | GRC-BCP-SOP-01 | SOP (policy) | Business | 272 |
+| `grc-dr-sop-01.html` | GRC-DR-SOP-01 | SOP (policy) | IT | 255 |
+| `grc-bcdr-wi-01.html` | GRC-BCDR-WI-01 | WI (BIA, shared) | Shared | 284 |
+| `grc-bcdr-wi-02.html` | GRC-BCDR-WI-02 | WI (Exercise, shared) | Shared | 296 |
 
----
-
-## 7 new files
-
-| File | Purpose | Lines |
-|------|---------|-------|
-| `asm-identity-governance.html` | Domain hub — 5-class identity scope, framework alignment, roles, metrics, related domains | 309 |
-| `it-id-sop-01.html` | Policy-level SOP — 7 principles, 5 requirement domains (53 items total), 8 roles, framework alignment | 402 |
-| `it-id-wi-01.html` | JML Lifecycle — 7 steps, joiner / mover / leaver / student / guest / reconciliation. SLA dashboard table. | 362 |
-| `it-id-wi-02.html` | Access Recertification — 8 steps, cadence per tier, named reviewers, non-response default, evidence retention | 395 |
-| `it-id-wi-03.html` | Role Design & Entitlement — 9 steps, role catalogue, naming convention, SoD, drift check | 392 |
-| `it-id-wi-04.html` | Non-Human Identity Governance — 10 steps, inventory, ownership, rotation, OAuth review, decommissioning | 438 |
-| `it-id-wi-05.html` | Privileged Identity Governance — 10 steps, eligibility layer above PIM activation, T0 two-person approval, PAW correlation | 423 |
-
-All 7 files HTML-validated (div / span / tr / table tag balance).
-
----
-
-## 6 maintenance files updated
+### Maintenance updates
 
 | File | Change |
-|------|--------|
-| `search-index.json` | 212 → 219 entries (7 identity entries with full `desc` and `tags`) |
-| `asm.html` | Added `.domain-card.identity` rose-pink CSS variant. 8th domain card (ASM-ID). Stats 7→8 domains, 18→19 SOPs, 57→62 WIs. |
-| `index.html` | Added `.asm-domain-link.id` CSS. 8th ASM link 🔑 Identity Governance. Stats 212→219 pages, 74→79 WIs, 31→32 SOPs, 87→94 ASM pages. ASM Highlight + WI descriptions updated. |
-| `governance.html` | Date pill + inventory date 12→15 May 2026. Inventory cards 9→10 / 18→19 / 57→62. ASM domain pages + ASM SOPs rows updated. New Identity Governance WIs row in breakdown. New 15 May 2026 changelog entry with 31 tags. Footer date updated. |
-| `search.html` | Page count 212 → 219. |
-| `sops.html` | Identity governance sub-group added under ASM & IT Operations with IT-ID-SOP-01. SOPs-total counter 28→29 (ASM/IT/SOC sub-total; site-wide is 32 including GRC). |
+|---|---|
+| `search-index.json` | 219 → 226 entries (7 BCDR entries with full `desc` and `tags`) |
+| `grc.html` | Domain grid layout `1fr 1fr 1fr` → `auto-fit minmax(280px,1fr)` (5 cards wrap naturally 3+2); added BCP + DR domain cards with new `.bcp` and `.dr` CSS variants; stats SOPs 5→8, WIs 3→5, Domains 3→5; added Continuity / Recovery use case cards; Plans & response section gained the 3 BCDR SOPs |
+| `index.html` | Stats: total 219→226, SOPs 32→35, WIs 79→81, GRC pages 37→44; GRC card description mentions business continuity & disaster recovery and ISO 22301:2019; intro paragraph adds BCDR within GRC enumeration; footer date 11→15 May |
+| `governance.html` | New change-log entry (15 May 2026); inventory: GRC Hub domain pages 4→6, GRC SOPs 5→8 (all three BCDR codes named), GRC WIs 3→5 (both BCDR WI codes named) |
+| `sops.html` | GRC SOPs section gained 3 BCDR entries; stats SOPs total 29→32, GRC 5→8; footer date 11→15 May |
+| `search.html` | Page count 219 → 226 |
 
----
+## Content highlights
 
-## Design choices worth flagging
+### `grc-bcp.html` — Business Continuity hub
+- Operating model section frames the centre-of-excellence approach
+- 6 disruption-type categories (Cyber, Technology, Supplier, Physical, People, Regional) with primary-owner mapping
+- Boundary table making explicit what is in scope vs what lives elsewhere (IRP, DR, GRC-REG-RISK)
+- 7-role accountability at domain level
+- 6 portfolio metrics for tracking
 
-### 1. Boundary discipline against adjacent domains
+### `grc-dr.html` — IT Disaster Recovery hub
+- Recovery tier glance: T1 ≤4h/15m, T2 ≤24h/4h, T3 ≤72h/24h, T4 ≤7d/7d
+- Cloud DR first-class section enumerating 5 scenarios with named recovery paths
+- Boundary table making explicit what is in scope vs what lives in Cloud Baselines (IT-CL-WI-03/04), Identity Governance, IRP, SOC SOP-ID-01
+- 8-role accountability
+- 8 portfolio metrics including cloud tenant break-glass health
 
-This domain governs **identity itself**; it does NOT duplicate:
+### `grc-bcdr-sop-01.html` — Shared methodology
+- 13 defined terms (RTO, RPO, MTPD, MBCO, BIA, recovery tier, business process, IT service, etc.)
+- 6 BIA methodology principles (process-first not system-first, beneficiary-safety-trump, time-graduated impact, dependencies-bridge-to-DR)
+- Standard RTO/RPO classification bands with IT tier mapping
+- Exercise framework: 4 types with cadence per tier
+- BCDR Steering Committee composition, cadence, reserved decisions
+- 8-artefact review cadence table
+- Framework alignment: ISO 22301, ISO 27001 A.5.29/A.5.30/A.8.13/A.8.14, NIST 800-34, NIST CSF 2.0 RC.*, NIST 800-53 CP family, CIS 11, SOC 2 A1.2/A1.3, MITRE M1053
 
-- `IT-CL-WI-01` covers tenant-platform identity config (CA, PIM activation, MFA, break-glass) — the *how*
-- `IT-SI-WI-04` covers PAM platform mechanics (vault, session recording, credential rotation)
-- `IT-EP-SOP-PAW-01` covers PAW build and lifecycle
-- `IT-SRV-WI-DC-01` covers Tier-0 AD administrative access enforcement
-- SOC `SOP-ID-01` + ID-PB / ID-RB cover identity incident response (compromise, MFA bypass, OAuth abuse)
+### `grc-bcp-sop-01.html` — Business Continuity Policy
+- 11 policy statements (named ownership, BIA cadence 24m, exercise cadence Tier-1 annual / Tier-2 24m, plan currency, exception handling, plan-accessible-offline for Tier-1, framework alignment)
+- 10 roles & responsibilities
+- 6 invocation principles including documented decision, lower bar for Tier-1, parallel BCP+IRP for cyber-triggered continuity, formal stand-down with AAR
+- Plan currency & assurance: 7 mechanisms
 
-The most important boundary: **WI-05 is the eligibility governance layer; IT-CL-WI-01 §7 is the activation mechanism**. Activation = how someone temporarily elevates. Eligibility = whether they should be allowed to. The two cooperate; this delivery is the second.
+### `grc-dr-sop-01.html` — IT Disaster Recovery Policy
+- 13 policy statements (tier assignment, tier minima, runbook currency for T1/T2, immutable backup for cyber resilience, cloud DR first-class, break-glass quarterly testing, recovery does not introduce vulnerabilities, post-recovery baseline validation)
+- Tier framework summary table
+- 7 backup/replication principles (3-2-1 baseline, immutability, restore-tests-not-backup-tests, replication-for-RTO-backup-for-RPO, third-party SaaS shared responsibility)
+- 6 cloud platform DR principles (paired-region default, tenant-lockout-as-designed-scenario, tenant-compromise-recovery-path, M365-sustained-outage-communications-fallback)
+- 10 roles & responsibilities
 
-### 2. Five identity classes, not one
+### `grc-bcdr-wi-01.html` — Conducting a BIA
+- 9-step procedure from team establishment through Steering Committee submission
+- Impact assessment across 5 dimensions × 6 time horizons with 5-point rubric
+- Dependency mapping covering IT services, data, suppliers, sites, people, upstream processes
+- 6 common pitfalls
 
-The domain treats identities in five operational classes — employees/contractors, students/alumni, guests, on-prem service accounts, non-human cloud identities — each with its own lifecycle pattern, governance owner, and cadence. This matters because student JML is calendar-driven and bulk; staff JML is event-driven; service accounts have no JML at all in the traditional sense; guests need sponsors not managers.
+### `grc-bcdr-wi-02.html` — Exercise & Testing Programme
+- 10-step procedure from annual scheduling through lessons-learned feedback
+- "EXERCISE" tagging discipline on all communications; pause-for-real-events rule
+- Hot-wash within 30 minutes; formal AAR within 14 days; plan update within 90 days
+- Findings severity classification; overdue escalation to Steering Committee
+- 7 common pitfalls
 
-### 3. Non-human as first-class
+## Boundaries explicitly documented (non-duplication)
 
-WI-04 exists because in most estates non-human identities outnumber humans 5-30x and are the largest under-governed surface. Treating service accounts and service principals as an afterthought is the dominant industry failure mode. The WI gives them dedicated inventory, ownership, rotation, OAuth review, and decommissioning processes equivalent in rigour to human-identity governance.
+This delivery does **not** duplicate:
 
-### 4. Privileged eligibility, not activation
+- **`grc-irp-01.html`** + IRP suite — cyber incident response. BCDR engages alongside when continuity is invoked.
+- **`SOP-ID-01`** / SOC suite — identity threat response. Tenant lockout *response* stays in SOC; recovery-to-operations after tenant compromise lives in `GRC-DR-WI-02` (second pass).
+- **`it-cl-wi-03.html` / `it-cl-wi-04.html`** — cloud resilience design (paired regions, AZs, GZRS). DR uses those patterns; doesn't re-author them.
+- **`IT-SRV-WI-*`** — server backup configuration.
+- **`grc-register-risk.html`** — BCDR risks captured in the existing risk register; no new register.
 
-WI-05 is deliberately distinct from PIM activation. PIM activation is the mechanism — request, MFA, justification, time-window — and lives in IT-CL-WI-01 because it's tenant-platform configuration. WI-05 is the governance layer: who's *eligible* to activate, why, for how long, reviewed by whom, with two-person approval at T0 and cross-domain SoD enforcement. Standing privilege is the failure mode; eligibility-not-assignment is the principle.
+## Structural validation
 
-### 5. Hybrid scope
+- All 7 new files pass div/span/tr/td/a balance checks (clean).
+- Maintenance files: div/span/tr/td/a tag balances preserved; 4 of 5 HTML maintenance files have the inherited duplicate-`</body>` quirk that pre-exists in the baseline (noted in the 11 May 2026 change-log entry) — not introduced by these edits.
+- `search-index.json` validates as JSON; 226 entries; no duplicate IDs.
 
-The estate has on-prem AD in most agencies plus Entra. Cloud-only treatment would create real gaps. The WIs explicitly cover both: AD-driven sync, Entra-only identities, AD-only identities, and the propagation discipline between them.
+## Pending in second-pass delivery (6 files, separate request)
 
-### 6. Bullet-wrap discipline
+| File | Code | Purpose |
+|---|---|---|
+| `grc-dr-wi-01.html` | GRC-DR-WI-01 | Recovery Tier Classification — assigning services to T1-4, backup/replication minima per tier |
+| `grc-dr-wi-02.html` | GRC-DR-WI-02 | Cloud Platform DR — Azure region failure, M365 outage, Entra tenant lockout/compromise |
+| `grc-dr-wi-03.html` | GRC-DR-WI-03 | Worked Example — populated DR plan for identity/email/file/network/EDR |
+| `grc-frm-bcp-01.html` | GRC-FRM-BCP-01 | Business Process Continuity Plan template |
+| `grc-frm-bcdr-01.html` | GRC-FRM-BCDR-01 | BIA worksheet template |
+| `grc-frm-dr-01.html` | GRC-FRM-DR-01 | DR Runbook template |
 
-Same approach as Cloud / SI WIs: outer flex containers from the start, inner `.step-body ul` lists using `<li><strong>...</strong>` pattern. False-positive count from naive grep matches Cloud/SI baselines.
+## Future follow-up after second pass
 
----
+- **MITRE mapping update** in `tools-references.html` to include the impact-class techniques BCDR principally mitigates: T1485 (Data Destruction), T1486 (Data Encrypted for Impact), T1490 (Inhibit System Recovery); mitigation M1053 (Data Backup).
 
-## Palette
+## Upload
 
-Identity rose / pink — distinctive across all existing domain palettes:
-
-- Primary: `#8B2D5C` deep rose
-- Light: `#FAEBF2`
-- Border: `#E2B3C8`
-- Dark: `#5C1A3A`
-- Hero gradient: `#3A1530` → `#5C1A3A` → `#8B2D5C`
-
-Existing domain palettes for reference:
-- ASM hub: `#5B2D8E` purple
-- Network: `#145570` teal
-- Security Infrastructure: `#8F500C` amber
-- Cloud: `#2E5C8A` slate blue
-- **Identity: `#8B2D5C` rose** ← this delivery
-- GRC: `#0E5C5C` teal
-
----
-
-## File counts (post-delivery)
-
-| Category | Before | After | Delta |
-|----------|--------|-------|-------|
-| Total pages | 212 | 219 | +7 |
-| ASM domain pages | 9 | 10 | +1 |
-| ASM SOPs | 18 | 19 | +1 |
-| ASM WIs | 57 | 62 | +5 |
-| All SOPs | 31 | 32 | +1 |
-| All WIs | 74 | 79 | +5 |
-| All ASM pages | 87 | 94 | +7 |
-| search-index entries | 212 | 219 | +7 |
-
----
-
-## Pending future follow-ups (not in this delivery)
-
-Carried forward for future sessions, not blocking this delivery:
-
-1. Future Application Delivery sub-domain (reverse proxies, API gateways)
-2. Future multi-cloud extension (AWS + GCP baselines)
-3. Future Cloud Architecture document (landing zone reference design)
-4. Future vendor-specific cloud-WAF extension (Cloudflare, AWS WAF, Akamai)
-5. Tabletop exercise scenarios pack (GRC-TTX-01..NN)
-6. BCP / DRP plans
-7. FRM-06/08/10 + IRP Annex Template migration to FRM-12 model
-8. Asset Onboarding Form (pending FRM-12-or-not maturation)
-9. `mailto:` submit pattern on GRC-FRM-13
-10. Azure Static Web Apps migration with Entra ID (Phase 1)
-11. GRC app on Azure (Functions + Cosmos/SQL) Phase 2
-12. 6 broken link targets from earlier sweep
-13. `td.code` misuse sweep across other GRC/ASM pages
-14. Retro-fix bullet-wrap pattern across other ASM hubs if formatting issues found
-15. Back-inject ATT&CK technique IDs into individual playbook/runbook content
-16. Add search-index entry for tools-references.html
-17. **Update MITRE mapping to include identity WIs (T1136 Create Account, T1078 Valid Accounts, T1098 Account Manipulation, T1078.004 Cloud Accounts, T1098.001 Add Cloud Credentials, T1484 Domain/Tenant Policy Modification, T1078.002 Domain Accounts, T1098.003 Add Privileged Role)** — natural next pass given the new WIs cover several mitigation patterns
-
----
-
-## How to deploy
-
-1. Drop the 7 new files (`asm-identity-governance.html`, `it-id-sop-01.html`, `it-id-wi-01.html` through `it-id-wi-05.html`) into the soc-it-kb.github.io repo root.
-2. Replace the 5 modified HTML files (`asm.html`, `index.html`, `governance.html`, `search.html`, `sops.html`).
-3. Replace `search-index.json`.
-4. Commit and push to GitHub Pages.
-
-No new shared CSS or JS — the identity rose-pink palette is scoped to the new pages via inline `:root` CSS variables; the `.domain-card.identity` and `.asm-domain-link.id` variants are added inline to `asm.html` and `index.html` respectively.
-
----
-
-## Closing note
-
-This delivery rounds out the ASM section as originally planned: 8 domains covering the full preventive control surface across endpoint / server / network / security-infrastructure / cloud / identity, each with policy SOP and operational WIs, vendor-agnostic where the estate is mixed, framework-aligned throughout, with deliberate boundaries against adjacent SOC and GRC content.
-
-The next natural enhancement is the MITRE mapping pass (item 17 above) to thread the new identity WIs into the existing T-code coverage on `tools-references.html` — but that's optional and not blocking.
+Upload all 13 files to the GitHub Pages repository root (or replace existing files at the root for maintenance updates). The 7 new files have no dependencies beyond the existing shared CSS / JS files already present.

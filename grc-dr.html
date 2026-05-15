@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Disaster Recovery &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --bcp:#2D6B3F; --bcp-light:#E8F4EC; --bcp-border:#A8D4B8; --bcp-dark:#1A4528; --dr:#1F5A4A; --dr-light:#E0F0EA; --dr-border:#9DC9B8; --dr-dark:#0E3A2F; --grc:#0E5C5C; --grc-light:#E6F4F4; }
+
+  .dr-page-hero { background:linear-gradient(135deg,#08201A 0%,#0E3A2F 40%,#1F5A4A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .dr-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .dr-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .dr-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .dr-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .dr-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .dr-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .dr-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .dr-stat-num { font-size:24px; font-weight:700; color:var(--dr); line-height:1; margin-bottom:4px; }
+  .dr-stat-lbl { font-size:11px; color:#888; }
+
+  .dr-section { background:#fff; border:0.5px solid var(--dr-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .dr-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .dr-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .dr-section p:last-child { margin-bottom:0; }
+
+  .dr-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .dr-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .dr-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--dr); flex-shrink:0; margin-top:5px; }
+
+  .doc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px; margin-top:6px; }
+  .doc-card { background:#fff; border:0.5px solid var(--dr-border); border-radius:10px; padding:1rem 1.2rem; text-decoration:none; color:inherit; display:block; transition:border-color .15s; }
+  .doc-card:hover { border-color:var(--dr); }
+  .doc-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--dr); margin-bottom:4px; }
+  .doc-card-title { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:5px; }
+  .doc-card-desc { font-size:12px; color:#666; line-height:1.5; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--dr-light); color:var(--dr-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--dr-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:var(--dr); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+
+  /* SOP/WI common */
+  .step { background:#fff; border:0.5px solid #e8e8e4; border-left:3px solid var(--dr); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .step-header { display:flex; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .step-num { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--dr); background:var(--dr-light); padding:2px 7px; border-radius:5px; }
+  .step-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .step-body { font-size:13px; color:#333; line-height:1.65; }
+  .step-body p { margin:0 0 6px; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body ul { padding-left:1.1rem; margin:6px 0 8px; }
+  .step-body ul li { margin-bottom:4px; line-height:1.55; }
+  .step-body code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">Governance, Risk &amp; Compliance</a> &nbsp;&rsaquo;&nbsp; IT Disaster Recovery</div>
+
+  <div class="dr-page-hero">
+    <div class="dr-page-hero-eyebrow">GRC &middot; IT Disaster Recovery</div>
+    <h1>IT Disaster Recovery</h1>
+    <p>How technology services are recovered to support business continuity targets when infrastructure, applications, or platforms fail. IT-led framework covering recovery tier classification, backup and replication minima, cloud platform disaster recovery, testing standards, and a worked example for the core IT services. The companion to the Business Continuity suite (<a href="grc-bcp.html" style="color:#fff;text-decoration:underline;">GRC-BCP</a>) which addresses business-process continuity.</p>
+    <div class="dr-page-hero-pills">
+      <span class="dr-page-hero-pill">IT-led</span>
+      <span class="dr-page-hero-pill">Hybrid + cloud</span>
+      <span class="dr-page-hero-pill">RTO &middot; RPO &middot; tiers</span>
+    </div>
+  </div>
+
+  <div class="dr-stats">
+    <div class="dr-stat"><div class="dr-stat-num">1</div><div class="dr-stat-lbl">Policy SOP</div></div>
+    <div class="dr-stat"><div class="dr-stat-num">3</div><div class="dr-stat-lbl">DR-specific WIs</div></div>
+    <div class="dr-stat"><div class="dr-stat-num">4</div><div class="dr-stat-lbl">Recovery tiers</div></div>
+    <div class="dr-stat"><div class="dr-stat-num">1</div><div class="dr-stat-lbl">Runbook template</div></div>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Scope &amp; relationship to Business Continuity</div>
+    <p>IT Disaster Recovery is the technology counterpart to Business Continuity. Where BCP says &ldquo;this business process must resume within 4 hours&rdquo;, DR says &ldquo;to meet that, this IT service must be recovered within 2 hours, with no more than 15 minutes of data loss&rdquo;. The two domains share methodology, terminology, and exercise programme (in <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a>, <a href="grc-bcdr-wi-01.html">WI-01</a>, <a href="grc-bcdr-wi-02.html">WI-02</a>); they are distinct in policy, audience, and operational ownership.</p>
+    <p>This domain is <strong>IT-authored and IT-owned</strong>. It governs how IT services are designed, operated, backed up, replicated, and recovered to meet the RTOs and RPOs that flow down from business impact assessment. It does not govern business-process workarounds (that is BCP&rsquo;s remit) and it does not govern cyber incident response (that is the IRP&rsquo;s remit).</p>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">What this domain covers (and what it does not)</div>
+    <table class="gt-table">
+      <thead>
+        <tr><th>In scope for this domain</th><th>Out of scope &mdash; lives elsewhere</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>IT service recovery tier classification (Tier 1&ndash;4)</td>
+          <td>Business-process continuity workarounds (<a href="grc-bcp.html">BCP domain</a>)</td>
+        </tr>
+        <tr>
+          <td>Backup strategy minima per recovery tier</td>
+          <td>Backup software / appliance configuration (lives in IT-SRV server WIs)</td>
+        </tr>
+        <tr>
+          <td>Replication and failover patterns per recovery tier</td>
+          <td>Cloud platform <em>resilience design</em> (lives in <a href="it-cl-wi-03.html">IT-CL-WI-03</a>, <a href="it-cl-wi-04.html">IT-CL-WI-04</a>)</td>
+        </tr>
+        <tr>
+          <td>Cloud platform DR scenarios: region failover, tenant lockout, M365 outage</td>
+          <td>Cyber incident <em>response</em> (<a href="grc-irp-01.html">GRC-IRP-01</a>)</td>
+        </tr>
+        <tr>
+          <td>DR runbook standards and template</td>
+          <td>Tenant lockout <em>response</em> (lives in SOC <a href="sop-id-01.html">SOP-ID-01</a>; DR addresses subsequent recovery to operations)</td>
+        </tr>
+        <tr>
+          <td>DR exercise standards (shared with BCP via <a href="grc-bcdr-wi-02.html">WI-02</a>)</td>
+          <td>Application-specific recovery procedures (live in agency / application-owner documentation)</td>
+        </tr>
+        <tr>
+          <td>Worked example: core IT services recovery plan</td>
+          <td>Insurance, contract, and supplier recovery instruments</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Domain documents</div>
+    <p>This domain comprises a policy SOP, three DR-specific Work Instructions, a runbook template, and shares two Work Instructions with the Business Continuity domain.</p>
+
+    <div class="doc-grid">
+      <a href="grc-dr-sop-01.html" class="doc-card">
+        <div class="doc-card-id">GRC-DR-SOP-01</div>
+        <div class="doc-card-title">IT Disaster Recovery Policy</div>
+        <div class="doc-card-desc">IT-audience policy. Recovery tier framework, backup strategy minima, testing cadence, governance, technology DR principles.</div>
+      </a>
+      <a href="grc-bcdr-sop-01.html" class="doc-card">
+        <div class="doc-card-id">GRC-BCDR-SOP-01</div>
+        <div class="doc-card-title">BCDR Methodology &amp; Governance</div>
+        <div class="doc-card-desc">Shared methodology: BIA approach, RTO/RPO classification, exercise framework, terminology, governance committee, review cadence.</div>
+      </a>
+      <a href="grc-bcdr-wi-01.html" class="doc-card">
+        <div class="doc-card-id">GRC-BCDR-WI-01</div>
+        <div class="doc-card-title">Conducting a Business Impact Assessment</div>
+        <div class="doc-card-desc">Shared BIA procedure used by both BCP and DR to set RTO/RPO targets and dependency maps.</div>
+      </a>
+      <a href="grc-bcdr-wi-02.html" class="doc-card">
+        <div class="doc-card-id">GRC-BCDR-WI-02</div>
+        <div class="doc-card-title">Exercise &amp; Testing Programme</div>
+        <div class="doc-card-desc">Shared exercise standards. Tabletop, walkthrough, simulation, live failover criteria, cadence, evidence requirements.</div>
+      </a>
+      <a href="grc-dr-wi-01.html" class="doc-card">
+        <div class="doc-card-id">GRC-DR-WI-01</div>
+        <div class="doc-card-title">Recovery Tier Classification</div>
+        <div class="doc-card-desc">Assigning IT services to Tier 1&ndash;4. RTO/RPO targets per tier, backup/replication/failover minima, classification workflow. Delivered in second pass.</div>
+      </a>
+      <a href="grc-dr-wi-02.html" class="doc-card">
+        <div class="doc-card-id">GRC-DR-WI-02</div>
+        <div class="doc-card-title">Cloud Platform Disaster Recovery</div>
+        <div class="doc-card-desc">Azure region failover, M365 sustained outage, Entra tenant lockout/compromise, secondary tenant strategy. Delivered in second pass.</div>
+      </a>
+      <a href="grc-dr-wi-03.html" class="doc-card">
+        <div class="doc-card-id">GRC-DR-WI-03</div>
+        <div class="doc-card-title">Worked Example: Core IT Services Recovery</div>
+        <div class="doc-card-desc">Populated DR plan for identity, email, file services, network, endpoint security. Reference for agency IT teams. Delivered in second pass.</div>
+      </a>
+      <a href="grc-frm-dr-01.html" class="doc-card">
+        <div class="doc-card-id">GRC-FRM-DR-01</div>
+        <div class="doc-card-title">DR Runbook template</div>
+        <div class="doc-card-desc">Template populated by IT teams for each in-scope service. Delivered in second pass.</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Recovery tiers at a glance</div>
+    <p>Detailed criteria, backup minima, and replication requirements per tier are defined in <a href="grc-dr-wi-01.html">GRC-DR-WI-01</a>. At a high level:</p>
+    <table class="gt-table">
+      <thead>
+        <tr><th>Tier</th><th>RTO</th><th>RPO</th><th>Typical example services</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Tier 1 &mdash; Mission-critical</strong></td>
+          <td>&le; 4 hours</td>
+          <td>&le; 15 minutes</td>
+          <td>Identity provider (Entra ID), core hospital systems (where in scope), critical clinical systems</td>
+        </tr>
+        <tr>
+          <td><strong>Tier 2 &mdash; Business-critical</strong></td>
+          <td>&le; 24 hours</td>
+          <td>&le; 4 hours</td>
+          <td>Email, file services, key administrative applications, EDR / SIEM</td>
+        </tr>
+        <tr>
+          <td><strong>Tier 3 &mdash; Important</strong></td>
+          <td>&le; 72 hours</td>
+          <td>&le; 24 hours</td>
+          <td>Internal applications, training systems, non-critical SaaS</td>
+        </tr>
+        <tr>
+          <td><strong>Tier 4 &mdash; Standard</strong></td>
+          <td>&le; 7 days</td>
+          <td>&le; 7 days</td>
+          <td>Development &amp; test environments, archival systems, low-impact internal tools</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Tier assignment is driven by BIA findings, not by IT preference. The methodology in <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a> defines how the RTO/RPO derived from business impact flows into tier assignment.</p>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Cloud platform DR as a first-class concern</div>
+    <p>The estate is hybrid with significant cloud-resident services across most agencies. Cloud platforms reduce some traditional DR concerns (hardware loss, single-site outage) and introduce others (region-level cloud outage, tenant compromise, cloud provider sustained service degradation, certificate-driven lockout). This domain treats cloud DR as a first-class scenario rather than an afterthought.</p>
+    <p>The scenarios specifically addressed in <a href="grc-dr-wi-02.html">GRC-DR-WI-02</a> include:</p>
+    <ul class="dr-bullet">
+      <li><span><strong>Azure region failure</strong> &mdash; primary region unavailable; recovery to paired region; what survives by default and what requires deliberate design.</span></li>
+      <li><span><strong>Microsoft 365 sustained outage</strong> &mdash; Exchange Online, SharePoint, Teams unavailable for an extended period; communication fallbacks and data continuity.</span></li>
+      <li><span><strong>Entra tenant lockout</strong> &mdash; loss of administrative access to the tenant through credential compromise, MFA cascade failure, certificate expiry, or accidental policy lockout; recovery paths.</span></li>
+      <li><span><strong>Entra tenant compromise</strong> &mdash; suspected or confirmed tenant-level compromise requiring isolation, forensics, or migration to a clean tenant; recovery to operations.</span></li>
+      <li><span><strong>SaaS provider disruption</strong> &mdash; critical SaaS provider unavailable; alternative-access patterns and business workaround coordination with BCP.</span></li>
+    </ul>
+    <p>Cloud platform <em>resilience design</em> (multi-region, paired regions, availability zones, backup vault configuration) is governed by the <a href="asm-cloud-baselines.html">Cloud Baselines</a> domain, particularly <a href="it-cl-wi-03.html">IT-CL-WI-03</a> Azure Subscription and <a href="it-cl-wi-04.html">IT-CL-WI-04</a> Workload Patterns. This domain uses those patterns; it does not re-author them.</p>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Roles &amp; accountabilities at domain level</div>
+    <p>Detailed role responsibilities are defined in GRC-DR-SOP-01 and GRC-BCDR-SOP-01. At domain level:</p>
+    <ul class="dr-bullet">
+      <li><span><strong>CIO / IT Leadership</strong> &mdash; accountable for the technology recovery posture; receives portfolio reporting on tier compliance, exercise outcomes, and gaps.</span></li>
+      <li><span><strong>BCDR Steering Committee</strong> &mdash; cross-agency governance; shared with BCP domain; chairs methodology and exercise schedule.</span></li>
+      <li><span><strong>IT DR Coordinator (per agency)</strong> &mdash; named role; owns the agency&rsquo;s DR plan inventory, runbook currency, and exercise outcomes.</span></li>
+      <li><span><strong>IT Service Owner</strong> &mdash; named individual per IT service; owns the service&rsquo;s recovery tier, backup configuration, replication design, and runbook.</span></li>
+      <li><span><strong>Backup &amp; Replication operators</strong> &mdash; execute backup, replication, and recovery procedures according to the runbook.</span></li>
+      <li><span><strong>Cloud Platform team</strong> &mdash; owns the cloud platform DR procedures (region failover, tenant recovery); coordinates with IT service owners for service-level recovery.</span></li>
+      <li><span><strong>GRC (central)</strong> &mdash; maintains methodology, templates, and portfolio inventory; reports completeness and currency; coordinates with BCP.</span></li>
+      <li><span><strong>Internal Audit</strong> &mdash; independently tests recovery design and exercise outcomes; relies on exercise evidence and runbook documentation.</span></li>
+    </ul>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Related domains &amp; cross-references</div>
+    <table class="gt-table">
+      <thead>
+        <tr><th>Related content</th><th>Boundary</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><a href="grc-bcp.html">GRC-BCP Business Continuity</a></td><td><strong>Paired domain.</strong> BCP sets the business RTO; DR delivers the technology recovery to meet it. Methodology, BIA, and exercise WIs are shared.</td></tr>
+        <tr><td><a href="asm-cloud-baselines.html">ASM-CL Cloud Baselines</a></td><td><strong>Cloud resilience design.</strong> Cloud-platform patterns (paired regions, AZs, geo-redundant storage) live in IT-CL-WI-03 / IT-CL-WI-04. DR uses those patterns; the BCDR plan operationalises them in a recovery scenario.</td></tr>
+        <tr><td><a href="asm-identity-governance.html">ASM-ID Identity Governance</a></td><td><strong>Identity recovery.</strong> Tenant lockout recovery in <a href="grc-dr-wi-02.html">GRC-DR-WI-02</a> presumes the break-glass and emergency access governance defined in the Identity domain.</td></tr>
+        <tr><td><a href="grc-irp-01.html">GRC-IRP-01 Cyber Security Incident Response Plan</a></td><td><strong>Cyber incident response.</strong> The IRP handles incident response; DR handles recovery to operations once response containment is complete (and may run in parallel where pre-emptive standby is invoked).</td></tr>
+        <tr><td><a href="sop-id-01.html">SOC SOP-ID-01 Identity Threat Operations</a></td><td><strong>Identity threat response.</strong> SOC investigates and responds to tenant-level identity threats; DR governs the subsequent recovery to operations, including potential clean-tenant migration.</td></tr>
+        <tr><td><a href="grc-register-risk.html">GRC-REG-RISK Risk Register</a></td><td><strong>Technology risk capture.</strong> DR gaps (under-tier services, missing runbooks, overdue exercises) feed into the risk register where treatment is required.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Key metrics tracked at portfolio level</div>
+    <ul class="dr-bullet">
+      <li><span><strong>Tier classification coverage</strong> &mdash; percentage of in-scope IT services with an assigned recovery tier. Target: 100%.</span></li>
+      <li><span><strong>Runbook currency</strong> &mdash; percentage of Tier-1 and Tier-2 services with a current DR runbook reviewed in the last 12 months.</span></li>
+      <li><span><strong>Backup success rate</strong> &mdash; percentage of scheduled backup jobs completing within SLA per tier. Tier-specific targets: T1/T2 99.5%, T3 99%, T4 98%.</span></li>
+      <li><span><strong>RPO compliance</strong> &mdash; percentage of services where last successful backup or replication snapshot is within the tier RPO at any check.</span></li>
+      <li><span><strong>Exercise compliance</strong> &mdash; percentage of Tier-1 services exercised within the last 12 months; percentage of Tier-2 within the last 24 months.</span></li>
+      <li><span><strong>Recovery exercise success</strong> &mdash; percentage of exercises meeting the documented RTO and RPO targets.</span></li>
+      <li><span><strong>Cloud tenant break-glass health</strong> &mdash; break-glass account quarterly access validation; secondary tenant standby status where applicable.</span></li>
+      <li><span><strong>Open DR-related exceptions</strong> &mdash; entries in the exception register with overdue remediation dates.</span></li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc.html" style="color:#1F5A4A;text-decoration:none;">&larr; Back to GRC</a></span>
+  </div>
+
+</div>
+</body>
+</html>

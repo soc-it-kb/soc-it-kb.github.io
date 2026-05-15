@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-DR-SOP-01: IT Disaster Recovery Policy &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --bcp:#2D6B3F; --bcp-light:#E8F4EC; --bcp-border:#A8D4B8; --bcp-dark:#1A4528; --dr:#1F5A4A; --dr-light:#E0F0EA; --dr-border:#9DC9B8; --dr-dark:#0E3A2F; --grc:#0E5C5C; --grc-light:#E6F4F4; }
+
+  .dr-page-hero { background:linear-gradient(135deg,#08201A 0%,#0E3A2F 40%,#1F5A4A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .dr-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .dr-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .dr-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .dr-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .dr-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .dr-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .dr-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .dr-stat-num { font-size:24px; font-weight:700; color:var(--dr); line-height:1; margin-bottom:4px; }
+  .dr-stat-lbl { font-size:11px; color:#888; }
+
+  .dr-section { background:#fff; border:0.5px solid var(--dr-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .dr-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .dr-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .dr-section p:last-child { margin-bottom:0; }
+
+  .dr-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .dr-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .dr-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--dr); flex-shrink:0; margin-top:5px; }
+
+  .doc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px; margin-top:6px; }
+  .doc-card { background:#fff; border:0.5px solid var(--dr-border); border-radius:10px; padding:1rem 1.2rem; text-decoration:none; color:inherit; display:block; transition:border-color .15s; }
+  .doc-card:hover { border-color:var(--dr); }
+  .doc-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--dr); margin-bottom:4px; }
+  .doc-card-title { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:5px; }
+  .doc-card-desc { font-size:12px; color:#666; line-height:1.5; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--dr-light); color:var(--dr-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--dr-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:var(--dr); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+
+  /* SOP/WI common */
+  .step { background:#fff; border:0.5px solid #e8e8e4; border-left:3px solid var(--dr); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .step-header { display:flex; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .step-num { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--dr); background:var(--dr-light); padding:2px 7px; border-radius:5px; }
+  .step-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .step-body { font-size:13px; color:#333; line-height:1.65; }
+  .step-body p { margin:0 0 6px; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body ul { padding-left:1.1rem; margin:6px 0 8px; }
+  .step-body ul li { margin-bottom:4px; line-height:1.55; }
+  .step-body code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; <a href="grc-dr.html">IT Disaster Recovery</a> &nbsp;&rsaquo;&nbsp; GRC-DR-SOP-01</div>
+
+  <div class="dr-page-hero">
+    <div class="dr-page-hero-eyebrow">GRC &middot; DR &middot; SOP</div>
+    <h1>GRC-DR-SOP-01 &mdash; IT Disaster Recovery Policy</h1>
+    <p>The organisation&rsquo;s IT-audience policy for technology service recovery. Defines IT obligations, recovery tier framework, backup strategy minima, replication patterns, runbook requirements, testing cadence, and cloud platform DR principles. Uses the methodology in <a href="grc-bcdr-sop-01.html" style="color:#fff;text-decoration:underline;">GRC-BCDR-SOP-01</a>; companion to the Business Continuity Policy (<a href="grc-bcp-sop-01.html" style="color:#fff;text-decoration:underline;">GRC-BCP-SOP-01</a>).</p>
+    <div class="dr-page-hero-pills">
+      <span class="dr-page-hero-pill">IT-audience policy</span>
+      <span class="dr-page-hero-pill">Recovery tiers 1&ndash;4</span>
+      <span class="dr-page-hero-pill">Cloud DR first-class</span>
+    </div>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">1 &mdash; Purpose</div>
+    <p>This policy establishes the organisation&rsquo;s commitment to recovering IT services in support of business continuity, and the IT obligations that follow. It defines the recovery tier framework that every in-scope IT service is classified against, the minimum backup and replication standards per tier, and the runbook, testing, and governance requirements.</p>
+    <p>It is a policy document. It states <em>what</em> IT must do to provide the recovery capabilities that BCP relies on. Methodology &mdash; how tier classification works, how RTO/RPO flow from BIA, how exercises are run &mdash; is in <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a>. Operational procedures are in the DR WIs.</p>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">2 &mdash; Scope &amp; applicability</div>
+    <p>This policy applies to all IT services within the organisation that support business processes identified as critical by BIA (Mission-critical, Business-critical, or Important tiers), and to the IT teams operating them.</p>
+    <p><strong>In scope:</strong></p>
+    <ul class="dr-bullet">
+      <li>All IT services with at least one dependent business process at Tier-1, Tier-2, or Tier-3 criticality.</li>
+      <li>Cloud-resident services (M365, Azure, in-scope SaaS) as well as on-premises and hybrid services.</li>
+      <li>Identity and authentication services (which underpin nearly every dependent service).</li>
+      <li>Network, infrastructure, and security platform services (which are dependencies of dependent services).</li>
+    </ul>
+    <p><strong>Out of scope:</strong></p>
+    <ul class="dr-bullet">
+      <li>IT services supporting only non-critical (Standard) business processes &mdash; resilience is expected but no specific runbook is required.</li>
+      <li>Application-internal recovery procedures (which live in application-owner documentation; DR governs that they exist and are exercised).</li>
+      <li>Business-process workarounds (which are <a href="grc-bcp.html">BCP&rsquo;s</a> remit).</li>
+      <li>Cyber incident <em>response</em> (which is <a href="grc-irp-01.html">IRP</a>&rsquo;s remit). DR addresses recovery to operations.</li>
+    </ul>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">3 &mdash; Policy statements</div>
+    <ol class="dr-bullet" style="padding-left:0;">
+      <li><span><strong>Every in-scope IT service shall have an assigned recovery tier</strong> derived from the BIA of dependent business processes per the methodology in <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a>. Where a service supports multiple processes at different tiers, the highest tier applies.</span></li>
+      <li><span><strong>Every in-scope IT service shall meet the minimum backup, replication, and resilience standards for its assigned tier</strong> as defined in <a href="grc-dr-wi-01.html">GRC-DR-WI-01</a>. Where a service cannot meet the standards, the gap is recorded as an exception or risk.</span></li>
+      <li><span><strong>Every Tier-1 and Tier-2 service shall have a current DR runbook</strong> populated using the template (<a href="grc-frm-dr-01.html">GRC-FRM-DR-01</a>), reviewed at least every 12 months, accessible to operators during disruption (including offline / out-of-band copies for Tier-1), and updated immediately on material change.</span></li>
+      <li><span><strong>Tier-3 services shall have a documented recovery approach</strong> (not necessarily a full runbook) describing backup sources, recovery sequence, and validation steps.</span></li>
+      <li><span><strong>Tier-4 services require a documented backup approach</strong> only &mdash; runbook is not required, recovery on a best-effort basis.</span></li>
+      <li><span><strong>Backup success is monitored against tier-specific SLAs.</strong> Failed backups for Tier-1 and Tier-2 services generate alerts within 4 hours of detection; sustained backup failure is escalated to the IT Service Owner and IT DR Coordinator.</span></li>
+      <li><span><strong>Recovery exercises are mandatory.</strong> Each Tier-1 service is exercised at least once every 12 months; each Tier-2 service at least every 24 months. Exercise type per <a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a>.</span></li>
+      <li><span><strong>Cloud platform DR scenarios are first-class</strong> and addressed by dedicated procedures in <a href="grc-dr-wi-02.html">GRC-DR-WI-02</a>: Azure region failure, M365 sustained outage, Entra tenant lockout, tenant compromise.</span></li>
+      <li><span><strong>Break-glass and emergency access provisions are tested quarterly</strong> for tenant-level scenarios. Stale break-glass accounts (no successful validation within the last 90 days) are treated as a Tier-0 risk.</span></li>
+      <li><span><strong>Backups are immutable or sufficiently isolated to survive a destructive cyber event.</strong> Tier-1 and Tier-2 backups for systems supporting Mission-critical processes shall include immutable copies or air-gapped / logically-isolated copies retained for at least 14 days.</span></li>
+      <li><span><strong>Recovery shall not introduce new vulnerabilities.</strong> Recovered systems are validated against the relevant <a href="asm-security-baselines.html">security baseline</a> before being returned to production use; recovered identities are not granted higher standing access than they held before the disruption.</span></li>
+      <li><span><strong>Findings from exercises and invocations are tracked to closure.</strong> Overdue findings escalate to the BCDR Steering Committee.</span></li>
+      <li><span><strong>Recovery tier assignments are reviewed annually</strong> by IT Service Owners and the IT DR Coordinator. BIA refresh triggers an out-of-cycle review.</span></li>
+    </ol>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">4 &mdash; Tier framework summary</div>
+    <p>Detailed criteria are in <a href="grc-dr-wi-01.html">GRC-DR-WI-01</a>. The summary table:</p>
+    <table class="gt-table">
+      <thead>
+        <tr><th>Tier</th><th>RTO</th><th>RPO</th><th>Backup minimum</th><th>Replication minimum</th><th>Runbook</th><th>Exercise cadence</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Tier 1</strong></td><td>&le; 4h</td><td>&le; 15m</td><td>Continuous or near-continuous; immutable copies</td><td>Synchronous or near-synchronous to secondary region/site</td><td>Required, offline copy</td><td>Annually</td></tr>
+        <tr><td><strong>Tier 2</strong></td><td>&le; 24h</td><td>&le; 4h</td><td>At least every 4h; immutable copies; tested restores quarterly</td><td>Asynchronous to secondary region/site</td><td>Required</td><td>Every 24m</td></tr>
+        <tr><td><strong>Tier 3</strong></td><td>&le; 72h</td><td>&le; 24h</td><td>Daily; tested restores semi-annually</td><td>Optional (backup-based recovery acceptable)</td><td>Recovery approach documented</td><td>Walkthrough every 36m</td></tr>
+        <tr><td><strong>Tier 4</strong></td><td>&le; 7d</td><td>&le; 7d</td><td>Weekly; tested restores annually</td><td>Not required</td><td>Backup approach documented</td><td>Tabletop every 36m (optional)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">5 &mdash; Backup &amp; replication principles</div>
+    <ul class="dr-bullet">
+      <li><span><strong>3-2-1 baseline for Tier-1 and Tier-2.</strong> Three copies of data, on two media types, with one off-site. Cloud-resident services satisfy this through cross-region geo-redundant storage where designed; on-premises services require an off-site copy.</span></li>
+      <li><span><strong>Immutability for cyber resilience.</strong> Backup repositories supporting Tier-1 and Tier-2 services that face cyber risk shall have immutable or air-gapped copies with retention of at least 14 days. This protects against ransomware that targets backup infrastructure.</span></li>
+      <li><span><strong>Restore tests, not backup tests.</strong> A successful backup is necessary but not sufficient. Restore tests &mdash; full or sample &mdash; are required on the cadence in <a href="grc-dr-wi-01.html">GRC-DR-WI-01</a>: Tier-1 quarterly, Tier-2 quarterly, Tier-3 semi-annually, Tier-4 annually.</span></li>
+      <li><span><strong>Replication is for RTO, backup is for RPO.</strong> Replication reduces recovery time (warm or hot secondary); backup ensures point-in-time recoverability including against logical corruption. Both are needed for Tier-1; Tier-2 typically uses asynchronous replication; Tier-3 may rely on backup alone.</span></li>
+      <li><span><strong>Cloud-native protection where appropriate.</strong> M365 retention, Azure Backup, Azure Site Recovery, geo-redundant storage are first-class mechanisms; the choice is per-service per the design patterns in <a href="it-cl-wi-03.html">IT-CL-WI-03</a> and <a href="it-cl-wi-04.html">IT-CL-WI-04</a>.</span></li>
+      <li><span><strong>Third-party SaaS responsibility is shared.</strong> SaaS data is the organisation&rsquo;s responsibility regardless of provider availability commitments. Tier-1 SaaS systems shall have an independent backup or export mechanism if the provider does not offer point-in-time recovery within RPO.</span></li>
+      <li><span><strong>Encryption at rest and in transit</strong> applies to all backup and replication data and is configured per the relevant security baseline.</span></li>
+    </ul>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">6 &mdash; Cloud platform DR principles</div>
+    <p>Detailed scenarios and recovery paths are in <a href="grc-dr-wi-02.html">GRC-DR-WI-02</a>. The policy principles:</p>
+    <ul class="dr-bullet">
+      <li><span><strong>Paired-region by default for Tier-1 cloud workloads.</strong> Azure paired-region failover is the baseline; geo-redundant storage is the data baseline. Design patterns in <a href="it-cl-wi-04.html">IT-CL-WI-04</a> govern implementation.</span></li>
+      <li><span><strong>Tenant lockout is a designed scenario.</strong> Break-glass accounts, emergency access procedures, and out-of-band administrative access are tested quarterly. Reliance on the tenant being available to recover the tenant is not acceptable.</span></li>
+      <li><span><strong>Tenant compromise has a recovery path.</strong> The capability to operate from a clean tenant in the event of suspected tenant-level compromise is documented and tested. Full migration is a multi-week effort; the path is documented even if speed-of-execution is constrained.</span></li>
+      <li><span><strong>M365 sustained outage has communication fallbacks.</strong> Critical communications during a sustained M365 outage do not rely on M365. Alternative channels are documented and tested.</span></li>
+      <li><span><strong>SaaS provider failure is in scope.</strong> Tier-1 dependence on a single SaaS provider without an alternative-access pattern is a documented risk.</span></li>
+      <li><span><strong>Cloud DR is not a substitute for backup.</strong> Cross-region replication and high-availability do not protect against logical corruption, ransomware on cloud-resident data, or accidental destruction. Backup remains required.</span></li>
+    </ul>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">7 &mdash; Roles &amp; responsibilities</div>
+    <table class="gt-table">
+      <thead><tr><th>Role</th><th>Responsibilities</th></tr></thead>
+      <tbody>
+        <tr><td><strong>CIO / IT Leadership</strong></td><td>Accountable for the IT recovery posture. Receives quarterly portfolio reporting. Approves material policy changes. Sponsors the DR programme within IT.</td></tr>
+        <tr><td><strong>BCDR Steering Committee</strong></td><td>Cross-agency governance per <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01 &sect;6</a>. Shared with BCP. Approves methodology, exercise schedule, plan-coverage acceptance.</td></tr>
+        <tr><td><strong>IT DR Coordinator (per agency)</strong></td><td>Named role per agency. Owns the DR plan inventory, runbook currency, exercise schedule. Reports quarterly to the BCDR Steering Committee and CIO.</td></tr>
+        <tr><td><strong>IT Service Owner</strong></td><td>Named individual per in-scope IT service. Owns recovery tier classification, runbook, backup configuration, replication design, exercise participation, post-exercise updates.</td></tr>
+        <tr><td><strong>Cloud Platform team</strong></td><td>Owns cloud platform DR procedures (region failover, tenant recovery). Coordinates with IT service owners for service-level recovery. Maintains break-glass and emergency access provisions.</td></tr>
+        <tr><td><strong>Backup &amp; Replication operators</strong></td><td>Execute backup, replication, and recovery procedures per the runbook. Monitor backup success rates. Escalate sustained failures.</td></tr>
+        <tr><td><strong>Information Security</strong></td><td>Validates that recovery procedures do not introduce vulnerabilities. Validates immutable / isolated backup configurations meet baseline. Reviews tenant DR procedures.</td></tr>
+        <tr><td><strong>SOC</strong></td><td>Provides incident response context to DR (when a recovery is in response to a cyber incident, SOC owns the response per <a href="grc-irp-01.html">IRP</a>; DR is consulted for recovery-to-operations).</td></tr>
+        <tr><td><strong>GRC (central)</strong></td><td>Maintains methodology, templates, and portfolio inventory. Reports completeness and currency. Coordinates BCP-DR alignment. Owns this policy document.</td></tr>
+        <tr><td><strong>Internal Audit</strong></td><td>Independently tests DR design, runbook currency, exercise outcomes, restore-test evidence. Issues findings.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">8 &mdash; Exceptions &amp; non-compliance</div>
+    <p>Where conformance with this policy is genuinely not feasible &mdash; e.g. a legacy application that cannot be replicated at Tier-1, a SaaS provider that does not offer point-in-time recovery within RPO, a hybrid system in active migration &mdash; an exception is recorded.</p>
+    <p>Exception requirements are the same as BCP: documented justification, named owner, time-bounded approval (default 12 months), compensating measures, recorded in the <a href="grc-register-exceptions.html">GRC Exception Register</a>. Persistent or material non-compliance escalates to a risk register entry.</p>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">9 &mdash; Framework alignment</div>
+    <table class="gt-table">
+      <thead><tr><th>Framework</th><th>Reference</th><th>Coverage</th></tr></thead>
+      <tbody>
+        <tr><td>ISO/IEC 22301:2019</td><td><code>Clauses 8.3, 8.4</code></td><td>Business continuity strategies and solutions; business continuity plans and procedures &mdash; ICT continuity</td></tr>
+        <tr><td>ISO/IEC 27001:2022</td><td><code>A.5.30, A.8.13, A.8.14</code></td><td>ICT readiness for business continuity; information backup; redundancy of information processing facilities</td></tr>
+        <tr><td>NIST SP 800-34 Rev. 1</td><td><code>&sect;3.2 BIA; &sect;3.4 contingency strategies; &sect;3.5 plan; &sect;3.6 testing</code></td><td>System contingency planning: BIA, strategies, plan, testing</td></tr>
+        <tr><td>NIST CSF 2.0</td><td><code>PR.DS, PR.IR, RC.RP, RC.IM</code></td><td>Data security; technology infrastructure resilience; recovery planning &amp; improvements</td></tr>
+        <tr><td>NIST SP 800-53 r5</td><td><code>CP-2, CP-4, CP-6, CP-7, CP-9, CP-10</code></td><td>Contingency plan, testing, alternate storage site, alternate processing site, backup, recovery &amp; reconstitution</td></tr>
+        <tr><td>CIS Controls v8</td><td><code>11.1&ndash;11.5</code></td><td>Data Recovery &mdash; backup, isolated recovery data, automated backups, protect recovery data, test data recovery</td></tr>
+        <tr><td>SOC 2 Trust Services</td><td><code>A1.2, A1.3</code></td><td>Availability principle &mdash; recovery infrastructure and testing</td></tr>
+        <tr><td>MITRE ATT&amp;CK mitigations</td><td><code>M1053</code></td><td>Data Backup mitigation against destructive scenarios (T1485 Data Destruction; T1486 Data Encrypted for Impact)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">10 &mdash; Related documents</div>
+    <ul class="dr-bullet">
+      <li><a href="grc-dr.html">GRC-DR</a> &mdash; IT Disaster Recovery domain hub</li>
+      <li><a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a> &mdash; BCDR Methodology &amp; Governance (shared methodology)</li>
+      <li><a href="grc-bcp-sop-01.html">GRC-BCP-SOP-01</a> &mdash; Business Continuity Policy (paired business-side policy)</li>
+      <li><a href="grc-bcdr-wi-01.html">GRC-BCDR-WI-01</a> &mdash; Conducting a Business Impact Assessment</li>
+      <li><a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a> &mdash; Exercise &amp; Testing Programme</li>
+      <li><a href="grc-dr-wi-01.html">GRC-DR-WI-01</a> &mdash; Recovery Tier Classification</li>
+      <li><a href="grc-dr-wi-02.html">GRC-DR-WI-02</a> &mdash; Cloud Platform Disaster Recovery</li>
+      <li><a href="grc-dr-wi-03.html">GRC-DR-WI-03</a> &mdash; Worked Example: Core IT Services Recovery</li>
+      <li><a href="grc-frm-dr-01.html">GRC-FRM-DR-01</a> &mdash; DR Runbook template</li>
+      <li><a href="it-cl-wi-03.html">IT-CL-WI-03</a> &mdash; Azure Subscription (resilience design)</li>
+      <li><a href="it-cl-wi-04.html">IT-CL-WI-04</a> &mdash; Azure Workload Patterns (resilience design)</li>
+      <li><a href="grc-irp-01.html">GRC-IRP-01</a> &mdash; Cyber Security Incident Response Plan (paired discipline)</li>
+      <li><a href="grc-register-risk.html">GRC-REG-RISK</a> &mdash; Risk register</li>
+      <li><a href="grc-register-exceptions.html">GRC-REG-EX</a> &mdash; Exception register</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-dr.html" style="color:#1F5A4A;text-decoration:none;">&larr; Back to DR</a></span>
+  </div>
+
+</div>
+</body>
+</html>

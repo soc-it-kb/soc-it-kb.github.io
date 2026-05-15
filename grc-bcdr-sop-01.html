@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-BCDR-SOP-01: BCDR Methodology &amp; Governance &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --bcp:#2D6B3F; --bcp-light:#E8F4EC; --bcp-border:#A8D4B8; --bcp-dark:#1A4528; --dr:#1F5A4A; --dr-light:#E0F0EA; --dr-border:#9DC9B8; --dr-dark:#0E3A2F; --grc:#0E5C5C; --grc-light:#E6F4F4; }
+
+  .bcp-page-hero { background:linear-gradient(135deg,#0F2818 0%,#1A4528 40%,#2D6B3F 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .bcp-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .bcp-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .bcp-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .bcp-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .bcp-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .bcp-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .bcp-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .bcp-stat-num { font-size:24px; font-weight:700; color:var(--bcp); line-height:1; margin-bottom:4px; }
+  .bcp-stat-lbl { font-size:11px; color:#888; }
+
+  .bcp-section { background:#fff; border:0.5px solid var(--bcp-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .bcp-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .bcp-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .bcp-section p:last-child { margin-bottom:0; }
+
+  .bcp-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .bcp-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .bcp-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--bcp); flex-shrink:0; margin-top:5px; }
+
+  .doc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px; margin-top:6px; }
+  .doc-card { background:#fff; border:0.5px solid var(--bcp-border); border-radius:10px; padding:1rem 1.2rem; text-decoration:none; color:inherit; display:block; transition:border-color .15s; }
+  .doc-card:hover { border-color:var(--bcp); }
+  .doc-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--bcp); margin-bottom:4px; }
+  .doc-card-title { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:5px; }
+  .doc-card-desc { font-size:12px; color:#666; line-height:1.5; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--bcp-light); color:var(--bcp-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--bcp-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:var(--bcp); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+
+  /* SOP/WI common */
+  .step { background:#fff; border:0.5px solid #e8e8e4; border-left:3px solid var(--bcp); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .step-header { display:flex; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .step-num { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--bcp); background:var(--bcp-light); padding:2px 7px; border-radius:5px; }
+  .step-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .step-body { font-size:13px; color:#333; line-height:1.65; }
+  .step-body p { margin:0 0 6px; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body ul { padding-left:1.1rem; margin:6px 0 8px; }
+  .step-body ul li { margin-bottom:4px; line-height:1.55; }
+  .step-body code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; <a href="grc-bcp.html">Business Continuity</a> / <a href="grc-dr.html">Disaster Recovery</a> &nbsp;&rsaquo;&nbsp; GRC-BCDR-SOP-01</div>
+
+  <div class="bcp-page-hero">
+    <div class="bcp-page-hero-eyebrow">GRC &middot; BCDR Methodology &middot; SOP</div>
+    <h1>GRC-BCDR-SOP-01 &mdash; BCDR Methodology &amp; Governance</h1>
+    <p>Shared methodology underpinning Business Continuity (<a href="grc-bcp.html" style="color:#fff;text-decoration:underline;">GRC-BCP</a>) and IT Disaster Recovery (<a href="grc-dr.html" style="color:#fff;text-decoration:underline;">GRC-DR</a>). Defines the common language, business impact assessment approach, RTO/RPO classification, exercise framework, governance committee, and review cadence used by both domains. Authoritative source for shared terminology and methodology decisions.</p>
+    <div class="bcp-page-hero-pills">
+      <span class="bcp-page-hero-pill">Shared methodology</span>
+      <span class="bcp-page-hero-pill">BIA &middot; RTO &middot; RPO</span>
+      <span class="bcp-page-hero-pill">Exercise framework</span>
+      <span class="bcp-page-hero-pill">ISO 22301-aligned</span>
+    </div>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">1 &mdash; Purpose &amp; scope</div>
+    <p>This SOP provides the methodological foundation for business continuity and IT disaster recovery across the organisation. It exists because both disciplines depend on common definitions (what is &ldquo;critical&rdquo;, what RTO means, what counts as an exercise) and a common governance forum, and authoring these in two policy documents would create inevitable drift between them.</p>
+    <p>This SOP is therefore consulted by:</p>
+    <ul class="bcp-bullet">
+      <li>The <strong>Business Continuity Policy</strong> (<a href="grc-bcp-sop-01.html">GRC-BCP-SOP-01</a>) for terminology, BIA approach, exercise standards, and governance.</li>
+      <li>The <strong>IT Disaster Recovery Policy</strong> (<a href="grc-dr-sop-01.html">GRC-DR-SOP-01</a>) for the same terminology, RTO/RPO classification, and the exercise standards.</li>
+      <li>The <strong>BIA work instruction</strong> (<a href="grc-bcdr-wi-01.html">GRC-BCDR-WI-01</a>) which operationalises the methodology defined here.</li>
+      <li>The <strong>Exercise work instruction</strong> (<a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a>) which operationalises the exercise framework defined here.</li>
+    </ul>
+    <p>It is <strong>not</strong> a policy document. It does not define obligations on agencies or IT teams &mdash; those obligations live in the two policy SOPs. It defines the framework that those policies and the work instructions use.</p>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">2 &mdash; Terminology &amp; definitions</div>
+    <p>The following definitions apply throughout the BCDR domain. Where a term is used elsewhere in the KB with a different meaning, the BCDR-specific meaning applies within BCDR documents.</p>
+    <table class="gt-table">
+      <thead>
+        <tr><th>Term</th><th>Definition</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Business process</strong></td><td>A discrete activity that delivers value to a beneficiary, stakeholder, or internal customer. Examples: clinical consultation, student enrolment, payroll, donor reporting. The unit of analysis for business continuity.</td></tr>
+        <tr><td><strong>IT service</strong></td><td>A technology capability supporting one or more business processes. Examples: identity service, email service, file service, electronic health record. The unit of analysis for IT disaster recovery.</td></tr>
+        <tr><td><strong>RTO (Recovery Time Objective)</strong></td><td>The maximum acceptable time between disruption and restoration of a process or service. Set by BIA at business-process level; flows down to dependent IT services.</td></tr>
+        <tr><td><strong>RPO (Recovery Point Objective)</strong></td><td>The maximum acceptable data loss measured backwards from the moment of disruption. Set by BIA; expressed as &ldquo;no more than N hours / minutes of data loss&rdquo;.</td></tr>
+        <tr><td><strong>MTPD (Maximum Tolerable Period of Disruption)</strong></td><td>The point beyond which disruption causes unrecoverable damage (regulatory, reputational, financial, beneficiary harm). RTO must be less than MTPD with margin.</td></tr>
+        <tr><td><strong>MBCO (Minimum Business Continuity Objective)</strong></td><td>The minimum acceptable level of service during disruption. May be a percentage of normal capacity, a reduced feature set, or a manual workaround. Set per business process by BIA.</td></tr>
+        <tr><td><strong>BIA (Business Impact Assessment)</strong></td><td>The structured analysis that identifies critical processes, dependencies, RTO, RPO, MTPD, MBCO, and disruption impact. See <a href="grc-bcdr-wi-01.html">GRC-BCDR-WI-01</a>.</td></tr>
+        <tr><td><strong>Recovery tier</strong></td><td>IT-side classification (Tier 1&ndash;4) of an IT service&rsquo;s recovery requirements derived from the RTO/RPO of dependent business processes. See <a href="grc-dr-wi-01.html">GRC-DR-WI-01</a>.</td></tr>
+        <tr><td><strong>Business Process Continuity Plan</strong></td><td>The document describing how a critical business process continues to operate (workarounds, alternative sites, alternative tools, communications) during a disruption. Owned by the Business Process Owner.</td></tr>
+        <tr><td><strong>DR Runbook</strong></td><td>The document describing how an IT service is recovered (steps, sequence, dependencies, validation, rollback). Owned by the IT Service Owner.</td></tr>
+        <tr><td><strong>Crisis Management Team</strong></td><td>The named group activated during a disruption to coordinate the response. Per-agency, per-site, or per-event depending on scale.</td></tr>
+        <tr><td><strong>Exercise</strong></td><td>Any planned activity that tests a continuity or recovery plan. Includes tabletop, walkthrough, simulation, and live failover. See <a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a>.</td></tr>
+        <tr><td><strong>Invocation</strong></td><td>The formal decision to activate a continuity or recovery plan in response to an actual disruption. Distinct from exercise activation.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">3 &mdash; BIA approach</div>
+    <p>Business impact assessment is the analytical foundation for both BCP and DR. The same BIA produces:</p>
+    <ul class="bcp-bullet">
+      <li>The list of <strong>critical business processes</strong> for an agency, ranked by impact;</li>
+      <li>The <strong>RTO and RPO</strong> for each critical process;</li>
+      <li>The <strong>dependencies</strong> of each process &mdash; IT services, suppliers, sites, people, data;</li>
+      <li>The <strong>MTPD and MBCO</strong> for each critical process.</li>
+    </ul>
+    <p>Operational procedure is in <a href="grc-bcdr-wi-01.html">GRC-BCDR-WI-01</a>. The methodology principles are:</p>
+    <ul class="bcp-bullet">
+      <li><span><strong>Process-first, not system-first.</strong> The BIA starts with what the agency does (delivers patient care, teaches students, conducts research), not with the systems used to do it. Systems are inferred as dependencies.</span></li>
+      <li><span><strong>Impact across multiple dimensions.</strong> Each process is assessed for impact along: beneficiary safety, regulatory / legal, financial, reputational, operational. The highest impact dimension drives criticality.</span></li>
+      <li><span><strong>Time-graduated impact.</strong> Impact is assessed at multiple time horizons (e.g. 1h, 4h, 24h, 72h, 1w) because some processes can tolerate short outages but degrade severely over time.</span></li>
+      <li><span><strong>Beneficiary safety is the trump card.</strong> Where beneficiary safety impact is assessed as high or critical, the process is classed Tier-1 critical regardless of other dimensions.</span></li>
+      <li><span><strong>Dependencies are the bridge to DR.</strong> The BIA&rsquo;s dependency map is the input to IT recovery tier assignment.</span></li>
+      <li><span><strong>Refresh on material change, not just on cadence.</strong> A BIA refresh is required when (a) the agency&rsquo;s service portfolio materially changes, (b) a new critical IT system is introduced, (c) a regulatory change alters obligations, or (d) the standing cadence elapses (every 24 months at minimum).</span></li>
+    </ul>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">4 &mdash; RTO / RPO classification</div>
+    <p>RTO and RPO emerge from the BIA. They are expressed at business-process level and flow down to IT services as IT recovery tier assignments. The organisation uses the following standard bands; agencies may set tighter RTOs for specific processes but not looser.</p>
+    <table class="gt-table">
+      <thead>
+        <tr><th>Process criticality</th><th>RTO (target)</th><th>RPO (target)</th><th>MTPD (typical)</th><th>IT tier mapping</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Mission-critical</strong> (beneficiary safety impact within hours)</td><td>&le; 4 hours</td><td>&le; 15 minutes</td><td>24 hours</td><td>Tier 1</td></tr>
+        <tr><td><strong>Business-critical</strong> (regulatory / financial / reputational impact within a day)</td><td>&le; 24 hours</td><td>&le; 4 hours</td><td>7 days</td><td>Tier 2</td></tr>
+        <tr><td><strong>Important</strong> (operational impact within days)</td><td>&le; 72 hours</td><td>&le; 24 hours</td><td>14 days</td><td>Tier 3</td></tr>
+        <tr><td><strong>Standard</strong> (deferred or absorbable)</td><td>&le; 7 days</td><td>&le; 7 days</td><td>30 days</td><td>Tier 4</td></tr>
+      </tbody>
+    </table>
+    <p>The IT tier mapping is the principal bridge between BCP and DR. Where a single IT service supports business processes at different criticality levels, the IT service inherits the <strong>highest</strong> tier among its dependents. Detailed tier criteria and IT minima per tier are in <a href="grc-dr-wi-01.html">GRC-DR-WI-01</a>.</p>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">5 &mdash; Exercise framework</div>
+    <p>Continuity and recovery plans are only as good as the last exercise. The exercise framework defines what counts as an exercise, what each type tests, and the minimum cadence.</p>
+    <table class="gt-table">
+      <thead>
+        <tr><th>Exercise type</th><th>What it tests</th><th>Effort</th><th>Minimum cadence</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Tabletop</strong></td><td>Decision-making, role clarity, communication paths. No real systems touched.</td><td>Low (2&ndash;4 hours)</td><td>All Tier-1 processes / services: annually. Tier-2: every 24 months.</td></tr>
+        <tr><td><strong>Walkthrough</strong></td><td>Procedure correctness. Plan is followed step-by-step in a non-production setting; deviations are noted.</td><td>Medium (half-day)</td><td>All Tier-1 services: every 24 months.</td></tr>
+        <tr><td><strong>Simulation</strong></td><td>Procedure execution in a simulated environment. Recovery is performed but on a copy or sandbox.</td><td>High (1&ndash;3 days)</td><td>Tier-1 critical services: every 24 months minimum; preferred over walkthrough where feasible.</td></tr>
+        <tr><td><strong>Live failover</strong></td><td>Actual failover and failback in production. Tests the full path including human, technical, and supplier dependencies.</td><td>Very high (multi-day; advance scheduling and approval)</td><td>At least one Tier-1 service per agency per 24 months; rotate the service tested.</td></tr>
+      </tbody>
+    </table>
+    <p>Operational procedure for each exercise type is in <a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a>. Methodology principles:</p>
+    <ul class="bcp-bullet">
+      <li><span><strong>Higher exercise types do not replace lower ones.</strong> A live failover does not substitute for a tabletop &mdash; they test different things (decision-making vs technical execution).</span></li>
+      <li><span><strong>Scenarios must vary.</strong> The same scenario every year tests memorisation. The scenario library in <a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a> provides rotation.</span></li>
+      <li><span><strong>Findings are mandatory output.</strong> Every exercise produces a findings document with assigned owners and target remediation dates. Findings are tracked to closure; overdue findings escalate to the Steering Committee.</span></li>
+      <li><span><strong>Real disruption counts as exercise.</strong> An actual invocation that exercises the plan in earnest produces the same evidence as a planned exercise and counts against the cadence, provided a structured after-action review is completed.</span></li>
+      <li><span><strong>Cyber incidents that invoke continuity also count.</strong> A ransomware response that activates the continuity plan counts as a live exercise for the processes invoked, with after-action review feeding both the BCP/DR programme and the SOC&rsquo;s lessons-learned.</span></li>
+    </ul>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">6 &mdash; BCDR governance committee</div>
+    <p>The BCDR Steering Committee is the cross-agency governance body for the BCDR programme. It is shared between BCP and DR; the same body governs both.</p>
+    <p><strong>Composition.</strong></p>
+    <ul class="bcp-bullet">
+      <li>Chair: senior accountable executive (rotating; typically a Group-level COO or equivalent).</li>
+      <li>Vice-chair: CIO or equivalent.</li>
+      <li>Members: each agency&rsquo;s BCP Coordinator; each agency&rsquo;s IT DR Coordinator; CISO or delegate; Head of Internal Audit (observer); General Counsel (observer); Head of Communications (observer).</li>
+      <li>Secretary: GRC team member responsible for the BCDR portfolio.</li>
+    </ul>
+    <p><strong>Cadence.</strong> Quarterly standing meeting. Out-of-cycle convene on (a) major disruption requiring cross-agency coordination, (b) material methodology change, (c) exercise outcome requiring escalation.</p>
+    <p><strong>Standing agenda.</strong></p>
+    <ul class="bcp-bullet">
+      <li>Portfolio status: plan coverage, plan currency, exercise compliance by agency and tier.</li>
+      <li>Exercise outcomes since last meeting: lessons learned, finding closure rates, escalations.</li>
+      <li>Invocations since last meeting (actual disruptions): after-action review summaries.</li>
+      <li>Risk register entries related to BCDR: status, treatment progress.</li>
+      <li>Methodology change requests: review, approve, schedule rollout.</li>
+      <li>Forward exercise schedule for next quarter.</li>
+    </ul>
+    <p><strong>Decisions reserved to the Committee.</strong></p>
+    <ul class="bcp-bullet">
+      <li>Methodology changes (this SOP, terminology, RTO/RPO bands, exercise standards).</li>
+      <li>Approval of new agency BCP / DR programmes joining the portfolio.</li>
+      <li>Acceptance of material gaps in plan coverage (which become risk register entries).</li>
+      <li>Escalations from agencies that cannot be resolved locally.</li>
+    </ul>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">7 &mdash; Review cadence</div>
+    <p>The BCDR programme operates on a layered review cadence:</p>
+    <table class="gt-table">
+      <thead>
+        <tr><th>Artefact</th><th>Owner</th><th>Review cadence</th><th>Refresh trigger (outside cadence)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>This SOP (methodology)</td><td>GRC central</td><td>Every 24 months</td><td>Material change in framework alignment (e.g. ISO 22301 revision); committee-approved methodology change</td></tr>
+        <tr><td>Policy SOPs (BCP, DR)</td><td>GRC central</td><td>Every 24 months</td><td>Methodology change in this SOP that requires policy update</td></tr>
+        <tr><td>BIA per agency</td><td>Agency BCP Coordinator</td><td>Every 24 months</td><td>Material change in service portfolio, new critical IT system, regulatory change</td></tr>
+        <tr><td>Business Process Continuity Plan</td><td>Business Process Owner</td><td>Every 12 months</td><td>Material change in process, dependencies, or personnel; post-exercise update; post-invocation update</td></tr>
+        <tr><td>DR Runbook</td><td>IT Service Owner</td><td>Every 12 months</td><td>Material technology change; post-exercise update; post-invocation update</td></tr>
+        <tr><td>Recovery tier assignment</td><td>IT Service Owner</td><td>Every 12 months</td><td>BIA refresh changes RTO/RPO; new dependent process introduced</td></tr>
+        <tr><td>Exercise schedule</td><td>BCDR Steering Committee</td><td>Annually (forward year)</td><td>Quarter-by-quarter adjustment as needed</td></tr>
+        <tr><td>Scenario library</td><td>GRC central</td><td>Every 24 months</td><td>Emerging threat landscape change; learning from recent invocations or external events</td></tr>
+      </tbody>
+    </table>
+    <p>Currency tracking is automated where feasible: each artefact has a &ldquo;last reviewed&rdquo; date in the document control table; the BCDR portfolio inventory reports artefacts approaching or exceeding their cadence to the Steering Committee.</p>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">8 &mdash; Framework alignment</div>
+    <table class="gt-table">
+      <thead>
+        <tr><th>Framework</th><th>Reference</th><th>Coverage</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>ISO/IEC 22301:2019</td><td><code>Clauses 8.2, 8.3, 8.4, 8.5, 9.1</code></td><td>Business impact analysis, risk assessment, business continuity strategies, plans &amp; procedures, exercise programme, monitoring</td></tr>
+        <tr><td>ISO/IEC 27001:2022</td><td><code>A.5.29, A.5.30, A.8.13, A.8.14</code></td><td>Information security during disruption; ICT readiness for business continuity; information backup; redundancy of information processing facilities</td></tr>
+        <tr><td>NIST SP 800-34 Rev. 1</td><td><code>&sect;3.1&ndash;3.7</code></td><td>Information system contingency planning process: develop policy, conduct BIA, identify preventive controls, create strategies, develop plan, plan testing &amp; exercises, plan maintenance</td></tr>
+        <tr><td>NIST CSF 2.0</td><td><code>RC.RP, RC.CO, RC.IM</code></td><td>Recovery planning, communications, improvements</td></tr>
+        <tr><td>NIST SP 800-53 r5</td><td><code>CP-1 to CP-13</code></td><td>Contingency planning family: policy, plan, training, testing, alternate sites, backup, recovery &amp; reconstitution</td></tr>
+        <tr><td>CIS Controls v8</td><td><code>11</code></td><td>Data Recovery</td></tr>
+        <tr><td>SOC 2 Trust Services</td><td><code>A1.2, A1.3</code></td><td>Environmental protections, software, data backup processes, and recovery infrastructure to meet objectives</td></tr>
+        <tr><td>MITRE ATT&amp;CK mitigations</td><td><code>M1053</code></td><td>Data Backup &mdash; relevant mitigation for destructive cyber scenarios</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">9 &mdash; Related documents</div>
+    <ul class="bcp-bullet">
+      <li><a href="grc-bcp.html">GRC-BCP</a> &mdash; Business Continuity domain hub</li>
+      <li><a href="grc-dr.html">GRC-DR</a> &mdash; IT Disaster Recovery domain hub</li>
+      <li><a href="grc-bcp-sop-01.html">GRC-BCP-SOP-01</a> &mdash; Business Continuity Policy</li>
+      <li><a href="grc-dr-sop-01.html">GRC-DR-SOP-01</a> &mdash; IT Disaster Recovery Policy</li>
+      <li><a href="grc-bcdr-wi-01.html">GRC-BCDR-WI-01</a> &mdash; Conducting a Business Impact Assessment</li>
+      <li><a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a> &mdash; Exercise &amp; Testing Programme</li>
+      <li><a href="grc-irp-01.html">GRC-IRP-01</a> &mdash; Cyber Security Incident Response Plan (paired discipline)</li>
+      <li><a href="grc-register-risk.html">GRC-REG-RISK</a> &mdash; Risk register (BCDR-related risks)</li>
+      <li><a href="grc-register-exceptions.html">GRC-REG-EX</a> &mdash; Exception register (BCDR plan-currency exceptions)</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-bcp.html" style="color:#2D6B3F;text-decoration:none;">&larr; Back to BCP</a> &nbsp;&middot;&nbsp; <a href="grc-dr.html" style="color:#1F5A4A;text-decoration:none;">DR &rarr;</a></span>
+  </div>
+
+</div>
+</body>
+</html>

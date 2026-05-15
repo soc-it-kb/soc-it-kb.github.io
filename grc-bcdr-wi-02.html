@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-BCDR-WI-02: Exercise &amp; Testing Programme &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --bcp:#2D6B3F; --bcp-light:#E8F4EC; --bcp-border:#A8D4B8; --bcp-dark:#1A4528; --dr:#1F5A4A; --dr-light:#E0F0EA; --dr-border:#9DC9B8; --dr-dark:#0E3A2F; --grc:#0E5C5C; --grc-light:#E6F4F4; }
+
+  .bcp-page-hero { background:linear-gradient(135deg,#0F2818 0%,#1A4528 40%,#2D6B3F 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .bcp-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .bcp-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .bcp-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .bcp-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .bcp-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .bcp-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .bcp-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .bcp-stat-num { font-size:24px; font-weight:700; color:var(--bcp); line-height:1; margin-bottom:4px; }
+  .bcp-stat-lbl { font-size:11px; color:#888; }
+
+  .bcp-section { background:#fff; border:0.5px solid var(--bcp-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .bcp-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .bcp-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .bcp-section p:last-child { margin-bottom:0; }
+
+  .bcp-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .bcp-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .bcp-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--bcp); flex-shrink:0; margin-top:5px; }
+
+  .doc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px; margin-top:6px; }
+  .doc-card { background:#fff; border:0.5px solid var(--bcp-border); border-radius:10px; padding:1rem 1.2rem; text-decoration:none; color:inherit; display:block; transition:border-color .15s; }
+  .doc-card:hover { border-color:var(--bcp); }
+  .doc-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--bcp); margin-bottom:4px; }
+  .doc-card-title { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:5px; }
+  .doc-card-desc { font-size:12px; color:#666; line-height:1.5; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--bcp-light); color:var(--bcp-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--bcp-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:var(--bcp); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+
+  /* SOP/WI common */
+  .step { background:#fff; border:0.5px solid #e8e8e4; border-left:3px solid var(--bcp); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .step-header { display:flex; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .step-num { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--bcp); background:var(--bcp-light); padding:2px 7px; border-radius:5px; }
+  .step-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .step-body { font-size:13px; color:#333; line-height:1.65; }
+  .step-body p { margin:0 0 6px; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body ul { padding-left:1.1rem; margin:6px 0 8px; }
+  .step-body ul li { margin-bottom:4px; line-height:1.55; }
+  .step-body code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; BCDR &nbsp;&rsaquo;&nbsp; GRC-BCDR-WI-02</div>
+
+  <div class="bcp-page-hero">
+    <div class="bcp-page-hero-eyebrow">GRC &middot; BCDR &middot; Work Instruction (shared)</div>
+    <h1>GRC-BCDR-WI-02 &mdash; Exercise &amp; Testing Programme</h1>
+    <p>Procedure for planning, executing, and following up on BCP and DR exercises using the framework in <a href="grc-bcdr-sop-01.html" style="color:#fff;text-decoration:underline;">GRC-BCDR-SOP-01 &sect;5</a>. Applies to all exercise types &mdash; tabletop, walkthrough, simulation, live failover &mdash; for both Business Continuity plans and IT Disaster Recovery runbooks. Used by Agency BCP / IT DR Coordinators and Business Process / IT Service Owners.</p>
+    <div class="bcp-page-hero-pills">
+      <span class="bcp-page-hero-pill">10 steps</span>
+      <span class="bcp-page-hero-pill">4 exercise types</span>
+      <span class="bcp-page-hero-pill">Scenario library</span>
+      <span class="bcp-page-hero-pill">Lessons learned</span>
+    </div>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Purpose &amp; positioning</div>
+    <p>Exercises validate that plans work. A plan that has not been exercised in the last 12 months is presumed not to work &mdash; assumptions become stale, dependencies change, personnel turn over, and recoveries that worked once may no longer be feasible. The exercise programme is the principal assurance mechanism for the BCDR domain.</p>
+    <p>This WI applies the framework defined in <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01 &sect;5</a>. Read the methodology first &mdash; in particular the exercise type definitions and the cadence requirements. This WI does not redefine those; it operationalises them.</p>
+    <p>An &ldquo;exercise&rdquo; here means a structured, planned activity. A real-disruption invocation that produces an after-action review counts against the cadence but is not what this WI plans for.</p>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Exercise types at a glance</div>
+    <table class="gt-table">
+      <thead><tr><th>Type</th><th>Tests</th><th>Effort</th><th>When to use</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Tabletop</strong></td><td>Decision-making, roles, communications. Plan is discussed, not executed.</td><td>2&ndash;4 hours</td><td>Annual cadence for all Tier-1; first exercise of a new plan; team turnover validation.</td></tr>
+        <tr><td><strong>Walkthrough</strong></td><td>Procedure correctness. Plan is followed step-by-step in non-production setting.</td><td>Half-day</td><td>When the plan&rsquo;s technical accuracy needs validation but full execution is impractical.</td></tr>
+        <tr><td><strong>Simulation</strong></td><td>Procedure execution in a simulated environment. Real recovery on a copy or sandbox.</td><td>1&ndash;3 days</td><td>Tier-1 critical services every 24 months; preferred over walkthrough where feasible.</td></tr>
+        <tr><td><strong>Live failover</strong></td><td>Actual failover in production. Full path tested including human, technical, and supplier dependencies.</td><td>Multi-day; advance approval</td><td>At least one Tier-1 service per agency per 24 months; rotate the service tested.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Procedure</div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 1</span><span class="step-title">Plan the annual exercise schedule</span></div>
+      <div class="step-body">
+        <p>Forward planning is the foundation. The annual exercise schedule is owned by the agency BCP / IT DR Coordinator and approved by the BCDR Steering Committee.</p>
+        <ul>
+          <li>Schedule covers the next 12 months minimum. Identifies for each in-scope plan / runbook: the exercise type planned, the calendar quarter, the named lead.</li>
+          <li>Cadence per <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01 &sect;5</a>: Tier-1 annual (any type); Tier-2 every 24 months. Cyclical pattern recommended: year 1 tabletop, year 2 simulation, with live failover rotated through agencies.</li>
+          <li>Spread load. Avoid scheduling all Tier-1 exercises in one quarter; spread to reduce participant fatigue and free Crisis Management Team capacity if a real event occurs.</li>
+          <li>Account for participant availability: avoid year-end, peak-clinical / peak-academic windows, scheduled change-freeze periods.</li>
+          <li>Submit to the BCDR Steering Committee for endorsement at the start-of-year meeting; report progress quarterly.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 2</span><span class="step-title">Select the scenario from the library or design new</span></div>
+      <div class="step-body">
+        <p>Scenario rotation is essential. The same scenario every year tests memorisation rather than capability.</p>
+        <ul>
+          <li>The central scenario library (maintained by GRC) provides a baseline catalogue covering all major disruption categories: cyber (ransomware, identity compromise, destructive attack), technology (data centre outage, region failure, M365 outage, key application failure), supplier (critical SaaS provider unavailable, logistics failure), physical (building loss, site evacuation), people (pandemic absenteeism, key-person loss), regional (country-level disruption).</li>
+          <li>Pick a scenario from the library matched to the plan being tested. Tabletop on a clinical-systems ransomware scenario for a Tier-1 clinical-systems plan; simulation on M365 sustained outage for the email continuity plan.</li>
+          <li>Design new scenarios when the library does not cover the agency&rsquo;s specific risks. New scenarios are submitted to GRC for inclusion in the library if reusable.</li>
+          <li>Scenario must be realistic but not absurd. Plausible chain of events. Includes one or two complications (a key person unavailable, a backup site partially affected, communications constrained) to test decision-making under stress.</li>
+          <li>Keep the scenario sealed until exercise day. Participants who have seen the scenario in advance test memorisation, not response.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 3</span><span class="step-title">Confirm exercise objectives and success criteria</span></div>
+      <div class="step-body">
+        <p>An exercise without objectives produces opinions; an exercise with objectives produces evidence.</p>
+        <ul>
+          <li>Identify 3&ndash;6 specific objectives. Examples: &ldquo;verify the Crisis Management Team convenes within 30 minutes of invocation&rdquo;; &ldquo;verify the alternative-site activation procedure produces a workable patient-records workflow&rdquo;; &ldquo;verify backup restore for system X meets the Tier-2 RPO of 4 hours&rdquo;.</li>
+          <li>Each objective has a measurable success criterion. Avoid vague criteria (&ldquo;team responds appropriately&rdquo;); aim for testable ones (&ldquo;decision to invoke documented within 60 minutes&rdquo;).</li>
+          <li>Objectives include both procedural (does the plan work?) and human (are the right people, with the right information, making the right decisions?).</li>
+          <li>Document objectives in the exercise plan; share with participants before the exercise to enable focus.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 4</span><span class="step-title">Brief participants and assign roles</span></div>
+      <div class="step-body">
+        <p>Participants need enough information to engage effectively without being told the scenario.</p>
+        <ul>
+          <li><span><strong>Roles to assign:</strong> Exercise lead (facilitator); observers (one per major function; takes notes; rotates between sessions); injection lead (introduces scenario developments at scheduled points); timekeeper; scribe (documents decisions, actions, timings).</span></li>
+          <li><span><strong>Participants briefed:</strong> exercise type, duration, ground rules (in-scope vs out-of-scope; the &ldquo;no-fault&rdquo; principle &mdash; this is to find gaps, not to assign blame); communication channels for the exercise; safety hierarchy (real-life takes priority; if a real event occurs, the exercise pauses).</span></li>
+          <li><span><strong>Pre-exercise read.</strong> Participants re-read the relevant plan before exercise day; not knowing the plan is a finding, but the exercise is not the place to read the plan for the first time.</span></li>
+          <li><span><strong>External participants.</strong> If the exercise tests dependencies on a supplier, regulator, or partner agency, brief and confirm them ahead of time. For live failover, this is non-negotiable.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 5</span><span class="step-title">Execute the exercise</span></div>
+      <div class="step-body">
+        <p>Execution differs by type but common rules apply.</p>
+        <ul>
+          <li><span><strong>Tabletop / walkthrough:</strong> facilitator introduces the scenario; injects developments at scheduled points (e.g. &ldquo;30 minutes in: a key technician is unreachable&rdquo;); participants discuss / walk through actions; observers document decisions, gaps, and questions raised.</span></li>
+          <li><span><strong>Simulation:</strong> recovery actions are executed in a simulated environment. The plan is followed literally; deviations are noted. Observers watch for steps that do not work as written.</span></li>
+          <li><span><strong>Live failover:</strong> failover is executed in production per the plan. RTO and RPO are measured. Failback is also exercised. Live failover may run over multiple days; pause and resume between phases is acceptable if pre-planned.</span></li>
+          <li><span><strong>Maintain &ldquo;exercise&rdquo; tag on all communications.</strong> Every email, message, ticket explicitly tagged &ldquo;EXERCISE &mdash; NOT A REAL EVENT&rdquo;. Communications to external parties (suppliers, regulators) similarly tagged or pre-coordinated. Avoid real downstream consequences from exercise activities.</span></li>
+          <li><span><strong>Pause for real events.</strong> If a real disruption occurs during the exercise, the exercise pauses and participants engage real response. The exercise resumes or is rescheduled per facilitator decision.</span></li>
+          <li><span><strong>Timekeeping.</strong> Major decisions, communications, and actions are timestamped by the scribe. This evidence supports the after-action review.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 6</span><span class="step-title">Conduct hot-wash (immediate debrief)</span></div>
+      <div class="step-body">
+        <p>The hot-wash captures impressions while they are fresh, typically within 30 minutes of exercise end.</p>
+        <ul>
+          <li>Participants gather. Each participant offers one observation: what worked, what did not, what was unexpected.</li>
+          <li>Facilitator captures impressions without analysing or assigning blame. Aim is to capture raw observations for later analysis, not to resolve them in the room.</li>
+          <li>Specific items to capture: decisions that took longer than expected; communications that did not reach intended recipients; steps that were unclear or wrong; assumptions that turned out incorrect; gaps in the plan that emerged.</li>
+          <li>Hot-wash output is a short note (one to two pages); detailed after-action review follows in Step 7.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 7</span><span class="step-title">Conduct formal after-action review</span></div>
+      <div class="step-body">
+        <p>The formal after-action review (AAR) is completed within 14 days of the exercise. It is the principal exercise output.</p>
+        <ul>
+          <li><span><strong>AAR document structure:</strong> exercise summary (date, type, scenario, participants); objectives and assessment against each (achieved, partial, not achieved, with evidence); findings (specific gaps in plan, procedures, communications, or capability); strengths (what worked well and should be preserved); recommended actions.</span></li>
+          <li><span><strong>Each finding gets an owner and a target remediation date.</strong> Findings without owners are not findings; they are wishes.</span></li>
+          <li><span><strong>Severity classification.</strong> Critical (would have caused continuity failure in real event), High (significant gap requiring near-term action), Medium (improvement opportunity), Low (refinement or observation).</span></li>
+          <li><span><strong>Distribution.</strong> AAR shared with the exercise sponsor, the plan owner (Business Process Owner or IT Service Owner), the agency BCP / DR Coordinator, the BCDR Steering Committee (consolidated summary), and Internal Audit (on request).</span></li>
+          <li><span><strong>Confidentiality.</strong> AARs are organisationally sensitive (they document weaknesses); handled per the document control standard for sensitive internal documents.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 8</span><span class="step-title">Update the plan with findings</span></div>
+      <div class="step-body">
+        <p>The plan is updated within 90 days of the AAR.</p>
+        <ul>
+          <li>The plan owner reviews each finding and incorporates updates: procedure corrections, expanded steps, additional decision points, updated role responsibilities, dependency corrections, communication path adjustments.</li>
+          <li>Where a finding cannot be resolved within 90 days (e.g. a capability gap requiring procurement or platform change), it is logged as a risk in <a href="grc-register-risk.html">GRC-REG-RISK</a> or as an exception in <a href="grc-register-exceptions.html">GRC-REG-EX</a>.</li>
+          <li>The plan&rsquo;s document control table is updated with the new version, the AAR reference, and the change summary.</li>
+          <li>Plan re-signed-off by Business Process Owner or IT Service Owner.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 9</span><span class="step-title">Track findings to closure</span></div>
+      <div class="step-body">
+        <p>Findings live in a tracker until closed.</p>
+        <ul>
+          <li>The agency BCP / DR Coordinator maintains a tracker of all exercise findings with owner, severity, target date, and status.</li>
+          <li>Status reviewed monthly by the Coordinator with the finding owners.</li>
+          <li>Overdue findings (past target date and still open) are escalated: first to the agency leadership; if persistent, to the BCDR Steering Committee.</li>
+          <li>Critical-severity findings have shorter remediation targets (typically 30 days) and are reported individually to the Steering Committee until closed.</li>
+          <li>Closure requires evidence: updated plan version, validation of the corrected procedure (small re-exercise where feasible), or risk acceptance documented and approved.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 10</span><span class="step-title">Feed lessons learned to the wider programme</span></div>
+      <div class="step-body">
+        <p>Individual exercise outcomes inform the wider programme.</p>
+        <ul>
+          <li>The agency BCP / DR Coordinator consolidates findings across exercises into a quarterly summary for the Steering Committee.</li>
+          <li>Patterns across exercises (e.g. multiple agencies finding the same gap; recurring communication path failures) are surfaced to the Committee for methodology or framework updates.</li>
+          <li>Lessons are added to the scenario library (where a scenario produced unexpected insights), to the central guidance, and into the next BIA refresh inputs.</li>
+          <li>Cross-agency lessons are shared with all agencies through the Steering Committee minutes and the central GRC update cycle.</li>
+          <li>Material lessons may trigger an out-of-cycle methodology update (this SOP, <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a>, or the policy SOPs).</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Common pitfalls</div>
+    <ul class="bcp-bullet">
+      <li><span><strong>Scoring success on completion.</strong> An exercise is successful if it produces useful findings, not if everyone &ldquo;passed&rdquo;. Excessive smooth-runnings are a warning sign &mdash; the scenario was too easy or participants knew it in advance.</span></li>
+      <li><span><strong>Skipping the hot-wash.</strong> Detailed analysis is for the AAR; the hot-wash captures perishable impressions. Skipping it loses signal.</span></li>
+      <li><span><strong>AAR without owners or dates.</strong> Findings without named owners and target dates are aspirational. Make them concrete.</span></li>
+      <li><span><strong>Same scenario every year.</strong> Tests memorisation, not capability. Rotate from the library.</span></li>
+      <li><span><strong>No external dependencies tested.</strong> Plans that work in isolation often fail at the boundaries (supplier coordination, regulator engagement, partner agency handover). Include external dependencies in the scenario where realistic.</span></li>
+      <li><span><strong>Treating exercise as performance art.</strong> Senior leadership observing without participating, or pre-rehearsed steps presented as live response, undermines learning. Authenticity matters.</span></li>
+      <li><span><strong>Failing to update the plan.</strong> Findings without plan updates within 90 days mean the next exercise repeats the same failures. Discipline matters here.</span></li>
+    </ul>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Related documents</div>
+    <ul class="bcp-bullet">
+      <li><a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a> &mdash; methodology this WI operationalises (&sect;5 Exercise framework)</li>
+      <li><a href="grc-bcp-sop-01.html">GRC-BCP-SOP-01</a> &mdash; obligates BCP exercise cadence</li>
+      <li><a href="grc-dr-sop-01.html">GRC-DR-SOP-01</a> &mdash; obligates DR exercise cadence</li>
+      <li><a href="grc-bcdr-wi-01.html">GRC-BCDR-WI-01</a> &mdash; BIA (scopes which plans/services need exercising)</li>
+      <li><a href="grc-register-risk.html">GRC-REG-RISK</a> &mdash; capability gaps surfaced by exercise</li>
+      <li><a href="grc-register-exceptions.html">GRC-REG-EX</a> &mdash; deferred exercise remediations</li>
+      <li><a href="grc-irp-01.html">GRC-IRP-01</a> &mdash; cyber incident response (cyber scenarios exercise both this WI and the IRP)</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-bcp.html" style="color:#2D6B3F;text-decoration:none;">&larr; BCP</a> &nbsp;&middot;&nbsp; <a href="grc-dr.html" style="color:#1F5A4A;text-decoration:none;">DR &rarr;</a></span>
+  </div>
+
+</div>
+</body>
+</html>

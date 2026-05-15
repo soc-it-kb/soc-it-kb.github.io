@@ -1719,6 +1719,69 @@
     "tags": "GRC WI work instruction reviewer asset submission review validation checklist naming conformance schema completeness consistency cross-reference duplicate detection approval rejection clarification SLA evidence audit trail separation of duties common failures edge cases legacy assets deviations OT GRC team Head of GRC LCSO CSLC"
   },
   {
+    "id": "GRC-BCP",
+    "title": "GRC — Business Continuity",
+    "section": "GRC",
+    "sub": "Domain pages",
+    "url": "grc-bcp.html",
+    "desc": "Business Continuity domain hub — business-audience framework, agency obligations, plan ownership, scope and operating model",
+    "tags": "GRC BCP business continuity plan invocation crisis management agency"
+  },
+  {
+    "id": "GRC-DR",
+    "title": "GRC — IT Disaster Recovery",
+    "section": "GRC",
+    "sub": "Domain pages",
+    "url": "grc-dr.html",
+    "desc": "IT Disaster Recovery domain hub — recovery tiers, backup minima, replication, cloud platform DR, runbook standards",
+    "tags": "GRC DR disaster recovery RTO RPO tier backup replication cloud Azure M365 tenant"
+  },
+  {
+    "id": "GRC-BCDR-SOP-01",
+    "title": "BCDR Methodology & Governance",
+    "section": "GRC",
+    "sub": "SOPs",
+    "url": "grc-bcdr-sop-01.html",
+    "desc": "Shared methodology for BCP and DR — BIA approach, RTO/RPO classification, exercise framework, terminology, Steering Committee, review cadence",
+    "tags": "GRC BCDR methodology BIA RTO RPO MTPD MBCO exercise tabletop simulation steering committee ISO 22301"
+  },
+  {
+    "id": "GRC-BCP-SOP-01",
+    "title": "Business Continuity Policy",
+    "section": "GRC",
+    "sub": "SOPs",
+    "url": "grc-bcp-sop-01.html",
+    "desc": "Business Continuity Policy — agency obligations, plan ownership, invocation, escalation, crisis governance, plan currency",
+    "tags": "GRC BCP policy agency plan invocation escalation crisis management business process owner ISO 22301"
+  },
+  {
+    "id": "GRC-DR-SOP-01",
+    "title": "IT Disaster Recovery Policy",
+    "section": "GRC",
+    "sub": "SOPs",
+    "url": "grc-dr-sop-01.html",
+    "desc": "IT Disaster Recovery Policy — tier framework, backup strategy minima, replication, cloud DR principles, runbook requirements, testing cadence",
+    "tags": "GRC DR policy IT recovery tier backup replication immutable cloud Azure M365 Entra tenant runbook"
+  },
+  {
+    "id": "GRC-BCDR-WI-01",
+    "title": "Conducting a Business Impact Assessment",
+    "section": "GRC",
+    "sub": "Work Instructions",
+    "url": "grc-bcdr-wi-01.html",
+    "desc": "Step-by-step procedure for conducting a Business Impact Assessment — identify processes, assess impact, determine RTO/RPO, map dependencies",
+    "tags": "GRC BCDR WI BIA business impact assessment RTO RPO MTPD MBCO dependency mapping process criticality"
+  },
+  {
+    "id": "GRC-BCDR-WI-02",
+    "title": "Exercise & Testing Programme",
+    "section": "GRC",
+    "sub": "Work Instructions",
+    "url": "grc-bcdr-wi-02.html",
+    "desc": "Exercise programme procedure — planning, scenario selection, execution, hot-wash, after-action review, findings tracking",
+    "tags": "GRC BCDR WI exercise tabletop walkthrough simulation live failover after-action review AAR lessons learned scenario"
+  },
+  {
     "id": "asm-network-baselines",
     "title": "Network Device Security Baselines",
     "section": "ASM",

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-BCP-SOP-01: Business Continuity Policy &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --bcp:#2D6B3F; --bcp-light:#E8F4EC; --bcp-border:#A8D4B8; --bcp-dark:#1A4528; --dr:#1F5A4A; --dr-light:#E0F0EA; --dr-border:#9DC9B8; --dr-dark:#0E3A2F; --grc:#0E5C5C; --grc-light:#E6F4F4; }
+
+  .bcp-page-hero { background:linear-gradient(135deg,#0F2818 0%,#1A4528 40%,#2D6B3F 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .bcp-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .bcp-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .bcp-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .bcp-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .bcp-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .bcp-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .bcp-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .bcp-stat-num { font-size:24px; font-weight:700; color:var(--bcp); line-height:1; margin-bottom:4px; }
+  .bcp-stat-lbl { font-size:11px; color:#888; }
+
+  .bcp-section { background:#fff; border:0.5px solid var(--bcp-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .bcp-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .bcp-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .bcp-section p:last-child { margin-bottom:0; }
+
+  .bcp-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .bcp-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .bcp-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--bcp); flex-shrink:0; margin-top:5px; }
+
+  .doc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px; margin-top:6px; }
+  .doc-card { background:#fff; border:0.5px solid var(--bcp-border); border-radius:10px; padding:1rem 1.2rem; text-decoration:none; color:inherit; display:block; transition:border-color .15s; }
+  .doc-card:hover { border-color:var(--bcp); }
+  .doc-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--bcp); margin-bottom:4px; }
+  .doc-card-title { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:5px; }
+  .doc-card-desc { font-size:12px; color:#666; line-height:1.5; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--bcp-light); color:var(--bcp-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--bcp-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:var(--bcp); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+
+  /* SOP/WI common */
+  .step { background:#fff; border:0.5px solid #e8e8e4; border-left:3px solid var(--bcp); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .step-header { display:flex; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .step-num { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--bcp); background:var(--bcp-light); padding:2px 7px; border-radius:5px; }
+  .step-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .step-body { font-size:13px; color:#333; line-height:1.65; }
+  .step-body p { margin:0 0 6px; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body ul { padding-left:1.1rem; margin:6px 0 8px; }
+  .step-body ul li { margin-bottom:4px; line-height:1.55; }
+  .step-body code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; <a href="grc-bcp.html">Business Continuity</a> &nbsp;&rsaquo;&nbsp; GRC-BCP-SOP-01</div>
+
+  <div class="bcp-page-hero">
+    <div class="bcp-page-hero-eyebrow">GRC &middot; BCP &middot; SOP</div>
+    <h1>GRC-BCP-SOP-01 &mdash; Business Continuity Policy</h1>
+    <p>The organisation&rsquo;s business-audience policy for business continuity. Defines agency obligations, plan ownership, escalation and invocation authority, crisis management governance, and plan currency requirements. Uses the methodology in <a href="grc-bcdr-sop-01.html" style="color:#fff;text-decoration:underline;">GRC-BCDR-SOP-01</a>; uses the procedures in <a href="grc-bcdr-wi-01.html" style="color:#fff;text-decoration:underline;">WI-01</a> (BIA) and <a href="grc-bcdr-wi-02.html" style="color:#fff;text-decoration:underline;">WI-02</a> (exercises).</p>
+    <div class="bcp-page-hero-pills">
+      <span class="bcp-page-hero-pill">Business-audience policy</span>
+      <span class="bcp-page-hero-pill">Agency obligations</span>
+      <span class="bcp-page-hero-pill">Crisis governance</span>
+    </div>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">1 &mdash; Purpose</div>
+    <p>This policy establishes the organisation&rsquo;s commitment to continuing the delivery of critical services to beneficiaries and stakeholders during disruption, the obligations on each agency to maintain a business continuity programme, and the governance arrangements for invocation, escalation, and ongoing assurance.</p>
+    <p>It is a policy document. It states <em>what</em> must be done and <em>by whom</em>. It does not state <em>how</em> &mdash; methodology is in <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a>; procedures are in the BIA and Exercise WIs and in agency-authored continuity plans.</p>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">2 &mdash; Scope &amp; applicability</div>
+    <p>This policy applies to all agencies of the organisation and to all critical business processes within those agencies. Each agency operates under this policy through an agency-specific implementation that reflects its mandate, geographic footprint, and regulatory environment.</p>
+    <p><strong>In scope:</strong></p>
+    <ul class="bcp-bullet">
+      <li>All processes identified as critical by an agency&rsquo;s BIA (i.e. Mission-critical, Business-critical, or Important per the methodology classification).</li>
+      <li>All sites, country offices, and operating units delivering or supporting those processes.</li>
+      <li>Disruption from any cause: cyber, technology, supplier, physical, people, regional.</li>
+    </ul>
+    <p><strong>Out of scope:</strong></p>
+    <ul class="bcp-bullet">
+      <li>Processes classed as Standard by BIA (no continuity plan required, though general resilience is expected).</li>
+      <li>Day-to-day operational incidents not rising to the threshold of continuity invocation.</li>
+      <li>Cyber incident response procedures (in <a href="grc-irp-01.html">GRC-IRP-01</a>); BCP engages alongside when continuity is invoked.</li>
+    </ul>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">3 &mdash; Policy statements</div>
+    <p>The organisation commits to the following:</p>
+    <ol class="bcp-bullet" style="counter-reset:p; padding-left:0;">
+      <li><span><strong>Every agency shall maintain a current business continuity programme</strong> covering at least all Mission-critical and Business-critical processes identified by its BIA.</span></li>
+      <li><span><strong>Every critical business process shall have a named Business Process Owner</strong> accountable for the continuity plan covering that process.</span></li>
+      <li><span><strong>Every critical business process shall have a current Business Process Continuity Plan</strong> populated using the central template (<a href="grc-frm-bcp-01.html">GRC-FRM-BCP-01</a>), reviewed and signed off at least every 12 months, and updated immediately on material change.</span></li>
+      <li><span><strong>The agency&rsquo;s BIA shall be refreshed at least every 24 months</strong> using the methodology in <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a> and the procedure in <a href="grc-bcdr-wi-01.html">GRC-BCDR-WI-01</a>.</span></li>
+      <li><span><strong>Each Mission-critical process shall be exercised at least annually</strong> using one of the exercise types defined in <a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a>. Each Business-critical process shall be exercised at least every 24 months.</span></li>
+      <li><span><strong>Exercise outcomes shall be documented with named findings and assigned owners</strong>, tracked to closure through agency governance, with overdue findings escalated to the BCDR Steering Committee.</span></li>
+      <li><span><strong>Invocation authority is named in each plan.</strong> Invocation decisions are made by a named role or delegate authority, never ad hoc. The threshold for invocation is documented in each plan.</span></li>
+      <li><span><strong>Crisis Management Teams shall be established and trained</strong> per agency and per major site, with named members and tested communication paths.</span></li>
+      <li><span><strong>Gaps in plan coverage, currency, or exercise compliance shall be recorded as exceptions</strong> in the GRC exception register with a named owner and remediation date; persistent or material gaps shall be escalated to the BCDR Steering Committee and recorded as risks in the risk register.</span></li>
+      <li><span><strong>All continuity plans shall be accessible during disruption</strong> &mdash; not held only in systems that themselves may be unavailable. Offline / out-of-band copies are required for Tier-1 processes.</span></li>
+      <li><span><strong>The continuity programme shall be aligned to recognised frameworks</strong>: ISO 22301 for the management system; ISO 27001 A.5.29/A.5.30 for information-security aspects of continuity; sector-specific frameworks where applicable (e.g. healthcare regulator continuity requirements in jurisdictions where AKHS operates).</span></li>
+    </ol>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">4 &mdash; Roles &amp; responsibilities</div>
+    <table class="gt-table">
+      <thead>
+        <tr><th>Role</th><th>Responsibilities</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Group Leadership / Executive sponsor</strong></td>
+          <td>Accountable for the organisation&rsquo;s continuity posture overall. Receives quarterly portfolio reporting. Approves material methodology changes. Sponsors the BCDR Steering Committee.</td>
+        </tr>
+        <tr>
+          <td><strong>Agency CEO / equivalent</strong></td>
+          <td>Accountable for the agency&rsquo;s continuity posture. Approves the agency&rsquo;s BIA outputs. Approves invocation of cross-agency or material disruptions.</td>
+        </tr>
+        <tr>
+          <td><strong>BCDR Steering Committee</strong></td>
+          <td>Cross-agency governance per <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01 &sect;6</a>. Approves methodology, exercise schedule, plan-coverage acceptance, lessons-learned closure.</td>
+        </tr>
+        <tr>
+          <td><strong>Agency BCP Coordinator</strong></td>
+          <td>Named role per agency. Owns plan inventory and exercise programme. Tracks plan currency and exercise compliance. Reports quarterly to BCDR Steering Committee and Agency CEO. Escalates material gaps.</td>
+        </tr>
+        <tr>
+          <td><strong>Business Process Owner</strong></td>
+          <td>Named individual per critical process. Owns the Business Process Continuity Plan covering that process. Signs off annual review. Approves plan changes. Participates in exercises affecting the process.</td>
+        </tr>
+        <tr>
+          <td><strong>Crisis Management Team</strong></td>
+          <td>Named team per agency and per major site. Activates the continuity plan during disruption. Coordinates communications, workarounds, recovery, and external engagement (regulators, beneficiaries, suppliers).</td>
+        </tr>
+        <tr>
+          <td><strong>Crisis Communications lead</strong></td>
+          <td>Named role on the Crisis Management Team. Manages internal and external communications during disruption. Engages central Communications for cross-agency or media-relevant events.</td>
+        </tr>
+        <tr>
+          <td><strong>IT (interface)</strong></td>
+          <td>Provides recovery of IT services per <a href="grc-dr.html">GRC-DR</a>; participates in Crisis Management Team where IT is implicated; aligns DR runbooks to the RTO/RPO derived from BCP.</td>
+        </tr>
+        <tr>
+          <td><strong>GRC (central)</strong></td>
+          <td>Maintains methodology, templates, and portfolio inventory. Reports completeness and currency to the Steering Committee. Coordinates BCP and DR alignment. Owns this policy document.</td>
+        </tr>
+        <tr>
+          <td><strong>Internal Audit</strong></td>
+          <td>Independently tests plan design, currency, and exercise outcomes. Issues findings into the agency&rsquo;s tracker and the central GRC system.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">5 &mdash; Invocation &amp; escalation</div>
+    <p>Invocation is the formal decision to activate a continuity plan in response to actual disruption. The threshold and authority for invocation are defined in each Business Process Continuity Plan, but the following principles apply across the programme:</p>
+    <ul class="bcp-bullet">
+      <li><span><strong>Invocation is a documented decision.</strong> Time of decision, decision-maker, and basis are recorded contemporaneously. Plans must accommodate decision-making under uncertainty &mdash; do not require certainty before invoking.</li>
+      <li><span><strong>Lower bar for Tier-1 processes.</strong> Where beneficiary safety is impacted, the threshold for invocation should be deliberately low &mdash; the cost of unnecessary invocation is far less than delayed invocation.</span></li>
+      <li><span><strong>Crisis Management Team activates on invocation.</strong> Once the plan is invoked the CMT is convened (in person or virtually) and operates until the disruption is resolved and the plan is formally stood down.</span></li>
+      <li><span><strong>Escalation paths are named.</strong> Single-process invocation may resolve at the agency level; multi-process or cross-agency invocation escalates to Group leadership; events with regulatory, reputational, or beneficiary-safety dimensions engage Communications and General Counsel.</span></li>
+      <li><span><strong>Cyber incidents that trigger continuity invoke both BCP and the IRP.</strong> The two run in parallel: the IRP manages cyber response; BCP manages business continuity workarounds. The Crisis Management Team coordinates between them.</span></li>
+      <li><span><strong>Stand-down is also a documented decision.</strong> Stand-down occurs when the disruption is resolved and the recovered processes are sustainably operating. An after-action review is mandatory within 30 days.</span></li>
+    </ul>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">6 &mdash; Plan currency &amp; assurance</div>
+    <p>Currency is the single most common failure mode for continuity programmes &mdash; plans exist but have not been reviewed, exercised, or updated since major changes. The following assurance mechanisms apply:</p>
+    <ul class="bcp-bullet">
+      <li><span><strong>Document control table.</strong> Every plan includes a document control table with last review date, next review date, change history, and approval signatures.</span></li>
+      <li><span><strong>Portfolio reporting.</strong> The agency BCP Coordinator maintains a portfolio view of all plans showing currency status. The BCDR Steering Committee receives quarterly summary across agencies.</span></li>
+      <li><span><strong>Currency exceptions.</strong> Plans past their review date or missed exercises are logged in the exception register with a remediation date; persistent overdue items are escalated.</span></li>
+      <li><span><strong>Material-change trigger.</strong> Plans are not only reviewed on cadence &mdash; material changes (new process, lost dependency, personnel turnover at named-role level, significant exercise findings) require immediate plan update.</span></li>
+      <li><span><strong>Post-exercise update.</strong> Exercise findings feed back into the plan within 90 days; plans are updated even where findings are not formally accepted as defects.</span></li>
+      <li><span><strong>Post-invocation update.</strong> A real invocation is the strongest evidence the plan can produce. After-action review findings are incorporated within 60 days of stand-down.</span></li>
+      <li><span><strong>Internal audit cycle.</strong> Internal Audit tests the BCP programme on a multi-year cycle; findings are tracked alongside operational findings.</span></li>
+    </ul>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">7 &mdash; Exceptions &amp; non-compliance</div>
+    <p>Where conformance with this policy is genuinely not feasible &mdash; e.g. a new agency in early programme establishment, a process undergoing fundamental restructure, or an exercise that cannot be scheduled within cadence due to operational constraint &mdash; an exception is recorded.</p>
+    <p><strong>Exception requirements:</strong></p>
+    <ul class="bcp-bullet">
+      <li>Documented justification for non-conformance.</li>
+      <li>Named owner accountable for remediation.</li>
+      <li>Time-bounded approval (default 12 months; longer requires Steering Committee approval).</li>
+      <li>Compensating measures where applicable.</li>
+      <li>Recorded in the <a href="grc-register-exceptions.html">GRC Exception Register</a>.</li>
+    </ul>
+    <p>Persistent or material non-compliance escalates to a risk register entry per <a href="grc-sop-04.html">GRC-SOP-04</a> and is treated as an organisational risk rather than a procedural exception.</p>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">8 &mdash; Framework alignment</div>
+    <table class="gt-table">
+      <thead><tr><th>Framework</th><th>Reference</th><th>Coverage</th></tr></thead>
+      <tbody>
+        <tr><td>ISO/IEC 22301:2019</td><td><code>Clauses 4&ndash;10</code></td><td>Business continuity management system &mdash; policy, leadership, planning, support, operation, performance evaluation, improvement</td></tr>
+        <tr><td>ISO/IEC 27001:2022</td><td><code>A.5.29, A.5.30</code></td><td>Information security during disruption; ICT readiness for business continuity</td></tr>
+        <tr><td>NIST CSF 2.0</td><td><code>GV.RM, RC.RP, RC.CO, RC.IM</code></td><td>Risk management strategy; recovery planning, communications, improvements</td></tr>
+        <tr><td>NIST SP 800-34 Rev. 1</td><td><code>&sect;3.1 policy; &sect;3.7 plan maintenance</code></td><td>Contingency planning policy and plan maintenance</td></tr>
+        <tr><td>NIST SP 800-53 r5</td><td><code>CP-1, CP-2</code></td><td>Contingency planning policy &amp; procedures; contingency plan</td></tr>
+        <tr><td>SOC 2 Trust Services</td><td><code>A1.2, A1.3</code></td><td>Availability principle &mdash; recovery infrastructure and testing</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">9 &mdash; Related documents</div>
+    <ul class="bcp-bullet">
+      <li><a href="grc-bcp.html">GRC-BCP</a> &mdash; Business Continuity domain hub</li>
+      <li><a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a> &mdash; BCDR Methodology &amp; Governance (shared methodology)</li>
+      <li><a href="grc-bcdr-wi-01.html">GRC-BCDR-WI-01</a> &mdash; Conducting a Business Impact Assessment</li>
+      <li><a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a> &mdash; Exercise &amp; Testing Programme</li>
+      <li><a href="grc-frm-bcp-01.html">GRC-FRM-BCP-01</a> &mdash; Business Process Continuity Plan template</li>
+      <li><a href="grc-frm-bcdr-01.html">GRC-FRM-BCDR-01</a> &mdash; BIA worksheet template</li>
+      <li><a href="grc-dr-sop-01.html">GRC-DR-SOP-01</a> &mdash; IT Disaster Recovery Policy (paired IT-side policy)</li>
+      <li><a href="grc-irp-01.html">GRC-IRP-01</a> &mdash; Cyber Security Incident Response Plan (paired discipline)</li>
+      <li><a href="grc-sop-04.html">GRC-SOP-04</a> &mdash; Cyber &amp; IT Risk Management Procedure</li>
+      <li><a href="grc-register-risk.html">GRC-REG-RISK</a> &mdash; Risk register</li>
+      <li><a href="grc-register-exceptions.html">GRC-REG-EX</a> &mdash; Exception register</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-bcp.html" style="color:#2D6B3F;text-decoration:none;">&larr; Back to BCP</a></span>
+  </div>
+
+</div>
+</body>
+</html>

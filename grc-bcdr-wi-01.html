@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-BCDR-WI-01: Conducting a Business Impact Assessment &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --bcp:#2D6B3F; --bcp-light:#E8F4EC; --bcp-border:#A8D4B8; --bcp-dark:#1A4528; --dr:#1F5A4A; --dr-light:#E0F0EA; --dr-border:#9DC9B8; --dr-dark:#0E3A2F; --grc:#0E5C5C; --grc-light:#E6F4F4; }
+
+  .bcp-page-hero { background:linear-gradient(135deg,#0F2818 0%,#1A4528 40%,#2D6B3F 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .bcp-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .bcp-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .bcp-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .bcp-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .bcp-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .bcp-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .bcp-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .bcp-stat-num { font-size:24px; font-weight:700; color:var(--bcp); line-height:1; margin-bottom:4px; }
+  .bcp-stat-lbl { font-size:11px; color:#888; }
+
+  .bcp-section { background:#fff; border:0.5px solid var(--bcp-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .bcp-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .bcp-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .bcp-section p:last-child { margin-bottom:0; }
+
+  .bcp-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .bcp-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .bcp-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--bcp); flex-shrink:0; margin-top:5px; }
+
+  .doc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px; margin-top:6px; }
+  .doc-card { background:#fff; border:0.5px solid var(--bcp-border); border-radius:10px; padding:1rem 1.2rem; text-decoration:none; color:inherit; display:block; transition:border-color .15s; }
+  .doc-card:hover { border-color:var(--bcp); }
+  .doc-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--bcp); margin-bottom:4px; }
+  .doc-card-title { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:5px; }
+  .doc-card-desc { font-size:12px; color:#666; line-height:1.5; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--bcp-light); color:var(--bcp-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--bcp-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:var(--bcp); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+
+  /* SOP/WI common */
+  .step { background:#fff; border:0.5px solid #e8e8e4; border-left:3px solid var(--bcp); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .step-header { display:flex; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .step-num { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--bcp); background:var(--bcp-light); padding:2px 7px; border-radius:5px; }
+  .step-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .step-body { font-size:13px; color:#333; line-height:1.65; }
+  .step-body p { margin:0 0 6px; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body ul { padding-left:1.1rem; margin:6px 0 8px; }
+  .step-body ul li { margin-bottom:4px; line-height:1.55; }
+  .step-body code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; BCDR &nbsp;&rsaquo;&nbsp; GRC-BCDR-WI-01</div>
+
+  <div class="bcp-page-hero">
+    <div class="bcp-page-hero-eyebrow">GRC &middot; BCDR &middot; Work Instruction (shared)</div>
+    <h1>GRC-BCDR-WI-01 &mdash; Conducting a Business Impact Assessment</h1>
+    <p>Step-by-step procedure for conducting a Business Impact Assessment (BIA) using the methodology defined in <a href="grc-bcdr-sop-01.html" style="color:#fff;text-decoration:underline;">GRC-BCDR-SOP-01</a>. The BIA output drives both Business Continuity (RTO, MTPD, MBCO, workarounds) and IT Disaster Recovery (recovery tier classification, RPO, dependency map). This WI is consulted by Agency BCP Coordinators conducting or refreshing an agency-level BIA.</p>
+    <div class="bcp-page-hero-pills">
+      <span class="bcp-page-hero-pill">9 steps</span>
+      <span class="bcp-page-hero-pill">Agency-level BIA</span>
+      <span class="bcp-page-hero-pill">Drives BCP &amp; DR</span>
+    </div>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Purpose &amp; positioning</div>
+    <p>This WI operationalises the BIA methodology in <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01 &sect;3</a>. It does not redefine methodology; it applies it. Read the methodology section before using this WI &mdash; in particular the impact dimensions, time horizons, and the relationship between RTO/RPO and IT recovery tiers.</p>
+    <p>The BIA is performed at <strong>agency level</strong> and produces an agency-wide ranked list of critical processes with their RTOs, RPOs, MTPDs, MBCOs, and dependencies. A separate BIA is conducted per agency; consolidation across agencies happens at portfolio level by the BCDR Steering Committee.</p>
+    <p>Output of this WI is captured on the BIA worksheet template (<a href="grc-frm-bcdr-01.html">GRC-FRM-BCDR-01</a>, delivered in the second-pass delivery).</p>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">When to conduct or refresh a BIA</div>
+    <ul class="bcp-bullet">
+      <li><span><strong>Initial</strong> &mdash; on first establishment of an agency&rsquo;s BCP programme.</span></li>
+      <li><span><strong>Cyclical refresh</strong> &mdash; at least every 24 months, regardless of other triggers.</span></li>
+      <li><span><strong>Material change refresh</strong> &mdash; when the agency&rsquo;s service portfolio materially changes (significant new programme launch, programme wind-down, merger or transfer of activity).</span></li>
+      <li><span><strong>Technology-change refresh</strong> &mdash; when a new critical IT system is introduced or a significant existing system is replaced.</span></li>
+      <li><span><strong>Regulatory-change refresh</strong> &mdash; when a regulatory change alters obligations on continuity, data, or service availability.</span></li>
+      <li><span><strong>Post-invocation</strong> &mdash; after a real disruption invocation, the BIA is reviewed in the post-event window to validate findings against actual experience.</span></li>
+    </ul>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Procedure</div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 1</span><span class="step-title">Establish the BIA team and timeline</span></div>
+      <div class="step-body">
+        <p>BIA is not a desk exercise. It requires structured engagement with business leadership across the agency. Establish the team and timeline before beginning interviews.</p>
+        <ul>
+          <li><span><strong>Sponsor:</strong> Agency CEO or equivalent. Approves the BIA scope at start and the findings at end. Mandates participation across the agency.</span></li>
+          <li><span><strong>Lead:</strong> Agency BCP Coordinator. Owns the BIA execution; conducts or facilitates the interviews; produces the findings document.</span></li>
+          <li><span><strong>Facilitator (optional):</strong> Where the agency lacks internal capacity or where independence is valued, an external facilitator or central GRC representative supports the Lead.</span></li>
+          <li><span><strong>Participants:</strong> Senior leaders of each major function within the agency (e.g. clinical, education, operations, finance, HR, IT, communications). One named participant per function; deputies acceptable for specific sessions.</span></li>
+          <li><span><strong>Timeline:</strong> Plan for 6&ndash;10 weeks elapsed for a first-time BIA in a medium-size agency. Refresh BIAs typically run 4&ndash;6 weeks. Document the planned schedule in the BIA worksheet</span>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 2</span><span class="step-title">Identify the agency&rsquo;s business processes</span></div>
+      <div class="step-body">
+        <p>Process-first, not system-first. Start with what the agency does, not the systems it uses.</p>
+        <ul>
+          <li>Workshop format: each functional leader names the major processes their function delivers. Use the agency&rsquo;s own language; avoid forcing into a standard taxonomy at this stage.</li>
+          <li>Aim for processes at a granularity where one process has a single primary purpose, a recognisable owner, and meaningful continuity implications. Too coarse (&ldquo;deliver healthcare&rdquo;) is unhelpful; too fine (&ldquo;greet patient at reception&rdquo;) is unmanageable.</li>
+          <li>Typical agency outputs: 20&ndash;60 processes for a medium agency; 60&ndash;150 for a large multi-country agency.</li>
+          <li>Capture: process name, function owner, brief description, expected impact dimensions (high level &mdash; detailed assessment is later steps).</li>
+          <li>Cross-functional processes may be owned by more than one function. Note this; resolve final ownership in Step 5.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 3</span><span class="step-title">Assess impact for each process across dimensions and time horizons</span></div>
+      <div class="step-body">
+        <p>Per the methodology, impact is assessed across five dimensions at multiple time horizons. Use the standard scoring rubric in the BIA worksheet.</p>
+        <ul>
+          <li><span><strong>Dimensions assessed:</strong> beneficiary safety; regulatory / legal; financial; reputational; operational.</span></li>
+          <li><span><strong>Time horizons assessed:</strong> 1h, 4h, 24h, 72h, 1w, 1m. For each horizon, what is the impact if the process is unavailable for that long?</span></li>
+          <li><span><strong>Scoring scale:</strong> 1 (negligible), 2 (minor), 3 (moderate), 4 (major), 5 (catastrophic). Use the rubric in the worksheet to anchor scores against examples.</span></li>
+          <li><span><strong>Beneficiary safety is the trump.</strong> Any process scoring 4 or 5 on beneficiary safety at any time horizon is classed Tier-1 critical regardless of other scores.</span></li>
+          <li>For multi-country agencies, impact may differ by country. Either run per-country impact assessment for processes that vary significantly, or document the worst-case and apply consistently.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 4</span><span class="step-title">Determine RTO, RPO, MTPD, and MBCO for each process</span></div>
+      <div class="step-body">
+        <p>The impact assessment in Step 3 drives the time-based recovery objectives.</p>
+        <ul>
+          <li><span><strong>RTO:</strong> the time horizon at which impact becomes unacceptable. Map to standard bands (4h, 24h, 72h, 7d) per the methodology. Avoid &ldquo;immediate&rdquo; or &ldquo;no downtime&rdquo; &mdash; these are not RTOs, they are aspirational statements. If genuinely zero downtime is required, that drives Tier-1 with active-active design.</span></li>
+          <li><span><strong>RPO:</strong> the maximum tolerable data loss measured back from the disruption. Map to standard bands (15m, 4h, 24h, 7d). RPO is often process-specific (a clinical record may tolerate seconds of loss; an internal report may tolerate days).</span></li>
+          <li><span><strong>MTPD:</strong> the point at which the disruption causes unrecoverable damage. Always longer than RTO &mdash; if RTO equals MTPD, there is no margin for delay in recovery.</span></li>
+          <li><span><strong>MBCO:</strong> the minimum acceptable level of service during disruption. May be a percentage of normal capacity, a degraded feature set, manual workaround, or relocation to alternative site. Document concretely.</span></li>
+          <li>Avoid optimism. The conversation tends toward &ldquo;we&rsquo;ll figure it out&rdquo; or &ldquo;we&rsquo;ve managed before&rdquo;. The BIA must produce concrete numbers that are defensible against actual scenarios; push for evidence-based RTOs.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 5</span><span class="step-title">Map dependencies for each critical process</span></div>
+      <div class="step-body">
+        <p>Dependencies are the bridge from BCP to DR and to supplier risk. For each Tier-1 and Tier-2 process identify:</p>
+        <ul>
+          <li><span><strong>IT services depended on</strong> &mdash; named services, with the criticality of the dependency (does the process stop entirely without this service, or degrade?). This list drives IT recovery tier assignment in <a href="grc-dr-wi-01.html">GRC-DR-WI-01</a>.</span></li>
+          <li><span><strong>Data depended on</strong> &mdash; named datasets or applications holding them; whether the dependency is read-only or write-required.</span></li>
+          <li><span><strong>External suppliers</strong> &mdash; named suppliers (SaaS providers, critical service vendors, logistics, utilities) whose failure would cause process disruption.</span></li>
+          <li><span><strong>Sites</strong> &mdash; named buildings, campuses, or geographic locations where the process is performed or relies on access.</span></li>
+          <li><span><strong>People</strong> &mdash; key roles, skill concentrations, key-person dependencies that would cause disruption if absent.</span></li>
+          <li><span><strong>Upstream processes</strong> &mdash; other processes whose output this process depends on (within the agency or outside).</span></li>
+        </ul>
+        <p>Capture as a structured table; the dependency map will be reused in DR tier assignment and supplier risk discussions.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 6</span><span class="step-title">Validate findings with process owners and senior leadership</span></div>
+      <div class="step-body">
+        <p>Draft findings are validated before being finalised. This is where BIAs typically gain credibility &mdash; or lose it.</p>
+        <ul>
+          <li><span><strong>Process-owner validation.</strong> Each Tier-1 and Tier-2 process is walked through with its named Business Process Owner. Owner confirms (or challenges) RTO, RPO, MBCO, dependencies. Challenges are documented and resolved with evidence.</span></li>
+          <li><span><strong>Cross-functional validation.</strong> Where processes depend on each other, the dependent and the depended-on owners review jointly; mismatched RTOs are flagged.</span></li>
+          <li><span><strong>IT validation.</strong> IT reviews the dependency map and flags any IT services where the implied recovery requirement exceeds current capability. This becomes a DR exception or risk in subsequent steps; it does not change the BIA finding (the BIA states what the business needs; gaps to that need are separate).</span></li>
+          <li><span><strong>Senior leadership review.</strong> Agency CEO (or delegate) and senior leadership team review the consolidated findings, particularly the Tier-1 list and any cross-agency dependencies. CEO signs off.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 7</span><span class="step-title">Produce the BIA findings document</span></div>
+      <div class="step-body">
+        <p>The BIA findings document is the authoritative output of this WI. Recommended structure (the template <a href="grc-frm-bcdr-01.html">GRC-FRM-BCDR-01</a> mirrors this in the second-pass delivery):</p>
+        <ul>
+          <li>Executive summary: scope, method, top-line findings (count of Tier-1, Tier-2 processes; top 5 dependencies; key risks).</li>
+          <li>Methodology applied (reference to <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a>; any variations recorded).</li>
+          <li>Ranked list of critical processes with: name, owner, impact scores per dimension, RTO, RPO, MTPD, MBCO.</li>
+          <li>Dependency map: IT services, data, suppliers, sites, people, upstream processes.</li>
+          <li>Risk observations: gaps where current capability does not meet implied recovery requirements; flagged for treatment via risk register or DR programme.</li>
+          <li>Validation log: who reviewed and signed off what, when.</li>
+          <li>Recommendations for follow-up: BCP plan authoring priorities; DR tier classification handover.</li>
+          <li>Document control: BIA date, next refresh date, change log.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 8</span><span class="step-title">Hand over to BCP and DR programmes</span></div>
+      <div class="step-body">
+        <p>BIA findings feed two downstream activities:</p>
+        <ul>
+          <li><span><strong>BCP plan authoring.</strong> Each Tier-1 and Tier-2 process becomes a target for a Business Process Continuity Plan, populated using the template <a href="grc-frm-bcp-01.html">GRC-FRM-BCP-01</a>. Tier-1 plans are prioritised; the agency BCP Coordinator schedules the authoring programme.</span></li>
+          <li><span><strong>DR tier classification.</strong> The dependency map is handed to the IT DR Coordinator. IT Service Owners apply <a href="grc-dr-wi-01.html">GRC-DR-WI-01</a> to translate dependencies into recovery tier assignments and runbook obligations.</span></li>
+        </ul>
+        <p>Where the BIA reveals dependencies that current capability cannot support (e.g. an IT service tier higher than current backup or replication design allows), the gap is treated as a risk per <a href="grc-sop-04.html">GRC-SOP-04</a>, not silently ignored.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 9</span><span class="step-title">Submit to BCDR Steering Committee and register portfolio</span></div>
+      <div class="step-body">
+        <p>The BIA findings are submitted to the BCDR Steering Committee at the next quarterly meeting (or out-of-cycle if material). The Committee:</p>
+        <ul>
+          <li>Notes the BIA outputs and refresh date.</li>
+          <li>Endorses any cross-agency findings (dependencies that cross agencies; shared suppliers).</li>
+          <li>Records any escalated risk observations into the cross-agency risk view.</li>
+        </ul>
+        <p>The BIA is registered in the central BCDR portfolio inventory with: agency, date, refresh-due date, count of Tier-1 / Tier-2 / Tier-3 processes, and link to findings document. This feeds quarterly portfolio reporting.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Common pitfalls</div>
+    <ul class="bcp-bullet">
+      <li><span><strong>System-first thinking.</strong> Starting from &ldquo;our critical systems&rdquo; misses processes that depend on non-IT capabilities (people, sites, suppliers) and inverts the BCP-DR relationship. Always start from processes.</span></li>
+      <li><span><strong>Optimistic RTOs.</strong> &ldquo;We can be back up in an hour&rdquo; without evidence is aspirational, not analytical. Push for what has actually been recovered, what backup or replication design exists, what the supplier SLA says.</span></li>
+      <li><span><strong>Everyone is Tier-1.</strong> If every process is critical, the BIA has not done its job. Force ranking and force trade-offs in the workshop.</span></li>
+      <li><span><strong>Skipping validation.</strong> A BIA without process-owner sign-off is not credible. The validation step is non-optional.</span></li>
+      <li><span><strong>Treating BIA findings as IT&rsquo;s problem.</strong> The BIA states business need; gaps between need and capability are organisational risks, owned at agency or Steering Committee level, not pushed silently to IT to resolve in isolation.</span></li>
+      <li><span><strong>Failing to refresh.</strong> A BIA more than 24 months old is presumed stale. Refresh on the cadence even when nothing has obviously changed; the act of refresh surfaces drift.</span></li>
+    </ul>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Related documents</div>
+    <ul class="bcp-bullet">
+      <li><a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a> &mdash; methodology this WI operationalises</li>
+      <li><a href="grc-bcp-sop-01.html">GRC-BCP-SOP-01</a> &mdash; obligates the BIA</li>
+      <li><a href="grc-dr-sop-01.html">GRC-DR-SOP-01</a> &mdash; uses the BIA output for tier classification</li>
+      <li><a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a> &mdash; exercise programme (the BIA list scopes the exercise schedule)</li>
+      <li><a href="grc-dr-wi-01.html">GRC-DR-WI-01</a> &mdash; consumes the dependency map for tier classification</li>
+      <li><a href="grc-frm-bcdr-01.html">GRC-FRM-BCDR-01</a> &mdash; BIA worksheet template (second-pass delivery)</li>
+      <li><a href="grc-frm-bcp-01.html">GRC-FRM-BCP-01</a> &mdash; Business Process Continuity Plan template (second-pass delivery)</li>
+      <li><a href="grc-sop-04.html">GRC-SOP-04</a> &mdash; risk management (for gaps between BIA need and current capability)</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-bcp.html" style="color:#2D6B3F;text-decoration:none;">&larr; BCP</a> &nbsp;&middot;&nbsp; <a href="grc-dr.html" style="color:#1F5A4A;text-decoration:none;">DR &rarr;</a></span>
+  </div>
+
+</div>
+</body>
+</html>

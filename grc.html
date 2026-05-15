@@ -31,29 +31,39 @@
   .grc-stat-label { font-size:12px; color:#888; }
 
   /* Domain cards */
-  .domain-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:1.5rem; }
+  .domain-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:12px; margin-bottom:1.5rem; }
   .domain-card { border-radius:14px; padding:1.4rem 1.5rem; text-decoration:none; color:inherit; display:block; transition:transform 0.15s, box-shadow 0.15s; }
   .domain-card:hover { transform:translateY(-2px); box-shadow:0 4px 20px rgba(0,0,0,0.08); }
   .domain-card.gov  { background:linear-gradient(135deg,#E6F4F4 0%,#D0ECEC 100%); border:0.5px solid var(--grc-border); }
   .domain-card.risk { background:linear-gradient(135deg,#FAECE7 0%,#F5DDD7 100%); border:0.5px solid #F5C0B0; }
   .domain-card.comp { background:linear-gradient(135deg,#E6F1FB 0%,#D6E8F8 100%); border:0.5px solid #B5D4F4; }
+  .domain-card.bcp  { background:linear-gradient(135deg,#E8F4EC 0%,#D4E8DA 100%); border:0.5px solid #A8D4B8; }
+  .domain-card.dr   { background:linear-gradient(135deg,#E0F0EA 0%,#CDE3DA 100%); border:0.5px solid #9DC9B8; }
   .domain-card-icon  { font-size:28px; margin-bottom:10px; }
   .domain-card-code  { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:2px 8px; border-radius:6px; margin-bottom:8px; display:inline-block; }
   .domain-card.gov  .domain-card-code { background:rgba(14,92,92,0.12); color:var(--grc); }
   .domain-card.risk .domain-card-code { background:rgba(153,60,29,0.1); color:#993C1D; }
   .domain-card.comp .domain-card-code { background:rgba(24,95,165,0.1); color:#185FA5; }
+  .domain-card.bcp  .domain-card-code { background:rgba(45,107,63,0.12); color:#2D6B3F; }
+  .domain-card.dr   .domain-card-code { background:rgba(31,90,74,0.12); color:#1F5A4A; }
   .domain-card-title { font-size:16px; font-weight:700; margin-bottom:6px; }
   .domain-card.gov  .domain-card-title { color:var(--grc-dark); }
   .domain-card.risk .domain-card-title { color:#5C2E06; }
   .domain-card.comp .domain-card-title { color:#0F3460; }
+  .domain-card.bcp  .domain-card-title { color:#1A4528; }
+  .domain-card.dr   .domain-card-title { color:#0E3A2F; }
   .domain-card-desc { font-size:13px; line-height:1.6; margin-bottom:10px; }
   .domain-card.gov  .domain-card-desc { color:#1A5C5C; }
   .domain-card.risk .domain-card-desc { color:#7a2e10; }
   .domain-card.comp .domain-card-desc { color:#0F3460; }
+  .domain-card.bcp  .domain-card-desc { color:#1A4528; }
+  .domain-card.dr   .domain-card-desc { color:#0E3A2F; }
   .domain-card-footer { display:flex; align-items:center; justify-content:space-between; font-size:12px; font-weight:600; }
   .domain-card.gov  .domain-card-footer { color:var(--grc); }
   .domain-card.risk .domain-card-footer { color:#993C1D; }
   .domain-card.comp .domain-card-footer { color:#185FA5; }
+  .domain-card.bcp  .domain-card-footer { color:#2D6B3F; }
+  .domain-card.dr   .domain-card-footer { color:#1F5A4A; }
 
   /* What this hub covers */
   .grc-intro { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1.5rem; }
@@ -127,12 +137,12 @@
   <!-- Stats -->
   <div class="grc-stats">
     <div class="grc-stat"><div class="grc-stat-num">3</div><div class="grc-stat-label">Policies</div></div>
-    <div class="grc-stat"><div class="grc-stat-num">5</div><div class="grc-stat-label">SOPs</div></div>
+    <div class="grc-stat"><div class="grc-stat-num">8</div><div class="grc-stat-label">SOPs</div></div>
     <div class="grc-stat"><div class="grc-stat-num">8</div><div class="grc-stat-label">Forms</div></div>
-    <div class="grc-stat"><div class="grc-stat-num">3</div><div class="grc-stat-label">Work Instructions</div></div>
+    <div class="grc-stat"><div class="grc-stat-num">5</div><div class="grc-stat-label">Work Instructions</div></div>
     <div class="grc-stat"><div class="grc-stat-num">12</div><div class="grc-stat-label">Registers &amp; trackers</div></div>
     <div class="grc-stat"><div class="grc-stat-num">2</div><div class="grc-stat-label">Plans</div></div>
-    <div class="grc-stat"><div class="grc-stat-num">3</div><div class="grc-stat-label">Domains</div></div>
+    <div class="grc-stat"><div class="grc-stat-num">5</div><div class="grc-stat-label">Domains</div></div>
   </div>
 
   <!-- Domain cards -->
@@ -164,6 +174,22 @@
         <div class="domain-card-footer"><span>Baseline Catalog · Control Library · Validation</span><span>→</span></div>
       </a>
 
+      <a class="domain-card bcp" href="grc-bcp.html">
+        <div class="domain-card-icon">🔄</div>
+        <div class="domain-card-code">GRC-BCP</div>
+        <div class="domain-card-title">Business Continuity</div>
+        <div class="domain-card-desc">Business-led framework for continuing critical services during disruption. BIA methodology, agency obligations, crisis governance, and continuity plan templates.</div>
+        <div class="domain-card-footer"><span>BIA · Continuity Plans · Crisis Management</span><span>→</span></div>
+      </a>
+
+      <a class="domain-card dr" href="grc-dr.html">
+        <div class="domain-card-icon">🛡️</div>
+        <div class="domain-card-code">GRC-DR</div>
+        <div class="domain-card-title">IT Disaster Recovery</div>
+        <div class="domain-card-desc">IT-led framework for technology service recovery. Recovery tiers, backup minima, replication patterns, cloud platform DR, and runbook standards.</div>
+        <div class="domain-card-footer"><span>Recovery Tiers · Backup · Cloud DR · Runbooks</span><span>→</span></div>
+      </a>
+
     </div>
   </div>
 
@@ -175,6 +201,8 @@
       <div class="usecase-card"><h4>🏢 Supplier assurance</h4><p>Use the Risk domain for supplier security assessments — questionnaires, scored assessment records, and reviewer work instructions.</p></div>
       <div class="usecase-card"><h4>⚠️ Risk &amp; exceptions</h4><p>Log and track risk acceptances, policy exceptions, and baseline exceptions via the Risk domain registers.</p></div>
       <div class="usecase-card"><h4>✅ Compliance monitoring</h4><p>Review baseline compliance status, validation runs, and drift remediation via the Compliance domain registers.</p></div>
+      <div class="usecase-card"><h4>🔄 Continuity planning</h4><p>For business continuity, use the BCP domain — BIA methodology, agency obligations, and continuity plan templates.</p></div>
+      <div class="usecase-card"><h4>🛡️ Recovery planning</h4><p>For IT disaster recovery, use the DR domain — recovery tiers, backup minima, cloud DR scenarios, and runbook standards.</p></div>
       <div class="usecase-card"><h4>🔍 Audit &amp; assurance</h4><p>Use registers and validation run records as audit evidence. All entries include owner, date, and approval status.</p></div>
       <div class="usecase-card"><h4>📅 Review &amp; actions</h4><p>Check the Document Review Register for upcoming review dates and pending approvals across all GRC documents.</p></div>
     </div>
@@ -187,6 +215,9 @@
       <a class="register-card" href="grc-irp-01.html" style="background:linear-gradient(135deg,#E6F4F4 0%,#D0ECEC 100%);"><div class="register-icon">🛡️</div><div class="register-name">Cyber Security Incident Response Plan (GRC-IRP-01)</div></a>
       <a class="register-card" href="grc-irp-annex-template.html"><div class="register-icon">📋</div><div class="register-name">Local IR Annex Template</div></a>
       <a class="register-card" href="grc-frm-14.html"><div class="register-icon">📨</div><div class="register-name">IR Communication Templates (GRC-FRM-14)</div></a>
+      <a class="register-card" href="grc-bcdr-sop-01.html" style="background:linear-gradient(135deg,#E8F4EC 0%,#D4E8DA 100%);"><div class="register-icon">📘</div><div class="register-name">BCDR Methodology &amp; Governance (GRC-BCDR-SOP-01)</div></a>
+      <a class="register-card" href="grc-bcp-sop-01.html"><div class="register-icon">🔄</div><div class="register-name">Business Continuity Policy (GRC-BCP-SOP-01)</div></a>
+      <a class="register-card" href="grc-dr-sop-01.html"><div class="register-icon">🛡️</div><div class="register-name">IT Disaster Recovery Policy (GRC-DR-SOP-01)</div></a>
     </div>
   </div>
 

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Continuity &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --bcp:#2D6B3F; --bcp-light:#E8F4EC; --bcp-border:#A8D4B8; --bcp-dark:#1A4528; --dr:#1F5A4A; --dr-light:#E0F0EA; --dr-border:#9DC9B8; --dr-dark:#0E3A2F; --grc:#0E5C5C; --grc-light:#E6F4F4; }
+
+  .bcp-page-hero { background:linear-gradient(135deg,#0F2818 0%,#1A4528 40%,#2D6B3F 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .bcp-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .bcp-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .bcp-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .bcp-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .bcp-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .bcp-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .bcp-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .bcp-stat-num { font-size:24px; font-weight:700; color:var(--bcp); line-height:1; margin-bottom:4px; }
+  .bcp-stat-lbl { font-size:11px; color:#888; }
+
+  .bcp-section { background:#fff; border:0.5px solid var(--bcp-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .bcp-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .bcp-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .bcp-section p:last-child { margin-bottom:0; }
+
+  .bcp-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .bcp-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .bcp-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--bcp); flex-shrink:0; margin-top:5px; }
+
+  .doc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px; margin-top:6px; }
+  .doc-card { background:#fff; border:0.5px solid var(--bcp-border); border-radius:10px; padding:1rem 1.2rem; text-decoration:none; color:inherit; display:block; transition:border-color .15s; }
+  .doc-card:hover { border-color:var(--bcp); }
+  .doc-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--bcp); margin-bottom:4px; }
+  .doc-card-title { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:5px; }
+  .doc-card-desc { font-size:12px; color:#666; line-height:1.5; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--bcp-light); color:var(--bcp-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--bcp-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:var(--bcp); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+
+  /* SOP/WI common */
+  .step { background:#fff; border:0.5px solid #e8e8e4; border-left:3px solid var(--bcp); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .step-header { display:flex; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .step-num { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--bcp); background:var(--bcp-light); padding:2px 7px; border-radius:5px; }
+  .step-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .step-body { font-size:13px; color:#333; line-height:1.65; }
+  .step-body p { margin:0 0 6px; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body ul { padding-left:1.1rem; margin:6px 0 8px; }
+  .step-body ul li { margin-bottom:4px; line-height:1.55; }
+  .step-body code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">Governance, Risk &amp; Compliance</a> &nbsp;&rsaquo;&nbsp; Business Continuity</div>
+
+  <div class="bcp-page-hero">
+    <div class="bcp-page-hero-eyebrow">GRC &middot; Business Continuity</div>
+    <h1>Business Continuity</h1>
+    <p>How the organisation continues to deliver critical services to beneficiaries and stakeholders when normal operations are disrupted. Business-led framework, methodology, and templates covering the full range of disruption types &mdash; cyber, physical, supplier, environmental, regional &mdash; with agency-populated continuity plans for each critical business process. The companion to the IT Disaster Recovery suite (<a href="grc-dr.html" style="color:#fff;text-decoration:underline;">GRC-DR</a>) which addresses technology service recovery.</p>
+    <div class="bcp-page-hero-pills">
+      <span class="bcp-page-hero-pill">Business-led</span>
+      <span class="bcp-page-hero-pill">Multi-agency</span>
+      <span class="bcp-page-hero-pill">Framework &amp; templates</span>
+    </div>
+  </div>
+
+  <div class="bcp-stats">
+    <div class="bcp-stat"><div class="bcp-stat-num">1</div><div class="bcp-stat-lbl">Policy SOP</div></div>
+    <div class="bcp-stat"><div class="bcp-stat-num">2</div><div class="bcp-stat-lbl">Shared Work Instructions</div></div>
+    <div class="bcp-stat"><div class="bcp-stat-num">1</div><div class="bcp-stat-lbl">Template (per process)</div></div>
+    <div class="bcp-stat"><div class="bcp-stat-num">5+</div><div class="bcp-stat-lbl">Agencies in scope</div></div>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Scope &amp; operating model</div>
+    <p>The organisation operates across more than 30 countries, through several agencies with materially different mandates: health services (AKHS), education (AKES, AKA), higher education and research (IIS), and the development network itself (AKDN). A central authoring approach to business continuity is not feasible at this scale &mdash; a hospital&rsquo;s continuity needs are not a school&rsquo;s, and a school in one country may face very different disruption risks than the same school in another.</p>
+    <p>This domain therefore operates a <strong>centre-of-excellence model</strong>:</p>
+    <ul class="bcp-bullet">
+      <li><span><strong>Central authorship</strong> of the policy, methodology, terminology, exercise standards, and templates &mdash; in this domain.</span></li>
+      <li><span><strong>Agency-level authorship</strong> of the actual continuity plans for each critical business process, populated using the templates and reviewed under the central methodology.</span></li>
+      <li><span><strong>Federated assurance</strong>: agencies own their plans and exercise outcomes; central GRC tracks completeness, currency, and exercise evidence at portfolio level.</span></li>
+    </ul>
+    <p>The deliverables under this domain are the central artefacts. Agency-specific Business Process Continuity Plans live in agency document management systems and are referenced by code in the central plan inventory.</p>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">What this domain covers (and what it does not)</div>
+    <table class="gt-table">
+      <thead>
+        <tr><th>In scope for this domain</th><th>Out of scope &mdash; lives elsewhere</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Policy framework for business continuity across the organisation</td>
+          <td><strong>Authoring</strong> agency-specific continuity plans (each agency owns its plans)</td>
+        </tr>
+        <tr>
+          <td>BIA methodology &mdash; how to assess process criticality, RTO, RPO, dependencies</td>
+          <td>Operational health, education, or research service delivery</td>
+        </tr>
+        <tr>
+          <td>Exercise &amp; testing standards &mdash; tabletop, walkthrough, simulation cadence</td>
+          <td>Cyber incident response (<a href="grc-irp-01.html">GRC-IRP-01</a> and SOC playbooks)</td>
+        </tr>
+        <tr>
+          <td>Crisis governance and escalation principles</td>
+          <td>Technology service recovery (<a href="grc-dr.html">GRC-DR</a> domain)</td>
+        </tr>
+        <tr>
+          <td>Templates: Business Process Continuity Plan, BIA worksheet</td>
+          <td>Physical security incident response and emergency management</td>
+        </tr>
+        <tr>
+          <td>Portfolio inventory of agency continuity plans and exercise outcomes</td>
+          <td>Insurance, legal, and financial recovery instruments</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Domain documents</div>
+    <p>This domain comprises a policy SOP and shares two Work Instructions with the IT Disaster Recovery domain (the BIA methodology and the exercise programme are operationally shared because both BCP and DR rely on them).</p>
+
+    <div class="doc-grid">
+      <a href="grc-bcp-sop-01.html" class="doc-card">
+        <div class="doc-card-id">GRC-BCP-SOP-01</div>
+        <div class="doc-card-title">Business Continuity Policy</div>
+        <div class="doc-card-desc">Business-audience policy framework. Agency obligations, plan ownership, escalation, crisis governance, plan currency requirements.</div>
+      </a>
+      <a href="grc-bcdr-sop-01.html" class="doc-card">
+        <div class="doc-card-id">GRC-BCDR-SOP-01</div>
+        <div class="doc-card-title">BCDR Methodology &amp; Governance</div>
+        <div class="doc-card-desc">Shared methodology: BIA approach, RTO/RPO classification, exercise framework, terminology, BCDR governance committee, review cadence.</div>
+      </a>
+      <a href="grc-bcdr-wi-01.html" class="doc-card">
+        <div class="doc-card-id">GRC-BCDR-WI-01</div>
+        <div class="doc-card-title">Conducting a Business Impact Assessment</div>
+        <div class="doc-card-desc">The BIA procedure &mdash; how to identify processes, assess criticality, determine RTO/RPO, map dependencies, document findings.</div>
+      </a>
+      <a href="grc-bcdr-wi-02.html" class="doc-card">
+        <div class="doc-card-id">GRC-BCDR-WI-02</div>
+        <div class="doc-card-title">Exercise &amp; Testing Programme</div>
+        <div class="doc-card-desc">Exercise standards. Tabletop, walkthrough, simulation, and live failover criteria, cadence, scenario library, evidence requirements.</div>
+      </a>
+      <a href="grc-frm-bcp-01.html" class="doc-card">
+        <div class="doc-card-id">GRC-FRM-BCP-01</div>
+        <div class="doc-card-title">Business Process Continuity Plan template</div>
+        <div class="doc-card-desc">Template populated by agencies for each critical business process. Delivered in the second-pass delivery.</div>
+      </a>
+      <a href="grc-frm-bcdr-01.html" class="doc-card">
+        <div class="doc-card-id">GRC-FRM-BCDR-01</div>
+        <div class="doc-card-title">Business Impact Assessment worksheet</div>
+        <div class="doc-card-desc">Worksheet template supporting GRC-BCDR-WI-01. Delivered in the second-pass delivery.</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Disruption types in scope</div>
+    <p>Business continuity is cause-agnostic by design. The plan exists to keep critical processes running regardless of what caused the disruption. The scenarios below illustrate the range:</p>
+    <table class="gt-table">
+      <thead>
+        <tr><th>Category</th><th>Example scenarios</th><th>Primary owner of response</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Cyber</td>
+          <td>Ransomware affecting clinical systems; identity provider compromise; destructive attack on file shares</td>
+          <td>SOC for response (<a href="grc-irp-01.html">IRP</a>); BCP for service continuity workarounds</td>
+        </tr>
+        <tr>
+          <td>Technology</td>
+          <td>Data centre outage; Azure region failure; M365 sustained outage; major application failure</td>
+          <td>IT for recovery (<a href="grc-dr.html">DR</a>); BCP for workarounds during recovery window</td>
+        </tr>
+        <tr>
+          <td>Supplier</td>
+          <td>Critical supplier insolvency; cloud provider sustained outage; SaaS vendor compromise; logistics disruption</td>
+          <td>Procurement / vendor management; BCP coordinates business workaround</td>
+        </tr>
+        <tr>
+          <td>Physical</td>
+          <td>Building damage by fire, flood, earthquake; loss of campus access; key facility compromise</td>
+          <td>Facilities / security; BCP for relocation, remote operating, alternative-site activation</td>
+        </tr>
+        <tr>
+          <td>People</td>
+          <td>Pandemic-scale absenteeism; loss of key personnel concentration; civil unrest preventing staff travel</td>
+          <td>HR / people operations; BCP for cross-training, succession activation, alternative workforce models</td>
+        </tr>
+        <tr>
+          <td>Regional</td>
+          <td>Country-level civil disruption; sanction-driven service withdrawal; broad infrastructure failure</td>
+          <td>Country leadership; BCP for cross-country redistribution where possible</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>The methodology in <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a> defines how each agency identifies and ranks its critical processes; the policy in <a href="grc-bcp-sop-01.html">GRC-BCP-SOP-01</a> defines the agency obligations that follow.</p>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Roles &amp; accountabilities at domain level</div>
+    <p>Detailed role responsibilities are defined in GRC-BCP-SOP-01 and GRC-BCDR-SOP-01. At domain level the following accountability holds:</p>
+    <ul class="bcp-bullet">
+      <li><span><strong>Group Leadership / CEO sponsorship</strong> &mdash; accountable for the organisation&rsquo;s continuity posture overall; receives portfolio reporting on plan currency and exercise outcomes.</span></li>
+      <li><span><strong>BCDR Steering Committee</strong> &mdash; cross-agency governance body; chairs methodology updates, exercise schedule, lessons-learned consolidation.</span></li>
+      <li><span><strong>Agency BCP Coordinator</strong> &mdash; named role per agency; owns the agency&rsquo;s plan inventory and exercise programme; reports to the Steering Committee.</span></li>
+      <li><span><strong>Business Process Owner</strong> &mdash; named individual per critical business process; owns the process&rsquo;s continuity plan; reviews and signs off annually; participates in exercises.</span></li>
+      <li><span><strong>Crisis Management Team (per agency / per site)</strong> &mdash; activates the continuity plan during a disruption; coordinates communications, workarounds, and recovery.</span></li>
+      <li><span><strong>GRC (central)</strong> &mdash; maintains methodology, templates, and portfolio inventory; reports completeness and currency; coordinates with IT DR.</span></li>
+      <li><span><strong>Internal Audit</strong> &mdash; independently tests plan design and exercise outcomes; relies on exercise evidence and BIA documentation</span></li>
+    </ul>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Related domains &amp; cross-references</div>
+    <table class="gt-table">
+      <thead>
+        <tr><th>Related content</th><th>Boundary</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><a href="grc-dr.html">GRC-DR Disaster Recovery</a></td><td><strong>Paired domain.</strong> BCP defines the business RTOs that must be met; DR defines how IT services are recovered to meet them. Methodology (<a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a>) and BIA / exercise WIs (<a href="grc-bcdr-wi-01.html">WI-01</a>, <a href="grc-bcdr-wi-02.html">WI-02</a>) are shared.</td></tr>
+        <tr><td><a href="grc-irp-01.html">GRC-IRP-01 Cyber Security Incident Response Plan</a></td><td><strong>Cyber incident response.</strong> Handles the response to a cyber incident; BCP engages alongside when the incident triggers continuity invocation (e.g. ransomware affecting clinical systems).</td></tr>
+        <tr><td><a href="grc-register-risk.html">GRC-REG-RISK Risk Register</a></td><td><strong>Strategic risk capture.</strong> Disruption risks identified during BIA are recorded in the risk register; BCP plans are part of the treatment for those risks.</td></tr>
+        <tr><td><a href="grc-pol-01.html">GRC-POL-01 Supplier Security Assessment</a></td><td><strong>Supplier risk.</strong> Critical-supplier dependency identified in BIA may feed back to supplier assurance work; supplier continuity provisions are an output.</td></tr>
+        <tr><td><a href="grc-register-exceptions.html">GRC Exception Register</a></td><td><strong>Exception handling.</strong> Where a critical process does not have a current plan or exercise within cadence, the gap is logged as an exception with named owner and remediation date.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Key metrics tracked at portfolio level</div>
+    <ul class="bcp-bullet">
+      <li><span><strong>Plan coverage</strong> &mdash; percentage of agency-identified critical processes with a current BCP. Target: 100% of Tier-1 critical, 90% of Tier-2.</span></li>
+      <li><span><strong>Plan currency</strong> &mdash; percentage of plans reviewed within the last 12 months.</span></li>
+      <li><span><strong>Exercise compliance</strong> &mdash; percentage of plans exercised within the last 12 months (any exercise type counts).</span></li>
+      <li><span><strong>BIA currency</strong> &mdash; percentage of agencies with a BIA refresh in the last 24 months.</span></li>
+      <li><span><strong>Exercise lessons-learned closure</strong> &mdash; percentage of exercise findings remediated within target window.</span></li>
+      <li><span><strong>Open continuity-related exceptions</strong> &mdash; entries in the exception register with overdue remediation dates.</span></li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc.html" style="color:#2D6B3F;text-decoration:none;">&larr; Back to GRC</a></span>
+  </div>
+
+</div>
+</body>
+</html>
