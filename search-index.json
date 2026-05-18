@@ -2086,5 +2086,14 @@
     "url": "grc-frm-dr-01.html",
     "desc": "Template for a per-service DR runbook \u2014 architecture, backup & replication design, recovery procedures by scenario, validation, recovery team",
     "tags": "GRC DR template form runbook recovery procedure backup replication immutable failover validation cyber event tier 1 tier 2 service owner"
+  },
+  {
+    "id": "TOOLS-GLOSSARY",
+    "title": "Acronym Glossary",
+    "section": "Tools & References",
+    "sub": "Reference",
+    "url": "tools-glossary.html",
+    "desc": "Curated A\u2013Z glossary of acronyms used across the KB \u2014 expansion plus plain-English explanation per entry, domain-tagged, for readers across all skill levels",
+    "tags": "glossary acronym dictionary reference vocabulary BCDR SOC ASM GRC identity cloud network framework entry-level RTO RPO MTPD MBCO BIA MFA EDR MDR SIEM"
   }
 ]

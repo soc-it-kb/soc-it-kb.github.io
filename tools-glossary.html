@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acronym Glossary &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  .g-letter-nav { display:flex; flex-wrap:wrap; gap:6px; padding:0.9rem 1.1rem; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; margin-bottom:1.5rem; position:sticky; top:60px; z-index:50; }
+  .g-letter-link { font-family:'SF Mono','Fira Code',monospace; font-size:13px; font-weight:700; color:#297086; text-decoration:none; padding:6px 10px; border-radius:6px; min-width:32px; text-align:center; transition:background-color .15s; }
+  .g-letter-link:hover { background:#E6F1FB; }
+
+  .g-letter-section { margin-bottom:1.5rem; }
+  .g-letter { font-size:24px; font-weight:700; color:#297086; padding:8px 0; border-bottom:2px solid #297086; margin-bottom:10px; font-family:'SF Mono','Fira Code',monospace; }
+
+  .g-entry { display:grid; grid-template-columns:120px 1fr; gap:1.2rem; background:#fff; border:0.5px solid #e0e0dc; border-radius:10px; padding:0.85rem 1.1rem; margin-bottom:8px; }
+  .g-acronym { font-family:'SF Mono','Fira Code',monospace; font-size:15px; font-weight:700; color:#1a1a1a; padding-top:2px; }
+  .g-body { display:flex; flex-direction:column; gap:5px; }
+  .g-expansion { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .g-plain { font-size:13px; color:#555; line-height:1.55; }
+  .g-tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:3px; }
+  .g-tag { font-size:10px; font-weight:600; padding:2px 8px; border-radius:10px; border:0.5px solid; letter-spacing:0.03em; }
+
+  @media (max-width:640px) {
+    .g-entry { grid-template-columns:1fr; gap:0.4rem; }
+    .g-acronym { font-size:18px; padding-top:0; }
+  }
+
+  .g-intro { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.1rem 1.4rem; margin-bottom:1.5rem; }
+  .g-intro p { font-size:14px; color:#444; line-height:1.65; margin-bottom:0.7rem; }
+  .g-intro p:last-child { margin-bottom:0; }
+  .g-intro-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:0.5rem; }
+  .g-intro-tag { font-size:11px; font-weight:600; padding:3px 10px; border-radius:12px; border:0.5px solid; letter-spacing:0.03em; }
+</style>
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html" class="active">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="tools-references.html">Tools &amp; References</a> &nbsp;&rsaquo;&nbsp; Acronym Glossary</div>
+
+  <div class="kb-page-hero">
+    <span class="kb-page-hero-icon">📖</span>
+    <h1>Acronym Glossary</h1>
+    <p>Curated glossary of the acronyms used across this knowledge base. Each entry expands the acronym and explains in plain language what it means in our context. Designed for readers across all skill levels &mdash; entry-level practitioners can build vocabulary, and experienced readers can confirm conventions used here when they differ between sources.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">140 entries</span>
+      <span class="kb-meta-pill">A&ndash;Z navigable</span>
+      <span class="kb-meta-pill">Domain-tagged</span>
+      <span class="kb-meta-pill">All skill levels</span>
+    </div>
+  </div>
+
+  <div class="g-intro">
+    <p>This glossary covers the most-used and most-confusing acronyms across the KB rather than every acronym used. Entries are alphabetised, with each entry showing the full expansion, a one-sentence plain-English explanation, and one or more domain tags so you can see where the term is principally used.</p>
+    <p>Some acronyms have multiple expansions across disciplines (e.g. <strong>CA</strong> means Conditional Access in identity, Certificate Authority in PKI, Configuration Audit elsewhere). Where this occurs, the glossary defines the meaning <em>as used in this KB</em>; if you encounter the acronym in external material, check context.</p>
+    <p>Document-class prefixes used in KB filenames &mdash; <strong>SOP</strong>, <strong>WI</strong>, <strong>FRM</strong>, <strong>POL</strong>, <strong>REG</strong> &mdash; are included since they are foundational to navigation. Domain prefixes embedded in document codes (BCDR, BCP, DR, ASM, GRC, etc.) are also defined.</p>
+    <div class="g-intro-tags">
+      <span class="g-intro-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span>
+      <span class="g-intro-tag" style="background:#C0392B1a; color:#C0392B; border-color:#C0392B40;">IRP</span>
+      <span class="g-intro-tag" style="background:#2970861a; color:#297086; border-color:#29708640;">SOC</span>
+      <span class="g-intro-tag" style="background:#5B2D8E1a; color:#5B2D8E; border-color:#5B2D8E40;">ASM</span>
+      <span class="g-intro-tag" style="background:#3D5A991a; color:#3D5A99; border-color:#3D5A9940;">Cloud</span>
+      <span class="g-intro-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span>
+      <span class="g-intro-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span>
+      <span class="g-intro-tag" style="background:#0E5C5C1a; color:#0E5C5C; border-color:#0E5C5C40;">GRC</span>
+      <span class="g-intro-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span>
+      <span class="g-intro-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span>
+    </div>
+  </div>
+
+  <div class="g-letter-nav">
+    <a href="#letter-A" class="g-letter-link">A</a> <a href="#letter-B" class="g-letter-link">B</a> <a href="#letter-C" class="g-letter-link">C</a> <a href="#letter-D" class="g-letter-link">D</a> <a href="#letter-E" class="g-letter-link">E</a> <a href="#letter-F" class="g-letter-link">F</a> <a href="#letter-G" class="g-letter-link">G</a> <a href="#letter-H" class="g-letter-link">H</a> <a href="#letter-I" class="g-letter-link">I</a> <a href="#letter-J" class="g-letter-link">J</a> <a href="#letter-L" class="g-letter-link">L</a> <a href="#letter-M" class="g-letter-link">M</a> <a href="#letter-N" class="g-letter-link">N</a> <a href="#letter-O" class="g-letter-link">O</a> <a href="#letter-P" class="g-letter-link">P</a> <a href="#letter-R" class="g-letter-link">R</a> <a href="#letter-S" class="g-letter-link">S</a> <a href="#letter-T" class="g-letter-link">T</a> <a href="#letter-U" class="g-letter-link">U</a> <a href="#letter-V" class="g-letter-link">V</a> <a href="#letter-W" class="g-letter-link">W</a> <a href="#letter-X" class="g-letter-link">X</a> <a href="#letter-Z" class="g-letter-link">Z</a>
+  </div>
+
+    <div class="g-letter-section" id="letter-A">
+      <div class="g-letter">A</div>
+      <div class="g-entry" id="g-aaa">
+        <div class="g-acronym">AAA</div>
+        <div class="g-body">
+          <div class="g-expansion">Authentication, Authorisation, Accounting</div>
+          <div class="g-plain">The three pillars of access control: confirming who you are, what you can do, and recording what you did.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-aal">
+        <div class="g-acronym">AAL</div>
+        <div class="g-body">
+          <div class="g-expansion">Authentication Assurance Level</div>
+          <div class="g-plain">NIST SP 800-63B grade for the strength of authentication, ranging from AAL1 (basic) to AAL3 (hardware-backed multi-factor).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-aar">
+        <div class="g-acronym">AAR</div>
+        <div class="g-body">
+          <div class="g-expansion">After-Action Review</div>
+          <div class="g-plain">Structured review held after an exercise or real incident, capturing what worked, what failed, and what changes are needed.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span><span class="g-tag" style="background:#C0392B1a; color:#C0392B; border-color:#C0392B40;">IRP</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-ac">
+        <div class="g-acronym">AC</div>
+        <div class="g-body">
+          <div class="g-expansion">Access Control</div>
+          <div class="g-plain">NIST 800-53 control family covering account management, permissions, and access enforcement (AC-1 through AC-25).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-ad">
+        <div class="g-acronym">AD</div>
+        <div class="g-body">
+          <div class="g-expansion">Active Directory</div>
+          <div class="g-plain">Microsoft's on-premises directory service for managing users, groups, computers, and policies in Windows environments.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-aka">
+        <div class="g-acronym">AKA</div>
+        <div class="g-body">
+          <div class="g-expansion">Aga Khan Agency for Habitat</div>
+          <div class="g-plain">AKDN agency focused on disaster preparedness, response, and building habitat resilience in vulnerable areas.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-akdn">
+        <div class="g-acronym">AKDN</div>
+        <div class="g-body">
+          <div class="g-expansion">Aga Khan Development Network</div>
+          <div class="g-plain">The umbrella development network the knowledge base serves, with operations across 30+ countries.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-akes">
+        <div class="g-acronym">AKES</div>
+        <div class="g-body">
+          <div class="g-expansion">Aga Khan Education Services</div>
+          <div class="g-plain">AKDN agency operating schools and educational programmes across multiple countries.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-akhs">
+        <div class="g-acronym">AKHS</div>
+        <div class="g-body">
+          <div class="g-expansion">Aga Khan Health Services</div>
+          <div class="g-plain">AKDN agency operating hospitals, health centres, and clinical services.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-api">
+        <div class="g-acronym">API</div>
+        <div class="g-body">
+          <div class="g-expansion">Application Programming Interface</div>
+          <div class="g-plain">A defined contract by which software components talk to each other, commonly over HTTPS.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-asm">
+        <div class="g-acronym">ASM</div>
+        <div class="g-body">
+          <div class="g-expansion">Attack Surface Management</div>
+          <div class="g-plain">The discipline of inventorying, hardening, and continuously reducing the parts of an estate that an attacker could target.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#5B2D8E1a; color:#5B2D8E; border-color:#5B2D8E40;">ASM</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-asr">
+        <div class="g-acronym">ASR</div>
+        <div class="g-body">
+          <div class="g-expansion">Attack Surface Reduction</div>
+          <div class="g-plain">Microsoft Defender rules that block known attacker techniques (e.g. Office spawning child processes) at the endpoint level.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#5B2D8E1a; color:#5B2D8E; border-color:#5B2D8E40;">ASM</span><span class="g-tag" style="background:#3D5A991a; color:#3D5A99; border-color:#3D5A9940;">Cloud</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-asvs">
+        <div class="g-acronym">ASVS</div>
+        <div class="g-body">
+          <div class="g-expansion">Application Security Verification Standard</div>
+          <div class="g-plain">OWASP framework defining security requirements for web applications across three verification levels.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-au">
+        <div class="g-acronym">AU</div>
+        <div class="g-body">
+          <div class="g-expansion">Audit and Accountability</div>
+          <div class="g-plain">NIST 800-53 control family covering audit logging, event analysis, and accountability (AU-1 through AU-16).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-aws">
+        <div class="g-acronym">AWS</div>
+        <div class="g-body">
+          <div class="g-expansion">Amazon Web Services</div>
+          <div class="g-plain">Amazon's public cloud platform, one of the major hyperscalers alongside Azure and GCP.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#3D5A991a; color:#3D5A99; border-color:#3D5A9940;">Cloud</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-B">
+      <div class="g-letter">B</div>
+      <div class="g-entry" id="g-bcdr">
+        <div class="g-acronym">BCDR</div>
+        <div class="g-body">
+          <div class="g-expansion">Business Continuity and Disaster Recovery</div>
+          <div class="g-plain">The combined discipline covering how the business operates through disruption (BCP) and how IT services are recovered (DR).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-bcp">
+        <div class="g-acronym">BCP</div>
+        <div class="g-body">
+          <div class="g-expansion">Business Continuity Plan / Planning</div>
+          <div class="g-plain">Plans and processes that keep critical business processes operating during disruption, often using workarounds and reduced service levels.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-bia">
+        <div class="g-acronym">BIA</div>
+        <div class="g-body">
+          <div class="g-expansion">Business Impact Assessment</div>
+          <div class="g-plain">The structured analysis that identifies critical business processes, their tolerance for disruption, and what they depend on.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-bpo">
+        <div class="g-acronym">BPO</div>
+        <div class="g-body">
+          <div class="g-expansion">Business Process Owner</div>
+          <div class="g-plain">The named individual accountable for a business process — owns its continuity plan and is the decision-maker during disruption.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-C">
+      <div class="g-letter">C</div>
+      <div class="g-entry" id="g-ca">
+        <div class="g-acronym">CA</div>
+        <div class="g-body">
+          <div class="g-expansion">Conditional Access</div>
+          <div class="g-plain">Microsoft Entra policy engine that decides whether to allow, block, or require additional verification for a sign-in based on context.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span><span class="g-tag" style="background:#3D5A991a; color:#3D5A99; border-color:#3D5A9940;">Cloud</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-cc">
+        <div class="g-acronym">CC</div>
+        <div class="g-body">
+          <div class="g-expansion">Common Criteria / Trust Services Criteria</div>
+          <div class="g-plain">Used in two contexts: ISO 15408 Common Criteria for security evaluation, and SOC 2 Trust Services Criteria (CC1-CC9).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-ceo">
+        <div class="g-acronym">CEO</div>
+        <div class="g-body">
+          <div class="g-expansion">Chief Executive Officer</div>
+          <div class="g-plain">The most senior executive role in an organisation; for AKDN agencies, the agency CEO holds ultimate accountability for BCDR sign-off.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-cio">
+        <div class="g-acronym">CIO</div>
+        <div class="g-body">
+          <div class="g-expansion">Chief Information Officer</div>
+          <div class="g-plain">Senior executive accountable for information technology and information systems.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-cis">
+        <div class="g-acronym">CIS</div>
+        <div class="g-body">
+          <div class="g-expansion">Center for Internet Security</div>
+          <div class="g-plain">Non-profit producing the CIS Controls (defensive priorities) and CIS Benchmarks (vendor-specific hardening configurations).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-ciso">
+        <div class="g-acronym">CISO</div>
+        <div class="g-body">
+          <div class="g-expansion">Chief Information Security Officer</div>
+          <div class="g-plain">Senior executive accountable for cyber security strategy, posture, and incident response.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-cm">
+        <div class="g-acronym">CM</div>
+        <div class="g-body">
+          <div class="g-expansion">Configuration Management</div>
+          <div class="g-plain">NIST 800-53 control family covering configuration baselines, change control, and inventory (CM-1 through CM-14).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-cmk">
+        <div class="g-acronym">CMK</div>
+        <div class="g-body">
+          <div class="g-expansion">Customer-Managed Key</div>
+          <div class="g-plain">Encryption key the customer (not the cloud provider) controls — used where data sovereignty or compliance requires explicit key custody.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#3D5A991a; color:#3D5A99; border-color:#3D5A9940;">Cloud</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-cmt">
+        <div class="g-acronym">CMT</div>
+        <div class="g-body">
+          <div class="g-expansion">Crisis Management Team</div>
+          <div class="g-plain">The group convened during a major disruption to make decisions, coordinate response, and communicate with stakeholders.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span><span class="g-tag" style="background:#C0392B1a; color:#C0392B; border-color:#C0392B40;">IRP</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-copp">
+        <div class="g-acronym">CoPP</div>
+        <div class="g-body">
+          <div class="g-expansion">Control Plane Policing</div>
+          <div class="g-plain">Network device feature that rate-limits traffic to the control plane (routing protocols, management) to protect against denial-of-service.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-cp">
+        <div class="g-acronym">CP</div>
+        <div class="g-body">
+          <div class="g-expansion">Contingency Planning</div>
+          <div class="g-plain">NIST 800-53 control family covering business continuity and disaster recovery (CP-1 through CP-13).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-csf">
+        <div class="g-acronym">CSF</div>
+        <div class="g-body">
+          <div class="g-expansion">Cybersecurity Framework</div>
+          <div class="g-plain">NIST framework organising cyber security activities into six functions: Govern, Identify, Protect, Detect, Respond, Recover.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-csp">
+        <div class="g-acronym">CSP</div>
+        <div class="g-body">
+          <div class="g-expansion">Content Security Policy</div>
+          <div class="g-plain">Browser security header that restricts which scripts, styles, and resources a page can load — defends against cross-site scripting.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-D">
+      <div class="g-letter">D</div>
+      <div class="g-entry" id="g-dai">
+        <div class="g-acronym">DAI</div>
+        <div class="g-body">
+          <div class="g-expansion">Dynamic ARP Inspection</div>
+          <div class="g-plain">Switch feature that validates ARP packets against DHCP bindings, preventing ARP poisoning attacks.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-dc">
+        <div class="g-acronym">DC</div>
+        <div class="g-body">
+          <div class="g-expansion">Domain Controller</div>
+          <div class="g-plain">A server that runs Active Directory Domain Services — holds the directory database and authenticates users in a Windows domain.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-de">
+        <div class="g-acronym">DE</div>
+        <div class="g-body">
+          <div class="g-expansion">Detect (NIST CSF function)</div>
+          <div class="g-plain">NIST CSF function covering the activities that find and analyse cyber security events (DE.CM, DE.AE).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-dkim">
+        <div class="g-acronym">DKIM</div>
+        <div class="g-body">
+          <div class="g-expansion">DomainKeys Identified Mail</div>
+          <div class="g-plain">Email authentication standard where the sender signs messages with a private key and recipients verify against a public key in DNS.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-dlp">
+        <div class="g-acronym">DLP</div>
+        <div class="g-body">
+          <div class="g-expansion">Data Loss Prevention</div>
+          <div class="g-plain">Controls that detect and block sensitive data leaving the Institution through email, web, endpoints, or cloud applications.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#3D5A991a; color:#3D5A99; border-color:#3D5A9940;">Cloud</span><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-dmarc">
+        <div class="g-acronym">DMARC</div>
+        <div class="g-body">
+          <div class="g-expansion">Domain-based Message Authentication, Reporting & Conformance</div>
+          <div class="g-plain">Email policy that builds on SPF and DKIM, telling receiving servers what to do with unauthenticated mail and where to send reports.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-dns">
+        <div class="g-acronym">DNS</div>
+        <div class="g-body">
+          <div class="g-expansion">Domain Name System</div>
+          <div class="g-plain">The internet directory that translates human-readable names (example.com) into IP addresses.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-dpo">
+        <div class="g-acronym">DPO</div>
+        <div class="g-body">
+          <div class="g-expansion">Data Protection Officer</div>
+          <div class="g-plain">Role required under GDPR for certain organisations; accountable for data protection compliance and the contact point for regulators.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0E5C5C1a; color:#0E5C5C; border-color:#0E5C5C40;">GRC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-dr">
+        <div class="g-acronym">DR</div>
+        <div class="g-body">
+          <div class="g-expansion">Disaster Recovery</div>
+          <div class="g-plain">The discipline of restoring IT services and data after a disruption, with defined Recovery Time and Recovery Point Objectives.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-ds">
+        <div class="g-acronym">DS</div>
+        <div class="g-body">
+          <div class="g-expansion">Data Security (NIST CSF category)</div>
+          <div class="g-plain">NIST CSF category under Protect (PR.DS) covering data-at-rest, data-in-transit, and data lifecycle protection.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-dss">
+        <div class="g-acronym">DSS</div>
+        <div class="g-body">
+          <div class="g-expansion">Data Security Standard</div>
+          <div class="g-plain">Refers to PCI DSS — the Payment Card Industry Data Security Standard for organisations handling cardholder data.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0E5C5C1a; color:#0E5C5C; border-color:#0E5C5C40;">GRC</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-E">
+      <div class="g-letter">E</div>
+      <div class="g-entry" id="g-edr">
+        <div class="g-acronym">EDR</div>
+        <div class="g-body">
+          <div class="g-expansion">Endpoint Detection and Response</div>
+          <div class="g-plain">Security platform on workstations and servers that detects, investigates, and responds to threats — replaces traditional antivirus.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#2970861a; color:#297086; border-color:#29708640;">SOC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-epp">
+        <div class="g-acronym">EPP</div>
+        <div class="g-body">
+          <div class="g-expansion">Endpoint Protection Platform</div>
+          <div class="g-plain">Preventive endpoint security capability (antivirus, anti-malware); often bundled with EDR into a single product.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#2970861a; color:#297086; border-color:#29708640;">SOC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-entra-id">
+        <div class="g-acronym">Entra ID</div>
+        <div class="g-body">
+          <div class="g-expansion">Microsoft Entra ID (formerly Azure AD)</div>
+          <div class="g-plain">Microsoft's cloud identity service that manages user accounts, authentication, and access for M365 and Azure.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span><span class="g-tag" style="background:#3D5A991a; color:#3D5A99; border-color:#3D5A9940;">Cloud</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-F">
+      <div class="g-letter">F</div>
+      <div class="g-entry" id="g-fido2">
+        <div class="g-acronym">FIDO2</div>
+        <div class="g-body">
+          <div class="g-expansion">Fast IDentity Online 2</div>
+          <div class="g-plain">Modern authentication standard combining WebAuthn and CTAP — supports phishing-resistant security keys and platform authenticators.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-frm">
+        <div class="g-acronym">FRM</div>
+        <div class="g-body">
+          <div class="g-expansion">Form (KB document class)</div>
+          <div class="g-plain">Knowledge base prefix for forms and templates that agencies populate, distinguishing them from policies (POL), procedures (SOP), and work instructions (WI).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0E5C5C1a; color:#0E5C5C; border-color:#0E5C5C40;">GRC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-fs">
+        <div class="g-acronym">FS</div>
+        <div class="g-body">
+          <div class="g-expansion">File Services</div>
+          <div class="g-plain">IT services that provide shared file storage and access, typically SharePoint Online, OneDrive, or on-prem file servers.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-G">
+      <div class="g-letter">G</div>
+      <div class="g-entry" id="g-gcp">
+        <div class="g-acronym">GCP</div>
+        <div class="g-body">
+          <div class="g-expansion">Google Cloud Platform</div>
+          <div class="g-plain">Google's public cloud platform, one of the major hyperscalers alongside Azure and AWS.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#3D5A991a; color:#3D5A99; border-color:#3D5A9940;">Cloud</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-gdpr">
+        <div class="g-acronym">GDPR</div>
+        <div class="g-body">
+          <div class="g-expansion">General Data Protection Regulation</div>
+          <div class="g-plain">EU regulation on data protection and privacy, applicable to organisations processing EU resident data regardless of where they operate.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0E5C5C1a; color:#0E5C5C; border-color:#0E5C5C40;">GRC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-gmsa">
+        <div class="g-acronym">gMSA</div>
+        <div class="g-body">
+          <div class="g-expansion">Group Managed Service Account</div>
+          <div class="g-plain">Active Directory account type with automatic password rotation, used for service accounts running across multiple servers.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-grc">
+        <div class="g-acronym">GRC</div>
+        <div class="g-body">
+          <div class="g-expansion">Governance, Risk, and Compliance</div>
+          <div class="g-plain">The discipline of running policy frameworks, managing risk, and demonstrating compliance with regulations and standards.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0E5C5C1a; color:#0E5C5C; border-color:#0E5C5C40;">GRC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-gv">
+        <div class="g-acronym">GV</div>
+        <div class="g-body">
+          <div class="g-expansion">Govern (NIST CSF function)</div>
+          <div class="g-plain">NIST CSF 2.0 function covering organisational context, risk management strategy, roles, policy, and oversight (added in CSF 2.0).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-gzrs">
+        <div class="g-acronym">GZRS</div>
+        <div class="g-body">
+          <div class="g-expansion">Geo-Zone-Redundant Storage</div>
+          <div class="g-plain">Azure storage replication that combines zone redundancy in the primary region with asynchronous replication to a secondary region.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#3D5A991a; color:#3D5A99; border-color:#3D5A9940;">Cloud</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-H">
+      <div class="g-letter">H</div>
+      <div class="g-entry" id="g-ha">
+        <div class="g-acronym">HA</div>
+        <div class="g-body">
+          <div class="g-expansion">High Availability</div>
+          <div class="g-plain">Design pattern using redundant components and automated failover so a service survives single-component failure.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-hsm">
+        <div class="g-acronym">HSM</div>
+        <div class="g-body">
+          <div class="g-expansion">Hardware Security Module</div>
+          <div class="g-plain">Specialised hardware that generates, stores, and uses cryptographic keys — tamper-resistant and certified to standards like FIPS 140.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-hsts">
+        <div class="g-acronym">HSTS</div>
+        <div class="g-body">
+          <div class="g-expansion">HTTP Strict Transport Security</div>
+          <div class="g-plain">Browser security header that forces all connections to a domain to use HTTPS, even on the first visit after the policy is cached.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-I">
+      <div class="g-letter">I</div>
+      <div class="g-entry" id="g-ia">
+        <div class="g-acronym">IA</div>
+        <div class="g-body">
+          <div class="g-expansion">Identification and Authentication</div>
+          <div class="g-plain">NIST 800-53 control family covering identity proofing, authenticators, and authentication mechanisms (IA-1 through IA-12).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-iam">
+        <div class="g-acronym">IAM</div>
+        <div class="g-body">
+          <div class="g-expansion">Identity and Access Management</div>
+          <div class="g-plain">The discipline of managing digital identities and what they are allowed to access — covers provisioning, authentication, and authorisation.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-ict">
+        <div class="g-acronym">ICT</div>
+        <div class="g-body">
+          <div class="g-expansion">Information and Communication Technology</div>
+          <div class="g-plain">Broad term covering IT, telecoms, and the operating infrastructure that supports them.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-ids">
+        <div class="g-acronym">IDS</div>
+        <div class="g-body">
+          <div class="g-expansion">Intrusion Detection System</div>
+          <div class="g-plain">Network or host-based sensor that detects suspicious activity and generates alerts — passive observation, no automatic blocking.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#2970861a; color:#297086; border-color:#29708640;">SOC</span><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-iec">
+        <div class="g-acronym">IEC</div>
+        <div class="g-body">
+          <div class="g-expansion">International Electrotechnical Commission</div>
+          <div class="g-plain">Standards body that, jointly with ISO, publishes ISO/IEC standards including ISO/IEC 27001 and 27002.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-iis">
+        <div class="g-acronym">IIS</div>
+        <div class="g-body">
+          <div class="g-expansion">Institute of Ismaili Studies</div>
+          <div class="g-plain">AKDN-affiliated research institute focused on Muslim cultures and societies, particularly Shia Ismaili tradition.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-ioc">
+        <div class="g-acronym">IOC</div>
+        <div class="g-body">
+          <div class="g-expansion">Indicator of Compromise</div>
+          <div class="g-plain">Observable evidence that an attack has occurred or is occurring — IP addresses, file hashes, domain names, registry keys.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#2970861a; color:#297086; border-color:#29708640;">SOC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-ips">
+        <div class="g-acronym">IPS</div>
+        <div class="g-body">
+          <div class="g-expansion">Intrusion Prevention System</div>
+          <div class="g-plain">Network or host security control that detects and actively blocks suspicious activity — the active counterpart to an IDS.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#2970861a; color:#297086; border-color:#29708640;">SOC</span><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-ir">
+        <div class="g-acronym">IR</div>
+        <div class="g-body">
+          <div class="g-expansion">Incident Response</div>
+          <div class="g-plain">The structured process of detecting, containing, eradicating, recovering from, and learning from a cyber incident.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#C0392B1a; color:#C0392B; border-color:#C0392B40;">IRP</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-irp">
+        <div class="g-acronym">IRP</div>
+        <div class="g-body">
+          <div class="g-expansion">Incident Response Plan</div>
+          <div class="g-plain">The documented plan that governs how the Institution responds to cyber incidents — roles, escalation, severity, communications.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#C0392B1a; color:#C0392B; border-color:#C0392B40;">IRP</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-iso">
+        <div class="g-acronym">ISO</div>
+        <div class="g-body">
+          <div class="g-expansion">International Organization for Standardization</div>
+          <div class="g-plain">Standards body that publishes international standards including ISO 27001 (information security) and ISO 22301 (business continuity).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-isp">
+        <div class="g-acronym">ISP</div>
+        <div class="g-body">
+          <div class="g-expansion">Internet Service Provider</div>
+          <div class="g-plain">The organisation that provides internet connectivity to a site — typically with named primary and secondary providers for resilience.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-itam">
+        <div class="g-acronym">ITAM</div>
+        <div class="g-body">
+          <div class="g-expansion">IT Asset Management</div>
+          <div class="g-plain">The discipline of tracking IT assets through their lifecycle, from procurement to retirement, including financial and licensing aspects.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0E5C5C1a; color:#0E5C5C; border-color:#0E5C5C40;">GRC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-itil">
+        <div class="g-acronym">ITIL</div>
+        <div class="g-body">
+          <div class="g-expansion">IT Infrastructure Library</div>
+          <div class="g-plain">Framework of IT service management practices covering service strategy, design, transition, operation, and continual improvement.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-J">
+      <div class="g-letter">J</div>
+      <div class="g-entry" id="g-jit">
+        <div class="g-acronym">JIT</div>
+        <div class="g-body">
+          <div class="g-expansion">Just-In-Time</div>
+          <div class="g-plain">Access pattern where privileged permissions are granted only for the duration of a specific task, then automatically revoked.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-jml">
+        <div class="g-acronym">JML</div>
+        <div class="g-body">
+          <div class="g-expansion">Joiner / Mover / Leaver</div>
+          <div class="g-plain">The three identity lifecycle events — joining the Institution, changing role, leaving — that drive provisioning, change, and deprovisioning.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-L">
+      <div class="g-letter">L</div>
+      <div class="g-entry" id="g-lan">
+        <div class="g-acronym">LAN</div>
+        <div class="g-body">
+          <div class="g-expansion">Local Area Network</div>
+          <div class="g-plain">The network within a single site or building, typically connecting endpoints, servers, and printers via switches.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-lb">
+        <div class="g-acronym">LB</div>
+        <div class="g-body">
+          <div class="g-expansion">Load Balancer</div>
+          <div class="g-plain">Network device that distributes incoming traffic across multiple backend servers for capacity and resilience.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-ldap">
+        <div class="g-acronym">LDAP</div>
+        <div class="g-body">
+          <div class="g-expansion">Lightweight Directory Access Protocol</div>
+          <div class="g-plain">Protocol for querying and modifying directory services like Active Directory or OpenLDAP.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-lnx">
+        <div class="g-acronym">LNX</div>
+        <div class="g-body">
+          <div class="g-expansion">Linux</div>
+          <div class="g-plain">Used as a KB shorthand for Linux server platforms (e.g. IT-SRV-WI-LNX-* baseline work instructions).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-M">
+      <div class="g-letter">M</div>
+      <div class="g-entry" id="g-mbco">
+        <div class="g-acronym">MBCO</div>
+        <div class="g-body">
+          <div class="g-expansion">Minimum Business Continuity Objective</div>
+          <div class="g-plain">The minimum acceptable level of service a process must deliver during disruption — e.g. "50% normal volume via manual fallback".</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-mdr">
+        <div class="g-acronym">MDR</div>
+        <div class="g-body">
+          <div class="g-expansion">Managed Detection and Response</div>
+          <div class="g-plain">Outsourced SOC capability where a third party operates detection, triage, and response — used alongside in-house SOC for 24x7 coverage.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#2970861a; color:#297086; border-color:#29708640;">SOC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-mfa">
+        <div class="g-acronym">MFA</div>
+        <div class="g-body">
+          <div class="g-expansion">Multi-Factor Authentication</div>
+          <div class="g-plain">Authentication requiring two or more factors from different categories: something you know, have, or are. Phishing-resistant methods preferred.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-mfp">
+        <div class="g-acronym">MFP</div>
+        <div class="g-body">
+          <div class="g-expansion">Multi-Function Printer / Multi-Function Peripheral</div>
+          <div class="g-plain">Networked printer that also scans, copies, and faxes — often overlooked in asset and security inventories.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-mitre">
+        <div class="g-acronym">MITRE</div>
+        <div class="g-body">
+          <div class="g-expansion">MITRE Corporation / MITRE ATT&CK</div>
+          <div class="g-plain">Non-profit operating the ATT&CK framework — a comprehensive catalogue of adversary tactics, techniques, and procedures.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span><span class="g-tag" style="background:#2970861a; color:#297086; border-color:#29708640;">SOC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-mtpd">
+        <div class="g-acronym">MTPD</div>
+        <div class="g-body">
+          <div class="g-expansion">Maximum Tolerable Period of Disruption</div>
+          <div class="g-plain">The point beyond which a business process cannot recover meaningfully; must be longer than RTO with margin. Sometimes called MTD.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-mtd">
+        <div class="g-acronym">MTD</div>
+        <div class="g-body">
+          <div class="g-expansion">Maximum Tolerable Downtime</div>
+          <div class="g-plain">Synonym for MTPD — the maximum time a process can be disrupted before unrecoverable damage occurs. This KB uses MTPD.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-mttr">
+        <div class="g-acronym">MTTR</div>
+        <div class="g-body">
+          <div class="g-expansion">Mean Time To Recover / Repair</div>
+          <div class="g-plain">Average time taken to restore service after a failure — distinct from RTO (which is a target, not a measurement).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-mx">
+        <div class="g-acronym">MX</div>
+        <div class="g-body">
+          <div class="g-expansion">Mail Exchange (DNS record)</div>
+          <div class="g-plain">DNS record type that specifies which mail servers receive email for a domain.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-N">
+      <div class="g-letter">N</div>
+      <div class="g-entry" id="g-nat">
+        <div class="g-acronym">NAT</div>
+        <div class="g-body">
+          <div class="g-expansion">Network Address Translation</div>
+          <div class="g-plain">Technique that rewrites IP addresses as packets cross a network boundary — commonly used to share one public IP across many internal hosts.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-nist">
+        <div class="g-acronym">NIST</div>
+        <div class="g-body">
+          <div class="g-expansion">National Institute of Standards and Technology</div>
+          <div class="g-plain">US government agency producing widely-adopted standards including the Cybersecurity Framework (CSF) and the SP 800 series.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-nis2">
+        <div class="g-acronym">NIS2</div>
+        <div class="g-body">
+          <div class="g-expansion">Network and Information Security Directive 2</div>
+          <div class="g-plain">EU directive establishing cyber security requirements for essential and important entities, with significant penalties for non-compliance.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0E5C5C1a; color:#0E5C5C; border-color:#0E5C5C40;">GRC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-nsg">
+        <div class="g-acronym">NSG</div>
+        <div class="g-body">
+          <div class="g-expansion">Network Security Group</div>
+          <div class="g-plain">Azure stateful firewall applied to network interfaces or subnets — controls traffic by source, destination, port, and protocol.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#3D5A991a; color:#3D5A99; border-color:#3D5A9940;">Cloud</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-ntp">
+        <div class="g-acronym">NTP</div>
+        <div class="g-body">
+          <div class="g-expansion">Network Time Protocol</div>
+          <div class="g-plain">Protocol for synchronising clocks across devices on a network — essential for accurate log timestamps and authentication.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-O">
+      <div class="g-letter">O</div>
+      <div class="g-entry" id="g-oob">
+        <div class="g-acronym">OOB</div>
+        <div class="g-body">
+          <div class="g-expansion">Out-Of-Band</div>
+          <div class="g-plain">Management or communication channel separate from production traffic — used so a failure in production does not block recovery.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-os">
+        <div class="g-acronym">OS</div>
+        <div class="g-body">
+          <div class="g-expansion">Operating System</div>
+          <div class="g-plain">The base software platform (Windows, Linux, macOS) on which applications run.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-ot">
+        <div class="g-acronym">OT</div>
+        <div class="g-body">
+          <div class="g-expansion">Operational Technology</div>
+          <div class="g-plain">Industrial control systems, building management systems, medical devices — distinct from IT, often with longer lifecycles and different security needs.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#5B2D8E1a; color:#5B2D8E; border-color:#5B2D8E40;">ASM</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-owasp">
+        <div class="g-acronym">OWASP</div>
+        <div class="g-body">
+          <div class="g-expansion">Open Worldwide Application Security Project</div>
+          <div class="g-plain">Non-profit producing widely-used application security resources including the Top 10 web vulnerabilities and ASVS.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-P">
+      <div class="g-letter">P</div>
+      <div class="g-entry" id="g-pam">
+        <div class="g-acronym">PAM</div>
+        <div class="g-body">
+          <div class="g-expansion">Privileged Access Management</div>
+          <div class="g-plain">Platform that vaults privileged credentials, brokers privileged sessions, and records activity — protects against credential theft and misuse.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span><span class="g-tag" style="background:#5B2D8E1a; color:#5B2D8E; border-color:#5B2D8E40;">ASM</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-paw">
+        <div class="g-acronym">PAW</div>
+        <div class="g-body">
+          <div class="g-expansion">Privileged Access Workstation</div>
+          <div class="g-plain">Hardened, dedicated device used exclusively for privileged administrative tasks — isolated from normal user workloads and the internet.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span><span class="g-tag" style="background:#5B2D8E1a; color:#5B2D8E; border-color:#5B2D8E40;">ASM</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-pci">
+        <div class="g-acronym">PCI</div>
+        <div class="g-body">
+          <div class="g-expansion">Payment Card Industry</div>
+          <div class="g-plain">Refers to the PCI DSS standard governing organisations that store, process, or transmit cardholder data.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0E5C5C1a; color:#0E5C5C; border-color:#0E5C5C40;">GRC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-pim">
+        <div class="g-acronym">PIM</div>
+        <div class="g-body">
+          <div class="g-expansion">Privileged Identity Management</div>
+          <div class="g-plain">Microsoft Entra feature for time-bound, approval-gated activation of privileged roles — the activation layer above eligibility governance.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span><span class="g-tag" style="background:#3D5A991a; color:#3D5A99; border-color:#3D5A9940;">Cloud</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-pmf">
+        <div class="g-acronym">PMF</div>
+        <div class="g-body">
+          <div class="g-expansion">Protected Management Frames</div>
+          <div class="g-plain">Wireless standard (802.11w) that protects management frames from spoofing and disconnection attacks.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-pol">
+        <div class="g-acronym">POL</div>
+        <div class="g-body">
+          <div class="g-expansion">Policy (KB document class)</div>
+          <div class="g-plain">Knowledge base prefix for policy documents that state Institutional rules at a high level, distinct from procedures (SOP) or work instructions (WI).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0E5C5C1a; color:#0E5C5C; border-color:#0E5C5C40;">GRC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-pr">
+        <div class="g-acronym">PR</div>
+        <div class="g-body">
+          <div class="g-expansion">Protect (NIST CSF function)</div>
+          <div class="g-plain">NIST CSF function covering safeguards that limit or contain the impact of cyber security events (PR.AA, PR.AC, PR.DS, PR.IR, PR.PT, PR.PS).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-R">
+      <div class="g-letter">R</div>
+      <div class="g-entry" id="g-ra">
+        <div class="g-acronym">RA</div>
+        <div class="g-body">
+          <div class="g-expansion">Risk Assessment</div>
+          <div class="g-plain">NIST 800-53 control family covering risk identification, analysis, and treatment (RA-1 through RA-10). Also: RouterAdvertisement.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0E5C5C1a; color:#0E5C5C; border-color:#0E5C5C40;">GRC</span><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-rbac">
+        <div class="g-acronym">RBAC</div>
+        <div class="g-body">
+          <div class="g-expansion">Role-Based Access Control</div>
+          <div class="g-plain">Authorisation model where permissions are granted to roles, and users get permissions through their role assignments.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-rc">
+        <div class="g-acronym">RC</div>
+        <div class="g-body">
+          <div class="g-expansion">Recover (NIST CSF function)</div>
+          <div class="g-plain">NIST CSF function covering activities to restore services and improve from incidents (RC.RP, RC.IM, RC.CO).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-reg">
+        <div class="g-acronym">REG</div>
+        <div class="g-body">
+          <div class="g-expansion">Register (KB document class)</div>
+          <div class="g-plain">Knowledge base prefix for registers — controlled inventories like the Risk Register, Asset Register, Exception Register.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0E5C5C1a; color:#0E5C5C; border-color:#0E5C5C40;">GRC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-rpo">
+        <div class="g-acronym">RPO</div>
+        <div class="g-body">
+          <div class="g-expansion">Recovery Point Objective</div>
+          <div class="g-plain">The maximum amount of data (measured in time) a service can afford to lose in a disruption — drives backup and replication frequency.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-rto">
+        <div class="g-acronym">RTO</div>
+        <div class="g-body">
+          <div class="g-expansion">Recovery Time Objective</div>
+          <div class="g-plain">The maximum time a service can be unavailable before recovery must complete — drives recovery design and tier classification.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-S">
+      <div class="g-letter">S</div>
+      <div class="g-entry" id="g-saas">
+        <div class="g-acronym">SaaS</div>
+        <div class="g-body">
+          <div class="g-expansion">Software as a Service</div>
+          <div class="g-plain">Software hosted and operated by a third-party provider, accessed over the internet — examples include M365, Salesforce, Workday.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#3D5A991a; color:#3D5A99; border-color:#3D5A9940;">Cloud</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-sc">
+        <div class="g-acronym">SC</div>
+        <div class="g-body">
+          <div class="g-expansion">System and Communications Protection</div>
+          <div class="g-plain">NIST 800-53 control family covering boundary protection, encryption, and trusted communications (SC-1 through SC-51).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-scm">
+        <div class="g-acronym">SCM</div>
+        <div class="g-body">
+          <div class="g-expansion">Software Configuration Management</div>
+          <div class="g-plain">Discipline of tracking and controlling changes to software — sometimes also used for Service Configuration Management.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-siem">
+        <div class="g-acronym">SIEM</div>
+        <div class="g-body">
+          <div class="g-expansion">Security Information and Event Management</div>
+          <div class="g-plain">Platform that collects logs from across the estate, correlates events, and produces alerts for SOC analysts.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#2970861a; color:#297086; border-color:#29708640;">SOC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-sis">
+        <div class="g-acronym">SIS</div>
+        <div class="g-body">
+          <div class="g-expansion">Student Information System</div>
+          <div class="g-plain">Education-sector system holding student records — for AKES/AKA the authoritative source for student identity provisioning.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-sla">
+        <div class="g-acronym">SLA</div>
+        <div class="g-body">
+          <div class="g-expansion">Service Level Agreement</div>
+          <div class="g-plain">Documented commitment between a service provider and consumer for performance metrics like availability, response time, or RTO.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-smsa">
+        <div class="g-acronym">sMSA</div>
+        <div class="g-body">
+          <div class="g-expansion">Standalone Managed Service Account</div>
+          <div class="g-plain">Active Directory account type with automatic password rotation, scoped to a single server (predecessor to gMSA).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-sms">
+        <div class="g-acronym">SMS</div>
+        <div class="g-body">
+          <div class="g-expansion">Short Message Service</div>
+          <div class="g-plain">Text message channel — used for fallback communications during disruptions affecting normal channels, despite being a weak MFA factor.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-soar">
+        <div class="g-acronym">SOAR</div>
+        <div class="g-body">
+          <div class="g-expansion">Security Orchestration, Automation and Response</div>
+          <div class="g-plain">Platform that automates SOC workflows — playbook execution, enrichment, and response actions across multiple tools.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#2970861a; color:#297086; border-color:#29708640;">SOC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-soc">
+        <div class="g-acronym">SOC</div>
+        <div class="g-body">
+          <div class="g-expansion">Security Operations Centre</div>
+          <div class="g-plain">The team and platform responsible for detecting, triaging, and responding to cyber security events 24x7.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#2970861a; color:#297086; border-color:#29708640;">SOC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-sop">
+        <div class="g-acronym">SOP</div>
+        <div class="g-body">
+          <div class="g-expansion">Standard Operating Procedure</div>
+          <div class="g-plain">Knowledge base prefix for procedural documents that describe how an operational process is performed.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0E5C5C1a; color:#0E5C5C; border-color:#0E5C5C40;">GRC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-sp">
+        <div class="g-acronym">SP</div>
+        <div class="g-body">
+          <div class="g-expansion">Special Publication</div>
+          <div class="g-plain">NIST publication series including SP 800-53 (controls), SP 800-61 (incident response), SP 800-34 (contingency planning).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-spf">
+        <div class="g-acronym">SPF</div>
+        <div class="g-body">
+          <div class="g-expansion">Sender Policy Framework</div>
+          <div class="g-plain">Email authentication standard listing in DNS which servers are authorised to send mail for a domain.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-sql">
+        <div class="g-acronym">SQL</div>
+        <div class="g-body">
+          <div class="g-expansion">Structured Query Language</div>
+          <div class="g-plain">Standard language for querying and managing relational databases.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-ssh">
+        <div class="g-acronym">SSH</div>
+        <div class="g-body">
+          <div class="g-expansion">Secure Shell</div>
+          <div class="g-plain">Encrypted protocol for remote command-line administration of servers and network devices — replaces unencrypted Telnet.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-sso">
+        <div class="g-acronym">SSO</div>
+        <div class="g-body">
+          <div class="g-expansion">Single Sign-On</div>
+          <div class="g-plain">Authentication scheme where one sign-in grants access to multiple applications without re-authenticating.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-T">
+      <div class="g-letter">T</div>
+      <div class="g-entry" id="g-ti">
+        <div class="g-acronym">TI</div>
+        <div class="g-body">
+          <div class="g-expansion">Threat Intelligence</div>
+          <div class="g-plain">Information about adversaries, their tools, and their behaviour — informs detection, prevention, and incident response.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#2970861a; color:#297086; border-color:#29708640;">SOC</span><span class="g-tag" style="background:#5B2D8E1a; color:#5B2D8E; border-color:#5B2D8E40;">ASM</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-tls">
+        <div class="g-acronym">TLS</div>
+        <div class="g-body">
+          <div class="g-expansion">Transport Layer Security</div>
+          <div class="g-plain">Cryptographic protocol that secures connections over networks — successor to SSL, the basis of HTTPS.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#6666661a; color:#666666; border-color:#66666640;">General</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-ttp">
+        <div class="g-acronym">TTP</div>
+        <div class="g-body">
+          <div class="g-expansion">Tactics, Techniques, and Procedures</div>
+          <div class="g-plain">The behavioural patterns of an adversary — what they aim to do (tactics), how they do it (techniques), and how they execute (procedures).</div>
+          <div class="g-tags"><span class="g-tag" style="background:#2970861a; color:#297086; border-color:#29708640;">SOC</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-U">
+      <div class="g-letter">U</div>
+      <div class="g-entry" id="g-urpf">
+        <div class="g-acronym">uRPF</div>
+        <div class="g-body">
+          <div class="g-expansion">Unicast Reverse Path Forwarding</div>
+          <div class="g-plain">Router feature that drops packets whose source addresses do not have a valid return path — defends against spoofing.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-V">
+      <div class="g-letter">V</div>
+      <div class="g-entry" id="g-vlan">
+        <div class="g-acronym">VLAN</div>
+        <div class="g-body">
+          <div class="g-expansion">Virtual Local Area Network</div>
+          <div class="g-plain">Logical separation of a physical network into multiple isolated broadcast domains — common segmentation tool.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-vpn">
+        <div class="g-acronym">VPN</div>
+        <div class="g-body">
+          <div class="g-expansion">Virtual Private Network</div>
+          <div class="g-plain">Encrypted tunnel that extends a private network over a public network — used for remote access or site-to-site connectivity.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-W">
+      <div class="g-letter">W</div>
+      <div class="g-entry" id="g-waf">
+        <div class="g-acronym">WAF</div>
+        <div class="g-body">
+          <div class="g-expansion">Web Application Firewall</div>
+          <div class="g-plain">Security control that filters HTTP traffic to a web application — blocks common attacks like SQL injection and cross-site scripting.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#5B2D8E1a; color:#5B2D8E; border-color:#5B2D8E40;">ASM</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-wan">
+        <div class="g-acronym">WAN</div>
+        <div class="g-body">
+          <div class="g-expansion">Wide Area Network</div>
+          <div class="g-plain">The network connecting multiple sites or branches — typically over leased lines, MPLS, SD-WAN, or internet VPN.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-wi">
+        <div class="g-acronym">WI</div>
+        <div class="g-body">
+          <div class="g-expansion">Work Instruction</div>
+          <div class="g-plain">Knowledge base prefix for step-by-step procedural documents describing how a specific task is performed.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0E5C5C1a; color:#0E5C5C; border-color:#0E5C5C40;">GRC</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-wids">
+        <div class="g-acronym">WIDS</div>
+        <div class="g-body">
+          <div class="g-expansion">Wireless Intrusion Detection System</div>
+          <div class="g-plain">System that monitors the wireless spectrum for rogue access points, unauthorised devices, and wireless attacks.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-wips">
+        <div class="g-acronym">WIPS</div>
+        <div class="g-body">
+          <div class="g-expansion">Wireless Intrusion Prevention System</div>
+          <div class="g-plain">Active counterpart to WIDS — detects and blocks wireless attacks and rogue devices.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-worm">
+        <div class="g-acronym">WORM</div>
+        <div class="g-body">
+          <div class="g-expansion">Write Once Read Many</div>
+          <div class="g-plain">Storage that cannot be modified or deleted after writing — used for immutable backup copies and compliance retention.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#1F5A4A1a; color:#1F5A4A; border-color:#1F5A4A40;">BCDR</span></div>
+        </div>
+      </div>
+      <div class="g-entry" id="g-wpa">
+        <div class="g-acronym">WPA</div>
+        <div class="g-body">
+          <div class="g-expansion">Wi-Fi Protected Access</div>
+          <div class="g-plain">Family of wireless security protocols (WPA2, WPA3) — WPA3 with 802.1X is the modern enterprise standard.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#0F6E781a; color:#0F6E78; border-color:#0F6E7840;">Network</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-X">
+      <div class="g-letter">X</div>
+      <div class="g-entry" id="g-xdr">
+        <div class="g-acronym">XDR</div>
+        <div class="g-body">
+          <div class="g-expansion">Extended Detection and Response</div>
+          <div class="g-plain">Detection and response platform that ingests signals across endpoints, identity, email, network, and cloud — broader than EDR.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#2970861a; color:#297086; border-color:#29708640;">SOC</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-letter-section" id="letter-Z">
+      <div class="g-letter">Z</div>
+      <div class="g-entry" id="g-zta">
+        <div class="g-acronym">ZTA</div>
+        <div class="g-body">
+          <div class="g-expansion">Zero Trust Architecture</div>
+          <div class="g-plain">Architectural approach where no implicit trust is granted based on network location — every access decision is verified explicitly.</div>
+          <div class="g-tags"><span class="g-tag" style="background:#7A4E1D1a; color:#7A4E1D; border-color:#7A4E1D40;">Framework</span><span class="g-tag" style="background:#8B2D5C1a; color:#8B2D5C; border-color:#8B2D5C40;">Identity</span></div>
+        </div>
+      </div>
+    </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="tools-references.html" style="color:#297086;text-decoration:none;">&larr; Back to Tools &amp; References</a></span>
+  </div>
+
+</div>
+</body>
+</html>
