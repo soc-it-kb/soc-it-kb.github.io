@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-FRM-BCDR-01: BIA Worksheet Template &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --bcp:#2D6B3F; --bcp-light:#E8F4EC; --bcp-border:#A8D4B8; --bcp-dark:#1A4528; --dr:#1F5A4A; --dr-light:#E0F0EA; --dr-border:#9DC9B8; --dr-dark:#0E3A2F; --grc:#0E5C5C; --grc-light:#E6F4F4; }
+
+  .bcp-page-hero { background:linear-gradient(135deg,#0F2818 0%,#1A4528 40%,#2D6B3F 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .bcp-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .bcp-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .bcp-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .bcp-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .bcp-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .bcp-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .bcp-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .bcp-stat-num { font-size:24px; font-weight:700; color:var(--bcp); line-height:1; margin-bottom:4px; }
+  .bcp-stat-lbl { font-size:11px; color:#888; }
+
+  .bcp-section { background:#fff; border:0.5px solid var(--bcp-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .bcp-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .bcp-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .bcp-section p:last-child { margin-bottom:0; }
+
+  .bcp-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .bcp-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .bcp-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--bcp); flex-shrink:0; margin-top:5px; }
+
+  .doc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px; margin-top:6px; }
+  .doc-card { background:#fff; border:0.5px solid var(--bcp-border); border-radius:10px; padding:1rem 1.2rem; text-decoration:none; color:inherit; display:block; transition:border-color .15s; }
+  .doc-card:hover { border-color:var(--bcp); }
+  .doc-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--bcp); margin-bottom:4px; }
+  .doc-card-title { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:5px; }
+  .doc-card-desc { font-size:12px; color:#666; line-height:1.5; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--bcp-light); color:var(--bcp-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--bcp-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:var(--bcp); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+
+  /* SOP/WI common */
+  .step { background:#fff; border:0.5px solid #e8e8e4; border-left:3px solid var(--bcp); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .step-header { display:flex; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .step-num { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--bcp); background:var(--bcp-light); padding:2px 7px; border-radius:5px; }
+  .step-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .step-body { font-size:13px; color:#333; line-height:1.65; }
+  .step-body p { margin:0 0 6px; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body ul { padding-left:1.1rem; margin:6px 0 8px; }
+  .step-body ul li { margin-bottom:4px; line-height:1.55; }
+  .step-body code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+</style>
+
+
+<style>
+  .tmpl-banner { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.5rem; font-size:13px; color:#6b3f0a; line-height:1.6; }
+  .tmpl-banner strong { color:#5C3109; }
+  .fill { background:#FFF9E6; border:1px dashed #D4B860; border-radius:4px; padding:2px 7px; color:#7a5a14; font-style:italic; font-size:12px; display:inline-block; }
+  .note { font-size:11px; color:#888; font-style:italic; margin-top:4px; }
+  .field-block { background:#fafaf7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1.1rem; margin-bottom:10px; }
+  .field-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#666; margin-bottom:6px; }
+  .field-body { font-size:13px; color:#333; line-height:1.6; }
+  .scoring-rubric { background:#fff; border:0.5px solid #e0e0dc; border-radius:10px; padding:0.9rem 1.1rem; }
+  .scoring-rubric td { padding:5px 8px; font-size:12px; vertical-align:top; }
+  .scoring-rubric th { padding:5px 8px; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; background:#f8f9f7; }
+  .legend-row { display:flex; flex-wrap:wrap; gap:8px; font-size:12px; color:#666; align-items:center; margin-bottom:8px; }
+  .legend-chip { display:inline-flex; align-items:center; gap:5px; }
+  .legend-chip-dot { width:10px; height:10px; border-radius:2px; }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; BCDR &nbsp;&rsaquo;&nbsp; GRC-FRM-BCDR-01</div>
+
+  <div class="bcp-page-hero">
+    <div class="bcp-page-hero-eyebrow">GRC &middot; BCDR &middot; Template</div>
+    <h1>GRC-FRM-BCDR-01 &mdash; Business Impact Assessment Worksheet</h1>
+    <p>Template for conducting a Business Impact Assessment per <a href="grc-bcdr-wi-01.html" style="color:#fff;text-decoration:underline;">GRC-BCDR-WI-01</a>. Populated at agency level for each critical business process identified by the BIA. Output drives both BCP (continuity plans, RTOs) and DR (recovery tier classification).</p>
+    <div class="bcp-page-hero-pills">
+      <span class="bcp-page-hero-pill">Per-process worksheet</span>
+      <span class="bcp-page-hero-pill">5 impact dimensions</span>
+      <span class="bcp-page-hero-pill">6 time horizons</span>
+      <span class="bcp-page-hero-pill">Dependency map</span>
+    </div>
+  </div>
+
+  <div class="tmpl-banner">
+    <strong>How to use this template.</strong> Complete one worksheet per business process under assessment, following the procedure in <a href="grc-bcdr-wi-01.html">GRC-BCDR-WI-01</a>. Fields shown as <span class="fill">[Fill]</span> are placeholders the agency replaces with content. The BCP Coordinator owns the populated worksheet; the named Business Process Owner signs off in Section 9.
+  </div>
+
+  <!-- ============ SECTION 1: PROCESS IDENTIFICATION ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">1 &mdash; Process identification</div>
+
+    <div class="field-block">
+      <div class="field-label">Process name</div>
+      <div class="field-body"><span class="fill">[Concise descriptive name &mdash; e.g. &ldquo;Outpatient consultation booking&rdquo;, &ldquo;Student enrolment&rdquo;, &ldquo;Donor reporting&rdquo;]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Agency</div>
+      <div class="field-body"><span class="fill">[AKDN / AKHS / AKES / AKA / IIS]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Function</div>
+      <div class="field-body"><span class="fill">[Clinical / Education / Operations / Finance / HR / Communications / IT / other]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Business Process Owner</div>
+      <div class="field-body"><span class="fill">[Named individual, role, contact]</span><div class="note">The accountable owner per the BCP policy. Must be a named individual, not a generic role.</div></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Geographic scope</div>
+      <div class="field-body"><span class="fill">[Country / countries / sites where this process is performed]</span><div class="note">Where impact differs significantly by country, complete a separate worksheet per country or document the worst-case here.</div></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Process description</div>
+      <div class="field-body"><span class="fill">[2&ndash;4 sentences describing what the process does, who it serves, and how it delivers value]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Volume &amp; cadence</div>
+      <div class="field-body"><span class="fill">[Typical transaction / event volume per day, week, or month; peak periods; seasonal patterns]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 2: IMPACT ASSESSMENT ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">2 &mdash; Impact assessment</div>
+
+    <p>For each of the five dimensions, score the impact of process unavailability at each of the six time horizons using the rubric below. The methodology is in <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01 &sect;3</a>.</p>
+
+    <div class="scoring-rubric" style="margin-bottom:14px;">
+      <table style="width:100%;">
+        <thead>
+          <tr><th style="width:18%;">Score</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>5 &mdash; Catastrophic</strong></td><td>Beneficiary harm or death; existential financial / reputational damage; criminal liability; loss of operating licence</td></tr>
+          <tr><td><strong>4 &mdash; Major</strong></td><td>Material beneficiary harm; severe financial / reputational damage; regulatory sanction; significant data breach</td></tr>
+          <tr><td><strong>3 &mdash; Moderate</strong></td><td>Beneficiary inconvenience; moderate financial / reputational impact; regulatory notification required; operational disruption requiring extensive recovery</td></tr>
+          <tr><td><strong>2 &mdash; Minor</strong></td><td>Limited beneficiary impact; minor financial / reputational impact; manageable operational disruption</td></tr>
+          <tr><td><strong>1 &mdash; Negligible</strong></td><td>Internal-only impact; minimal financial / reputational consequence; routine operational handling</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Important &mdash; beneficiary safety is the trump card.</strong> Any process with a beneficiary-safety score of 4 or 5 at any time horizon is Mission-critical (Tier 1) regardless of other dimensions.</p>
+
+    <table class="gt-table">
+      <thead>
+        <tr><th>Dimension</th><th>1h</th><th>4h</th><th>24h</th><th>72h</th><th>1w</th><th>1m</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Beneficiary safety</strong></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+        </tr>
+        <tr>
+          <td><strong>Regulatory / legal</strong></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+        </tr>
+        <tr>
+          <td><strong>Financial</strong></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+        </tr>
+        <tr>
+          <td><strong>Reputational</strong></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+        </tr>
+        <tr>
+          <td><strong>Operational</strong></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+          <td><span class="fill">[1-5]</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="field-block" style="margin-top:14px;">
+      <div class="field-label">Impact narrative</div>
+      <div class="field-body"><span class="fill">[3&ndash;5 sentences describing what the scores mean in practice &mdash; what actually happens to beneficiaries / regulators / finances if this process is unavailable at the highest-scoring time horizon. Anchor the numbers in concrete consequences.]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 3: RECOVERY OBJECTIVES ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">3 &mdash; Recovery objectives</div>
+
+    <p>Derived from the impact assessment. Use the standard bands in <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01 &sect;4</a>. Avoid &ldquo;immediate&rdquo; or &ldquo;no downtime&rdquo; &mdash; these are not RTOs.</p>
+
+    <div class="field-block">
+      <div class="field-label">Process criticality classification</div>
+      <div class="field-body"><span class="fill">[Mission-critical / Business-critical / Important / Standard]</span><div class="note">Mission-critical if beneficiary safety score &ge; 4 at any time horizon; otherwise drive from the highest sustained score across dimensions.</div></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">RTO (Recovery Time Objective)</div>
+      <div class="field-body"><span class="fill">[&le; 4h / &le; 24h / &le; 72h / &le; 7d]</span><div class="note">The time within which the process must be restored to at least the MBCO.</div></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">RPO (Recovery Point Objective)</div>
+      <div class="field-body"><span class="fill">[&le; 15m / &le; 4h / &le; 24h / &le; 7d]</span><div class="note">Maximum tolerable data loss measured backwards from the disruption.</div></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">MTPD (Maximum Tolerable Period of Disruption)</div>
+      <div class="field-body"><span class="fill">[24h / 7d / 14d / 30d / other &mdash; with rationale]</span><div class="note">Point beyond which the disruption causes unrecoverable damage. Must be longer than RTO with margin.</div></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">MBCO (Minimum Business Continuity Objective)</div>
+      <div class="field-body"><span class="fill">[Concrete description of the minimum acceptable service level during disruption &mdash; e.g. &ldquo;50% normal volume via manual fallback&rdquo;, &ldquo;emergency-only operations with paper records&rdquo;, &ldquo;reduced feature set with workaround for X&rdquo;]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 4: DEPENDENCY MAP ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">4 &mdash; Dependency map</div>
+
+    <p>Dependencies are the bridge from BCP to DR. The IT services list in particular drives recovery tier assignment per <a href="grc-dr-wi-01.html">GRC-DR-WI-01</a>.</p>
+
+    <div class="legend-row">
+      <span class="legend-chip"><span class="legend-chip-dot" style="background:#A8D4B8;"></span>Stops &mdash; process cannot operate without this</span>
+      <span class="legend-chip"><span class="legend-chip-dot" style="background:#E8F4EC;"></span>Degrades &mdash; process can operate but with reduced capability</span>
+    </div>
+
+    <div class="bcp-section-title" style="font-size:13px; border-bottom:none; margin-top:8px;">4.1 IT services</div>
+    <table class="gt-table">
+      <thead><tr><th>IT service</th><th>Criticality of dependency</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fill">[Service name]</span></td><td><span class="fill">[Stops / Degrades]</span></td><td><span class="fill">[Optional context]</span></td></tr>
+        <tr><td><span class="fill">[Service name]</span></td><td><span class="fill">[Stops / Degrades]</span></td><td><span class="fill">[Optional context]</span></td></tr>
+        <tr><td><span class="fill">[Service name]</span></td><td><span class="fill">[Stops / Degrades]</span></td><td><span class="fill">[Optional context]</span></td></tr>
+      </tbody>
+    </table>
+    <p class="note">Add rows for every IT service the process meaningfully depends on. Examples: identity service, email, file services, electronic health record, network connectivity, EDR, specific applications.</p>
+
+    <div class="bcp-section-title" style="font-size:13px; border-bottom:none; margin-top:14px;">4.2 Data</div>
+    <table class="gt-table">
+      <thead><tr><th>Dataset / repository</th><th>Read or write</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fill">[Dataset]</span></td><td><span class="fill">[Read / Write / Both]</span></td><td><span class="fill">[Where held; sensitivity classification]</span></td></tr>
+        <tr><td><span class="fill">[Dataset]</span></td><td><span class="fill">[Read / Write / Both]</span></td><td><span class="fill">[Where held; sensitivity classification]</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="bcp-section-title" style="font-size:13px; border-bottom:none; margin-top:14px;">4.3 External suppliers</div>
+    <table class="gt-table">
+      <thead><tr><th>Supplier</th><th>Service provided</th><th>Single-source?</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fill">[Supplier name]</span></td><td><span class="fill">[What they provide]</span></td><td><span class="fill">[Yes / No]</span></td></tr>
+        <tr><td><span class="fill">[Supplier name]</span></td><td><span class="fill">[What they provide]</span></td><td><span class="fill">[Yes / No]</span></td></tr>
+      </tbody>
+    </table>
+    <p class="note">SaaS providers, logistics, utilities, critical service vendors. Single-source flags concentration risk.</p>
+
+    <div class="bcp-section-title" style="font-size:13px; border-bottom:none; margin-top:14px;">4.4 Sites</div>
+    <table class="gt-table">
+      <thead><tr><th>Site</th><th>Role</th><th>Alternate site available?</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fill">[Site / building / campus]</span></td><td><span class="fill">[Where process is performed / supports]</span></td><td><span class="fill">[Yes &mdash; named alternate / No]</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="bcp-section-title" style="font-size:13px; border-bottom:none; margin-top:14px;">4.5 People</div>
+    <table class="gt-table">
+      <thead><tr><th>Role / skill</th><th>Headcount</th><th>Key-person dependency?</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fill">[Role or skill class]</span></td><td><span class="fill">[Number]</span></td><td><span class="fill">[Yes &mdash; named individual / No]</span></td></tr>
+      </tbody>
+    </table>
+    <p class="note">Identify key-person dependencies (single individual or very small group whose absence stops the process) for treatment in the continuity plan.</p>
+
+    <div class="bcp-section-title" style="font-size:13px; border-bottom:none; margin-top:14px;">4.6 Upstream processes</div>
+    <table class="gt-table">
+      <thead><tr><th>Upstream process</th><th>Owner</th><th>What it provides</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fill">[Process name]</span></td><td><span class="fill">[Owner]</span></td><td><span class="fill">[Input / output / decision]</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============ SECTION 5: EXISTING WORKAROUND OR CAPABILITY ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">5 &mdash; Existing workaround or fallback capability</div>
+
+    <div class="field-block">
+      <div class="field-label">Has this process ever operated through disruption before?</div>
+      <div class="field-body"><span class="fill">[Yes / No / Partially]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">If yes: when and how</div>
+      <div class="field-body"><span class="fill">[Brief description of any prior disruption, the workaround used, what worked and what did not]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Currently documented continuity plan?</div>
+      <div class="field-body"><span class="fill">[Yes &mdash; reference to plan / No / Partial]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Cross-training and succession</div>
+      <div class="field-body"><span class="fill">[Status of cross-training for key roles; named successor for key-person dependencies]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 6: SPECIFIC RISKS ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">6 &mdash; Specific disruption risks for this process</div>
+
+    <p>From the BIA team&rsquo;s knowledge of this process and the disruption-type categories in <a href="grc-bcp.html">GRC-BCP</a>, identify the specific scenarios most credible for this process.</p>
+
+    <table class="gt-table">
+      <thead><tr><th>Disruption scenario</th><th>Plausibility</th><th>Existing mitigation</th><th>Treatment priority</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="fill">[Specific scenario &mdash; e.g. &ldquo;Hospital information system unavailable due to ransomware&rdquo;]</span></td>
+          <td><span class="fill">[Low / Medium / High]</span></td>
+          <td><span class="fill">[What is in place today]</span></td>
+          <td><span class="fill">[High / Medium / Low / Accept]</span></td>
+        </tr>
+        <tr>
+          <td><span class="fill">[Scenario]</span></td>
+          <td><span class="fill">[Low / Medium / High]</span></td>
+          <td><span class="fill">[Mitigation]</span></td>
+          <td><span class="fill">[Priority]</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">Scenarios scoring High plausibility with weak existing mitigation feed into the risk register per <a href="grc-sop-04.html">GRC-SOP-04</a>.</p>
+  </div>
+
+  <!-- ============ SECTION 7: GAPS TO REQUIRED RECOVERY OBJECTIVES ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">7 &mdash; Gaps to required recovery objectives</div>
+
+    <p>Where the RTO/RPO required by this process exceeds what current capability can deliver, the gap is recorded here for treatment.</p>
+
+    <table class="gt-table">
+      <thead><tr><th>Dependency</th><th>Required</th><th>Current capability</th><th>Gap</th><th>Treatment route</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="fill">[IT service / supplier / capability]</span></td>
+          <td><span class="fill">[Required RTO/RPO]</span></td>
+          <td><span class="fill">[What current state provides]</span></td>
+          <td><span class="fill">[Concrete gap]</span></td>
+          <td><span class="fill">[Risk register / DR remediation / exception / accept]</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">Per <a href="grc-bcdr-wi-01.html">WI-01 step 8</a>: gaps go to risk register where investment is required; to the DR programme as remediation tasks where short-term fix is feasible; to the exception register where in-flight; to risk acceptance only with explicit Steering Committee approval.</p>
+  </div>
+
+  <!-- ============ SECTION 8: VALIDATION ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">8 &mdash; Validation log</div>
+
+    <table class="gt-table">
+      <thead><tr><th>Reviewer</th><th>Role</th><th>Date</th><th>Outcome</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fill">[Name]</span></td><td>Business Process Owner</td><td><span class="fill">[Date]</span></td><td><span class="fill">[Confirmed / Confirmed with amendments / Challenged]</span></td></tr>
+        <tr><td><span class="fill">[Name]</span></td><td>Function leader</td><td><span class="fill">[Date]</span></td><td><span class="fill">[Outcome]</span></td></tr>
+        <tr><td><span class="fill">[Name]</span></td><td>IT (dependency review)</td><td><span class="fill">[Date]</span></td><td><span class="fill">[Outcome]</span></td></tr>
+        <tr><td><span class="fill">[Name]</span></td><td>Agency CEO / delegate</td><td><span class="fill">[Date]</span></td><td><span class="fill">[Outcome]</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============ SECTION 9: SIGN-OFF ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">9 &mdash; Sign-off &amp; document control</div>
+
+    <table class="gt-table">
+      <thead><tr><th>Field</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>BIA conducted by</td><td><span class="fill">[Lead &mdash; typically agency BCP Coordinator]</span></td></tr>
+        <tr><td>BIA date</td><td><span class="fill">[Date completed]</span></td></tr>
+        <tr><td>Business Process Owner sign-off</td><td><span class="fill">[Name, date]</span></td></tr>
+        <tr><td>Agency CEO / delegate sign-off</td><td><span class="fill">[Name, date]</span></td></tr>
+        <tr><td>Next refresh due</td><td><span class="fill">[Date &mdash; not later than 24 months from BIA date]</span></td></tr>
+        <tr><td>Refresh triggers (out of cycle)</td><td>Per <a href="grc-bcdr-wi-01.html">WI-01</a>: material change in process; new critical IT dependency; regulatory change; post-invocation</td></tr>
+        <tr><td>Version</td><td><span class="fill">[Version number]</span></td></tr>
+        <tr><td>Document classification</td><td>Internal &mdash; BCDR sensitive</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Where this worksheet feeds next</div>
+    <ul class="bcp-bullet">
+      <li><span><strong>Tier-1 / Tier-2 processes</strong> become targets for a Business Process Continuity Plan populated using <a href="grc-frm-bcp-01.html">GRC-FRM-BCP-01</a>.</span></li>
+      <li><span><strong>The dependency map (Section 4.1 IT services)</strong> is handed to the IT DR Coordinator to drive recovery tier classification per <a href="grc-dr-wi-01.html">GRC-DR-WI-01</a>.</span></li>
+      <li><span><strong>Specific disruption risks (Section 6) with weak mitigation</strong> feed the agency&rsquo;s risk register submissions per <a href="grc-sop-04.html">GRC-SOP-04</a>.</span></li>
+      <li><span><strong>Gaps (Section 7)</strong> are tracked through the appropriate route (risk register, DR remediation, exception register).</span></li>
+      <li><span><strong>The consolidated BIA</strong> (all worksheets for the agency, with ranked critical processes list) is submitted to the BCDR Steering Committee per <a href="grc-bcdr-wi-01.html">WI-01 step 9</a> and registered in the central BCDR portfolio inventory.</span></li>
+    </ul>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Related documents</div>
+    <ul class="bcp-bullet">
+      <li><a href="grc-bcdr-wi-01.html">GRC-BCDR-WI-01</a> &mdash; the procedure this template supports</li>
+      <li><a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a> &mdash; methodology including the impact rubric and RTO/RPO bands</li>
+      <li><a href="grc-bcp-sop-01.html">GRC-BCP-SOP-01</a> &mdash; policy obligating BIA</li>
+      <li><a href="grc-frm-bcp-01.html">GRC-FRM-BCP-01</a> &mdash; Business Process Continuity Plan template (downstream from BIA)</li>
+      <li><a href="grc-dr-wi-01.html">GRC-DR-WI-01</a> &mdash; tier classification (consumes BIA dependency map)</li>
+      <li><a href="grc-sop-04.html">GRC-SOP-04</a> &mdash; risk management (for risks surfaced in BIA)</li>
+      <li><a href="grc-register-risk.html">GRC-REG-RISK</a> &mdash; risk register</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-bcp.html" style="color:#2D6B3F;text-decoration:none;">&larr; BCP</a> &nbsp;&middot;&nbsp; <a href="grc-dr.html" style="color:#1F5A4A;text-decoration:none;">DR &rarr;</a></span>
+  </div>
+
+</div>
+</body>
+</html>

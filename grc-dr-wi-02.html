@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-DR-WI-02: Cloud Platform Disaster Recovery &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --bcp:#2D6B3F; --bcp-light:#E8F4EC; --bcp-border:#A8D4B8; --bcp-dark:#1A4528; --dr:#1F5A4A; --dr-light:#E0F0EA; --dr-border:#9DC9B8; --dr-dark:#0E3A2F; --grc:#0E5C5C; --grc-light:#E6F4F4; }
+
+  .dr-page-hero { background:linear-gradient(135deg,#08201A 0%,#0E3A2F 40%,#1F5A4A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .dr-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .dr-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .dr-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .dr-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .dr-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .dr-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .dr-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .dr-stat-num { font-size:24px; font-weight:700; color:var(--dr); line-height:1; margin-bottom:4px; }
+  .dr-stat-lbl { font-size:11px; color:#888; }
+
+  .dr-section { background:#fff; border:0.5px solid var(--dr-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .dr-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .dr-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .dr-section p:last-child { margin-bottom:0; }
+
+  .dr-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .dr-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .dr-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--dr); flex-shrink:0; margin-top:5px; }
+
+  .doc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px; margin-top:6px; }
+  .doc-card { background:#fff; border:0.5px solid var(--dr-border); border-radius:10px; padding:1rem 1.2rem; text-decoration:none; color:inherit; display:block; transition:border-color .15s; }
+  .doc-card:hover { border-color:var(--dr); }
+  .doc-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--dr); margin-bottom:4px; }
+  .doc-card-title { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:5px; }
+  .doc-card-desc { font-size:12px; color:#666; line-height:1.5; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--dr-light); color:var(--dr-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--dr-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:var(--dr); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+
+  /* SOP/WI common */
+  .step { background:#fff; border:0.5px solid #e8e8e4; border-left:3px solid var(--dr); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .step-header { display:flex; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .step-num { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--dr); background:var(--dr-light); padding:2px 7px; border-radius:5px; }
+  .step-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .step-body { font-size:13px; color:#333; line-height:1.65; }
+  .step-body p { margin:0 0 6px; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body ul { padding-left:1.1rem; margin:6px 0 8px; }
+  .step-body ul li { margin-bottom:4px; line-height:1.55; }
+  .step-body code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; <a href="grc-dr.html">Disaster Recovery</a> &nbsp;&rsaquo;&nbsp; GRC-DR-WI-02</div>
+
+  <div class="dr-page-hero">
+    <div class="dr-page-hero-eyebrow">GRC &middot; DR &middot; Work Instruction</div>
+    <h1>GRC-DR-WI-02 &mdash; Cloud Platform Disaster Recovery</h1>
+    <p>Procedures for cloud platform disaster recovery scenarios: Azure region failure, Microsoft 365 sustained outage, Entra tenant lockout, Entra tenant compromise, and SaaS provider disruption. Operationalises the cloud DR principles in <a href="grc-dr-sop-01.html" style="color:#fff;text-decoration:underline;">GRC-DR-SOP-01 &sect;6</a>. The estate is hybrid; cloud DR is a first-class concern rather than an afterthought.</p>
+    <div class="dr-page-hero-pills">
+      <span class="dr-page-hero-pill">5 scenarios</span>
+      <span class="dr-page-hero-pill">Azure &middot; M365 &middot; Entra</span>
+      <span class="dr-page-hero-pill">Tenant lockout</span>
+      <span class="dr-page-hero-pill">Tenant compromise</span>
+    </div>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Purpose &amp; positioning</div>
+    <p>Cloud platforms reduce some traditional DR concerns (hardware loss, single-site outage, rack-level fire) and introduce others (region-level provider outage, tenant-level compromise, certificate-driven lockout, sustained service degradation that no failover within the same tenant resolves). This WI addresses the credible failure modes.</p>
+    <p>It is the operational complement to <a href="it-cl-wi-03.html">IT-CL-WI-03</a> and <a href="it-cl-wi-04.html">IT-CL-WI-04</a>, which define how cloud workloads are <em>designed</em> for resilience. This WI describes what to do when those designs are tested for real, and what to do in scenarios that workload-level resilience cannot solve (notably tenant-level events).</p>
+    <p>Boundaries:</p>
+    <ul class="dr-bullet">
+      <li><span><strong>This WI handles recovery to operations.</strong> Active investigation and containment of cloud incidents (tenant compromise, identity attacks) live in SOC playbooks (<a href="sop-id-01.html">SOP-ID-01</a> and identity playbooks / runbooks). The two run in parallel during a real event; this WI describes the DR side.</span></li>
+      <li><span><strong>This WI does not re-author resilience design.</strong> Paired-region setup, GZRS configuration, AZ deployment patterns are governed by IT-CL-WI-03/04 and the Cloud Baselines domain. This WI uses those patterns; recovery presumes they exist.</span></li>
+      <li><span><strong>This WI does not author break-glass governance.</strong> Eligibility, ownership, and rotation of break-glass and emergency access accounts are governed by the Identity Governance domain (<a href="asm-identity-governance.html">ASM-ID</a>, particularly <a href="it-id-wi-05.html">IT-ID-WI-05</a>). This WI describes break-glass <em>use</em> during a recovery event.</span></li>
+    </ul>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Scenarios at a glance</div>
+    <table class="gt-table">
+      <thead><tr><th>Scenario</th><th>Trigger</th><th>Tier impact</th><th>Recovery character</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Azure region failure</strong></td><td>Primary region unavailable; Microsoft service health confirms region-scope event</td><td>All Tier-1 / Tier-2 cloud workloads in the region</td><td>Failover to paired region per workload design; coordination is the work, not recovery itself if design is sound</td></tr>
+        <tr><td><strong>M365 sustained outage</strong></td><td>Exchange / SharePoint / Teams unavailable for &gt; 4 hours; Microsoft service health confirms</td><td>Email, file services, collaboration; Tier-2 typically</td><td>No failover available within M365 SaaS; recovery is communication-fallback and patience; data continuity via offline mailbox / OneDrive cache</td></tr>
+        <tr><td><strong>Entra tenant lockout</strong></td><td>Loss of administrative access through credential compromise, MFA cascade, cert expiry, or policy lockout</td><td>Tier-0 / Tier-1 wide impact across all tenant-resident services</td><td>Break-glass and emergency access path; SOC engaged in parallel if compromise suspected</td></tr>
+        <tr><td><strong>Entra tenant compromise</strong></td><td>SOC confirms or strongly suspects tenant-level compromise (privileged account taken, persistence established, cross-tenant federation abused)</td><td>Tier-0 wide impact; full operational risk</td><td>Multi-week recovery; SOC owns response; DR owns recovery-to-operations, potentially to clean tenant</td></tr>
+        <tr><td><strong>SaaS provider disruption</strong></td><td>Critical SaaS provider unavailable or compromised</td><td>Tier-1 / Tier-2 depending on dependent processes</td><td>Alternative-access patterns where designed; BCP-coordinated business workaround otherwise</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Scenario 1 &mdash; Azure region failure</div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">1.1</span><span class="step-title">Confirm region-scope event</span></div>
+      <div class="step-body">
+        <p>Before invoking region-failover procedures, confirm the event is genuinely region-scope and not a workload-specific failure that resembles one.</p>
+        <ul>
+          <li>Check Azure service health portal and Microsoft service health communications. A region-scope event is named by Microsoft (e.g. &ldquo;impacted region: West Europe&rdquo;) with multiple affected service categories.</li>
+          <li>Check whether workloads in the same region but on different resource types are also affected. If the impact is limited to one service category, this may be a service-level event not a region event.</li>
+          <li>Confirm with Microsoft support if scope is unclear before initiating cross-region failover. Premature failover risks split-state across regions.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">1.2</span><span class="step-title">Invoke per-workload failover per design</span></div>
+      <div class="step-body">
+        <p>Each Tier-1 workload should have a paired-region failover design per <a href="it-cl-wi-04.html">IT-CL-WI-04</a>. Invocation is per-workload following the workload&rsquo;s DR runbook.</p>
+        <ul>
+          <li>Identify the in-scope workloads from the agency&rsquo;s tier inventory (per <a href="grc-dr-wi-01.html">WI-01</a>) where primary region matches the impacted region.</li>
+          <li>For each: confirm the secondary region is healthy; follow the workload runbook for failover (typically: DNS / Front Door endpoint change; database failover-group manual failover or wait for automated; storage account read access from secondary if RA-GRS).</li>
+          <li>Sequence: foundation services first (DNS, identity routing endpoints), data layer second, application layer third. Application layer that depends on a still-failing data layer will not be healthy.</li>
+          <li>Validate each workload before declaring recovered: synthetic transactions per the runbook, not just &ldquo;health endpoint returns 200&rdquo;.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">1.3</span><span class="step-title">Coordinate cross-workload dependencies</span></div>
+      <div class="step-body">
+        <p>Many workloads share dependencies. Coordinating failover across them is the principal work in a real region failure event.</p>
+        <ul>
+          <li>Identity dependency: nearly every workload depends on Entra ID. Entra is multi-region by Microsoft design and does not need explicit failover, but federated identity systems (on-prem AD via Entra Connect) may.</li>
+          <li>Cross-workload data dependencies: workload A reads from workload B&rsquo;s database. Failing over A without B leaves A pointing at the unhealthy region.</li>
+          <li>External-facing endpoints: Azure Front Door, Application Gateway, public IP DNS records all need to point at the secondary region. Where Front Door is in front, automatic failover handles this; where DNS-based, manual update.</li>
+          <li>Crisis Management Team coordinates across IT Service Owners for the failover sequence; the Cloud Platform team executes for platform-level resources.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">1.4</span><span class="step-title">Plan and execute failback</span></div>
+      <div class="step-body">
+        <p>Failback is itself a controlled change, not an automatic reversal.</p>
+        <ul>
+          <li>Wait for Microsoft formal confirmation of region recovery, including post-incident report on extent of data continuity.</li>
+          <li>Plan failback at a scheduled window. Failback during business hours doubles the operational exposure window; failback to a region that may regress (immediate post-event days) is high-risk.</li>
+          <li>Resynchronise data layer (e.g. failover groups reverse role). Validate before redirecting traffic.</li>
+          <li>Per-workload failback following the runbook in reverse. Application layer first if it has been operating on read-only secondary; data layer when synchronisation completes.</li>
+          <li>Post-event AAR per <a href="grc-bcdr-wi-02.html">WI-02</a> within 14 days. A real region event is a Tier-1 exercise event and counts against the cadence.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Scenario 2 &mdash; Microsoft 365 sustained outage</div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">2.1</span><span class="step-title">Confirm the outage is sustained, not transient</span></div>
+      <div class="step-body">
+        <p>M365 transient issues resolve within an hour. A sustained outage (&gt; 4 hours) is rare and may trigger continuity invocation. Confirm before invoking communications fallback.</p>
+        <ul>
+          <li>Check Microsoft service health for an active incident on Exchange Online, SharePoint Online, or Teams. Microsoft posts incident IDs (e.g. EX12345) for the affected service.</li>
+          <li>Check whether the impact is global or regional. Tenant region may matter for some services.</li>
+          <li>Distinguish from auth-only outage (covered by Scenario 3 if Entra-side; covered here if M365 service-side).</li>
+          <li>Estimate likely duration from the Microsoft communication. Microsoft typically posts an ETA range; treat the upper bound as the planning horizon.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">2.2</span><span class="step-title">Activate communications fallback</span></div>
+      <div class="step-body">
+        <p>Critical communications during a sustained M365 outage must not rely on M365.</p>
+        <ul>
+          <li><span><strong>Pre-staged fallback channel.</strong> Per the DR policy (<a href="grc-dr-sop-01.html">GRC-DR-SOP-01 &sect;6</a>), the agency operates a communication fallback that does not depend on M365 &mdash; typically SMS-to-leadership distribution lists, a non-M365 group messaging platform (Signal / WhatsApp where culturally appropriate), or out-of-band telephone bridges.</span></li>
+          <li><span><strong>Crisis Management Team activated.</strong> CMT convenes on the fallback channel and coordinates from there until M365 returns.</span></li>
+          <li><span><strong>Stakeholder notification.</strong> Material outage exceeding 2 hours is communicated to agency leadership and to other agencies; outage exceeding 8 hours is communicated to beneficiaries / external stakeholders where impact warrants.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">2.3</span><span class="step-title">Manage data continuity during the outage</span></div>
+      <div class="step-body">
+        <p>M365 sustained outage does not typically cause data loss &mdash; data is held server-side, returns when the service returns. But certain operations have continuity implications.</p>
+        <ul>
+          <li><span><strong>Cached access remains.</strong> Outlook cached mode, OneDrive sync, Teams cached files all continue to work for the cache contents during the outage. Discourage cache clears and sign-outs.</span></li>
+          <li><span><strong>New mail sent during the outage queues</strong> on the client and may bounce externally. Communicate via fallback channel that external mail is delayed.</span></li>
+          <li><span><strong>Document edits in cached OneDrive sync</strong> persist on the local machine and sync when the service returns. Risk: conflicting edits if multiple users edit cached copies of the same document; the conflict resolution will require manual reconciliation.</span></li>
+          <li><span><strong>Discourage workarounds that create parallel state</strong> (e.g. emailing documents around through alternative channels); the documents will return when the service returns, and parallel copies cause divergence.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">2.4</span><span class="step-title">Validate return-to-service and conduct AAR</span></div>
+      <div class="step-body">
+        <p>Microsoft will declare the incident resolved. Local validation follows.</p>
+        <ul>
+          <li>Sample test: send and receive external email; open and edit a SharePoint document; participate in a Teams call.</li>
+          <li>Monitor for residual issues (slow performance, intermittent failures) for 24 hours post-resolution.</li>
+          <li>Capture impact: estimated user-hours lost; processes affected; whether business workarounds were invoked.</li>
+          <li>AAR per <a href="grc-bcdr-wi-02.html">WI-02</a>: focus on whether the fallback channel performed as designed, whether the CMT received the right information at the right time, whether external stakeholders received notification.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Scenario 3 &mdash; Entra tenant lockout</div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">3.1</span><span class="step-title">Identify the lockout cause</span></div>
+      <div class="step-body">
+        <p>&ldquo;Tenant lockout&rdquo; covers several distinct events with different recovery paths.</p>
+        <ul>
+          <li><span><strong>Credential lockout</strong>: all known Global Admin accounts unable to sign in. May be: MFA cascade failure (lost devices), forgotten passwords combined with locked self-service reset, accidental disable of Global Admin accounts.</span></li>
+          <li><span><strong>Conditional Access lockout</strong>: a CA policy was deployed that locks out administrators (e.g. requires a control none of the admin accounts can satisfy). Most common cause of accidental lockout.</span></li>
+          <li><span><strong>Certificate expiry</strong>: federation certificate expired without renewal, or token signing certificate expired, breaking auth.</span></li>
+          <li><span><strong>Authentication policy lockout</strong>: a new authentication method policy is misconfigured and blocks the admins as well as users.</span></li>
+          <li>Each cause has a different recovery path. Diagnosis first, action second.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">3.2</span><span class="step-title">Engage break-glass / emergency access accounts</span></div>
+      <div class="step-body">
+        <p>Per the tenant identity baseline (<a href="it-cl-wi-01.html">IT-CL-WI-01</a> and <a href="it-id-wi-05.html">IT-ID-WI-05</a>), two break-glass accounts exist that are: cloud-only, vaulted off-tenant, excluded from <em>every</em> Conditional Access policy, monitored by SOC for any sign-in (every sign-in is an alert).</p>
+        <ul>
+          <li><span><strong>Confirm break-glass health before use.</strong> If quarterly validation has been performed, this should be known. If not, the first action is to verify the credentials still work; if break-glass is also broken, escalate to Microsoft Support immediately (Scenario 3.6).</span></li>
+          <li><span><strong>Document the use.</strong> Break-glass use is a contemporaneously documented event &mdash; time of decision, decision-maker, justification, time of access, actions taken. Logs supplement but do not replace the contemporaneous record.</span></li>
+          <li><span><strong>SOC will alert on the sign-in.</strong> Coordinate with SOC so the alert is acknowledged as legitimate; SOC remains on watch for any anomalous activity during the recovery window.</span></li>
+          <li><span><strong>Break-glass operates from a clean device.</strong> A PAW per <a href="it-ep-sop-paw-01.html">IT-EP-SOP-PAW-01</a> if available; otherwise a freshly-built device on a controlled network.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">3.3</span><span class="step-title">Remediate the cause</span></div>
+      <div class="step-body">
+        <p>Once break-glass access is established, fix the cause.</p>
+        <ul>
+          <li><span><strong>Conditional Access lockout</strong>: identify the offending policy, set to report-only or remove the locking condition, verify normal admin sign-in restored. Common offenders: location-based restrictions excluding admin home networks; device compliance requirements where admin devices aren&rsquo;t compliant; require approved-app where admins use unmanaged tools.</span></li>
+          <li><span><strong>Credential lockout</strong>: reset admin passwords, re-enrol MFA methods, restore Global Admin assignments where accidentally removed.</span></li>
+          <li><span><strong>Certificate expiry</strong>: renew federation or token-signing cert per the platform&rsquo;s renewal procedure; verify trust chain; coordinate with on-prem AD FS team if federated.</span></li>
+          <li><span><strong>Authentication policy lockout</strong>: roll back the policy change; verify auth works for both admins and a sample user.</span></li>
+          <li>Validate end-to-end: sign in as a regular admin (not break-glass), perform a sample admin action, sign out, sign back in.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">3.4</span><span class="step-title">Stand down break-glass and rotate credentials</span></div>
+      <div class="step-body">
+        <p>Break-glass is for the emergency; standing down is part of the procedure.</p>
+        <ul>
+          <li>Sign out of break-glass account. Verify no residual sessions.</li>
+          <li><span><strong>Rotate the break-glass credentials.</strong> Even if there is no indication of compromise, used credentials are rotated per the identity baseline.</span></li>
+          <li>Restore the break-glass to its quiescent state (in vault, off-device, SOC-monitored).</li>
+          <li>If credential change requires re-establishing MFA, do so per the baseline (FIDO2 keys, vaulted; not phone-based factors).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">3.5</span><span class="step-title">Conduct AAR and treat root cause</span></div>
+      <div class="step-body">
+        <p>A tenant lockout is a high-severity event regardless of duration. AAR within 14 days; root cause treated.</p>
+        <ul>
+          <li><span><strong>Conditional Access lockouts</strong> typically reflect missing report-only-then-enable discipline. Treatment: enforce report-only deployment for any new CA policy; require &ldquo;admin not affected&rdquo; check as a deployment criterion.</span></li>
+          <li><span><strong>Credential lockouts</strong> typically reflect inadequate admin account hygiene: too few admins, no documented MFA recovery, single device for MFA. Treatment: increase admin count to at least three plus break-glass; require multi-device MFA; document MFA recovery procedure.</span></li>
+          <li><span><strong>Certificate expiry</strong> reflects monitoring gap. Treatment: certificate expiry monitoring with multi-week lead time alerts; renewal procedure documented and rehearsed.</span></li>
+          <li><span><strong>Policy lockouts</strong> reflect change control gaps. Treatment: change control for authentication policies as a Tier-0 change category.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">3.6</span><span class="step-title">Microsoft Support escalation if break-glass fails</span></div>
+      <div class="step-body">
+        <p>The catastrophic case: break-glass accounts are also locked out. Recovery requires Microsoft engagement.</p>
+        <ul>
+          <li>Open a Severity A support case via the tenant&rsquo;s Microsoft account team or, if access to the support portal itself is impacted, via account team direct contact.</li>
+          <li>Be prepared to provide: tenant ID, tenant primary domain, evidence of identity (organisation contract, named admin verification).</li>
+          <li>Microsoft tenant-recovery procedures are out-of-tenant and may take days. This is one of the strongest arguments for break-glass hygiene; treat the procedure as a possibility but plan to never need it.</li>
+          <li>During the wait: BCP activates for affected processes; SOC monitors for indicators of related compromise; business workarounds operate per BCP plans.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Scenario 4 &mdash; Entra tenant compromise</div>
+    <p>Tenant compromise is the most severe cloud DR scenario. SOC owns the response (containment, investigation, eradication) under <a href="sop-id-01.html">SOP-ID-01</a> and the identity playbooks / runbooks. This WI describes the DR side: recovery to operations, which may take weeks and in the worst case requires migration to a clean tenant.</p>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">4.1</span><span class="step-title">Coordinate with SOC on recovery threshold</span></div>
+      <div class="step-body">
+        <p>DR does not start until SOC confirms the response is sufficiently contained that recovery actions will not interfere.</p>
+        <ul>
+          <li>SOC owns the containment decisions (suspend privileged accounts, revoke sessions, block compromised app registrations, isolate affected resources).</li>
+          <li>DR engages in parallel from the start for planning; execution waits on SOC&rsquo;s recovery threshold call.</li>
+          <li>The recovery threshold is not &ldquo;incident closed&rdquo; &mdash; it is &ldquo;safe to start recovery without re-introducing the attacker&rsquo;s persistence&rdquo;. Recovery may begin while investigation continues for related artefacts.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">4.2</span><span class="step-title">Assess the recovery path: clean-up vs clean-tenant</span></div>
+      <div class="step-body">
+        <p>The decision between in-tenant clean-up and migration to a clean tenant is the most consequential one in this scenario.</p>
+        <ul>
+          <li><span><strong>In-tenant clean-up</strong> is the default for events where: persistence is identified and removable; the compromise scope is bounded; SOC has high confidence in identification of all attacker artefacts. Recovery is on the order of days to weeks.</span></li>
+          <li><span><strong>Clean tenant migration</strong> is the path for events where: persistence is suspected but not confidently bounded; the attacker had Global Admin level access for sustained time; cross-tenant federation was abused; or the agency&rsquo;s assurance bar (regulatory, beneficiary safety) requires a clean restart. Recovery is on the order of weeks to months.</span></li>
+          <li><span><strong>The decision is the BCDR Steering Committee&rsquo;s.</strong> Brief on: SOC&rsquo;s confidence assessment, scope of impact, regulatory implications, business cost of each path. Document the decision and basis.</span></li>
+          <li><span><strong>Clean-up is irreversible to clean-tenant.</strong> Once clean-up begins, evidence is altered; migration to clean tenant from that point is far harder. The decision must be made before recovery actions begin.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">4.3</span><span class="step-title">In-tenant clean-up recovery</span></div>
+      <div class="step-body">
+        <p>Where in-tenant clean-up is chosen, the recovery sequence is:</p>
+        <ul>
+          <li><span><strong>Rotate every credential</strong> the attacker may have observed or accessed: privileged passwords (per <a href="it-id-wi-04.html">IT-ID-WI-04</a> for service accounts), service principal secrets, certificate-based credentials, federation certificates, refresh tokens (force re-authentication tenant-wide), API keys held in compromised vaults.</span></li>
+          <li><span><strong>Review and reset privileged role assignments.</strong> Anyone holding standing privilege during the compromise window has eligibility reassessed; PIM activations during the window are reviewed; any assignment not re-justified is removed.</span></li>
+          <li><span><strong>Hunt residual persistence.</strong> SOC continues hunting; DR coordinates to ensure changes to tenant state during recovery do not destroy evidence of persistence yet to be found.</span></li>
+          <li><span><strong>Rebuild identities suspected of compromise.</strong> Disable, force re-enrol MFA, validate group memberships, sign back in from clean device.</span></li>
+          <li><span><strong>Validate end-to-end</strong> across critical services. Each Tier-1 service is exercised to confirm functionality is restored and no attacker-modified configuration persists.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">4.4</span><span class="step-title">Clean tenant migration recovery</span></div>
+      <div class="step-body">
+        <p>Where clean tenant migration is chosen, the recovery is a major project. Outline only; the specific runbook is developed at event time with Microsoft and the agency&rsquo;s SI partner.</p>
+        <ul>
+          <li><span><strong>Stand up a new tenant.</strong> New Azure AD / Entra tenant; new domain registration or domain transfer; new identity baseline applied per <a href="it-cl-wi-01.html">IT-CL-WI-01</a>; baseline Conditional Access deployed before any user identities migrate.</span></li>
+          <li><span><strong>Migrate identities.</strong> Trusted attestation of which identities to bring over (not all &mdash; potentially compromised accounts may be left behind for forensic preservation). Re-enrolment of MFA. Re-issuance of devices where compromise scope warrants.</span></li>
+          <li><span><strong>Migrate data.</strong> Mail, files, SharePoint sites in priority order driven by tier inventory. Validate data integrity at migration; re-apply sensitivity labels and DLP per <a href="it-cl-wi-02.html">IT-CL-WI-02</a>.</span></li>
+          <li><span><strong>Migrate services.</strong> Azure subscriptions, application registrations, third-party SaaS integrations all re-established against the new tenant. Federation re-configured.</span></li>
+          <li><span><strong>Operate in parallel</strong> during cutover. Old tenant remains for forensic access; new tenant is operational; users are migrated in cohorts.</span></li>
+          <li><span><strong>Decommission old tenant</strong> when forensic, legal, and audit holds permit. Coordination with regulators and legal counsel before decommission.</span></li>
+          <li>Throughout: BCP runs for the duration; business processes operate on continuity plans for the weeks to months involved.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">4.5</span><span class="step-title">Document and learn</span></div>
+      <div class="step-body">
+        <p>Tenant compromise events produce structural lessons.</p>
+        <ul>
+          <li>Joint AAR with SOC, DR, Identity, and BCP &mdash; not parallel separate AARs. The interaction between disciplines is the principal source of lessons.</li>
+          <li>Joint findings feed: the identity baseline (IT-CL-WI-01 / IT-ID-WI-05), the cloud baseline (IT-CL-SOP-01), the IRP, this WI.</li>
+          <li>Regulatory and contractual notifications are coordinated through Legal and Communications.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Scenario 5 &mdash; SaaS provider disruption</div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">5.1</span><span class="step-title">Confirm and characterise the disruption</span></div>
+      <div class="step-body">
+        <p>SaaS disruption covers a range from provider-side outage to provider compromise to provider business failure. Characterisation drives the response.</p>
+        <ul>
+          <li><span><strong>Outage:</strong> provider service unavailable; typically transient but may be sustained. Provider communicates status. Recovery is wait-plus-business-workaround.</span></li>
+          <li><span><strong>Provider compromise:</strong> provider announces a breach affecting customer data. Response includes assessing exposure (what data was held by the provider, what was actually accessed), engaging legal / DPO, communicating to affected stakeholders.</span></li>
+          <li><span><strong>Provider sustained failure:</strong> provider unable to operate for extended period (e.g. cyber attack on the provider, business failure, regulatory shutdown). Recovery is migration to alternative provider where feasible.</span></li>
+          <li><span><strong>Data exfiltration risk:</strong> regardless of provider state, organisation data with the provider is the organisation&rsquo;s liability. Independent backup or export capability for Tier-1 SaaS systems is a baseline requirement (per <a href="grc-dr-sop-01.html">DR policy &sect;5</a>).</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">5.2</span><span class="step-title">Activate dependent BCP workarounds</span></div>
+      <div class="step-body">
+        <p>SaaS disruption affects business processes that depend on the SaaS. BCP for those processes activates.</p>
+        <ul>
+          <li>Identify dependent processes from the BIA dependency map.</li>
+          <li>Each dependent process has a continuity plan (per <a href="grc-bcp-sop-01.html">BCP policy</a>) describing the workaround for SaaS unavailability.</li>
+          <li>The Business Process Owner invokes the workaround; the IT side coordinates technical aspects (e.g. providing read-only access to the most recent SaaS data export).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">5.3</span><span class="step-title">Engage alternative-access pattern if designed</span></div>
+      <div class="step-body">
+        <p>For Tier-1 SaaS systems, the DR policy requires either an alternative-access pattern or a documented limit-of-recovery acknowledgement.</p>
+        <ul>
+          <li><span><strong>Alternative-access patterns</strong> may include: read access to the most recent independent export of the SaaS data; a parallel provisioning with an alternative provider; manual / spreadsheet-based continuity for the duration; documented &ldquo;business operates without this system for up to N days&rdquo; with no technical alternative.</span></li>
+          <li><span><strong>Where no alternative is designed</strong> (the SaaS is genuinely irreplaceable in the short term), the BIA should have surfaced this as a risk. The risk register entry guides expectation-setting during the disruption.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">5.4</span><span class="step-title">Recovery and lessons-learned</span></div>
+      <div class="step-body">
+        <p>Recovery from a SaaS disruption follows the disruption type.</p>
+        <ul>
+          <li><span><strong>Outage:</strong> provider returns; validate access; resume normal operations; AAR focuses on workaround effectiveness.</span></li>
+          <li><span><strong>Compromise:</strong> assess data exposure; complete legal / regulatory notifications; possibly migrate from the provider depending on confidence in their remediation; AAR feeds supplier assurance per <a href="grc-pol-01.html">GRC-POL-01</a>.</span></li>
+          <li><span><strong>Sustained failure:</strong> migrate; this is itself a multi-week to multi-month project. The BCP plan handles continuity during migration.</span></li>
+          <li>All paths produce a finding for the supplier assurance programme &mdash; the risk that materialised, the controls that worked, the controls that did not, the implication for future supplier selection.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Common pitfalls</div>
+    <ul class="dr-bullet">
+      <li><span><strong>Untested break-glass.</strong> Quarterly validation is mandatory in the cloud baseline for a reason &mdash; the one time it matters, it has to work. Failure pattern: created during initial baseline, never tested, password long forgotten, MFA device decommissioned.</span></li>
+      <li><span><strong>Failover not coordinated across workloads.</strong> Workload A fails over independently while still pointing at workload B in the original region. Sequence and dependency matter.</span></li>
+      <li><span><strong>Communication fallback that depends on the failing service.</strong> SMS fallback to a distribution list that lives in Exchange Online does not work during an M365 outage. Fallback must be genuinely independent.</span></li>
+      <li><span><strong>Recovering before SOC says it&rsquo;s safe.</strong> In a compromise scenario, premature recovery re-introduces persistence. SOC&rsquo;s recovery threshold call is non-negotiable.</span></li>
+      <li><span><strong>Clean-up when clean-tenant was warranted.</strong> Where attacker had sustained Global Admin access, clean-up provides imperfect assurance. The decision criteria in 4.2 must be applied honestly.</span></li>
+      <li><span><strong>SaaS in scope but not in DR plan.</strong> Critical SaaS systems are sometimes treated as &ldquo;provider problem&rdquo; and excluded from DR planning. Provider unavailability is a DR scenario regardless of root cause.</span></li>
+      <li><span><strong>Failback without a plan.</strong> Failback during business hours, or to a still-flaky region, doubles the recovery exposure.</span></li>
+    </ul>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Related documents</div>
+    <ul class="dr-bullet">
+      <li><a href="grc-dr-sop-01.html">GRC-DR-SOP-01 &sect;6</a> &mdash; cloud DR principles operationalised here</li>
+      <li><a href="grc-dr-wi-01.html">GRC-DR-WI-01</a> &mdash; tier classification (determines which workloads have failover capability)</li>
+      <li><a href="grc-dr-wi-03.html">GRC-DR-WI-03</a> &mdash; worked example illustrating these scenarios for core IT services</li>
+      <li><a href="it-cl-wi-01.html">IT-CL-WI-01</a> &mdash; tenant identity &amp; Conditional Access (break-glass design)</li>
+      <li><a href="it-cl-wi-02.html">IT-CL-WI-02</a> &mdash; M365 tenant hardening</li>
+      <li><a href="it-cl-wi-03.html">IT-CL-WI-03</a> &mdash; Azure subscription baseline (resilience design)</li>
+      <li><a href="it-cl-wi-04.html">IT-CL-WI-04</a> &mdash; Azure workload patterns (paired-region failover designs)</li>
+      <li><a href="it-id-wi-05.html">IT-ID-WI-05</a> &mdash; privileged identity governance (break-glass governance, not operations)</li>
+      <li><a href="grc-irp-01.html">GRC-IRP-01</a> &mdash; cyber incident response (paired with Scenario 4)</li>
+      <li><a href="sop-id-01.html">SOP-ID-01</a> &mdash; identity threat operations (paired with Scenario 4)</li>
+      <li><a href="grc-pol-01.html">GRC-POL-01</a> &mdash; supplier security assessment (feeds Scenario 5 lessons-learned)</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-dr.html" style="color:#1F5A4A;text-decoration:none;">&larr; Back to DR</a></span>
+  </div>
+
+</div>
+</body>
+</html>

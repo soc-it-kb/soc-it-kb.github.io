@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-FRM-DR-01: DR Runbook Template &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --bcp:#2D6B3F; --bcp-light:#E8F4EC; --bcp-border:#A8D4B8; --bcp-dark:#1A4528; --dr:#1F5A4A; --dr-light:#E0F0EA; --dr-border:#9DC9B8; --dr-dark:#0E3A2F; --grc:#0E5C5C; --grc-light:#E6F4F4; }
+
+  .dr-page-hero { background:linear-gradient(135deg,#08201A 0%,#0E3A2F 40%,#1F5A4A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .dr-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .dr-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .dr-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .dr-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .dr-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .dr-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .dr-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .dr-stat-num { font-size:24px; font-weight:700; color:var(--dr); line-height:1; margin-bottom:4px; }
+  .dr-stat-lbl { font-size:11px; color:#888; }
+
+  .dr-section { background:#fff; border:0.5px solid var(--dr-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .dr-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .dr-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .dr-section p:last-child { margin-bottom:0; }
+
+  .dr-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .dr-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .dr-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--dr); flex-shrink:0; margin-top:5px; }
+
+  .doc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px; margin-top:6px; }
+  .doc-card { background:#fff; border:0.5px solid var(--dr-border); border-radius:10px; padding:1rem 1.2rem; text-decoration:none; color:inherit; display:block; transition:border-color .15s; }
+  .doc-card:hover { border-color:var(--dr); }
+  .doc-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--dr); margin-bottom:4px; }
+  .doc-card-title { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:5px; }
+  .doc-card-desc { font-size:12px; color:#666; line-height:1.5; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--dr-light); color:var(--dr-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--dr-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:var(--dr); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+
+  /* SOP/WI common */
+  .step { background:#fff; border:0.5px solid #e8e8e4; border-left:3px solid var(--dr); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .step-header { display:flex; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .step-num { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--dr); background:var(--dr-light); padding:2px 7px; border-radius:5px; }
+  .step-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .step-body { font-size:13px; color:#333; line-height:1.65; }
+  .step-body p { margin:0 0 6px; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body ul { padding-left:1.1rem; margin:6px 0 8px; }
+  .step-body ul li { margin-bottom:4px; line-height:1.55; }
+  .step-body code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+</style>
+
+
+<style>
+  .tmpl-banner { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.5rem; font-size:13px; color:#6b3f0a; line-height:1.6; }
+  .tmpl-banner strong { color:#5C3109; }
+  .fill { background:#FFF9E6; border:1px dashed #D4B860; border-radius:4px; padding:2px 7px; color:#7a5a14; font-style:italic; font-size:12px; display:inline-block; }
+  .note { font-size:11px; color:#888; font-style:italic; margin-top:4px; }
+  .field-block { background:#fafaf7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1.1rem; margin-bottom:10px; }
+  .field-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#666; margin-bottom:6px; }
+  .field-body { font-size:13px; color:#333; line-height:1.6; }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; <a href="grc-dr.html">Disaster Recovery</a> &nbsp;&rsaquo;&nbsp; GRC-FRM-DR-01</div>
+
+  <div class="dr-page-hero">
+    <div class="dr-page-hero-eyebrow">GRC &middot; DR &middot; Template</div>
+    <h1>GRC-FRM-DR-01 &mdash; Disaster Recovery Runbook Template</h1>
+    <p>Template populated by agency IT teams for each Tier-1 and Tier-2 IT service per <a href="grc-dr-sop-01.html" style="color:#fff;text-decoration:underline;">GRC-DR-SOP-01</a> and <a href="grc-dr-wi-01.html" style="color:#fff;text-decoration:underline;">GRC-DR-WI-01</a>. The runbook describes how a specific IT service is recovered: architecture, backup &amp; replication design, recovery procedures by scenario, validation steps, contacts. Owned by the named IT Service Owner; reviewed annually.</p>
+    <div class="dr-page-hero-pills">
+      <span class="dr-page-hero-pill">Per IT service</span>
+      <span class="dr-page-hero-pill">Tier-1 &amp; Tier-2</span>
+      <span class="dr-page-hero-pill">Annual review</span>
+      <span class="dr-page-hero-pill">Worked example: WI-03</span>
+    </div>
+  </div>
+
+  <div class="tmpl-banner">
+    <strong>How to use this template.</strong> Complete one runbook per Tier-1 (Mission-critical) and Tier-2 (Business-critical) IT service. Drives from the recovery tier classification in <a href="grc-dr-wi-01.html">GRC-DR-WI-01</a>. For Tier-3 services a recovery approach is documented (not a full runbook); Tier-4 only requires a backup approach. See <a href="grc-dr-wi-03.html">GRC-DR-WI-03</a> for a populated worked example covering five core IT services. Fields shown as <span class="fill">[Fill]</span> are placeholders the agency replaces.
+  </div>
+
+  <!-- ============ SECTION 1: RUNBOOK HEADER ============ -->
+  <div class="dr-section">
+    <div class="dr-section-title">1 &mdash; Runbook header &amp; ownership</div>
+
+    <div class="field-block">
+      <div class="field-label">IT service name</div>
+      <div class="field-body"><span class="fill">[Service name as it appears in the agency tier inventory &mdash; e.g. &ldquo;Identity service&rdquo;, &ldquo;Email (Exchange Online)&rdquo;, &ldquo;Electronic health record platform&rdquo;]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Runbook identifier</div>
+      <div class="field-body"><span class="fill">[Agency naming convention &mdash; e.g. AKHS-DR-RB-IDENTITY-001]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Agency / function</div>
+      <div class="field-body"><span class="fill">[Agency code &amp; IT function area]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">IT Service Owner</div>
+      <div class="field-body"><span class="fill">[Named individual, role, primary contact, deputy contact]</span><div class="note">The accountable owner per the DR policy. Must be a named individual, not a generic role.</div></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Recovery tier</div>
+      <div class="field-body"><span class="fill">[Tier 1 / Tier 2]</span><div class="note">Per <a href="grc-dr-wi-01.html">GRC-DR-WI-01</a>. Tier-3 services use a lighter-weight &ldquo;recovery approach&rdquo; document instead of this full runbook.</div></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Linked BIA dependency</div>
+      <div class="field-body"><span class="fill">[Named business process(es) whose dependency drives this tier &mdash; reference to BIA worksheets]</span><div class="note">Records the basis for the tier assignment. Reviewed when dependent processes change.</div></div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 2: RECOVERY OBJECTIVES ============ -->
+  <div class="dr-section">
+    <div class="dr-section-title">2 &mdash; Recovery objectives</div>
+
+    <p>Derived from the tier classification. The numbers are the minima from <a href="grc-dr-wi-01.html">WI-01</a>; specific services may have tighter objectives driven by a Tier-1 dependent process with shorter RTO/RPO than the tier minimum.</p>
+
+    <div class="field-block">
+      <div class="field-label">RTO</div>
+      <div class="field-body"><span class="fill">[&le; 4h for Tier-1; &le; 24h for Tier-2; or tighter where driven by a specific dependent process]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">RPO</div>
+      <div class="field-body"><span class="fill">[&le; 15m for Tier-1; &le; 4h for Tier-2; or tighter where driven]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Restore-test cadence</div>
+      <div class="field-body"><span class="fill">[Tier-1: quarterly; Tier-2: quarterly sample]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Exercise cadence</div>
+      <div class="field-body"><span class="fill">[Tier-1: annually; Tier-2: every 24 months]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 3: SERVICE ARCHITECTURE ============ -->
+  <div class="dr-section">
+    <div class="dr-section-title">3 &mdash; Service architecture summary</div>
+
+    <div class="field-block">
+      <div class="field-label">Components</div>
+      <div class="field-body"><span class="fill">[Servers, databases, applications, network components, integration endpoints that make up the service. Reference architecture documents where appropriate; do not duplicate the full design here.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Hosting</div>
+      <div class="field-body"><span class="fill">[On-prem (named site(s)) / Azure (named subscription(s), region(s)) / M365 / SaaS (named provider) / hybrid &mdash; describe specifically]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Critical dependencies (IT services)</div>
+      <div class="field-body">
+        <table class="gt-table">
+          <thead><tr><th>Dependency</th><th>Why required</th><th>Their tier</th></tr></thead>
+          <tbody>
+            <tr><td><span class="fill">[Service name &mdash; e.g. identity, network]</span></td><td><span class="fill">[What this service uses it for]</span></td><td><span class="fill">[Tier of that service]</span></td></tr>
+          </tbody>
+        </table>
+        <div class="note">Used in recovery sequencing &mdash; foundation dependencies recover first. If a dependency is at a lower tier than this service, the inheritance rule from WI-01 step 3 may be violated; raise to the IT DR Coordinator.</div>
+      </div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Critical dependencies (suppliers)</div>
+      <div class="field-body"><span class="fill">[Vendors, SaaS providers, hosting providers this service relies on. SLA highlights relevant to recovery (their RTO commitment, their support escalation path, their incident communication channel).]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Critical data stores</div>
+      <div class="field-body"><span class="fill">[Databases, file stores, object stores that hold the service&rsquo;s state. Where they are; sensitivity classification; data sovereignty / residency constraints affecting recovery options.]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 4: BACKUP & REPLICATION ============ -->
+  <div class="dr-section">
+    <div class="dr-section-title">4 &mdash; Backup &amp; replication design</div>
+
+    <p>The protective state from which recovery proceeds. Specifics matter &mdash; &ldquo;daily backup&rdquo; is not enough; the recovery plan needs to know what is held where, for how long, and how immutable it is.</p>
+
+    <div class="field-block">
+      <div class="field-label">Backup type and tooling</div>
+      <div class="field-body"><span class="fill">[Snapshot, image-level, file-level, application-aware; backup product or platform native capability]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Backup frequency</div>
+      <div class="field-body"><span class="fill">[Per the tier minimum from WI-01 or tighter &mdash; e.g. Tier-1: every 15 minutes; Tier-2: every 4 hours; specifically by data class if different]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Retention</div>
+      <div class="field-body"><span class="fill">[Retention periods by backup type. Immutable copy retention specifically &mdash; minimum 14 days per DR policy &sect;5]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Immutable / WORM copies</div>
+      <div class="field-body"><span class="fill">[Where the immutable copies live; the mechanism (cloud immutability, tape WORM, isolated repository); the rotation schedule]</span><div class="note">Per <a href="grc-dr-sop-01.html">DR policy &sect;5.3</a>: at least one immutable copy of every Tier-1 / Tier-2 service backup exists outside the production blast radius for cyber resilience.</div></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Replication pattern</div>
+      <div class="field-body"><span class="fill">[For Tier-1: synchronous or near-synchronous to secondary region/site, with named target. For Tier-2: asynchronous to secondary region/site. Specifically: what is replicated (data layer / application layer / configuration), and what is not (e.g. ephemeral state).]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Backup monitoring &amp; alerting</div>
+      <div class="field-body"><span class="fill">[How backup success / failure is observed. Alerting thresholds and escalation. Per DR policy &sect;5: Tier-1/2 alert within 4 hours of detection; sustained failure escalates to Service Owner and IT DR Coordinator.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Restore test schedule</div>
+      <div class="field-body"><span class="fill">[Restore-test scope, frequency, and last result. Sample-restore or full-restore by tier.]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 5: RECOVERY PROCEDURES BY SCENARIO ============ -->
+  <div class="dr-section">
+    <div class="dr-section-title">5 &mdash; Recovery procedures by scenario</div>
+
+    <p>A runbook addresses multiple scenarios that affect the service differently. Document each plausible scenario; the response sequence is what someone executing under pressure needs.</p>
+
+    <div class="field-block">
+      <div class="field-label">Scenario 1 &mdash; Component / hardware failure</div>
+      <div class="field-body"><span class="fill">[Steps for a single-component failure within the service. Trigger to invocation, sequence, validation, return to steady state. Where HA is designed in, the procedure may be largely automated; document the human steps regardless.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Scenario 2 &mdash; Software corruption / data loss</div>
+      <div class="field-body"><span class="fill">[Steps for application-level or data-level loss: recovery from version history, recycle bin, or point-in-time restore. Reconciliation if loss window straddles a critical change. Hand-off to the dependent business process.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Scenario 3 &mdash; Site / region failure</div>
+      <div class="field-body"><span class="fill">[Failover procedure to secondary site / region. Sequencing relative to foundation services; cross-workload dependencies. For Azure workloads, reference the relevant scenario in <a href="grc-dr-wi-02.html">GRC-DR-WI-02</a>.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Scenario 4 &mdash; Cyber event affecting this service</div>
+      <div class="field-body"><span class="fill">[Recovery from ransomware, destructive attack, or compromise of this service. SOC owns the response side under <a href="grc-irp-01.html">GRC-IRP-01</a>; this scenario documents the recovery-to-operations side that runs in parallel. Includes: do not restore configurations or data that may be tampered without SOC clearance; restore from immutable copies; validate integrity before reopening to dependent services.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Scenario 5 &mdash; Cloud-specific (where applicable)</div>
+      <div class="field-body"><span class="fill">[For cloud-resident services: tenant lockout, tenant compromise, SaaS provider disruption. Reference the relevant scenarios in <a href="grc-dr-wi-02.html">GRC-DR-WI-02</a>. Do not duplicate that content here; describe what is specific to this service.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Additional scenarios</div>
+      <div class="field-body"><span class="fill">[Any service-specific scenarios not covered above &mdash; e.g. certificate expiry, integration failure with a specific upstream / downstream system, regulatory disruption]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Recovery sequencing across scenarios</div>
+      <div class="field-body"><span class="fill">[When multiple components or scenarios are in play simultaneously, what sequence does the runbook expect? Typically: foundation dependencies first, data layer second, application layer third, integrations last.]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 6: VALIDATION ============ -->
+  <div class="dr-section">
+    <div class="dr-section-title">6 &mdash; Validation</div>
+
+    <p>Concrete checks after recovery. &ldquo;The service is up&rdquo; means the validation passes, not just that the platform health endpoint is green.</p>
+
+    <div class="field-block">
+      <div class="field-label">Functional validation</div>
+      <div class="field-body"><span class="fill">[Specific transactions or operations that exercise the service end-to-end. Sample sign-in, sample read, sample write; integration with downstream system tested; reconciliation of state with recently-recovered upstream service.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Data integrity validation</div>
+      <div class="field-body"><span class="fill">[Spot-checks of recovered data against known-good reference. Backup-vs-source counts; checksum where applicable; sample record verification.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Security validation</div>
+      <div class="field-body"><span class="fill">[Authentication enforcement verified; authorisation enforced; logging flowing to SIEM; expected SOC alerting active; no anomalous configuration drift detectable post-recovery.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Performance &amp; monitoring</div>
+      <div class="field-body"><span class="fill">[Baseline performance metrics within expected range; monitoring active; alerting functioning. Sustained monitoring window post-recovery before declaring fully recovered.]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 7: TEAM AND CONTACTS ============ -->
+  <div class="dr-section">
+    <div class="dr-section-title">7 &mdash; Recovery team &amp; contacts</div>
+
+    <table class="gt-table">
+      <thead><tr><th>Role</th><th>Name</th><th>Primary contact</th><th>Alternative contact</th></tr></thead>
+      <tbody>
+        <tr><td>IT Service Owner</td><td><span class="fill">[Name]</span></td><td><span class="fill">[Number / email]</span></td><td><span class="fill">[Alternative]</span></td></tr>
+        <tr><td>Deputy / successor</td><td><span class="fill">[Name]</span></td><td><span class="fill">[Number / email]</span></td><td><span class="fill">[Alternative]</span></td></tr>
+        <tr><td>Cloud Platform team lead (if cloud-resident)</td><td><span class="fill">[Name]</span></td><td><span class="fill">[Number / email]</span></td><td><span class="fill">[Alternative]</span></td></tr>
+        <tr><td>Backup operations</td><td><span class="fill">[Name / team]</span></td><td><span class="fill">[Number / email]</span></td><td><span class="fill">[Alternative]</span></td></tr>
+        <tr><td>Network engineering liaison</td><td><span class="fill">[Name]</span></td><td><span class="fill">[Number / email]</span></td><td><span class="fill">[Alternative]</span></td></tr>
+        <tr><td>SOC liaison (for cyber-related recovery)</td><td><span class="fill">[Name / SOC duty contact]</span></td><td><span class="fill">[Number / email]</span></td><td><span class="fill">[24-hour line]</span></td></tr>
+        <tr><td>IT DR Coordinator</td><td><span class="fill">[Name]</span></td><td><span class="fill">[Number / email]</span></td><td><span class="fill">[Alternative]</span></td></tr>
+        <tr><td>Primary vendor support</td><td><span class="fill">[Vendor]</span></td><td><span class="fill">[Support portal / line; account ID; severity-A path]</span></td><td><span class="fill">[Account team direct]</span></td></tr>
+        <tr><td>Secondary vendor support</td><td><span class="fill">[Vendor]</span></td><td><span class="fill">[Support contact]</span></td><td><span class="fill">[Alternative]</span></td></tr>
+      </tbody>
+    </table>
+    <p class="note">Contact list is the highest-volatility part of the runbook. Annual review is the minimum; spot-check on personnel changes recommended. Numbers and account IDs verified at each review.</p>
+  </div>
+
+  <!-- ============ SECTION 8: RESTORE TEST AND EXERCISE HISTORY ============ -->
+  <div class="dr-section">
+    <div class="dr-section-title">8 &mdash; Restore test history &amp; exercise history</div>
+
+    <div class="dr-section-title" style="font-size:13px; border-bottom:none; margin-top:8px;">8.1 Restore tests</div>
+    <table class="gt-table">
+      <thead><tr><th>Date</th><th>Scope</th><th>Result</th><th>Findings / actions</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fill">[Date]</span></td><td><span class="fill">[Full / sample / specific component]</span></td><td><span class="fill">[Pass / partial / fail]</span></td><td><span class="fill">[Summary; reference to test report]</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="dr-section-title" style="font-size:13px; border-bottom:none; margin-top:14px;">8.2 Exercises</div>
+    <table class="gt-table">
+      <thead><tr><th>Date</th><th>Exercise type</th><th>Scenario</th><th>Outcome &amp; findings</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fill">[Date]</span></td><td><span class="fill">[Tabletop / walkthrough / functional / full]</span></td><td><span class="fill">[Scenario]</span></td><td><span class="fill">[Summary; AAR reference]</span></td></tr>
+      </tbody>
+    </table>
+    <p class="note">Real recovery invocations recorded with an &ldquo;[INVOCATION]&rdquo; marker. Per <a href="grc-bcdr-wi-02.html">WI-02</a>, real invocations count against the exercise cadence.</p>
+  </div>
+
+  <!-- ============ SECTION 9: DOCUMENT CONTROL ============ -->
+  <div class="dr-section">
+    <div class="dr-section-title">9 &mdash; Document control &amp; review</div>
+
+    <table class="gt-table">
+      <thead><tr><th>Field</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Runbook version</td><td><span class="fill">[Version number]</span></td></tr>
+        <tr><td>Runbook date</td><td><span class="fill">[Date of this version]</span></td></tr>
+        <tr><td>IT Service Owner sign-off</td><td><span class="fill">[Name, date]</span></td></tr>
+        <tr><td>IT DR Coordinator sign-off</td><td><span class="fill">[Name, date]</span></td></tr>
+        <tr><td>Annual review due</td><td><span class="fill">[Date &mdash; not later than 12 months from runbook date per DR policy &sect;3]</span></td></tr>
+        <tr><td>Refresh triggers (out of cycle)</td><td>Material architecture change; new dependency; tier change; post-exercise finding; post-invocation</td></tr>
+        <tr><td>Document classification</td><td>Internal &mdash; BCDR sensitive (some service runbooks may be Tier-0 sensitive, e.g. identity)</td></tr>
+        <tr><td>Accessibility</td><td>For Tier-1 services: offline / out-of-band copy required per <a href="grc-dr-sop-01.html">DR policy &sect;3.3</a></td></tr>
+      </tbody>
+    </table>
+
+    <div class="field-block" style="margin-top:14px;">
+      <div class="field-label">Change history</div>
+      <div class="field-body">
+        <table class="gt-table">
+          <thead><tr><th>Date</th><th>Version</th><th>Change summary</th><th>Approved by</th></tr></thead>
+          <tbody>
+            <tr><td><span class="fill">[Date]</span></td><td><span class="fill">[Version]</span></td><td><span class="fill">[Summary]</span></td><td><span class="fill">[Approver]</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Runbook completeness checklist</div>
+    <p>Before signing off a runbook, the IT Service Owner confirms:</p>
+    <ul class="dr-bullet">
+      <li>The RTO and RPO match the tier classification (or are tighter if driven by a specific Tier-1 dependent process). No silent downgrade to current capability.</li>
+      <li>The backup design meets the tier minima from <a href="grc-dr-wi-01.html">WI-01</a> &mdash; including the immutable-copy requirement.</li>
+      <li>At least one Tier-1 / Tier-2 recovery scenario has been exercised within the cadence; first runbooks require an exercise within 6 months of publication.</li>
+      <li>A restore test has been performed within the cadence and the result documented.</li>
+      <li>Critical dependencies are listed; any dependency at a lower tier than this service has been raised to the IT DR Coordinator.</li>
+      <li>The cyber-event recovery scenario (Section 5.4) names SOC involvement and integrity-validation steps before restoring.</li>
+      <li>For Tier-1: an offline / out-of-band copy has been produced and is held by the named role.</li>
+      <li>Vendor support contacts include the severity-A path with account ID verified within the last review.</li>
+      <li>Recent material changes (architecture, dependencies, personnel) are reflected.</li>
+    </ul>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Related documents</div>
+    <ul class="dr-bullet">
+      <li><a href="grc-dr-sop-01.html">GRC-DR-SOP-01</a> &mdash; the policy obligating this runbook</li>
+      <li><a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a> &mdash; methodology including RTO/RPO bands</li>
+      <li><a href="grc-dr-wi-01.html">GRC-DR-WI-01</a> &mdash; tier classification (upstream of this runbook)</li>
+      <li><a href="grc-dr-wi-02.html">GRC-DR-WI-02</a> &mdash; cloud platform DR scenarios (referenced in Section 5.3 and 5.5)</li>
+      <li><a href="grc-dr-wi-03.html">GRC-DR-WI-03</a> &mdash; worked example showing this template populated for five core IT services</li>
+      <li><a href="grc-frm-bcdr-01.html">GRC-FRM-BCDR-01</a> &mdash; BIA worksheet (upstream)</li>
+      <li><a href="grc-frm-bcp-01.html">GRC-FRM-BCP-01</a> &mdash; Business Process Continuity Plan (paired BCP-side document)</li>
+      <li><a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a> &mdash; exercise procedure</li>
+      <li><a href="grc-irp-01.html">GRC-IRP-01</a> &mdash; cyber incident response (paired discipline for Section 5.4)</li>
+      <li><a href="grc-register-exceptions.html">GRC-REG-EX</a> &mdash; exception register for runbooks not meeting cadence</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-dr.html" style="color:#1F5A4A;text-decoration:none;">&larr; Back to DR</a></span>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-FRM-BCP-01: Business Process Continuity Plan Template &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --bcp:#2D6B3F; --bcp-light:#E8F4EC; --bcp-border:#A8D4B8; --bcp-dark:#1A4528; --dr:#1F5A4A; --dr-light:#E0F0EA; --dr-border:#9DC9B8; --dr-dark:#0E3A2F; --grc:#0E5C5C; --grc-light:#E6F4F4; }
+
+  .bcp-page-hero { background:linear-gradient(135deg,#0F2818 0%,#1A4528 40%,#2D6B3F 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .bcp-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .bcp-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .bcp-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .bcp-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .bcp-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .bcp-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .bcp-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .bcp-stat-num { font-size:24px; font-weight:700; color:var(--bcp); line-height:1; margin-bottom:4px; }
+  .bcp-stat-lbl { font-size:11px; color:#888; }
+
+  .bcp-section { background:#fff; border:0.5px solid var(--bcp-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .bcp-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .bcp-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .bcp-section p:last-child { margin-bottom:0; }
+
+  .bcp-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .bcp-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .bcp-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--bcp); flex-shrink:0; margin-top:5px; }
+
+  .doc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px; margin-top:6px; }
+  .doc-card { background:#fff; border:0.5px solid var(--bcp-border); border-radius:10px; padding:1rem 1.2rem; text-decoration:none; color:inherit; display:block; transition:border-color .15s; }
+  .doc-card:hover { border-color:var(--bcp); }
+  .doc-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--bcp); margin-bottom:4px; }
+  .doc-card-title { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:5px; }
+  .doc-card-desc { font-size:12px; color:#666; line-height:1.5; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--bcp-light); color:var(--bcp-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--bcp-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:var(--bcp); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+
+  /* SOP/WI common */
+  .step { background:#fff; border:0.5px solid #e8e8e4; border-left:3px solid var(--bcp); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .step-header { display:flex; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .step-num { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--bcp); background:var(--bcp-light); padding:2px 7px; border-radius:5px; }
+  .step-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .step-body { font-size:13px; color:#333; line-height:1.65; }
+  .step-body p { margin:0 0 6px; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body ul { padding-left:1.1rem; margin:6px 0 8px; }
+  .step-body ul li { margin-bottom:4px; line-height:1.55; }
+  .step-body code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+</style>
+
+
+<style>
+  .tmpl-banner { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.5rem; font-size:13px; color:#6b3f0a; line-height:1.6; }
+  .tmpl-banner strong { color:#5C3109; }
+  .fill { background:#FFF9E6; border:1px dashed #D4B860; border-radius:4px; padding:2px 7px; color:#7a5a14; font-style:italic; font-size:12px; display:inline-block; }
+  .note { font-size:11px; color:#888; font-style:italic; margin-top:4px; }
+  .field-block { background:#fafaf7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1.1rem; margin-bottom:10px; }
+  .field-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#666; margin-bottom:6px; }
+  .field-body { font-size:13px; color:#333; line-height:1.6; }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; <a href="grc-bcp.html">Business Continuity</a> &nbsp;&rsaquo;&nbsp; GRC-FRM-BCP-01</div>
+
+  <div class="bcp-page-hero">
+    <div class="bcp-page-hero-eyebrow">GRC &middot; BCP &middot; Template</div>
+    <h1>GRC-FRM-BCP-01 &mdash; Business Process Continuity Plan Template</h1>
+    <p>Template populated by agencies for each critical business process per <a href="grc-bcp-sop-01.html" style="color:#fff;text-decoration:underline;">GRC-BCP-SOP-01</a>. The plan describes how the process continues to operate during disruption: workarounds, alternative sites, alternative tools, communications, decision-making authority. Owned by the named Business Process Owner; reviewed annually.</p>
+    <div class="bcp-page-hero-pills">
+      <span class="bcp-page-hero-pill">Per critical process</span>
+      <span class="bcp-page-hero-pill">Operating during disruption</span>
+      <span class="bcp-page-hero-pill">Annual review</span>
+    </div>
+  </div>
+
+  <div class="tmpl-banner">
+    <strong>How to use this template.</strong> Complete one plan per Tier-1 (Mission-critical) and Tier-2 (Business-critical) business process. Drives from the BIA worksheet (<a href="grc-frm-bcdr-01.html">GRC-FRM-BCDR-01</a>) which establishes the RTO/RPO and dependencies this plan must address. Fields shown as <span class="fill">[Fill]</span> are placeholders the agency replaces. The named Business Process Owner is accountable; the agency BCP Coordinator maintains the plan inventory.
+  </div>
+
+  <!-- ============ SECTION 1: PLAN HEADER ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">1 &mdash; Plan header &amp; ownership</div>
+
+    <div class="field-block">
+      <div class="field-label">Process name</div>
+      <div class="field-body"><span class="fill">[Same as BIA worksheet]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Plan identifier</div>
+      <div class="field-body"><span class="fill">[Agency naming convention &mdash; e.g. AKHS-BCP-CLINICAL-001]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Agency / function</div>
+      <div class="field-body"><span class="fill">[Agency code &amp; function]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Business Process Owner</div>
+      <div class="field-body"><span class="fill">[Named individual, role, primary contact, deputy contact]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Process criticality / Tier</div>
+      <div class="field-body"><span class="fill">[Mission-critical Tier-1 / Business-critical Tier-2]</span><div class="note">Driven from BIA. If Tier-3 or below, this template is not required (recovery approach is documented but a full plan is optional).</div></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Linked BIA worksheet</div>
+      <div class="field-body"><span class="fill">[Reference to the BIA findings document or worksheet ID; BIA date]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 2: OBJECTIVES ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">2 &mdash; Recovery objectives &amp; MBCO</div>
+
+    <p>Carried over from the BIA. Repeated here so the plan is self-contained for the people using it under disruption.</p>
+
+    <div class="field-block">
+      <div class="field-label">RTO</div>
+      <div class="field-body"><span class="fill">[From BIA &mdash; the time within which the process must be restored to at least the MBCO]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">RPO</div>
+      <div class="field-body"><span class="fill">[From BIA &mdash; maximum tolerable data loss]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">MTPD</div>
+      <div class="field-body"><span class="fill">[From BIA &mdash; beyond this point recovery is no longer meaningful; escalation pathway invoked]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">MBCO (Minimum Business Continuity Objective)</div>
+      <div class="field-body"><span class="fill">[Concrete description of minimum acceptable service during disruption]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 3: INVOCATION ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">3 &mdash; Invocation</div>
+
+    <div class="field-block">
+      <div class="field-label">Triggers for invocation</div>
+      <div class="field-body"><span class="fill">[Specific events or thresholds that cause this plan to be invoked &mdash; e.g. &ldquo;hospital information system unavailable &gt; 30 minutes&rdquo;, &ldquo;site evacuation lasting beyond shift end&rdquo;, &ldquo;cyber incident affecting clinical systems declared by SOC&rdquo;]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Invocation authority</div>
+      <div class="field-body"><span class="fill">[Named role authorised to invoke &mdash; typically Business Process Owner or deputy; for Tier-1 may include agency leadership]</span><div class="note">Per <a href="grc-bcp-sop-01.html">BCP policy &sect;5</a>: invocation is a documented decision. Time, decision-maker, and basis are recorded contemporaneously. Avoid requiring certainty before invoking.</div></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Crisis Management Team composition</div>
+      <div class="field-body"><span class="fill">[Named individuals or roles who convene on invocation &mdash; lead, deputy, comms, ops, IT liaison, others as appropriate]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">CMT initial actions on invocation</div>
+      <div class="field-body"><span class="fill">[First 60 minutes of CMT activity &mdash; status assessment, stakeholder notifications, initial decisions about scope and workaround activation]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 4: WORKAROUNDS ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">4 &mdash; Operating during disruption</div>
+
+    <p>The principal content of the plan: how the process continues to operate. Workarounds are scenario-aware &mdash; the response to losing the IT system is different from the response to losing the site.</p>
+
+    <div class="field-block">
+      <div class="field-label">Workaround 1 &mdash; IT system unavailable</div>
+      <div class="field-body"><span class="fill">[How the process operates without the named IT system(s) it depends on. Examples: paper records, alternative application, manual workflow, downgraded service. Include who does what, where they work, what they record, how it reconciles when the system returns.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Workaround 2 &mdash; Primary site unavailable</div>
+      <div class="field-body"><span class="fill">[How the process operates from an alternative location. Named alternative site; activation procedure; what to bring; communication routing; transport arrangements.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Workaround 3 &mdash; Critical supplier unavailable</div>
+      <div class="field-body"><span class="fill">[How the process operates without the named supplier. Alternative supplier, contingency stock, manual handling, or documented limit-of-recovery acknowledgement.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Workaround 4 &mdash; People unavailable (pandemic / mass absence)</div>
+      <div class="field-body"><span class="fill">[Cross-training arrangements; succession plan; reduced service levels; outsourcing where applicable.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Additional workarounds</div>
+      <div class="field-body"><span class="fill">[Any other process-specific workarounds for likely scenarios identified in the BIA]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Reduced service approach (MBCO operations)</div>
+      <div class="field-body"><span class="fill">[How the MBCO is delivered concretely. If the process is &ldquo;50% normal volume via manual fallback&rdquo;, what does that mean in practice? Who is served, who is deferred, how is the deferral communicated?]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 5: COMMUNICATIONS ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">5 &mdash; Communications</div>
+
+    <div class="field-block">
+      <div class="field-label">Internal communications channel during disruption</div>
+      <div class="field-body"><span class="fill">[Primary and fallback channels. If the disruption affects normal channels (e.g. email outage), the fallback must not depend on the failing service. Per <a href="grc-dr-sop-01.html">DR policy &sect;6</a>.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Stakeholder notifications</div>
+      <div class="field-body"><span class="fill">[Who is notified and when. Beneficiaries, partners, regulators, other agencies. Threshold for each notification level; named role responsible for each.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">External communications</div>
+      <div class="field-body"><span class="fill">[Media, public-facing. Engaged through agency Communications lead; typically only for material disruption with public-facing impact.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Regulator engagement</div>
+      <div class="field-body"><span class="fill">[Where the process is regulated, regulator notification requirements and timelines. Specific named contacts where known.]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 6: KEY CONTACTS ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">6 &mdash; Key contacts</div>
+
+    <table class="gt-table">
+      <thead><tr><th>Role</th><th>Name</th><th>Primary contact</th><th>Alternative contact</th></tr></thead>
+      <tbody>
+        <tr><td>Business Process Owner</td><td><span class="fill">[Name]</span></td><td><span class="fill">[Number / email]</span></td><td><span class="fill">[Alternative]</span></td></tr>
+        <tr><td>Deputy / successor</td><td><span class="fill">[Name]</span></td><td><span class="fill">[Number / email]</span></td><td><span class="fill">[Alternative]</span></td></tr>
+        <tr><td>CMT lead</td><td><span class="fill">[Name]</span></td><td><span class="fill">[Number / email]</span></td><td><span class="fill">[Alternative]</span></td></tr>
+        <tr><td>IT liaison</td><td><span class="fill">[Name]</span></td><td><span class="fill">[Number / email]</span></td><td><span class="fill">[Alternative]</span></td></tr>
+        <tr><td>Agency BCP Coordinator</td><td><span class="fill">[Name]</span></td><td><span class="fill">[Number / email]</span></td><td><span class="fill">[Alternative]</span></td></tr>
+        <tr><td>Communications lead</td><td><span class="fill">[Name]</span></td><td><span class="fill">[Number / email]</span></td><td><span class="fill">[Alternative]</span></td></tr>
+        <tr><td>Key supplier 1</td><td><span class="fill">[Supplier]</span></td><td><span class="fill">[Account manager / support line]</span></td><td><span class="fill">[24-hour line]</span></td></tr>
+        <tr><td>Key supplier 2</td><td><span class="fill">[Supplier]</span></td><td><span class="fill">[Contact]</span></td><td><span class="fill">[Alternative]</span></td></tr>
+        <tr><td>Regulator (if applicable)</td><td><span class="fill">[Regulator name]</span></td><td><span class="fill">[Named contact]</span></td><td><span class="fill">[General line]</span></td></tr>
+      </tbody>
+    </table>
+    <p class="note">Contact list is the highest-volatility part of the plan. Annual review is the minimum; spot-check on personnel changes recommended. Phone numbers verified at each review.</p>
+  </div>
+
+  <!-- ============ SECTION 7: STAND-DOWN AND RECOVERY ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">7 &mdash; Stand-down &amp; recovery to normal operations</div>
+
+    <div class="field-block">
+      <div class="field-label">Criteria for stand-down</div>
+      <div class="field-body"><span class="fill">[Conditions under which the plan is stood down &mdash; e.g. &ldquo;IT systems restored and validated; staffing returned to normal; backlog cleared&rdquo;]</span><div class="note">Stand-down is a documented decision per <a href="grc-bcp-sop-01.html">BCP policy &sect;5</a>.</div></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Stand-down authority</div>
+      <div class="field-body"><span class="fill">[Same role as invocation authority, or other named role for stand-down]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Reconciliation activities</div>
+      <div class="field-body"><span class="fill">[How records made during the disruption (paper, alternative systems, manual logs) are reconciled to the normal system once it returns. Quality checks; deferred decisions revisited; backlog processed.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Post-event review</div>
+      <div class="field-body">After-action review within 30 days per <a href="grc-bcp-sop-01.html">BCP policy</a> and <a href="grc-bcdr-wi-02.html">WI-02</a>. Plan updates within 60 days. Findings tracked to closure.</div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 8: EXERCISE HISTORY ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">8 &mdash; Exercise history</div>
+
+    <table class="gt-table">
+      <thead><tr><th>Date</th><th>Exercise type</th><th>Scenario</th><th>Outcome &amp; key findings</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fill">[Date]</span></td><td><span class="fill">[Type]</span></td><td><span class="fill">[Scenario]</span></td><td><span class="fill">[Summary; reference to AAR document]</span></td></tr>
+      </tbody>
+    </table>
+    <p class="note">Real invocations (actual disruption events that exercised the plan) also recorded here with an &ldquo;[INVOCATION]&rdquo; marker. Per <a href="grc-bcdr-wi-02.html">WI-02</a>, real invocations count against the exercise cadence.</p>
+  </div>
+
+  <!-- ============ SECTION 9: DOCUMENT CONTROL ============ -->
+  <div class="bcp-section">
+    <div class="bcp-section-title">9 &mdash; Document control &amp; review</div>
+
+    <table class="gt-table">
+      <thead><tr><th>Field</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Plan version</td><td><span class="fill">[Version number]</span></td></tr>
+        <tr><td>Plan date</td><td><span class="fill">[Date of this version]</span></td></tr>
+        <tr><td>Business Process Owner sign-off</td><td><span class="fill">[Name, date]</span></td></tr>
+        <tr><td>Function leader sign-off</td><td><span class="fill">[Name, date]</span></td></tr>
+        <tr><td>Annual review due</td><td><span class="fill">[Date &mdash; not later than 12 months from plan date per BCP policy &sect;3]</span></td></tr>
+        <tr><td>Refresh triggers (out of cycle)</td><td>Material change in process / dependencies / personnel; post-exercise finding; post-invocation</td></tr>
+        <tr><td>Document classification</td><td>Internal &mdash; BCDR sensitive</td></tr>
+        <tr><td>Accessibility</td><td>For Tier-1 plans: offline / out-of-band copy required per <a href="grc-bcp-sop-01.html">BCP policy &sect;3.10</a></td></tr>
+      </tbody>
+    </table>
+
+    <div class="field-block" style="margin-top:14px;">
+      <div class="field-label">Change history</div>
+      <div class="field-body">
+        <table class="gt-table">
+          <thead><tr><th>Date</th><th>Version</th><th>Change summary</th><th>Approved by</th></tr></thead>
+          <tbody>
+            <tr><td><span class="fill">[Date]</span></td><td><span class="fill">[Version]</span></td><td><span class="fill">[Summary]</span></td><td><span class="fill">[Approver]</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Plan completeness checklist</div>
+    <p>Before signing off a plan, the Business Process Owner confirms:</p>
+    <ul class="bcp-bullet">
+      <li>The plan covers all disruption scenarios identified as plausible in the BIA (Section 6 of <a href="grc-frm-bcdr-01.html">BIA worksheet</a>).</li>
+      <li>The RTO and RPO match the BIA findings &mdash; no silent downgrade to current capability.</li>
+      <li>The workarounds are concrete &mdash; named people, named locations, named procedures, not aspirational language.</li>
+      <li>Communications fallback does not depend on services that may fail in the same disruption.</li>
+      <li>Key contacts are current (verified within the last review cycle).</li>
+      <li>The plan has been exercised at least once within its required cadence; first plans require an exercise within 6 months of publication.</li>
+      <li>For Tier-1: an offline / out-of-band copy has been produced and is held by the named role.</li>
+      <li>Recent material changes (personnel, dependencies, sites) are reflected.</li>
+    </ul>
+  </div>
+
+  <div class="bcp-section">
+    <div class="bcp-section-title">Related documents</div>
+    <ul class="bcp-bullet">
+      <li><a href="grc-bcp-sop-01.html">GRC-BCP-SOP-01</a> &mdash; the policy obligating this plan</li>
+      <li><a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a> &mdash; methodology</li>
+      <li><a href="grc-frm-bcdr-01.html">GRC-FRM-BCDR-01</a> &mdash; BIA worksheet (upstream of this plan)</li>
+      <li><a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a> &mdash; exercise procedure</li>
+      <li><a href="grc-dr-sop-01.html">GRC-DR-SOP-01</a> &mdash; DR policy (paired with this plan&rsquo;s IT recovery side)</li>
+      <li><a href="grc-irp-01.html">GRC-IRP-01</a> &mdash; cyber incident response (paired discipline)</li>
+      <li><a href="grc-register-exceptions.html">GRC-REG-EX</a> &mdash; exception register for plans not meeting cadence</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-bcp.html" style="color:#2D6B3F;text-decoration:none;">&larr; Back to BCP</a></span>
+  </div>
+
+</div>
+</body>
+</html>

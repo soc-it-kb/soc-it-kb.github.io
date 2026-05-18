@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-DR-WI-01: Recovery Tier Classification &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --bcp:#2D6B3F; --bcp-light:#E8F4EC; --bcp-border:#A8D4B8; --bcp-dark:#1A4528; --dr:#1F5A4A; --dr-light:#E0F0EA; --dr-border:#9DC9B8; --dr-dark:#0E3A2F; --grc:#0E5C5C; --grc-light:#E6F4F4; }
+
+  .dr-page-hero { background:linear-gradient(135deg,#08201A 0%,#0E3A2F 40%,#1F5A4A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .dr-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .dr-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .dr-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .dr-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .dr-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .dr-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .dr-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .dr-stat-num { font-size:24px; font-weight:700; color:var(--dr); line-height:1; margin-bottom:4px; }
+  .dr-stat-lbl { font-size:11px; color:#888; }
+
+  .dr-section { background:#fff; border:0.5px solid var(--dr-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .dr-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .dr-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .dr-section p:last-child { margin-bottom:0; }
+
+  .dr-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .dr-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .dr-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--dr); flex-shrink:0; margin-top:5px; }
+
+  .doc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px; margin-top:6px; }
+  .doc-card { background:#fff; border:0.5px solid var(--dr-border); border-radius:10px; padding:1rem 1.2rem; text-decoration:none; color:inherit; display:block; transition:border-color .15s; }
+  .doc-card:hover { border-color:var(--dr); }
+  .doc-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--dr); margin-bottom:4px; }
+  .doc-card-title { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:5px; }
+  .doc-card-desc { font-size:12px; color:#666; line-height:1.5; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--dr-light); color:var(--dr-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--dr-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:var(--dr); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+
+  /* SOP/WI common */
+  .step { background:#fff; border:0.5px solid #e8e8e4; border-left:3px solid var(--dr); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .step-header { display:flex; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .step-num { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--dr); background:var(--dr-light); padding:2px 7px; border-radius:5px; }
+  .step-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .step-body { font-size:13px; color:#333; line-height:1.65; }
+  .step-body p { margin:0 0 6px; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body ul { padding-left:1.1rem; margin:6px 0 8px; }
+  .step-body ul li { margin-bottom:4px; line-height:1.55; }
+  .step-body code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; <a href="grc-dr.html">Disaster Recovery</a> &nbsp;&rsaquo;&nbsp; GRC-DR-WI-01</div>
+
+  <div class="dr-page-hero">
+    <div class="dr-page-hero-eyebrow">GRC &middot; DR &middot; Work Instruction</div>
+    <h1>GRC-DR-WI-01 &mdash; Recovery Tier Classification</h1>
+    <p>Procedure for assigning IT services to recovery tiers (Tier 1&ndash;4), the technical minima per tier (RTO, RPO, backup, replication, runbook, exercise cadence), and the classification workflow that flows from BIA dependency mapping. Used by IT Service Owners and the IT DR Coordinator under <a href="grc-dr-sop-01.html" style="color:#fff;text-decoration:underline;">GRC-DR-SOP-01</a>.</p>
+    <div class="dr-page-hero-pills">
+      <span class="dr-page-hero-pill">8 steps</span>
+      <span class="dr-page-hero-pill">4 tiers</span>
+      <span class="dr-page-hero-pill">RTO/RPO minima</span>
+      <span class="dr-page-hero-pill">Backup standards</span>
+    </div>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Purpose &amp; positioning</div>
+    <p>Recovery tier classification is the bridge between business need (set by BIA) and IT capability (delivered by DR). The BIA establishes that &ldquo;business process X requires RTO 4 hours, RPO 15 minutes&rdquo;; this WI translates that into &ldquo;IT service Y is therefore Tier 1, requires synchronous replication to a paired region, immutable backups every 15 minutes, a current runbook with an offline copy, and annual exercise&rdquo;.</p>
+    <p>Tier assignment is <strong>not</strong> an IT preference. Tiers flow down from the BIA dependency map (<a href="grc-bcdr-wi-01.html">GRC-BCDR-WI-01 step 5</a>). Where a service supports business processes at different criticality levels, the highest tier among its dependents applies.</p>
+    <p>This WI operationalises <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01 &sect;4</a> (RTO/RPO classification) and <a href="grc-dr-sop-01.html">GRC-DR-SOP-01 &sect;3, &sect;4, &sect;5</a> (DR policy statements, tier framework, backup &amp; replication principles).</p>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Tier definitions &mdash; full criteria</div>
+    <table class="gt-table">
+      <thead>
+        <tr><th>Tier</th><th>RTO</th><th>RPO</th><th>Backup minimum</th><th>Replication minimum</th><th>Runbook</th><th>Exercise cadence</th><th>Restore test</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Tier 1<br>Mission-critical</strong></td>
+          <td>&le; 4 hours</td>
+          <td>&le; 15 minutes</td>
+          <td>Continuous or near-continuous; immutable copies retained &ge; 14 days</td>
+          <td>Synchronous or near-synchronous to secondary region/site; failover validated annually</td>
+          <td><strong>Required</strong>; offline copy held in alternative location</td>
+          <td>Annually (any type per <a href="grc-bcdr-wi-02.html">WI-02</a>)</td>
+          <td>Quarterly (sample or full)</td>
+        </tr>
+        <tr>
+          <td><strong>Tier 2<br>Business-critical</strong></td>
+          <td>&le; 24 hours</td>
+          <td>&le; 4 hours</td>
+          <td>At least every 4 hours; immutable copies retained &ge; 14 days</td>
+          <td>Asynchronous to secondary region/site; failover validated every 24 months</td>
+          <td><strong>Required</strong></td>
+          <td>Every 24 months</td>
+          <td>Quarterly (sample)</td>
+        </tr>
+        <tr>
+          <td><strong>Tier 3<br>Important</strong></td>
+          <td>&le; 72 hours</td>
+          <td>&le; 24 hours</td>
+          <td>Daily</td>
+          <td>Optional; backup-based recovery acceptable</td>
+          <td>Recovery approach documented (not full runbook)</td>
+          <td>Walkthrough every 36 months</td>
+          <td>Semi-annually (sample)</td>
+        </tr>
+        <tr>
+          <td><strong>Tier 4<br>Standard</strong></td>
+          <td>&le; 7 days</td>
+          <td>&le; 7 days</td>
+          <td>Weekly</td>
+          <td>Not required</td>
+          <td>Backup approach documented</td>
+          <td>Tabletop every 36 months (optional)</td>
+          <td>Annually</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>The tier criteria are minima &mdash; an IT service may exceed them (e.g. a Tier-2 service operated with synchronous replication for operational reasons unrelated to DR). The DR policy obligations are met when the tier minima are met or exceeded.</p>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Procedure</div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 1</span><span class="step-title">Inventory the IT services in scope</span></div>
+      <div class="step-body">
+        <p>Tier classification operates on named IT services, not on individual servers or applications. Establish the inventory before classifying.</p>
+        <ul>
+          <li><span><strong>What counts as an IT service:</strong> a technology capability with a recognisable owner that one or more business processes depend on. Examples: identity service, email service, file service, electronic health record platform, network connectivity, EDR / SIEM. Not: individual servers, individual databases, individual firewalls (these are components of services).</span></li>
+          <li><span><strong>Granularity:</strong> aim for the level the agency&rsquo;s IT operates against. A &ldquo;Microsoft 365 service&rdquo; may be one service or four (Exchange Online, SharePoint, Teams, OneDrive) depending on whether they are managed and recovered as a unit or separately.</span></li>
+          <li><span><strong>Source the list:</strong> the agency&rsquo;s service catalogue if it exists; the asset register (<a href="grc-reg-asset.html">GRC-REG-ASSET</a>) for service-class assets; otherwise compile from BIA dependency findings cross-referenced with IT operational documentation.</span></li>
+          <li><span><strong>Capture per service:</strong> service name, named IT Service Owner, primary technology platform, hosting (on-prem, Azure, M365, SaaS), current backup &amp; replication design, current runbook status.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 2</span><span class="step-title">Map BIA dependencies to IT services</span></div>
+      <div class="step-body">
+        <p>The BIA produced for each critical business process a list of IT services depended on, with the criticality of each dependency (process stops entirely vs degrades). Cross-reference against the IT service inventory.</p>
+        <ul>
+          <li>For each Tier-1 and Tier-2 process from the BIA, list the IT services it depends on at the &ldquo;stops entirely&rdquo; level. These are the services that inherit the process&rsquo;s RTO and RPO.</li>
+          <li>Note dependencies at the &ldquo;degrades&rdquo; level separately &mdash; the dependent service may take a lower tier than the dependent process if the degradation is acceptable to the business.</li>
+          <li>Resolve naming mismatches: BIA may name a service the way the business sees it (&ldquo;email&rdquo;); IT operates against a more specific name (&ldquo;Exchange Online for AKHS tenant&rdquo;). Document the mapping.</li>
+          <li>Where the BIA dependency map is incomplete &mdash; processes whose dependencies were not enumerated &mdash; refer back to the BIA team to complete; do not assign tiers based on guess.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 3</span><span class="step-title">Assign a candidate tier per IT service</span></div>
+      <div class="step-body">
+        <p>For each IT service in the inventory, look at the business processes that depend on it.</p>
+        <ul>
+          <li><span><strong>Take the highest tier among dependent processes.</strong> A service that supports one Tier-1 process and five Tier-3 processes is a Tier-1 service. There is no &ldquo;weighted average&rdquo;.</span></li>
+          <li><span><strong>If a service has no dependent critical processes</strong> (BIA found no Tier-1 / Tier-2 / Tier-3 dependents), it is Tier-4 by default. No runbook required, weekly backup minimum.</span></li>
+          <li><span><strong>Foundation services inherit upwards.</strong> Identity, network, and core infrastructure services support virtually every other service; their tier is at least as high as the highest tier they enable. Identity provider supporting Tier-1 clinical systems is Tier-1.</span></li>
+          <li><span><strong>Document the basis.</strong> For each tier assignment, record which dependent process drove the tier. This makes the decision defensible and auditable, and surfaces stale assignments when the dependent process is retired or its tier changes.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 4</span><span class="step-title">Validate against current capability</span></div>
+      <div class="step-body">
+        <p>The candidate tier states what the business requires. The validation step compares to what IT currently delivers.</p>
+        <ul>
+          <li>For each candidate-Tier-1 and Tier-2 service, check current backup and replication against the tier minima. Document gaps explicitly: &ldquo;Tier-1 candidate but backup runs every 24 hours; gap is RPO 23h 45m versus 15m target&rdquo;.</li>
+          <li>Check runbook status: does a current runbook exist? Reviewed in the last 12 months? Accessible offline for Tier-1?</li>
+          <li>Check exercise status: was an exercise of the required type within the cadence window?</li>
+          <li>The validation step does <strong>not</strong> change the tier assignment. The tier is set by business need. Gaps to the tier are documented; remediation is planned; persistent gaps escalate to risk per Step 6.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 5</span><span class="step-title">Review with IT Service Owner and IT DR Coordinator</span></div>
+      <div class="step-body">
+        <p>Each candidate tier assignment is reviewed with the named IT Service Owner before being finalised.</p>
+        <ul>
+          <li>Service Owner confirms the dependent-process mapping reflects current operational reality. Where business has changed how the service is used (new dependent process, retired dependent process), the tier may need adjustment.</li>
+          <li>Service Owner challenges where they believe the BIA understated or overstated the dependency. Challenges are documented and resolved with the BCP Coordinator; the BIA is the source of truth, but it can be updated where genuinely wrong.</li>
+          <li>IT DR Coordinator reviews the consolidated tier inventory for the agency. Cross-service patterns (e.g. all clinical-systems are Tier-1, but the network they depend on is currently Tier-2) are flagged for treatment.</li>
+          <li>Service Owner signs off on the tier assignment and on the documented gaps to the tier minima.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 6</span><span class="step-title">Document gaps and route to treatment</span></div>
+      <div class="step-body">
+        <p>Where a tier assignment exceeds current capability, the gap is treated &mdash; not silently ignored or downgraded.</p>
+        <ul>
+          <li><span><strong>Short-term remediation possible:</strong> the IT Service Owner schedules and tracks the work to close the gap (e.g. increasing backup frequency, enabling replication, authoring the runbook). Target dates are committed; progress reported quarterly to the IT DR Coordinator.</span></li>
+          <li><span><strong>Material investment required:</strong> the gap is logged as a risk in <a href="grc-register-risk.html">GRC-REG-RISK</a> per <a href="grc-sop-04.html">GRC-SOP-04</a>. Treatment may include investment, accepted risk, or a tier downgrade with business sign-off (rare; requires BIA refresh to demonstrate the dependent process can tolerate the lower tier).</span></li>
+          <li><span><strong>Time-bounded exception:</strong> where remediation is in flight but not yet complete, the gap is logged in the <a href="grc-register-exceptions.html">exception register</a> with a remediation date.</span></li>
+          <li><span><strong>Common failure pattern to avoid:</strong> assigning a Tier-2 just because current capability happens to be Tier-2, when the dependent process actually requires Tier-1. The BIA wins; capability gaps are visible.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 7</span><span class="step-title">Update runbooks, schedules, and monitoring to match tier</span></div>
+      <div class="step-body">
+        <p>Tier assignment triggers downstream operational work.</p>
+        <ul>
+          <li><span><strong>Runbook authoring or update</strong> for Tier-1 and Tier-2 services using <a href="grc-frm-dr-01.html">GRC-FRM-DR-01</a>. Recovery approach documented for Tier-3; backup approach documented for Tier-4.</span></li>
+          <li><span><strong>Backup schedule</strong> adjusted to meet the RPO minimum for the tier. Backup success monitoring configured with tier-specific alerting (Tier-1 / Tier-2: alert within 4 hours of detection; sustained failure escalates to Service Owner and IT DR Coordinator).</span></li>
+          <li><span><strong>Replication configuration</strong> adjusted where the tier requires it (Tier-1 synchronous / near-synchronous; Tier-2 asynchronous). Per <a href="it-cl-wi-04.html">IT-CL-WI-04</a> for Azure workloads; per IT-SRV / IT-NET WIs for on-prem.</span></li>
+          <li><span><strong>Exercise schedule</strong> updated to include the service at the required cadence. Submitted to the BCDR Steering Committee in the next forward-schedule cycle.</span></li>
+          <li><span><strong>Restore-test schedule</strong> configured per the tier (Tier-1 / Tier-2 quarterly; Tier-3 semi-annual; Tier-4 annual).</span></li>
+          <li><span><strong>Offline runbook copy</strong> for Tier-1: physical or out-of-band electronic copy held by the IT Service Owner and the IT DR Coordinator, refreshed after each runbook update.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header"><span class="step-num">Step 8</span><span class="step-title">Register the tier inventory and review annually</span></div>
+      <div class="step-body">
+        <p>The agency&rsquo;s IT service tier inventory is the principal portfolio artefact for the DR programme.</p>
+        <ul>
+          <li>The inventory records: service name, tier, named Service Owner, dependent business processes driving the tier, runbook status, last exercise date, last restore-test date, open gaps.</li>
+          <li>Reported quarterly to the IT DR Coordinator; rolled up to the BCDR Steering Committee.</li>
+          <li><span><strong>Reviewed annually</strong> by each IT Service Owner: are the dependent processes still the same? Have any new dependent processes been added that change the tier? Has the BIA been refreshed and produced different RTO/RPO?</span></li>
+          <li><span><strong>Reviewed out-of-cycle</strong> on: BIA refresh that changes RTO/RPO for a dependent process; new dependent process introduced; material technology change to the service.</span></li>
+          <li>Drift in the inventory (stale entries, missing services discovered, retired services not removed) is treated as a finding in the next portfolio review.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Common pitfalls</div>
+    <ul class="dr-bullet">
+      <li><span><strong>Tier assigned to match current capability.</strong> The tier states what the business needs; the gap to current capability is the management view of the DR programme. Hiding the gap by downgrading the tier defeats the purpose of classification.</span></li>
+      <li><span><strong>Foundation services under-tiered.</strong> Network and identity services almost always inherit the highest tier in the estate. A Tier-2 identity service supporting Tier-1 clinical systems is a contradiction; the identity service is Tier-1 by inheritance.</span></li>
+      <li><span><strong>Weighted-average tier.</strong> &ldquo;Mostly Tier-3 dependents so this is a Tier-3 service&rdquo; is wrong. One Tier-1 dependent is enough to make a service Tier-1.</span></li>
+      <li><span><strong>Stale tier inventory.</strong> A service that was Tier-2 three years ago when only one business process depended on it may be Tier-1 today as more processes have come to rely on it. Annual review catches drift.</span></li>
+      <li><span><strong>No documented basis for the tier.</strong> Without a recorded link to the dependent process, the tier assignment cannot be defended in audit and cannot be reviewed when the dependent process changes.</span></li>
+      <li><span><strong>Treating Tier-4 as &ldquo;no DR&rdquo;.</strong> Tier-4 has minimum standards (weekly backup, documented backup approach, annual restore test). It is not &ldquo;backup not required&rdquo;.</span></li>
+      <li><span><strong>SaaS services left untiered.</strong> SaaS services have dependent processes too; they are in scope. The tier may be met by the provider, but it must be verified (RTO commitment, RPO commitment, data export capability for independent restore).</span></li>
+    </ul>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Related documents</div>
+    <ul class="dr-bullet">
+      <li><a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01 &sect;4</a> &mdash; RTO/RPO classification methodology</li>
+      <li><a href="grc-dr-sop-01.html">GRC-DR-SOP-01</a> &mdash; DR policy obligating tier classification</li>
+      <li><a href="grc-bcdr-wi-01.html">GRC-BCDR-WI-01</a> &mdash; BIA procedure producing the dependency map this WI consumes</li>
+      <li><a href="grc-dr-wi-02.html">GRC-DR-WI-02</a> &mdash; Cloud Platform DR (tier-aware cloud scenarios)</li>
+      <li><a href="grc-dr-wi-03.html">GRC-DR-WI-03</a> &mdash; Worked Example (illustrative tier assignments for core IT services)</li>
+      <li><a href="grc-frm-dr-01.html">GRC-FRM-DR-01</a> &mdash; DR Runbook template (used for Tier-1 / Tier-2 services per this WI&rsquo;s output)</li>
+      <li><a href="it-cl-wi-03.html">IT-CL-WI-03</a> / <a href="it-cl-wi-04.html">IT-CL-WI-04</a> &mdash; Azure resilience design patterns underpinning cloud-resident tier compliance</li>
+      <li><a href="grc-sop-04.html">GRC-SOP-04</a> &mdash; Risk management (for material tier-vs-capability gaps)</li>
+      <li><a href="grc-register-exceptions.html">GRC-REG-EX</a> &mdash; time-bounded exceptions for in-flight remediation</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-dr.html" style="color:#1F5A4A;text-decoration:none;">&larr; Back to DR</a></span>
+  </div>
+
+</div>
+</body>
+</html>

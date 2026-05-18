@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-DR-WI-03: Worked Example &mdash; Core IT Services Recovery &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --bcp:#2D6B3F; --bcp-light:#E8F4EC; --bcp-border:#A8D4B8; --bcp-dark:#1A4528; --dr:#1F5A4A; --dr-light:#E0F0EA; --dr-border:#9DC9B8; --dr-dark:#0E3A2F; --grc:#0E5C5C; --grc-light:#E6F4F4; }
+
+  .dr-page-hero { background:linear-gradient(135deg,#08201A 0%,#0E3A2F 40%,#1F5A4A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .dr-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .dr-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .dr-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .dr-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .dr-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .dr-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .dr-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .dr-stat-num { font-size:24px; font-weight:700; color:var(--dr); line-height:1; margin-bottom:4px; }
+  .dr-stat-lbl { font-size:11px; color:#888; }
+
+  .dr-section { background:#fff; border:0.5px solid var(--dr-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .dr-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .dr-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .dr-section p:last-child { margin-bottom:0; }
+
+  .dr-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .dr-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .dr-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--dr); flex-shrink:0; margin-top:5px; }
+
+  .doc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px; margin-top:6px; }
+  .doc-card { background:#fff; border:0.5px solid var(--dr-border); border-radius:10px; padding:1rem 1.2rem; text-decoration:none; color:inherit; display:block; transition:border-color .15s; }
+  .doc-card:hover { border-color:var(--dr); }
+  .doc-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--dr); margin-bottom:4px; }
+  .doc-card-title { font-size:14px; font-weight:600; color:#1a1a1a; margin-bottom:5px; }
+  .doc-card-desc { font-size:12px; color:#666; line-height:1.5; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--dr-light); color:var(--dr-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--dr-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:var(--dr); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+
+  /* SOP/WI common */
+  .step { background:#fff; border:0.5px solid #e8e8e4; border-left:3px solid var(--dr); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .step-header { display:flex; align-items:baseline; gap:10px; margin-bottom:8px; }
+  .step-num { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--dr); background:var(--dr-light); padding:2px 7px; border-radius:5px; }
+  .step-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .step-body { font-size:13px; color:#333; line-height:1.65; }
+  .step-body p { margin:0 0 6px; }
+  .step-body p:last-child { margin-bottom:0; }
+  .step-body ul { padding-left:1.1rem; margin:6px 0 8px; }
+  .step-body ul li { margin-bottom:4px; line-height:1.55; }
+  .step-body code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+</style>
+
+
+<style>
+  .svc { background:#fff; border:0.5px solid var(--dr-border); border-left:4px solid var(--dr); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:14px; }
+  .svc-head { display:flex; align-items:baseline; gap:14px; margin-bottom:10px; flex-wrap:wrap; }
+  .svc-name { font-size:16px; font-weight:700; color:#1a1a1a; }
+  .svc-tier { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:3px 8px; border-radius:5px; background:var(--dr-light); color:var(--dr-dark); }
+  .svc-owner { font-size:12px; color:#888; }
+  .svc-rto-rpo { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:8px; margin-bottom:12px; }
+  .svc-stat { background:#f8f9f7; border-radius:8px; padding:8px 12px; }
+  .svc-stat-l { font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:#888; font-weight:600; }
+  .svc-stat-v { font-size:14px; font-weight:600; color:#1a1a1a; margin-top:2px; }
+  .svc-sub { font-size:12px; font-weight:600; color:var(--dr-dark); margin:10px 0 4px; text-transform:uppercase; letter-spacing:0.05em; }
+  .svc p, .svc ul { font-size:13px; color:#333; line-height:1.6; }
+  .svc ul { padding-left:1.1rem; margin:4px 0 8px; }
+  .svc ul li { margin-bottom:3px; }
+  .svc code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; <a href="grc-dr.html">Disaster Recovery</a> &nbsp;&rsaquo;&nbsp; GRC-DR-WI-03</div>
+
+  <div class="dr-page-hero">
+    <div class="dr-page-hero-eyebrow">GRC &middot; DR &middot; Worked Example</div>
+    <h1>GRC-DR-WI-03 &mdash; Core IT Services Recovery (Worked Example)</h1>
+    <p>An illustrative DR plan populated for the five most common core IT services: identity, email, file services, network, and endpoint security (EDR). Serves as a reference for agency IT teams populating their own runbooks using the template (<a href="grc-frm-dr-01.html" style="color:#fff;text-decoration:underline;">GRC-FRM-DR-01</a>). Not authoritative for any specific agency &mdash; agency teams populate their own runbooks against their actual estate.</p>
+    <div class="dr-page-hero-pills">
+      <span class="dr-page-hero-pill">5 core services</span>
+      <span class="dr-page-hero-pill">Illustrative</span>
+      <span class="dr-page-hero-pill">Tier-1 / Tier-2 examples</span>
+    </div>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Purpose &amp; how to read this</div>
+    <p>This page is a <strong>worked example</strong>, not an authoritative plan. It shows what a populated DR plan looks like, at the level of detail expected for a Tier-1 or Tier-2 IT service, so that agency IT teams have a concrete model to follow when populating their own runbooks.</p>
+    <p>The five services covered are deliberately the ones most agencies operate in some form: identity, email, file services, network, and EDR. Each is documented at illustrative depth: tier classification, RTO/RPO, dependencies, backup &amp; replication design, recovery procedure summary, validation steps, and where the full runbook lives.</p>
+    <p><strong>What this is not.</strong> It is not a substitute for an agency populating its own runbook against its actual configuration. Vendor versions, named individuals, network details, and tenant identifiers are illustrative and must not be used as-is. It is not an attempt to be comprehensive about every variation; agencies on different cloud configurations, with different vendors, or with different recovery designs will deviate from this and that is expected.</p>
+    <p><strong>How to use this.</strong> When populating your own runbook using <a href="grc-frm-dr-01.html">GRC-FRM-DR-01</a>, look at the corresponding service in this worked example to see the level of detail expected and the structure of the operational thinking.</p>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">The five core services covered</div>
+    <table class="gt-table">
+      <thead><tr><th>Service</th><th>Illustrative tier</th><th>Why this tier</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Identity service (Entra ID + hybrid AD)</strong></td><td>Tier 1</td><td>Foundation service; nearly every other service depends on it; loss of identity is loss of all dependent services</td></tr>
+        <tr><td><strong>Email (Exchange Online)</strong></td><td>Tier 2</td><td>Business-critical for most agencies; tolerates short outages with cached mode; not safety-critical for most operating models</td></tr>
+        <tr><td><strong>File services (SharePoint / OneDrive)</strong></td><td>Tier 2</td><td>Business-critical for document-based work; cached access during outage; SharePoint sites where business processes depend on them inherit higher tiers</td></tr>
+        <tr><td><strong>Network connectivity (LAN / WAN / internet egress)</strong></td><td>Tier 1</td><td>Foundation service; loss of network is loss of access to dependent services; site-level criticality may upgrade beyond Tier-1 thresholds</td></tr>
+        <tr><td><strong>Endpoint Detection &amp; Response (CrowdStrike EDR + Obrela MDR)</strong></td><td>Tier 2</td><td>Loss of detection capability creates security risk and degrades incident response; not directly user-facing</td></tr>
+      </tbody>
+    </table>
+    <p>Each service section below is structured: tier &amp; objectives, dependencies, backup &amp; replication design, recovery procedure summary, validation, and runbook reference. The same structure is what an agency populates using <a href="grc-frm-dr-01.html">GRC-FRM-DR-01</a>.</p>
+  </div>
+
+  <!-- ============ IDENTITY SERVICE ============ -->
+  <div class="dr-section">
+    <div class="dr-section-title">Service 1 &mdash; Identity service (Entra ID + hybrid AD)</div>
+
+    <div class="svc">
+      <div class="svc-head">
+        <span class="svc-name">Identity service</span>
+        <span class="svc-tier">TIER 1</span>
+        <span class="svc-owner">Owner: Identity &amp; Access Engineering Lead</span>
+      </div>
+
+      <div class="svc-rto-rpo">
+        <div class="svc-stat"><div class="svc-stat-l">RTO</div><div class="svc-stat-v">&le; 4 hours</div></div>
+        <div class="svc-stat"><div class="svc-stat-l">RPO</div><div class="svc-stat-v">&le; 15 minutes</div></div>
+        <div class="svc-stat"><div class="svc-stat-l">Hosting</div><div class="svc-stat-v">Hybrid &mdash; Entra + on-prem AD</div></div>
+        <div class="svc-stat"><div class="svc-stat-l">Last exercise</div><div class="svc-stat-v">Q4 2025 (tabletop)</div></div>
+      </div>
+
+      <div class="svc-sub">Why this tier</div>
+      <p>Identity is the foundation that virtually every dependent service relies on. Authentication failure causes cascading failure of any tenant-resident service, including Tier-1 clinical and educational systems. Tier-1 with stringent RPO is essential because identity data (group memberships, role assignments, conditional access state) drives security posture and inconsistency between regions is a security risk.</p>
+
+      <div class="svc-sub">Critical dependencies</div>
+      <ul>
+        <li>Entra ID tenant (Microsoft-operated; multi-region by design)</li>
+        <li>On-prem AD domain controllers (per agency; 2&times; per site minimum)</li>
+        <li>Entra Connect synchronisation servers (2&times; for HA, active/staging pattern)</li>
+        <li>Federation infrastructure where deployed (AD FS or third-party); pass-through authentication agents on member servers</li>
+        <li>FIDO2 security keys for break-glass and high-privilege accounts</li>
+      </ul>
+
+      <div class="svc-sub">Backup &amp; replication design</div>
+      <ul>
+        <li><span><strong>Entra ID</strong>: Microsoft operates with cross-region replication. No tenant-side backup is required for Entra directory data; Microsoft soft-delete retains deleted users 30 days. <em>Caveat</em>: tenant-level configuration (Conditional Access policies, application registrations, custom roles) is the tenant&rsquo;s responsibility &mdash; configuration export per <a href="it-cl-wi-01.html">IT-CL-WI-01</a> on a weekly cadence to immutable storage.</span></li>
+          <li><span><strong>On-prem AD</strong>: per <a href="it-srv-wi-dc-01.html">IT-SRV-WI-DC-01</a>: system state backup nightly with 30-day retention; weekly full server image; quarterly authoritative restore test on isolated test forest; AD recycle bin enabled.</span></li>
+        <li><span><strong>Entra Connect</strong>: configuration backed up weekly to immutable storage; staging server maintained in standby; staging server promotion procedure documented.</span></li>
+        <li><span><strong>FIDO2 keys for break-glass</strong>: 2 keys per break-glass account, held in physical vaults at separate locations.</span></li>
+      </ul>
+
+      <div class="svc-sub">Recovery procedure summary</div>
+      <ul>
+        <li><span><strong>If Entra tenant lockout</strong> &rarr; follow <a href="grc-dr-wi-02.html">GRC-DR-WI-02 Scenario 3</a>. Break-glass account engaged from vault, lockout cause remediated, break-glass stood down with credential rotation.</span></li>
+        <li><span><strong>If on-prem AD failure at a site</strong> &rarr; promote remaining DC at the site; if all site DCs lost, point clients at DCs at next-nearest site; if site is isolated, follow <a href="it-srv-wi-dc-01.html">IT-SRV-WI-DC-01</a> AD recovery procedure for the site.</span></li>
+        <li><span><strong>If forest-level AD failure</strong> &rarr; authoritative restore from system-state backup to a clean DC; sysvol re-initialised; replication to other DCs allowed to flow.</span></li>
+        <li><span><strong>If Entra Connect failure</strong> &rarr; promote staging server using documented promotion procedure; verify sync direction matches design; verify selected attributes flow.</span></li>
+        <li><span><strong>If tenant compromise</strong> &rarr; follow <a href="grc-dr-wi-02.html">GRC-DR-WI-02 Scenario 4</a>; SOC owns response; DR coordinates clean-up or clean-tenant decision.</span></li>
+      </ul>
+
+      <div class="svc-sub">Validation</div>
+      <ul>
+        <li>Authentication: sign in to Azure portal, M365 portal, a tenant-resident application; sign in with on-prem account where federated.</li>
+        <li>Sync health: Entra Connect Health dashboard clean; sample new on-prem account appears in Entra within sync window.</li>
+        <li>Privileged operations: PIM activation works; Conditional Access enforces as expected; break-glass excluded from CA verified.</li>
+        <li>SOC alerting: identity-related SIEM events arrive; honeytoken sign-ins generate alerts.</li>
+      </ul>
+
+      <div class="svc-sub">Full runbook</div>
+      <p>The agency-specific identity runbook held in the IT operations document store, classified as Tier-0 sensitive. Offline copy held by the IT DR Coordinator and the Identity &amp; Access Engineering Lead per <a href="grc-dr-sop-01.html">DR policy &sect;3.3</a>.</p>
+    </div>
+  </div>
+
+  <!-- ============ EMAIL ============ -->
+  <div class="dr-section">
+    <div class="dr-section-title">Service 2 &mdash; Email (Exchange Online)</div>
+
+    <div class="svc">
+      <div class="svc-head">
+        <span class="svc-name">Email service</span>
+        <span class="svc-tier">TIER 2</span>
+        <span class="svc-owner">Owner: M365 Tenant Administrator (per agency)</span>
+      </div>
+
+      <div class="svc-rto-rpo">
+        <div class="svc-stat"><div class="svc-stat-l">RTO</div><div class="svc-stat-v">&le; 24 hours</div></div>
+        <div class="svc-stat"><div class="svc-stat-l">RPO</div><div class="svc-stat-v">&le; 4 hours</div></div>
+        <div class="svc-stat"><div class="svc-stat-l">Hosting</div><div class="svc-stat-v">Exchange Online (M365)</div></div>
+        <div class="svc-stat"><div class="svc-stat-l">Last exercise</div><div class="svc-stat-v">Q3 2025 (tabletop)</div></div>
+      </div>
+
+      <div class="svc-sub">Why this tier</div>
+      <p>Email is business-critical for most agency communication and approval workflows, but not safety-critical. Most processes have a documented tolerance window for delayed email of up to a working day. Outlook cached mode provides continuity of cached content during outages of moderate duration.</p>
+
+      <div class="svc-sub">Critical dependencies</div>
+      <ul>
+        <li>Exchange Online (Microsoft-operated; multi-region by design)</li>
+        <li>Identity service (Tier 1 dependency; see Service 1)</li>
+        <li>DNS for MX records, SPF, DKIM, DMARC</li>
+        <li>Outlook clients in cached mode on managed endpoints</li>
+        <li>Third-party email security gateway where deployed in front of Exchange Online</li>
+      </ul>
+
+      <div class="svc-sub">Backup &amp; replication design</div>
+      <ul>
+        <li><span><strong>Mailbox data</strong>: Exchange Online native retention with Litigation Hold or In-Place Hold on Tier-0/1 user mailboxes (executive, legal, HR, finance) &mdash; retains all mail including deleted, indefinitely or per policy.</span></li>
+        <li><span><strong>Independent backup</strong>: third-party mailbox backup product (e.g. Veeam for M365, AvePoint, Acronis) for ransomware / catastrophic data scenarios &mdash; daily incrementals, immutable retention 30 days; one full export quarterly to immutable storage.</span></li>
+        <li><span><strong>DNS records</strong>: zone configuration backed up weekly; DNS provider supports point-in-time recovery for short window.</span></li>
+        <li><span><strong>Tenant configuration</strong>: Exchange Online configuration export (transport rules, anti-spam policies, mailflow connectors) weekly to immutable storage per <a href="it-cl-wi-02.html">IT-CL-WI-02</a>.</span></li>
+      </ul>
+
+      <div class="svc-sub">Recovery procedure summary</div>
+      <ul>
+        <li><span><strong>If Exchange Online outage</strong> &rarr; follow <a href="grc-dr-wi-02.html">GRC-DR-WI-02 Scenario 2</a>. Communication fallback activated (SMS or alternative platform per agency BCP). Cached mailbox content remains available to users with Outlook cached mode.</span></li>
+        <li><span><strong>If transport configuration broken</strong> &rarr; restore from configuration backup; if recent change is suspected, roll back; mailflow validation via test mail flow.</span></li>
+        <li><span><strong>If mailbox-level loss</strong> (deleted user mailbox, ransomware-corrupted mailbox) &rarr; restore from retention hold within Microsoft retention window; or restore from independent backup if outside Microsoft retention; or restore from quarterly export for catastrophic case.</span></li>
+        <li><span><strong>If DNS record loss / hijack</strong> &rarr; restore MX and authentication records from backup; coordinate with DNS provider for cache flush; SPF / DKIM / DMARC alignment validated post-restore.</span></li>
+        <li><span><strong>If tenant-wide event</strong> (lockout, compromise) &rarr; identity recovery (Service 1) is the foundation; email recovery follows.</span></li>
+      </ul>
+
+      <div class="svc-sub">Validation</div>
+      <ul>
+        <li>Send and receive internal mail; send and receive external mail (to / from a known external mailbox under our control).</li>
+        <li>Verify mail headers show expected authentication results (SPF pass, DKIM signed, DMARC aligned).</li>
+        <li>Verify mailbox content present; sample older mail accessible; deleted-items recovery works.</li>
+        <li>Verify SOC alerting on suspicious mailflow (test alert).</li>
+      </ul>
+
+      <div class="svc-sub">Full runbook</div>
+      <p>The agency-specific email runbook held in the IT operations document store. References <a href="it-cl-wi-02.html">IT-CL-WI-02</a> M365 tenant hardening for baseline configuration.</p>
+    </div>
+  </div>
+
+  <!-- ============ FILE SERVICES ============ -->
+  <div class="dr-section">
+    <div class="dr-section-title">Service 3 &mdash; File services (SharePoint / OneDrive)</div>
+
+    <div class="svc">
+      <div class="svc-head">
+        <span class="svc-name">File services</span>
+        <span class="svc-tier">TIER 2</span>
+        <span class="svc-owner">Owner: M365 Tenant Administrator (per agency)</span>
+      </div>
+
+      <div class="svc-rto-rpo">
+        <div class="svc-stat"><div class="svc-stat-l">RTO</div><div class="svc-stat-v">&le; 24 hours</div></div>
+        <div class="svc-stat"><div class="svc-stat-l">RPO</div><div class="svc-stat-v">&le; 4 hours</div></div>
+        <div class="svc-stat"><div class="svc-stat-l">Hosting</div><div class="svc-stat-v">SharePoint / OneDrive (M365)</div></div>
+        <div class="svc-stat"><div class="svc-stat-l">Last exercise</div><div class="svc-stat-v">Q1 2026 (walkthrough)</div></div>
+      </div>
+
+      <div class="svc-sub">Why this tier</div>
+      <p>File services support document-based business processes across most agencies. Most processes tolerate short outages through OneDrive sync cached content and local caches. Exception: where a specific SharePoint site supports a Tier-1 process (e.g. a clinical reference repository), that site inherits the higher tier and is handled separately.</p>
+
+      <div class="svc-sub">Critical dependencies</div>
+      <ul>
+        <li>SharePoint Online + OneDrive for Business (Microsoft-operated)</li>
+        <li>Identity service (Tier 1 dependency)</li>
+        <li>OneDrive sync client on managed endpoints (cached content during outage)</li>
+        <li>Sensitivity labels and DLP policies (per <a href="it-cl-wi-02.html">IT-CL-WI-02</a>)</li>
+      </ul>
+
+      <div class="svc-sub">Backup &amp; replication design</div>
+      <ul>
+        <li><span><strong>SharePoint sites and OneDrive content</strong>: Microsoft native retention (recycle bin 93 days; version history default 500 versions); preservation hold on Tier-0/1 content as needed.</span></li>
+        <li><span><strong>Independent backup</strong>: third-party M365 backup product covering SharePoint and OneDrive &mdash; daily, immutable 30-day retention; one full export quarterly to immutable storage.</span></li>
+        <li><span><strong>Site configuration</strong>: site collection structure and permissions inventory exported weekly to immutable storage.</span></li>
+        <li><span><strong>Highly sensitive Tier-1 content (where present)</strong>: synchronised to an alternate location (separate tenant or on-prem) on a per-site basis where business case warrants.</span></li>
+      </ul>
+
+      <div class="svc-sub">Recovery procedure summary</div>
+      <ul>
+        <li><span><strong>If SharePoint / OneDrive outage</strong> &rarr; follow <a href="grc-dr-wi-02.html">GRC-DR-WI-02 Scenario 2</a>. OneDrive cache provides continuity for synced content; users continue working locally; sync resolves when service returns.</span></li>
+        <li><span><strong>If site-level data loss</strong> (deletion, ransomware on cloud-resident files) &rarr; restore from version history first (smallest blast radius); from recycle bin if within window; from third-party backup if outside Microsoft retention; from quarterly export for catastrophic case.</span></li>
+        <li><span><strong>If site configuration loss</strong> (permissions corruption, accidental site deletion) &rarr; restore from configuration backup; deleted-site recovery within Microsoft retention window.</span></li>
+        <li><span><strong>If sync conflicts after extended outage</strong> &rarr; OneDrive conflict resolution UI; communicate to users that conflicting copies need manual reconciliation.</span></li>
+      </ul>
+
+      <div class="svc-sub">Validation</div>
+      <ul>
+        <li>Open and edit a SharePoint document; save; verify version increments.</li>
+        <li>Upload to OneDrive; verify sync to a second device.</li>
+        <li>Permissions sample: verify a known restricted document is inaccessible to a non-member account.</li>
+        <li>Sensitivity labels apply on save (where mandatory labelling enabled at A3/E3+).</li>
+      </ul>
+
+      <div class="svc-sub">Full runbook</div>
+      <p>The agency-specific file services runbook held in the IT operations document store. Tier-1 site-level runbooks (where a specific site supports a Tier-1 process) maintained separately by the site owner.</p>
+    </div>
+  </div>
+
+  <!-- ============ NETWORK ============ -->
+  <div class="dr-section">
+    <div class="dr-section-title">Service 4 &mdash; Network connectivity</div>
+
+    <div class="svc">
+      <div class="svc-head">
+        <span class="svc-name">Network connectivity (LAN, WAN, internet egress)</span>
+        <span class="svc-tier">TIER 1</span>
+        <span class="svc-owner">Owner: Network Engineering Lead (per region)</span>
+      </div>
+
+      <div class="svc-rto-rpo">
+        <div class="svc-stat"><div class="svc-stat-l">RTO</div><div class="svc-stat-v">&le; 4 hours</div></div>
+        <div class="svc-stat"><div class="svc-stat-l">RPO</div><div class="svc-stat-v">N/A (config-based)</div></div>
+        <div class="svc-stat"><div class="svc-stat-l">Hosting</div><div class="svc-stat-v">On-prem + ISP / cloud</div></div>
+        <div class="svc-stat"><div class="svc-stat-l">Last exercise</div><div class="svc-stat-v">Q4 2025 (live failover)</div></div>
+      </div>
+
+      <div class="svc-sub">Why this tier</div>
+      <p>Network connectivity is foundational. Loss of network is loss of access to all dependent services regardless of where they are hosted. The RTO mirrors the highest-tier dependent service per the inheritance rule in <a href="grc-dr-wi-01.html">WI-01 step 3</a>. Sites supporting Tier-1 clinical or beneficiary-safety processes may require tighter RTOs than 4 hours and are treated per site.</p>
+      <p>RPO is not the principal metric for network; configuration backup ensures rapid rebuild but the data flowing through the network is the responsibility of the dependent services. The relevant measure is mean-time-to-restore.</p>
+
+      <div class="svc-sub">Critical dependencies</div>
+      <ul>
+        <li>Core switches, distribution, and access switches per site</li>
+        <li>Routers and WAN edge devices</li>
+        <li>Internet egress firewalls (primary + HA pair)</li>
+        <li>ISP / WAN provider (primary + secondary where dual-homed)</li>
+        <li>Wireless controllers and access points where wireless is in scope</li>
+        <li>DNS internal resolvers</li>
+        <li>Out-of-band management infrastructure (for recovery)</li>
+      </ul>
+
+      <div class="svc-sub">Backup &amp; replication design</div>
+      <ul>
+        <li><span><strong>Configuration backups</strong>: daily automated config backup for Tier-0/1 devices, weekly for Tier-2/3, per <a href="it-net-wi-06.html">IT-NET-WI-06</a>. 90-day retention for Tier-0/1, 30-day for Tier-2/3. Annual restore test.</span></li>
+        <li><span><strong>Golden configurations</strong>: per device class, versioned, stored in immutable repository.</span></li>
+        <li><span><strong>Firmware / OS images</strong>: current-and-previous images held locally for rapid recovery without external dependency.</span></li>
+        <li><span><strong>HA pairs</strong>: firewalls, core switches in HA pairs with annual failover test.</span></li>
+        <li><span><strong>Hot spares</strong>: critical low-volume devices (core switches, edge firewalls) held as hot spare at the site or at a regional spare location.</span></li>
+        <li><span><strong>WAN redundancy</strong>: dual ISP / dual-path where business case warrants (typically site-level decision based on dependent processes).</span></li>
+      </ul>
+
+      <div class="svc-sub">Recovery procedure summary</div>
+      <ul>
+        <li><span><strong>If single device failure with HA partner healthy</strong> &rarr; HA partner takes over; replace failed device using hot spare or RMA; restore from config backup; rejoin HA pair; failover-back validated.</span></li>
+        <li><span><strong>If device failure without HA (Tier-2/3 only)</strong> &rarr; replace device; restore configuration from backup to the new hardware; validate connectivity; restart dependent services.</span></li>
+        <li><span><strong>If site-level network failure</strong> &rarr; assess scope (single device cascade vs broader); engage hot-spare hardware; out-of-band management used to restore basic connectivity to staff at site; full restore per device-class procedure.</span></li>
+        <li><span><strong>If WAN failure</strong> &rarr; secondary ISP / path activated where designed; ISP escalation for restoration; BCP for site activates if outage extends beyond business tolerance.</span></li>
+        <li><span><strong>If ransomware or destructive event affecting network management</strong> &rarr; re-establish from golden configs to known-clean hardware; do not restore configs that may be tampered; SOC engaged for compromise scope assessment.</span></li>
+      </ul>
+
+      <div class="svc-sub">Validation</div>
+      <ul>
+        <li>Internal connectivity: site-to-site reachability where designed; sample VLAN reachability; default-gateway responsiveness.</li>
+        <li>Egress: external connectivity from a sample endpoint; DNS resolution; HTTPS to a known internet endpoint.</li>
+        <li>Wireless: client association; authentication via 802.1X; expected VLAN assignment.</li>
+        <li>Firewall: known-good test traffic permitted; known-bad blocked; logs flowing to SIEM.</li>
+        <li>HA pair: confirm failover state correct; planned failover test if change scope warrants.</li>
+      </ul>
+
+      <div class="svc-sub">Full runbook</div>
+      <p>The agency-specific network runbooks held per site or per region in the IT operations document store. Device-class procedures reference <a href="it-net-wi-01.html">IT-NET-WI-01</a> through <a href="it-net-wi-06.html">IT-NET-WI-06</a>. Offline copy of the WAN topology and emergency contact list maintained by the regional Network Lead per <a href="grc-dr-sop-01.html">DR policy &sect;3.3</a>.</p>
+    </div>
+  </div>
+
+  <!-- ============ EDR ============ -->
+  <div class="dr-section">
+    <div class="dr-section-title">Service 5 &mdash; Endpoint Detection &amp; Response</div>
+
+    <div class="svc">
+      <div class="svc-head">
+        <span class="svc-name">EDR / MDR (CrowdStrike + Obrela)</span>
+        <span class="svc-tier">TIER 2</span>
+        <span class="svc-owner">Owner: SOC Lead (CISO function)</span>
+      </div>
+
+      <div class="svc-rto-rpo">
+        <div class="svc-stat"><div class="svc-stat-l">RTO</div><div class="svc-stat-v">&le; 24 hours</div></div>
+        <div class="svc-stat"><div class="svc-stat-l">RPO</div><div class="svc-stat-v">&le; 4 hours (telemetry gap)</div></div>
+        <div class="svc-stat"><div class="svc-stat-l">Hosting</div><div class="svc-stat-v">SaaS (vendor-operated)</div></div>
+        <div class="svc-stat"><div class="svc-stat-l">Last exercise</div><div class="svc-stat-v">Q4 2025 (simulation)</div></div>
+      </div>
+
+      <div class="svc-sub">Why this tier</div>
+      <p>EDR is not directly user-facing but loss of EDR creates a window of reduced visibility that increases security risk. Most agencies can tolerate up to a day of degraded detection capability with compensating measures (heightened SOC manual monitoring, restricted high-risk activity); longer outages elevate risk materially.</p>
+      <p>The MDR partnership with Obrela means SOC capability degrades but does not stop entirely on EDR-side outage &mdash; Obrela retains visibility into prior telemetry and can advise on compensating measures.</p>
+
+      <div class="svc-sub">Critical dependencies</div>
+      <ul>
+        <li>CrowdStrike Falcon platform (vendor-operated SaaS)</li>
+        <li>Falcon sensor deployed on all in-scope endpoints (Windows servers, Windows workstations, macOS, Linux per scope)</li>
+        <li>Obrela MDR tenant integration with CrowdStrike</li>
+        <li>Identity service (Tier 1 dependency for SOC analyst access to platforms)</li>
+        <li>Internet egress from endpoints for telemetry forwarding</li>
+        <li>SIEM platform receiving Falcon alerts</li>
+      </ul>
+
+      <div class="svc-sub">Backup &amp; replication design</div>
+      <ul>
+        <li><span><strong>Telemetry</strong>: vendor-operated; vendor retains per contract (Falcon retains 30&ndash;90 days depending on subscription); Obrela retains under their MDR contract.</span></li>
+        <li><span><strong>Configuration</strong>: prevention policies, sensor groups, detection rules exported weekly to immutable storage per <a href="it-cl-wi-05.html">IT-CL-WI-05</a>.</span></li>
+        <li><span><strong>API credentials</strong>: rotated annually per <a href="it-id-wi-04.html">IT-ID-WI-04</a>; backup credentials available for emergency restoration.</span></li>
+        <li><span><strong>Custom detections / hunts</strong>: versioned in the SOC content repository; restorable to the platform.</span></li>
+      </ul>
+
+      <div class="svc-sub">Recovery procedure summary</div>
+      <ul>
+        <li><span><strong>If CrowdStrike platform outage</strong> &rarr; CrowdStrike status page checked; impact assessed (telemetry gap vs detection gap); Obrela notified; compensating measures invoked (heightened SOC manual monitoring of available logs; restrict high-risk activity for the duration).</span></li>
+        <li><span><strong>If sensor-level issue affecting fleet</strong> (e.g. bad sensor version) &rarr; rollback via Falcon console using prior-version channel; if console inaccessible, escalate to CrowdStrike support; document gap window.</span></li>
+        <li><span><strong>If individual sensor failure</strong> &rarr; per <a href="sop-ep-01.html">SOP-EP-01</a> SOC procedure for sensor health remediation.</span></li>
+        <li><span><strong>If MDR partner outage</strong> &rarr; in-house SOC takes full ownership of triage; Obrela escalation; assessment of duration and impact on response capability.</span></li>
+        <li><span><strong>If tenant compromise of CrowdStrike</strong> &rarr; CrowdStrike-side incident; coordination with CrowdStrike security team; consider sensor-level isolation pending assurance of platform integrity.</span></li>
+      </ul>
+
+      <div class="svc-sub">Validation</div>
+      <ul>
+        <li>Telemetry flow: sample endpoint shows recent check-in (&lt; 1 hour); telemetry events visible in console.</li>
+        <li>Detection: known-good test detection (test file or controlled action) generates an alert; SIEM receives the alert; Obrela receives the alert.</li>
+        <li>Response capability: isolate-host action works on a test endpoint; release-isolation works.</li>
+        <li>SOC console access: SOC analyst sign-in works with MFA; expected role permissions enforced.</li>
+      </ul>
+
+      <div class="svc-sub">Full runbook</div>
+      <p>Operational EDR/MDR procedures live in <a href="sop-ep-01.html">SOP-EP-01</a> (SOC Endpoint operations). The DR-specific runbook focuses on platform-level recovery and is maintained by the SOC Lead.</p>
+    </div>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">What this worked example illustrates</div>
+    <ul class="dr-bullet">
+      <li><span><strong>Tier inheritance.</strong> Identity and network inherit Tier-1 because of dependent processes; email, file services, and EDR are Tier-2 by inherited dependency.</span></li>
+      <li><span><strong>RTO/RPO are concrete, not aspirational.</strong> Each service has named numbers, traceable back to BIA and to the standard tier bands.</span></li>
+      <li><span><strong>Dependencies are named.</strong> Each service has an explicit list of what it depends on; the dependency map drives the recovery sequence in real events.</span></li>
+      <li><span><strong>Backup is more than &ldquo;does it run?&rdquo;</strong>. Each service has independent backup for cyber resilience (not relying solely on vendor retention); immutable copies for ransomware protection; tested restores at the tier cadence.</span></li>
+      <li><span><strong>Recovery procedure summary, not a step-by-step rebuild.</strong> The full runbook lives separately. The DR plan references it; the document inventory tracks both.</span></li>
+      <li><span><strong>Validation is explicit.</strong> Each service has named validation steps; &ldquo;the service is up&rdquo; means the validation passes, not just that the platform health endpoint is green.</span></li>
+      <li><span><strong>Cross-references to baseline documents.</strong> Each service points at the relevant baseline WI (cloud, network, identity, server). DR uses those baselines; doesn&rsquo;t re-author.</span></li>
+    </ul>
+  </div>
+
+  <div class="dr-section">
+    <div class="dr-section-title">Related documents</div>
+    <ul class="dr-bullet">
+      <li><a href="grc-frm-dr-01.html">GRC-FRM-DR-01</a> &mdash; DR Runbook template (this worked example follows the template structure)</li>
+      <li><a href="grc-dr-wi-01.html">GRC-DR-WI-01</a> &mdash; Recovery Tier Classification (tier criteria applied here)</li>
+      <li><a href="grc-dr-wi-02.html">GRC-DR-WI-02</a> &mdash; Cloud Platform DR (referenced for scenarios)</li>
+      <li><a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a> &mdash; methodology</li>
+      <li><a href="grc-dr-sop-01.html">GRC-DR-SOP-01</a> &mdash; DR policy</li>
+      <li><a href="it-cl-wi-01.html">IT-CL-WI-01</a>&ndash;<a href="it-cl-wi-05.html">05</a> &mdash; Cloud baselines (referenced throughout)</li>
+      <li><a href="it-net-wi-01.html">IT-NET-WI-01</a>&ndash;<a href="it-net-wi-06.html">06</a> &mdash; Network baselines (referenced in Service 4)</li>
+      <li><a href="it-srv-wi-dc-01.html">IT-SRV-WI-DC-01</a> &mdash; Domain controller baseline (referenced in Service 1)</li>
+      <li><a href="it-id-wi-04.html">IT-ID-WI-04</a>, <a href="it-id-wi-05.html">IT-ID-WI-05</a> &mdash; Non-human and privileged identity governance</li>
+      <li><a href="sop-id-01.html">SOP-ID-01</a>, <a href="sop-ep-01.html">SOP-EP-01</a> &mdash; SOC operational SOPs (referenced for response/operations alignment)</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-dr.html" style="color:#1F5A4A;text-decoration:none;">&larr; Back to DR</a></span>
+  </div>
+
+</div>
+</body>
+</html>
