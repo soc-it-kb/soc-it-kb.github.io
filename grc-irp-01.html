@@ -302,10 +302,10 @@
       <div class="def-item"><div class="def-term">Event</div><div class="def-text">Any observable occurrence in a system or network. Aligned with NIST SP 800-61r2.</div></div>
       <div class="def-item"><div class="def-term">Event of interest</div><div class="def-text">An event that requires investigation because it may be an incident. An event of interest is either declared an incident or closed as a nominal event.</div></div>
       <div class="def-item"><div class="def-term">Alert</div><div class="def-text">A notification of an event of interest, originating from security tooling, the SIEM, threat intelligence, employees, partners, or external parties.</div></div>
-      <div class="def-item"><div class="def-term">Cyber security incident ("incident")</div><div class="def-text">A confirmed or imminent violation of computer security policies, acceptable use policies, or standard security practices, with potential or actual adverse effect on the organisation.</div></div>
+      <div class="def-item"><div class="def-term">Cyber security incident ("incident")</div><div class="def-text">A confirmed or imminent violation of computer security policies, acceptable use policies, or standard security practices, with potential or actual adverse effect on the Institution.</div></div>
       <div class="def-item"><div class="def-term">Material incident</div><div class="def-text">An incident assessed as Sev 1 or Sev 2, or any incident requiring regulator notification, public communication, cyber-insurance activation, or executive briefing.</div></div>
       <div class="def-item"><div class="def-term">Notifiable breach</div><div class="def-text">An incident meeting the legal threshold for notification under applicable data-protection or sector-specific regulation. The decision is taken in consultation with Legal and recorded in the incident record.</div></div>
-      <div class="def-item"><div class="def-term">Threat</div><div class="def-text">Any circumstance or event with the potential to adversely impact organisational operations, assets, or individuals through an information system (NIST).</div></div>
+      <div class="def-item"><div class="def-term">Threat</div><div class="def-text">Any circumstance or event with the potential to adversely impact Institutional operations, assets, or individuals through an information system (NIST).</div></div>
       <div class="def-item"><div class="def-term">Vulnerability</div><div class="def-text">Weakness in an information system, security procedure, internal control, or implementation that could be exploited or triggered by a threat source (NIST).</div></div>
       <div class="def-item"><div class="def-term">CSIRT — Computer Security Incident Response Team</div><div class="def-text">The team — drawn from SOC, IT Operations, Identity, and external partners — assembled to respond to an incident. Membership is incident-specific and led by the Incident Commander.</div></div>
       <div class="def-item"><div class="def-term">Incident Commander</div><div class="def-text">The named individual leading response for an active incident, responsible for tempo, decisions, and escalation. By default the on-call SOC Manager; for Sev 1/2 the role escalates to the CISO or designated deputy.</div></div>
@@ -320,7 +320,7 @@
     <div class="sop-section-title">Roles &amp; Responsibilities</div>
     <p>Roles are organised into two layers. <strong>Institutional roles</strong> are persistent positions with standing accountability; they align to the risk-owner model in <a href="grc-register-risk.html" style="color:var(--grc);">GRC-REG-RISK</a>. <strong>Response roles</strong> are activated during an incident and may be filled by different individuals for different incidents.</p>
 
-    <h3>4.1 Organisational roles</h3>
+    <h3>4.1 Institutional roles</h3>
     <div class="roles-grid">
       <div class="role-card"><h4>CISO</h4><p>Ultimate accountability for cyber response. Approves Sev 1 declarations, regulator-notification decisions, and cyber-insurance activation. Briefs Risk Committee and executive leadership. Authoritative interpreter of this plan during an active response.</p></div>
       <div class="role-card"><h4>CIO</h4><p>Accountable for IT response and continuity. Coordinates with BC/DR. Provides technical infrastructure expertise and authorisation for service-impacting actions (isolation, shutdown, restoration). Deputises for the CISO on technology-only incidents.</p></div>
@@ -569,7 +569,7 @@
         <tr><td class="lvl">Ransom demand</td><td>CISO, CIO, CEO, Legal, Cyber Insurer, Oversight Committee — within 1 h</td></tr>
         <tr><td class="lvl">Critical-data integrity or availability impact</td><td>BC/DR team, IT Operations, business service owners — within 1 h</td></tr>
         <tr><td class="lvl">Compromise of leadership or board accounts</td><td>CISO, CIO, Legal — within 30 min</td></tr>
-        <tr><td class="lvl">Material impact to organisation/operating unit</td><td>Legal, CFO, executive leadership — within 1 h</td></tr>
+        <tr><td class="lvl">Material impact to Institution/operating unit</td><td>Legal, CFO, executive leadership — within 1 h</td></tr>
         <tr><td class="lvl">Regulator-notifiable breach</td><td>Privacy/DPO, Legal, CISO — kick the regulator clock per local annex</td></tr>
         <tr><td class="lvl">Law-enforcement engagement considered</td><td>Legal first; LE engagement only with Legal sign-off</td></tr>
         <tr><td class="lvl">External media enquiry or social-media exposure</td><td>PR, Legal, CISO — within 30 min of receipt</td></tr>
@@ -586,7 +586,7 @@
     <div class="decision-tree">
       <div class="decision-tree-title">9.1 — Is this an incident?</div>
       <div class="decision-step"><span class="decision-q">Q1</span><span class="decision-text">Has a security policy, acceptable-use policy, or standard practice been violated, or is violation imminent?</span></div>
-      <div class="decision-step"><span class="decision-q">Q2</span><span class="decision-text">Is there potential or actual adverse effect on the organisation's data, services, people, or reputation?</span></div>
+      <div class="decision-step"><span class="decision-q">Q2</span><span class="decision-text">Is there potential or actual adverse effect on the Institution's data, services, people, or reputation?</span></div>
       <div class="decision-step"><span class="decision-q">→</span><span class="decision-text">Both <span class="decision-out out-yes">Yes</span> → declare incident, assign severity. One <span class="decision-out out-no">No</span> → record as event of interest, close as nominal. Uncertain → declare cautiously and downgrade later.</span></div>
     </div>
 
@@ -761,15 +761,15 @@
     </div>
 
     <h3 style="margin-top:14px;">14.3 Review</h3>
-    <p>This plan is reviewed annually by the Head of Cyber Security Operations and the GRC team, with sign-off by the CISO and the Risk Committee. Out-of-cycle reviews are mandatory after any Sev 1 or Sev 2 incident, after material organisational change, after material regulatory change, and after material change to the operating-unit footprint.</p>
+    <p>This plan is reviewed annually by the Head of Cyber Security Operations and the GRC team, with sign-off by the CISO and the Risk Committee. Out-of-cycle reviews are mandatory after any Sev 1 or Sev 2 incident, after material Institutional change, after material regulatory change, and after material change to the operating-unit footprint.</p>
 
     <h3>14.4 Triggers for invoking this plan</h3>
     <div class="trigger-tags">
       <span class="trigger-tag">SOC alert assessed as event of interest</span>
       <span class="trigger-tag">Employee, supplier, or external party reports a security concern</span>
-      <span class="trigger-tag">Regulator, law enforcement, or partner notifies the organisation</span>
-      <span class="trigger-tag">Threat-intel indicates the organisation is being targeted</span>
-      <span class="trigger-tag">Loss or theft of an organisational device</span>
+      <span class="trigger-tag">Regulator, law enforcement, or partner notifies the Institution</span>
+      <span class="trigger-tag">Threat-intel indicates the Institution is being targeted</span>
+      <span class="trigger-tag">Loss or theft of an Institutional device</span>
       <span class="trigger-tag">Suspected insider threat</span>
       <span class="trigger-tag">Public exposure (media, social media) of a possible incident</span>
     </div>

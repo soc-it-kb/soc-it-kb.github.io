@@ -89,7 +89,7 @@
   <div class="dr-page-hero">
     <div class="dr-page-hero-eyebrow">GRC &middot; DR &middot; SOP</div>
     <h1>GRC-DR-SOP-01 &mdash; IT Disaster Recovery Policy</h1>
-    <p>The organisation&rsquo;s IT-audience policy for technology service recovery. Defines IT obligations, recovery tier framework, backup strategy minima, replication patterns, runbook requirements, testing cadence, and cloud platform DR principles. Uses the methodology in <a href="grc-bcdr-sop-01.html" style="color:#fff;text-decoration:underline;">GRC-BCDR-SOP-01</a>; companion to the Business Continuity Policy (<a href="grc-bcp-sop-01.html" style="color:#fff;text-decoration:underline;">GRC-BCP-SOP-01</a>).</p>
+    <p>The Institution&rsquo;s IT-audience policy for technology service recovery. Defines IT obligations, recovery tier framework, backup strategy minima, replication patterns, runbook requirements, testing cadence, and cloud platform DR principles. Uses the methodology in <a href="grc-bcdr-sop-01.html" style="color:#fff;text-decoration:underline;">GRC-BCDR-SOP-01</a>; companion to the Business Continuity Policy (<a href="grc-bcp-sop-01.html" style="color:#fff;text-decoration:underline;">GRC-BCP-SOP-01</a>).</p>
     <div class="dr-page-hero-pills">
       <span class="dr-page-hero-pill">IT-audience policy</span>
       <span class="dr-page-hero-pill">Recovery tiers 1&ndash;4</span>
@@ -99,13 +99,13 @@
 
   <div class="dr-section">
     <div class="dr-section-title">1 &mdash; Purpose</div>
-    <p>This policy establishes the organisation&rsquo;s commitment to recovering IT services in support of business continuity, and the IT obligations that follow. It defines the recovery tier framework that every in-scope IT service is classified against, the minimum backup and replication standards per tier, and the runbook, testing, and governance requirements.</p>
+    <p>This policy establishes the Institution&rsquo;s commitment to recovering IT services in support of business continuity, and the IT obligations that follow. It defines the recovery tier framework that every in-scope IT service is classified against, the minimum backup and replication standards per tier, and the runbook, testing, and governance requirements.</p>
     <p>It is a policy document. It states <em>what</em> IT must do to provide the recovery capabilities that BCP relies on. Methodology &mdash; how tier classification works, how RTO/RPO flow from BIA, how exercises are run &mdash; is in <a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a>. Operational procedures are in the DR WIs.</p>
   </div>
 
   <div class="dr-section">
     <div class="dr-section-title">2 &mdash; Scope &amp; applicability</div>
-    <p>This policy applies to all IT services within the organisation that support business processes identified as critical by BIA (Mission-critical, Business-critical, or Important tiers), and to the IT teams operating them.</p>
+    <p>This policy applies to all IT services within the Institution that support business processes identified as critical by BIA (Mission-critical, Business-critical, or Important tiers), and to the IT teams operating them.</p>
     <p><strong>In scope:</strong></p>
     <ul class="dr-bullet">
       <li>All IT services with at least one dependent business process at Tier-1, Tier-2, or Tier-3 criticality.</li>
@@ -165,7 +165,7 @@
       <li><span><strong>Restore tests, not backup tests.</strong> A successful backup is necessary but not sufficient. Restore tests &mdash; full or sample &mdash; are required on the cadence in <a href="grc-dr-wi-01.html">GRC-DR-WI-01</a>: Tier-1 quarterly, Tier-2 quarterly, Tier-3 semi-annually, Tier-4 annually.</span></li>
       <li><span><strong>Replication is for RTO, backup is for RPO.</strong> Replication reduces recovery time (warm or hot secondary); backup ensures point-in-time recoverability including against logical corruption. Both are needed for Tier-1; Tier-2 typically uses asynchronous replication; Tier-3 may rely on backup alone.</span></li>
       <li><span><strong>Cloud-native protection where appropriate.</strong> M365 retention, Azure Backup, Azure Site Recovery, geo-redundant storage are first-class mechanisms; the choice is per-service per the design patterns in <a href="it-cl-wi-03.html">IT-CL-WI-03</a> and <a href="it-cl-wi-04.html">IT-CL-WI-04</a>.</span></li>
-      <li><span><strong>Third-party SaaS responsibility is shared.</strong> SaaS data is the organisation&rsquo;s responsibility regardless of provider availability commitments. Tier-1 SaaS systems shall have an independent backup or export mechanism if the provider does not offer point-in-time recovery within RPO.</span></li>
+      <li><span><strong>Third-party SaaS responsibility is shared.</strong> SaaS data is the Institution&rsquo;s responsibility regardless of provider availability commitments. Tier-1 SaaS systems shall have an independent backup or export mechanism if the provider does not offer point-in-time recovery within RPO.</span></li>
       <li><span><strong>Encryption at rest and in transit</strong> applies to all backup and replication data and is configured per the relevant security baseline.</span></li>
     </ul>
   </div>
