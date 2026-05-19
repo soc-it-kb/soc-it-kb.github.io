@@ -15,9 +15,10 @@
   .tactic-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:#f0f0ec; color:#555; padding:2px 6px; border-radius:5px; }
   .tactic-name { font-size:13px; font-weight:600; color:#1a1a1a; }
   .tactic-entries { display:flex; flex-direction:column; gap:4px; }
-  .tactic-entry { display:flex; align-items:baseline; gap:6px; font-size:12px; }
+  .tactic-entry { display:flex; align-items:baseline; gap:6px; font-size:12px; flex-wrap:wrap; }
   .tactic-entry code { font-family:'SF Mono','Fira Code',monospace; font-size:10px; background:#E6F1FB; color:#297086; padding:1px 5px; border-radius:4px; flex-shrink:0; }
   .tactic-entry span { color:#555; line-height:1.4; }
+  .tactic-entry .mit-tag { font-family:'SF Mono','Fira Code',monospace; font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; background:#E8F4EC; color:#1F5A4A; padding:1px 5px; border-radius:3px; flex-shrink:0; }
   .tactic-refs { margin-top:6px; font-size:11px; color:#aaa; }
 
   .tool-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; }
@@ -113,7 +114,10 @@
           <tr><td><code>T1059</code></td><td>Command and Scripting Interpreter</td><td>EDR/XDR</td><td>Process, Command Line</td><td>PowerShell execution</td></tr>
           <tr><td><code>T1055</code></td><td>Process Injection</td><td>EDR/XDR</td><td>Memory, API Calls</td><td>Suspicious DLL injection</td></tr>
           <tr><td><code>T1078</code></td><td>Valid Accounts</td><td>IAM, EDR/XDR</td><td>Auth Logs</td><td>Unusual login patterns</td></tr>
+          <tr><td><code>T1098</code></td><td>Account Manipulation</td><td>IAM, SIEM</td><td>Directory Audit Logs</td><td>Unsanctioned role or credential grant</td></tr>
           <tr><td><code>T1021</code></td><td>Remote Services</td><td>Network, EDR/XDR</td><td>Network Logs</td><td>Lateral RDP</td></tr>
+          <tr><td><code>T1485</code></td><td>Data Destruction</td><td>EDR/XDR, Backup</td><td>File / Backup Logs</td><td>Mass deletion, shadow-copy removal</td></tr>
+          <tr><td><code>T1486</code></td><td>Data Encrypted for Impact</td><td>EDR/XDR, Backup</td><td>File I/O, Backup</td><td>Ransomware encryption pattern</td></tr>
         </tbody>
       </table>
     </div>
@@ -121,8 +125,8 @@
 
   <!-- ATT&CK Coverage by Tactic -->
   <div class="kb-section">
-    <div class="kb-section-title">ATT&amp;CK techniques covered by published playbooks &amp; runbooks</div>
-    <div class="kb-notice" style="margin-bottom:1rem;">Framework reference: MITRE ATT&amp;CK &nbsp;·&nbsp; Status: Authoritative — reflects current published SOC content</div>
+    <div class="kb-section-title">ATT&amp;CK techniques covered by published content</div>
+    <div class="kb-notice" style="margin-bottom:1rem;">Framework reference: MITRE ATT&amp;CK &nbsp;·&nbsp; Status: Authoritative &mdash; reflects current published SOC, ASM, and BCDR content. Entries list <strong>detection / response content</strong> (PB / RB / SOPs) and, where applicable, <strong>preventive / governance content</strong> (WIs, baselines) that materially reduces exposure to the technique.</div>
 
     <div class="tactic-grid">
 
@@ -136,7 +140,7 @@
           <div class="tactic-entry"><code>T1566.002</code><span>Spearphishing Link — EM-PB-01, EM-PB-02, EM-RB-*</span></div>
           <div class="tactic-entry"><code>T1566.003</code><span>Spearphishing via Service — EM-PB-04</span></div>
           <div class="tactic-entry"><code>T1190</code><span>Exploit Public-Facing App — NW-PB-01, NW-RB-01</span></div>
-          <div class="tactic-entry"><code>T1078</code><span>Valid Accounts — ID-PB-01, ID-PB-02</span></div>
+          <div class="tactic-entry"><code>T1078</code><span>Valid Accounts — ID-PB-01, ID-PB-02</span><span class="mit-tag">+MIT</span><span>IT-ID-WI-01, IT-ID-WI-02, IT-ID-WI-05</span></div>
         </div>
       </div>
 
@@ -161,7 +165,11 @@
         <div class="tactic-entries">
           <div class="tactic-entry"><code>T1053.005</code><span>Scheduled Task — EP-PB-03</span></div>
           <div class="tactic-entry"><code>T1547.001</code><span>Registry Run Keys — EP-PB-03</span></div>
-          <div class="tactic-entry"><code>T1136</code><span>Create Account — ID-PB-03</span></div>
+          <div class="tactic-entry"><code>T1136</code><span>Create Account — ID-PB-03</span><span class="mit-tag">+MIT</span><span>IT-ID-WI-01 (JML Lifecycle)</span></div>
+          <div class="tactic-entry"><code>T1136.003</code><span>Create Account: Cloud Account — ID-PB-03</span><span class="mit-tag">+MIT</span><span>IT-ID-WI-01, IT-CL-WI-01</span></div>
+          <div class="tactic-entry"><code>T1098</code><span>Account Manipulation — ID-PB-03</span><span class="mit-tag">+MIT</span><span>IT-ID-WI-02, IT-ID-WI-05</span></div>
+          <div class="tactic-entry"><code>T1098.001</code><span>Additional Cloud Credentials — ID-PB-03</span><span class="mit-tag">+MIT</span><span>IT-ID-WI-04, IT-ID-WI-05, IT-CL-WI-01</span></div>
+          <div class="tactic-entry"><code>T1098.003</code><span>Additional Cloud Roles — ID-PB-03</span><span class="mit-tag">+MIT</span><span>IT-ID-WI-02, IT-ID-WI-05, IT-CL-WI-01</span></div>
         </div>
       </div>
 
@@ -172,7 +180,9 @@
         </div>
         <div class="tactic-entries">
           <div class="tactic-entry"><code>T1068</code><span>Exploitation for Privilege Escalation — EP-PB-02</span></div>
-          <div class="tactic-entry"><code>T1078</code><span>Valid Accounts — ID-PB-02</span></div>
+          <div class="tactic-entry"><code>T1078</code><span>Valid Accounts — ID-PB-02</span><span class="mit-tag">+MIT</span><span>IT-ID-WI-05, IT-ID-WI-02</span></div>
+          <div class="tactic-entry"><code>T1078.004</code><span>Valid Accounts: Cloud Accounts — ID-PB-02</span><span class="mit-tag">+MIT</span><span>IT-ID-WI-05, IT-CL-WI-01</span></div>
+          <div class="tactic-entry"><code>T1484</code><span>Domain or Tenant Policy Modification — ID-PB-03</span><span class="mit-tag">+MIT</span><span>IT-ID-WI-05, IT-CL-WI-01, IT-SRV-WI-DC-01</span></div>
         </div>
       </div>
 
@@ -220,7 +230,8 @@
         <div class="tactic-entries">
           <div class="tactic-entry"><code>T1021.001</code><span>Remote Services: RDP — NW-PB-03, EP-PB-01</span></div>
           <div class="tactic-entry"><code>T1021.002</code><span>SMB/Windows Admin Shares — NW-PB-03</span></div>
-          <div class="tactic-entry"><code>T1078</code><span>Valid Accounts — ID-PB-02, NW-PB-03</span></div>
+          <div class="tactic-entry"><code>T1078</code><span>Valid Accounts — ID-PB-02, NW-PB-03</span><span class="mit-tag">+MIT</span><span>IT-ID-WI-02, IT-ID-WI-05</span></div>
+          <div class="tactic-entry"><code>T1078.002</code><span>Valid Accounts: Domain Accounts — ID-PB-02</span><span class="mit-tag">+MIT</span><span>IT-ID-WI-02, IT-ID-WI-05, IT-SRV-WI-DC-01</span></div>
         </div>
       </div>
 
@@ -253,13 +264,36 @@
           <span class="tactic-name">Impact</span>
         </div>
         <div class="tactic-entries">
-          <div class="tactic-entry"><code>T1486</code><span>Data Encrypted for Impact — EP-PB-05</span></div>
-          <div class="tactic-entry"><code>T1490</code><span>Inhibit System Recovery — EP-PB-05</span></div>
+          <div class="tactic-entry"><code>T1485</code><span>Data Destruction — EP-PB-05</span><span class="mit-tag">+MIT</span><span>GRC-DR-SOP-01, GRC-DR-WI-01 (Tier-1 immutable backup)</span></div>
+          <div class="tactic-entry"><code>T1486</code><span>Data Encrypted for Impact — EP-PB-05</span><span class="mit-tag">+MIT</span><span>GRC-DR-SOP-01, GRC-DR-WI-01, GRC-FRM-DR-01</span></div>
+          <div class="tactic-entry"><code>T1490</code><span>Inhibit System Recovery — EP-PB-05</span><span class="mit-tag">+MIT</span><span>GRC-DR-SOP-01 (immutable + isolated backup), GRC-BCDR-WI-02 (recovery exercise)</span></div>
           <div class="tactic-entry"><code>T1489</code><span>Service Stop — EP-PB-04</span></div>
         </div>
       </div>
 
     </div>
+  </div>
+
+  <!-- ATT&CK Mitigations -->
+  <div class="kb-section">
+    <div class="kb-section-title">ATT&amp;CK mitigations referenced by published content</div>
+    <div class="kb-notice" style="margin-bottom:1rem;">Framework reference: MITRE ATT&amp;CK Enterprise Mitigations &nbsp;·&nbsp; Status: Authoritative &mdash; lists ATT&amp;CK mitigations (M-codes) materially implemented by the KB&rsquo;s preventive content. Detection coverage is captured in the tactic cards above; this section captures structural defences.</div>
+    <div class="kb-table-wrap">
+      <table class="kb-table">
+        <thead>
+          <tr><th>Mitigation</th><th>Name</th><th>Implemented by</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>M1018</code></td><td>User Account Management</td><td>IT-ID-SOP-01, IT-ID-WI-01, IT-ID-WI-02</td><td>JML lifecycle, recertification cadence per tier, authoritative-source rule</td></tr>
+          <tr><td><code>M1026</code></td><td>Privileged Account Management</td><td>IT-ID-WI-05, IT-SI-WI-04, IT-EP-SOP-PAW-01</td><td>Time-bound eligibility, two-person approval at Tier-0, PAW separation, PAM vault</td></tr>
+          <tr><td><code>M1027</code></td><td>Password Policies</td><td>IT-CL-WI-01, IT-SRV-WI-DC-01</td><td>Tenant identity baseline + AD policy; deprecation of legacy auth</td></tr>
+          <tr><td><code>M1032</code></td><td>Multi-factor Authentication</td><td>IT-CL-WI-01, IT-ID-WI-05</td><td>FIDO2 / WHfB / cert-based MFA for Global Administrators; phishing-resistant required for Tier-0</td></tr>
+          <tr><td><code>M1036</code></td><td>Account Use Policies</td><td>IT-ID-WI-04, IT-ID-WI-05</td><td>Standing-privilege minimisation; non-human identity governance; sign-in anomaly detection on service accounts</td></tr>
+          <tr><td><code>M1053</code></td><td>Data Backup</td><td>GRC-DR-SOP-01, GRC-DR-WI-01, GRC-FRM-DR-01</td><td>Immutable + isolated backup as Tier-1 minimum; tested restore cadence; 3-2-1 baseline as floor not ceiling</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12px;color:#888;margin-top:10px;">Mitigations are listed where the KB has explicit, named preventive content implementing them. Many other ATT&amp;CK mitigations (network segmentation, application allowlisting, audit logging) are addressed across multiple baselines &mdash; this list captures the ones with a single authoritative source.</p>
   </div>
 
   <!-- Tool Capability Reference -->
@@ -332,15 +366,15 @@
         <tbody>
           <tr><td>Initial Access</td><td><span class="badge badge-covered">Covered</span></td><td>Strong email + EDR coverage</td></tr>
           <tr><td>Execution</td><td><span class="badge badge-covered">Covered</span></td><td>EDR provides good telemetry</td></tr>
-          <tr><td>Persistence</td><td><span class="badge badge-partial">Partial</span></td><td>Endpoint covered; cloud persistence gaps remain</td></tr>
-          <tr><td>Privilege Escalation</td><td><span class="badge badge-partial">Partial</span></td><td>Identity coverage developing</td></tr>
+          <tr><td>Persistence</td><td><span class="badge badge-covered">Covered</span></td><td>Endpoint + identity governance now covered (T1136, T1098, sub-techs); some cloud persistence gaps remain</td></tr>
+          <tr><td>Privilege Escalation</td><td><span class="badge badge-covered">Covered</span></td><td>Identity governance + cloud baseline; T1078 sub-techs + T1484 mapped</td></tr>
           <tr><td>Defense Evasion</td><td><span class="badge badge-partial">Partial</span></td><td>Limited memory telemetry</td></tr>
           <tr><td>Credential Access</td><td><span class="badge badge-covered">Covered</span></td><td>IAM + EDR combination effective</td></tr>
           <tr><td>Discovery</td><td><span class="badge badge-covered">Covered</span></td><td>Network + endpoint covered</td></tr>
-          <tr><td>Lateral Movement</td><td><span class="badge badge-covered">Covered</span></td><td>RDP and SMB well covered</td></tr>
+          <tr><td>Lateral Movement</td><td><span class="badge badge-covered">Covered</span></td><td>RDP and SMB well covered; T1078.002 (Domain Accounts) governance now mapped</td></tr>
           <tr><td>Command &amp; Control</td><td><span class="badge badge-covered">Covered</span></td><td>Network security primary</td></tr>
-          <tr><td>Exfiltration</td><td><span class="badge badge-partial">Partial</span></td><td>DLP partial — improvement planned</td></tr>
-          <tr><td>Impact</td><td><span class="badge badge-covered">Covered</span></td><td>Good EDR + backup/DR coverage</td></tr>
+          <tr><td>Exfiltration</td><td><span class="badge badge-partial">Partial</span></td><td>DLP partial &mdash; improvement planned</td></tr>
+          <tr><td>Impact</td><td><span class="badge badge-covered">Covered</span></td><td>EDR detection + BCDR mitigation (M1053 via GRC-DR-SOP-01); T1485 / T1486 / T1490 mapped</td></tr>
         </tbody>
       </table>
     </div>
