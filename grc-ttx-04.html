@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-TTX-04: Critical SaaS Provider Sustained Failure &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --ttx:#A0612A; --ttx-light:#F5E8DD; --ttx-border:#E0BB99; --ttx-dark:#6B3F15; --grc:#0E5C5C; }
+
+  .ttx-page-hero { background:linear-gradient(135deg,#2D1808 0%,#6B3F15 40%,#A0612A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .ttx-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .ttx-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .ttx-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .ttx-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .ttx-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .ttx-section { background:#fff; border:0.5px solid var(--ttx-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .ttx-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .ttx-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .ttx-section p:last-child { margin-bottom:0; }
+
+  .ttx-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .ttx-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .ttx-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--ttx); flex-shrink:0; margin-top:5px; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--ttx-light); color:var(--ttx-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--ttx-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .ttx-inject { background:linear-gradient(135deg,#FAF0E4 0%,#F5E8DD 100%); border:0.5px solid var(--ttx-border); border-left:4px solid var(--ttx); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .ttx-inject-head { display:flex; align-items:baseline; gap:14px; margin-bottom:8px; flex-wrap:wrap; }
+  .ttx-inject-time { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; background:var(--ttx); color:#fff; padding:3px 8px; border-radius:5px; }
+  .ttx-inject-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .ttx-inject p { font-size:13px; color:#333; line-height:1.6; margin:0 0 6px; }
+  .ttx-inject ul { font-size:13px; color:#333; padding-left:1.1rem; margin:4px 0; }
+  .ttx-inject ul li { margin-bottom:3px; }
+  .ttx-inject-discuss { background:#fff; border:0.5px solid var(--ttx-border); border-radius:8px; padding:0.7rem 1rem; margin-top:8px; }
+  .ttx-inject-discuss-l { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--ttx-dark); margin-bottom:6px; }
+  .ttx-inject-discuss ul { padding-left:1.1rem; margin:0; }
+  .ttx-inject-discuss ul li { font-size:13px; color:#444; line-height:1.55; margin-bottom:4px; }
+
+  .audience-badge { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:3px 9px; border-radius:5px; }
+  .ab-exec { background:#FAE8D7; color:#7A4E1D; }
+  .ab-tech { background:#DDEAF5; color:#1F4D7A; }
+  .ab-mixed { background:#E8DDF5; color:#5B2D8E; }
+
+  .ttx-meta-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-bottom:14px; }
+  .ttx-meta-card { background:#fafaf7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .ttx-meta-lbl { font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:#888; font-weight:600; }
+  .ttx-meta-val { font-size:13px; font-weight:600; color:#1a1a1a; margin-top:3px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:#888; text-decoration:none; }
+  .breadcrumb a:hover { color:var(--ttx); }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; <a href="grc-ttx.html">Tabletop Exercises</a> &nbsp;&rsaquo;&nbsp; GRC-TTX-04</div>
+
+  <div class="ttx-page-hero">
+    <div class="ttx-page-hero-eyebrow">GRC &middot; TTX &middot; Scenario</div>
+    <h1>GRC-TTX-04 &mdash; Critical SaaS Provider Sustained Failure</h1>
+    <p>Tabletop scenario: a critical SaaS provider holding agency data discloses a serious cyber incident, suspends customer access for the duration of investigation, and provides no clear ETA for service restoration. Tests <a href="grc-dr-wi-02.html" style="color:#fff;text-decoration:underline;">GRC-DR-WI-02 Scenario 5</a> at sustained scale. Mixed audience &mdash; CMT, legal, IT, and SOC all involved.</p>
+    <div class="ttx-page-hero-pills">
+      <span class="ttx-page-hero-pill">BCDR + cyber hybrid</span>
+      <span class="ttx-page-hero-pill">Mixed audience</span>
+      <span class="ttx-page-hero-pill">90 minutes</span>
+      <span class="ttx-page-hero-pill">Supplier risk</span>
+    </div>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Scenario at a glance</div>
+    <div class="ttx-meta-grid">
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Category</div><div class="ttx-meta-val">BCDR + cyber (hybrid)</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Audience</div><div class="ttx-meta-val"><span class="audience-badge ab-mixed">Mixed</span></div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Duration</div><div class="ttx-meta-val">90 minutes</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Primary documents tested</div><div class="ttx-meta-val">DR-WI-02 (Scenario 5), supplier risk, BCP plans</div></div>
+    </div>
+    <p>Supplier-side incidents are increasingly common, and the agency&rsquo;s exposure to them grows as more functions move to SaaS. This scenario stresses the often-unaddressed question: <em>what happens when our data is in the hands of a compromised provider whose own recovery may take weeks?</em> Decisions about data exfiltration assessment, regulatory notification, business continuity workarounds, and supplier-relationship management all surface simultaneously.</p>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Objectives</div>
+    <ul class="ttx-bullet">
+      <li>Test the response to a critical-supplier cyber incident &mdash; what is the agency&rsquo;s playbook when the breach is at a supplier, not internal?</li>
+      <li>Test data-exposure assessment when the breach is at the supplier: what data was held, what may have been accessed, what is the agency&rsquo;s notification obligation?</li>
+      <li>Test BCP workarounds for SaaS unavailability per the relevant BCP plans &mdash; including whether alternative-access patterns exist or were ever designed</li>
+      <li>Test supplier-relationship decisions: does the agency continue using this provider after recovery, switch, or remain in limbo?</li>
+      <li>Test cross-AKDN coordination &mdash; many AKDN agencies use shared SaaS providers; the incident affects multiple agencies in parallel</li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Participants &amp; roles</div>
+
+    <table class="gt-table">
+      <thead><tr><th>Role</th><th>Why in the room</th></tr></thead>
+      <tbody>
+        <tr><td>Agency CEO / delegate</td><td>Senior decisions on regulatory notification, supplier relationship, communications</td></tr>
+        <tr><td>CMT Lead</td><td>Coordination across functions</td></tr>
+        <tr><td>BPOs of processes dependent on the affected SaaS</td><td>Activate BCP workarounds; assess operational impact</td></tr>
+        <tr><td>IT Service Owner for the affected SaaS</td><td>Technical interface to the supplier; data assessment</td></tr>
+        <tr><td>SOC Lead</td><td>Threat intelligence on the supplier incident; impact on agency security posture</td></tr>
+        <tr><td>Legal / DPO</td><td>Regulator notification thresholds; contractual position; data-breach assessment</td></tr>
+        <tr><td>Procurement / supplier-management lead</td><td>Supplier-relationship decisions; alternative-provider scoping</td></tr>
+        <tr><td>Comms Lead</td><td>Beneficiary, partner, and external communications</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Ground rules</div>
+    <ul class="ttx-bullet">
+      <li>No-fault learning environment. Findings about supplier-management, contracts, BCP design.</li>
+      <li>Participants reference real supplier contracts and BCP plans where useful.</li>
+      <li>Specific named suppliers should be discussed abstractly (&ldquo;the HR system&rdquo;, &ldquo;the donor management system&rdquo;) unless the exercise is intentionally focused on one named provider.</li>
+      <li>Discussion of provider behaviour is in good faith &mdash; this exercise is about the agency&rsquo;s response, not a critique of any real provider.</li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Starting conditions (T+0)</div>
+
+    <div class="ttx-meta-grid">
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Day &amp; time</div><div class="ttx-meta-val">Wednesday, 14:30 local time</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Setting</div><div class="ttx-meta-val">Mid-week, normal operations</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Initial impact</div><div class="ttx-meta-val">Critical SaaS access suspended by provider</div></div>
+    </div>
+
+    <p><strong>Initial situation:</strong> for the purposes of this exercise, the affected SaaS is the agency&rsquo;s primary <em>[choose one: HR information system / donor management system / financial system / clinical scheduling system]</em> holding personal data of staff and / or beneficiaries / donors. At 14:00, the provider issued a customer notification: &ldquo;We are investigating a serious cyber security incident affecting our infrastructure. Customer access has been suspended as a precaution. We will provide updates as our investigation progresses. Customers are advised that personal data may have been accessed; assessment is ongoing.&rdquo; Provider has not yet given an ETA. IT Service Owner has confirmed receipt and forwarded to the CMT Lead.</p>
+
+    <p><strong>What participants know at T+0:</strong></p>
+    <ul class="ttx-bullet">
+      <li>Customer access to the SaaS is suspended; this is the agency&rsquo;s authoritative system for the affected function</li>
+      <li>Provider acknowledges possible personal-data exposure; investigation is ongoing</li>
+      <li>No ETA for service restoration</li>
+      <li>Provider has not yet given specific guidance on customer notification obligations</li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Injects</div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+30 min</span>
+        <span class="ttx-inject-title">Operational impact and BCP invocation</span>
+      </div>
+      <p>The BPO of the function dependent on the SaaS reports: normal operations require access to the system multiple times per hour. Without it, the function can operate for a few hours but not for days at any normal volume. Are there workarounds? Have they been documented? Have they been practised?</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Is the BCP plan for this function up to date? Does it have a SaaS-unavailable workaround?</li>
+          <li>Is there an independent backup or export of the SaaS data the agency can read from? Per the DR policy, Tier-1 SaaS should have alternative-access patterns or a documented limit-of-recovery.</li>
+          <li>If alternative-access exists but was never tested, how do you test it under pressure?</li>
+          <li>How long can the function operate before this becomes material business risk?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+60 min</span>
+        <span class="ttx-inject-title">Data-exposure question; Legal asks for the data inventory</span>
+      </div>
+      <p>Legal / DPO asks: what data did the provider hold? Specifically, what personal-data categories, what volumes, which data subjects (staff, beneficiaries, donors)? The IT Service Owner&rsquo;s answer is: &ldquo;the system held everything that function operates on, but the precise data inventory is in the system itself which we currently cannot access&rdquo;. Legal asks: do we have a data inventory independent of the system? When was the last DPIA performed for this processing?</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Is there a data inventory for SaaS-held data independent of the SaaS? Per data-protection good practice there should be; in reality often there is not.</li>
+          <li>When was the last DPIA (data protection impact assessment) for this processing? Is it current?</li>
+          <li>Can the agency answer the regulator&rsquo;s likely questions: how many data subjects, what categories of personal data, geographic scope?</li>
+          <li>If &ldquo;we don&rsquo;t know what data was exposed&rdquo;, what does the agency do next?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+90 min</span>
+        <span class="ttx-inject-title">Regulator clock starts; notification decisions needed</span>
+      </div>
+      <p>Legal / DPO confirms: under the applicable data protection regulation, notification is required within 72 hours of becoming aware of a personal-data breach where the agency is the controller. The provider is the processor; the agency is the controller. The 72-hour clock has started from the provider&rsquo;s notification at 14:00. The CEO asks: what do we tell the regulator at this stage with incomplete information? What do we tell data subjects?</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>The controller-processor distinction &mdash; is it understood at CMT level? Does it affect what the agency must do (yes; the agency&rsquo;s notification obligation is its own, not the provider&rsquo;s)?</li>
+          <li>Notifying with incomplete information is required by regulation but goes against typical comms instincts. How is that resolved?</li>
+          <li>If data subjects need to be notified, what is the channel? Many data subjects&rsquo; contact info is in the affected SaaS &mdash; how does the agency reach them?</li>
+          <li>Is there a pre-prepared regulator-notification template?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+3 days</span>
+        <span class="ttx-inject-title">Provider update: 2 weeks minimum; data-access partially confirmed</span>
+      </div>
+      <p>The provider has issued a Day-3 update: &ldquo;Restoration of service is expected to take at least 2 weeks. Investigation has confirmed that some customer data was accessed by the threat actor; specific exposure per customer will be communicated individually as confirmed.&rdquo; The agency has not yet received a customer-specific notification. The Procurement Lead asks: do we wait, or do we activate a replacement?</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Activation of a replacement provider in 2 weeks &mdash; is it feasible? Is there a pre-screened alternative? What data would need to be migrated, and from where?</li>
+          <li>Continuing with a provider that has had a serious incident &mdash; what is the agency&rsquo;s position? Per <a href="grc-pol-01.html">GRC-POL-01</a> supplier security assessment, what additional assurance is needed?</li>
+          <li>If the provider has not given customer-specific notification yet, can the agency assess its own exposure? On what basis?</li>
+          <li>For donors / beneficiaries with growing concern over 3-day silence, what is the communication strategy?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+7 days</span>
+        <span class="ttx-inject-title">Cross-AKDN coordination: multiple agencies affected</span>
+      </div>
+      <p>Information emerges that other AKDN agencies also use this provider and are affected. AKDN central is convening a cross-agency response coordination. The question raised: do agencies act together or independently? Do they pool legal advice and notification approaches? Are migration decisions coordinated?</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>What is the framework for cross-AKDN coordination on supplier incidents? Is there one?</li>
+          <li>Each agency is the controller for its own data; coordination is helpful but the obligations are individual. How is that nuance navigated?</li>
+          <li>If multiple agencies decide to migrate, can it be a joint procurement? Does that accelerate or complicate?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Expected decisions &amp; reference answers</div>
+    <p style="font-style:italic; color:#888; font-size:13px;">For the exercise team only.</p>
+
+    <table class="gt-table">
+      <thead><tr><th>Decision point</th><th>Authority / reference</th><th>Expected discussion / common gaps</th></tr></thead>
+      <tbody>
+        <tr><td>BCP invocation for affected function</td><td>BPO; BCP plan</td><td>Watch for: invocation delayed waiting for &ldquo;more information&rdquo;; workaround not documented or not practised</td></tr>
+        <tr><td>Data-exposure assessment</td><td>Legal/DPO with IT Service Owner support</td><td>Watch for: no independent data inventory; reliance on the provider for information; DPIA not current</td></tr>
+        <tr><td>Regulator notification within 72h</td><td>DPO; controller obligation; documented procedure</td><td>Watch for: controller-processor distinction confused; notification delayed waiting for completeness; template not ready</td></tr>
+        <tr><td>Data-subject notification</td><td>DPO; CMT approval; comms execution</td><td>Watch for: data-subject contact information held in the affected system; channel for reaching subjects not established</td></tr>
+        <tr><td>Continue / migrate / pause supplier relationship</td><td>Procurement Lead; CMT recommendation; CEO decision</td><td>Watch for: no documented criteria; decision improvised; cost / urgency tension</td></tr>
+        <tr><td>Cross-AKDN coordination</td><td>Country CEO with delegation</td><td>Watch for: no framework; ad-hoc; coordination conflated with shared decision-making (each controller decides for itself)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Evaluation criteria</div>
+    <ul class="ttx-bullet">
+      <li><span><strong>Objective 1 (supplier-incident response):</strong> playbook followed; controller-processor distinction understood; CMT moves promptly</span></li>
+      <li><span><strong>Objective 2 (data-exposure assessment):</strong> independent data inventory exists or its absence is treated as the critical finding; DPIA status known</span></li>
+      <li><span><strong>Objective 3 (BCP workarounds):</strong> documented, practised, or honestly assessed as absent and treated as the finding</span></li>
+      <li><span><strong>Objective 4 (supplier-relationship decision):</strong> criteria articulated; decision connects to assurance and to operational need</span></li>
+      <li><span><strong>Objective 5 (cross-AKDN coordination):</strong> framework discussed; controller obligations preserved; coordination distinct from shared decision-making</span></li>
+      <li><span><strong>Cross-cutting:</strong> 72-hour regulator clock managed; templates ready or absence noted</span></li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">After-action review framework</div>
+    <p>Conducted within 14 days. Distribution: CEO, CMT Lead, BCDR Steering Committee, BPOs, DPO, CISO, Procurement Lead, IT DR Coordinator.</p>
+    <p>Common findings: no independent data inventory for SaaS-held data; DPIA out of date or absent; BCP workaround for SaaS unavailability not documented; alternative-access patterns never designed for Tier-1 SaaS; regulator-notification template missing; data-subject notification channel dependent on the failed SaaS itself; supplier-relationship decision criteria not documented.</p>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Document control</div>
+    <table class="gt-table">
+      <tbody>
+        <tr><td>Scenario version</td><td>1.0</td></tr>
+        <tr><td>Scenario drafted</td><td>15 May 2026</td></tr>
+        <tr><td>Author</td><td>Paulo Ferreira</td></tr>
+        <tr><td>Classification</td><td>Internal &mdash; BCDR / Exercise sensitive</td></tr>
+        <tr><td>Re-use</td><td>Re-runnable annually with provider-type variation (HR / finance / donor / clinical); response pattern stable</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Related documents</div>
+    <ul class="ttx-bullet">
+      <li><a href="grc-frm-ttx-01.html">GRC-FRM-TTX-01</a> &mdash; the template this scenario follows</li>
+      <li><a href="grc-dr-wi-02.html">GRC-DR-WI-02</a> &mdash; cloud platform DR (Scenario 5 is the core)</li>
+      <li><a href="grc-pol-01.html">GRC-POL-01</a> &mdash; supplier security assessment</li>
+      <li><a href="grc-bcp-sop-01.html">GRC-BCP-SOP-01</a> &mdash; BCP policy</li>
+      <li><a href="grc-irp-01.html">GRC-IRP-01</a> &mdash; cyber incident response (for the controller-side investigation)</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-ttx.html" style="color:#A0612A;text-decoration:none;">&larr; Back to TTX library</a></span>
+  </div>
+
+</div>
+</body>
+</html>

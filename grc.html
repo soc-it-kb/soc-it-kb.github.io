@@ -39,6 +39,7 @@
   .domain-card.comp { background:linear-gradient(135deg,#E6F1FB 0%,#D6E8F8 100%); border:0.5px solid #B5D4F4; }
   .domain-card.bcp  { background:linear-gradient(135deg,#E8F4EC 0%,#D4E8DA 100%); border:0.5px solid #A8D4B8; }
   .domain-card.dr   { background:linear-gradient(135deg,#E0F0EA 0%,#CDE3DA 100%); border:0.5px solid #9DC9B8; }
+  .domain-card.ttx  { background:linear-gradient(135deg,#FAF0E4 0%,#F5E8DD 100%); border:0.5px solid #E0BB99; }
   .domain-card-icon  { font-size:28px; margin-bottom:10px; }
   .domain-card-code  { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:2px 8px; border-radius:6px; margin-bottom:8px; display:inline-block; }
   .domain-card.gov  .domain-card-code { background:rgba(14,92,92,0.12); color:var(--grc); }
@@ -46,24 +47,28 @@
   .domain-card.comp .domain-card-code { background:rgba(24,95,165,0.1); color:#185FA5; }
   .domain-card.bcp  .domain-card-code { background:rgba(45,107,63,0.12); color:#2D6B3F; }
   .domain-card.dr   .domain-card-code { background:rgba(31,90,74,0.12); color:#1F5A4A; }
+  .domain-card.ttx  .domain-card-code { background:rgba(160,97,42,0.14); color:#6B3F15; }
   .domain-card-title { font-size:16px; font-weight:700; margin-bottom:6px; }
   .domain-card.gov  .domain-card-title { color:var(--grc-dark); }
   .domain-card.risk .domain-card-title { color:#5C2E06; }
   .domain-card.comp .domain-card-title { color:#0F3460; }
   .domain-card.bcp  .domain-card-title { color:#1A4528; }
   .domain-card.dr   .domain-card-title { color:#0E3A2F; }
+  .domain-card.ttx  .domain-card-title { color:#5C3109; }
   .domain-card-desc { font-size:13px; line-height:1.6; margin-bottom:10px; }
   .domain-card.gov  .domain-card-desc { color:#1A5C5C; }
   .domain-card.risk .domain-card-desc { color:#7a2e10; }
   .domain-card.comp .domain-card-desc { color:#0F3460; }
   .domain-card.bcp  .domain-card-desc { color:#1A4528; }
   .domain-card.dr   .domain-card-desc { color:#0E3A2F; }
+  .domain-card.ttx  .domain-card-desc { color:#6B3F15; }
   .domain-card-footer { display:flex; align-items:center; justify-content:space-between; font-size:12px; font-weight:600; }
   .domain-card.gov  .domain-card-footer { color:var(--grc); }
   .domain-card.risk .domain-card-footer { color:#993C1D; }
   .domain-card.comp .domain-card-footer { color:#185FA5; }
   .domain-card.bcp  .domain-card-footer { color:#2D6B3F; }
   .domain-card.dr   .domain-card-footer { color:#1F5A4A; }
+  .domain-card.ttx  .domain-card-footer { color:#A0612A; }
 
   /* What this hub covers */
   .grc-intro { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1.5rem; }
@@ -138,11 +143,12 @@
   <div class="grc-stats">
     <div class="grc-stat"><div class="grc-stat-num">3</div><div class="grc-stat-label">Policies</div></div>
     <div class="grc-stat"><div class="grc-stat-num">8</div><div class="grc-stat-label">SOPs</div></div>
-    <div class="grc-stat"><div class="grc-stat-num">11</div><div class="grc-stat-label">Forms</div></div>
+    <div class="grc-stat"><div class="grc-stat-num">12</div><div class="grc-stat-label">Forms</div></div>
     <div class="grc-stat"><div class="grc-stat-num">8</div><div class="grc-stat-label">Work Instructions</div></div>
     <div class="grc-stat"><div class="grc-stat-num">12</div><div class="grc-stat-label">Registers &amp; trackers</div></div>
     <div class="grc-stat"><div class="grc-stat-num">2</div><div class="grc-stat-label">Plans</div></div>
-    <div class="grc-stat"><div class="grc-stat-num">5</div><div class="grc-stat-label">Domains</div></div>
+    <div class="grc-stat"><div class="grc-stat-num">5</div><div class="grc-stat-label">Tabletop scenarios</div></div>
+    <div class="grc-stat"><div class="grc-stat-num">6</div><div class="grc-stat-label">Domains</div></div>
   </div>
 
   <!-- Domain cards -->
@@ -154,7 +160,7 @@
         <div class="domain-card-icon">🏛️</div>
         <div class="domain-card-code">GRC-GOV</div>
         <div class="domain-card-title">Governance</div>
-        <div class="domain-card-desc">Policies, document management, regulatory obligations, and the frameworks that define how GRC is governed across the Institution.</div>
+        <div class="domain-card-desc">Policies, document management, regulatory obligations, and the frameworks that define how GRC is governed across the organisation.</div>
         <div class="domain-card-footer"><span>Policies · Document Register · Obligations</span><span>→</span></div>
       </a>
 
@@ -190,6 +196,14 @@
         <div class="domain-card-footer"><span>Recovery Tiers · Backup · Cloud DR · Runbooks</span><span>→</span></div>
       </a>
 
+      <a class="domain-card ttx" href="grc-ttx.html">
+        <div class="domain-card-icon">🎯</div>
+        <div class="domain-card-code">GRC-TTX</div>
+        <div class="domain-card-title">Tabletop Exercises</div>
+        <div class="domain-card-desc">Pre-built scenarios for rehearsing BCDR and cyber response, plus a reusable authoring template. Worked examples cover ransomware, tenant compromise, regional disaster, SaaS failure, Azure region loss.</div>
+        <div class="domain-card-footer"><span>5 Scenarios · 1 Template · Mixed Audiences</span><span>→</span></div>
+      </a>
+
     </div>
   </div>
 
@@ -203,6 +217,7 @@
       <div class="usecase-card"><h4>✅ Compliance monitoring</h4><p>Review baseline compliance status, validation runs, and drift remediation via the Compliance domain registers.</p></div>
       <div class="usecase-card"><h4>🔄 Continuity planning</h4><p>For business continuity, use the BCP domain — BIA methodology, agency obligations, and continuity plan templates.</p></div>
       <div class="usecase-card"><h4>🛡️ Recovery planning</h4><p>For IT disaster recovery, use the DR domain — recovery tiers, backup minima, cloud DR scenarios, and runbook standards.</p></div>
+      <div class="usecase-card"><h4>🎯 Rehearse a scenario</h4><p>Use the Tabletop Exercises library for ready-to-run cyber and BCDR scenarios — or author your own using the GRC-FRM-TTX-01 template.</p></div>
       <div class="usecase-card"><h4>🔍 Audit &amp; assurance</h4><p>Use registers and validation run records as audit evidence. All entries include owner, date, and approval status.</p></div>
       <div class="usecase-card"><h4>📅 Review &amp; actions</h4><p>Check the Document Review Register for upcoming review dates and pending approvals across all GRC documents.</p></div>
     </div>

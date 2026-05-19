@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabletop Exercise Library &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --ttx:#A0612A; --ttx-light:#F5E8DD; --ttx-border:#E0BB99; --ttx-dark:#6B3F15; --grc:#0E5C5C; }
+
+  .ttx-page-hero { background:linear-gradient(135deg,#2D1808 0%,#6B3F15 40%,#A0612A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .ttx-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .ttx-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .ttx-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .ttx-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .ttx-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .ttx-section { background:#fff; border:0.5px solid var(--ttx-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .ttx-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .ttx-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .ttx-section p:last-child { margin-bottom:0; }
+
+  .ttx-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .ttx-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .ttx-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--ttx); flex-shrink:0; margin-top:5px; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--ttx-light); color:var(--ttx-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--ttx-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .ttx-inject { background:linear-gradient(135deg,#FAF0E4 0%,#F5E8DD 100%); border:0.5px solid var(--ttx-border); border-left:4px solid var(--ttx); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .ttx-inject-head { display:flex; align-items:baseline; gap:14px; margin-bottom:8px; flex-wrap:wrap; }
+  .ttx-inject-time { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; background:var(--ttx); color:#fff; padding:3px 8px; border-radius:5px; }
+  .ttx-inject-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .ttx-inject p { font-size:13px; color:#333; line-height:1.6; margin:0 0 6px; }
+  .ttx-inject ul { font-size:13px; color:#333; padding-left:1.1rem; margin:4px 0; }
+  .ttx-inject ul li { margin-bottom:3px; }
+  .ttx-inject-discuss { background:#fff; border:0.5px solid var(--ttx-border); border-radius:8px; padding:0.7rem 1rem; margin-top:8px; }
+  .ttx-inject-discuss-l { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--ttx-dark); margin-bottom:6px; }
+  .ttx-inject-discuss ul { padding-left:1.1rem; margin:0; }
+  .ttx-inject-discuss ul li { font-size:13px; color:#444; line-height:1.55; margin-bottom:4px; }
+
+  .audience-badge { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:3px 9px; border-radius:5px; }
+  .ab-exec { background:#FAE8D7; color:#7A4E1D; }
+  .ab-tech { background:#DDEAF5; color:#1F4D7A; }
+  .ab-mixed { background:#E8DDF5; color:#5B2D8E; }
+
+  .ttx-meta-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-bottom:14px; }
+  .ttx-meta-card { background:#fafaf7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .ttx-meta-lbl { font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:#888; font-weight:600; }
+  .ttx-meta-val { font-size:13px; font-weight:600; color:#1a1a1a; margin-top:3px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:#888; text-decoration:none; }
+  .breadcrumb a:hover { color:var(--ttx); }
+</style>
+
+
+<style>
+  .ttx-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+  .ttx-stat { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1rem; text-align:center; }
+  .ttx-stat-num { font-size:24px; font-weight:700; color:var(--ttx); line-height:1; margin-bottom:4px; }
+  .ttx-stat-lbl { font-size:11px; color:#888; }
+
+  .scenario-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:12px; margin-top:6px; }
+  .scenario-card { background:#fff; border:0.5px solid var(--ttx-border); border-left:4px solid var(--ttx); border-radius:10px; padding:1.1rem 1.3rem; text-decoration:none; color:inherit; display:flex; flex-direction:column; gap:8px; transition:border-left-color .15s; }
+  .scenario-card:hover { border-left-color:var(--ttx-dark); }
+  .scenario-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--ttx-dark); }
+  .scenario-card-title { font-size:15px; font-weight:600; color:#1a1a1a; line-height:1.4; }
+  .scenario-card-desc { font-size:13px; color:#555; line-height:1.55; }
+  .scenario-card-meta { display:flex; gap:6px; flex-wrap:wrap; margin-top:4px; }
+  .sc-pill { font-size:11px; padding:2px 8px; border-radius:10px; background:#f5f5f3; color:#666; }
+
+  .template-card { background:linear-gradient(135deg,#FAF0E4 0%,#F5E8DD 100%); border:0.5px solid var(--ttx-border); border-radius:12px; padding:1.2rem 1.5rem; margin-bottom:1.5rem; }
+  .template-card-head { display:flex; align-items:baseline; gap:14px; margin-bottom:8px; flex-wrap:wrap; }
+  .template-card-id { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; color:var(--ttx-dark); background:#fff; padding:3px 8px; border-radius:5px; }
+  .template-card-title { font-size:16px; font-weight:600; color:#1a1a1a; }
+  .template-card p { font-size:13px; color:#444; line-height:1.6; margin:0 0 10px; }
+  .template-card-cta { display:inline-block; background:var(--ttx); color:#fff; font-size:12px; font-weight:600; padding:6px 14px; border-radius:6px; text-decoration:none; }
+</style>
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; Tabletop Exercises</div>
+
+  <div class="ttx-page-hero">
+    <div class="ttx-page-hero-eyebrow">GRC &middot; BCDR &middot; Tabletop Exercises</div>
+    <h1>Tabletop Exercise Library</h1>
+    <p>Pre-built tabletop exercise scenarios for BCDR and cyber response, with a reusable template for authoring agency-specific scenarios. Scenarios are populated worked examples &mdash; agencies can run them as-is, adapt them to local context, or use them as patterns for their own. Methodology lives in <a href="grc-bcdr-wi-02.html" style="color:#fff;text-decoration:underline;">GRC-BCDR-WI-02</a>.</p>
+    <div class="ttx-page-hero-pills">
+      <span class="ttx-page-hero-pill">5 scenarios</span>
+      <span class="ttx-page-hero-pill">+1 template</span>
+      <span class="ttx-page-hero-pill">Mixed audiences</span>
+      <span class="ttx-page-hero-pill">Cyber + BCDR + hybrid</span>
+    </div>
+  </div>
+
+  <div class="ttx-stats">
+    <div class="ttx-stat"><div class="ttx-stat-num">5</div><div class="ttx-stat-lbl">Scenarios</div></div>
+    <div class="ttx-stat"><div class="ttx-stat-num">1</div><div class="ttx-stat-lbl">Template</div></div>
+    <div class="ttx-stat"><div class="ttx-stat-num">3</div><div class="ttx-stat-lbl">Cyber / hybrid</div></div>
+    <div class="ttx-stat"><div class="ttx-stat-num">2</div><div class="ttx-stat-lbl">BCDR / DR</div></div>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">How to use this library</div>
+    <p>The TTX library complements the Exercise &amp; Testing Programme methodology in <a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a>. The methodology covers <em>how</em> exercises are scoped, sequenced, and run; the library provides <em>concrete scenarios</em> to run.</p>
+    <ul class="ttx-bullet">
+      <li><span><strong>Run as-is</strong> &mdash; the scenarios are populated with sufficient detail for a facilitator to deliver them with minimal preparation. Adapt the timing, role names, and country-specific details to your agency&rsquo;s context.</span></li>
+      <li><span><strong>Adapt</strong> &mdash; change the inject content, swap the named SaaS / region / process, or extend with additional injects. The template provides the structure.</span></li>
+      <li><span><strong>Author new scenarios</strong> &mdash; for scenarios specific to your agency&rsquo;s estate, use the template (<a href="grc-frm-ttx-01.html">GRC-FRM-TTX-01</a>) and look at the populated scenarios for examples of depth and pacing.</span></li>
+    </ul>
+    <p>Each scenario lists the documents it tests; you should bring those documents to the exercise. Inability to find or use them under exercise conditions is itself one of the most common findings.</p>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Authoring template</div>
+    <div class="template-card">
+      <div class="template-card-head">
+        <span class="template-card-id">GRC-FRM-TTX-01</span>
+        <span class="template-card-title">Tabletop Exercise Scenario Template</span>
+      </div>
+      <p>Reusable structure for authoring tabletop scenarios beyond the worked examples in this library. 10-section template: scenario identification, objectives, participants, ground rules, starting conditions, injects, expected decisions, evaluation criteria, AAR framework, document control.</p>
+      <a href="grc-frm-ttx-01.html" class="template-card-cta">Open template &rarr;</a>
+    </div>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Worked-example scenarios</div>
+
+    <div class="scenario-grid">
+      <a href="grc-ttx-01.html" class="scenario-card">
+        <div class="scenario-card-id">GRC-TTX-01</div>
+        <div class="scenario-card-title">Ransomware Affecting Clinical Systems</div>
+        <div class="scenario-card-desc">Ransomware renders clinical EHR unavailable during an active operating day. Tests joint IRP + BCP invocation, SOC recovery-threshold under clinical pressure, clean-up vs clean-tenant decision, regulator notification.</div>
+        <div class="scenario-card-meta">
+          <span class="sc-pill"><span class="audience-badge ab-mixed" style="font-size:10px; padding:1px 6px;">Mixed</span></span>
+          <span class="sc-pill">Cyber + BCDR</span>
+          <span class="sc-pill">120 min</span>
+        </div>
+      </a>
+
+      <a href="grc-ttx-02.html" class="scenario-card">
+        <div class="scenario-card-id">GRC-TTX-02</div>
+        <div class="scenario-card-title">Entra Tenant Compromise</div>
+        <div class="scenario-card-desc">SOC detects attacker presence in Entra tenant including privileged role manipulation and unrecognised app registration. Tests in-tenant vs clean-tenant decision, break-glass readiness, Microsoft Support escalation, SOC + DR + Identity coordination.</div>
+        <div class="scenario-card-meta">
+          <span class="sc-pill"><span class="audience-badge ab-tech" style="font-size:10px; padding:1px 6px;">Technical</span></span>
+          <span class="sc-pill">Cyber (identity)</span>
+          <span class="sc-pill">120 min</span>
+        </div>
+      </a>
+
+      <a href="grc-ttx-03.html" class="scenario-card">
+        <div class="scenario-card-id">GRC-TTX-03</div>
+        <div class="scenario-card-title">Regional Disaster &mdash; Sustained Site Evacuation</div>
+        <div class="scenario-card-desc">Multi-day evacuation of a major operating site with secondary impacts on transport, telecoms, and staff. Tests BCP at scale, alternative-site readiness, degraded-comms fallback, multi-day CMT cadence, cross-agency coordination.</div>
+        <div class="scenario-card-meta">
+          <span class="sc-pill"><span class="audience-badge ab-exec" style="font-size:10px; padding:1px 6px;">Executive</span></span>
+          <span class="sc-pill">BCDR (natural)</span>
+          <span class="sc-pill">90 min</span>
+        </div>
+      </a>
+
+      <a href="grc-ttx-04.html" class="scenario-card">
+        <div class="scenario-card-id">GRC-TTX-04</div>
+        <div class="scenario-card-title">Critical SaaS Provider Sustained Failure</div>
+        <div class="scenario-card-desc">SaaS provider holding agency personal data discloses cyber incident and suspends customer access for 2+ weeks. Tests controller-side response, data-exposure assessment, 72-hour regulator notification, supplier-relationship decisions, cross-AKDN coordination.</div>
+        <div class="scenario-card-meta">
+          <span class="sc-pill"><span class="audience-badge ab-mixed" style="font-size:10px; padding:1px 6px;">Mixed</span></span>
+          <span class="sc-pill">BCDR + cyber</span>
+          <span class="sc-pill">90 min</span>
+        </div>
+      </a>
+
+      <a href="grc-ttx-05.html" class="scenario-card">
+        <div class="scenario-card-id">GRC-TTX-05</div>
+        <div class="scenario-card-title">Azure Region Failure During Business-Critical Period</div>
+        <div class="scenario-card-desc">Azure declares major service event affecting primary region during peak operations. Tests per-workload failover runbook execution, cross-workload sequencing, region-scope confirmation, RPO-window data handling, failback decision.</div>
+        <div class="scenario-card-meta">
+          <span class="sc-pill"><span class="audience-badge ab-tech" style="font-size:10px; padding:1px 6px;">Technical</span></span>
+          <span class="sc-pill">Cloud DR</span>
+          <span class="sc-pill">90 min</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Coverage at a glance</div>
+    <table class="gt-table">
+      <thead><tr><th>Scenario</th><th>Category</th><th>Audience</th><th>Primary documents tested</th></tr></thead>
+      <tbody>
+        <tr><td>TTX-01 Ransomware (clinical)</td><td>Cyber + BCDR</td><td>Mixed</td><td>IRP, BCP plans, DR runbook for EHR</td></tr>
+        <tr><td>TTX-02 Entra tenant compromise</td><td>Cyber (identity)</td><td>Technical</td><td>DR-WI-02 &sect;3-4, IT-CL-WI-01, IT-ID-WI-05, IRP</td></tr>
+        <tr><td>TTX-03 Regional disaster</td><td>BCDR</td><td>Executive</td><td>BCP plans (multi-process), site continuity</td></tr>
+        <tr><td>TTX-04 SaaS provider failure</td><td>BCDR + cyber</td><td>Mixed</td><td>DR-WI-02 &sect;5, GRC-POL-01, BCP plans</td></tr>
+        <tr><td>TTX-05 Azure region failure</td><td>Cloud DR</td><td>Technical</td><td>DR-WI-02 &sect;1, IT-CL-WI-04, workload runbooks</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Suggested rotation</div>
+    <p>The BCDR Exercise programme (per <a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a>) requires Tier-1 services / processes to be exercised annually. The scenarios above are not all run every year &mdash; a healthy rotation:</p>
+    <ul class="ttx-bullet">
+      <li><span><strong>Annually rotate</strong> across scenario types &mdash; cyber, BCDR, hybrid &mdash; so the portfolio is exercised over a 2-3 year window</span></li>
+      <li><span><strong>After any major change</strong> to a relevant document or capability, re-run the relevant scenario to validate the change</span></li>
+      <li><span><strong>After a near-miss or real event</strong>, use the relevant scenario to extract additional learning beyond the AAR</span></li>
+      <li><span><strong>Combine scenarios occasionally</strong> &mdash; run TTX-03 and TTX-04 together for a regional-disaster-that-causes-supplier-disruption multi-day exercise; this is realistic and tests sustained capability</span></li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Related documents</div>
+    <ul class="ttx-bullet">
+      <li><a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a> &mdash; Exercise &amp; Testing Programme methodology</li>
+      <li><a href="grc-frm-ttx-01.html">GRC-FRM-TTX-01</a> &mdash; TTX scenario template</li>
+      <li><a href="grc-bcp.html">GRC-BCP</a> &mdash; Business Continuity hub</li>
+      <li><a href="grc-dr.html">GRC-DR</a> &mdash; Disaster Recovery hub</li>
+      <li><a href="grc-irp-01.html">GRC-IRP-01</a> &mdash; Incident Response Plan</li>
+      <li><a href="grc-pol-01.html">GRC-POL-01</a> &mdash; Supplier security assessment</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc.html" style="color:#A0612A;text-decoration:none;">&larr; Back to GRC</a></span>
+  </div>
+
+</div>
+</body>
+</html>

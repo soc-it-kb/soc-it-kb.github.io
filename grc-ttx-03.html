@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-TTX-03: Regional Disaster - Sustained Site Evacuation &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --ttx:#A0612A; --ttx-light:#F5E8DD; --ttx-border:#E0BB99; --ttx-dark:#6B3F15; --grc:#0E5C5C; }
+
+  .ttx-page-hero { background:linear-gradient(135deg,#2D1808 0%,#6B3F15 40%,#A0612A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .ttx-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .ttx-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .ttx-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .ttx-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .ttx-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .ttx-section { background:#fff; border:0.5px solid var(--ttx-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .ttx-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .ttx-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .ttx-section p:last-child { margin-bottom:0; }
+
+  .ttx-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .ttx-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .ttx-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--ttx); flex-shrink:0; margin-top:5px; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--ttx-light); color:var(--ttx-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--ttx-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .ttx-inject { background:linear-gradient(135deg,#FAF0E4 0%,#F5E8DD 100%); border:0.5px solid var(--ttx-border); border-left:4px solid var(--ttx); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .ttx-inject-head { display:flex; align-items:baseline; gap:14px; margin-bottom:8px; flex-wrap:wrap; }
+  .ttx-inject-time { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; background:var(--ttx); color:#fff; padding:3px 8px; border-radius:5px; }
+  .ttx-inject-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .ttx-inject p { font-size:13px; color:#333; line-height:1.6; margin:0 0 6px; }
+  .ttx-inject ul { font-size:13px; color:#333; padding-left:1.1rem; margin:4px 0; }
+  .ttx-inject ul li { margin-bottom:3px; }
+  .ttx-inject-discuss { background:#fff; border:0.5px solid var(--ttx-border); border-radius:8px; padding:0.7rem 1rem; margin-top:8px; }
+  .ttx-inject-discuss-l { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--ttx-dark); margin-bottom:6px; }
+  .ttx-inject-discuss ul { padding-left:1.1rem; margin:0; }
+  .ttx-inject-discuss ul li { font-size:13px; color:#444; line-height:1.55; margin-bottom:4px; }
+
+  .audience-badge { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:3px 9px; border-radius:5px; }
+  .ab-exec { background:#FAE8D7; color:#7A4E1D; }
+  .ab-tech { background:#DDEAF5; color:#1F4D7A; }
+  .ab-mixed { background:#E8DDF5; color:#5B2D8E; }
+
+  .ttx-meta-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-bottom:14px; }
+  .ttx-meta-card { background:#fafaf7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .ttx-meta-lbl { font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:#888; font-weight:600; }
+  .ttx-meta-val { font-size:13px; font-weight:600; color:#1a1a1a; margin-top:3px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:#888; text-decoration:none; }
+  .breadcrumb a:hover { color:var(--ttx); }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; <a href="grc-ttx.html">Tabletop Exercises</a> &nbsp;&rsaquo;&nbsp; GRC-TTX-03</div>
+
+  <div class="ttx-page-hero">
+    <div class="ttx-page-hero-eyebrow">GRC &middot; TTX &middot; Scenario</div>
+    <h1>GRC-TTX-03 &mdash; Regional Disaster: Sustained Site Evacuation</h1>
+    <p>Tabletop scenario: a severe weather event triggers a multi-day evacuation of a major operating site, with secondary impacts on transport, communications, and staff availability across a wider region. Tests BCP at scale &mdash; the kind of disruption multi-country development organisations experience periodically. Executive lean &mdash; CMT and senior leadership primary; technical teams in support roles.</p>
+    <div class="ttx-page-hero-pills">
+      <span class="ttx-page-hero-pill">BCDR (natural)</span>
+      <span class="ttx-page-hero-pill">Executive lean</span>
+      <span class="ttx-page-hero-pill">90 minutes</span>
+      <span class="ttx-page-hero-pill">Multi-process impact</span>
+    </div>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Scenario at a glance</div>
+    <div class="ttx-meta-grid">
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Category</div><div class="ttx-meta-val">BCDR (natural disaster)</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Audience</div><div class="ttx-meta-val"><span class="audience-badge ab-exec">Executive</span></div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Duration</div><div class="ttx-meta-val">90 minutes</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Primary documents tested</div><div class="ttx-meta-val">BCP plans (multi-process), site continuity, regional escalation</div></div>
+    </div>
+    <p>For organisations operating across multiple countries with significant physical presence, regional disasters are the most common cause of major continuity invocations &mdash; far more common than cyber events. This scenario stresses what cyber-focused exercises typically miss: physical site loss, staff-displacement, communication fragmentation when telecoms degrade, parallel impact on suppliers and partners, coordination across geographies, and the days-to-weeks duration that distinguishes a BCDR event from a cyber one.</p>
+    <p>The scenario deliberately does not specify the hazard type (flood, earthquake, severe storm) &mdash; the response pattern is similar across natural disasters and the agency&rsquo;s real exposure varies by country.</p>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Objectives</div>
+    <ul class="ttx-bullet">
+      <li>Test BCP invocation across multiple business processes simultaneously &mdash; not a single-process exercise</li>
+      <li>Test the agency&rsquo;s alternative-site arrangements: are they current, accessible under disruption, and able to absorb displaced operations?</li>
+      <li>Test communications when normal channels are degraded (telecoms impact common in natural disasters); the fallback channel and its reliability</li>
+      <li>Test cross-agency coordination &mdash; multiple AKDN agencies often operate in the same country and a regional disaster affects them in parallel</li>
+      <li>Test the multi-day cadence of CMT operation &mdash; cyber-style intense first-24-hours response is not the right pattern for a multi-week BCDR event</li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Participants &amp; roles</div>
+
+    <table class="gt-table">
+      <thead><tr><th>Role</th><th>Why in the room</th></tr></thead>
+      <tbody>
+        <tr><td>Country / Regional CEO</td><td>Senior decision-maker for cross-process impact</td></tr>
+        <tr><td>CMT Lead</td><td>Coordinates the response</td></tr>
+        <tr><td>BCP Coordinator</td><td>Owns the BCP framework; coordinates plan invocations</td></tr>
+        <tr><td>Multiple Business Process Owners</td><td>Owners of the named processes impacted (clinical, education, support functions as relevant)</td></tr>
+        <tr><td>IT lead (regional)</td><td>Manages the IT side &mdash; site connectivity, application access from alternate locations</td></tr>
+        <tr><td>HR Lead</td><td>Staff welfare, attendance, accommodation, contractor coordination</td></tr>
+        <tr><td>Comms Lead</td><td>Internal, external, partner, donor, regulator communications</td></tr>
+        <tr><td>Supplier / partner liaison</td><td>Coordinates with suppliers also impacted by the regional event</td></tr>
+        <tr><td>Inter-agency representative (observer)</td><td>Represents other AKDN agencies in the same country</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Ground rules</div>
+    <ul class="ttx-bullet">
+      <li>No-fault learning environment. Findings are about plans, coordination, decision-making.</li>
+      <li>Participants respond as themselves in their real role.</li>
+      <li>Participants may reference real plans, contact lists, alternative-site agreements. If material is hard to find or out of date, that is a finding.</li>
+      <li>The scenario assumes a hazard already occurred &mdash; this exercise is not about hazard prediction or pre-event preparedness, it is about operating under sustained disruption.</li>
+      <li>Beneficiary impact may be discussed candidly but with respect for confidentiality of real situations the discussion may evoke.</li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Starting conditions (T+0)</div>
+
+    <div class="ttx-meta-grid">
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Day &amp; time</div><div class="ttx-meta-val">Monday, 07:00 local time</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Setting</div><div class="ttx-meta-val">Regional event has occurred overnight</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Initial impact</div><div class="ttx-meta-val">Main site evacuated; staff dispersed</div></div>
+    </div>
+
+    <p><strong>Initial situation:</strong> a severe natural hazard event (flooding / earthquake / severe storm &mdash; facilitator chooses based on agency context) occurred overnight, affecting a regional centre where the agency has its largest operating site. By Monday 07:00 the situation is: the main site has been evacuated under government instruction; the building is intact but inaccessible due to road conditions and a precautionary cordon; staff are dispersed; mobile networks are operating at reduced capacity; landlines at the site are unreachable; power supply to the area is intermittent; the airport in the regional capital is closed.</p>
+
+    <p><strong>What participants know at T+0:</strong></p>
+    <ul class="ttx-bullet">
+      <li>Main site inaccessible; physical structure not damaged</li>
+      <li>Staff have not been able to confirm a head-count over normal channels</li>
+      <li>Mobile networks degraded; SMS is intermittent; some areas have no signal</li>
+      <li>Government has declared a regional emergency; the duration is unknown but at least 5-7 days expected</li>
+      <li>Other AKDN agencies are present in the same region and may be coordinating in parallel</li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Injects</div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+30 min</span>
+        <span class="ttx-inject-title">First CMT call attempted; partial attendance</span>
+      </div>
+      <p>The CMT Lead attempts to convene the Crisis Management Team via the documented call. Two CMT members are reachable; three are not (one is in the cordoned area; one is on home leave abroad; one&rsquo;s mobile has no signal). The CMT Lead asks: do we have the quorum to make decisions? Who has authority to act for the unreachable members?</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Does the BCP plan define quorum for CMT decisions? Does it name deputies for each member?</li>
+          <li>Does the communication fallback work in this scenario &mdash; is SMS reliable enough? Is there a satellite / radio option for the highest-priority comms?</li>
+          <li>How does the CMT confirm staff welfare when normal channels are degraded? Is there a pre-arranged check-in procedure?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+90 min</span>
+        <span class="ttx-inject-title">Critical processes assessed; immediate invocations needed</span>
+      </div>
+      <p>BPOs of the impacted processes report status. Clinical services need to keep operating &mdash; patients depending on them are also dispersed and likely in greater need than usual. Educational services are postponed for the duration. Support functions (HR, finance) can operate remotely with reduced capability. The senior CEO asks: what are we invoking, in what order, and who is leading each invocation?</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>What is the agency&rsquo;s priority order across processes when multiple are impacted simultaneously? Is it documented?</li>
+          <li>For clinical services: where do they operate from now? Is the alternative-site arrangement current and accessible under the regional disruption?</li>
+          <li>For staff working remotely on support functions: do they have what they need (devices, connectivity, access)? Was remote work pre-provisioned or is it being arranged ad hoc?</li>
+          <li>The educational postponement &mdash; is the comms to families/students ready, or being drafted now?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+4 hours (Day 1 afternoon)</span>
+        <span class="ttx-inject-title">Donor and partner enquiries; press contact</span>
+      </div>
+      <p>The Communications team has fielded 6 enquiries: 3 from donor organisations asking about operational continuity and beneficiary safety; 2 from partner organisations asking about coordination; 1 from international press doing a regional disaster story. The donors are particularly concerned because some have grant agreements with continuity clauses. Comms Lead asks the CEO: what is our position, and what channels do we use to communicate it?</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Is there a pre-prepared donor-communications template for major disruptions? If not, can one be drafted within 24 hours?</li>
+          <li>How does the agency talk to other AKDN agencies operating in the same region? Is there a coordinating role? Is it acting?</li>
+          <li>The press contact &mdash; what is the agency&rsquo;s position on engagement (proactive, reactive, decline)? Who approves?</li>
+          <li>Is there a single source of truth for status updates that internal and external audiences both reference?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+24 hours (Day 2 morning)</span>
+        <span class="ttx-inject-title">Duration extends; staff fatigue and dependent-care issues</span>
+      </div>
+      <p>By Day 2 morning, government has extended the emergency to at least 14 days. Some staff are starting to report dependent-care issues &mdash; childcare arrangements disrupted, elderly relatives needing support &mdash; affecting their availability. Several key roles have unsustainable cover. The HR Lead raises: the CMT decisions are sustainable for a few days but not for two weeks; we need a different operating model from Day 5 onwards.</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>How does the CMT shift from intense initial-response to sustainable multi-week operation? Is the model documented?</li>
+          <li>Cross-training and succession for key roles &mdash; how is it tracked? Is it actually current?</li>
+          <li>What support is available to staff for the dependent-care issues? Is there a documented welfare-support model?</li>
+          <li>For roles where cover is unsustainable, what are the options &mdash; reduced service, external surge support, accept-degradation? Where does that authority sit?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+5 days</span>
+        <span class="ttx-inject-title">Inter-agency coordination escalation</span>
+      </div>
+      <p>By Day 5, AKDN central has convened a regional response coordination. The agency CEO is invited to join. The coordination is asking: what is each agency&rsquo;s priority, what is each agency&rsquo;s spare capacity, can resources be shared across agencies for the duration. The CEO asks the CMT: what is our position?</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Has the agency thought about cross-agency support before this event? Is there a framework or is it improvisation?</li>
+          <li>What spare capacity does the agency have, realistically? Is there a documented view?</li>
+          <li>What would the agency ask for from other AKDN agencies? Is there a documented list of what would be useful?</li>
+          <li>Who at the agency has authority to commit to mutual-support arrangements?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+10 days</span>
+        <span class="ttx-inject-title">Recovery and return-to-normal planning</span>
+      </div>
+      <p>Government indicates the emergency will end within the week. The agency must plan: return to the main site (cleaning, re-inspection, IT validation), backlog management, reconciliation of records made under BCP workarounds with the normal systems, staff debriefing. The CMT discusses recovery sequencing.</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Is there a documented return-to-normal procedure, or is recovery improvised?</li>
+          <li>Records made under workarounds &mdash; who reconciles them, and against what quality bar?</li>
+          <li>Staff who worked under sustained disruption &mdash; what support is offered? Is there a documented welfare-debrief framework?</li>
+          <li>What is the trigger for stand-down of the CMT and BCP? Who makes that call?</li>
+          <li>AAR timing &mdash; when does it happen, and who is included?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Expected decisions &amp; reference answers</div>
+    <p style="font-style:italic; color:#888; font-size:13px;">For the exercise team only.</p>
+
+    <table class="gt-table">
+      <thead><tr><th>Decision point</th><th>Authority / reference</th><th>Expected discussion / common gaps</th></tr></thead>
+      <tbody>
+        <tr><td>CMT activation with degraded comms</td><td>BCP plan; CMT composition with deputies</td><td>Watch for: no documented deputies; quorum unclear; fallback comms never tested under degraded conditions</td></tr>
+        <tr><td>Process-invocation priority order</td><td>BIA-derived criticality; senior CEO call</td><td>Watch for: priority decided on the fly; clinical-vs-other tension unresolved; impact on simultaneously-affected processes not anticipated</td></tr>
+        <tr><td>Alternative-site activation</td><td>BCP plan &sect;4 workaround 2</td><td>Watch for: alternative site arrangements out of date; access logistics not tested under regional disruption; capacity insufficient</td></tr>
+        <tr><td>Donor and partner communications</td><td>Comms Lead with CMT approval; pre-prepared templates</td><td>Watch for: ad-hoc messaging; grant-agreement continuity clauses not consulted; donor inconsistency</td></tr>
+        <tr><td>CMT operating model shift (intense&rarr;sustained)</td><td>Per BCP plan or CMT charter</td><td>Watch for: not documented; staff burnout; key-person dependencies surface late</td></tr>
+        <tr><td>Inter-agency coordination</td><td>Country CEO with delegation</td><td>Watch for: improvised; no spare-capacity view; no list of useful-requests</td></tr>
+        <tr><td>Return-to-normal sequencing and stand-down</td><td>BCP plan &sect;7; CMT Lead with CEO approval</td><td>Watch for: not documented; reconciliation under-resourced; AAR delayed past 30 days</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Evaluation criteria</div>
+    <ul class="ttx-bullet">
+      <li><span><strong>Objective 1 (multi-process invocation):</strong> all impacted processes invoked within 4 hours; priority order documented or established explicitly</span></li>
+      <li><span><strong>Objective 2 (alternative-site arrangements):</strong> known, current, accessible under the disruption pattern of the scenario</span></li>
+      <li><span><strong>Objective 3 (communications under degraded conditions):</strong> fallback channels work; CMT can communicate; external audiences receive consistent messages</span></li>
+      <li><span><strong>Objective 4 (cross-agency coordination):</strong> agency can articulate its position, capacity, and asks</span></li>
+      <li><span><strong>Objective 5 (multi-day cadence):</strong> CMT operating model adjusts to sustainable pace by Day 3-5; staff welfare addressed</span></li>
+      <li><span><strong>Cross-cutting:</strong> documented authority and named deputies allow the response to continue when individual people are unreachable</span></li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">After-action review framework</div>
+    <p>Conducted within 30 days. Distribution: Country / Regional CEO, BCDR Steering Committee, BCP Coordinator, all BPOs of impacted processes, HR Lead, Comms Lead, inter-agency liaison.</p>
+    <p>Common findings: CMT quorum and deputies under-specified; fallback comms never tested under degraded conditions; alternative-site agreements out of date or untested; donor-comms templates absent for major disruption; cross-agency coordination improvised; multi-day cadence shift not in any document; return-to-normal procedures not specified.</p>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Document control</div>
+    <table class="gt-table">
+      <tbody>
+        <tr><td>Scenario version</td><td>1.0</td></tr>
+        <tr><td>Scenario drafted</td><td>15 May 2026</td></tr>
+        <tr><td>Author</td><td>Paulo Ferreira</td></tr>
+        <tr><td>Classification</td><td>Internal &mdash; BCDR / Exercise sensitive</td></tr>
+        <tr><td>Re-use</td><td>Re-runnable annually with hazard-type variation; the response pattern is stable across natural disaster types</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Related documents</div>
+    <ul class="ttx-bullet">
+      <li><a href="grc-frm-ttx-01.html">GRC-FRM-TTX-01</a> &mdash; the template this scenario follows</li>
+      <li><a href="grc-bcp-sop-01.html">GRC-BCP-SOP-01</a> &mdash; BCP policy</li>
+      <li><a href="grc-bcdr-wi-01.html">GRC-BCDR-WI-01</a> &mdash; BIA conduct (priority order traces to BIA)</li>
+      <li><a href="grc-frm-bcp-01.html">GRC-FRM-BCP-01</a> &mdash; BCP plan template (this exercise tests populated plans)</li>
+      <li><a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a> &mdash; exercise methodology</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-ttx.html" style="color:#A0612A;text-decoration:none;">&larr; Back to TTX library</a></span>
+  </div>
+
+</div>
+</body>
+</html>

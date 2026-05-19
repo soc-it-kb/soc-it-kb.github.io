@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-TTX-01: Ransomware Affecting Clinical Systems &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --ttx:#A0612A; --ttx-light:#F5E8DD; --ttx-border:#E0BB99; --ttx-dark:#6B3F15; --grc:#0E5C5C; }
+
+  .ttx-page-hero { background:linear-gradient(135deg,#2D1808 0%,#6B3F15 40%,#A0612A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .ttx-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .ttx-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .ttx-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .ttx-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .ttx-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .ttx-section { background:#fff; border:0.5px solid var(--ttx-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .ttx-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .ttx-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .ttx-section p:last-child { margin-bottom:0; }
+
+  .ttx-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .ttx-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .ttx-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--ttx); flex-shrink:0; margin-top:5px; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--ttx-light); color:var(--ttx-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--ttx-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .ttx-inject { background:linear-gradient(135deg,#FAF0E4 0%,#F5E8DD 100%); border:0.5px solid var(--ttx-border); border-left:4px solid var(--ttx); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .ttx-inject-head { display:flex; align-items:baseline; gap:14px; margin-bottom:8px; flex-wrap:wrap; }
+  .ttx-inject-time { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; background:var(--ttx); color:#fff; padding:3px 8px; border-radius:5px; }
+  .ttx-inject-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .ttx-inject p { font-size:13px; color:#333; line-height:1.6; margin:0 0 6px; }
+  .ttx-inject ul { font-size:13px; color:#333; padding-left:1.1rem; margin:4px 0; }
+  .ttx-inject ul li { margin-bottom:3px; }
+  .ttx-inject-discuss { background:#fff; border:0.5px solid var(--ttx-border); border-radius:8px; padding:0.7rem 1rem; margin-top:8px; }
+  .ttx-inject-discuss-l { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--ttx-dark); margin-bottom:6px; }
+  .ttx-inject-discuss ul { padding-left:1.1rem; margin:0; }
+  .ttx-inject-discuss ul li { font-size:13px; color:#444; line-height:1.55; margin-bottom:4px; }
+
+  .audience-badge { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:3px 9px; border-radius:5px; }
+  .ab-exec { background:#FAE8D7; color:#7A4E1D; }
+  .ab-tech { background:#DDEAF5; color:#1F4D7A; }
+  .ab-mixed { background:#E8DDF5; color:#5B2D8E; }
+
+  .ttx-meta-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-bottom:14px; }
+  .ttx-meta-card { background:#fafaf7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .ttx-meta-lbl { font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:#888; font-weight:600; }
+  .ttx-meta-val { font-size:13px; font-weight:600; color:#1a1a1a; margin-top:3px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:#888; text-decoration:none; }
+  .breadcrumb a:hover { color:var(--ttx); }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; <a href="grc-ttx.html">Tabletop Exercises</a> &nbsp;&rsaquo;&nbsp; GRC-TTX-01</div>
+
+  <div class="ttx-page-hero">
+    <div class="ttx-page-hero-eyebrow">GRC &middot; TTX &middot; Scenario</div>
+    <h1>GRC-TTX-01 &mdash; Ransomware Affecting Clinical Systems</h1>
+    <p>Tabletop scenario: a ransomware event renders the electronic health record (EHR) platform unavailable during an active operating day at a health-services agency. Exercises the interaction between cyber incident response, business continuity for clinical operations, and disaster recovery for the affected IT services. Mixed audience &mdash; executive / CMT plus technical / SOC participation.</p>
+    <div class="ttx-page-hero-pills">
+      <span class="ttx-page-hero-pill">Cyber &middot; BCDR hybrid</span>
+      <span class="ttx-page-hero-pill">Mixed audience</span>
+      <span class="ttx-page-hero-pill">120 minutes</span>
+      <span class="ttx-page-hero-pill">Tier-1 process impact</span>
+    </div>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Scenario at a glance</div>
+    <div class="ttx-meta-grid">
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Category</div><div class="ttx-meta-val">Cyber + BCDR (hybrid)</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Audience</div><div class="ttx-meta-val"><span class="audience-badge ab-mixed">Mixed</span></div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Duration</div><div class="ttx-meta-val">120 minutes</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Primary documents tested</div><div class="ttx-meta-val">IRP, BCP (clinical), DR runbook (EHR)</div></div>
+    </div>
+    <p>This scenario is the most realistic Tier-1 BCDR exercise for an agency operating clinical services. It pulls cyber response, business continuity, and IT recovery into the same room and surfaces the inevitable tensions: the SOC wants more investigation time before any restore action; the clinical team wants the system back now; the CMT needs to communicate to beneficiaries; the regulator may demand notification. Real ransomware events run on these tensions, not on textbook procedures.</p>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Objectives</div>
+    <ul class="ttx-bullet">
+      <li>Test the joint invocation of IRP (<a href="grc-irp-01.html">GRC-IRP-01</a>) and BCP for clinical operations &mdash; including the decision threshold and the named authority for each.</li>
+      <li>Test the SOC&rsquo;s recovery-threshold call (when DR can begin) under pressure from clinical operations, and the CMT&rsquo;s handling of that tension.</li>
+      <li>Test communications to clinical teams operating on paper-based workarounds, to beneficiaries, and to regulators &mdash; particularly through the fallback channel if M365 is also affected.</li>
+      <li>Test the DR-WI-02 Scenario 4 path (in-tenant clean-up vs clean-tenant) decision, even if hypothetically &mdash; surface whether the decision criteria are understood before they need to be applied.</li>
+      <li>Test access to documented plans (BCP plan for clinical, DR runbook for EHR, IRP) under exercise conditions &mdash; do participants know where they live, are they current, can they be accessed offline if needed?</li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Participants &amp; roles</div>
+
+    <table class="gt-table">
+      <thead><tr><th>Role</th><th>Why in the room</th></tr></thead>
+      <tbody>
+        <tr><td>Agency CEO / delegate</td><td>Holds ultimate authority for cross-discipline decisions; signs off on regulatory and external communications</td></tr>
+        <tr><td>CMT Lead</td><td>Coordinates the response; chairs the Crisis Management Team</td></tr>
+        <tr><td>Clinical Operations Lead (BPO)</td><td>Owns the clinical processes that depend on EHR; invokes BCP</td></tr>
+        <tr><td>IT DR Coordinator</td><td>Owns recovery side; coordinates with IT Service Owners</td></tr>
+        <tr><td>IT Service Owner &mdash; EHR platform</td><td>Owns recovery of the affected service</td></tr>
+        <tr><td>IT Service Owner &mdash; Identity</td><td>Identity is the foundation; near-certain involvement</td></tr>
+        <tr><td>SOC Lead</td><td>Owns incident response; makes recovery-threshold call</td></tr>
+        <tr><td>Comms Lead</td><td>Internal, beneficiary, regulator, and media communications</td></tr>
+        <tr><td>BCP Coordinator</td><td>Coordinates business-continuity side across processes</td></tr>
+        <tr><td>Legal / DPO</td><td>Regulatory notification decisions; data-breach assessment</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Ground rules</div>
+    <ul class="ttx-bullet">
+      <li>No-fault learning environment. Findings are about the system and the process, not individuals.</li>
+      <li>Participants respond as themselves in their real role.</li>
+      <li>Participants may reference real plans, runbooks, contact lists during the exercise. If a document is hard to find or out of date, that itself is a finding.</li>
+      <li>The facilitator may pause the scenario to keep discussion productive.</li>
+      <li>Scenario content and discussion are confidential to the exercise and the AAR distribution list.</li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Starting conditions (T+0)</div>
+
+    <div class="ttx-meta-grid">
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Day &amp; time</div><div class="ttx-meta-val">Tuesday, 09:15 local time</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Setting</div><div class="ttx-meta-val">Mid-size hospital, active operating day</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Initial impact</div><div class="ttx-meta-val">EHR unavailable</div></div>
+    </div>
+
+    <p><strong>Initial situation:</strong> at 09:00 local time, clinical staff across the hospital begin reporting that the electronic health record platform is responding extremely slowly or not at all. By 09:10, the IT service desk is fielding multiple calls. At 09:13, the on-call IT Service Owner for the EHR platform receives an alert from CrowdStrike: ransomware behaviour detected on three servers in the EHR application tier. SOC at Obrela has acknowledged. The Service Owner has just started a call with the SOC. Clinical operations leadership has not yet been formally notified.</p>
+
+    <p><strong>What participants know at T+0:</strong></p>
+    <ul class="ttx-bullet">
+      <li>EHR platform is unavailable to clinical users; service desk volume is rising fast</li>
+      <li>CrowdStrike detected ransomware behaviour on 3 named EHR application-tier servers</li>
+      <li>SOC at Obrela is on the phone with the IT Service Owner</li>
+      <li>It is mid-morning on a normal operating day; outpatient clinic in session; emergency department operating; one operating theatre case in progress</li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Injects</div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+10 min</span>
+        <span class="ttx-inject-title">SOC confirms ransomware; isolation in progress</span>
+      </div>
+      <p>The SOC confirms ransomware. CrowdStrike has automatically isolated the three affected servers. The SOC has begun investigation. The EHR remains unavailable to clinical users. The Service Owner asks &mdash; can we just restore from this morning&rsquo;s backup and be back up in two hours? The SOC&rsquo;s answer is &ldquo;not yet, we don&rsquo;t know the scope&rdquo;.</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Who needs to be informed in the next 10 minutes? Who decides? What channels are used?</li>
+          <li>Has BCP for clinical operations been invoked? By whom? What is the documented authority?</li>
+          <li>What is the SOC&rsquo;s recovery-threshold call &mdash; what does it mean and why is it not &ldquo;restore now&rdquo;?</li>
+          <li>The on-call Service Owner is the one who first heard from SOC. Did they escalate correctly per the IRP?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+25 min</span>
+        <span class="ttx-inject-title">Clinical impact widens; operating theatre case proceeding without EHR</span>
+      </div>
+      <p>The clinical team confirms: the operating theatre case in progress is continuing without EHR access &mdash; the team is operating from printed notes the surgeon brought in. Outpatient clinic has stopped booking-in new patients. The emergency department is operating on paper triage. The pharmacy is unable to verify prescriptions against the EHR record. Nursing teams across the hospital are using paper observation charts &mdash; one of the standard BCP workarounds. The clinical lead asks for an ETA. The IT Service Owner cannot give one.</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Where do the paper-based workarounds come from? Are they current? Have staff practised with them?</li>
+          <li>What is the named MBCO for clinical operations? Are we within it?</li>
+          <li>How long can the agency operate at this reduced level before clinical safety becomes a concern? Who decides &ldquo;we need to divert new admissions&rdquo;?</li>
+          <li>The pharmacy cannot verify prescriptions &mdash; what is the safe fallback? Is it documented?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+45 min</span>
+        <span class="ttx-inject-title">SOC: scope wider than thought; persistent access via service account</span>
+      </div>
+      <p>The SOC reports: investigation found the attacker had persistent access via a service account whose credentials were not rotated for 14 months. The credential is shared between the EHR application tier and a separate clinical messaging system. The SOC believes the attacker had access for at least 11 days before encryption. The SOC&rsquo;s recovery-threshold call is now: <em>not before we rotate the credential, hunt for other persistence, and have high confidence the attacker is out</em>. The Service Owner asks how long that takes. The SOC says &ldquo;hours, but might be a day or more&rdquo;.</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>The credential rotation issue &mdash; was this a known gap? Is it in the risk register? Should it have been?</li>
+          <li>The pre-encryption dwell time changes the data-breach calculus. Is regulator notification triggered? Who decides? What is the deadline (GDPR 72 hours, sector-specific)?</li>
+          <li>The clinical messaging system shares the credential &mdash; is it also compromised? Who decides?</li>
+          <li>Is this in-tenant clean-up territory (DR-WI-02 Scenario 4) or escalating?</li>
+          <li>The clinical team needs an updated ETA. What does the CMT communicate, given uncertainty?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+60 min</span>
+        <span class="ttx-inject-title">Local press calls; family of beneficiary calls the CEO&rsquo;s office</span>
+      </div>
+      <p>A local press outlet calls the Communications team: &ldquo;we hear the hospital&rsquo;s computer systems are down &mdash; are operations safe? Is patient data affected?&rdquo; Separately, the family of a beneficiary scheduled for a procedure tomorrow has phoned the CEO&rsquo;s office and is told &ldquo;there&rsquo;s a system issue&rdquo;. They are upset and demand to know if the procedure will proceed.</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>What does the Comms Lead say to the press? What is the agency&rsquo;s position on confirming the incident, the scope, the cause?</li>
+          <li>The CEO&rsquo;s office told the family &ldquo;a system issue&rdquo;. Is that the agreed line? Who approves it?</li>
+          <li>Is there a pre-prepared template for ransomware comms? (See <a href="grc-frm-14.html">GRC-FRM-14</a> if comms templates exist.)</li>
+          <li>How does the agency communicate to beneficiaries with appointments in the next 24-48 hours? Who calls them?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+90 min</span>
+        <span class="ttx-inject-title">Recovery path decision required</span>
+      </div>
+      <p>The SOC has finished initial hunting. Their position: the attacker&rsquo;s presence was bounded to the credential and the systems it could access; they are confident the immutable backups (from before the dwell-time window) are clean; they recommend in-tenant clean-up &mdash; rotate credentials, hunt residual artefacts, restore from immutable copies older than 11 days, validate before reconnecting to clinical access. Estimated restore time: 6-10 hours. The CMT must decide.</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>What is the CMT&rsquo;s decision &mdash; accept SOC&rsquo;s recommendation or push back? On what basis?</li>
+          <li>Restore from backups older than 11 days &mdash; what data is lost? Is the trade-off acceptable to the clinical team? How is it communicated?</li>
+          <li>What clinical activity can resume during the 6-10 hour restore, and what cannot?</li>
+          <li>What if the SOC&rsquo;s confidence is wrong and the attacker is still in? What does the runbook say about this risk?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+105 min</span>
+        <span class="ttx-inject-title">Regulator notification window approaching</span>
+      </div>
+      <p>The Legal / DPO confirms: under applicable data protection regulation, regulator notification is required within 72 hours of awareness of a breach, where personal data confidentiality is at risk. The SOC&rsquo;s pre-encryption access finding may meet that bar. Notification clock started, conservatively, at the time of the SOC&rsquo;s scope-widening finding (T+45 min).</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Who drafts the regulator notification? Who approves? What does it contain at this stage when investigation is incomplete?</li>
+          <li>Are there multiple regulators (data protection, health-sector, country-specific)? Are the timelines and content requirements aligned?</li>
+          <li>Does notification require parallel communication to beneficiaries? On what timeline?</li>
+          <li>Is the notification template ready or being drafted live? What does that say about preparedness?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Expected decisions &amp; reference answers</div>
+    <p style="font-style:italic; color:#888; font-size:13px;">For the exercise team only. Withheld from participants until the AAR.</p>
+
+    <table class="gt-table">
+      <thead><tr><th>Decision point</th><th>Authority per documented procedure</th><th>Expected discussion / common gaps</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Invoke IRP at appropriate severity</td>
+          <td>Per <a href="grc-irp-01.html">GRC-IRP-01</a> &mdash; named authority and severity definitions</td>
+          <td>Watch for: invocation delayed waiting for &ldquo;more information&rdquo;; severity under-classified; named authority unclear</td>
+        </tr>
+        <tr>
+          <td>Invoke BCP for clinical operations</td>
+          <td>Per BCP plan for clinical processes &sect;3 &mdash; Clinical Operations Lead with deputy authority</td>
+          <td>Watch for: invocation conflated with IRP and not made explicitly; reliance on tacit understanding rather than documented authority</td>
+        </tr>
+        <tr>
+          <td>Convene CMT</td>
+          <td>Per BCP plan &sect;3.3 &mdash; CMT composition documented</td>
+          <td>Watch for: ad-hoc participants; missing roles (Legal/DPO not called early); meeting cadence not established</td>
+        </tr>
+        <tr>
+          <td>SOC recovery-threshold call</td>
+          <td>Per <a href="grc-dr-wi-02.html">GRC-DR-WI-02 Scenario 4.1</a> &mdash; SOC owns; CMT respects</td>
+          <td>Watch for: pressure on SOC to release prematurely; CMT not understanding the rationale; SOC unable to communicate confidence in terms the CMT can use</td>
+        </tr>
+        <tr>
+          <td>In-tenant clean-up vs clean-tenant decision</td>
+          <td>Per <a href="grc-dr-wi-02.html">GRC-DR-WI-02 Scenario 4.2</a> &mdash; BCDR Steering Committee call; decision criteria documented</td>
+          <td>Watch for: defaulting to clean-up without considering scope; not surfacing the irreversibility of clean-up; criteria not understood by decision-makers</td>
+        </tr>
+        <tr>
+          <td>Recovery sequence</td>
+          <td>Per EHR DR runbook (using template <a href="grc-frm-dr-01.html">GRC-FRM-DR-01</a>)</td>
+          <td>Watch for: runbook not located within 15 minutes; runbook out of date; backup details unclear; validation steps unfamiliar</td>
+        </tr>
+        <tr>
+          <td>External communications strategy</td>
+          <td>Per BCP plan &sect;5 &mdash; Comms Lead with CMT approval</td>
+          <td>Watch for: ad-hoc messaging; inconsistency between channels; press answered before line agreed; family member given different line from press</td>
+        </tr>
+        <tr>
+          <td>Regulator notification</td>
+          <td>Per Legal/DPO procedure &mdash; named role; 72-hour GDPR threshold (and any sector-specific)</td>
+          <td>Watch for: clock-start ambiguity; content drafted live without template; multi-regulator alignment not considered</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Evaluation criteria</div>
+    <ul class="ttx-bullet">
+      <li><span><strong>Objective 1 (joint IRP + BCP invocation):</strong> both invoked within 30 minutes of T+0 with documented authority; the two coordinated, not parallel</span></li>
+      <li><span><strong>Objective 2 (SOC recovery-threshold under pressure):</strong> SOC&rsquo;s position respected by CMT; tension surfaced and resolved through discussion, not override; reasoning understood by non-SOC participants</span></li>
+      <li><span><strong>Objective 3 (communications):</strong> consistent messaging across press, beneficiaries, family member, regulator; agreed line approved by CMT; templates used or gap noted</span></li>
+      <li><span><strong>Objective 4 (clean-up vs clean-tenant criteria):</strong> decision-makers can articulate the criteria; in this scenario clean-up is correct but reasoning should be shown</span></li>
+      <li><span><strong>Objective 5 (document access under exercise conditions):</strong> BCP plan, EHR DR runbook, IRP located in &lt; 15 minutes; if not, that is the first remediation action</span></li>
+      <li><span><strong>Cross-cutting:</strong> who-decides-what is clear at every decision point; documented authority is named, not inferred</span></li>
+      <li><span><strong>Cross-cutting:</strong> CMT operated at a sustainable cadence (regular updates, not constant chaos); side-channels (calls and messages) not allowed to fragment the response</span></li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">After-action review framework</div>
+    <p>Conducted within 14 days per <a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a>. Distribution: BCDR Steering Committee, agency CEO, Clinical Operations Lead, IT DR Coordinator, SOC Lead, Legal/DPO, Comms Lead.</p>
+    <p>Common findings from this scenario when run honestly: BCP invocation authority unclear or delayed; CMT composition incomplete (Legal/DPO not in the room early); regulator-notification template not ready; pre-prepared comms lines missing for ransomware specifically; clinical paper-workaround currency unknown; EHR runbook hard to locate or out of date; service-account credential rotation gap visible in the risk register only as a generic finding; clean-up vs clean-tenant criteria treated as &ldquo;the experts will decide&rdquo; rather than as a documented CMT decision.</p>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Document control</div>
+    <table class="gt-table">
+      <tbody>
+        <tr><td>Scenario version</td><td>1.0</td></tr>
+        <tr><td>Scenario drafted</td><td>15 May 2026</td></tr>
+        <tr><td>Author</td><td>Paulo Ferreira</td></tr>
+        <tr><td>Classification</td><td>Internal &mdash; BCDR / Exercise sensitive</td></tr>
+        <tr><td>Re-use</td><td>Re-runnable after &ge; 12 months and with inject variation; some details may benefit from agency-specific tailoring (EHR product name, regulator names, country-specific thresholds)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Related documents</div>
+    <ul class="ttx-bullet">
+      <li><a href="grc-frm-ttx-01.html">GRC-FRM-TTX-01</a> &mdash; the template this scenario follows</li>
+      <li><a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a> &mdash; exercise methodology</li>
+      <li><a href="grc-irp-01.html">GRC-IRP-01</a> &mdash; cyber incident response (paired discipline)</li>
+      <li><a href="grc-dr-wi-02.html">GRC-DR-WI-02</a> &mdash; cloud and platform DR (Scenario 4 referenced)</li>
+      <li><a href="grc-frm-bcp-01.html">GRC-FRM-BCP-01</a>, <a href="grc-frm-dr-01.html">GRC-FRM-DR-01</a> &mdash; templates this exercise validates</li>
+      <li><a href="grc-frm-14.html">GRC-FRM-14</a> &mdash; IR communication templates (where applicable)</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-ttx.html" style="color:#A0612A;text-decoration:none;">&larr; Back to TTX library</a></span>
+  </div>
+
+</div>
+</body>
+</html>

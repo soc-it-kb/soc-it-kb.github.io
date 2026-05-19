@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-TTX-02: Entra Tenant Compromise &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --ttx:#A0612A; --ttx-light:#F5E8DD; --ttx-border:#E0BB99; --ttx-dark:#6B3F15; --grc:#0E5C5C; }
+
+  .ttx-page-hero { background:linear-gradient(135deg,#2D1808 0%,#6B3F15 40%,#A0612A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .ttx-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .ttx-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .ttx-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .ttx-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .ttx-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .ttx-section { background:#fff; border:0.5px solid var(--ttx-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .ttx-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .ttx-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .ttx-section p:last-child { margin-bottom:0; }
+
+  .ttx-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .ttx-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .ttx-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--ttx); flex-shrink:0; margin-top:5px; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--ttx-light); color:var(--ttx-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--ttx-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .ttx-inject { background:linear-gradient(135deg,#FAF0E4 0%,#F5E8DD 100%); border:0.5px solid var(--ttx-border); border-left:4px solid var(--ttx); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .ttx-inject-head { display:flex; align-items:baseline; gap:14px; margin-bottom:8px; flex-wrap:wrap; }
+  .ttx-inject-time { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; background:var(--ttx); color:#fff; padding:3px 8px; border-radius:5px; }
+  .ttx-inject-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .ttx-inject p { font-size:13px; color:#333; line-height:1.6; margin:0 0 6px; }
+  .ttx-inject ul { font-size:13px; color:#333; padding-left:1.1rem; margin:4px 0; }
+  .ttx-inject ul li { margin-bottom:3px; }
+  .ttx-inject-discuss { background:#fff; border:0.5px solid var(--ttx-border); border-radius:8px; padding:0.7rem 1rem; margin-top:8px; }
+  .ttx-inject-discuss-l { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--ttx-dark); margin-bottom:6px; }
+  .ttx-inject-discuss ul { padding-left:1.1rem; margin:0; }
+  .ttx-inject-discuss ul li { font-size:13px; color:#444; line-height:1.55; margin-bottom:4px; }
+
+  .audience-badge { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:3px 9px; border-radius:5px; }
+  .ab-exec { background:#FAE8D7; color:#7A4E1D; }
+  .ab-tech { background:#DDEAF5; color:#1F4D7A; }
+  .ab-mixed { background:#E8DDF5; color:#5B2D8E; }
+
+  .ttx-meta-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-bottom:14px; }
+  .ttx-meta-card { background:#fafaf7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .ttx-meta-lbl { font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:#888; font-weight:600; }
+  .ttx-meta-val { font-size:13px; font-weight:600; color:#1a1a1a; margin-top:3px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:#888; text-decoration:none; }
+  .breadcrumb a:hover { color:var(--ttx); }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; <a href="grc-ttx.html">Tabletop Exercises</a> &nbsp;&rsaquo;&nbsp; GRC-TTX-02</div>
+
+  <div class="ttx-page-hero">
+    <div class="ttx-page-hero-eyebrow">GRC &middot; TTX &middot; Scenario</div>
+    <h1>GRC-TTX-02 &mdash; Entra Tenant Compromise</h1>
+    <p>Tabletop scenario: SOC detects evidence of attacker presence in the Entra tenant including manipulation of privileged role assignments and an unrecognised app registration with broad Graph permissions. Tests the multi-week recovery decision space described in <a href="grc-dr-wi-02.html" style="color:#fff;text-decoration:underline;">GRC-DR-WI-02 Scenario 4</a>. Technical lean &mdash; SOC, IT, identity teams primary; CMT and executive in support roles.</p>
+    <div class="ttx-page-hero-pills">
+      <span class="ttx-page-hero-pill">Cyber (identity)</span>
+      <span class="ttx-page-hero-pill">Technical lean</span>
+      <span class="ttx-page-hero-pill">120 minutes</span>
+      <span class="ttx-page-hero-pill">Tier-0 impact</span>
+    </div>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Scenario at a glance</div>
+    <div class="ttx-meta-grid">
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Category</div><div class="ttx-meta-val">Cyber (identity)</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Audience</div><div class="ttx-meta-val"><span class="audience-badge ab-tech">Technical</span></div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Duration</div><div class="ttx-meta-val">120 minutes</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Primary documents tested</div><div class="ttx-meta-val">DR-WI-02 (Scenarios 3 &amp; 4), IT-CL-WI-01, IT-ID-WI-05, IRP</div></div>
+    </div>
+    <p>Tenant compromise is the worst-case identity-side scenario for any cloud-resident estate. Recovery is on the order of weeks to months for in-tenant clean-up, longer for clean-tenant migration. This scenario stresses the early decisions that shape the entire recovery: when do you call clean-tenant? Who decides? How is irreversibility communicated? What evidence preservation matters? Done well, the scenario surfaces gaps in identity governance, break-glass readiness, and CMT decision-making.</p>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Objectives</div>
+    <ul class="ttx-bullet">
+      <li>Test the SOC&rsquo;s tenant-compromise triage path &mdash; from detection through scope-establishment to recovery-threshold handoff</li>
+      <li>Test the in-tenant clean-up vs clean-tenant decision criteria from <a href="grc-dr-wi-02.html">GRC-DR-WI-02 Scenario 4.2</a> &mdash; can decision-makers articulate them, and which way does this scenario point?</li>
+      <li>Test break-glass account readiness and use under exercise conditions per <a href="it-cl-wi-01.html">IT-CL-WI-01</a> and <a href="it-id-wi-05.html">IT-ID-WI-05</a>: do participants know who can access them, where they are, and what governance applies?</li>
+      <li>Test the joint SOC + DR + Identity working model &mdash; who owns containment, who owns recovery-to-operations, how the handoff works</li>
+      <li>Test escalation to Microsoft Support including the severity-A path and what tenant-recovery means if break-glass also fails</li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Participants &amp; roles</div>
+
+    <table class="gt-table">
+      <thead><tr><th>Role</th><th>Why in the room</th></tr></thead>
+      <tbody>
+        <tr><td>SOC Lead</td><td>Owns containment and investigation; drives recovery-threshold decision</td></tr>
+        <tr><td>SOC Analysts (1-2)</td><td>Operate the platforms; do the actual hunting</td></tr>
+        <tr><td>Identity &amp; Access Engineering Lead</td><td>Owns the identity service; co-owns recovery</td></tr>
+        <tr><td>IT DR Coordinator</td><td>Owns recovery-to-operations side; coordinates DR runbook execution</td></tr>
+        <tr><td>Cloud Platform Lead</td><td>Owns the Azure / M365 tenant infrastructure</td></tr>
+        <tr><td>BCDR Steering Committee member</td><td>Clean-tenant decision authority</td></tr>
+        <tr><td>CMT Lead</td><td>Cross-team coordination; communication</td></tr>
+        <tr><td>Legal / DPO (consult)</td><td>Forensic preservation; regulator notification thresholds</td></tr>
+        <tr><td>Microsoft account team representative (consult or simulated)</td><td>Escalation path; tenant recovery scenarios</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Ground rules</div>
+    <ul class="ttx-bullet">
+      <li>No-fault learning environment. Findings are about system, process, governance.</li>
+      <li>Technical participants may reference real platforms (Entra portal, SIEM, runbook documents) where useful. Inability to access something during the exercise is itself a finding.</li>
+      <li>Hypothetical actions are spoken (&ldquo;I would revoke all refresh tokens&rdquo;) not executed. The facilitator confirms outcomes and proceeds.</li>
+      <li>Break-glass details are not stated aloud (account names, vault locations, custodians may be referenced abstractly). Real break-glass governance information is not exercised through speech.</li>
+      <li>Scenario content and discussion are confidential to the exercise and the AAR distribution list.</li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Starting conditions (T+0)</div>
+
+    <div class="ttx-meta-grid">
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Day &amp; time</div><div class="ttx-meta-val">Friday, 16:45 local time</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Setting</div><div class="ttx-meta-val">Approaching end of business week</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Initial impact</div><div class="ttx-meta-val">Tenant integrity in question</div></div>
+    </div>
+
+    <p><strong>Initial situation:</strong> At 16:30 local time, an SOC analyst on routine hunt observed an anomaly: a Global Administrator role assignment was made to an account two days ago that is not in the documented Global Admin inventory. Cross-checking, the account was created 11 days ago. The analyst escalated to the SOC Lead. Initial investigation found a parallel finding: an app registration was added 9 days ago with Microsoft Graph permissions including <code>Directory.ReadWrite.All</code> and <code>RoleManagement.ReadWrite.Directory</code>. The app registration is not in the documented application inventory. The SOC has not yet taken action. It is Friday late afternoon.</p>
+
+    <p><strong>What participants know at T+0:</strong></p>
+    <ul class="ttx-bullet">
+      <li>One unrecognised Global Admin account created 11 days ago, granted GA 2 days ago</li>
+      <li>One unrecognised app registration with broad Graph permissions, created 9 days ago</li>
+      <li>SOC analyst escalated to SOC Lead; no containment action yet</li>
+      <li>It is Friday 16:30; normal close-of-business in ~90 minutes</li>
+      <li>Tenant remains operational; no obvious user-visible impact</li>
+    </ul>
+
+    <p><strong>What participants do not yet know (held by exercise team):</strong></p>
+    <ul class="ttx-bullet">
+      <li>The attacker observed the tenant for at least 11 days; established additional persistence beyond the two findings</li>
+      <li>One legitimate Global Admin&rsquo;s session was hijacked early in the campaign</li>
+      <li>The attacker exported a subset of mail and SharePoint content</li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Injects</div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+15 min</span>
+        <span class="ttx-inject-title">Initial containment decisions</span>
+      </div>
+      <p>The SOC Lead has a containment menu: disable the unrecognised GA account; revoke the app registration; revoke refresh tokens for the tenant; force MFA re-registration for privileged users; isolate suspect workstations. The SOC analyst asks which to do, in what order, and how aggressively. The Cloud Platform Lead asks whether revoking refresh tokens will cause an outage to legitimate users at end of day on a Friday.</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>What is the containment sequence per IRP? Where is it documented? What is the authority for each action?</li>
+          <li>The end-of-week timing &mdash; does it accelerate or delay containment? Why?</li>
+          <li>Is there a difference between &ldquo;contain&rdquo; (preserve evidence, stop the bleeding) and &ldquo;eradicate&rdquo; (remove the attacker)? When does the scenario shift from one to the other?</li>
+          <li>If the attacker is watching their persistence go away, what do they do next? Does the response plan for that?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+25 min</span>
+        <span class="ttx-inject-title">SOC Lead: this needs CMT and DR engagement now</span>
+      </div>
+      <p>The SOC Lead concludes: this is tenant-compromise territory, not an opportunistic find. CMT should be convened; the IT DR Coordinator should be on the call; the BCDR Steering Committee should be made aware. The Identity &amp; Access Engineering Lead joins the call. The CMT Lead asks: what is the scope of impact and what is the recovery path?</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Who convenes CMT for cyber events at this severity? Per which document?</li>
+          <li>Is the BCDR Steering Committee&rsquo;s standing-up the same as for a BCDR event? Or different for cyber? Where is that defined?</li>
+          <li>The SOC Lead&rsquo;s answer to &ldquo;what is the scope&rdquo; is &ldquo;we don&rsquo;t know yet&rdquo;. How is that communicated, and what decisions can the CMT make under that uncertainty?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+40 min</span>
+        <span class="ttx-inject-title">Hunt finds further persistence; legitimate GA session hijack confirmed</span>
+      </div>
+      <p>SOC hunting widens the picture. Forensic evidence of a hijacked session belonging to a legitimate Global Admin two weeks ago. Two further app registrations with narrower but still concerning permissions. Anomalous Graph API activity from the malicious app: mail and SharePoint content was exported. The Identity Engineering Lead asks: do we now treat every privileged account as potentially compromised? What about the directory&rsquo;s integrity &mdash; are role assignments themselves trusted?</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>What does &ldquo;directory integrity&rdquo; mean operationally? How is it verified? Is the answer in any current runbook?</li>
+          <li>Mail and SharePoint exfiltration triggers data-breach assessment &mdash; who runs it? Within what timeline (regulator clock)?</li>
+          <li>Should break-glass accounts be activated <em>now</em>, before the attacker realises they&rsquo;re being chased and takes destructive action? What does <a href="grc-dr-wi-02.html">DR-WI-02 Scenario 3</a> say?</li>
+          <li>The hijacked legitimate GA &mdash; their device, credential, MFA &mdash; what is the response?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+60 min</span>
+        <span class="ttx-inject-title">Clean-up vs clean-tenant: the decision space</span>
+      </div>
+      <p>The CMT must brief the BCDR Steering Committee on the recovery path. The SOC&rsquo;s position: the persistence is identified and removable, but the attacker had GA-level access for at least 11 days; the SOC&rsquo;s confidence in bounded scope is &ldquo;moderate&rdquo;, not &ldquo;high&rdquo;. The Identity Engineering Lead notes that the regulatory framework the agency operates under has elevated assurance expectations after a breach. The Cloud Platform Lead estimates: in-tenant clean-up 2-3 weeks; clean-tenant migration 8-12 weeks. The BCDR Steering Committee chair joins the call.</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>What are the documented criteria for the in-tenant vs clean-tenant decision? (See <a href="grc-dr-wi-02.html">DR-WI-02 Scenario 4.2</a>.)</li>
+          <li>The SOC&rsquo;s confidence is &ldquo;moderate&rdquo;, not &ldquo;high&rdquo; &mdash; does that meet the criterion for in-tenant clean-up, or does it tip toward clean-tenant?</li>
+          <li>What is the cost of being wrong &mdash; clean-up when clean-tenant was needed vs the reverse?</li>
+          <li>Once clean-up begins, evidence is altered and migrating to clean-tenant becomes far harder. Is that irreversibility understood?</li>
+          <li>Who actually makes this call &mdash; the BCDR Steering Committee, CEO, or someone else? Is the authority documented?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+80 min</span>
+        <span class="ttx-inject-title">Break-glass account use required</span>
+      </div>
+      <p>The recovery action requires Global Admin operations the SOC is not yet confident treating as trustworthy under normal admin accounts. The decision is made to use a break-glass account for the credential-rotation and role-cleanup phase. The Identity Engineering Lead asks: who can authorise break-glass use; is the access procedure documented; have we tested it in the last quarter as required by the cloud baseline?</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Is break-glass authorisation defined? Per <a href="it-id-wi-05.html">IT-ID-WI-05</a>?</li>
+          <li>Is quarterly validation actually performed? If &ldquo;not since last year&rdquo; or &ldquo;not sure&rdquo;, that is the finding.</li>
+          <li>The break-glass operates from a clean device per the baseline &mdash; is one available? If PAW per <a href="it-ep-sop-paw-01.html">IT-EP-SOP-PAW-01</a> isn&rsquo;t in place, what is the fallback?</li>
+          <li>What does standing-down look like (credential rotation, return to vault, SOC alert reset)? Is the procedure followed exactly?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+100 min</span>
+        <span class="ttx-inject-title">Worst-case branch: break-glass account also locked out</span>
+      </div>
+      <p>Hypothetical inject. Assume for the next 15 minutes: the break-glass credential rotation has not been performed for over a year; the MFA device was decommissioned; the first break-glass account fails authentication. The second is similarly stale. The CMT is now in DR-WI-02 Scenario 3.6 territory &mdash; Microsoft Support escalation for tenant recovery.</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Who is the named contact at Microsoft for tenant emergencies? Is it documented and current? Is it accessible without tenant authentication?</li>
+          <li>Microsoft tenant-recovery may take days. What runs on BCP for that window? Communications fallback &mdash; what works without M365?</li>
+          <li>How does this hypothetical change the agency&rsquo;s view of break-glass governance? What follows in the AAR remediation?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Expected decisions &amp; reference answers</div>
+    <p style="font-style:italic; color:#888; font-size:13px;">For the exercise team only.</p>
+
+    <table class="gt-table">
+      <thead><tr><th>Decision point</th><th>Authority / reference</th><th>Expected discussion / common gaps</th></tr></thead>
+      <tbody>
+        <tr><td>Initial containment sequence</td><td>IRP and identity playbooks; SOC Lead authority</td><td>Watch for: ad-hoc ordering; failing to preserve evidence; revoking tokens at end-of-week without planning user impact</td></tr>
+        <tr><td>CMT and BCDR Steering Committee convening</td><td>Per IRP &mdash; severity threshold and named authority</td><td>Watch for: ambiguity over whose call this is; delays waiting for &ldquo;more information&rdquo;</td></tr>
+        <tr><td>Data-breach assessment</td><td>Legal/DPO; documented procedure</td><td>Watch for: clock-start ambiguity; multiple-regulator alignment not considered; assessment delayed by hunt-still-running</td></tr>
+        <tr><td>Break-glass activation</td><td>Per <a href="grc-dr-wi-02.html">DR-WI-02 Scenario 3.2</a>; per <a href="it-id-wi-05.html">IT-ID-WI-05</a></td><td>Watch for: authorisation unclear; quarterly validation status unknown; alternative access pattern if break-glass fails</td></tr>
+        <tr><td>Clean-up vs clean-tenant decision</td><td>BCDR Steering Committee per <a href="grc-dr-wi-02.html">DR-WI-02 Scenario 4.2</a></td><td>Watch for: defaulting to clean-up; irreversibility not surfaced; SOC confidence translated into a decision without explicit articulation</td></tr>
+        <tr><td>Microsoft Support escalation path</td><td>Per <a href="grc-dr-wi-02.html">DR-WI-02 Scenario 3.6</a>; account team contact</td><td>Watch for: contact info hard to find; only accessible inside the tenant; not exercised in quarterly readiness check</td></tr>
+        <tr><td>Communications during multi-week recovery</td><td>CMT; Comms Lead; coordinated with BCP plans of dependent processes</td><td>Watch for: communications planned only for the first day; no sustained-recovery comms pattern</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Evaluation criteria</div>
+    <ul class="ttx-bullet">
+      <li><span><strong>Objective 1 (SOC triage path):</strong> from detection to scope-establishment within 60 minutes; recovery-threshold concept used correctly</span></li>
+      <li><span><strong>Objective 2 (clean-up vs clean-tenant):</strong> participants can articulate the documented criteria; the decision is connected to the criteria, not to convenience or familiarity</span></li>
+      <li><span><strong>Objective 3 (break-glass readiness):</strong> participants know who authorises, where the credentials are, what governance applies; the quarterly-validation status is known</span></li>
+      <li><span><strong>Objective 4 (SOC + DR + Identity working model):</strong> ownership clear at every step; handoffs explicit; no &ldquo;they should be doing this&rdquo; confusion</span></li>
+      <li><span><strong>Objective 5 (Microsoft escalation):</strong> contact path located; understood as last resort, not first option</span></li>
+      <li><span><strong>Cross-cutting:</strong> Friday-late-afternoon timing handled without abandoning the response or working unsustainable hours; CMT cadence sustainable for a multi-day event</span></li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">After-action review framework</div>
+    <p>Conducted within 14 days. Distribution: BCDR Steering Committee, CISO, SOC Lead, Identity &amp; Access Engineering Lead, IT DR Coordinator, CMT Lead.</p>
+    <p>Common findings: break-glass quarterly-validation gap; clean-up vs clean-tenant decision criteria not understood by decision-makers; CMT severity threshold for cyber events ambiguous or different from BCDR threshold; Microsoft account-team contacts hard to find outside the tenant; sustained-recovery communications not pre-planned; legitimate Global Admin recovery (post-hijack) not in any current runbook.</p>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Document control</div>
+    <table class="gt-table">
+      <tbody>
+        <tr><td>Scenario version</td><td>1.0</td></tr>
+        <tr><td>Scenario drafted</td><td>15 May 2026</td></tr>
+        <tr><td>Author</td><td>Paulo Ferreira</td></tr>
+        <tr><td>Classification</td><td>Internal &mdash; BCDR / Exercise sensitive; references to break-glass kept abstract</td></tr>
+        <tr><td>Re-use</td><td>Re-runnable after &ge; 18 months with inject variation; some agencies may need to tailor tenant-specific details and named regulators</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Related documents</div>
+    <ul class="ttx-bullet">
+      <li><a href="grc-frm-ttx-01.html">GRC-FRM-TTX-01</a> &mdash; the template this scenario follows</li>
+      <li><a href="grc-dr-wi-02.html">GRC-DR-WI-02</a> &mdash; cloud platform DR (Scenarios 3 &amp; 4 are the core of this exercise)</li>
+      <li><a href="it-cl-wi-01.html">IT-CL-WI-01</a> &mdash; tenant identity baseline including break-glass design</li>
+      <li><a href="it-id-wi-05.html">IT-ID-WI-05</a> &mdash; privileged identity governance</li>
+      <li><a href="grc-irp-01.html">GRC-IRP-01</a> &mdash; cyber incident response</li>
+      <li><a href="sop-id-01.html">SOP-ID-01</a> &mdash; SOC identity threat operations</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-ttx.html" style="color:#A0612A;text-decoration:none;">&larr; Back to TTX library</a></span>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-TTX-05: Azure Region Failure During Business-Critical Period &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --ttx:#A0612A; --ttx-light:#F5E8DD; --ttx-border:#E0BB99; --ttx-dark:#6B3F15; --grc:#0E5C5C; }
+
+  .ttx-page-hero { background:linear-gradient(135deg,#2D1808 0%,#6B3F15 40%,#A0612A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .ttx-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .ttx-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .ttx-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .ttx-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .ttx-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .ttx-section { background:#fff; border:0.5px solid var(--ttx-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .ttx-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .ttx-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .ttx-section p:last-child { margin-bottom:0; }
+
+  .ttx-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .ttx-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .ttx-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--ttx); flex-shrink:0; margin-top:5px; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--ttx-light); color:var(--ttx-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--ttx-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .ttx-inject { background:linear-gradient(135deg,#FAF0E4 0%,#F5E8DD 100%); border:0.5px solid var(--ttx-border); border-left:4px solid var(--ttx); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .ttx-inject-head { display:flex; align-items:baseline; gap:14px; margin-bottom:8px; flex-wrap:wrap; }
+  .ttx-inject-time { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; background:var(--ttx); color:#fff; padding:3px 8px; border-radius:5px; }
+  .ttx-inject-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .ttx-inject p { font-size:13px; color:#333; line-height:1.6; margin:0 0 6px; }
+  .ttx-inject ul { font-size:13px; color:#333; padding-left:1.1rem; margin:4px 0; }
+  .ttx-inject ul li { margin-bottom:3px; }
+  .ttx-inject-discuss { background:#fff; border:0.5px solid var(--ttx-border); border-radius:8px; padding:0.7rem 1rem; margin-top:8px; }
+  .ttx-inject-discuss-l { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--ttx-dark); margin-bottom:6px; }
+  .ttx-inject-discuss ul { padding-left:1.1rem; margin:0; }
+  .ttx-inject-discuss ul li { font-size:13px; color:#444; line-height:1.55; margin-bottom:4px; }
+
+  .audience-badge { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:3px 9px; border-radius:5px; }
+  .ab-exec { background:#FAE8D7; color:#7A4E1D; }
+  .ab-tech { background:#DDEAF5; color:#1F4D7A; }
+  .ab-mixed { background:#E8DDF5; color:#5B2D8E; }
+
+  .ttx-meta-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-bottom:14px; }
+  .ttx-meta-card { background:#fafaf7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .ttx-meta-lbl { font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:#888; font-weight:600; }
+  .ttx-meta-val { font-size:13px; font-weight:600; color:#1a1a1a; margin-top:3px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:#888; text-decoration:none; }
+  .breadcrumb a:hover { color:var(--ttx); }
+</style>
+
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; <a href="grc-ttx.html">Tabletop Exercises</a> &nbsp;&rsaquo;&nbsp; GRC-TTX-05</div>
+
+  <div class="ttx-page-hero">
+    <div class="ttx-page-hero-eyebrow">GRC &middot; TTX &middot; Scenario</div>
+    <h1>GRC-TTX-05 &mdash; Azure Region Failure During Business-Critical Period</h1>
+    <p>Tabletop scenario: Azure declares a major service event affecting the agency&rsquo;s primary region while clinical, educational, or financial-cycle processes are operating at peak. Tests the multi-workload failover decisions in <a href="grc-dr-wi-02.html" style="color:#fff;text-decoration:underline;">GRC-DR-WI-02 Scenario 1</a>. Technical lean &mdash; IT and Cloud Platform teams primary; CMT and BPOs in support.</p>
+    <div class="ttx-page-hero-pills">
+      <span class="ttx-page-hero-pill">Cloud DR</span>
+      <span class="ttx-page-hero-pill">Technical lean</span>
+      <span class="ttx-page-hero-pill">90 minutes</span>
+      <span class="ttx-page-hero-pill">Multi-workload</span>
+    </div>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Scenario at a glance</div>
+    <div class="ttx-meta-grid">
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Category</div><div class="ttx-meta-val">Cloud DR (platform)</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Audience</div><div class="ttx-meta-val"><span class="audience-badge ab-tech">Technical</span></div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Duration</div><div class="ttx-meta-val">90 minutes</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Primary documents tested</div><div class="ttx-meta-val">DR-WI-02 (Scenario 1), IT-CL-WI-04, workload runbooks</div></div>
+    </div>
+    <p>Azure region events do happen &mdash; they are rare but real, and when they occur, the agency&rsquo;s workload-by-workload failover design is what determines whether recovery happens at the documented RTO or whether the agency discovers gaps the hard way. This scenario tests both the design (does it actually work as documented?) and the coordination (failing over multiple workloads independently is harder than it sounds when they share dependencies).</p>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Objectives</div>
+    <ul class="ttx-bullet">
+      <li>Test the per-workload failover procedures: are they current, runnable, and validated for the actual configurations in production?</li>
+      <li>Test the cross-workload coordination &mdash; the sequencing of foundation services, data layer, application layer, and integration endpoints</li>
+      <li>Test the &ldquo;confirm region-scope event vs service-level event&rdquo; decision before initiating failover &mdash; premature failover risks split-state</li>
+      <li>Test the failback decision and sequencing &mdash; failback is itself a controlled change, not an automatic reversal</li>
+      <li>Test the communication with dependent BPOs during the failover window: business operations need to know what is happening and what to expect</li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Participants &amp; roles</div>
+
+    <table class="gt-table">
+      <thead><tr><th>Role</th><th>Why in the room</th></tr></thead>
+      <tbody>
+        <tr><td>Cloud Platform Lead</td><td>Owns the Azure tenant infrastructure</td></tr>
+        <tr><td>IT Service Owners (multiple)</td><td>One per affected workload; execute the runbook</td></tr>
+        <tr><td>IT DR Coordinator</td><td>Coordinates across workloads; tracks RTO progress</td></tr>
+        <tr><td>Identity Engineering Lead</td><td>Identity is shared foundation; near-certain involvement</td></tr>
+        <tr><td>Network Engineering Lead</td><td>WAN connectivity to the failover region; DNS / Front Door changes</td></tr>
+        <tr><td>BPOs (1-2)</td><td>Represent business dependence; receive communications</td></tr>
+        <tr><td>CMT Lead</td><td>Coordination across IT and business</td></tr>
+        <tr><td>Microsoft technical account manager (consult or simulated)</td><td>Region-scope clarification; escalation</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Ground rules</div>
+    <ul class="ttx-bullet">
+      <li>No-fault learning environment.</li>
+      <li>Participants may reference real workload runbooks, Azure portal, network diagrams. Inability to access something is a finding.</li>
+      <li>Failover actions are spoken (&ldquo;I would manually fail over the SQL database failover group&rdquo;) not executed. Facilitator confirms outcomes.</li>
+      <li>The scenario assumes failover designs exist per <a href="it-cl-wi-04.html">IT-CL-WI-04</a>. Where they do not, that is the first major finding.</li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Starting conditions (T+0)</div>
+
+    <div class="ttx-meta-grid">
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Day &amp; time</div><div class="ttx-meta-val">Thursday, 10:15 local time</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Setting</div><div class="ttx-meta-val">Peak operating period (annual financial cycle / clinical day / examination period)</div></div>
+      <div class="ttx-meta-card"><div class="ttx-meta-lbl">Initial impact</div><div class="ttx-meta-val">Multiple workloads degraded</div></div>
+    </div>
+
+    <p><strong>Initial situation:</strong> at 10:00 local time, multiple monitoring alerts triggered. A clinical/financial/student application is reporting slow database response; an HR application is unreachable; a document workflow application is partially responsive. The Cloud Platform Lead checks the Azure status portal: an investigation is underway, region <em>[primary region]</em>, multiple service categories. The IT DR Coordinator joins. The first BPO has called about user impact.</p>
+
+    <p><strong>What participants know at T+0:</strong></p>
+    <ul class="ttx-bullet">
+      <li>Azure investigating an event in the primary region; service-category impact still being characterised</li>
+      <li>Multiple agency workloads showing degraded performance in different ways</li>
+      <li>Tier-1 and Tier-2 workloads include identity, EHR/SIS, finance, HR, document workflow</li>
+      <li>It is a peak operating period for at least one critical process</li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Injects</div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+10 min</span>
+        <span class="ttx-inject-title">Confirm region-scope or service-level event?</span>
+      </div>
+      <p>The Cloud Platform Lead reads the Azure status update: &ldquo;Customers may experience issues with Compute, Storage, and SQL resources in <em>[region]</em>.&rdquo; Three named service categories. The IT DR Coordinator asks: is this region-scope or service-level? Is the threshold for initiating failover met?</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Per <a href="grc-dr-wi-02.html">DR-WI-02 Scenario 1.1</a>, what is the criterion for region-scope vs service-level?</li>
+          <li>Who has authority to declare a region failover &mdash; per workload, or coordinated decision?</li>
+          <li>What is the risk of premature failover (split-state) vs delayed failover (extended RTO breach)?</li>
+          <li>How does the agency monitor Azure status &mdash; subscribed alerts, manual checking, vendor channel? Is the subscription current?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+20 min</span>
+        <span class="ttx-inject-title">Per-workload runbook execution begins</span>
+      </div>
+      <p>The DR Coordinator declares region-failover invocation. IT Service Owners begin per-workload procedures. The first Service Owner asks: my runbook references &ldquo;the failover SQL endpoint&rdquo; but the endpoint hostname has changed since the runbook was last reviewed. Is there a current version anywhere? A second Service Owner asks: my workload depends on identity, which has not yet been confirmed as failed-over &mdash; do I wait?</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Stale runbook information &mdash; is this a one-off or systemic? What is the runbook review cadence per the DR policy?</li>
+          <li>Identity is multi-region by Microsoft design and does not need explicit failover &mdash; is that documented anywhere where Service Owners can find it?</li>
+          <li>Sequencing across workloads: foundation services first (identity / DNS / Front Door), data second, application third &mdash; is this written down or relying on collective memory?</li>
+          <li>The IT DR Coordinator&rsquo;s role: are they coordinating or executing? Distinction matters under pressure.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+35 min</span>
+        <span class="ttx-inject-title">Front Door endpoint change; manual DNS for non-Front-Door workload</span>
+      </div>
+      <p>Front Door-fronted workloads automatically begin routing to the secondary region. One workload &mdash; the older document-workflow application &mdash; is not behind Front Door; its public DNS still points to the primary-region public IP. Network Engineering reports: the DNS change to the secondary-region IP can be made in 5 minutes but propagation depends on TTLs &mdash; some configurations have 24-hour TTLs.</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Are the agency&rsquo;s public DNS TTLs configured for resilience-friendly values? When were they last reviewed?</li>
+          <li>For the workload not behind Front Door &mdash; is this an architecture gap that should be treated post-event regardless of how this scenario ends?</li>
+          <li>What is the user impact if DNS takes hours to propagate? Communication to users?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+50 min</span>
+        <span class="ttx-inject-title">SQL failover-group manual failover required for two workloads</span>
+      </div>
+      <p>SQL Database failover groups for two workloads are configured manual-failover (not automatic). The DR Coordinator asks who initiates: the Service Owners directly, or the Cloud Platform Lead centrally? The procedure is in the workload runbooks &mdash; in different places, with slightly different language. The first Service Owner initiates and reports success. The second Service Owner is unsure of the exact command sequence under stress.</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Should SQL failover-groups be automatic or manual? What are the trade-offs? Are they used consistently across workloads?</li>
+          <li>Runbook variation across workloads &mdash; how does the agency standardise enough to make procedures usable across teams?</li>
+          <li>The second Service Owner&rsquo;s uncertainty &mdash; is it a runbook quality issue, a training issue, or a stress / fatigue issue? All three?</li>
+          <li>How is the agency tracking RTO progress in real time? Is the dashboard, status check-in, or other mechanism documented?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+70 min</span>
+        <span class="ttx-inject-title">Application healthy on secondary but reads stale data</span>
+      </div>
+      <p>One Tier-2 workload reports healthy on the secondary region but a Service Owner notices: a row of data updated at 09:55 (5 minutes before the failure began) is not visible. The data is on the primary-region database which was the active write target until 10:00. RPO commitment for this workload was &le; 4 hours &mdash; technically met &mdash; but the user-facing concern is real. The BPO asks: what does the user see, and what does the agency say?</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>RPO is a contract; user expectation may be different. How is the gap communicated honestly?</li>
+          <li>Is there a procedure for users to recover data committed in the RPO window after failback? Is it documented?</li>
+          <li>The synchronous vs asynchronous replication choice was made when this workload was designed &mdash; is the trade-off (cost vs RPO) still appropriate now that the agency has experienced one?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+4 hours</span>
+        <span class="ttx-inject-title">Microsoft declares incident resolved; failback discussion</span>
+      </div>
+      <p>Microsoft has declared the primary-region incident resolved. Workloads are stable on the secondary region. The Cloud Platform Lead recommends: not failing back today &mdash; wait for Microsoft&rsquo;s post-incident report; schedule failback in a maintenance window in the next 48-72 hours.</p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li>Failback during business hours doubles the operational exposure window &mdash; is the recommendation to defer accepted by CMT?</li>
+          <li>Failback to a region that may regress in the immediate hours post-event is risky &mdash; how is that risk assessed?</li>
+          <li>Some workloads may have accumulated state on the secondary that needs to migrate back &mdash; is the failback procedure as well-documented as the failover?</li>
+          <li>When does the AAR happen? Who is included? What feeds into it?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Expected decisions &amp; reference answers</div>
+    <p style="font-style:italic; color:#888; font-size:13px;">For the exercise team only.</p>
+
+    <table class="gt-table">
+      <thead><tr><th>Decision point</th><th>Authority / reference</th><th>Expected discussion / common gaps</th></tr></thead>
+      <tbody>
+        <tr><td>Region-scope vs service-level event confirmation</td><td>Cloud Platform Lead per <a href="grc-dr-wi-02.html">DR-WI-02 Scenario 1.1</a></td><td>Watch for: premature failover; over-cautious delay; reliance on assumption rather than Microsoft status</td></tr>
+        <tr><td>Failover invocation decision</td><td>IT DR Coordinator with Cloud Platform Lead; per BCP plan invocation chain</td><td>Watch for: workload-by-workload uncoordinated decisions; sequence not documented</td></tr>
+        <tr><td>Per-workload runbook execution</td><td>IT Service Owners; runbooks per <a href="grc-frm-dr-01.html">GRC-FRM-DR-01</a></td><td>Watch for: stale runbook content; runbook variation across workloads; commands unfamiliar under stress</td></tr>
+        <tr><td>Cross-workload sequencing</td><td>IT DR Coordinator</td><td>Watch for: ad-hoc; foundation-first principle not applied; application-tier failover without confirming data-tier readiness</td></tr>
+        <tr><td>Communication with BPOs</td><td>IT DR Coordinator and BPOs; via BCP comms channel</td><td>Watch for: technical staff focused on the fix forget to update business stakeholders; cadence not established</td></tr>
+        <tr><td>RPO-window data communication</td><td>IT Service Owner and BPO</td><td>Watch for: RPO contractual position used as defence rather than explanation; user-impact procedure absent</td></tr>
+        <tr><td>Failback timing and sequencing</td><td>Cloud Platform Lead with CMT approval; scheduled, not reactive</td><td>Watch for: pressure to fail back immediately; failback procedure less documented than failover</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Evaluation criteria</div>
+    <ul class="ttx-bullet">
+      <li><span><strong>Objective 1 (per-workload procedures):</strong> runbooks current and usable; commands executable under stress; gaps documented for treatment</span></li>
+      <li><span><strong>Objective 2 (cross-workload coordination):</strong> sequencing explicit; foundation-first applied; IT DR Coordinator&rsquo;s coordinating role distinct from executing roles</span></li>
+      <li><span><strong>Objective 3 (region-scope decision):</strong> made on evidence (Azure status, scope of impact), not assumption; documented criterion applied</span></li>
+      <li><span><strong>Objective 4 (failback decision and sequencing):</strong> planned, not improvised; scheduled in maintenance window; failback procedure documented</span></li>
+      <li><span><strong>Objective 5 (BPO communication):</strong> cadence established; technical detail translated for business consumption; RPO communicated honestly</span></li>
+      <li><span><strong>Cross-cutting:</strong> the agency&rsquo;s recovery tier inventory is the basis for prioritisation throughout</span></li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">After-action review framework</div>
+    <p>Conducted within 14 days. Distribution: IT DR Coordinator, Cloud Platform Lead, all participating Service Owners, CMT Lead, BCDR Steering Committee, CISO.</p>
+    <p>Common findings: runbook stale content for workloads not exercised recently; SQL failover-group configuration inconsistency; non-Front-Door workloads as architecture gap; DNS TTLs not resilience-tuned; cross-workload coordination ad hoc rather than documented; BPO communication cadence absent under technical pressure; failback procedure less documented than failover.</p>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Document control</div>
+    <table class="gt-table">
+      <tbody>
+        <tr><td>Scenario version</td><td>1.0</td></tr>
+        <tr><td>Scenario drafted</td><td>15 May 2026</td></tr>
+        <tr><td>Author</td><td>Paulo Ferreira</td></tr>
+        <tr><td>Classification</td><td>Internal &mdash; BCDR / Exercise sensitive</td></tr>
+        <tr><td>Re-use</td><td>Re-runnable annually; benefits from rotating which workloads are stressed by the injects</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Related documents</div>
+    <ul class="ttx-bullet">
+      <li><a href="grc-frm-ttx-01.html">GRC-FRM-TTX-01</a> &mdash; the template this scenario follows</li>
+      <li><a href="grc-dr-wi-02.html">GRC-DR-WI-02</a> &mdash; cloud platform DR (Scenario 1 is the core of this exercise)</li>
+      <li><a href="it-cl-wi-03.html">IT-CL-WI-03</a>, <a href="it-cl-wi-04.html">IT-CL-WI-04</a> &mdash; cloud resilience design</li>
+      <li><a href="grc-dr-wi-01.html">GRC-DR-WI-01</a> &mdash; recovery tier classification</li>
+      <li><a href="grc-frm-dr-01.html">GRC-FRM-DR-01</a> &mdash; DR runbook template (this exercise tests populated runbooks)</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc-ttx.html" style="color:#A0612A;text-decoration:none;">&larr; Back to TTX library</a></span>
+  </div>
+
+</div>
+</body>
+</html>
