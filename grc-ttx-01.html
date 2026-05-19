@@ -158,13 +158,13 @@
       <div class="ttx-meta-card"><div class="ttx-meta-lbl">Initial impact</div><div class="ttx-meta-val">EHR unavailable</div></div>
     </div>
 
-    <p><strong>Initial situation:</strong> at 09:00 local time, clinical staff across the hospital begin reporting that the electronic health record platform is responding extremely slowly or not at all. By 09:10, the IT service desk is fielding multiple calls. At 09:13, the on-call IT Service Owner for the EHR platform receives an alert from CrowdStrike: ransomware behaviour detected on three servers in the EHR application tier. SOC at Obrela has acknowledged. The Service Owner has just started a call with the SOC. Clinical operations leadership has not yet been formally notified.</p>
+    <p><strong>Initial situation:</strong> at 09:00 local time, clinical staff across the hospital begin reporting that the electronic health record platform is responding extremely slowly or not at all. By 09:10, the IT service desk is fielding multiple calls. At 09:13, the on-call IT Service Owner for the EHR platform receives an alert from the SOC: ransomware behaviour detected on three servers in the EHR application tier via EDR. SOC team has acknowledged. The Service Owner has just started a call with the SOC. Clinical operations leadership has not yet been formally notified.</p>
 
     <p><strong>What participants know at T+0:</strong></p>
     <ul class="ttx-bullet">
       <li>EHR platform is unavailable to clinical users; service desk volume is rising fast</li>
-      <li>CrowdStrike detected ransomware behaviour on 3 named EHR application-tier servers</li>
-      <li>SOC at Obrela is on the phone with the IT Service Owner</li>
+      <li>EDR detected ransomware behaviour on 3 named EHR application-tier servers</li>
+      <li>SOC Team is on the phone with the IT Service Owner</li>
       <li>It is mid-morning on a normal operating day; outpatient clinic in session; emergency department operating; one operating theatre case in progress</li>
     </ul>
   </div>
@@ -177,7 +177,7 @@
         <span class="ttx-inject-time">T+10 min</span>
         <span class="ttx-inject-title">SOC confirms ransomware; isolation in progress</span>
       </div>
-      <p>The SOC confirms ransomware. CrowdStrike has automatically isolated the three affected servers. The SOC has begun investigation. The EHR remains unavailable to clinical users. The Service Owner asks &mdash; can we just restore from this morning&rsquo;s backup and be back up in two hours? The SOC&rsquo;s answer is &ldquo;not yet, we don&rsquo;t know the scope&rdquo;.</p>
+      <p>The SOC confirms ransomware. EDR has automatically isolated the three affected servers. The SOC has begun investigation. The EHR remains unavailable to clinical users. The Service Owner asks &mdash; can we just restore from this morning&rsquo;s backup and be back up in two hours? The SOC&rsquo;s answer is &ldquo;not yet, we don&rsquo;t know the scope&rdquo;.</p>
       <div class="ttx-inject-discuss">
         <div class="ttx-inject-discuss-l">Discussion prompts</div>
         <ul>
