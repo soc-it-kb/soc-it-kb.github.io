@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-FRM-TTX-01: Tabletop Exercise Scenario Template &mdash; Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+  :root { --ttx:#A0612A; --ttx-light:#F5E8DD; --ttx-border:#E0BB99; --ttx-dark:#6B3F15; --grc:#0E5C5C; }
+
+  .ttx-page-hero { background:linear-gradient(135deg,#2D1808 0%,#6B3F15 40%,#A0612A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .ttx-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .ttx-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .ttx-page-hero p  { font-size:14px; opacity:0.85; line-height:1.65; margin-bottom:10px; }
+  .ttx-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .ttx-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+
+  .ttx-section { background:#fff; border:0.5px solid var(--ttx-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .ttx-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .ttx-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .ttx-section p:last-child { margin-bottom:0; }
+
+  .ttx-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; padding-left:0; margin-top:4px; }
+  .ttx-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.55; }
+  .ttx-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--ttx); flex-shrink:0; margin-top:5px; }
+
+  .gt-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:4px; }
+  .gt-table th { background:var(--ttx-light); color:var(--ttx-dark); font-weight:600; font-size:12px; text-align:left; padding:7px 10px; border-bottom:1px solid var(--ttx-border); }
+  .gt-table td { padding:7px 10px; border-bottom:0.5px solid #f0f0ec; color:#333; vertical-align:top; }
+  .gt-table tr:last-child td { border-bottom:none; }
+  .gt-table code { font-size:11px; background:#f5f5f3; padding:1px 5px; border-radius:4px; }
+
+  .ttx-inject { background:linear-gradient(135deg,#FAF0E4 0%,#F5E8DD 100%); border:0.5px solid var(--ttx-border); border-left:4px solid var(--ttx); border-radius:10px; padding:1rem 1.25rem; margin-bottom:10px; }
+  .ttx-inject-head { display:flex; align-items:baseline; gap:14px; margin-bottom:8px; flex-wrap:wrap; }
+  .ttx-inject-time { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; background:var(--ttx); color:#fff; padding:3px 8px; border-radius:5px; }
+  .ttx-inject-title { font-size:14px; font-weight:600; color:#1a1a1a; }
+  .ttx-inject p { font-size:13px; color:#333; line-height:1.6; margin:0 0 6px; }
+  .ttx-inject ul { font-size:13px; color:#333; padding-left:1.1rem; margin:4px 0; }
+  .ttx-inject ul li { margin-bottom:3px; }
+  .ttx-inject-discuss { background:#fff; border:0.5px solid var(--ttx-border); border-radius:8px; padding:0.7rem 1rem; margin-top:8px; }
+  .ttx-inject-discuss-l { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--ttx-dark); margin-bottom:6px; }
+  .ttx-inject-discuss ul { padding-left:1.1rem; margin:0; }
+  .ttx-inject-discuss ul li { font-size:13px; color:#444; line-height:1.55; margin-bottom:4px; }
+
+  .audience-badge { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; padding:3px 9px; border-radius:5px; }
+  .ab-exec { background:#FAE8D7; color:#7A4E1D; }
+  .ab-tech { background:#DDEAF5; color:#1F4D7A; }
+  .ab-mixed { background:#E8DDF5; color:#5B2D8E; }
+
+  .ttx-meta-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-bottom:14px; }
+  .ttx-meta-card { background:#fafaf7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; }
+  .ttx-meta-lbl { font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:#888; font-weight:600; }
+  .ttx-meta-val { font-size:13px; font-weight:600; color:#1a1a1a; margin-top:3px; }
+
+  .breadcrumb { font-size:12px; color:#888; margin-bottom:10px; }
+  .breadcrumb a { color:#888; text-decoration:none; }
+  .breadcrumb a:hover { color:var(--ttx); }
+</style>
+
+
+<style>
+  .tmpl-banner { background:#FAEEDA; border:0.5px solid #FAC775; border-left:3px solid #FAC775; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.5rem; font-size:13px; color:#6b3f0a; line-height:1.6; }
+  .tmpl-banner strong { color:#5C3109; }
+  .fill { background:#FFF9E6; border:1px dashed #D4B860; border-radius:4px; padding:2px 7px; color:#7a5a14; font-style:italic; font-size:12px; display:inline-block; }
+  .note { font-size:11px; color:#888; font-style:italic; margin-top:4px; }
+  .field-block { background:#fafaf7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1.1rem; margin-bottom:10px; }
+  .field-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#666; margin-bottom:6px; }
+  .field-body { font-size:13px; color:#333; line-height:1.6; }
+</style>
+</head>
+<body>
+
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="breadcrumb"><a href="grc.html">GRC</a> &nbsp;&rsaquo;&nbsp; <a href="grc-ttx.html">Tabletop Exercises</a> &nbsp;&rsaquo;&nbsp; GRC-FRM-TTX-01</div>
+
+  <div class="ttx-page-hero">
+    <div class="ttx-page-hero-eyebrow">GRC &middot; TTX &middot; Template</div>
+    <h1>GRC-FRM-TTX-01 &mdash; Tabletop Exercise Scenario Template</h1>
+    <p>Reusable template for authoring tabletop exercise scenarios. Used by the BCP Coordinator, IT DR Coordinator, SOC Lead, or Exercise Director to develop scenarios beyond the worked examples in the TTX library. Populated scenarios are exercised under <a href="grc-bcdr-wi-02.html" style="color:#fff;text-decoration:underline;">GRC-BCDR-WI-02</a>.</p>
+    <div class="ttx-page-hero-pills">
+      <span class="ttx-page-hero-pill">Scenario design</span>
+      <span class="ttx-page-hero-pill">Injects &amp; decisions</span>
+      <span class="ttx-page-hero-pill">Multi-audience</span>
+      <span class="ttx-page-hero-pill">Reusable</span>
+    </div>
+  </div>
+
+  <div class="tmpl-banner">
+    <strong>How to use this template.</strong> Tabletop exercises are facilitated discussions, not live drills. Participants work through a scripted scenario, responding to a sequence of injects (new pieces of information that change the situation), making decisions, and reflecting on what worked. This template structures one such scenario. Worked examples populated for common situations are at <a href="grc-ttx.html">GRC-TTX library</a> (GRC-TTX-01 onwards). Fields shown as <span class="fill">[Fill]</span> are placeholders.
+  </div>
+
+  <!-- ============ 1. SCENARIO IDENTIFICATION ============ -->
+  <div class="ttx-section">
+    <div class="ttx-section-title">1 &mdash; Scenario identification</div>
+
+    <div class="field-block">
+      <div class="field-label">Scenario title</div>
+      <div class="field-body"><span class="fill">[Short descriptive title &mdash; e.g. &ldquo;Ransomware affecting clinical EHR&rdquo;, &ldquo;Sustained regional power outage&rdquo;]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Scenario identifier</div>
+      <div class="field-body"><span class="fill">[Agency naming convention &mdash; e.g. AKHS-TTX-2026-01]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Scenario category</div>
+      <div class="field-body"><span class="fill">[Cyber / BCDR / Hybrid &mdash; pick the principal lens; flag the secondary if hybrid]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Audience</div>
+      <div class="field-body"><span class="fill">[Executive / CMT &mdash; strategic decision-making, communications, regulatory exposure / Technical &mdash; IT, SOC, hands-on response and recovery / Mixed &mdash; both audiences in a coordinated session]</span><div class="note">Audience choice shapes inject style, decision focus, and discussion prompts.</div></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Duration</div>
+      <div class="field-body"><span class="fill">[60 / 90 / 120 / 180 minutes &mdash; including briefing and AAR]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Author</div>
+      <div class="field-body"><span class="fill">[Named author and review date]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ 2. OBJECTIVES ============ -->
+  <div class="ttx-section">
+    <div class="ttx-section-title">2 &mdash; Objectives</div>
+
+    <p>A tabletop scenario has three to five concrete objectives. &ldquo;Practise BCP&rdquo; is not an objective; &ldquo;test the invocation decision under ambiguous information&rdquo; is.</p>
+
+    <ul class="ttx-bullet">
+      <li><span class="fill">[Objective 1 &mdash; the specific capability or decision the scenario stresses]</span></li>
+      <li><span class="fill">[Objective 2]</span></li>
+      <li><span class="fill">[Objective 3]</span></li>
+      <li><span class="fill">[Optional Objective 4]</span></li>
+      <li><span class="fill">[Optional Objective 5]</span></li>
+    </ul>
+
+    <p class="note">Map objectives back to specific documents being exercised &mdash; e.g. &ldquo;tests invocation criteria in BCP-01 &sect;3&rdquo;, &ldquo;tests Entra recovery procedure in DR-WI-02 Scenario 3&rdquo;. This is what makes the exercise diagnostic.</p>
+  </div>
+
+  <!-- ============ 3. PARTICIPANTS ============ -->
+  <div class="ttx-section">
+    <div class="ttx-section-title">3 &mdash; Participants &amp; roles</div>
+
+    <table class="gt-table">
+      <thead><tr><th>Role</th><th>Who plays it</th><th>Real or simulated?</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fill">[CMT Lead]</span></td><td><span class="fill">[Named individual]</span></td><td><span class="fill">[Real role-holder / observer / simulated by facilitator]</span></td></tr>
+        <tr><td><span class="fill">[BPO]</span></td><td><span class="fill">[Name]</span></td><td><span class="fill">[Real / observer / simulated]</span></td></tr>
+        <tr><td><span class="fill">[IT Service Owner]</span></td><td><span class="fill">[Name]</span></td><td><span class="fill">[Real / observer / simulated]</span></td></tr>
+        <tr><td><span class="fill">[SOC Lead or representative]</span></td><td><span class="fill">[Name]</span></td><td><span class="fill">[Real / observer / simulated]</span></td></tr>
+        <tr><td><span class="fill">[Comms Lead]</span></td><td><span class="fill">[Name]</span></td><td><span class="fill">[Real / observer / simulated]</span></td></tr>
+        <tr><td><span class="fill">[Add additional roles as scenario requires]</span></td><td><span class="fill">[Name]</span></td><td><span class="fill">[Real / observer / simulated]</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="field-block" style="margin-top:14px;">
+      <div class="field-label">Exercise team (not playing roles)</div>
+      <div class="field-body"><span class="fill">[Facilitator, scribe, controller(s) for delivering injects, observer(s) capturing findings]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ 4. GROUND RULES ============ -->
+  <div class="ttx-section">
+    <div class="ttx-section-title">4 &mdash; Ground rules</div>
+
+    <p>Stated at the start of the session by the facilitator. Adapt as needed; defaults below.</p>
+    <ul class="ttx-bullet">
+      <li>This is a no-fault learning environment. Findings are about the system and the process, not individuals.</li>
+      <li>Participants respond as themselves in their real role &mdash; not as how they wish they would respond, and not as how someone else might.</li>
+      <li>If a participant does not know the answer, that itself is a valid finding.</li>
+      <li>Participants may reference real documents (this is a learning event, not a memory test). Inaccessible documents during the exercise are themselves a finding.</li>
+      <li>The facilitator may pause or adjust the scenario to keep discussion productive.</li>
+      <li>Content of the scenario and the discussion is confidential to the exercise and the AAR distribution list.</li>
+    </ul>
+  </div>
+
+  <!-- ============ 5. STARTING CONDITIONS ============ -->
+  <div class="ttx-section">
+    <div class="ttx-section-title">5 &mdash; Starting conditions (T+0)</div>
+
+    <div class="field-block">
+      <div class="field-label">Date and time of the scenario</div>
+      <div class="field-body"><span class="fill">[Day of week, time of day, time of year &mdash; these matter. A Friday-evening incident is different from a Tuesday-morning incident.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">Initial situation</div>
+      <div class="field-body"><span class="fill">[2-4 sentences setting the scene as participants would first learn of it. Avoid revealing too much; the early injects let the scenario unfold.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">What participants know at T+0</div>
+      <div class="field-body"><span class="fill">[Bullet list of facts available at the start. Should leave significant ambiguity &mdash; ambiguity is what most BCDR / cyber decisions are made under.]</span></div>
+    </div>
+
+    <div class="field-block">
+      <div class="field-label">What participants do not yet know</div>
+      <div class="field-body"><span class="fill">[Information held by the exercise team that will be revealed through injects. Helps the facilitator calibrate pacing.]</span></div>
+    </div>
+  </div>
+
+  <!-- ============ 6. INJECTS ============ -->
+  <div class="ttx-section">
+    <div class="ttx-section-title">6 &mdash; Injects (timeline)</div>
+
+    <p>Injects are new information delivered to participants during the exercise. Each inject typically prompts a decision or a discussion. The template below shows the structure; populate as many injects as the scenario needs (4-8 is typical for a 90-minute exercise).</p>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+15 min</span>
+        <span class="ttx-inject-title"><span class="fill">[Inject title]</span></span>
+      </div>
+      <p><span class="fill">[2-4 sentences delivering new information &mdash; e.g. an alert from SOC, a call from a vendor, a media enquiry, an escalation from a clinical team]</span></p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li><span class="fill">[Question that surfaces a decision or judgement]</span></li>
+          <li><span class="fill">[Question about communication, escalation, or coordination]</span></li>
+          <li><span class="fill">[Question about what the relevant document/playbook says]</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ttx-inject">
+      <div class="ttx-inject-head">
+        <span class="ttx-inject-time">T+30 min</span>
+        <span class="ttx-inject-title"><span class="fill">[Inject title]</span></span>
+      </div>
+      <p><span class="fill">[Inject content]</span></p>
+      <div class="ttx-inject-discuss">
+        <div class="ttx-inject-discuss-l">Discussion prompts</div>
+        <ul>
+          <li><span class="fill">[Prompt]</span></li>
+          <li><span class="fill">[Prompt]</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="note">Continue adding injects at appropriate intervals. Consider injects that: complicate the picture (the early read is partially wrong); test communications (a stakeholder demands an answer); test technical decisions (a recovery action has unintended consequences); test handover (a key role-holder becomes unavailable).</p>
+  </div>
+
+  <!-- ============ 7. EXPECTED DECISIONS ============ -->
+  <div class="ttx-section">
+    <div class="ttx-section-title">7 &mdash; Expected decisions &amp; reference answers</div>
+
+    <p>For the exercise team only &mdash; not distributed to participants until the AAR. Documents what the scenario is designed to surface, so the facilitator knows when discussion drifts from the objectives.</p>
+
+    <table class="gt-table">
+      <thead><tr><th>Decision point</th><th>Authority per documented procedure</th><th>Expected discussion</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fill">[E.g. Invoke BCP for affected process]</span></td><td><span class="fill">[Per BCP plan &sect;3 &mdash; named role]</span></td><td><span class="fill">[What good discussion looks like; what gaps are commonly surfaced]</span></td></tr>
+        <tr><td><span class="fill">[Decision]</span></td><td><span class="fill">[Authority]</span></td><td><span class="fill">[Discussion]</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============ 8. EVALUATION ============ -->
+  <div class="ttx-section">
+    <div class="ttx-section-title">8 &mdash; Evaluation criteria</div>
+
+    <p>How the exercise team judges whether the scenario achieved its objectives. Used in the AAR.</p>
+    <ul class="ttx-bullet">
+      <li><strong>Objective 1:</strong> <span class="fill">[Criterion &mdash; e.g. &ldquo;Invocation decision made within 30 minutes of T+0 with documented basis&rdquo;]</span></li>
+      <li><strong>Objective 2:</strong> <span class="fill">[Criterion]</span></li>
+      <li><strong>Objective 3:</strong> <span class="fill">[Criterion]</span></li>
+      <li><span><strong>Cross-cutting:</strong> were named documents (plans, runbooks, contact lists) accessed and consulted during the exercise? If not, why not?</span></li>
+      <li><span><strong>Cross-cutting:</strong> were communications consistent with what plans specify, and did fallback channels work?</span></li>
+    </ul>
+  </div>
+
+  <!-- ============ 9. AAR FRAMEWORK ============ -->
+  <div class="ttx-section">
+    <div class="ttx-section-title">9 &mdash; After-action review framework</div>
+
+    <p>Conducted within 14 days of the exercise per <a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a>. The exercise debrief at the end of the session is the start of the AAR, not the entirety.</p>
+
+    <ul class="ttx-bullet">
+      <li>What happened (factual recap, no commentary)</li>
+      <li>What was supposed to happen (per documented plans / runbooks / playbooks)</li>
+      <li>Where the two diverged, and why (root cause, not symptom)</li>
+      <li>What worked well (preserve)</li>
+      <li>What did not work (treat &mdash; risk register / document update / training need / capability gap)</li>
+      <li>Specific changes to plans, runbooks, contacts (with owner and date)</li>
+      <li>Distribution of the AAR (BCDR Steering Committee, agency CEO, IT DR Coordinator, affected role-holders)</li>
+    </ul>
+  </div>
+
+  <!-- ============ 10. DOCUMENT CONTROL ============ -->
+  <div class="ttx-section">
+    <div class="ttx-section-title">10 &mdash; Document control</div>
+
+    <table class="gt-table">
+      <thead><tr><th>Field</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Scenario version</td><td><span class="fill">[Version number]</span></td></tr>
+        <tr><td>Scenario date (drafted)</td><td><span class="fill">[Date]</span></td></tr>
+        <tr><td>Exercise date</td><td><span class="fill">[Date the exercise was or will be run]</span></td></tr>
+        <tr><td>Author sign-off</td><td><span class="fill">[Name, date]</span></td></tr>
+        <tr><td>Exercise Director / sponsor sign-off</td><td><span class="fill">[Name, date]</span></td></tr>
+        <tr><td>Document classification</td><td>Internal &mdash; BCDR / Exercise sensitive (some scenarios are higher classification if they include specific tenant or facility details)</td></tr>
+        <tr><td>Re-use planned?</td><td><span class="fill">[Yes / No &mdash; scenarios may be re-used after a delay; some are best-once.]</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">How this template fits with the rest of BCDR</div>
+    <ul class="ttx-bullet">
+      <li><span><strong>Methodology</strong> &mdash; how exercises are scoped, sequenced, and run lives in <a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a>. This template is the artefact that procedure produces.</span></li>
+      <li><span><strong>Worked examples</strong> &mdash; populated scenarios for common situations live in the <a href="grc-ttx.html">TTX library</a> (GRC-TTX-01 onwards). Use them directly, or use them as patterns for your own.</span></li>
+      <li><span><strong>Real invocations</strong> count against the exercise cadence per <a href="grc-bcdr-wi-02.html">WI-02</a>. A real ransomware response within the year may substitute for that year&rsquo;s ransomware tabletop &mdash; though doing both is normally healthier.</span></li>
+      <li><span><strong>AAR findings</strong> feed: plan updates per <a href="grc-frm-bcp-01.html">FRM-BCP-01</a>, runbook updates per <a href="grc-frm-dr-01.html">FRM-DR-01</a>, BIA refresh per <a href="grc-frm-bcdr-01.html">FRM-BCDR-01</a>, the risk register where capability gaps are surfaced, and this template if scenario gaps are found.</span></li>
+    </ul>
+  </div>
+
+  <div class="ttx-section">
+    <div class="ttx-section-title">Related documents</div>
+    <ul class="ttx-bullet">
+      <li><a href="grc-bcdr-wi-02.html">GRC-BCDR-WI-02</a> &mdash; Exercise &amp; Testing Programme methodology</li>
+      <li><a href="grc-ttx.html">GRC-TTX library</a> &mdash; populated worked-example scenarios</li>
+      <li><a href="grc-bcdr-sop-01.html">GRC-BCDR-SOP-01</a> &mdash; methodology including impact rubric used in exercises</li>
+      <li><a href="grc-bcp-sop-01.html">GRC-BCP-SOP-01</a> &mdash; BCP policy</li>
+      <li><a href="grc-dr-sop-01.html">GRC-DR-SOP-01</a> &mdash; DR policy</li>
+      <li><a href="grc-irp-01.html">GRC-IRP-01</a> &mdash; cyber incident response (paired discipline for cyber TTX scenarios)</li>
+      <li><a href="grc-frm-bcdr-01.html">GRC-FRM-BCDR-01</a>, <a href="grc-frm-bcp-01.html">GRC-FRM-BCP-01</a>, <a href="grc-frm-dr-01.html">GRC-FRM-DR-01</a> &mdash; the templates exercises validate</li>
+    </ul>
+  </div>
+
+  <div class="kb-footer">
+    <span><span class="live-dot"></span>Last Updated &middot; 15 May 2026 &middot; Paulo Ferreira</span>
+    <span><a href="grc.html" style="color:#A0612A;text-decoration:none;">&larr; Back to GRC</a></span>
+  </div>
+
+</div>
+</body>
+</html>
