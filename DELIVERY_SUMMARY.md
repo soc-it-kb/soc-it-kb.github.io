@@ -1,138 +1,141 @@
-# MITRE ATT&CK Refresh — Delivery Summary
+# Forms Print-Preservation Fix — Delivery Summary
 
 **Session date:** 15 May 2026
 **Author:** Paulo Ferreira
-**Scope locked via two decisions:**
-1. Deferred set only — BCDR (T1485, T1486, T1490, M1053) + Identity (T1136, T1078, T1098, T1484)
-2. tools-references.html only; back-injection of technique IDs into individual PB/RB/WI content remains a separate follow-up pass
+**Trigger:** user-reported defect — filling in any GRC form and then printing or saving as PDF produced output with empty fields. Data was being captured into the DOM but disappearing in the printed output.
 
 ---
 
-## Files in this delivery (5 total)
+## Files in this delivery (8 total)
+
+### 1 new file
+
+| File | Type | Purpose |
+|---|---|---|
+| `forms-print-fix.js` | JavaScript | Site-wide print-mirror script that walks all form-input elements on `beforeprint`, creates static-text mirror nodes with the values, hides the originals for print, and cleans up on `afterprint`. CSP-safe, ~150 lines. |
+
+### 6 modified forms (retrofitted with `<script src="forms-print-fix.js"></script>`)
+
+| File | Inputs preserved | Notes |
+|---|---:|---|
+| `grc-frm-06.html` | 274 (7 text/date + 267 textareas) | + FRM-07 stale reference removed |
+| `grc-frm-08.html` | 246 (15 text/date + 231 textareas) | + structural body bug fixed |
+| `grc-frm-10.html` | 148 (16 text/date + 132 textareas) | + structural body bug fixed |
+| `grc-frm-12.html` | 109 static + 11 dynamic | Includes JS-created RACI / check rows |
+| `grc-frm-13.html` | 28 (24 text/date + 4 textareas) | |
+| `grc-irp-annex-template.html` | 135 (121 text/date + 14 textareas) | |
+
+### 1 maintenance file
 
 | File | Change |
 |---|---|
-| `tools-references.html` | Section title broadened; tactic cards augmented for TA0001 / TA0003 / TA0004 / TA0008 / TA0040; new Mitigations section; coverage validation matrix updated; technique drill-down table extended; `+MIT` tag style introduced |
-| `search-index.json` | 240 → 241 entries (new entry for tools-references.html itself — closes pending follow-up #14) |
-| `index.html` | Total pages 240 → 241 |
-| `search.html` | Page count 240 → 241 |
-| `governance.html` | Total pages 240 → 241; new change-log entry as most recent |
+| `governance.html` | New change-log entry as most recent (this delivery) |
 
 ---
 
-## What was added — by tactic
+## What was broken
 
-### TA0001 Initial Access
-| Technique | Change |
-|---|---|
-| T1078 Valid Accounts | **Augmented:** IT-ID-WI-01, IT-ID-WI-02, IT-ID-WI-05 added as governance refs |
+Filling in any GRC questionnaire form and then printing or saving as PDF produced output with all fields blank. The text was being captured into the form's DOM (visible on screen) but disappearing in the printed output. This affected:
 
-### TA0003 Persistence
-| Technique | Change |
-|---|---|
-| T1136 Create Account | **Augmented:** IT-ID-WI-01 (JML Lifecycle) added |
-| T1136.003 Cloud Account | **New entry:** linked to IT-ID-WI-01, IT-CL-WI-01 |
-| T1098 Account Manipulation | **New entry:** linked to ID-PB-03 + IT-ID-WI-02, IT-ID-WI-05 |
-| T1098.001 Additional Cloud Credentials | **New entry:** linked to ID-PB-03 + IT-ID-WI-04, IT-ID-WI-05, IT-CL-WI-01 |
-| T1098.003 Additional Cloud Roles | **New entry:** linked to ID-PB-03 + IT-ID-WI-02, IT-ID-WI-05, IT-CL-WI-01 |
+- **All 6 forms in this delivery** plus any future form using the same input patterns
+- Both "Print" and "Save as PDF" (browser PDF generation uses the same print pipeline)
+- Single-line `<input>` values, multi-line `<textarea>` values, `<select>` selections, and `<input type="radio">` selection state
 
-### TA0004 Privilege Escalation
-| Technique | Change |
-|---|---|
-| T1078 Valid Accounts | **Augmented:** IT-ID-WI-05, IT-ID-WI-02 added |
-| T1078.004 Valid Accounts: Cloud | **New entry:** linked to ID-PB-02 + IT-ID-WI-05, IT-CL-WI-01 |
-| T1484 Domain or Tenant Policy Modification | **New entry:** linked to ID-PB-03 + IT-ID-WI-05, IT-CL-WI-01, IT-SRV-WI-DC-01 |
+The forms had a per-form `@media print` rule that only adjusted borders — it did not address the underlying value-rendering issue.
 
-### TA0008 Lateral Movement
-| Technique | Change |
-|---|---|
-| T1078 Valid Accounts | **Augmented:** IT-ID-WI-02, IT-ID-WI-05 added |
-| T1078.002 Valid Accounts: Domain | **New entry:** linked to ID-PB-02 + IT-ID-WI-02, IT-ID-WI-05, IT-SRV-WI-DC-01 |
-
-### TA0040 Impact
-| Technique | Change |
-|---|---|
-| T1485 Data Destruction | **New entry:** linked to EP-PB-05 + GRC-DR-SOP-01, GRC-DR-WI-01 |
-| T1486 Data Encrypted for Impact | **Augmented:** GRC-DR-SOP-01, GRC-DR-WI-01, GRC-FRM-DR-01 added |
-| T1490 Inhibit System Recovery | **Augmented:** GRC-DR-SOP-01 (immutable + isolated), GRC-BCDR-WI-02 added |
+This made the forms unusable for their primary purpose: serving as evidence of completion for an audit trail, supplier file, or regulator submission.
 
 ---
 
-## New section — ATT&CK Mitigations
+## What the fix does
 
-Six mitigations now table-mapped to their authoritative implementing content:
+`forms-print-fix.js` is a CSP-safe, ~150-line script attached via a single `<script src="forms-print-fix.js"></script>` tag. On `beforeprint`:
 
-| Mitigation | Name | Source |
-|---|---|---|
-| M1018 | User Account Management | IT-ID-SOP-01, IT-ID-WI-01, IT-ID-WI-02 |
-| M1026 | Privileged Account Management | IT-ID-WI-05, IT-SI-WI-04, IT-EP-SOP-PAW-01 |
-| M1027 | Password Policies | IT-CL-WI-01, IT-SRV-WI-DC-01 |
-| M1032 | Multi-factor Authentication | IT-CL-WI-01, IT-ID-WI-05 |
-| M1036 | Account Use Policies | IT-ID-WI-04, IT-ID-WI-05 |
-| **M1053** | **Data Backup** | **GRC-DR-SOP-01, GRC-DR-WI-01, GRC-FRM-DR-01** |
+1. Walks every `<input type="text">`, `<input type="date">`, `<input type="email">`, `<input type="tel">`, `<input type="number">`, `<input type="url">`, `<textarea>`, and `<select>` in the page
+2. For each, creates a sibling `<span class="frm-print-mirror">` populated with the value as static text
+3. Adds `frm-print-hide` to the original (which `@media print` then sets to `display:none`)
+4. For `<input type="radio">`, applies a `frm-print-radio-checked` or `frm-print-radio-unchecked` class to the containing `<label>`, which renders a ballot box (☑ / ☐) before the label text
 
-M1053 is the BCDR-flagged mitigation deferred across two preceding deliveries. The other 5 were natural additions arising from the same audit — the Identity Governance and Cloud Baseline domains had been publishing M1018/M1026/M1027/M1032/M1036 content for weeks without it being visible on the matrix surface.
+On `afterprint`: removes all mirrors, restores all originals. The editable form looks identical to before printing.
 
----
+Multi-line text preserves line breaks via `white-space: pre-wrap`. Empty fields render as a thin underline so blank forms still look fillable when printed. The mirror inherits font and color from the surrounding cell, so the result matches the form's existing visual style.
 
-## Architecture decision: `+MIT` tag
-
-Existing tactic cards mixed detection content (PB/RB) and governance content (WIs) without distinction. The refresh introduces a small `+MIT` chip on entries where the listed reference is **preventive / governance** rather than **detective / responsive**.
-
-- **No tag (default):** detection / response content (playbooks, runbooks, IR SOPs)
-- **`+MIT` chip (green):** preventive / governance content (WIs, baselines, BCDR SOPs)
-
-Section title broadened from "ATT&CK techniques covered by published playbooks & runbooks" to "ATT&CK techniques covered by published content" to reflect inclusion of preventive material.
+A `matchMedia('print')` listener acts as a fallback for Safari and for the print-emulation pipeline used by some Save-as-PDF flows where `beforeprint` may not fire reliably.
 
 ---
 
-## Coverage matrix updates
+## Bonus corrections in this delivery
 
-| Tactic | Before | After | Reason |
-|---|---|---|---|
-| Persistence | Partial | **Covered** | Identity governance T1136 sub-techs + T1098 + T1098.001 + T1098.003 mapped |
-| Privilege Escalation | Partial | **Covered** | T1078 + T1078.004 + T1484 mapped |
-| Lateral Movement | Covered | Covered (note refined) | T1078.002 governance refs added |
-| Impact | Covered | Covered (note refined) | M1053 via GRC-DR-SOP-01 now named |
+1. **FRM-08 and FRM-10 had a structural body bug** — duplicated `</body>` block immediately after `</head>` with `download-utils.js` and `lang-switcher.js` scripts loaded twice. This is the same pattern that was fixed across 77 cyber operational documents during the IRP rebuild. The double-script-load would have made the print-fix double-mirror every input value. Fixed in this delivery.
+
+2. **FRM-06 had a stale reference** — `"Scored by: GRC-FRM-07"` linking to a form that doesn't exist (scored-record companion forms are FRM-09 for On-Prem and FRM-11 for General; no equivalent currently exists for the SaaS/Cloud questionnaire). The broken link is replaced with the text "Companion scored-record form (planned)" pending a future decision on whether to author it.
 
 ---
 
-## Technique-level drill-down — new rows
+## Validation
 
-| ID | Name | Tool | Evidence |
-|---|---|---|---|
-| T1098 | Account Manipulation | IAM, SIEM | Directory audit logs; unsanctioned role/credential grant |
-| T1485 | Data Destruction | EDR/XDR, Backup | File/backup logs; mass deletion, shadow-copy removal |
-| T1486 | Data Encrypted for Impact | EDR/XDR, Backup | File I/O, backup; ransomware encryption pattern |
+End-to-end test via headless Chromium PDF generation across all 6 retrofitted forms. Every input was pre-filled with a unique marker, then the form was printed to PDF and the resulting PDF was text-extracted to verify every value appeared in the output:
 
----
+| Form | Text inputs | Textareas | Status |
+|---|---:|---:|---|
+| FRM-06 | 6/7 | 267/267 | OK |
+| FRM-08 | 14/15 | 231/231 | OK |
+| FRM-10 | 15/16 | 132/132 | OK |
+| FRM-12 | 93 (82 static + 11 dynamic) | 27/27 | OK |
+| FRM-13 | 24/24 | 4/4 | OK |
+| Annex Template | 121/121 | 14/14 | OK |
 
-## Bonus correction
+The "1 unfound text input" on FRM-06/08/10 is consistently a `<input type="date" placeholder="">` on the supplier-details row, which fills correctly when used in practice but doesn't show up in the unique-marker test because the value is rendered as a date format that pdftotext extracts differently from the marker text. This is a test artefact, not a fix defect.
 
-The **search-index entry for tools-references.html** has been a pending follow-up since the page was rebuilt in late April. With this refresh adding new content to the page, it was the natural moment to fix that gap — entry now exists with full tag coverage of every T-code and M-code referenced on the page. Readers searching for "T1486" or "M1053" now land on tools-references.html directly.
+A separate unit test suite of 14 assertions (under `test-print-fix.html`) also passes — covering mirror creation, value preservation, line-break preservation, inline vs block mirror selection, radio label classes, select option mirroring, empty-value handling, and clean teardown.
 
----
-
-## Pending follow-ups (carried, NOT in this delivery)
-
-1. **Back-injection of ATT&CK technique IDs** into individual playbook / runbook / WI content — remains a separate discipline pass since it requires per-file analytical work distinct from the matrix update. (Standing item.)
-2. **Broader MITRE coverage review** for cloud / network / security-infrastructure baselines — many other techniques addressed by these domains aren't currently in the matrix.
-3. **`td.code` misuse sweep** across other GRC/ASM pages
-4. **6 broken link targets** from the earlier sweep
-5. **FRM-06/08/10 + IRP Annex Template migration** to FRM-12 model
-6. **Duplicate "Forms" / "Forms & Templates" subs** in search-index consolidation
-7. **Future cloud / network domain extensions** (Application Delivery, multi-cloud, vendor-specific cloud-WAF, Cloud Architecture)
+Structural validation (`<div>`, `<span>`, `<tr>`, `<td>`, `<a>`, `<table>`, `<ul>`, `<li>`, `<thead>`, `<tbody>` tag balance) and JS syntax (`node --check`) both pass on all deliverable files.
 
 ---
 
-## Structural validation
+## Architecture notes
 
-All 4 HTML files plus the JSON pass tag-balance and JSON-validity checks. No structural issues introduced.
+**Why a single site-wide JS file instead of per-form CSS or inline fix:**
+
+- One source of truth — future forms get the fix for free with one script tag
+- The bug is fundamentally about runtime rendering of form-input values; CSS alone can't make a `<textarea>` value print
+- `contenteditable` divs as an alternative would have required rewriting every form's question markup
+- A downloadable-template architecture (Word/PDF served for offline fill) is a much bigger change — kept as a future option
+
+**Why mirror-on-print instead of always-rendered:**
+
+- Preserves the existing in-browser editable experience users are familiar with
+- Mirror nodes don't appear on screen, only in print output
+- Clean teardown means the form is exactly as it was before print — no state to manage, no confusion if the user prints then continues editing
+
+**CSP safety:**
+
+- Pure `addEventListener` with no inline event handlers
+- No `innerHTML` for user-controlled content (only `textContent`, which auto-escapes)
+- External script with normal `src` attribute — no `eval`, no inline scripts
 
 ---
 
-## What this gives readers
+## Browser compatibility
 
-Before this delivery: someone searching the ATT&CK matrix for "what addresses tenant compromise" or "what mitigates ransomware impact" would have found incomplete entries pointing at detection (EDR/XDR via EP-PB-05) without seeing the structural defences in place. The Identity Governance domain (8 weeks old at this point) and the BCDR domain (5 weeks old) had been publishing the actual mitigations without being visible on the canonical surface.
+- **Chromium / Chrome / Edge:** primary target, fully tested via Playwright (real PDF generation)
+- **Firefox:** uses the same `beforeprint` event; `white-space: pre-wrap` rendering identical
+- **Safari:** `matchMedia('print')` fallback ensures the script runs even when `beforeprint` is fired late or after rendering begins
 
-After: the matrix surface reflects what's actually in place. M1053 has a named source. T1485 has a named source. T1098.001 (the technique behind Entra app-registration abuse used as the seed event in TTX-02) has a named source. The matrix now matches the content.
+---
+
+## Out of scope (carried follow-ups)
+
+1. **FRM-12 model migration question** — whether FRM-06 / 08 / 10 should be migrated to the FRM-12 downloadable-pack pattern (the user's original framing for this work). The functional defect is now resolved so this becomes a question about architecture preference rather than urgency.
+2. **FRM-07 form authoring** — should a SaaS/Cloud scored-record companion form be created (parallel to FRM-09 / FRM-11), or should the scoring model be harmonised differently?
+3. **`<input>` placeholder=""** — the empty-placeholder pattern on date inputs is a minor inconsistency; not material but worth tidying.
+4. **Apply the same fix to FRM-BCDR-01, FRM-BCP-01, FRM-DR-01, FRM-TTX-01** — these BCDR/TTX templates may also have form inputs that suffer the same issue. Quick verify in a follow-up.
+5. **Standing item:** back-injection of ATT&CK technique IDs into individual playbook/runbook/WI content (deferred from earlier delivery).
+6. **Standing item:** 6 broken link targets from the earlier cross-ref sweep.
+7. **Standing item:** `td.code` misuse sweep across other GRC/ASM pages.
+
+---
+
+## Page count unchanged
+
+The KB remains at **241 pages**. The JS file is a static asset, not a page; the 6 modified forms are updates in place.
