@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NW-RB-04: Apply DoS Mitigations — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --rb:#2D5A2D; --rb-light:#EDF6ED; --rb-border:#A8D5A8; }
+  .pb-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .pb-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .pb-meta-item strong { color:#1a1a1a; }
+  .pb-meta-sep { color:#e0e0dc; }
+  .rb-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .rb-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--rb); margin-bottom:4px; }
+  .rb-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .rb-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .rb-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .rb-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .rb-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--rb); flex-shrink:0; margin-top:5px; }
+  .tag-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tag { font-size:12px; font-weight:600; background:var(--rb-light); color:var(--rb); border:0.5px solid var(--rb-border); padding:4px 10px; border-radius:8px; }
+  .rb-phase { margin-bottom:1.25rem; }
+  .rb-phase:last-child { margin-bottom:0; }
+  .rb-phase-title { font-size:12px; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:var(--rb); margin-bottom:8px; padding-bottom:5px; border-bottom:0.5px solid var(--rb-border); display:flex; align-items:center; gap:8px; }
+  .rb-phase-num { width:22px; height:22px; border-radius:50%; background:var(--rb); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .rb-steps { display:flex; flex-direction:column; gap:6px; }
+  .rb-step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .rb-step-num { width:24px; height:24px; border-radius:50%; background:var(--rb-light); color:var(--rb); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .rb-step-body { flex:1; }
+  .rb-step-text { font-size:14px; color:#1a1a1a; line-height:1.5; }
+  .rb-step-note { font-size:12px; color:#888; margin-top:3px; line-height:1.4; }
+  .rb-observe { list-style:none; margin-top:6px; display:flex; flex-direction:column; gap:4px; }
+  .rb-observe li { font-size:13px; color:#555; display:flex; align-items:flex-start; gap:8px; line-height:1.4; }
+  .rb-observe li::before { content:'→'; color:var(--rb); font-weight:600; flex-shrink:0; }
+  .strategy-table { width:100%; border-collapse:collapse; margin-top:8px; font-size:13px; }
+  .strategy-table th { background:var(--rb-light); color:var(--rb); font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid var(--rb-border); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+  .strategy-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; }
+  .strategy-table tr:nth-child(even) td { background:#fafafa; }
+  .outcome-box { background:var(--rb-light); border:0.5px solid var(--rb-border); border-radius:10px; padding:1rem 1.25rem; }
+  .outcome-box p { font-size:13px; color:var(--rb); line-height:1.6; margin-bottom:0; }
+  .tips-list { display:flex; flex-direction:column; gap:8px; margin-top:4px; }
+  .tip-item { display:flex; align-items:flex-start; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; font-size:13px; color:#444; line-height:1.5; }
+  .tip-item::before { content:'💡'; font-size:14px; flex-shrink:0; }
+  .artifact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:8px; margin-top:4px; }
+  .artifact-item { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#444; display:flex; align-items:center; gap:8px; }
+  .artifact-item::before { content:'📄'; font-size:14px; flex-shrink:0; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--rb); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .rb-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .rb-nav a { font-size:13px; color:var(--rb); text-decoration:none; }
+</style>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html" class="active">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="runbooks.html">Runbooks</a><span>›</span><span>NW-RB-04</span></div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#1A3A1A 0%,#3C6E3C 100%);">
+    <span class="kb-page-hero-icon">📋</span>
+    <h1>NW-RB-04: Apply DoS Mitigations</h1>
+    <p>Controlled procedure for applying local denial-of-service mitigations before escalation to upstream ISP or DDoS provider support. Use when attack traffic is affecting service availability but can still be influenced by firewall, WAF, load balancer, rate-limit, or routing controls.</p>
+    <div class="kb-page-hero-meta"><span class="kb-meta-pill">🌐 Network threats</span><span class="kb-meta-pill">Tier 2 / 3</span><span class="kb-meta-pill">Availability protection</span></div>
+  </div>
+
+  <div style="display:flex; align-items:flex-start; gap:10px; background:#E6F4F4; border:0.5px solid #8ECECE; border-left:3px solid #0E5C5C; border-radius:8px; padding:0.7rem 1rem; margin-bottom:1.25rem; font-size:13px; color:#073B3B; line-height:1.55;">
+    <span style="flex-shrink:0;">🛡️</span><span>This document operates under <a href="grc-irp-01.html" style="color:#0E5C5C;font-weight:600;text-decoration:none;">GRC-IRP-01: Cyber Security Incident Response Plan</a> — see for severity tiers, escalation paths, communication templates, and emergency change authority.</span>
+  </div>
+
+  <div class="pb-meta-bar">
+    <div class="pb-meta-item">📋 <strong>ID:</strong> NW-RB-04</div><div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div><div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">📅 <strong>Published:</strong> 25 May 2026</div><div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">🏷️ <strong>Category:</strong> Network Threat</div><div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="rb-section"><div class="rb-section-num">Section 1</div><div class="rb-section-title">Purpose</div>
+    <p>Provide a repeatable and auditable procedure to reduce the impact of denial-of-service activity using local controls while preserving service availability and avoiding unnecessary blocking of legitimate users.</p>
+    <p>This runbook is typically invoked by NW-PB-05 and precedes <a href="nw-rb-05.html" style="color:var(--rb);">NW-RB-05: Escalate to ISP / DDoS Provider</a> when local controls are insufficient.</p>
+  </div>
+
+  <div class="rb-section"><div class="rb-section-num">Section 2</div><div class="rb-section-title">Required Access</div>
+    <div class="tag-grid"><span class="tag">🔥 Firewall / edge security gateway</span><span class="tag">🛡️ WAF or reverse proxy</span><span class="tag">⚖️ Load balancer or application gateway</span><span class="tag">📊 Monitoring and traffic analytics</span><span class="tag">🎫 SOC ticketing system</span></div>
+  </div>
+
+  <div class="rb-section"><div class="rb-section-num">Section 3</div><div class="rb-section-title">Inputs Required</div>
+    <div class="tag-grid"><span class="tag">🌐 Target service / public IP / FQDN</span><span class="tag">📈 Traffic volume and pattern</span><span class="tag">🔢 Protocols, ports, URIs, or methods targeted</span><span class="tag">🧭 Source geography / ASN / IP ranges where available</span><span class="tag">🎫 Incident reference ID</span></div>
+  </div>
+
+  <div class="rb-section"><div class="rb-section-num">Section 4</div><div class="rb-section-title">Step-by-Step Procedure</div>
+    <div class="rb-phase"><div class="rb-phase-title"><div class="rb-phase-num">1</div>Validate the Availability Impact</div><div class="rb-steps">
+      <div class="rb-step"><div class="rb-step-num">1</div><div class="rb-step-body"><div class="rb-step-text">Confirm whether users are experiencing degraded or unavailable service</div></div></div>
+      <div class="rb-step"><div class="rb-step-num">2</div><div class="rb-step-body"><div class="rb-step-text">Validate the issue is attack traffic, not application failure, ISP outage, DNS misconfiguration, or capacity exhaustion</div></div></div>
+      <div class="rb-step"><div class="rb-step-num">3</div><div class="rb-step-body"><div class="rb-step-text">Record baseline traffic, error rates, CPU, memory, connection counts, and service health</div></div></div>
+    </div></div>
+
+    <div class="rb-phase"><div class="rb-phase-title"><div class="rb-phase-num">2</div>Classify the Attack Pattern</div><table class="strategy-table"><thead><tr><th>Observed pattern</th><th>Typical local mitigation</th></tr></thead><tbody>
+      <tr><td>High-rate TCP/UDP traffic</td><td>Rate limit, connection limit, block obvious abusive sources, prepare ISP escalation</td></tr>
+      <tr><td>HTTP flood or repeated URI requests</td><td>WAF rule, bot challenge, method restriction, URI rate limit</td></tr>
+      <tr><td>Authentication or API endpoint abuse</td><td>Per-source rate limit, geo control, temporary access rule, API throttling</td></tr>
+      <tr><td>Single geography / ASN concentration</td><td>Temporary geo or ASN restriction with business-owner approval</td></tr>
+    </tbody></table></div>
+
+    <div class="rb-phase"><div class="rb-phase-title"><div class="rb-phase-num">3</div>Select and Approve Mitigation</div><div class="rb-steps">
+      <div class="rb-step"><div class="rb-step-num">1</div><div class="rb-step-body"><div class="rb-step-text">Select the least disruptive control that reduces attack traffic while preserving legitimate access</div><div class="rb-step-note">Prefer rate limiting and application-aware controls before broad network blocking.</div></div></div>
+      <div class="rb-step"><div class="rb-step-num">2</div><div class="rb-step-body"><div class="rb-step-text">Obtain emergency change approval where the mitigation may impact users, countries, partners, or production service paths</div></div></div>
+      <div class="rb-step"><div class="rb-step-num">3</div><div class="rb-step-body"><div class="rb-step-text">Record intended scope, duration, owner, rollback condition, and monitoring window</div></div></div>
+    </div></div>
+
+    <div class="rb-phase"><div class="rb-phase-title"><div class="rb-phase-num">4</div>Apply Local Controls</div><div class="rb-steps">
+      <div class="rb-step"><div class="rb-step-num">1</div><div class="rb-step-body"><div class="rb-step-text">Apply scoped firewall, WAF, load balancer, reverse proxy, or application gateway rule</div></div></div>
+      <div class="rb-step"><div class="rb-step-num">2</div><div class="rb-step-body"><div class="rb-step-text">Avoid permanent deny rules unless the indicator has been validated and business impact is understood</div></div></div>
+      <div class="rb-step"><div class="rb-step-num">3</div><div class="rb-step-body"><div class="rb-step-text">Tag emergency rules with incident reference, owner, expiry date, and rollback notes</div></div></div>
+    </div></div>
+
+    <div class="rb-phase"><div class="rb-phase-title"><div class="rb-phase-num">5</div>Validate Effectiveness</div><div class="rb-steps">
+      <div class="rb-step"><div class="rb-step-num">1</div><div class="rb-step-body"><div class="rb-step-text">Monitor traffic reduction, service availability, error rate, and latency after control deployment</div></div></div>
+      <div class="rb-step"><div class="rb-step-num">2</div><div class="rb-step-body"><div class="rb-step-text">Confirm legitimate users can still access the service from expected regions and networks</div></div></div>
+      <div class="rb-step"><div class="rb-step-num">3</div><div class="rb-step-body"><div class="rb-step-text">Escalate to <a href="nw-rb-05.html" style="color:var(--rb);">NW-RB-05</a> if local controls are ineffective or traffic volume exceeds edge capacity</div></div></div>
+    </div></div>
+
+    <div class="rb-phase"><div class="rb-phase-title"><div class="rb-phase-num">6</div>Rollback or De-escalate</div><div class="rb-steps">
+      <div class="rb-step"><div class="rb-step-num">1</div><div class="rb-step-body"><div class="rb-step-text">When traffic normalises, remove temporary rules in a controlled order</div></div></div>
+      <div class="rb-step"><div class="rb-step-num">2</div><div class="rb-step-body"><div class="rb-step-text">Monitor for resurgence for the agreed observation window</div></div></div>
+      <div class="rb-step"><div class="rb-step-num">3</div><div class="rb-step-body"><div class="rb-step-text">Convert only validated, recurring protections into permanent hardening rules through normal change control</div></div></div>
+    </div></div>
+  </div>
+
+  <div class="rb-section"><div class="rb-section-num">Section 5</div><div class="rb-section-title">Expected Outcome</div><div class="outcome-box"><p>✅ Attack traffic reduced or controlled locally<br>✅ Service availability improved or stabilised<br>✅ Clear escalation threshold established for upstream mitigation</p></div></div>
+
+  <div class="rb-section"><div class="rb-section-num">Section 6</div><div class="rb-section-title">Validation Checks</div><ul class="rb-bullet"><li>Service health restored or materially improved</li><li>Legitimate traffic is not unnecessarily blocked</li><li>Temporary mitigation rules have owner, expiry, rollback, and incident reference</li><li>Monitoring confirms no parallel intrusion activity hidden by the DoS event</li></ul></div>
+
+  <div class="rb-section"><div class="rb-section-num">Section 7</div><div class="rb-section-title">Common Errors &amp; Tips</div><div class="tips-list"><div class="tip-item">Do not apply broad geo-blocking without business approval — humanitarian, education, or partner operations may depend on cross-border access.</div><div class="tip-item">Rate limiting is usually safer than blocking where attack sources are distributed or mixed with legitimate users.</div><div class="tip-item">DoS activity may be a distraction. Continue reviewing identity, EDR, and network telemetry for intrusion indicators.</div><div class="tip-item">Temporary emergency rules must not become permanent undocumented exceptions.</div></div></div>
+
+  <div class="rb-section"><div class="rb-section-num">Section 8</div><div class="rb-section-title">Output Artefacts</div><div class="artifact-grid"><div class="artifact-item">Emergency change record</div><div class="artifact-item">Mitigation rule evidence</div><div class="artifact-item">Traffic before/after screenshots</div><div class="artifact-item">Service validation results</div><div class="artifact-item">Rollback confirmation</div></div></div>
+
+  <div class="rb-nav"><a href="nw-rb-03.html">← NW-RB-03: Block Internal Scanning</a><a href="nw-rb-05.html">NW-RB-05: Escalate to ISP / DDoS Provider →</a></div>
+  <div class="kb-footer"><span><span class="live-dot"></span>NW-RB-04 · Published 25 May 2026 · Paulo Ferreira</span><span><a href="runbooks.html" style="color:var(--rb);text-decoration:none;">← Back to Runbooks</a></span></div>
+</div>
+</body>
+</html>

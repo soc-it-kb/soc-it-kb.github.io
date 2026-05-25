@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EP-PB-05: Ransomware Activity — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --ep:#8B4A0E; --ep-light:#FEF0E6; --ep-border:#F5C89A; }
+  .pb-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .pb-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .pb-meta-item strong { color:#1a1a1a; }
+  .pb-meta-sep { color:#e0e0dc; }
+  .pb-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .pb-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ep); margin-bottom:4px; }
+  .pb-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .pb-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .pb-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .pb-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .pb-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--ep); flex-shrink:0; margin-top:5px; }
+  .pb-two-col { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .pb-sub-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .pb-sub-box h4 { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:8px; }
+  .decision-box { background:var(--ep-light); border:0.5px solid var(--ep-border); border-radius:10px; padding:1rem 1.25rem; margin-top:10px; }
+  .decision-box p { font-size:13px; color:var(--ep); line-height:1.6; margin-bottom:0; }
+  .escalation-box { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:10px; padding:1rem 1.25rem; margin-top:4px; }
+  .escalation-box p { font-size:13px; color:#993C1D; line-height:1.8; margin-bottom:0; }
+  .technique-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .technique-tag { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--ep-light); color:var(--ep); border:0.5px solid var(--ep-border); padding:3px 10px; border-radius:6px; }
+  .rb-invoke-grid { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .rb-invoke-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; text-decoration:none; color:inherit; transition:border-color 0.15s; }
+  .rb-invoke-row:hover { border-color:var(--ep); background:var(--ep-light); }
+  .rb-invoke-scenario { font-size:13px; color:#555; flex:1; }
+  .rb-invoke-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--ep-light); color:var(--ep); padding:2px 8px; border-radius:6px; white-space:nowrap; }
+  .scope-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .scope-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .scope-box h4 { font-size:12px; font-weight:600; color:var(--ep); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+  .evidence-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:8px; margin-top:4px; }
+  .evidence-item { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#444; display:flex; align-items:center; gap:8px; }
+  .evidence-item::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--ep); flex-shrink:0; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--ep); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .pb-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .pb-nav a { font-size:13px; color:var(--ep); text-decoration:none; }
+  @media(max-width:640px){ .pb-two-col,.scope-grid{grid-template-columns:1fr;} }
+</style>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html" class="active">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="playbooks.html">Playbooks</a><span>›</span><span>EP-PB-05</span></div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#5C1F0A 0%,#993C1D 100%);">
+    <span class="kb-page-hero-icon">🚨</span>
+    <h1>EP-PB-05: Ransomware Activity</h1>
+    <p>Critical incident response playbook for suspected or confirmed ransomware activity, including encryption behaviour, mass file modification, shadow copy deletion, ransom notes, destructive commands, and coordinated containment across endpoint, identity, network, backup, and business recovery teams.</p>
+    <div class="kb-page-hero-meta">
+      <span class="kb-meta-pill">💻 Endpoint threats</span>
+      <span class="kb-meta-pill">Critical severity</span>
+      <span class="kb-meta-pill">Tier 3 / Incident Command</span>
+      <span class="kb-meta-pill">Containment before recovery</span>
+    </div>
+  </div>
+
+  <div style="display:flex; align-items:flex-start; gap:10px; background:#E6F4F4; border:0.5px solid #8ECECE; border-left:3px solid #0E5C5C; border-radius:8px; padding:0.7rem 1rem; margin-bottom:1.25rem; font-size:13px; color:#073B3B; line-height:1.55;">
+    <span style="flex-shrink:0;">🛡️</span>
+    <span>This document operates under <a href="grc-irp-01.html" style="color:#0E5C5C;font-weight:600;text-decoration:none;">GRC-IRP-01: Cyber Security Incident Response Plan</a> — see for severity tiers, escalation paths, evidence handling, legal coordination, and communication templates.</span>
+  </div>
+
+  <div class="pb-meta-bar">
+    <div class="pb-meta-item">📋 <strong>ID:</strong> EP-PB-05</div><div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div><div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">📅 <strong>Published:</strong> 25 May 2026</div><div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">🏷️ <strong>Category:</strong> Endpoint Threat</div><div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 1</div><div class="pb-section-title">Purpose</div>
+    <p>Provide a structured response framework for suspected or confirmed ransomware activity. The objective is to stop propagation, preserve evidence, protect recoverability, and coordinate business recovery without increasing attacker visibility or destroying forensic value.</p>
+    <div class="escalation-box"><p><strong>Critical rule:</strong> do not reboot, wipe, restore, or reconnect affected systems until containment, evidence preservation, and recovery approval have been completed by Incident Command.</p></div>
+  </div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 2</div><div class="pb-section-title">Activation Triggers</div>
+    <ul class="pb-bullet">
+      <li>EDR/XDR alert for ransomware, encryption activity, suspicious file renaming, or destructive tooling</li>
+      <li>Mass file modification, high-volume write activity, ransom note creation, or unusual archive/exfiltration staging</li>
+      <li>Shadow copy deletion, backup agent tampering, service stopping, or security tool impairment</li>
+      <li>Multiple endpoints or servers reporting similar encryption, deletion, or impact behaviour</li>
+      <li>User, IT, MDR, or business report of inaccessible files, ransom note, or suspicious remote access activity</li>
+    </ul>
+    <div class="technique-grid">
+      <span class="technique-tag">T1486</span><span class="technique-tag">T1490</span><span class="technique-tag">T1485</span><span class="technique-tag">T1489</span><span class="technique-tag">T1562.001</span>
+    </div>
+  </div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 3</div><div class="pb-section-title">Immediate Triage Questions</div>
+    <div class="pb-two-col">
+      <div class="pb-sub-box"><h4>Impact validation</h4><ul class="pb-bullet"><li>Which systems show encryption, deletion, or service disruption?</li><li>Are shared drives, file servers, databases, or virtual infrastructure affected?</li><li>Is there evidence of backup tampering or shadow copy deletion?</li></ul></div>
+      <div class="pb-sub-box"><h4>Spread validation</h4><ul class="pb-bullet"><li>Are there multiple hosts with the same indicators?</li><li>Is lateral movement visible through RDP, SMB, WinRM, SSH, VPN, or remote admin tools?</li><li>Is the initiating user, host, or privileged account still active?</li></ul></div>
+    </div>
+  </div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 4</div><div class="pb-section-title">Immediate Containment Actions</div>
+    <ul class="pb-bullet">
+      <li>Declare a critical incident and activate Incident Command</li>
+      <li>Isolate affected endpoints using <a href="ep-wi-02.html" style="color:var(--ep);">EP-WI-02</a></li>
+      <li>Block lateral movement paths using network segmentation controls and <a href="nw-wi-03.html" style="color:var(--ep);">NW-WI-03</a></li>
+      <li>Disable or contain suspected compromised accounts and privileged sessions</li>
+      <li>Preserve affected systems for evidence collection before rebuild or restore</li>
+      <li>Protect backup repositories, recovery platforms, hypervisors, and domain controllers from attacker access</li>
+    </ul>
+    <div class="decision-box"><p>Where encryption is active, containment takes priority over normal change windows. Use emergency change procedures and record all actions in the incident ticket.</p></div>
+  </div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 5</div><div class="pb-section-title">Runbooks and Work Instructions to Invoke</div>
+    <div class="rb-invoke-grid">
+      <a class="rb-invoke-row" href="ep-rb-01.html"><span class="rb-invoke-code">EP-RB-01</span><span class="rb-invoke-scenario">Isolate compromised endpoint or affected host</span></a>
+      <a class="rb-invoke-row" href="ep-rb-02.html"><span class="rb-invoke-code">EP-RB-02</span><span class="rb-invoke-scenario">Collect endpoint evidence before destructive recovery actions</span></a>
+      <a class="rb-invoke-row" href="ep-rb-03.html"><span class="rb-invoke-code">EP-RB-03</span><span class="rb-invoke-scenario">Remove malware artefacts after containment and evidence capture</span></a>
+      <a class="rb-invoke-row" href="ep-rb-04.html"><span class="rb-invoke-code">EP-RB-04</span><span class="rb-invoke-scenario">Rebuild and restore endpoint after approval</span></a>
+      <a class="rb-invoke-row" href="nw-rb-03.html"><span class="rb-invoke-code">NW-RB-03</span><span class="rb-invoke-scenario">Block internal scanning or east-west traffic used for spread</span></a>
+    </div>
+  </div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 6</div><div class="pb-section-title">Scope Expansion Logic</div>
+    <p>Scope expansion is mandatory. Search across endpoints, identity, network, email, servers, backup infrastructure, and remote access logs.</p>
+    <div class="scope-grid">
+      <div class="scope-box"><h4>Endpoint scope</h4><ul class="pb-bullet"><li>Same file hashes, process names, command lines, parent processes, ransom note names</li><li>Hosts accessed by the same user or source system</li><li>Hosts showing security tool disablement or shadow copy deletion</li></ul></div>
+      <div class="scope-box"><h4>Identity and network scope</h4><ul class="pb-bullet"><li>Privileged account use, failed logons, new admin membership, remote access sessions</li><li>RDP, SMB, WinRM, SSH, VPN, remote admin tools, and outbound staging destinations</li><li>Unusual access to backup, hypervisor, file server, and domain controller assets</li></ul></div>
+    </div>
+  </div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 7</div><div class="pb-section-title">Recovery Decision Gates</div>
+    <ul class="pb-bullet">
+      <li>Containment confirmed and no active encryption or lateral movement observed</li>
+      <li>Evidence collected and approved for preservation by Incident Command</li>
+      <li>Root cause or likely initial access path sufficiently understood to prevent reinfection</li>
+      <li>Backup integrity validated and recovery point approved by business owner</li>
+      <li>Rebuild, restore, and reconnect actions approved through emergency change control</li>
+    </ul>
+  </div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 8</div><div class="pb-section-title">Communication and Coordination</div>
+    <ul class="pb-bullet">
+      <li>Notify MDR, CISO / cyber leadership, IT operations, Legal, Communications, Data Protection, and affected business owners</li>
+      <li>Use approved incident communications only; do not speculate on attribution, data loss, or payment decisions</li>
+      <li>Coordinate with backup, infrastructure, identity, network, and application owners before restoration</li>
+      <li>Preserve attacker communications, ransom notes, wallet addresses, and contact channels as evidence</li>
+    </ul>
+  </div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 9</div><div class="pb-section-title">Evidence to Capture</div>
+    <div class="evidence-grid">
+      <div class="evidence-item">Ransom note filename, content, and timestamp</div><div class="evidence-item">Affected host list and encryption timeline</div><div class="evidence-item">Suspicious process tree and command lines</div><div class="evidence-item">User and privileged account activity</div><div class="evidence-item">File hashes, IPs, domains, and remote access artefacts</div><div class="evidence-item">Backup and recovery integrity evidence</div>
+    </div>
+  </div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 10</div><div class="pb-section-title">Closure Criteria</div>
+    <ul class="pb-bullet">
+      <li>All impacted systems isolated, rebuilt, restored, or formally risk-accepted</li>
+      <li>No active ransomware behaviour or attacker persistence observed after monitoring period</li>
+      <li>Compromised credentials reset and privileged access paths reviewed</li>
+      <li>Recovery evidence, business validation, and legal/compliance obligations documented</li>
+      <li>Lessons learned completed and corrective actions assigned to owners</li>
+    </ul>
+  </div>
+
+  <div class="pb-nav"><a href="ep-pb-04.html">← EP-PB-04: Persistence Mechanism</a><a href="playbooks.html">← Back to Playbooks</a></div>
+  <div class="kb-footer"><span><span class="live-dot"></span>EP-PB-05 · Published 25 May 2026 · Paulo Ferreira</span><span><a href="playbooks.html" style="color:var(--ep);text-decoration:none;">← Back to Playbooks</a></span></div>
+</div>
+</body>
+</html>

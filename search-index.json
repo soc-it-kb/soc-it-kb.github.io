@@ -1,5 +1,41 @@
 [
   {
+    "id": "Cloud Baselines",
+    "section": "ASM",
+    "sub": "Domain hub",
+    "title": "Cloud Baselines — Domain hub",
+    "url": "asm-cloud-baselines.html",
+    "desc": "Tenant-level security baselines for Microsoft 365 and Microsoft Azure across the institution and its agencies. Licensing-tier-aware (A1 / E1 / A3 / E3 / E5). Hub covers scope (M365 + Azure primary; AWS/GCP, identity governance, SOC operational use, third-party cloud-WAF, and cloud architecture reference design all explicitly deferred), platform overview (5 platform cards), framework alignment (10 entries: CIS M365 Foundations L1, CIS Azure Foundations L1, MS Secure Score, NIST CSF 2.0, 800-53 r5, 800-63B, ISO 27001:2022, 27017, 27018, MCSB v1), roles, metrics (8 metrics including tenant baseline conformance rate, M365 Secure Score per tier, Azure Secure Score, central SIEM integration coverage at 100% target, MFA coverage), exception handling with day-1 SIEM-integration callout, related domains.",
+    "tags": "ASM Cloud Baselines domain hub Microsoft 365 M365 Azure tenant Entra ID Azure AD Conditional Access PIM MFA break-glass Defender for Endpoint Defender for Office Defender for Identity Defender for Cloud Apps Defender for Cloud Azure Policy Azure WAF Application Gateway Front Door Private Endpoint Key Vault storage account SQL Cosmos NSG flow logs DDoS Protection Standard CIS M365 Foundations CIS Azure Foundations Microsoft Secure Score MCSB NIST CSF NIST 800-53 NIST 800-63B AAL2 AAL3 ISO 27001 ISO 27017 ISO 27018 Purview sensitivity labels DLP A1 E1 A3 E3 A5 E5 tier-aware licensing central SIEM cross-agency"
+  },
+  {
+    "id": "Identity Governance",
+    "title": "Identity Governance & Lifecycle — Domain hub",
+    "url": "asm-identity-governance.html",
+    "section": "ASM",
+    "sub": "Domain hub",
+    "desc": "Lifecycle controls for every identity in the estate: human identities (joiners, movers, leavers) and non-human identities (service accounts, managed identities, service principals, certificates). Hybrid scope — Entra ID and on-premises Active Directory. Sits above tenant-level identity controls in IT-CL-WI-01 by governing who should have access in the first place, for how long, reviewed by whom. Five identity classes (employees/contractors, students/alumni, guests, on-prem service accounts, non-human cloud identities). Framework alignment table (9 entries: NIST CSF PR.AA, 800-53 r5, 800-63A, ISO 27001/27002, CIS Controls v8, CIS M365 Foundations, SOC 2). 8 roles. 8 metrics including JML SLA conformance, orphaned account count, recertification completion, standing-privilege count target ≤4, service principal secret expiry hygiene. Day-1 callout that non-human identities deserve special attention as the largest under-governed surface in most estates.",
+    "tags": "ASM Identity Governance Lifecycle domain hub JML joiner mover leaver recertification attestation role design entitlement non-human service account service principal managed identity hybrid AD Active Directory Entra ID Azure AD privileged identity PIM eligibility break-glass cross-agency NIST CSF PR.AA ISO 27001 A.5.16 A.5.18 A.8.2 CIS Controls 5 6 SOC 2 CC6"
+  },
+  {
+    "id": "Security Infrastructure Baselines",
+    "title": "Security Infrastructure Baselines — Domain hub",
+    "section": "ASM",
+    "sub": "Domain hub",
+    "url": "asm-security-infrastructure-baselines.html",
+    "desc": "Vendor-agnostic security baselines for Web Application Firewalls (WAFs), load balancers, and Privileged Access Management (PAM) platforms. Hub page covering scope (WAF/LB/PAM in scope; reverse proxies and API gateways deferred to future Application Delivery sub-domain; cloud-WAF tenant-platform integration deferred to future Cloud Baselines; PAM identity governance deferred to future Identity domain), device-type overview, framework alignment (CIS F5 BIG-IP, OWASP Top 10/ASVS/CRS, NIST CSF 2.0, NIST 800-53 r5, NIST 800-63B AAL2/AAL3, NIST 800-52, ISO 27001:2022, PCI DSS v4.0), roles, metrics (8 metrics including WAF coverage, signature currency, TLS cipher conformance, certificate currency, PAM coverage, session-recording completeness), exception handling, related domains.",
+    "tags": "ASM Security Infrastructure Baselines domain hub WAF load balancer PAM privileged access management F5 ASM Imperva FortiWeb Cloudflare Azure Front Door AWS WAF F5 LTM Citrix ADC HAProxy NGINX Plus A10 AVI CyberArk BeyondTrust Delinea HashiCorp Vault OWASP Top 10 OWASP ASVS OWASP CRS NIST CSF PR.AC PR.DS PR.PT DE.CM NIST 800-53 NIST 800-63B AAL2 AAL3 NIST 800-52 ISO 27001 A.5.15 A.5.17 A.8.2 A.8.5 A.8.20 A.8.21 A.8.23 PCI DSS 6.4.1 6.4.2 8.3 8.6 vendor-agnostic cross-agency"
+  },
+  {
+    "id": "asm-network-baselines",
+    "title": "Network Device Security Baselines",
+    "section": "ASM",
+    "sub": "Domain hub",
+    "url": "asm-network-baselines.html",
+    "desc": "ASM domain page for network device security baselines. Vendor-agnostic, CIS L1 aligned. Covers switches, routers, firewalls, wireless access points and controllers across all operating units. Organised by control domain rather than vendor: management plane, control plane, data plane, wireless, firewall, and configuration management. Sits as a peer ASM domain alongside patch management, vulnerability management, threat intelligence, and the existing security baselines (endpoint/server). References 7 CIS benchmarks: Cisco IOS XE, NX-OS, IOS XR, Juniper Junos, Palo Alto Firewall, Check Point Firewall, Wireless LAN.",
+    "tags": "ASM network baselines hub domain switch router firewall wireless access point controller WAP WLC CIS L1 Cisco IOS XE NX-OS IOS XR Juniper Junos Palo Alto Check Point Wireless LAN CIS benchmarks vendor-agnostic management plane control plane data plane wireless firewall configuration management"
+  },
+  {
     "id": "ASM",
     "title": "Attack Surface Management Hub",
     "section": "ASM",
@@ -54,6 +90,15 @@
     "tags": "CIS benchmark alignment matrix control mapping"
   },
   {
+    "id": "IT-CL-SOP-01",
+    "section": "ASM",
+    "sub": "SOPs",
+    "title": "Cloud Security Baseline",
+    "url": "it-cl-sop-01.html",
+    "desc": "Authoritative policy-level baseline for M365 and Azure tenants. 7 sections: Purpose, Scope (in/out scope with all 5 deferrals explicit), 7 Baseline Principles (shared-responsibility framing, licensing-tier-aware, identity is the perimeter, default-deny at tenant boundary, centralised logging non-negotiable, MS Secure Score as quantitative complement, SIEM platform under transition), Minimum Security Requirements across 5 domains (Tenant Identity 9 items; M365 11 items; Azure Subscription 10 items; Azure Workloads 10 items; Defender Suite 9 items), Roles (8 roles), Framework Alignment, Governance with Secure Score tier targets (M365 A3/E3 ≥70%, E5 ≥80%; Azure T0/1 ≥75%, T2/3 ≥60%). Tier-aware throughout. Operationalised by IT-CL-WI-01 through IT-CL-WI-05.",
+    "tags": "ASM SOP IT-CL-SOP-01 Cloud Security Baseline M365 Azure tenant tier-aware A1 E1 A3 E3 A5 E5 Education Enterprise Business Microsoft 365 licensing tier baseline shared responsibility model identity perimeter default deny tenant boundary centralised logging Secure Score MCSB CIS Foundations central SIEM platform transition QRadar successor migration 12-18 months exception register Risk Committee Cloud Engineering Identity Access Engineering M365 Tenant Administrator Azure Subscription Owner SOC GRC Architecture Technical Authority"
+  },
+  {
     "id": "IT-EP-SOP-PAW-01",
     "title": "Privileged Access Workstation — Windows",
     "section": "ASM",
@@ -90,6 +135,24 @@
     "tags": "baseline drift validation periodic ASM SOP"
   },
   {
+    "id": "IT-ID-SOP-01",
+    "title": "IT-ID-SOP-01: Identity Governance & Lifecycle",
+    "url": "it-id-sop-01.html",
+    "section": "ASM",
+    "sub": "SOPs",
+    "desc": "Authoritative policy-level baseline for identity governance across hybrid Entra / Active Directory environments, covering both human and non-human identities. Seven governance principles (authoritative source, least privilege by default, time-bounded standing privilege, recertification cadence, named ownership, non-human identities are first-class, separation of governance from incident response). Five requirement domains: JML lifecycle (13 items), Access Recertification (10 items), Role Design (9 items), Non-Human Identity (11 items), Privileged Identity Governance (10 items). Operationalised by IT-ID-WI-01 through IT-ID-WI-05. Framework alignment with NIST CSF PR.AA, 800-53 r5 (AC-2/5/6, IA-2/5), 800-63A, ISO 27001:2022, ISO 27002:2022, CIS Controls v8, CIS M365 Foundations, SOC 2 CC6, MITRE ATT&CK mitigations M1018/M1026/M1032. 8 named roles. Exception handling pattern for HR-integration gaps, legacy-platform identity, and orphan service accounts.",
+    "tags": "IT-ID-SOP-01 Identity Governance Lifecycle SOP hybrid Entra Active Directory AD JML joiner mover leaver recertification role design entitlement non-human service account managed identity service principal privileged eligibility PIM standing privilege break-glass authoritative source least privilege named owner separation of duties exception NIST CSF PR.AA ISO 27001 A.5.16 A.5.18 A.8.2 CIS Controls 5 6 SOC 2 CC6 MITRE M1018 M1026 M1032"
+  },
+  {
+    "id": "IT-NET-SOP-01",
+    "title": "Network Device Security Baseline",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-net-sop-01.html",
+    "desc": "Authoritative policy-level baseline for network and security-network devices across operating units, vendor-agnostic, CIS L1 aligned. Seven sections: Purpose, Scope (switches, routers, firewalls, wireless, OOB management; WAFs and load balancers out of scope to future Security Infrastructure domain), seven Baseline Principles (defence in depth, least privilege, strong authentication, secure protocols only, segmentation by purpose, configuration as documented state, comprehensive centralised logging), Minimum Security Requirements across six control domains each operationalised by a dedicated WI (section 4.1 Management Plane via WI-01; 4.2 Control Plane via WI-02; 4.3 Data Plane via WI-03; 4.4 Wireless via WI-04; 4.5 Firewall via WI-05; 4.6 Configuration Management via WI-06), Roles, Framework Alignment, Governance.",
+    "tags": "ASM SOP IT-NET-SOP-01 network baseline switch router firewall wireless access point controller default-deny CIS L1 NIST CSF ISO 27001 A.8.20 A.8.21 A.8.22 A.8.23 BCP 38 management plane control plane data plane segmentation AAA TACACS RADIUS Entra ID syslog NTP routing authentication CoPP BPDU port security DHCP snooping WPA3 WPA2 Enterprise rogue AP detection firewall rule hygiene egress filtering configuration management golden config drift detection"
+  },
+  {
     "id": "IT-PM-SOP-01",
     "title": "Patch Management — Core SOP",
     "section": "ASM",
@@ -115,6 +178,15 @@
     "url": "it-pm-sop-03.html",
     "desc": "Process for patch exceptions and risk acceptance",
     "tags": "patch exception risk acceptance compensating control SOP"
+  },
+  {
+    "id": "IT-SI-SOP-01",
+    "title": "Security Infrastructure Baseline",
+    "section": "ASM",
+    "sub": "SOPs",
+    "url": "it-si-sop-01.html",
+    "desc": "Authoritative policy-level baseline for WAFs, load balancers, and PAM platforms. Seven sections: Purpose, Scope (in/out scope with deferrals), Baseline Principles (7 principles: high-value targets, authentication matched to what is protected, default-deny including platforms themselves, cryptography in critical path, PAM has its own recovery path, WAF tuning continuous, comprehensive logging), Minimum Security Requirements (4.1 Common Mgmt 10 items; 4.2 WAF 8 items; 4.3 LB 10 items; 4.4 PAM 10 items), Roles & Responsibilities, Framework Alignment, Governance & Review. Operationalised by IT-SI-WI-01 through 04. Vendor-agnostic.",
+    "tags": "ASM SOP IT-SI-SOP-01 Security Infrastructure Baseline WAF load balancer PAM minimum security requirements baseline principles default-deny AAL3 break-glass cryptography critical path OWASP Top 10 NIST 800-63B framework alignment governance review exception handling vendor-agnostic IT Operations Lead Network Engineering Identity Access Engineering"
   },
   {
     "id": "IT-SRV-SOP-DC-01",
@@ -214,6 +286,51 @@
     "url": "vm-monthly-review-checklist.html",
     "desc": "Monthly review of vulnerability management — coverage, prioritisation, SLAs, threat intelligence, tier-0/1 assets, patching alignment",
     "tags": "vulnerability monthly review checklist coverage sla cisa kev tier-0 patching asm vm"
+  },
+  {
+    "id": "IT-CL-WI-01",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "title": "Tenant Identity & Conditional Access",
+    "url": "it-cl-wi-01.html",
+    "desc": "Vendor-neutral implementation guidance for the Entra ID tenant-identity controls shared between M365 and Azure. Operationalises IT-CL-SOP-01 section 4.1. 9 steps: break-glass / emergency-access accounts (2 cloud-only, vaulted off-tenant, excluded from all CA, annual test, SOC monitoring — flagged as single most important step); eliminate legacy authentication; MFA enforcement via Security Defaults (A1/E1) or Conditional Access (A3/E3+) with phishing-resistant FIDO2/WHfB/cert-based for Global Administrators; deploy CA baseline policies CA-001 through CA-007 in report-only-then-enable pattern; named locations (trusted IPs, country sets — do not use to skip MFA); Identity Protection risk policies (E5); PIM configuration (E5 — time-bounded eligibility, activation approval for Global Admin, quarterly access reviews); guest/external access governance with default-deny cross-tenant access; SSPR with combined registration and 2 methods.",
+    "tags": "ASM WI IT-CL-WI-01 Tenant Identity Conditional Access Entra ID Azure AD Security Defaults Conditional Access CA-001 CA-002 CA-003 CA-004 CA-005 CA-006 CA-007 MFA multi-factor authentication FIDO2 Windows Hello for Business WHfB certificate-based authentication phishing-resistant Global Administrator break-glass emergency access cloud-only legacy authentication basic auth IMAP POP SMTP MAPI named locations trusted IPs country sets Identity Protection sign-in risk user risk PIM Privileged Identity Management eligible just-in-time activation access review guest B2B cross-tenant access external collaboration SSPR self-service password reset combined registration number-matching AAL2 AAL3 800-63B"
+  },
+  {
+    "id": "IT-CL-WI-02",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "title": "M365 Tenant Hardening",
+    "url": "it-cl-wi-02.html",
+    "desc": "Tier-aware implementation guidance for Microsoft 365 tenant hardening. Operationalises IT-CL-SOP-01 section 4.2. 10 steps: Exchange Online anti-spam/anti-malware/anti-phishing baseline (All tiers); SPF/DKIM/DMARC with progression to p=reject and parked-domain treatment (All); SharePoint/OneDrive external sharing restrictions with anonymous links off and allow-list domains (All); Teams external access/federation/meeting policies with lobby for externals (All); Unified Audit Log enable with tiered retention (90d A1/E1, 1yr A3/E3 with add-on, 1yr default E5) and SIEM forwarding (All); Purview sensitivity labels with default label and mandatory labelling (A3/E3+, auto-labelling at E5); Purview DLP policies Test→Enforce with Endpoint DLP at E5 (A3/E3+); Defender for Office 365 P2 with Safe Attachments Dynamic Delivery, Safe Links, Attack Simulator (E5); Insider Risk Management and Communication Compliance with HR/Legal coordination (E5); Customer Lockbox and PAM for Exchange (E5).",
+    "tags": "ASM WI IT-CL-WI-02 M365 Tenant Hardening Microsoft 365 Exchange Online anti-spam anti-malware anti-phishing impersonation protection external email tagging SPF DKIM DMARC p=reject p=quarantine p=none parked domain SharePoint Online OneDrive external sharing anonymous links allow-list block-list guest expiration Teams external access federation meeting policies lobby Unified Audit Log UAL retention Purview Information Protection sensitivity labels default label mandatory labelling auto-labelling DLP Data Loss Prevention Endpoint DLP Test Enforce Defender for Office 365 P1 P2 Safe Attachments Dynamic Delivery Safe Links Attack Simulator Insider Risk Management Communication Compliance Customer Lockbox Privileged Access Management Exchange A1 E1 A3 E3 A5 E5 tier-aware"
+  },
+  {
+    "id": "IT-CL-WI-03",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "title": "Azure Subscription Baseline",
+    "url": "it-cl-wi-03.html",
+    "desc": "Implementation guidance for Azure subscription-level controls. Operationalises IT-CL-SOP-01 section 4.3. 10 steps: management group hierarchy (tenant root, platform, landing zones, environments); Defender for Cloud enablement with plans per subscription tier (Tier 0/1 = Standard/Defender plans; Tier 2/3 = Free with justification only); Azure Policy at management group scope (not per subscription) with MCSB initiative plus custom deny set (storage public, secure transfer, Key Vault purge protection, public IP in prod, region restrictions); diagnostic settings via DeployIfNotExists on every resource type routed to Log Analytics and central SIEM via Event Hub; Activity Log forwarding with high-value events alerted; Defender for Cloud continuous export to SIEM; subscription RBAC least-privilege (no standing Owner outside named platform admins, Contributor RG-scoped, managed identities preferred over service principals); resource locks CanNotDelete on critical RGs; cost-management alerting (anomalous spend = leading indicator of resource compromise); tagging policy enforced (CostCentre, Owner, Environment, SensitivityClassification, Agency).",
+    "tags": "ASM WI IT-CL-WI-03 Azure Subscription Baseline management group hierarchy Tenant Root Group Defender for Cloud DfC CSPM Foundational Defender plans Servers App Service Storage SQL Containers Key Vault ARM DNS Azure Policy MCSB Microsoft Cloud Security Benchmark Audit Deny Modify DeployIfNotExists diagnostic settings Log Analytics workspace Event Hub Activity Log central SIEM continuous export RBAC Owner Contributor Reader User Access Administrator least privilege managed identity service principal resource lock CanNotDelete ReadOnly cost management budget anomaly detection cryptomining tagging policy CostCentre Owner Environment SensitivityClassification Agency Tier 0 Tier 1 Tier 2 Tier 3"
+  },
+  {
+    "id": "IT-CL-WI-04",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "title": "Azure Workload Patterns",
+    "url": "it-cl-wi-04.html",
+    "desc": "Implementation guidance for the most frequent Azure workload patterns. Operationalises IT-CL-SOP-01 section 4.4. 10 steps: storage account baseline (secure transfer HTTPS, public blob off, TLS 1.2, network restricted, CMK + soft-delete + immutable for Tier 0/1); Key Vault baseline (RBAC mode, soft-delete + purge protection non-disablable, Private Endpoint, HSM-backed keys Tier 0/1); VNet/NSG baseline (NSG every subnet, default-deny inbound, no 0.0.0.0/0 to sensitive ports, flow logs to Log Analytics, ASGs); Private Endpoints preferred over public for PaaS data services with private DNS zone architecture; Azure WAF on Application Gateway/Front Door (managed rule set OWASP Top 10 in Prevention mode within 90 days for Tier 0/1, bot rules, custom rules, log streaming — absorbs cloud-WAF scope deferred from IT-SI-WI-02); SQL/Cosmos protection (Entra auth, Defender plans, TDE with CMK Tier 0/1); VM baseline (Defender for Servers, JIT for management, managed identities, Trusted Launch); App Service/Functions (HTTPS-only, managed identity, Easy Auth, Key Vault references); backup posture with vault soft-delete and MUA; DDoS Protection Standard on Tier 0/1 public VNets.",
+    "tags": "ASM WI IT-CL-WI-04 Azure Workload Patterns storage account secure transfer HTTPS minimum TLS public blob anonymous Shared Key authorization customer-managed key CMK soft-delete immutable Key Vault RBAC mode purge protection Private Endpoint HSM Premium Managed HSM virtual network VNet Network Security Group NSG default-deny inbound flow logs Application Security Group ASG service tag Private Endpoint private DNS zone Azure WAF Application Gateway Front Door OWASP Top 10 DRS Default Rule Set Bot Manager rules Prevention Detection mode custom rules SQL Database Cosmos DB Entra authentication Defender for SQL Defender for Cosmos Transparent Data Encryption TDE Always Encrypted virtual machine VM Just-in-Time JIT VM access managed identity Trusted Launch vTPM secure boot disk encryption Azure Disk Encryption App Service Functions HTTPS-only Easy Auth Key Vault reference slot swap backup Recovery Services Vault soft-delete multi-user authorisation MUA DDoS Protection Standard Tier 0 Tier 1"
+  },
+  {
+    "id": "IT-CL-WI-05",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "title": "Defender Suite Configuration",
+    "url": "it-cl-wi-05.html",
+    "desc": "Tier-aware implementation guidance for the Microsoft Defender suite (tenant-side configuration only; SOC operational use under SOC SOPs). Operationalises IT-CL-SOP-01 section 4.5. 9 steps: Defender for Endpoint deployment (A3/E3+ — onboarding all managed endpoints Win/macOS/Linux/mobile where licensed, ASR rules audit-then-block, EDR-in-block-mode, security baseline assigned, device-tagging convention by criticality/agency/environment); Defender for Office 365 P2 cross-reference WI-02 §8 (E5); Defender for Identity sensor on all DCs (A3/E3+ where AD operated — gMSA, honeytoken accounts, sensor health monitoring); Defender for Cloud Apps connected to M365 and Azure tenants with anomaly detection and OAuth app governance (E5); Defender for Cloud cross-reference WI-03 §2; TVM feeds findings to IT-VM-SOP-01; all Defender alerts to central SIEM with severity-to-priority mapping; tenant-side configuration vs SOC operational use boundary maintained; suite-level metrics (exposure score, device coverage, ASR coverage, Secure Score, MTTD/MTTR, ingestion completeness).",
+    "tags": "ASM WI IT-CL-WI-05 Defender Suite Configuration Microsoft Defender for Endpoint MDE P1 P2 ASR attack surface reduction EDR in block mode tamper protection network protection controlled folder access web content filtering Defender for Office 365 DfO Safe Links Safe Attachments Defender for Identity MDI sensor domain controller gMSA honeytoken Defender for Cloud Apps DfCA MCAS CASB Cloud Discovery anomaly detection OAuth app governance session policy Defender for Cloud DfC Foundational CSPM Premium CSPM Defender plans attack path analysis Threat Vulnerability Management TVM exposure score vulnerability assessment central SIEM ingestion M365 Defender connector Graph Security API continuous export severity priority mapping deduplication unified portal RACI tenant configuration SOC operational use boundary suite level metrics MTTD MTTR device coverage A1 E1 A3 E3 A5 E5 tier-aware"
   },
   {
     "id": "IT-EP-WI-PAW-01",
@@ -376,6 +493,141 @@
     "url": "it-gov-wi-vm-04.html",
     "desc": "Handle vulnerability risk acceptance and exceptions",
     "tags": "risk acceptance exception vulnerability compensating WI"
+  },
+  {
+    "id": "IT-ID-WI-01",
+    "title": "IT-ID-WI-01: Joiner / Mover / Leaver Lifecycle",
+    "url": "it-id-wi-01.html",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "desc": "Hybrid JML across HR system → on-prem AD → Entra ID. Seven steps: joiner provisioning from authoritative source (HR / SIS / sponsor-driven workflow); joiner access bundle with forbid-clone-previous-user; mover with revoke-then-grant discipline (≤30-day dual-role exception); leaver with same-day disable, time-bounded retention (30-90 days), clean termination; student/alumni cohort transitions per academic calendar; guest sponsor-driven lifecycle (180-day default, quarterly recert); monthly identity-source reconciliation. Hybrid AD-Entra propagation guidance. SLA dashboard table (joiner ≤1 day, mover ≤5 days, leaver same-day). Implements IT-ID-SOP-01 §4.1.",
+    "tags": "IT-ID-WI-01 JML joiner mover leaver lifecycle HR authoritative source provisioning access bundle clone-previous-user revoke-then-grant dual-role retention termination guest sponsor student alumni cohort reconciliation orphan account hybrid Active Directory Entra ID Azure AD same-day disable involuntary leaver TAP Temporary Access Pass"
+  },
+  {
+    "id": "IT-ID-WI-02",
+    "title": "IT-ID-WI-02: Access Recertification & Attestation",
+    "url": "it-id-wi-02.html",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "desc": "Periodic review of who has what access. Eight steps: cadence per tier (T0 quarterly, T1 semi-annual for resource access / quarterly for privileged, T2/T3 annual, guest quarterly); named reviewers per scope (line manager, system owner, Privileged Access Authority, sponsor); campaign execution via Entra Identity Governance access reviews or manual workflow; non-response handling (T0/T1 suspend, T2/T3 revoke as default); forbid bulk-attest at high tiers; apply decisions for real (auto-apply preferred, ≤7-day SLA manual); evidence retention 3 years minimum; orphan remediation 30 days. Cadence table and programme health indicators table. Implements IT-ID-SOP-01 §4.2.",
+    "tags": "IT-ID-WI-02 access recertification attestation review campaign cadence Entra Identity Governance reviewer attestor line manager system owner Privileged Access Authority sponsor bulk-attest revocation rate apply auto-apply evidence retention rubber-stamping non-response suspend revoke orphan remediation E5 P2 quarterly semi-annual annual"
+  },
+  {
+    "id": "IT-ID-WI-03",
+    "title": "IT-ID-WI-03: Role Design & Entitlement Management",
+    "url": "it-id-wi-03.html",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "desc": "The role catalogue: every assignable role has documented owner, defined scope, naming convention, last-review date. Nine steps: establish catalogue (100% T0/T1 coverage day-one, 95% T2/T3 by FY26 end); naming convention discipline (domain-scope-function-environment-tier); least-privilege role design (built-in preferred, custom when needed, scope at lowest level, read variants); group hygiene (max 3 nest levels, no circular refs, empty cleanup 30/90 days, named owners, dynamic group rule audit); entitlement packages (Entra IG / manual catalogue) for joiner-pack / project-team / role-change bundles; separation of duties enforcement with detection where prevention not supported; role-change workflow with direct-edit detection and backfill; quarterly catalogue review (retirement, splitting, consolidation, owner stale-check); monthly T0/T1 drift check. Implements IT-ID-SOP-01 §4.3.",
+    "tags": "IT-ID-WI-03 role design entitlement management catalogue RBAC least privilege naming convention group hygiene nesting empty group dynamic group entitlement package Entra Identity Governance MyAccess separation of duties SoD role change direct edit drift quarterly review tier"
+  },
+  {
+    "id": "IT-ID-WI-04",
+    "title": "IT-ID-WI-04: Non-Human Identity Governance",
+    "url": "it-id-wi-04.html",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "desc": "Service accounts (AD user-style, gMSA, sMSA), Entra service principals, app registrations, managed identities (system / user-assigned), workload identity federation, certificate-based identities. Ten steps: inventory across all platforms (nightly refresh, monthly reconciliation); named human owner per identity (team-level acceptable for small teams); scope justification at creation including why-not-managed-identity question; credential rotation discipline per type (gMSA auto, AD password annual/60d, SP secret <1yr, certs per policy); prefer managed identities and workload federation; secret expiry tracking dashboard with 30/14/7/1-day alerts; quarterly OAuth permission and consent grant review; decommissioning lifecycle (90d stale → 180d disabled → 365d deleted with test-disable); flag interactive sign-in on service accounts; privileged non-human identities follow eligibility pattern. Implements IT-ID-SOP-01 §4.4.",
+    "tags": "IT-ID-WI-04 non-human identity service account gMSA sMSA Entra service principal app registration managed identity system-assigned user-assigned workload identity federation certificate inventory ownership credential rotation secret expiry Key Vault OAuth permission consent grant admin consent decommissioning stale interactive sign-in privileged secrets in code GitHub scanning"
+  },
+  {
+    "id": "IT-ID-WI-05",
+    "title": "IT-ID-WI-05: Privileged Identity Governance",
+    "url": "it-id-wi-05.html",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "desc": "The eligibility layer above PIM activation. Ten steps: privileged role catalogue (T0/T1 roles with per-individual eligibility, duration, last-review); eligibility-not-assignment principle (break-glass exception only); time-bound eligibility (T0 max 12mo, T1 max 18mo); approval workflow (T0 two-person, T1 single, no self-approval); separation of duties at T0 across functional domains (cloud-identity, on-prem-identity, security operations, audit/compliance); track and minimise standing privilege (target = break-glass count); quarterly eligibility review with activity correlation; privileged access request workflow with out-of-band-grant detection; T0 activation correlated with PAW usage (per IT-EP-SOP-PAW-01); T0 activity to immutable SIEM with monthly SOC review. Boundary: activation = IT-CL-WI-01 §7 (PIM mechanics); eligibility = this WI. Implements IT-ID-SOP-01 §4.5.",
+    "tags": "IT-ID-WI-05 privileged identity governance eligibility activation PIM Tier-0 Tier-1 catalogue duration approval two-person separation of duties SoD standing privilege break-glass quarterly review activity correlation request workflow out-of-band PAW Privileged Access Workstation immutable SIEM Privileged Access Authority CISO Global Administrator Enterprise Admin Schema Admin Domain Admin emergency grant deputy approver MITRE M1026"
+  },
+  {
+    "id": "IT-NET-WI-01",
+    "title": "Management Plane Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-net-wi-01.html",
+    "desc": "Vendor-agnostic implementation guidance for hardening the management plane of network devices: how administrators connect, authenticate, and configure. Operationalises IT-NET-SOP-01 section 4.1. Eight steps: disable plaintext protocols (Telnet, HTTP, SNMPv1v2, FTP, TFTP); enable secure protocols (SSHv2, HTTPS TLS1.2 plus, SNMPv3 authPriv, SCP/SFTP); configure AAA with MFA (TACACS+, RADIUS, Entra ID + break-glass local); restrict management to management network via ACL; idle session timeouts and authorised-use banner; NTP with authentication (two or more servers); centralised syslog forwarding to SIEM; console and auxiliary port hardening. Includes prerequisites, validation, rollback procedure, common errors.",
+    "tags": "ASM WI IT-NET-WI-01 management plane network device hardening Telnet HTTP HTTPS SSH SSHv2 SNMPv3 SCP SFTP AAA TACACS RADIUS Entra ID MFA break-glass management ACL session timeout banner NTP syslog SIEM console aux port OOB out-of-band CIS L1 vendor-agnostic"
+  },
+  {
+    "id": "IT-NET-WI-02",
+    "title": "Control Plane Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-net-wi-02.html",
+    "desc": "Vendor-agnostic implementation guidance for hardening the control plane of network devices: how the device decides where traffic goes. Operationalises IT-NET-SOP-01 section 4.2. Eight steps: routing-protocol authentication (OSPF, EIGRP, BGP, IS-IS with HMAC-SHA256 or TCP-AO; HSRP/VRRP authenticated); Control-Plane Policing (CoPP) with traffic classes and rate limits; spanning-tree protection (BPDU Guard, Root Guard, Loop Guard, UDLD, PortFast); storm control (broadcast/multicast/unknown-unicast); anti-spoofing via uRPF (strict on customer-facing) and BCP38 compliance; Dynamic ARP Inspection and IPv6 RA Guard; disable unused routing protocols and apply passive-interface defaults; route filtering at administrative boundaries.",
+    "tags": "ASM WI IT-NET-WI-02 control plane network device hardening routing authentication OSPF EIGRP BGP IS-IS HMAC SHA256 TCP-AO HSRP VRRP CoPP control-plane policing BPDU Guard Root Guard Loop Guard UDLD PortFast storm control broadcast multicast unicast uRPF Unicast Reverse Path Forwarding BCP38 anti-spoofing DAI Dynamic ARP Inspection IPv6 RA Guard ND inspection max-prefix prefix list route map"
+  },
+  {
+    "id": "IT-NET-WI-03",
+    "title": "Data Plane Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-net-wi-03.html",
+    "desc": "Vendor-agnostic implementation guidance for hardening the data plane of network devices: how user and application traffic is forwarded. Operationalises IT-NET-SOP-01 section 4.3. Eight steps: identify and administratively disable unused ports (parking VLAN); port security on access ports (MAC limit, sticky learning, violation action); VLAN hygiene (native VLAN non-default, trunk allow-list, DTP nonegotiate, VLAN 1 hygiene); DHCP snooping with trusted-port designation; inter-VLAN routing filtered by ACL or firewall (no flat L3 between segments); segment isolation (guest, IoT, OT separated, client isolation); disable unnecessary L2 services (CDP/LLDP outbound on user ports, VTP transparent or off); private VLANs for server farms and DMZ where appropriate.",
+    "tags": "ASM WI IT-NET-WI-03 data plane network device hardening unused ports parking VLAN port security MAC sticky learning violation native VLAN trunk allowed list DTP VLAN hopping VLAN 1 hygiene DHCP snooping trusted port inter-VLAN ACL segmentation guest IoT OT client isolation private VLAN PVLAN isolated promiscuous community CDP LLDP VTP transparent"
+  },
+  {
+    "id": "IT-NET-WI-04",
+    "title": "Wireless Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-net-wi-04.html",
+    "desc": "Vendor-agnostic implementation guidance for hardening wireless infrastructure (access points, controllers). Operationalises IT-NET-SOP-01 section 4.4. Ten steps: disable WEP, WPA-TKIP, WPS, open-on-corporate; deploy WPA3-Enterprise (or WPA2-Enterprise minimum) with 802.1X EAP-TLS or PEAP-MSCHAPv2 with mandatory cert validation; Protected Management Frames (802.11w PMF); guest network isolation (separate VLAN, firewall egress, client isolation, captive/sponsor portal); rogue-AP detection and classification; WIDS/WIPS where licensed; RF management with region, channel, power per site survey; SSID hygiene (limit count, broadcast remains enabled because hiding is not a control, no sensitive names); 802.1X dynamic VLAN assignment; logging to SIEM (auth, association, security events).",
+    "tags": "ASM WI IT-NET-WI-04 wireless hardening WPA3 WPA2 Enterprise 802.1X EAP-TLS PEAP-MSCHAPv2 RADIUS certificate validation 802.11w PMF Protected Management Frames guest network isolation client isolation captive portal sponsor portal rogue AP detection containment WIDS WIPS RF management channel plan transmit power band steering SSID hygiene dynamic VLAN assignment WLC controller access point AP"
+  },
+  {
+    "id": "IT-NET-WI-05",
+    "title": "Firewall Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-net-wi-05.html",
+    "desc": "Vendor-agnostic implementation guidance for hardening firewalls. Operationalises IT-NET-SOP-01 section 4.5. Ten steps: establish default-deny (no any-any allow rules; use observe-then-replace for legacy permissive); rule documentation and ownership (description, owner, dates, expiry/review); egress filtering on internet interfaces (block SMB, RDP, SSH, SMTP lateral, only documented outbound); stale-rule detection (90 day flag, 180 day removal); geo-blocking with judgement; IPS, IDS, AV where licensed; TLS inspection policy (categories on/off, cert deployed, log SNI where off); application-layer Layer-7 controls; anti-evasion (anti-spoofing, fragmentation, TCP-state, ICMP rate-limit); high availability for Tier 0/1 firewalls with annual failover test.",
+    "tags": "ASM WI IT-NET-WI-05 firewall hardening default-deny rule hygiene rule documentation egress filtering stale rules 90 days 180 days geo-blocking IPS IDS AV antivirus signature TLS inspection SNI Layer-7 application-layer anti-spoofing fragmentation TCP state ICMP rate limit high availability HA active standby failover NGFW perimeter internal segmentation"
+  },
+  {
+    "id": "IT-NET-WI-06",
+    "title": "Configuration Management & Change Control",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-net-wi-06.html",
+    "desc": "Vendor-agnostic implementation guidance for configuration management and change control on network devices: keeping the baseline real over time. Operationalises IT-NET-SOP-01 section 4.6. Eight steps: golden configuration per device class (templated, version-controlled); automated backups (daily T0/T1, weekly T2/T3, 90/30-day retention, annual restore test); change control workflow (standard, normal, emergency tracks); drift detection automated and triaged; firmware/OS version tracking and vendor advisory subscription; secure decommissioning per GRC-SOP-05 section 12 (final backup, cert revocation, factory reset, asset record); test/lab isolation and credential discipline; OOB management infrastructure in baseline scope.",
+    "tags": "ASM WI IT-NET-WI-06 configuration management change control golden config Git Jinja2 IaC template version control automated backup retention restore test SLA tier change advisory board standard normal emergency change drift detection comparator firmware OS lifecycle PSIRT advisory feed end of support decommissioning factory reset certificate revocation lab isolation test environment OOB out-of-band management"
+  },
+  {
+    "id": "IT-SI-WI-01",
+    "title": "Common Management Plane & Logging",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-si-wi-01.html",
+    "desc": "Vendor-agnostic shared management-plane controls applicable to WAFs, load balancers, and PAM platforms alike. Operationalises IT-SI-SOP-01 section 4.1. Ten steps: disable plaintext (Telnet/HTTP/SNMPv1-v2/FTP/TFTP); enable secure protocols (SSHv2, HTTPS TLS 1.2+, SNMPv3 authPriv) with organisation-CA-issued management cert; AAA + MFA with AAL3 for Tier 0 PAM admin; restrict management to dedicated network (PAM logically separated from data plane); session timeouts (PAM admin tighter with absolute lifetime cap); NTP with authentication; centralised logging with platform-specific event coverage (WAF block events, LB TLS handshake failures, PAM privileged session events); certificate hygiene for the platform itself; console and OOB hardening; change control discipline. Referenced by WI-02, WI-03, WI-04.",
+    "tags": "ASM WI IT-SI-WI-01 common management plane logging AAA MFA TACACS RADIUS SAML Entra ID AAL2 AAL3 SSH HTTPS SNMPv3 syslog NTP authentication session timeout authorised use banner management network dedicated interface organisation CA certificate change control standard normal emergency console OOB break-glass vault-independent WAF load balancer PAM shared foundation"
+  },
+  {
+    "id": "IT-SI-WI-02",
+    "title": "WAF Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-si-wi-02.html",
+    "desc": "Vendor-agnostic WAF hardening. Operationalises IT-SI-SOP-01 section 4.2. Eight steps: inventory protected applications and assign WAF policy ownership; select rule set (OWASP Top 10 + OWASP CRS paranoia level 2 minimum, paranoia 3 for high-sensitivity); deploy monitor mode then tune then transition to blocking within 90 days for Tier 0/1; false-positive triage workflow with documented SLA (5 working days for Tier 0/1); signature update cadence (30 days routine, 7 days emergency, 24h for active exploitation); TLS termination with back-end re-encryption for Tier 0/1; bot management and rate limiting on public-facing apps with brute-force protection on auth endpoints; application allowlist or learning for high-sensitivity apps.",
+    "tags": "ASM WI IT-SI-WI-02 WAF web application firewall hardening OWASP Top 10 OWASP CRS Core Rule Set paranoia level signature engine learning false positive triage SLA monitor mode blocking mode TLS termination back-end re-encryption HSTS bot management rate limiting brute-force protection auth endpoints allowlist application learning F5 ASM Imperva FortiWeb Cloudflare Azure Front Door AWS WAF cloud WAF on-prem"
+  },
+  {
+    "id": "IT-SI-WI-03",
+    "title": "Load Balancer Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-si-wi-03.html",
+    "desc": "Vendor-agnostic load-balancer hardening. Operationalises IT-SI-SOP-01 section 4.3. Eight steps: TLS protocol and cipher suite hardening (TLS 1.2 minimum, AEAD only, ECDHE preferred, server-preferred order, secure renegotiation); certificate lifecycle management (inventory, 30-day expiry alerting, auto-renewal where possible, RSA 2048+ or ECDSA P-256+, CT log awareness, wildcard discipline, HSM for high-value); HSTS on internet-facing virtual servers; virtual server hygiene (90-day no-traffic removal); health-check security (no metadata leak, source-restricted, dedicated /healthz); connection rate limiting and SYN-flood protection; source IP preservation (XFF/PROXY protocol/DSR trade-offs); HA pair with annual failover test.",
+    "tags": "ASM WI IT-SI-WI-03 load balancer ADC application delivery controller hardening TLS 1.2 TLS 1.3 cipher suite AEAD ECDHE certificate lifecycle ACME auto-renewal RSA ECDSA CT certificate transparency wildcard HSM HSTS preload virtual server hygiene health check rate limiting SYN flood SYN cookies X-Forwarded-For XFF PROXY protocol DSR direct server return high availability HA failover F5 LTM Citrix ADC NetScaler HAProxy NGINX Plus A10 AVI"
+  },
+  {
+    "id": "IT-SI-WI-04",
+    "title": "PAM Platform Hardening",
+    "section": "ASM",
+    "sub": "Work Instructions",
+    "url": "it-si-wi-04.html",
+    "desc": "Vendor-agnostic PAM platform hardening. Operationalises IT-SI-SOP-01 section 4.4. Ten steps: vault encryption at rest with HSM-backed master key not stored on appliance; session broker hardened to Tier 0 server baseline; session recording integrity (write-once or integrity-protected storage, hash chaining, tamper detection alerting SOC, retention enforced at storage tier); just-in-time access enforcement (standing access is the exception); identity-source integration (central directory, MFA, no local user database except break-glass); HA pair with annual failover test; vault-independent break-glass procedure documented and tested annually (single biggest implementation gap in PAM); vault backup with annual restore test; network exposure (dedicated management network, brokering from admin networks only); privileged session events to SIEM with extended retention.",
+    "tags": "ASM WI IT-SI-WI-04 PAM privileged access management vault encryption HSM PKCS11 KMIP session broker jump host PSM session recording integrity hash chain write-once WORM retention lock immutable blob just-in-time JIT access standing access exception identity source integration central directory Entra ID Active Directory leaver workflow high availability failover break-glass procedure vault-independent annual test backup restore network exposure dedicated management network brokering interface SIEM privileged session events CyberArk BeyondTrust Delinea Thycotic HashiCorp Vault"
   },
   {
     "id": "IT-SRV-WI-DC-01",
@@ -603,6 +855,15 @@
     "tags": "GRC governance risk compliance hub"
   },
   {
+    "id": "GRC-BCP",
+    "title": "GRC — Business Continuity",
+    "section": "GRC",
+    "sub": "Domain pages",
+    "url": "grc-bcp.html",
+    "desc": "Business Continuity domain hub — business-audience framework, agency obligations, plan ownership, scope and operating model",
+    "tags": "GRC BCP business continuity plan invocation crisis management agency"
+  },
+  {
     "id": "GRC-COMP",
     "title": "GRC — Compliance",
     "section": "GRC",
@@ -610,6 +871,15 @@
     "url": "grc-compliance.html",
     "desc": "GRC compliance domain — baseline catalog, control library, validation",
     "tags": "GRC compliance baseline catalog validation drift"
+  },
+  {
+    "id": "GRC-DR",
+    "title": "GRC — IT Disaster Recovery",
+    "section": "GRC",
+    "sub": "Domain pages",
+    "url": "grc-dr.html",
+    "desc": "IT Disaster Recovery domain hub — recovery tiers, backup minima, replication, cloud platform DR, runbook standards",
+    "tags": "GRC DR disaster recovery RTO RPO tier backup replication cloud Azure M365 tenant"
   },
   {
     "id": "GRC-GOV",
@@ -628,6 +898,15 @@
     "url": "grc-risk.html",
     "desc": "GRC risk domain — supplier assessment, risk acceptance, exceptions",
     "tags": "GRC risk supplier assessment exception"
+  },
+  {
+    "id": "GRC-TTX",
+    "title": "GRC — Tabletop Exercise Library",
+    "section": "GRC",
+    "sub": "Domain pages",
+    "url": "grc-ttx.html",
+    "desc": "Pre-built tabletop exercise scenarios for BCDR and cyber response, plus reusable authoring template",
+    "tags": "GRC BCDR exercise tabletop scenarios cyber TTX rehearsal"
   },
   {
     "id": "GRC-FRM-06",
@@ -693,6 +972,69 @@
     "tags": "risk assessment submission form intake new risk identification scoring inherent residual treatment grc"
   },
   {
+    "id": "GRC-FRM-14",
+    "title": "Incident Response Communication Templates",
+    "section": "GRC",
+    "sub": "Forms",
+    "url": "grc-frm-14.html",
+    "desc": "Eight approved communication templates for cyber incident response plus an after-action report template. Covers internal staff notification (Sev 3/2/1 variants), executive briefing, Risk Committee notification, regulator notification (GDPR-pattern 72h), customer/beneficiary breach notification, supplier/partner notification, public/holding statement, and incident closure. Each template specifies audience, sign-off chain, draft text, and post-send actions.",
+    "tags": "GRC IRP communications templates internal staff executive Risk Committee regulator GDPR Article 33 customer breach notification supplier public statement holding statement after-action report AAR sign-off Legal Privacy CISO"
+  },
+  {
+    "id": "GRC-FRM-BCDR-01",
+    "title": "Business Impact Assessment Worksheet (Template)",
+    "section": "GRC",
+    "sub": "Forms & Templates",
+    "url": "grc-frm-bcdr-01.html",
+    "desc": "Template for conducting a Business Impact Assessment per business process — impact rubric, recovery objectives, dependency map, gaps to recovery objectives",
+    "tags": "GRC BCDR template form BIA worksheet impact assessment RTO RPO MTPD MBCO dependency map process criticality scoring rubric"
+  },
+  {
+    "id": "GRC-FRM-BCP-01",
+    "title": "Business Process Continuity Plan (Template)",
+    "section": "GRC",
+    "sub": "Forms & Templates",
+    "url": "grc-frm-bcp-01.html",
+    "desc": "Template for a per-process Business Process Continuity Plan — invocation, workarounds, communications, contacts, stand-down, exercise history",
+    "tags": "GRC BCP template form continuity plan invocation workaround crisis management team communications contacts stand-down MBCO exercise"
+  },
+  {
+    "id": "GRC-FRM-DR-01",
+    "title": "Disaster Recovery Runbook (Template)",
+    "section": "GRC",
+    "sub": "Forms & Templates",
+    "url": "grc-frm-dr-01.html",
+    "desc": "Template for a per-service DR runbook — architecture, backup & replication design, recovery procedures by scenario, validation, recovery team",
+    "tags": "GRC DR template form runbook recovery procedure backup replication immutable failover validation cyber event tier 1 tier 2 service owner"
+  },
+  {
+    "id": "GRC-FRM-TTX-01",
+    "title": "GRC-FRM-TTX-01 — Tabletop Exercise Scenario Template",
+    "section": "GRC",
+    "sub": "Forms & Templates",
+    "url": "grc-frm-ttx-01.html",
+    "desc": "Reusable 10-section template for authoring tabletop exercise scenarios — objectives, injects, evaluation, AAR",
+    "tags": "GRC form template TTX tabletop exercise scenario authoring injects AAR"
+  },
+  {
+    "id": "GRC-IRP-01",
+    "title": "Cyber Security Incident Response Plan",
+    "section": "GRC",
+    "sub": "Plans",
+    "url": "grc-irp-01.html",
+    "desc": "Master cyber security incident response plan covering 7-phase lifecycle, 5-tier severity (Sev 1–5), roles, escalation paths, decision trees, evidence handling, and tabletop programme. Aligned with NIST SP 800-61r2, NIST CSF 2.0, ISO/IEC 27035, ISO/IEC 27001:2022 Annex A.5.24-28, GDPR Art.33/34, and NIS2 Art.23.",
+    "tags": "GRC IRP incident response plan NIST 800-61 CSF 2.0 ISO 27035 ISO 27001 GDPR NIS2 severity Sev 1 Sev 2 Sev 3 Sev 4 Sev 5 escalation containment eradication recovery evidence chain of custody tabletop"
+  },
+  {
+    "id": "GRC-IRP-ANNEX-TEMPLATE",
+    "title": "Local Incident Response Annex Template",
+    "section": "GRC",
+    "sub": "Plans",
+    "url": "grc-irp-annex-template.html",
+    "desc": "Fillable annex template for operating units (agencies, country offices, subsidiaries) to localise GRC-IRP-01 with local CSIRT/IT contacts, data protection authority, sector regulators, cyber insurance, IR retainer, legal counsel, language requirements, and local tabletop schedule. Owned by LCSO/CSLC; annual review minimum.",
+    "tags": "GRC IRP annex template local LCSO CSLC operating unit federation cyber insurance IR retainer DPA regulator GDPR NIS2 DORA HIPAA PCI-DSS language tabletop"
+  },
+  {
     "id": "GRC-POL-01",
     "title": "Supplier Security Assessment Policy",
     "section": "GRC",
@@ -720,6 +1062,15 @@
     "tags": "general supplier policy GRC assessment"
   },
   {
+    "id": "GRC-REG-ASSET",
+    "title": "Asset Register",
+    "section": "GRC",
+    "sub": "Registers",
+    "url": "grc-reg-asset.html",
+    "desc": "Authoritative register of IT and OT assets across all operating units, with entries following the GRC-SOP-05 §8 schema. Currently seeded with 9 representative entries demonstrating each asset type — domain controller (Tier 0), staff laptop (Tier 3), edge firewall (Tier 1), workstation (Tier 3), MFP (Tier 3), staff portal application (Tier 1), Microsoft 365 tenant (Tier 0 CENTRAL), Entra ID directory (Tier 0 CENTRAL), hospital BMS (Tier 1 OT). Each entry shows the full 28-field schema (groups A–G; ITAM extension fields optional). Federated by operating unit; CENTRAL prefix for cross-agency assets.",
+    "tags": "GRC register asset register inventory IT OT assets configuration items CIs Tier 0 1 2 3 federation operating unit AKDN AKHS AKES IIS CENTRAL Microsoft 365 Entra ID domain controller laptop firewall workstation printer application SaaS BMS OT representative entries seeded schema"
+  },
+  {
     "id": "GRC-REG-BC",
     "title": "Baseline Catalog Register",
     "section": "GRC",
@@ -736,6 +1087,15 @@
     "url": "grc-register-control-library.html",
     "desc": "Library of individual baseline controls mapped to CIS and NIST CSF",
     "tags": "control library baseline CIS NIST GRC register"
+  },
+  {
+    "id": "GRC-REG-CODES",
+    "title": "Naming Convention Codes Register",
+    "section": "GRC",
+    "sub": "Registers",
+    "url": "grc-reg-codes.html",
+    "desc": "Authoritative controlled vocabulary supporting GRC-SOP-05. Holds approved agency codes (AKDN, AKHS, AKES, AKA, IIS, plus reserved CENTRAL), city/location codes (LIS, LON, NBO, MOM, DXB, KHI, HYD, DAR — IATA-aligned where possible), 14 asset-type codes (SRV/DSK/LPT/MOB/NET/STO/APP/SAAS/CLD/IDS/DAT/PER/OT/OTH), 11 function tags. Includes deviation register for non-conformant naming exceptions. Codes added incrementally via the documented request workflow as operating units onboard.",
+    "tags": "GRC register codes naming convention agency codes AKDN AKHS AKES AKA IIS CENTRAL city codes IATA Lisbon London Nairobi Mombasa Dubai Karachi Hyderabad Dar es Salaam asset type codes SRV DSK LPT MOB NET STO APP SAAS CLD IDS DAT PER OT function tags deviations vocabulary controlled list"
   },
   {
     "id": "GRC-REG-DR",
@@ -810,6 +1170,33 @@
     "tags": "validation runs register baseline GRC compliance"
   },
   {
+    "id": "GRC-BCDR-SOP-01",
+    "title": "BCDR Methodology & Governance",
+    "section": "GRC",
+    "sub": "SOPs",
+    "url": "grc-bcdr-sop-01.html",
+    "desc": "Shared methodology for BCP and DR — BIA approach, RTO/RPO classification, exercise framework, terminology, Steering Committee, review cadence",
+    "tags": "GRC BCDR methodology BIA RTO RPO MTPD MBCO exercise tabletop simulation steering committee ISO 22301"
+  },
+  {
+    "id": "GRC-BCP-SOP-01",
+    "title": "Business Continuity Policy",
+    "section": "GRC",
+    "sub": "SOPs",
+    "url": "grc-bcp-sop-01.html",
+    "desc": "Business Continuity Policy — agency obligations, plan ownership, invocation, escalation, crisis governance, plan currency",
+    "tags": "GRC BCP policy agency plan invocation escalation crisis management business process owner ISO 22301"
+  },
+  {
+    "id": "GRC-DR-SOP-01",
+    "title": "IT Disaster Recovery Policy",
+    "section": "GRC",
+    "sub": "SOPs",
+    "url": "grc-dr-sop-01.html",
+    "desc": "IT Disaster Recovery Policy — tier framework, backup strategy minima, replication, cloud DR principles, runbook requirements, testing cadence",
+    "tags": "GRC DR policy IT recovery tier backup replication immutable cloud Azure M365 Entra tenant runbook"
+  },
+  {
     "id": "GRC-SOP-01",
     "title": "SaaS / Cloud Supplier Security Assessment Procedure",
     "section": "GRC",
@@ -846,6 +1233,105 @@
     "tags": "risk management cyber it iso 31000 27001 nist csf 5x5 matrix likelihood impact treatment mitigate accept transfer avoid grc sop methodology"
   },
   {
+    "id": "GRC-SOP-05",
+    "title": "Asset Management & Naming Convention Standard",
+    "section": "GRC",
+    "sub": "SOPs",
+    "url": "grc-sop-05.html",
+    "desc": "Authoritative procedure for identifying, classifying, naming, registering, and managing the lifecycle of all IT and OT assets across operating units. Aligned with ITIL 4 ITAM and SCM, ISO/IEC 19770-1, ISO 27001:2022 A.5.9, NIST CSF 2.0 ID.AM, NIST 800-53 CM-8, CIS Controls 1+2. Defines 14-type asset taxonomy with 11 function tags, the AGENCY-COUNTRY-CITY-TYPE-SEQ naming convention with three patterns (hostname-as-ID for physical, synthetic for non-host, CENTRAL for cross-agency), 34-field record schema with ITAM extension, 7-state lifecycle (Proposed/Onboarding/Live/Under-review/Decommissioning/Decommissioned/Archived), 3-level maturity ladder, automated reconciliation against AD/Intune/EDR/scanner. This SOP supersedes any earlier TDA Naming Convention Standard.",
+    "tags": "GRC SOP asset management ITIL ITAM SCM ISO 19770 ISO 27001 A.5.9 NIST CSF ID.AM CM-8 CIS Controls naming convention hostname agency country city type sequence Pattern A B C synthetic ID lifecycle taxonomy server endpoint laptop mobile network storage application SaaS cloud workload identity store data store peripheral OT criticality tier reconciliation maturity ladder federated CMDB SOP-05"
+  },
+  {
+    "id": "GRC-TTX-01",
+    "title": "GRC-TTX-01 — Ransomware Affecting Clinical Systems",
+    "section": "GRC",
+    "sub": "Tabletop Scenarios",
+    "url": "grc-ttx-01.html",
+    "desc": "120-min mixed-audience scenario — ransomware on EHR during operating day; tests joint IRP+BCP, SOC recovery threshold, clean-up vs clean-tenant, regulator notification",
+    "tags": "GRC TTX tabletop ransomware EHR clinical hybrid mixed BCP IRP recovery 72-hour"
+  },
+  {
+    "id": "GRC-TTX-02",
+    "title": "GRC-TTX-02 — Entra Tenant Compromise",
+    "section": "GRC",
+    "sub": "Tabletop Scenarios",
+    "url": "grc-ttx-02.html",
+    "desc": "120-min technical scenario — attacker presence in Entra tenant; tests in-tenant vs clean-tenant decision, break-glass readiness, Microsoft escalation, SOC+DR+Identity coordination",
+    "tags": "GRC TTX tabletop Entra tenant compromise identity break-glass Global Admin app registration Graph clean-tenant"
+  },
+  {
+    "id": "GRC-TTX-03",
+    "title": "GRC-TTX-03 — Regional Disaster: Sustained Site Evacuation",
+    "section": "GRC",
+    "sub": "Tabletop Scenarios",
+    "url": "grc-ttx-03.html",
+    "desc": "90-min executive scenario — multi-day site evacuation after natural hazard; tests BCP at scale, alternative-site readiness, degraded comms, multi-day CMT cadence, cross-agency coordination",
+    "tags": "GRC TTX tabletop regional disaster natural hazard site evacuation BCP CMT cross-agency telecoms"
+  },
+  {
+    "id": "GRC-TTX-04",
+    "title": "GRC-TTX-04 — Critical SaaS Provider Sustained Failure",
+    "section": "GRC",
+    "sub": "Tabletop Scenarios",
+    "url": "grc-ttx-04.html",
+    "desc": "90-min mixed-audience scenario — critical SaaS provider breach with 2+ week outage; tests controller obligations, data-exposure assessment, 72-hour regulator notification, supplier-relationship decisions",
+    "tags": "GRC TTX tabletop SaaS supplier provider breach controller processor DPIA 72-hour cross-AKDN"
+  },
+  {
+    "id": "GRC-TTX-05",
+    "title": "GRC-TTX-05 — Azure Region Failure During Business-Critical Period",
+    "section": "GRC",
+    "sub": "Tabletop Scenarios",
+    "url": "grc-ttx-05.html",
+    "desc": "90-min technical scenario — Azure region service event during peak operations; tests per-workload failover, cross-workload sequencing, region-scope decision, RPO-window data handling, failback",
+    "tags": "GRC TTX tabletop Azure cloud region failover failback Front Door SQL failover-group RPO RTO sequencing"
+  },
+  {
+    "id": "GRC-BCDR-WI-01",
+    "title": "Conducting a Business Impact Assessment",
+    "section": "GRC",
+    "sub": "Work Instructions",
+    "url": "grc-bcdr-wi-01.html",
+    "desc": "Step-by-step procedure for conducting a Business Impact Assessment — identify processes, assess impact, determine RTO/RPO, map dependencies",
+    "tags": "GRC BCDR WI BIA business impact assessment RTO RPO MTPD MBCO dependency mapping process criticality"
+  },
+  {
+    "id": "GRC-BCDR-WI-02",
+    "title": "Exercise & Testing Programme",
+    "section": "GRC",
+    "sub": "Work Instructions",
+    "url": "grc-bcdr-wi-02.html",
+    "desc": "Exercise programme procedure — planning, scenario selection, execution, hot-wash, after-action review, findings tracking",
+    "tags": "GRC BCDR WI exercise tabletop walkthrough simulation live failover after-action review AAR lessons learned scenario"
+  },
+  {
+    "id": "GRC-DR-WI-01",
+    "title": "Recovery Tier Classification",
+    "section": "GRC",
+    "sub": "Work Instructions",
+    "url": "grc-dr-wi-01.html",
+    "desc": "Procedure for assigning IT services to recovery tiers (Tier 1–4), technical minima per tier, classification workflow from BIA dependency mapping",
+    "tags": "GRC DR WI recovery tier classification Tier 1 2 3 4 RTO RPO backup replication runbook exercise restore test service inventory"
+  },
+  {
+    "id": "GRC-DR-WI-02",
+    "title": "Cloud Platform Disaster Recovery",
+    "section": "GRC",
+    "sub": "Work Instructions",
+    "url": "grc-dr-wi-02.html",
+    "desc": "Cloud DR scenarios — Azure region failure, M365 sustained outage, Entra tenant lockout, Entra tenant compromise, SaaS provider disruption",
+    "tags": "GRC DR WI cloud Azure region failover M365 Microsoft 365 Exchange SharePoint Entra tenant lockout compromise SaaS break-glass paired region"
+  },
+  {
+    "id": "GRC-DR-WI-03",
+    "title": "Worked Example — Core IT Services Recovery",
+    "section": "GRC",
+    "sub": "Work Instructions",
+    "url": "grc-dr-wi-03.html",
+    "desc": "Illustrative DR plan populated for five core IT services — identity, email, file services, network, EDR — with tier, RTO/RPO, dependencies, backup design, recovery procedure",
+    "tags": "GRC DR WI worked example identity Entra AD email Exchange Online SharePoint OneDrive network EDR CrowdStrike Obrela runbook tier RTO RPO"
+  },
+  {
     "id": "GRC-WI-03",
     "title": "Reviewer WI — On-Prem Application Support Suppliers",
     "section": "GRC",
@@ -864,13 +1350,13 @@
     "tags": "reviewer WI general supplier GRC"
   },
   {
-    "id": "CIS-MATRIX",
-    "title": "CIS Benchmark Alignment Matrix",
-    "section": "Reference",
-    "sub": "Core",
-    "url": "asm-cis-matrix.html",
-    "desc": "CIS Benchmark Level 1 control mapping across all asset types",
-    "tags": "CIS benchmark alignment matrix controls asset types"
+    "id": "GRC-WI-05",
+    "title": "Asset Submission Reviewer Work Instruction",
+    "section": "GRC",
+    "sub": "Work Instructions",
+    "url": "grc-wi-05.html",
+    "desc": "Operational guidance for the GRC team member reviewing an asset submission against GRC-SOP-05. Covers reviewer principles (5), the validation checklist (naming-conformance N1–N6, schema completeness S1–S8, consistency C1–C6, cross-reference X1–X4), 10 common review failures with remedies (code-not-yet-registered, mismatched naming pattern, ownership-as-mailbox, tier mismatch, missing classification, etc.), the 4-gate decision flow (approve/reject/request-clarification), 8 edge cases (deviation requests, legacy assets, cross-agency assignment, identical naming, multi-owner, in-flight exceptions, OT assets, in-incident assets), per-Tier SLA (3/5/10 days first response, 10/15/20 days disposition), evidence capture and audit trail.",
+    "tags": "GRC WI work instruction reviewer asset submission review validation checklist naming conformance schema completeness consistency cross-reference duplicate detection approval rejection clarification SLA evidence audit trail separation of duties common failures edge cases legacy assets deviations OT GRC team Head of GRC LCSO CSLC"
   },
   {
     "id": "CORE-CONCEPTS",
@@ -889,6 +1375,87 @@
     "url": "nist-csf-reference.html",
     "desc": "Comprehensive NIST Cybersecurity Framework 2.0 reference page",
     "tags": "NIST CSF cybersecurity framework govern identify protect detect respond recover"
+  },
+  {
+    "id": "HOME",
+    "title": "Cyber Security Knowledge Base — Home",
+    "section": "Reference",
+    "sub": "Core Navigation",
+    "url": "index.html",
+    "desc": "Main landing page and navigation hub for SOC, ASM, GRC, tools, references, and governance content",
+    "tags": "home landing knowledge base SOC ASM GRC navigation"
+  },
+  {
+    "id": "SEARCH",
+    "title": "Search the Knowledge Base",
+    "section": "Reference",
+    "sub": "Core Navigation",
+    "url": "search.html",
+    "desc": "Search interface for finding knowledge base pages by keyword, document ID, topic, and section",
+    "tags": "search index find knowledge base lookup"
+  },
+  {
+    "id": "TOOLS-REFERENCES",
+    "title": "Tools & References — MITRE ATT&CK matrix and framework references",
+    "section": "Reference",
+    "sub": "Frameworks & Tools",
+    "url": "tools-references.html",
+    "desc": "Central MITRE ATT&CK reference for the KB. Tool x tactic matrix, technique-level drill-down, ATT&CK techniques covered by published content across 11 tactics, ATT&CK mitigations referenced by preventive content, coverage validation matrix, framework references (NIST CSF 2.0, NIST 800-53, ISO 27001, CIS, OWASP, MITRE)",
+    "tags": "MITRE ATT&CK techniques tactics mitigation TA0001 TA0002 TA0003 TA0004 TA0005 TA0006 TA0007 TA0008 TA0010 TA0011 TA0040 T1059 T1078 T1098 T1136 T1190 T1484 T1485 T1486 T1490 T1566 M1018 M1026 M1027 M1032 M1036 M1053 NIST CSF NIST 800-53 ISO 27001 CIS OWASP framework references"
+  },
+  {
+    "id": "TOOLS-GLOSSARY",
+    "title": "Acronym Glossary",
+    "section": "Reference",
+    "sub": "Glossary",
+    "url": "tools-glossary.html",
+    "desc": "Curated A–Z glossary of acronyms used across the KB — expansion plus plain-English explanation per entry, domain-tagged, for readers across all skill levels",
+    "tags": "glossary acronym dictionary reference vocabulary BCDR SOC ASM GRC identity cloud network framework entry-level RTO RPO MTPD MBCO BIA MFA EDR MDR SIEM"
+  },
+  {
+    "id": "GOVERNANCE",
+    "title": "Governance & Change Log",
+    "section": "Reference",
+    "sub": "Governance",
+    "url": "governance.html",
+    "desc": "Site inventory, contribution process, review schedule, governance principles, and change log for the knowledge base",
+    "tags": "governance change log inventory review schedule contribution process"
+  },
+  {
+    "id": "PLAYBOOKS",
+    "title": "Playbooks",
+    "section": "SOC",
+    "sub": "Core Navigation",
+    "url": "playbooks.html",
+    "desc": "Index of end-to-end SOC incident response playbooks by threat domain",
+    "tags": "playbooks incident response SOC email identity network endpoint"
+  },
+  {
+    "id": "RUNBOOKS",
+    "title": "Runbooks & Tier-1 Checklists",
+    "section": "SOC",
+    "sub": "Core Navigation",
+    "url": "runbooks.html",
+    "desc": "Index of technical runbooks and Tier-1 checklists for alert triage, investigation, containment, and response",
+    "tags": "runbooks checklists tier-1 SOC triage investigation containment"
+  },
+  {
+    "id": "SOPS",
+    "title": "Standard Operating Procedures",
+    "section": "SOC",
+    "sub": "Core Navigation",
+    "url": "sops.html",
+    "desc": "Index of SOC standard operating procedures covering roles, responsibilities, process flows, escalation, and governance",
+    "tags": "SOP standard operating procedures SOC governance escalation"
+  },
+  {
+    "id": "WORK-INSTRUCTIONS",
+    "title": "Work Instructions",
+    "section": "SOC",
+    "sub": "Core Navigation",
+    "url": "work-instructions.html",
+    "desc": "Index of step-by-step work instructions for SOC and IT actions including investigation, containment, validation, and hardening",
+    "tags": "work instructions WI SOC IT investigation containment hardening"
   },
   {
     "id": "EP-INV-Win-01",
@@ -997,6 +1564,15 @@
     "url": "ep-pb-04.html",
     "desc": "Investigate potential insider threat activity on endpoints",
     "tags": "insider threat endpoint data theft exfiltration USB"
+  },
+  {
+    "id": "EP-PB-05",
+    "title": "Ransomware Activity",
+    "section": "SOC",
+    "sub": "Playbooks",
+    "url": "ep-pb-05.html",
+    "desc": "Critical playbook for suspected or confirmed ransomware activity across endpoints, identity, network, backup, and recovery teams",
+    "tags": "ransomware encryption ransom note shadow copy deletion destructive command containment recovery endpoint impact"
   },
   {
     "id": "ID-PB-01",
@@ -1294,6 +1870,15 @@
     "url": "nw-rb-03.html",
     "desc": "Sinkhole or block a malicious DNS domain",
     "tags": "DNS sinkhole block domain C2 malicious"
+  },
+  {
+    "id": "NW-RB-04",
+    "title": "Apply DoS Mitigations",
+    "section": "SOC",
+    "sub": "Runbooks",
+    "url": "nw-rb-04.html",
+    "desc": "Apply local denial-of-service mitigations using firewall, WAF, load balancer, rate-limit, and edge controls",
+    "tags": "DoS DDoS mitigation rate limit WAF firewall load balancer availability network runbook"
   },
   {
     "id": "NW-RB-05",
@@ -1654,518 +2239,5 @@
     "url": "nw-wi-03.html",
     "desc": "Step-by-step instructions for isolating a network segment",
     "tags": "network segment isolation VLAN containment WI"
-  },
-  {
-    "id": "GRC-IRP-01",
-    "title": "Cyber Security Incident Response Plan",
-    "section": "GRC",
-    "sub": "Plans",
-    "url": "grc-irp-01.html",
-    "desc": "Master cyber security incident response plan covering 7-phase lifecycle, 5-tier severity (Sev 1–5), roles, escalation paths, decision trees, evidence handling, and tabletop programme. Aligned with NIST SP 800-61r2, NIST CSF 2.0, ISO/IEC 27035, ISO/IEC 27001:2022 Annex A.5.24-28, GDPR Art.33/34, and NIS2 Art.23.",
-    "tags": "GRC IRP incident response plan NIST 800-61 CSF 2.0 ISO 27035 ISO 27001 GDPR NIS2 severity Sev 1 Sev 2 Sev 3 Sev 4 Sev 5 escalation containment eradication recovery evidence chain of custody tabletop"
-  },
-  {
-    "id": "GRC-IRP-ANNEX-TEMPLATE",
-    "title": "Local Incident Response Annex Template",
-    "section": "GRC",
-    "sub": "Plans",
-    "url": "grc-irp-annex-template.html",
-    "desc": "Fillable annex template for operating units (agencies, country offices, subsidiaries) to localise GRC-IRP-01 with local CSIRT/IT contacts, data protection authority, sector regulators, cyber insurance, IR retainer, legal counsel, language requirements, and local tabletop schedule. Owned by LCSO/CSLC; annual review minimum.",
-    "tags": "GRC IRP annex template local LCSO CSLC operating unit federation cyber insurance IR retainer DPA regulator GDPR NIS2 DORA HIPAA PCI-DSS language tabletop"
-  },
-  {
-    "id": "GRC-FRM-14",
-    "title": "Incident Response Communication Templates",
-    "section": "GRC",
-    "sub": "Forms",
-    "url": "grc-frm-14.html",
-    "desc": "Eight approved communication templates for cyber incident response plus an after-action report template. Covers internal staff notification (Sev 3/2/1 variants), executive briefing, Risk Committee notification, regulator notification (GDPR-pattern 72h), customer/beneficiary breach notification, supplier/partner notification, public/holding statement, and incident closure. Each template specifies audience, sign-off chain, draft text, and post-send actions.",
-    "tags": "GRC IRP communications templates internal staff executive Risk Committee regulator GDPR Article 33 customer breach notification supplier public statement holding statement after-action report AAR sign-off Legal Privacy CISO"
-  },
-  {
-    "id": "GRC-SOP-05",
-    "title": "Asset Management & Naming Convention Standard",
-    "section": "GRC",
-    "sub": "SOPs",
-    "url": "grc-sop-05.html",
-    "desc": "Authoritative procedure for identifying, classifying, naming, registering, and managing the lifecycle of all IT and OT assets across operating units. Aligned with ITIL 4 ITAM and SCM, ISO/IEC 19770-1, ISO 27001:2022 A.5.9, NIST CSF 2.0 ID.AM, NIST 800-53 CM-8, CIS Controls 1+2. Defines 14-type asset taxonomy with 11 function tags, the AGENCY-COUNTRY-CITY-TYPE-SEQ naming convention with three patterns (hostname-as-ID for physical, synthetic for non-host, CENTRAL for cross-agency), 34-field record schema with ITAM extension, 7-state lifecycle (Proposed/Onboarding/Live/Under-review/Decommissioning/Decommissioned/Archived), 3-level maturity ladder, automated reconciliation against AD/Intune/EDR/scanner. This SOP supersedes any earlier TDA Naming Convention Standard.",
-    "tags": "GRC SOP asset management ITIL ITAM SCM ISO 19770 ISO 27001 A.5.9 NIST CSF ID.AM CM-8 CIS Controls naming convention hostname agency country city type sequence Pattern A B C synthetic ID lifecycle taxonomy server endpoint laptop mobile network storage application SaaS cloud workload identity store data store peripheral OT criticality tier reconciliation maturity ladder federated CMDB SOP-05"
-  },
-  {
-    "id": "GRC-REG-CODES",
-    "title": "Naming Convention Codes Register",
-    "section": "GRC",
-    "sub": "Registers",
-    "url": "grc-reg-codes.html",
-    "desc": "Authoritative controlled vocabulary supporting GRC-SOP-05. Holds approved agency codes (AKDN, AKHS, AKES, AKA, IIS, plus reserved CENTRAL), city/location codes (LIS, LON, NBO, MOM, DXB, KHI, HYD, DAR — IATA-aligned where possible), 14 asset-type codes (SRV/DSK/LPT/MOB/NET/STO/APP/SAAS/CLD/IDS/DAT/PER/OT/OTH), 11 function tags. Includes deviation register for non-conformant naming exceptions. Codes added incrementally via the documented request workflow as operating units onboard.",
-    "tags": "GRC register codes naming convention agency codes AKDN AKHS AKES AKA IIS CENTRAL city codes IATA Lisbon London Nairobi Mombasa Dubai Karachi Hyderabad Dar es Salaam asset type codes SRV DSK LPT MOB NET STO APP SAAS CLD IDS DAT PER OT function tags deviations vocabulary controlled list"
-  },
-  {
-    "id": "GRC-REG-ASSET",
-    "title": "Asset Register",
-    "section": "GRC",
-    "sub": "Registers",
-    "url": "grc-reg-asset.html",
-    "desc": "Authoritative register of IT and OT assets across all operating units, with entries following the GRC-SOP-05 §8 schema. Currently seeded with 9 representative entries demonstrating each asset type — domain controller (Tier 0), staff laptop (Tier 3), edge firewall (Tier 1), workstation (Tier 3), MFP (Tier 3), staff portal application (Tier 1), Microsoft 365 tenant (Tier 0 CENTRAL), Entra ID directory (Tier 0 CENTRAL), hospital BMS (Tier 1 OT). Each entry shows the full 28-field schema (groups A–G; ITAM extension fields optional). Federated by operating unit; CENTRAL prefix for cross-agency assets.",
-    "tags": "GRC register asset register inventory IT OT assets configuration items CIs Tier 0 1 2 3 federation operating unit AKDN AKHS AKES IIS CENTRAL Microsoft 365 Entra ID domain controller laptop firewall workstation printer application SaaS BMS OT representative entries seeded schema"
-  },
-  {
-    "id": "GRC-WI-05",
-    "title": "Asset Submission Reviewer Work Instruction",
-    "section": "GRC",
-    "sub": "Work Instructions",
-    "url": "grc-wi-05.html",
-    "desc": "Operational guidance for the GRC team member reviewing an asset submission against GRC-SOP-05. Covers reviewer principles (5), the validation checklist (naming-conformance N1–N6, schema completeness S1–S8, consistency C1–C6, cross-reference X1–X4), 10 common review failures with remedies (code-not-yet-registered, mismatched naming pattern, ownership-as-mailbox, tier mismatch, missing classification, etc.), the 4-gate decision flow (approve/reject/request-clarification), 8 edge cases (deviation requests, legacy assets, cross-agency assignment, identical naming, multi-owner, in-flight exceptions, OT assets, in-incident assets), per-Tier SLA (3/5/10 days first response, 10/15/20 days disposition), evidence capture and audit trail.",
-    "tags": "GRC WI work instruction reviewer asset submission review validation checklist naming conformance schema completeness consistency cross-reference duplicate detection approval rejection clarification SLA evidence audit trail separation of duties common failures edge cases legacy assets deviations OT GRC team Head of GRC LCSO CSLC"
-  },
-  {
-    "id": "GRC-BCP",
-    "title": "GRC — Business Continuity",
-    "section": "GRC",
-    "sub": "Domain pages",
-    "url": "grc-bcp.html",
-    "desc": "Business Continuity domain hub — business-audience framework, agency obligations, plan ownership, scope and operating model",
-    "tags": "GRC BCP business continuity plan invocation crisis management agency"
-  },
-  {
-    "id": "GRC-DR",
-    "title": "GRC — IT Disaster Recovery",
-    "section": "GRC",
-    "sub": "Domain pages",
-    "url": "grc-dr.html",
-    "desc": "IT Disaster Recovery domain hub — recovery tiers, backup minima, replication, cloud platform DR, runbook standards",
-    "tags": "GRC DR disaster recovery RTO RPO tier backup replication cloud Azure M365 tenant"
-  },
-  {
-    "id": "GRC-BCDR-SOP-01",
-    "title": "BCDR Methodology & Governance",
-    "section": "GRC",
-    "sub": "SOPs",
-    "url": "grc-bcdr-sop-01.html",
-    "desc": "Shared methodology for BCP and DR — BIA approach, RTO/RPO classification, exercise framework, terminology, Steering Committee, review cadence",
-    "tags": "GRC BCDR methodology BIA RTO RPO MTPD MBCO exercise tabletop simulation steering committee ISO 22301"
-  },
-  {
-    "id": "GRC-BCP-SOP-01",
-    "title": "Business Continuity Policy",
-    "section": "GRC",
-    "sub": "SOPs",
-    "url": "grc-bcp-sop-01.html",
-    "desc": "Business Continuity Policy — agency obligations, plan ownership, invocation, escalation, crisis governance, plan currency",
-    "tags": "GRC BCP policy agency plan invocation escalation crisis management business process owner ISO 22301"
-  },
-  {
-    "id": "GRC-DR-SOP-01",
-    "title": "IT Disaster Recovery Policy",
-    "section": "GRC",
-    "sub": "SOPs",
-    "url": "grc-dr-sop-01.html",
-    "desc": "IT Disaster Recovery Policy — tier framework, backup strategy minima, replication, cloud DR principles, runbook requirements, testing cadence",
-    "tags": "GRC DR policy IT recovery tier backup replication immutable cloud Azure M365 Entra tenant runbook"
-  },
-  {
-    "id": "GRC-BCDR-WI-01",
-    "title": "Conducting a Business Impact Assessment",
-    "section": "GRC",
-    "sub": "Work Instructions",
-    "url": "grc-bcdr-wi-01.html",
-    "desc": "Step-by-step procedure for conducting a Business Impact Assessment — identify processes, assess impact, determine RTO/RPO, map dependencies",
-    "tags": "GRC BCDR WI BIA business impact assessment RTO RPO MTPD MBCO dependency mapping process criticality"
-  },
-  {
-    "id": "GRC-BCDR-WI-02",
-    "title": "Exercise & Testing Programme",
-    "section": "GRC",
-    "sub": "Work Instructions",
-    "url": "grc-bcdr-wi-02.html",
-    "desc": "Exercise programme procedure — planning, scenario selection, execution, hot-wash, after-action review, findings tracking",
-    "tags": "GRC BCDR WI exercise tabletop walkthrough simulation live failover after-action review AAR lessons learned scenario"
-  },
-  {
-    "id": "asm-network-baselines",
-    "title": "Network Device Security Baselines",
-    "section": "ASM",
-    "sub": "Domain hub",
-    "url": "asm-network-baselines.html",
-    "desc": "ASM domain page for network device security baselines. Vendor-agnostic, CIS L1 aligned. Covers switches, routers, firewalls, wireless access points and controllers across all operating units. Organised by control domain rather than vendor: management plane, control plane, data plane, wireless, firewall, and configuration management. Sits as a peer ASM domain alongside patch management, vulnerability management, threat intelligence, and the existing security baselines (endpoint/server). References 7 CIS benchmarks: Cisco IOS XE, NX-OS, IOS XR, Juniper Junos, Palo Alto Firewall, Check Point Firewall, Wireless LAN.",
-    "tags": "ASM network baselines hub domain switch router firewall wireless access point controller WAP WLC CIS L1 Cisco IOS XE NX-OS IOS XR Juniper Junos Palo Alto Check Point Wireless LAN CIS benchmarks vendor-agnostic management plane control plane data plane wireless firewall configuration management"
-  },
-  {
-    "id": "IT-NET-SOP-01",
-    "title": "Network Device Security Baseline",
-    "section": "ASM",
-    "sub": "SOPs",
-    "url": "it-net-sop-01.html",
-    "desc": "Authoritative policy-level baseline for network and security-network devices across operating units, vendor-agnostic, CIS L1 aligned. Seven sections: Purpose, Scope (switches, routers, firewalls, wireless, OOB management; WAFs and load balancers out of scope to future Security Infrastructure domain), seven Baseline Principles (defence in depth, least privilege, strong authentication, secure protocols only, segmentation by purpose, configuration as documented state, comprehensive centralised logging), Minimum Security Requirements across six control domains each operationalised by a dedicated WI (section 4.1 Management Plane via WI-01; 4.2 Control Plane via WI-02; 4.3 Data Plane via WI-03; 4.4 Wireless via WI-04; 4.5 Firewall via WI-05; 4.6 Configuration Management via WI-06), Roles, Framework Alignment, Governance.",
-    "tags": "ASM SOP IT-NET-SOP-01 network baseline switch router firewall wireless access point controller default-deny CIS L1 NIST CSF ISO 27001 A.8.20 A.8.21 A.8.22 A.8.23 BCP 38 management plane control plane data plane segmentation AAA TACACS RADIUS Entra ID syslog NTP routing authentication CoPP BPDU port security DHCP snooping WPA3 WPA2 Enterprise rogue AP detection firewall rule hygiene egress filtering configuration management golden config drift detection"
-  },
-  {
-    "id": "IT-NET-WI-01",
-    "title": "Management Plane Hardening",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-net-wi-01.html",
-    "desc": "Vendor-agnostic implementation guidance for hardening the management plane of network devices: how administrators connect, authenticate, and configure. Operationalises IT-NET-SOP-01 section 4.1. Eight steps: disable plaintext protocols (Telnet, HTTP, SNMPv1v2, FTP, TFTP); enable secure protocols (SSHv2, HTTPS TLS1.2 plus, SNMPv3 authPriv, SCP/SFTP); configure AAA with MFA (TACACS+, RADIUS, Entra ID + break-glass local); restrict management to management network via ACL; idle session timeouts and authorised-use banner; NTP with authentication (two or more servers); centralised syslog forwarding to SIEM; console and auxiliary port hardening. Includes prerequisites, validation, rollback procedure, common errors.",
-    "tags": "ASM WI IT-NET-WI-01 management plane network device hardening Telnet HTTP HTTPS SSH SSHv2 SNMPv3 SCP SFTP AAA TACACS RADIUS Entra ID MFA break-glass management ACL session timeout banner NTP syslog SIEM console aux port OOB out-of-band CIS L1 vendor-agnostic"
-  },
-  {
-    "id": "IT-NET-WI-02",
-    "title": "Control Plane Hardening",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-net-wi-02.html",
-    "desc": "Vendor-agnostic implementation guidance for hardening the control plane of network devices: how the device decides where traffic goes. Operationalises IT-NET-SOP-01 section 4.2. Eight steps: routing-protocol authentication (OSPF, EIGRP, BGP, IS-IS with HMAC-SHA256 or TCP-AO; HSRP/VRRP authenticated); Control-Plane Policing (CoPP) with traffic classes and rate limits; spanning-tree protection (BPDU Guard, Root Guard, Loop Guard, UDLD, PortFast); storm control (broadcast/multicast/unknown-unicast); anti-spoofing via uRPF (strict on customer-facing) and BCP38 compliance; Dynamic ARP Inspection and IPv6 RA Guard; disable unused routing protocols and apply passive-interface defaults; route filtering at administrative boundaries.",
-    "tags": "ASM WI IT-NET-WI-02 control plane network device hardening routing authentication OSPF EIGRP BGP IS-IS HMAC SHA256 TCP-AO HSRP VRRP CoPP control-plane policing BPDU Guard Root Guard Loop Guard UDLD PortFast storm control broadcast multicast unicast uRPF Unicast Reverse Path Forwarding BCP38 anti-spoofing DAI Dynamic ARP Inspection IPv6 RA Guard ND inspection max-prefix prefix list route map"
-  },
-  {
-    "id": "IT-NET-WI-03",
-    "title": "Data Plane Hardening",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-net-wi-03.html",
-    "desc": "Vendor-agnostic implementation guidance for hardening the data plane of network devices: how user and application traffic is forwarded. Operationalises IT-NET-SOP-01 section 4.3. Eight steps: identify and administratively disable unused ports (parking VLAN); port security on access ports (MAC limit, sticky learning, violation action); VLAN hygiene (native VLAN non-default, trunk allow-list, DTP nonegotiate, VLAN 1 hygiene); DHCP snooping with trusted-port designation; inter-VLAN routing filtered by ACL or firewall (no flat L3 between segments); segment isolation (guest, IoT, OT separated, client isolation); disable unnecessary L2 services (CDP/LLDP outbound on user ports, VTP transparent or off); private VLANs for server farms and DMZ where appropriate.",
-    "tags": "ASM WI IT-NET-WI-03 data plane network device hardening unused ports parking VLAN port security MAC sticky learning violation native VLAN trunk allowed list DTP VLAN hopping VLAN 1 hygiene DHCP snooping trusted port inter-VLAN ACL segmentation guest IoT OT client isolation private VLAN PVLAN isolated promiscuous community CDP LLDP VTP transparent"
-  },
-  {
-    "id": "IT-NET-WI-04",
-    "title": "Wireless Hardening",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-net-wi-04.html",
-    "desc": "Vendor-agnostic implementation guidance for hardening wireless infrastructure (access points, controllers). Operationalises IT-NET-SOP-01 section 4.4. Ten steps: disable WEP, WPA-TKIP, WPS, open-on-corporate; deploy WPA3-Enterprise (or WPA2-Enterprise minimum) with 802.1X EAP-TLS or PEAP-MSCHAPv2 with mandatory cert validation; Protected Management Frames (802.11w PMF); guest network isolation (separate VLAN, firewall egress, client isolation, captive/sponsor portal); rogue-AP detection and classification; WIDS/WIPS where licensed; RF management with region, channel, power per site survey; SSID hygiene (limit count, broadcast remains enabled because hiding is not a control, no sensitive names); 802.1X dynamic VLAN assignment; logging to SIEM (auth, association, security events).",
-    "tags": "ASM WI IT-NET-WI-04 wireless hardening WPA3 WPA2 Enterprise 802.1X EAP-TLS PEAP-MSCHAPv2 RADIUS certificate validation 802.11w PMF Protected Management Frames guest network isolation client isolation captive portal sponsor portal rogue AP detection containment WIDS WIPS RF management channel plan transmit power band steering SSID hygiene dynamic VLAN assignment WLC controller access point AP"
-  },
-  {
-    "id": "IT-NET-WI-05",
-    "title": "Firewall Hardening",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-net-wi-05.html",
-    "desc": "Vendor-agnostic implementation guidance for hardening firewalls. Operationalises IT-NET-SOP-01 section 4.5. Ten steps: establish default-deny (no any-any allow rules; use observe-then-replace for legacy permissive); rule documentation and ownership (description, owner, dates, expiry/review); egress filtering on internet interfaces (block SMB, RDP, SSH, SMTP lateral, only documented outbound); stale-rule detection (90 day flag, 180 day removal); geo-blocking with judgement; IPS, IDS, AV where licensed; TLS inspection policy (categories on/off, cert deployed, log SNI where off); application-layer Layer-7 controls; anti-evasion (anti-spoofing, fragmentation, TCP-state, ICMP rate-limit); high availability for Tier 0/1 firewalls with annual failover test.",
-    "tags": "ASM WI IT-NET-WI-05 firewall hardening default-deny rule hygiene rule documentation egress filtering stale rules 90 days 180 days geo-blocking IPS IDS AV antivirus signature TLS inspection SNI Layer-7 application-layer anti-spoofing fragmentation TCP state ICMP rate limit high availability HA active standby failover NGFW perimeter internal segmentation"
-  },
-  {
-    "id": "IT-NET-WI-06",
-    "title": "Configuration Management & Change Control",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-net-wi-06.html",
-    "desc": "Vendor-agnostic implementation guidance for configuration management and change control on network devices: keeping the baseline real over time. Operationalises IT-NET-SOP-01 section 4.6. Eight steps: golden configuration per device class (templated, version-controlled); automated backups (daily T0/T1, weekly T2/T3, 90/30-day retention, annual restore test); change control workflow (standard, normal, emergency tracks); drift detection automated and triaged; firmware/OS version tracking and vendor advisory subscription; secure decommissioning per GRC-SOP-05 section 12 (final backup, cert revocation, factory reset, asset record); test/lab isolation and credential discipline; OOB management infrastructure in baseline scope.",
-    "tags": "ASM WI IT-NET-WI-06 configuration management change control golden config Git Jinja2 IaC template version control automated backup retention restore test SLA tier change advisory board standard normal emergency change drift detection comparator firmware OS lifecycle PSIRT advisory feed end of support decommissioning factory reset certificate revocation lab isolation test environment OOB out-of-band management"
-  },
-  {
-    "id": "Security Infrastructure Baselines",
-    "title": "Security Infrastructure Baselines — Domain hub",
-    "section": "ASM",
-    "sub": "Domain hub",
-    "url": "asm-security-infrastructure-baselines.html",
-    "desc": "Vendor-agnostic security baselines for Web Application Firewalls (WAFs), load balancers, and Privileged Access Management (PAM) platforms. Hub page covering scope (WAF/LB/PAM in scope; reverse proxies and API gateways deferred to future Application Delivery sub-domain; cloud-WAF tenant-platform integration deferred to future Cloud Baselines; PAM identity governance deferred to future Identity domain), device-type overview, framework alignment (CIS F5 BIG-IP, OWASP Top 10/ASVS/CRS, NIST CSF 2.0, NIST 800-53 r5, NIST 800-63B AAL2/AAL3, NIST 800-52, ISO 27001:2022, PCI DSS v4.0), roles, metrics (8 metrics including WAF coverage, signature currency, TLS cipher conformance, certificate currency, PAM coverage, session-recording completeness), exception handling, related domains.",
-    "tags": "ASM Security Infrastructure Baselines domain hub WAF load balancer PAM privileged access management F5 ASM Imperva FortiWeb Cloudflare Azure Front Door AWS WAF F5 LTM Citrix ADC HAProxy NGINX Plus A10 AVI CyberArk BeyondTrust Delinea HashiCorp Vault OWASP Top 10 OWASP ASVS OWASP CRS NIST CSF PR.AC PR.DS PR.PT DE.CM NIST 800-53 NIST 800-63B AAL2 AAL3 NIST 800-52 ISO 27001 A.5.15 A.5.17 A.8.2 A.8.5 A.8.20 A.8.21 A.8.23 PCI DSS 6.4.1 6.4.2 8.3 8.6 vendor-agnostic cross-agency"
-  },
-  {
-    "id": "IT-SI-SOP-01",
-    "title": "Security Infrastructure Baseline",
-    "section": "ASM",
-    "sub": "SOPs",
-    "url": "it-si-sop-01.html",
-    "desc": "Authoritative policy-level baseline for WAFs, load balancers, and PAM platforms. Seven sections: Purpose, Scope (in/out scope with deferrals), Baseline Principles (7 principles: high-value targets, authentication matched to what is protected, default-deny including platforms themselves, cryptography in critical path, PAM has its own recovery path, WAF tuning continuous, comprehensive logging), Minimum Security Requirements (4.1 Common Mgmt 10 items; 4.2 WAF 8 items; 4.3 LB 10 items; 4.4 PAM 10 items), Roles & Responsibilities, Framework Alignment, Governance & Review. Operationalised by IT-SI-WI-01 through 04. Vendor-agnostic.",
-    "tags": "ASM SOP IT-SI-SOP-01 Security Infrastructure Baseline WAF load balancer PAM minimum security requirements baseline principles default-deny AAL3 break-glass cryptography critical path OWASP Top 10 NIST 800-63B framework alignment governance review exception handling vendor-agnostic IT Operations Lead Network Engineering Identity Access Engineering"
-  },
-  {
-    "id": "IT-SI-WI-01",
-    "title": "Common Management Plane & Logging",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-si-wi-01.html",
-    "desc": "Vendor-agnostic shared management-plane controls applicable to WAFs, load balancers, and PAM platforms alike. Operationalises IT-SI-SOP-01 section 4.1. Ten steps: disable plaintext (Telnet/HTTP/SNMPv1-v2/FTP/TFTP); enable secure protocols (SSHv2, HTTPS TLS 1.2+, SNMPv3 authPriv) with organisation-CA-issued management cert; AAA + MFA with AAL3 for Tier 0 PAM admin; restrict management to dedicated network (PAM logically separated from data plane); session timeouts (PAM admin tighter with absolute lifetime cap); NTP with authentication; centralised logging with platform-specific event coverage (WAF block events, LB TLS handshake failures, PAM privileged session events); certificate hygiene for the platform itself; console and OOB hardening; change control discipline. Referenced by WI-02, WI-03, WI-04.",
-    "tags": "ASM WI IT-SI-WI-01 common management plane logging AAA MFA TACACS RADIUS SAML Entra ID AAL2 AAL3 SSH HTTPS SNMPv3 syslog NTP authentication session timeout authorised use banner management network dedicated interface organisation CA certificate change control standard normal emergency console OOB break-glass vault-independent WAF load balancer PAM shared foundation"
-  },
-  {
-    "id": "IT-SI-WI-02",
-    "title": "WAF Hardening",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-si-wi-02.html",
-    "desc": "Vendor-agnostic WAF hardening. Operationalises IT-SI-SOP-01 section 4.2. Eight steps: inventory protected applications and assign WAF policy ownership; select rule set (OWASP Top 10 + OWASP CRS paranoia level 2 minimum, paranoia 3 for high-sensitivity); deploy monitor mode then tune then transition to blocking within 90 days for Tier 0/1; false-positive triage workflow with documented SLA (5 working days for Tier 0/1); signature update cadence (30 days routine, 7 days emergency, 24h for active exploitation); TLS termination with back-end re-encryption for Tier 0/1; bot management and rate limiting on public-facing apps with brute-force protection on auth endpoints; application allowlist or learning for high-sensitivity apps.",
-    "tags": "ASM WI IT-SI-WI-02 WAF web application firewall hardening OWASP Top 10 OWASP CRS Core Rule Set paranoia level signature engine learning false positive triage SLA monitor mode blocking mode TLS termination back-end re-encryption HSTS bot management rate limiting brute-force protection auth endpoints allowlist application learning F5 ASM Imperva FortiWeb Cloudflare Azure Front Door AWS WAF cloud WAF on-prem"
-  },
-  {
-    "id": "IT-SI-WI-03",
-    "title": "Load Balancer Hardening",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-si-wi-03.html",
-    "desc": "Vendor-agnostic load-balancer hardening. Operationalises IT-SI-SOP-01 section 4.3. Eight steps: TLS protocol and cipher suite hardening (TLS 1.2 minimum, AEAD only, ECDHE preferred, server-preferred order, secure renegotiation); certificate lifecycle management (inventory, 30-day expiry alerting, auto-renewal where possible, RSA 2048+ or ECDSA P-256+, CT log awareness, wildcard discipline, HSM for high-value); HSTS on internet-facing virtual servers; virtual server hygiene (90-day no-traffic removal); health-check security (no metadata leak, source-restricted, dedicated /healthz); connection rate limiting and SYN-flood protection; source IP preservation (XFF/PROXY protocol/DSR trade-offs); HA pair with annual failover test.",
-    "tags": "ASM WI IT-SI-WI-03 load balancer ADC application delivery controller hardening TLS 1.2 TLS 1.3 cipher suite AEAD ECDHE certificate lifecycle ACME auto-renewal RSA ECDSA CT certificate transparency wildcard HSM HSTS preload virtual server hygiene health check rate limiting SYN flood SYN cookies X-Forwarded-For XFF PROXY protocol DSR direct server return high availability HA failover F5 LTM Citrix ADC NetScaler HAProxy NGINX Plus A10 AVI"
-  },
-  {
-    "id": "IT-SI-WI-04",
-    "title": "PAM Platform Hardening",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "url": "it-si-wi-04.html",
-    "desc": "Vendor-agnostic PAM platform hardening. Operationalises IT-SI-SOP-01 section 4.4. Ten steps: vault encryption at rest with HSM-backed master key not stored on appliance; session broker hardened to Tier 0 server baseline; session recording integrity (write-once or integrity-protected storage, hash chaining, tamper detection alerting SOC, retention enforced at storage tier); just-in-time access enforcement (standing access is the exception); identity-source integration (central directory, MFA, no local user database except break-glass); HA pair with annual failover test; vault-independent break-glass procedure documented and tested annually (single biggest implementation gap in PAM); vault backup with annual restore test; network exposure (dedicated management network, brokering from admin networks only); privileged session events to SIEM with extended retention.",
-    "tags": "ASM WI IT-SI-WI-04 PAM privileged access management vault encryption HSM PKCS11 KMIP session broker jump host PSM session recording integrity hash chain write-once WORM retention lock immutable blob just-in-time JIT access standing access exception identity source integration central directory Entra ID Active Directory leaver workflow high availability failover break-glass procedure vault-independent annual test backup restore network exposure dedicated management network brokering interface SIEM privileged session events CyberArk BeyondTrust Delinea Thycotic HashiCorp Vault"
-  },
-  {
-    "id": "Cloud Baselines",
-    "section": "ASM",
-    "sub": "Domain hub",
-    "title": "Cloud Baselines — Domain hub",
-    "url": "asm-cloud-baselines.html",
-    "desc": "Tenant-level security baselines for Microsoft 365 and Microsoft Azure across the institution and its agencies. Licensing-tier-aware (A1 / E1 / A3 / E3 / E5). Hub covers scope (M365 + Azure primary; AWS/GCP, identity governance, SOC operational use, third-party cloud-WAF, and cloud architecture reference design all explicitly deferred), platform overview (5 platform cards), framework alignment (10 entries: CIS M365 Foundations L1, CIS Azure Foundations L1, MS Secure Score, NIST CSF 2.0, 800-53 r5, 800-63B, ISO 27001:2022, 27017, 27018, MCSB v1), roles, metrics (8 metrics including tenant baseline conformance rate, M365 Secure Score per tier, Azure Secure Score, central SIEM integration coverage at 100% target, MFA coverage), exception handling with day-1 SIEM-integration callout, related domains.",
-    "tags": "ASM Cloud Baselines domain hub Microsoft 365 M365 Azure tenant Entra ID Azure AD Conditional Access PIM MFA break-glass Defender for Endpoint Defender for Office Defender for Identity Defender for Cloud Apps Defender for Cloud Azure Policy Azure WAF Application Gateway Front Door Private Endpoint Key Vault storage account SQL Cosmos NSG flow logs DDoS Protection Standard CIS M365 Foundations CIS Azure Foundations Microsoft Secure Score MCSB NIST CSF NIST 800-53 NIST 800-63B AAL2 AAL3 ISO 27001 ISO 27017 ISO 27018 Purview sensitivity labels DLP A1 E1 A3 E3 A5 E5 tier-aware licensing central SIEM cross-agency"
-  },
-  {
-    "id": "IT-CL-SOP-01",
-    "section": "ASM",
-    "sub": "SOPs",
-    "title": "Cloud Security Baseline",
-    "url": "it-cl-sop-01.html",
-    "desc": "Authoritative policy-level baseline for M365 and Azure tenants. 7 sections: Purpose, Scope (in/out scope with all 5 deferrals explicit), 7 Baseline Principles (shared-responsibility framing, licensing-tier-aware, identity is the perimeter, default-deny at tenant boundary, centralised logging non-negotiable, MS Secure Score as quantitative complement, SIEM platform under transition), Minimum Security Requirements across 5 domains (Tenant Identity 9 items; M365 11 items; Azure Subscription 10 items; Azure Workloads 10 items; Defender Suite 9 items), Roles (8 roles), Framework Alignment, Governance with Secure Score tier targets (M365 A3/E3 ≥70%, E5 ≥80%; Azure T0/1 ≥75%, T2/3 ≥60%). Tier-aware throughout. Operationalised by IT-CL-WI-01 through IT-CL-WI-05.",
-    "tags": "ASM SOP IT-CL-SOP-01 Cloud Security Baseline M365 Azure tenant tier-aware A1 E1 A3 E3 A5 E5 Education Enterprise Business Microsoft 365 licensing tier baseline shared responsibility model identity perimeter default deny tenant boundary centralised logging Secure Score MCSB CIS Foundations central SIEM platform transition QRadar successor migration 12-18 months exception register Risk Committee Cloud Engineering Identity Access Engineering M365 Tenant Administrator Azure Subscription Owner SOC GRC Architecture Technical Authority"
-  },
-  {
-    "id": "IT-CL-WI-01",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "title": "Tenant Identity & Conditional Access",
-    "url": "it-cl-wi-01.html",
-    "desc": "Vendor-neutral implementation guidance for the Entra ID tenant-identity controls shared between M365 and Azure. Operationalises IT-CL-SOP-01 section 4.1. 9 steps: break-glass / emergency-access accounts (2 cloud-only, vaulted off-tenant, excluded from all CA, annual test, SOC monitoring — flagged as single most important step); eliminate legacy authentication; MFA enforcement via Security Defaults (A1/E1) or Conditional Access (A3/E3+) with phishing-resistant FIDO2/WHfB/cert-based for Global Administrators; deploy CA baseline policies CA-001 through CA-007 in report-only-then-enable pattern; named locations (trusted IPs, country sets — do not use to skip MFA); Identity Protection risk policies (E5); PIM configuration (E5 — time-bounded eligibility, activation approval for Global Admin, quarterly access reviews); guest/external access governance with default-deny cross-tenant access; SSPR with combined registration and 2 methods.",
-    "tags": "ASM WI IT-CL-WI-01 Tenant Identity Conditional Access Entra ID Azure AD Security Defaults Conditional Access CA-001 CA-002 CA-003 CA-004 CA-005 CA-006 CA-007 MFA multi-factor authentication FIDO2 Windows Hello for Business WHfB certificate-based authentication phishing-resistant Global Administrator break-glass emergency access cloud-only legacy authentication basic auth IMAP POP SMTP MAPI named locations trusted IPs country sets Identity Protection sign-in risk user risk PIM Privileged Identity Management eligible just-in-time activation access review guest B2B cross-tenant access external collaboration SSPR self-service password reset combined registration number-matching AAL2 AAL3 800-63B"
-  },
-  {
-    "id": "IT-CL-WI-02",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "title": "M365 Tenant Hardening",
-    "url": "it-cl-wi-02.html",
-    "desc": "Tier-aware implementation guidance for Microsoft 365 tenant hardening. Operationalises IT-CL-SOP-01 section 4.2. 10 steps: Exchange Online anti-spam/anti-malware/anti-phishing baseline (All tiers); SPF/DKIM/DMARC with progression to p=reject and parked-domain treatment (All); SharePoint/OneDrive external sharing restrictions with anonymous links off and allow-list domains (All); Teams external access/federation/meeting policies with lobby for externals (All); Unified Audit Log enable with tiered retention (90d A1/E1, 1yr A3/E3 with add-on, 1yr default E5) and SIEM forwarding (All); Purview sensitivity labels with default label and mandatory labelling (A3/E3+, auto-labelling at E5); Purview DLP policies Test→Enforce with Endpoint DLP at E5 (A3/E3+); Defender for Office 365 P2 with Safe Attachments Dynamic Delivery, Safe Links, Attack Simulator (E5); Insider Risk Management and Communication Compliance with HR/Legal coordination (E5); Customer Lockbox and PAM for Exchange (E5).",
-    "tags": "ASM WI IT-CL-WI-02 M365 Tenant Hardening Microsoft 365 Exchange Online anti-spam anti-malware anti-phishing impersonation protection external email tagging SPF DKIM DMARC p=reject p=quarantine p=none parked domain SharePoint Online OneDrive external sharing anonymous links allow-list block-list guest expiration Teams external access federation meeting policies lobby Unified Audit Log UAL retention Purview Information Protection sensitivity labels default label mandatory labelling auto-labelling DLP Data Loss Prevention Endpoint DLP Test Enforce Defender for Office 365 P1 P2 Safe Attachments Dynamic Delivery Safe Links Attack Simulator Insider Risk Management Communication Compliance Customer Lockbox Privileged Access Management Exchange A1 E1 A3 E3 A5 E5 tier-aware"
-  },
-  {
-    "id": "IT-CL-WI-03",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "title": "Azure Subscription Baseline",
-    "url": "it-cl-wi-03.html",
-    "desc": "Implementation guidance for Azure subscription-level controls. Operationalises IT-CL-SOP-01 section 4.3. 10 steps: management group hierarchy (tenant root, platform, landing zones, environments); Defender for Cloud enablement with plans per subscription tier (Tier 0/1 = Standard/Defender plans; Tier 2/3 = Free with justification only); Azure Policy at management group scope (not per subscription) with MCSB initiative plus custom deny set (storage public, secure transfer, Key Vault purge protection, public IP in prod, region restrictions); diagnostic settings via DeployIfNotExists on every resource type routed to Log Analytics and central SIEM via Event Hub; Activity Log forwarding with high-value events alerted; Defender for Cloud continuous export to SIEM; subscription RBAC least-privilege (no standing Owner outside named platform admins, Contributor RG-scoped, managed identities preferred over service principals); resource locks CanNotDelete on critical RGs; cost-management alerting (anomalous spend = leading indicator of resource compromise); tagging policy enforced (CostCentre, Owner, Environment, SensitivityClassification, Agency).",
-    "tags": "ASM WI IT-CL-WI-03 Azure Subscription Baseline management group hierarchy Tenant Root Group Defender for Cloud DfC CSPM Foundational Defender plans Servers App Service Storage SQL Containers Key Vault ARM DNS Azure Policy MCSB Microsoft Cloud Security Benchmark Audit Deny Modify DeployIfNotExists diagnostic settings Log Analytics workspace Event Hub Activity Log central SIEM continuous export RBAC Owner Contributor Reader User Access Administrator least privilege managed identity service principal resource lock CanNotDelete ReadOnly cost management budget anomaly detection cryptomining tagging policy CostCentre Owner Environment SensitivityClassification Agency Tier 0 Tier 1 Tier 2 Tier 3"
-  },
-  {
-    "id": "IT-CL-WI-04",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "title": "Azure Workload Patterns",
-    "url": "it-cl-wi-04.html",
-    "desc": "Implementation guidance for the most frequent Azure workload patterns. Operationalises IT-CL-SOP-01 section 4.4. 10 steps: storage account baseline (secure transfer HTTPS, public blob off, TLS 1.2, network restricted, CMK + soft-delete + immutable for Tier 0/1); Key Vault baseline (RBAC mode, soft-delete + purge protection non-disablable, Private Endpoint, HSM-backed keys Tier 0/1); VNet/NSG baseline (NSG every subnet, default-deny inbound, no 0.0.0.0/0 to sensitive ports, flow logs to Log Analytics, ASGs); Private Endpoints preferred over public for PaaS data services with private DNS zone architecture; Azure WAF on Application Gateway/Front Door (managed rule set OWASP Top 10 in Prevention mode within 90 days for Tier 0/1, bot rules, custom rules, log streaming — absorbs cloud-WAF scope deferred from IT-SI-WI-02); SQL/Cosmos protection (Entra auth, Defender plans, TDE with CMK Tier 0/1); VM baseline (Defender for Servers, JIT for management, managed identities, Trusted Launch); App Service/Functions (HTTPS-only, managed identity, Easy Auth, Key Vault references); backup posture with vault soft-delete and MUA; DDoS Protection Standard on Tier 0/1 public VNets.",
-    "tags": "ASM WI IT-CL-WI-04 Azure Workload Patterns storage account secure transfer HTTPS minimum TLS public blob anonymous Shared Key authorization customer-managed key CMK soft-delete immutable Key Vault RBAC mode purge protection Private Endpoint HSM Premium Managed HSM virtual network VNet Network Security Group NSG default-deny inbound flow logs Application Security Group ASG service tag Private Endpoint private DNS zone Azure WAF Application Gateway Front Door OWASP Top 10 DRS Default Rule Set Bot Manager rules Prevention Detection mode custom rules SQL Database Cosmos DB Entra authentication Defender for SQL Defender for Cosmos Transparent Data Encryption TDE Always Encrypted virtual machine VM Just-in-Time JIT VM access managed identity Trusted Launch vTPM secure boot disk encryption Azure Disk Encryption App Service Functions HTTPS-only Easy Auth Key Vault reference slot swap backup Recovery Services Vault soft-delete multi-user authorisation MUA DDoS Protection Standard Tier 0 Tier 1"
-  },
-  {
-    "id": "IT-CL-WI-05",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "title": "Defender Suite Configuration",
-    "url": "it-cl-wi-05.html",
-    "desc": "Tier-aware implementation guidance for the Microsoft Defender suite (tenant-side configuration only; SOC operational use under SOC SOPs). Operationalises IT-CL-SOP-01 section 4.5. 9 steps: Defender for Endpoint deployment (A3/E3+ — onboarding all managed endpoints Win/macOS/Linux/mobile where licensed, ASR rules audit-then-block, EDR-in-block-mode, security baseline assigned, device-tagging convention by criticality/agency/environment); Defender for Office 365 P2 cross-reference WI-02 §8 (E5); Defender for Identity sensor on all DCs (A3/E3+ where AD operated — gMSA, honeytoken accounts, sensor health monitoring); Defender for Cloud Apps connected to M365 and Azure tenants with anomaly detection and OAuth app governance (E5); Defender for Cloud cross-reference WI-03 §2; TVM feeds findings to IT-VM-SOP-01; all Defender alerts to central SIEM with severity-to-priority mapping; tenant-side configuration vs SOC operational use boundary maintained; suite-level metrics (exposure score, device coverage, ASR coverage, Secure Score, MTTD/MTTR, ingestion completeness).",
-    "tags": "ASM WI IT-CL-WI-05 Defender Suite Configuration Microsoft Defender for Endpoint MDE P1 P2 ASR attack surface reduction EDR in block mode tamper protection network protection controlled folder access web content filtering Defender for Office 365 DfO Safe Links Safe Attachments Defender for Identity MDI sensor domain controller gMSA honeytoken Defender for Cloud Apps DfCA MCAS CASB Cloud Discovery anomaly detection OAuth app governance session policy Defender for Cloud DfC Foundational CSPM Premium CSPM Defender plans attack path analysis Threat Vulnerability Management TVM exposure score vulnerability assessment central SIEM ingestion M365 Defender connector Graph Security API continuous export severity priority mapping deduplication unified portal RACI tenant configuration SOC operational use boundary suite level metrics MTTD MTTR device coverage A1 E1 A3 E3 A5 E5 tier-aware"
-  },
-  {
-    "id": "Identity Governance",
-    "title": "Identity Governance & Lifecycle — Domain hub",
-    "url": "asm-identity-governance.html",
-    "section": "ASM",
-    "sub": "Domain hub",
-    "desc": "Lifecycle controls for every identity in the estate: human identities (joiners, movers, leavers) and non-human identities (service accounts, managed identities, service principals, certificates). Hybrid scope — Entra ID and on-premises Active Directory. Sits above tenant-level identity controls in IT-CL-WI-01 by governing who should have access in the first place, for how long, reviewed by whom. Five identity classes (employees/contractors, students/alumni, guests, on-prem service accounts, non-human cloud identities). Framework alignment table (9 entries: NIST CSF PR.AA, 800-53 r5, 800-63A, ISO 27001/27002, CIS Controls v8, CIS M365 Foundations, SOC 2). 8 roles. 8 metrics including JML SLA conformance, orphaned account count, recertification completion, standing-privilege count target ≤4, service principal secret expiry hygiene. Day-1 callout that non-human identities deserve special attention as the largest under-governed surface in most estates.",
-    "tags": "ASM Identity Governance Lifecycle domain hub JML joiner mover leaver recertification attestation role design entitlement non-human service account service principal managed identity hybrid AD Active Directory Entra ID Azure AD privileged identity PIM eligibility break-glass cross-agency NIST CSF PR.AA ISO 27001 A.5.16 A.5.18 A.8.2 CIS Controls 5 6 SOC 2 CC6"
-  },
-  {
-    "id": "IT-ID-SOP-01",
-    "title": "IT-ID-SOP-01: Identity Governance & Lifecycle",
-    "url": "it-id-sop-01.html",
-    "section": "ASM",
-    "sub": "SOPs",
-    "desc": "Authoritative policy-level baseline for identity governance across hybrid Entra / Active Directory environments, covering both human and non-human identities. Seven governance principles (authoritative source, least privilege by default, time-bounded standing privilege, recertification cadence, named ownership, non-human identities are first-class, separation of governance from incident response). Five requirement domains: JML lifecycle (13 items), Access Recertification (10 items), Role Design (9 items), Non-Human Identity (11 items), Privileged Identity Governance (10 items). Operationalised by IT-ID-WI-01 through IT-ID-WI-05. Framework alignment with NIST CSF PR.AA, 800-53 r5 (AC-2/5/6, IA-2/5), 800-63A, ISO 27001:2022, ISO 27002:2022, CIS Controls v8, CIS M365 Foundations, SOC 2 CC6, MITRE ATT&CK mitigations M1018/M1026/M1032. 8 named roles. Exception handling pattern for HR-integration gaps, legacy-platform identity, and orphan service accounts.",
-    "tags": "IT-ID-SOP-01 Identity Governance Lifecycle SOP hybrid Entra Active Directory AD JML joiner mover leaver recertification role design entitlement non-human service account managed identity service principal privileged eligibility PIM standing privilege break-glass authoritative source least privilege named owner separation of duties exception NIST CSF PR.AA ISO 27001 A.5.16 A.5.18 A.8.2 CIS Controls 5 6 SOC 2 CC6 MITRE M1018 M1026 M1032"
-  },
-  {
-    "id": "IT-ID-WI-01",
-    "title": "IT-ID-WI-01: Joiner / Mover / Leaver Lifecycle",
-    "url": "it-id-wi-01.html",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "desc": "Hybrid JML across HR system → on-prem AD → Entra ID. Seven steps: joiner provisioning from authoritative source (HR / SIS / sponsor-driven workflow); joiner access bundle with forbid-clone-previous-user; mover with revoke-then-grant discipline (≤30-day dual-role exception); leaver with same-day disable, time-bounded retention (30-90 days), clean termination; student/alumni cohort transitions per academic calendar; guest sponsor-driven lifecycle (180-day default, quarterly recert); monthly identity-source reconciliation. Hybrid AD-Entra propagation guidance. SLA dashboard table (joiner ≤1 day, mover ≤5 days, leaver same-day). Implements IT-ID-SOP-01 §4.1.",
-    "tags": "IT-ID-WI-01 JML joiner mover leaver lifecycle HR authoritative source provisioning access bundle clone-previous-user revoke-then-grant dual-role retention termination guest sponsor student alumni cohort reconciliation orphan account hybrid Active Directory Entra ID Azure AD same-day disable involuntary leaver TAP Temporary Access Pass"
-  },
-  {
-    "id": "IT-ID-WI-02",
-    "title": "IT-ID-WI-02: Access Recertification & Attestation",
-    "url": "it-id-wi-02.html",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "desc": "Periodic review of who has what access. Eight steps: cadence per tier (T0 quarterly, T1 semi-annual for resource access / quarterly for privileged, T2/T3 annual, guest quarterly); named reviewers per scope (line manager, system owner, Privileged Access Authority, sponsor); campaign execution via Entra Identity Governance access reviews or manual workflow; non-response handling (T0/T1 suspend, T2/T3 revoke as default); forbid bulk-attest at high tiers; apply decisions for real (auto-apply preferred, ≤7-day SLA manual); evidence retention 3 years minimum; orphan remediation 30 days. Cadence table and programme health indicators table. Implements IT-ID-SOP-01 §4.2.",
-    "tags": "IT-ID-WI-02 access recertification attestation review campaign cadence Entra Identity Governance reviewer attestor line manager system owner Privileged Access Authority sponsor bulk-attest revocation rate apply auto-apply evidence retention rubber-stamping non-response suspend revoke orphan remediation E5 P2 quarterly semi-annual annual"
-  },
-  {
-    "id": "IT-ID-WI-03",
-    "title": "IT-ID-WI-03: Role Design & Entitlement Management",
-    "url": "it-id-wi-03.html",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "desc": "The role catalogue: every assignable role has documented owner, defined scope, naming convention, last-review date. Nine steps: establish catalogue (100% T0/T1 coverage day-one, 95% T2/T3 by FY26 end); naming convention discipline (domain-scope-function-environment-tier); least-privilege role design (built-in preferred, custom when needed, scope at lowest level, read variants); group hygiene (max 3 nest levels, no circular refs, empty cleanup 30/90 days, named owners, dynamic group rule audit); entitlement packages (Entra IG / manual catalogue) for joiner-pack / project-team / role-change bundles; separation of duties enforcement with detection where prevention not supported; role-change workflow with direct-edit detection and backfill; quarterly catalogue review (retirement, splitting, consolidation, owner stale-check); monthly T0/T1 drift check. Implements IT-ID-SOP-01 §4.3.",
-    "tags": "IT-ID-WI-03 role design entitlement management catalogue RBAC least privilege naming convention group hygiene nesting empty group dynamic group entitlement package Entra Identity Governance MyAccess separation of duties SoD role change direct edit drift quarterly review tier"
-  },
-  {
-    "id": "IT-ID-WI-04",
-    "title": "IT-ID-WI-04: Non-Human Identity Governance",
-    "url": "it-id-wi-04.html",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "desc": "Service accounts (AD user-style, gMSA, sMSA), Entra service principals, app registrations, managed identities (system / user-assigned), workload identity federation, certificate-based identities. Ten steps: inventory across all platforms (nightly refresh, monthly reconciliation); named human owner per identity (team-level acceptable for small teams); scope justification at creation including why-not-managed-identity question; credential rotation discipline per type (gMSA auto, AD password annual/60d, SP secret <1yr, certs per policy); prefer managed identities and workload federation; secret expiry tracking dashboard with 30/14/7/1-day alerts; quarterly OAuth permission and consent grant review; decommissioning lifecycle (90d stale → 180d disabled → 365d deleted with test-disable); flag interactive sign-in on service accounts; privileged non-human identities follow eligibility pattern. Implements IT-ID-SOP-01 §4.4.",
-    "tags": "IT-ID-WI-04 non-human identity service account gMSA sMSA Entra service principal app registration managed identity system-assigned user-assigned workload identity federation certificate inventory ownership credential rotation secret expiry Key Vault OAuth permission consent grant admin consent decommissioning stale interactive sign-in privileged secrets in code GitHub scanning"
-  },
-  {
-    "id": "IT-ID-WI-05",
-    "title": "IT-ID-WI-05: Privileged Identity Governance",
-    "url": "it-id-wi-05.html",
-    "section": "ASM",
-    "sub": "Work Instructions",
-    "desc": "The eligibility layer above PIM activation. Ten steps: privileged role catalogue (T0/T1 roles with per-individual eligibility, duration, last-review); eligibility-not-assignment principle (break-glass exception only); time-bound eligibility (T0 max 12mo, T1 max 18mo); approval workflow (T0 two-person, T1 single, no self-approval); separation of duties at T0 across functional domains (cloud-identity, on-prem-identity, security operations, audit/compliance); track and minimise standing privilege (target = break-glass count); quarterly eligibility review with activity correlation; privileged access request workflow with out-of-band-grant detection; T0 activation correlated with PAW usage (per IT-EP-SOP-PAW-01); T0 activity to immutable SIEM with monthly SOC review. Boundary: activation = IT-CL-WI-01 §7 (PIM mechanics); eligibility = this WI. Implements IT-ID-SOP-01 §4.5.",
-    "tags": "IT-ID-WI-05 privileged identity governance eligibility activation PIM Tier-0 Tier-1 catalogue duration approval two-person separation of duties SoD standing privilege break-glass quarterly review activity correlation request workflow out-of-band PAW Privileged Access Workstation immutable SIEM Privileged Access Authority CISO Global Administrator Enterprise Admin Schema Admin Domain Admin emergency grant deputy approver MITRE M1026"
-  },
-  {
-    "id": "GRC-DR-WI-01",
-    "title": "Recovery Tier Classification",
-    "section": "GRC",
-    "sub": "Work Instructions",
-    "url": "grc-dr-wi-01.html",
-    "desc": "Procedure for assigning IT services to recovery tiers (Tier 1–4), technical minima per tier, classification workflow from BIA dependency mapping",
-    "tags": "GRC DR WI recovery tier classification Tier 1 2 3 4 RTO RPO backup replication runbook exercise restore test service inventory"
-  },
-  {
-    "id": "GRC-DR-WI-02",
-    "title": "Cloud Platform Disaster Recovery",
-    "section": "GRC",
-    "sub": "Work Instructions",
-    "url": "grc-dr-wi-02.html",
-    "desc": "Cloud DR scenarios — Azure region failure, M365 sustained outage, Entra tenant lockout, Entra tenant compromise, SaaS provider disruption",
-    "tags": "GRC DR WI cloud Azure region failover M365 Microsoft 365 Exchange SharePoint Entra tenant lockout compromise SaaS break-glass paired region"
-  },
-  {
-    "id": "GRC-DR-WI-03",
-    "title": "Worked Example — Core IT Services Recovery",
-    "section": "GRC",
-    "sub": "Work Instructions",
-    "url": "grc-dr-wi-03.html",
-    "desc": "Illustrative DR plan populated for five core IT services — identity, email, file services, network, EDR — with tier, RTO/RPO, dependencies, backup design, recovery procedure",
-    "tags": "GRC DR WI worked example identity Entra AD email Exchange Online SharePoint OneDrive network EDR CrowdStrike Obrela runbook tier RTO RPO"
-  },
-  {
-    "id": "GRC-FRM-BCDR-01",
-    "title": "Business Impact Assessment Worksheet (Template)",
-    "section": "GRC",
-    "sub": "Forms & Templates",
-    "url": "grc-frm-bcdr-01.html",
-    "desc": "Template for conducting a Business Impact Assessment per business process — impact rubric, recovery objectives, dependency map, gaps to recovery objectives",
-    "tags": "GRC BCDR template form BIA worksheet impact assessment RTO RPO MTPD MBCO dependency map process criticality scoring rubric"
-  },
-  {
-    "id": "GRC-FRM-BCP-01",
-    "title": "Business Process Continuity Plan (Template)",
-    "section": "GRC",
-    "sub": "Forms & Templates",
-    "url": "grc-frm-bcp-01.html",
-    "desc": "Template for a per-process Business Process Continuity Plan — invocation, workarounds, communications, contacts, stand-down, exercise history",
-    "tags": "GRC BCP template form continuity plan invocation workaround crisis management team communications contacts stand-down MBCO exercise"
-  },
-  {
-    "id": "GRC-FRM-DR-01",
-    "title": "Disaster Recovery Runbook (Template)",
-    "section": "GRC",
-    "sub": "Forms & Templates",
-    "url": "grc-frm-dr-01.html",
-    "desc": "Template for a per-service DR runbook — architecture, backup & replication design, recovery procedures by scenario, validation, recovery team",
-    "tags": "GRC DR template form runbook recovery procedure backup replication immutable failover validation cyber event tier 1 tier 2 service owner"
-  },
-  {
-    "id": "TOOLS-GLOSSARY",
-    "title": "Acronym Glossary",
-    "section": "Tools & References",
-    "sub": "Reference",
-    "url": "tools-glossary.html",
-    "desc": "Curated A–Z glossary of acronyms used across the KB — expansion plus plain-English explanation per entry, domain-tagged, for readers across all skill levels",
-    "tags": "glossary acronym dictionary reference vocabulary BCDR SOC ASM GRC identity cloud network framework entry-level RTO RPO MTPD MBCO BIA MFA EDR MDR SIEM"
-  },
-  {
-    "id": "GRC-TTX",
-    "title": "GRC — Tabletop Exercise Library",
-    "section": "GRC",
-    "sub": "Domain pages",
-    "url": "grc-ttx.html",
-    "desc": "Pre-built tabletop exercise scenarios for BCDR and cyber response, plus reusable authoring template",
-    "tags": "GRC BCDR exercise tabletop scenarios cyber TTX rehearsal"
-  },
-  {
-    "id": "GRC-FRM-TTX-01",
-    "title": "GRC-FRM-TTX-01 — Tabletop Exercise Scenario Template",
-    "section": "GRC",
-    "sub": "Forms & Templates",
-    "url": "grc-frm-ttx-01.html",
-    "desc": "Reusable 10-section template for authoring tabletop exercise scenarios — objectives, injects, evaluation, AAR",
-    "tags": "GRC form template TTX tabletop exercise scenario authoring injects AAR"
-  },
-  {
-    "id": "GRC-TTX-01",
-    "title": "GRC-TTX-01 — Ransomware Affecting Clinical Systems",
-    "section": "GRC",
-    "sub": "Tabletop Scenarios",
-    "url": "grc-ttx-01.html",
-    "desc": "120-min mixed-audience scenario — ransomware on EHR during operating day; tests joint IRP+BCP, SOC recovery threshold, clean-up vs clean-tenant, regulator notification",
-    "tags": "GRC TTX tabletop ransomware EHR clinical hybrid mixed BCP IRP recovery 72-hour"
-  },
-  {
-    "id": "GRC-TTX-02",
-    "title": "GRC-TTX-02 — Entra Tenant Compromise",
-    "section": "GRC",
-    "sub": "Tabletop Scenarios",
-    "url": "grc-ttx-02.html",
-    "desc": "120-min technical scenario — attacker presence in Entra tenant; tests in-tenant vs clean-tenant decision, break-glass readiness, Microsoft escalation, SOC+DR+Identity coordination",
-    "tags": "GRC TTX tabletop Entra tenant compromise identity break-glass Global Admin app registration Graph clean-tenant"
-  },
-  {
-    "id": "GRC-TTX-03",
-    "title": "GRC-TTX-03 — Regional Disaster: Sustained Site Evacuation",
-    "section": "GRC",
-    "sub": "Tabletop Scenarios",
-    "url": "grc-ttx-03.html",
-    "desc": "90-min executive scenario — multi-day site evacuation after natural hazard; tests BCP at scale, alternative-site readiness, degraded comms, multi-day CMT cadence, cross-agency coordination",
-    "tags": "GRC TTX tabletop regional disaster natural hazard site evacuation BCP CMT cross-agency telecoms"
-  },
-  {
-    "id": "GRC-TTX-04",
-    "title": "GRC-TTX-04 — Critical SaaS Provider Sustained Failure",
-    "section": "GRC",
-    "sub": "Tabletop Scenarios",
-    "url": "grc-ttx-04.html",
-    "desc": "90-min mixed-audience scenario — critical SaaS provider breach with 2+ week outage; tests controller obligations, data-exposure assessment, 72-hour regulator notification, supplier-relationship decisions",
-    "tags": "GRC TTX tabletop SaaS supplier provider breach controller processor DPIA 72-hour cross-AKDN"
-  },
-  {
-    "id": "GRC-TTX-05",
-    "title": "GRC-TTX-05 — Azure Region Failure During Business-Critical Period",
-    "section": "GRC",
-    "sub": "Tabletop Scenarios",
-    "url": "grc-ttx-05.html",
-    "desc": "90-min technical scenario — Azure region service event during peak operations; tests per-workload failover, cross-workload sequencing, region-scope decision, RPO-window data handling, failback",
-    "tags": "GRC TTX tabletop Azure cloud region failover failback Front Door SQL failover-group RPO RTO sequencing"
-  },
-  {
-    "id": "TOOLS-REFERENCES",
-    "title": "Tools & References — MITRE ATT&CK matrix and framework references",
-    "section": "Tools",
-    "sub": "References",
-    "url": "tools-references.html",
-    "desc": "Central MITRE ATT&CK reference for the KB. Tool x tactic matrix, technique-level drill-down, ATT&CK techniques covered by published content across 11 tactics, ATT&CK mitigations referenced by preventive content, coverage validation matrix, framework references (NIST CSF 2.0, NIST 800-53, ISO 27001, CIS, OWASP, MITRE)",
-    "tags": "MITRE ATT&CK techniques tactics mitigation TA0001 TA0002 TA0003 TA0004 TA0005 TA0006 TA0007 TA0008 TA0010 TA0011 TA0040 T1059 T1078 T1098 T1136 T1190 T1484 T1485 T1486 T1490 T1566 M1018 M1026 M1027 M1032 M1036 M1053 NIST CSF NIST 800-53 ISO 27001 CIS OWASP framework references"
   }
 ]
