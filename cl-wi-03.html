@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CL-WI-03: Disable Risky Cloud Principal — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+
+<style>
+  :root { --cloud:#1A4A7A; --cloud-light:#E8F0FA; --cloud-border:#B9D1EA; --cloud-dark:#0F2E4D; --ok:#0F6E56; --warn:#854F0B; --crit:#993C1D; }
+  .cloud-hero { background:linear-gradient(135deg,#061B2F 0%,#0F2E4D 42%,#1A4A7A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
+  .cloud-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.58;margin-bottom:8px;}
+  .cloud-hero h1{font-size:24px;font-weight:700;margin-bottom:8px;line-height:1.25;}
+  .cloud-hero p{font-size:14px;opacity:0.82;line-height:1.65;margin-bottom:10px;max-width:760px;}
+  .cloud-pills{display:flex;flex-wrap:wrap;gap:6px;}
+  .cloud-pill{background:rgba(255,255,255,0.14);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
+  .cloud-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:1.5rem;}
+  .cloud-stat{background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:1rem;text-align:center;}
+  .cloud-stat-num{font-size:26px;font-weight:700;color:var(--cloud);line-height:1;margin-bottom:4px;}
+  .cloud-stat-label{font-size:12px;color:#888;}
+  .cloud-intro,.cloud-box{background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;}
+  .cloud-intro p,.cloud-box p{font-size:14px;color:#444;line-height:1.75;margin-bottom:10px;}
+  .cloud-intro p:last-child,.cloud-box p:last-child{margin-bottom:0;}
+  .domain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:12px;margin-bottom:1.5rem;}
+  .domain-card{background:#fff;border:0.5px solid var(--cloud-border);border-radius:14px;padding:1.25rem;text-decoration:none;color:inherit;display:block;transition:transform .15s,box-shadow .15s;}
+  .domain-card:hover{transform:translateY(-2px);box-shadow:0 4px 18px rgba(26,74,122,0.10);}
+  .domain-card-icon{font-size:26px;margin-bottom:8px;}
+  .domain-card-code{font-family:'SF Mono','Fira Code',monospace;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--cloud-light);color:var(--cloud);display:inline-block;margin-bottom:8px;}
+  .domain-card-title{font-size:15px;font-weight:700;color:var(--cloud-dark);margin-bottom:5px;}
+  .domain-card-desc{font-size:13px;line-height:1.55;color:#555;margin-bottom:8px;}
+  .domain-card-footer{font-size:12px;font-weight:600;color:var(--cloud);display:flex;justify-content:space-between;align-items:center;}
+  .doc-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .doc-table th{background:#F0F2F5;color:#4A5568;font-weight:600;padding:8px 12px;text-align:left;border:0.5px solid #CBD5E0;font-size:12px;text-transform:uppercase;letter-spacing:.05em;}
+  .doc-table td{padding:8px 12px;border:0.5px solid #e8e8e4;color:#444;vertical-align:top;}
+  .doc-table tr:nth-child(even) td{background:#fafafa;}
+  .doc-id{font-family:'SF Mono','Fira Code',monospace;font-size:11px;font-weight:700;background:var(--cloud-light);color:var(--cloud);padding:2px 7px;border-radius:6px;white-space:nowrap;}
+  .badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:8px;white-space:nowrap;display:inline-block;}
+  .b-critical{background:#FAECE7;color:#993C1D}.b-high{background:#FEF0E6;color:#8B4A0E}.b-action{background:#FAEEDA;color:#854F0B}.b-operational{background:#E1F5EE;color:#0F6E56}.b-readonly{background:#E6F1FB;color:#185FA5}
+  .process-list{display:flex;flex-direction:column;gap:8px;}
+  .proc-step{display:flex;gap:12px;align-items:flex-start;background:#fff;border:0.5px solid #e0e0dc;border-radius:10px;padding:.9rem 1rem;}
+  .proc-num{width:26px;height:26px;border-radius:50%;background:var(--cloud);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .proc-body h4{font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:3px;}
+  .proc-body p{font-size:13px;color:#555;line-height:1.55;margin:0;}
+  .callout{background:#FAEEDA;border:0.5px solid #FAC775;border-left:4px solid #FAC775;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:13px;color:#6b3f0a;line-height:1.6;}
+  .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:#aaa;margin-bottom:1rem;}.breadcrumb a{color:var(--cloud);text-decoration:none}.breadcrumb span{color:#ccc;}
+  @media(max-width:640px){.domain-grid{grid-template-columns:1fr}.cloud-hero{padding:1.4rem}.proc-step{flex-direction:column}}
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="cloud.html" class="active">Cloud Ops</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span>Disable Risky Cloud Principal</span></div>
+  <div class="cloud-hero">
+    <div class="cloud-hero-eyebrow">Work Instruction</div>
+    <h1>Disable Risky Cloud Principal</h1>
+    <p>Controlled process for disabling or restricting a risky human, service, managed, or third-party cloud principal.</p>
+    <div class="cloud-pills"><span class="cloud-pill">Work Instruction</span><span class="cloud-pill">Requires approval</span><span class="cloud-pill">Identity</span><span class="cloud-pill">Containment</span></div>
+  </div>
+  <div class="callout"><strong>Operational boundary:</strong> This document is tool-agnostic. Use platform-specific consoles or automation only where authorised and record every action in the incident or change ticket.</div>
+  <div class="cloud-box">
+    <table class="doc-table"><tbody>
+      <tr><th>Document ID</th><td><span class="doc-id">CL-WI-03</span></td><th>Status</th><td><span class="badge b-action">Published</span></td></tr>
+      <tr><th>Owner</th><td>Cyber Security Operations</td><th>Review</th><td>Annual or post-incident</td></tr>
+      <tr><th>NIST CSF</th><td>Detect · Respond · Recover · Govern</td><th>Related</th><td><a href="cloud.html">CloudOps</a> · <a href="asm-cloud-baselines.html">Cloud Baselines</a></td></tr>
+    </tbody></table>
+  </div>
+  <div class="kb-section"><div class="kb-section-title">Procedure</div><div class="process-list">
+    <div class="proc-step"><div class="proc-num">1</div><div class="proc-body"><h4>Classify principal</h4><p>Determine whether the principal is human, admin, service principal, managed identity, break-glass, third-party, or automation identity.</p></div></div>
+    <div class="proc-step"><div class="proc-num">2</div><div class="proc-body"><h4>Assess blast radius</h4><p>Review assignments, group membership, app permissions, resource ownership, workload dependency, and recent activity.</p></div></div>
+    <div class="proc-step"><div class="proc-num">3</div><div class="proc-body"><h4>Preserve evidence</h4><p>Export assignments, credentials, sign-ins, API activity, app consent, owners, and last-used metadata.</p></div></div>
+    <div class="proc-step"><div class="proc-num">4</div><div class="proc-body"><h4>Apply least disruptive restriction</h4><p>Block sign-in, revoke sessions, remove specific role, disable credential, restrict conditional access, or isolate dependent workload based on impact.</p></div></div>
+    <div class="proc-step"><div class="proc-num">5</div><div class="proc-body"><h4>Monitor impact</h4><p>Watch failed authentication, service health, alert recurrence, and attempts to create replacement credentials or identities.</p></div></div>
+    <div class="proc-step"><div class="proc-num">6</div><div class="proc-body"><h4>Document and hand over</h4><p>Record approval, action, timestamp, validation, rollback option, and owner for remediation.</p></div></div>
+  </div></div>
+  <div class="kb-section"><div class="kb-section-title">Escalation and evidence</div><div class="cloud-box">
+    <p>Escalate immediately if privileged access abuse, broad data access, logging tampering, unauthorised federation, production outage, or regulatory notification risk is suspected.</p>
+    <p>Minimum evidence includes the alert, analyst timeline, affected resources, affected principals, approval record for containment, before/after configuration state, and validation that the risk has been removed or accepted.</p>
+  </div></div>
+
+  <div class="kb-footer"><span><span class="live-dot"></span>Last Updated · 25 May 2026 · Paulo Ferreira</span><span>Cloud Security Operations</span></div>
+</div>
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</body>
+</html>

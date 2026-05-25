@@ -2239,5 +2239,122 @@
     "url": "nw-wi-03.html",
     "desc": "Step-by-step instructions for isolating a network segment",
     "tags": "network segment isolation VLAN containment WI"
+  },
+  {
+    "id": "CLOUD-OPS",
+    "title": "Cloud Security Operations",
+    "section": "CloudOps",
+    "sub": "Domain hub",
+    "url": "cloud.html",
+    "desc": "Cloud security operations landing page for control-plane, workload, SaaS, storage, and data exposure response",
+    "tags": "cloud security operations CloudOps SOC SaaS M365 Azure tenant subscription control plane workload storage data exposure"
+  },
+  {
+    "id": "CL-SOP-01",
+    "title": "Cloud Security Operations SOP",
+    "section": "CloudOps",
+    "sub": "SOPs",
+    "url": "cl-sop-01.html",
+    "desc": "Defines the mandatory operating model for cloud security events across SOC, CloudOps, IT operations, GRC, and incident response.",
+    "tags": "cloud CloudOps SOC tenant subscription SaaS M365 Azure control plane workload storage identity access data exposure SOP CloudOps All tiers NIST CSF 2.0 Purpose Scope Roles and authority Minimum evidence Containment authority Closure criteria"
+  },
+  {
+    "id": "CL-PB-01",
+    "title": "Cloud Control Plane / Tenant Compromise",
+    "section": "CloudOps",
+    "sub": "Playbooks",
+    "url": "cl-pb-01.html",
+    "desc": "End-to-end response for suspected compromise of cloud administrative plane, tenant configuration, subscription ownership, app registrations, automation credentials, or privileged cloud identities.",
+    "tags": "cloud CloudOps SOC tenant subscription SaaS M365 Azure control plane workload storage identity access data exposure Critical Tenant compromise Identity Control plane Activation triggers Immediate priorities Containment Scope expansion Recovery Lessons learned"
+  },
+  {
+    "id": "CL-PB-02",
+    "title": "Public Exposure / Cloud Misconfiguration",
+    "section": "CloudOps",
+    "sub": "Playbooks",
+    "url": "cl-pb-02.html",
+    "desc": "Response workflow for accidental or malicious exposure of cloud resources, management interfaces, databases, object storage, SaaS sharing, or inbound network paths.",
+    "tags": "cloud CloudOps SOC tenant subscription SaaS M365 Azure control plane workload storage identity access data exposure High Exposure Misconfiguration Cloud perimeter Activation triggers Validate exposure Contain exposure Impact analysis Recovery Closure"
+  },
+  {
+    "id": "CL-PB-03",
+    "title": "Cloud Workload Compromise",
+    "section": "CloudOps",
+    "sub": "Playbooks",
+    "url": "cl-pb-03.html",
+    "desc": "Playbook for compromised cloud-hosted virtual machines, containers, Kubernetes workloads, serverless functions, app services, or platform workloads.",
+    "tags": "cloud CloudOps SOC tenant subscription SaaS M365 Azure control plane workload storage identity access data exposure Incident Workload EDR Forensics Activation triggers Stabilise Contain Investigate Recover Post-incident"
+  },
+  {
+    "id": "CL-PB-04",
+    "title": "Cloud Data Exposure / Storage Incident",
+    "section": "CloudOps",
+    "sub": "Playbooks",
+    "url": "cl-pb-04.html",
+    "desc": "Response workflow for cloud-hosted data exposure involving object storage, database services, snapshots, data lakes, backups, SaaS exports, or excessive access permissions.",
+    "tags": "cloud CloudOps SOC tenant subscription SaaS M365 Azure control plane workload storage identity access data exposure Data protection High Privacy Evidence Activation triggers Protect evidence Contain access Assess impact Coordinate Recover"
+  },
+  {
+    "id": "CL-RB-01",
+    "title": "Triage Cloud Control Plane Alert",
+    "section": "CloudOps",
+    "sub": "Runbooks",
+    "url": "cl-rb-01.html",
+    "desc": "Step-by-step triage for cloud control-plane alerts before escalation into a confirmed incident.",
+    "tags": "cloud CloudOps SOC tenant subscription SaaS M365 Azure control plane workload storage identity access data exposure Runbook Triage Read-only Control plane Open the alert Validate identity context Check change legitimacy Review surrounding activity Classify severity Document outcome"
+  },
+  {
+    "id": "CL-RB-02",
+    "title": "Contain Cloud Identity and Access Abuse",
+    "section": "CloudOps",
+    "sub": "Runbooks",
+    "url": "cl-rb-02.html",
+    "desc": "Controlled containment steps for risky cloud identities, sessions, credentials, service principals, and app registrations.",
+    "tags": "cloud CloudOps SOC tenant subscription SaaS M365 Azure control plane workload storage identity access data exposure Runbook Containment Requires approval Identity Confirm approval Preserve current state Revoke active access Contain non-human identity Remove persistence Validate"
+  },
+  {
+    "id": "CL-RB-03",
+    "title": "Lock Down Public Cloud Storage",
+    "section": "CloudOps",
+    "sub": "Runbooks",
+    "url": "cl-rb-03.html",
+    "desc": "Triage and containment runbook for object storage, data lake, file share, or backup repository public exposure.",
+    "tags": "cloud CloudOps SOC tenant subscription SaaS M365 Azure control plane workload storage identity access data exposure Runbook Data exposure Requires approval Storage Identify storage object Preserve exposure evidence Restrict public access Assess access history Notify owners Validate closure"
+  },
+  {
+    "id": "CL-RB-04",
+    "title": "Isolate Cloud Workload / Snapshot Evidence",
+    "section": "CloudOps",
+    "sub": "Runbooks",
+    "url": "cl-rb-04.html",
+    "desc": "Runbook for safely isolating a compromised cloud workload while preserving forensic and recovery evidence.",
+    "tags": "cloud CloudOps SOC tenant subscription SaaS M365 Azure control plane workload storage identity access data exposure Runbook Containment Forensics Workload Confirm business impact Capture volatile context Snapshot before rebuild Isolate network path Protect credentials Hand off"
+  },
+  {
+    "id": "CL-WI-01",
+    "title": "Review Cloud Audit Logs",
+    "section": "CloudOps",
+    "sub": "Work Instructions",
+    "url": "cl-wi-01.html",
+    "desc": "Tool-agnostic procedure for reviewing cloud audit, activity, sign-in, and resource logs during cloud investigations.",
+    "tags": "cloud CloudOps SOC tenant subscription SaaS M365 Azure control plane workload storage identity access data exposure Work Instruction Read-only Audit logs Evidence Define investigation window Collect log sources Filter by principal Identify high-risk actions Build timeline Export evidence"
+  },
+  {
+    "id": "CL-WI-02",
+    "title": "Rotate Cloud Access Keys and Secrets",
+    "section": "CloudOps",
+    "sub": "Work Instructions",
+    "url": "cl-wi-02.html",
+    "desc": "Procedure for rotating potentially exposed cloud secrets, access keys, certificates, tokens, and application credentials.",
+    "tags": "cloud CloudOps SOC tenant subscription SaaS M365 Azure control plane workload storage identity access data exposure Work Instruction Requires approval Secrets Recovery Confirm dependency owner Preserve current metadata Create replacement Update consumers Disable old credential Validate"
+  },
+  {
+    "id": "CL-WI-03",
+    "title": "Disable Risky Cloud Principal",
+    "section": "CloudOps",
+    "sub": "Work Instructions",
+    "url": "cl-wi-03.html",
+    "desc": "Controlled process for disabling or restricting a risky human, service, managed, or third-party cloud principal.",
+    "tags": "cloud CloudOps SOC tenant subscription SaaS M365 Azure control plane workload storage identity access data exposure Work Instruction Requires approval Identity Containment Classify principal Assess blast radius Preserve evidence Apply least disruptive restriction Monitor impact Document and hand over"
   }
 ]
