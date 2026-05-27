@@ -74,8 +74,6 @@
   <a href="sops.html">SOPs</a>
   <a href="work-instructions.html">Work Instructions</a>
   <a href="asm.html">ASM</a>
-  
-  <a href="cloud.html">Cloud Ops</a>
   <a href="tools-references.html">Tools &amp; References</a>
   <a href="governance.html">Governance</a>
   <a href="grc.html" class="active">GRC</a>
@@ -92,11 +90,11 @@
   <div class="grc-page-hero">
     <div class="grc-page-hero-eyebrow">GRC · Register · Naming Codes</div>
     <h1>GRC-REG-CODES: Naming Convention Codes Register</h1>
-    <p>The authoritative controlled vocabulary for the asset naming convention defined in GRC-SOP-05. Holds approved operating-unit codes, city/location codes, asset-type codes, and recorded deviations. Codes are added incrementally as operating units onboard.</p>
+    <p>The authoritative controlled vocabulary for the asset naming convention defined in GRC-SOP-05. Holds approved agency codes, city/location codes, asset-type codes, and recorded deviations. Codes are added incrementally as operating units onboard.</p>
     <div class="grc-page-hero-pills">
       <span class="grc-page-hero-pill">Live register</span>
       <span class="grc-page-hero-pill">GRC-SOP-05 supporting</span>
-      <span class="grc-page-hero-pill">Cross-unit</span>
+      <span class="grc-page-hero-pill">Cross-agency</span>
     </div>
   </div>
 
@@ -113,31 +111,31 @@
   </div>
 
   <div class="reg-stats">
-    <div class="reg-stat"><div class="reg-stat-num">5</div><div class="reg-stat-lbl">Operating unit codes</div></div>
+    <div class="reg-stat"><div class="reg-stat-num">5</div><div class="reg-stat-lbl">Agency codes</div></div>
     <div class="reg-stat"><div class="reg-stat-num">8</div><div class="reg-stat-lbl">City codes</div></div>
     <div class="reg-stat"><div class="reg-stat-num">14</div><div class="reg-stat-lbl">Asset-type codes</div></div>
     <div class="reg-stat"><div class="reg-stat-num">11</div><div class="reg-stat-lbl">Function tags</div></div>
     <div class="reg-stat"><div class="reg-stat-num">0</div><div class="reg-stat-lbl">Active deviations</div></div>
   </div>
 
-  <div class="callout-info">📌 <strong>How this register works.</strong> Codes are introduced incrementally — only operating units that have onboarded under GRC-SOP-05 appear in the operating-unit table; only locations actually used by those operating units appear in the city table. Code requests follow the workflow in GRC-SOP-05 §14.1. Once approved, a new code becomes immediately usable in asset names. The seed values below are starter entries authorised at SOP-05 publication; further codes are added as operating units join.</div>
+  <div class="callout-info">📌 <strong>How this register works.</strong> Codes are introduced incrementally — only operating units that have onboarded under GRC-SOP-05 appear in the agency table; only locations actually used by those agencies appear in the city table. Code requests follow the workflow in GRC-SOP-05 §14.1. Once approved, a new code becomes immediately usable in asset names. The seed values below are starter entries authorised at SOP-05 publication; further codes are added as agencies join.</div>
 
-  <!-- Operating unit codes -->
+  <!-- Agency codes -->
   <div class="reg-section">
-    <div class="reg-section-title"><span class="reg-section-title-icon">🏢</span> Operating Unit Codes</div>
-    <p class="reg-section-desc">Three- to five-letter uppercase codes identifying the operating unit that owns an asset. Used as the first segment of the asset name. <strong>Special value <code>CENTRAL</code></strong> is reserved for cross-unit assets provided centrally and consumed by multiple operating units (see GRC-SOP-05 §7.3).</p>
+    <div class="reg-section-title"><span class="reg-section-title-icon">🏢</span> Agency Codes</div>
+    <p class="reg-section-desc">Three- to five-letter uppercase codes identifying the operating unit (agency) that owns an asset. Used as the first segment of the asset name. <strong>Special value <code>CENTRAL</code></strong> is reserved for cross-agency assets provided centrally and consumed by multiple operating units (see GRC-SOP-05 §7.3).</p>
     <table class="gt-table">
       <thead><tr><th>Code</th><th>Operating unit (full name)</th><th>Owner</th><th>Date introduced</th><th>Status</th><th>Notes</th></tr></thead>
       <tbody>
-        <tr><td class="code">GFDN</td><td>Global Foundation Network (sample umbrella)</td><td>CIO</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Used for organisation-wide assets that are not central; operating-unit-specific assets use their own codes</td></tr>
-        <tr><td class="code">HHS</td><td>Horizon Health Services</td><td>Local Security Owner (HHS)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Health operating unit — hospitals, clinics, health programmes</td></tr>
-        <tr><td class="code">NES</td><td>Northstar Education Services</td><td>Local Security Owner (NES)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Education operating unit — schools, higher-education institutions</td></tr>
-        <tr><td class="code">HRP</td><td>Habitat & Resilience Programme (sample operating unit)</td><td>Local Security Owner (operating unit)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Confirm full-name binding before broad use; placeholder pending operating-unit onboarding review</td></tr>
-        <tr><td class="code">RAI</td><td>Research & Academic Institute</td><td>Local Security Owner (RAI)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Academic institute</td></tr>
-        <tr><td class="code">CENTRAL</td><td>Cross-unit centrally-managed</td><td>Head of IT Operations</td><td>8 May 2026</td><td><span class="status-pill status-active">Reserved</span></td><td>Reserved literal — use with synthetic Asset ID pattern <code>ASSET-CENTRAL-&lt;TYPE&gt;-&lt;SEQ&gt;</code></td></tr>
+        <tr><td class="code">AKDN</td><td>Aga Khan Development Network (umbrella)</td><td>CIO</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Used for AKDN-wide assets that are not central; sub-agency-specific assets use their own codes</td></tr>
+        <tr><td class="code">AKHS</td><td>Aga Khan Health Services</td><td>LCSO (AKHS)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Health agency — hospitals, clinics, health programmes</td></tr>
+        <tr><td class="code">AKES</td><td>Aga Khan Education Services</td><td>LCSO (AKES)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Education agency — schools, higher-education institutions</td></tr>
+        <tr><td class="code">AKA</td><td>Aga Khan Agency for Habitat (or applicable agency)</td><td>LCSO (agency)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Confirm full-name binding before broad use; placeholder pending agency onboarding review</td></tr>
+        <tr><td class="code">IIS</td><td>Institute of Ismaili Studies</td><td>LCSO (IIS)</td><td>8 May 2026</td><td><span class="status-pill status-active">Active</span></td><td>Academic institute</td></tr>
+        <tr><td class="code">CENTRAL</td><td>Cross-agency centrally-managed</td><td>Head of IT Operations</td><td>8 May 2026</td><td><span class="status-pill status-active">Reserved</span></td><td>Reserved literal — use with synthetic Asset ID pattern <code>ASSET-CENTRAL-&lt;TYPE&gt;-&lt;SEQ&gt;</code></td></tr>
       </tbody>
     </table>
-    <p style="font-size:12px;color:#888;margin-top:10px;"><em>Additional operating-unit codes are added as operating units onboard under GRC-SOP-05. Submit code requests via the workflow at the bottom of this page.</em></p>
+    <p style="font-size:12px;color:#888;margin-top:10px;"><em>Additional agency codes are added as operating units onboard under GRC-SOP-05. Submit code requests via the workflow at the bottom of this page.</em></p>
   </div>
 
   <!-- City codes -->
@@ -222,12 +220,12 @@
   <!-- Code request workflow -->
   <div class="reg-section">
     <div class="reg-section-title"><span class="reg-section-title-icon">📨</span> Code Request Workflow</div>
-    <p class="reg-section-desc">When a new code is needed (new operating-unit onboarding, new city, new asset type), submit a request following the steps below. Approved codes appear in the relevant table within five working days.</p>
+    <p class="reg-section-desc">When a new code is needed (new agency onboarding, new city, new asset type), submit a request following the steps below. Approved codes appear in the relevant table within five working days.</p>
     <div class="req-flow">
-      <div class="req-flow-step"><div class="req-flow-num">1</div><div class="req-flow-text"><strong>Identify the gap</strong> — Determine which table is affected (Operating Unit / City / Asset Type) and confirm the code does not already exist (search this register first).</div></div>
-      <div class="req-flow-step"><div class="req-flow-num">2</div><div class="req-flow-text"><strong>Propose a code</strong> — Three letters for cities and asset types; three to five letters for operating units. Uppercase A–Z only. Where IATA airport codes exist for cities, prefer those.</div></div>
+      <div class="req-flow-step"><div class="req-flow-num">1</div><div class="req-flow-text"><strong>Identify the gap</strong> — Determine which table is affected (Agency / City / Asset Type) and confirm the code does not already exist (search this register first).</div></div>
+      <div class="req-flow-step"><div class="req-flow-num">2</div><div class="req-flow-text"><strong>Propose a code</strong> — Three letters for cities and asset types; three to five letters for agencies. Uppercase A–Z only. Where IATA airport codes exist for cities, prefer those.</div></div>
       <div class="req-flow-step"><div class="req-flow-num">3</div><div class="req-flow-text"><strong>Submit to GRC</strong> — Email the GRC team with: proposed code, full name, justification, expected scope, sponsor (LCSO or Local IT Lead).</div></div>
-      <div class="req-flow-step"><div class="req-flow-num">4</div><div class="req-flow-text"><strong>Review &amp; consultation</strong> — Head of GRC reviews for collisions and intuitive uniqueness. Asset-type codes consulted with Architecture; cross-unit codes consulted with the CIO or equivalent senior IT owner.</div></div>
+      <div class="req-flow-step"><div class="req-flow-num">4</div><div class="req-flow-text"><strong>Review &amp; consultation</strong> — Head of GRC reviews for collisions and intuitive uniqueness. Asset-type codes consulted with Architecture; cross-agency codes consulted with CIO.</div></div>
       <div class="req-flow-step"><div class="req-flow-num">5</div><div class="req-flow-text"><strong>Approval &amp; publication</strong> — Once approved, code is added to this register with date and owner. Submitter is notified. Code is then available for use.</div></div>
     </div>
   </div>
