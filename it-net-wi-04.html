@@ -67,6 +67,8 @@
   <a href="sops.html">SOPs</a>
   <a href="work-instructions.html">Work Instructions</a>
   <a href="asm.html" class="active">ASM</a>
+  
+  <a href="cloud.html">Cloud Ops</a>
   <a href="tools-references.html">Tools &amp; References</a>
   <a href="governance.html">Governance</a>
   <a href="grc.html">GRC</a>
@@ -267,7 +269,7 @@
           <li>Minimise active SSIDs per AP &mdash; each SSID consumes airtime; 3-4 maximum is typical (corporate, guest, optional separate IoT)</li>
           <li>Disable SSIDs not in use on specific APs &mdash; not every SSID needs to broadcast in every location</li>
           <li><span><strong>SSID hidden / broadcast disabled is not a security control</strong> &mdash; clients still leak the SSID, and obscurity slows neither attackers nor accidental connections. Leave broadcast enabled; rely on authentication for security.</span></li>
-          <li>SSID naming should not reveal organisation-sensitive information (e.g. "AKDN-Finance" reveals more than "AKDN-Staff")</li>
+          <li>SSID naming should not reveal organisation-sensitive information (e.g. "GFN-Finance" reveals more than "GFN-Staff")</li>
           <li>Retire SSIDs from old projects, mergers, or migrations &mdash; SSID sprawl is a real source of confusion and attack surface</li>
         </ul>
         <div class="step-verify"><strong>Verify.</strong> Show SSID list per AP; confirm only intended SSIDs broadcast in each location. Audit SSID names for sensitive information leakage.</div>

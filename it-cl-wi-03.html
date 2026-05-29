@@ -71,6 +71,8 @@
   <a href="sops.html">SOPs</a>
   <a href="work-instructions.html">Work Instructions</a>
   <a href="asm.html" class="active">ASM</a>
+  
+  <a href="cloud.html">Cloud Ops</a>
   <a href="tools-references.html">Tools &amp; References</a>
   <a href="governance.html">Governance</a>
   <a href="grc.html">GRC</a>
@@ -139,7 +141,7 @@
           <li><span><strong>Minimum useful structure</strong> &mdash; Tenant Root &rarr; Platform &rarr; Landing Zones &rarr; (Prod / NonProd / Sandbox). Subscriptions sit under the appropriate environment management group.</span></li>
           <li><span><strong>For agency-segmented tenants</strong> &mdash; add an agency level (Tenant Root &rarr; Agency &rarr; Environment). This allows agency-specific policy overlays while keeping the institution baseline at the root.</span></li>
           <li><span><strong>Avoid deep nesting</strong> &mdash; more than 4&ndash;5 levels makes RBAC and policy debugging painful; the platform supports 6 but operational reality favours fewer</span></li>
-          <li><span><strong>Naming convention</strong> &mdash; documented and consistent: <code>mg-&lt;institution&gt;-&lt;scope&gt;</code> e.g. <code>mg-akdn-platform-prod</code>, <code>mg-aga-landingzone-prod</code></span></li>
+          <li><span><strong>Naming convention</strong> &mdash; documented and consistent: <code>mg-&lt;institution&gt;-&lt;scope&gt;</code> e.g. <code>mg-gfdn-platform-prod</code>, <code>mg-aga-landingzone-prod</code></span></li>
           <li><span><strong>Subscription movement</strong> requires Owner role on both source and destination management group; document the change-control process</span></li>
           <li><span><strong>Tenant Root Group access</strong> is restricted to a very small named group (platform-admin role); subscription Owners do not have access</span></li>
         </ul>

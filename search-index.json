@@ -1068,7 +1068,7 @@
     "sub": "Registers",
     "url": "grc-reg-asset.html",
     "desc": "Authoritative register of IT and OT assets across all operating units, with entries following the GRC-SOP-05 §8 schema. Currently seeded with 9 representative entries demonstrating each asset type — domain controller (Tier 0), staff laptop (Tier 3), edge firewall (Tier 1), workstation (Tier 3), MFP (Tier 3), staff portal application (Tier 1), Microsoft 365 tenant (Tier 0 CENTRAL), Entra ID directory (Tier 0 CENTRAL), hospital BMS (Tier 1 OT). Each entry shows the full 28-field schema (groups A–G; ITAM extension fields optional). Federated by operating unit; CENTRAL prefix for cross-agency assets.",
-    "tags": "GRC register asset register inventory IT OT assets configuration items CIs Tier 0 1 2 3 federation operating unit AKDN AKHS AKES IIS CENTRAL Microsoft 365 Entra ID domain controller laptop firewall workstation printer application SaaS BMS OT representative entries seeded schema"
+    "tags": "GRC register asset register inventory IT OT assets configuration items CIs Tier 0 1 2 3 federation operating unit GFDN HHS NES RAI CENTRAL Microsoft 365 Entra ID domain controller laptop firewall workstation printer application SaaS BMS OT representative entries seeded schema"
   },
   {
     "id": "GRC-REG-BC",
@@ -1094,8 +1094,8 @@
     "section": "GRC",
     "sub": "Registers",
     "url": "grc-reg-codes.html",
-    "desc": "Authoritative controlled vocabulary supporting GRC-SOP-05. Holds approved agency codes (AKDN, AKHS, AKES, AKA, IIS, plus reserved CENTRAL), city/location codes (LIS, LON, NBO, MOM, DXB, KHI, HYD, DAR — IATA-aligned where possible), 14 asset-type codes (SRV/DSK/LPT/MOB/NET/STO/APP/SAAS/CLD/IDS/DAT/PER/OT/OTH), 11 function tags. Includes deviation register for non-conformant naming exceptions. Codes added incrementally via the documented request workflow as operating units onboard.",
-    "tags": "GRC register codes naming convention agency codes AKDN AKHS AKES AKA IIS CENTRAL city codes IATA Lisbon London Nairobi Mombasa Dubai Karachi Hyderabad Dar es Salaam asset type codes SRV DSK LPT MOB NET STO APP SAAS CLD IDS DAT PER OT function tags deviations vocabulary controlled list"
+    "desc": "Authoritative controlled vocabulary supporting GRC-SOP-05. Holds approved sample operating-unit codes (GFDN, HHS, NES, HRP, RAI, plus reserved CENTRAL), city/location codes (LIS, LON, NBO, MOM, DXB, KHI, HYD, DAR — IATA-aligned where possible), 14 asset-type codes (SRV/DSK/LPT/MOB/NET/STO/APP/SAAS/CLD/IDS/DAT/PER/OT/OTH), 11 function tags. Includes deviation register for non-conformant naming exceptions. Codes added incrementally via the documented request workflow as operating units onboard.",
+    "tags": "GRC register codes naming convention operating unit codes GFDN HHS NES HRP RAI CENTRAL city codes IATA Lisbon London Nairobi Mombasa Dubai Karachi Hyderabad Dar es Salaam asset type codes SRV DSK LPT MOB NET STO APP SAAS CLD IDS DAT PER OT function tags deviations vocabulary controlled list"
   },
   {
     "id": "GRC-REG-DR",
@@ -1275,7 +1275,7 @@
     "sub": "Tabletop Scenarios",
     "url": "grc-ttx-04.html",
     "desc": "90-min mixed-audience scenario — critical SaaS provider breach with 2+ week outage; tests controller obligations, data-exposure assessment, 72-hour regulator notification, supplier-relationship decisions",
-    "tags": "GRC TTX tabletop SaaS supplier provider breach controller processor DPIA 72-hour cross-AKDN"
+    "tags": "GRC TTX tabletop SaaS supplier provider breach controller processor DPIA 72-hour cross-entity"
   },
   {
     "id": "GRC-TTX-05",

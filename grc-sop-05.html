@@ -148,6 +148,8 @@
   <a href="sops.html">SOPs</a>
   <a href="work-instructions.html">Work Instructions</a>
   <a href="asm.html">ASM</a>
+  
+  <a href="cloud.html">Cloud Ops</a>
   <a href="tools-references.html">Tools &amp; References</a>
   <a href="governance.html">Governance</a>
   <a href="grc.html" class="active">GRC</a>
@@ -386,39 +388,39 @@
     <p>The following examples demonstrate the convention in practice:</p>
 
     <div class="conv-box">
-      <span class="conv-example">AKDNPTLISSRV0001</span>
+      <span class="conv-example">GFDNPTLISSRV0001</span>
       <div class="conv-decoded">
-        <span class="conv-piece conv-piece-agency">AKDN</span>
+        <span class="conv-piece conv-piece-agency">GFDN</span>
         <span class="conv-piece conv-piece-country">PT</span>
         <span class="conv-piece conv-piece-city">LIS</span>
         <span class="conv-piece conv-piece-type">SRV</span>
         <span class="conv-piece conv-piece-seq">0001</span>
       </div>
-      <p style="font-size:12px;color:#888;margin-top:6px;">AKDN agency, Portugal, Lisbon, Server, sequence 0001</p>
+      <p style="font-size:12px;color:#888;margin-top:6px;">operating unit, Portugal, Lisbon, Server, sequence 0001</p>
     </div>
 
     <div class="conv-box">
-      <span class="conv-example">IISUKLONLPT01234</span>
+      <span class="conv-example">RAIUKLONLPT01234</span>
       <div class="conv-decoded">
-        <span class="conv-piece conv-piece-agency">IIS</span>
+        <span class="conv-piece conv-piece-agency">RAI</span>
         <span class="conv-piece conv-piece-country">UK</span>
         <span class="conv-piece conv-piece-city">LON</span>
         <span class="conv-piece conv-piece-type">LPT</span>
         <span class="conv-piece conv-piece-seq">01234</span>
       </div>
-      <p style="font-size:12px;color:#888;margin-top:6px;">IIS agency, United Kingdom, London, Laptop, sequence 01234</p>
+      <p style="font-size:12px;color:#888;margin-top:6px;">RAI operating unit, United Kingdom, London, Laptop, sequence 01234</p>
     </div>
 
     <div class="conv-box">
-      <span class="conv-example">AKHSKEMOMNET005</span>
+      <span class="conv-example">HHSKEMOMNET005</span>
       <div class="conv-decoded">
-        <span class="conv-piece conv-piece-agency">AKHS</span>
+        <span class="conv-piece conv-piece-agency">HHS</span>
         <span class="conv-piece conv-piece-country">KE</span>
         <span class="conv-piece conv-piece-city">MOM</span>
         <span class="conv-piece conv-piece-type">NET</span>
         <span class="conv-piece conv-piece-seq">005</span>
       </div>
-      <p style="font-size:12px;color:#888;margin-top:6px;">AKHS agency, Kenya, Mombasa, Network device, sequence 005</p>
+      <p style="font-size:12px;color:#888;margin-top:6px;">HHS operating unit, Kenya, Mombasa, Network device, sequence 005</p>
     </div>
 
     <h3>6.4 Length considerations</h3>
@@ -449,15 +451,15 @@
     <h3>7.1 Pattern A — Physical &amp; located assets</h3>
     <p>For any asset that has a hostname or a fixed location (servers, workstations, laptops, mobile devices, network devices, peripherals, OT devices), the <strong>Asset ID equals the hostname</strong> per §6.</p>
     <div class="conv-box">
-      <p style="margin-bottom:6px;">Example: a Lisbon server with hostname <span class="conv-example">AKDNPTLISSRV0001</span></p>
-      <p style="font-size:13px;color:#555;margin:0;">Asset ID = <code>AKDNPTLISSRV0001</code> (identical to the hostname). One identifier across hostname, asset record, and SIEM correlation.</p>
+      <p style="margin-bottom:6px;">Example: a Lisbon server with hostname <span class="conv-example">GFDNPTLISSRV0001</span></p>
+      <p style="font-size:13px;color:#555;margin:0;">Asset ID = <code>GFDNPTLISSRV0001</code> (identical to the hostname). One identifier across hostname, asset record, and SIEM correlation.</p>
     </div>
 
     <h3>7.2 Pattern B — Non-host assets (operating-unit-owned)</h3>
     <p>For assets that have no hostname and no fixed physical location (SaaS services, applications, identity stores, data stores, cloud workloads at the logical-service level), use a synthetic identifier:</p>
     <div class="conv-box">
       <div class="conv-pattern">ASSET-&lt;AGENCY&gt;-&lt;TYPE&gt;-&lt;SEQ&gt;</div>
-      <p style="font-size:13px;color:#555;margin-top:8px;margin-bottom:0;">Example: <span class="conv-example">ASSET-AKDN-SAAS-0001</span> for a SaaS service owned by AKDN</p>
+      <p style="font-size:13px;color:#555;margin-top:8px;margin-bottom:0;">Example: <span class="conv-example">ASSET-GFDN-SAAS-0001</span> for a SaaS service owned by GFDN</p>
     </div>
 
     <h3>7.3 Pattern C — Cross-agency / centrally-managed assets</h3>
