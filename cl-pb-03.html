@@ -5,97 +5,177 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CL-PB-03: Cloud Workload Compromise — Cyber Security Knowledge Base</title>
 <link rel="stylesheet" href="shared.css">
+<style>
+  :root { --cloud:#1A4A7A; --cloud-light:#E8F0FA; --cloud-border:#B9D1EA; --cloud-dark:#0F2E4D; }
+  .pb-meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .pb-meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .pb-meta-item strong { color:#1a1a1a; }
+  .pb-meta-sep { color:#e0e0dc; }
+  .pb-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .pb-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--cloud); margin-bottom:4px; }
+  .pb-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .pb-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .pb-section p:last-child { margin-bottom:0; }
+  .pb-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; margin:0; padding:0; }
+  .pb-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .pb-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--cloud); flex-shrink:0; margin-top:5px; }
+  .pb-bullet.out-of-scope li::before { background:#ccc; }
+  .pb-two-col { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .pb-sub-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .pb-sub-box h4 { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:8px; }
+  .decision-box { background:var(--cloud-light); border:0.5px solid var(--cloud-border); border-radius:10px; padding:1rem 1.25rem; margin-top:10px; }
+  .decision-box p { font-size:13px; color:var(--cloud-dark); line-height:1.6; margin-bottom:0; }
+  .escalation-box { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:10px; padding:1rem 1.25rem; margin-top:4px; }
+  .escalation-box p { font-size:13px; color:#993C1D; line-height:1.8; margin-bottom:0; }
+  .action-row { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:0.5px solid #f0f0ec; gap:12px; }
+  .action-row:last-child { border-bottom:none; }
+  .action-name { font-size:14px; color:#333; flex:1; }
+  .action-req { font-size:12px; font-weight:600; padding:3px 10px; border-radius:10px; white-space:nowrap; }
+  .req-yes { background:#E1F5EE; color:#0F6E56; }
+  .req-cond { background:#FAEEDA; color:#854F0B; }
+  .rb-invoke-grid { display:flex; flex-direction:column; gap:6px; margin-top:4px; }
+  .rb-invoke-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; text-decoration:none; color:inherit; transition:border-color 0.15s, background 0.15s; }
+  .rb-invoke-row:hover { border-color:var(--cloud); background:#f3f8fd; }
+  .rb-invoke-scenario { font-size:13px; color:#555; flex:1; }
+  .rb-invoke-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--cloud-light); color:var(--cloud); padding:2px 8px; border-radius:6px; white-space:nowrap; }
+  .rb-invoke-arrow { color:#ccc; font-size:14px; }
+  .contain-grid, .scope-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px; }
+  .contain-box, .scope-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .contain-box h4, .scope-box h4 { font-size:12px; font-weight:600; color:var(--cloud); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+  .notify-grid, .evidence-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px; margin-top:8px; }
+  .notify-card, .evidence-item { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.8rem 1rem; font-size:13px; color:#444; }
+  .notify-name { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:2px; }
+  .notify-role { font-size:12px; color:#888; line-height:1.4; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--cloud); text-decoration:none; }
+  .breadcrumb a:hover { text-decoration:underline; }
+  .breadcrumb span { color:#ccc; }
+  @media(max-width:640px){ .pb-two-col, .contain-grid, .scope-grid { grid-template-columns:1fr; } }
+</style>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="referrer" content="no-referrer">
 
-<style>
-  :root { --cloud:#1A4A7A; --cloud-light:#E8F0FA; --cloud-border:#B9D1EA; --cloud-dark:#0F2E4D; --ok:#0F6E56; --warn:#854F0B; --crit:#993C1D; }
-  .cloud-hero { background:linear-gradient(135deg,#061B2F 0%,#0F2E4D 42%,#1A4A7A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
-  .cloud-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.58;margin-bottom:8px;}
-  .cloud-hero h1{font-size:24px;font-weight:700;margin-bottom:8px;line-height:1.25;}
-  .cloud-hero p{font-size:14px;opacity:0.82;line-height:1.65;margin-bottom:10px;max-width:760px;}
-  .cloud-pills{display:flex;flex-wrap:wrap;gap:6px;}
-  .cloud-pill{background:rgba(255,255,255,0.14);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
-  .cloud-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:1.5rem;}
-  .cloud-stat{background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:1rem;text-align:center;}
-  .cloud-stat-num{font-size:26px;font-weight:700;color:var(--cloud);line-height:1;margin-bottom:4px;}
-  .cloud-stat-label{font-size:12px;color:#888;}
-  .cloud-intro,.cloud-box{background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;}
-  .cloud-intro p,.cloud-box p{font-size:14px;color:#444;line-height:1.75;margin-bottom:10px;}
-  .cloud-intro p:last-child,.cloud-box p:last-child{margin-bottom:0;}
-  .domain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:12px;margin-bottom:1.5rem;}
-  .domain-card{background:#fff;border:0.5px solid var(--cloud-border);border-radius:14px;padding:1.25rem;text-decoration:none;color:inherit;display:block;transition:transform .15s,box-shadow .15s;}
-  .domain-card:hover{transform:translateY(-2px);box-shadow:0 4px 18px rgba(26,74,122,0.10);}
-  .domain-card-icon{font-size:26px;margin-bottom:8px;}
-  .domain-card-code{font-family:'SF Mono','Fira Code',monospace;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--cloud-light);color:var(--cloud);display:inline-block;margin-bottom:8px;}
-  .domain-card-title{font-size:15px;font-weight:700;color:var(--cloud-dark);margin-bottom:5px;}
-  .domain-card-desc{font-size:13px;line-height:1.55;color:#555;margin-bottom:8px;}
-  .domain-card-footer{font-size:12px;font-weight:600;color:var(--cloud);display:flex;justify-content:space-between;align-items:center;}
-  .doc-table{width:100%;border-collapse:collapse;font-size:13px;}
-  .doc-table th{background:#F0F2F5;color:#4A5568;font-weight:600;padding:8px 12px;text-align:left;border:0.5px solid #CBD5E0;font-size:12px;text-transform:uppercase;letter-spacing:.05em;}
-  .doc-table td{padding:8px 12px;border:0.5px solid #e8e8e4;color:#444;vertical-align:top;}
-  .doc-table tr:nth-child(even) td{background:#fafafa;}
-  .doc-id{font-family:'SF Mono','Fira Code',monospace;font-size:11px;font-weight:700;background:var(--cloud-light);color:var(--cloud);padding:2px 7px;border-radius:6px;white-space:nowrap;}
-  .badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:8px;white-space:nowrap;display:inline-block;}
-  .b-critical{background:#FAECE7;color:#993C1D}.b-high{background:#FEF0E6;color:#8B4A0E}.b-action{background:#FAEEDA;color:#854F0B}.b-operational{background:#E1F5EE;color:#0F6E56}.b-readonly{background:#E6F1FB;color:#185FA5}
-  .process-list{display:flex;flex-direction:column;gap:8px;}
-  .proc-step{display:flex;gap:12px;align-items:flex-start;background:#fff;border:0.5px solid #e0e0dc;border-radius:10px;padding:.9rem 1rem;}
-  .proc-num{width:26px;height:26px;border-radius:50%;background:var(--cloud);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .proc-body h4{font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:3px;}
-  .proc-body p{font-size:13px;color:#555;line-height:1.55;margin:0;}
-  .callout{background:#FAEEDA;border:0.5px solid #FAC775;border-left:4px solid #FAC775;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:13px;color:#6b3f0a;line-height:1.6;}
-  .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:#aaa;margin-bottom:1rem;}.breadcrumb a{color:var(--cloud);text-decoration:none}.breadcrumb span{color:#ccc;}
-  @media(max-width:640px){.domain-grid{grid-template-columns:1fr}.cloud-hero{padding:1.4rem}.proc-step{flex-direction:column}}
-</style>
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
 </head>
 <body>
 <nav class="kb-topnav">
   <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
   <a href="index.html">Home</a>
   <a href="runbooks.html">Runbooks</a>
-  <a href="playbooks.html">Playbooks</a>
+  <a href="playbooks.html" class="active">Playbooks</a>
   <a href="sops.html">SOPs</a>
   <a href="work-instructions.html">Work Instructions</a>
   <a href="asm.html">ASM</a>
-  <a href="cloud.html" class="active">Cloud Ops</a>
+  <a href="cloud.html">Cloud Ops</a>
   <a href="tools-references.html">Tools &amp; References</a>
   <a href="governance.html">Governance</a>
   <a href="grc.html">GRC</a>
   <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
 </nav>
+
 <div class="page-wrapper">
-  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span>Cloud Workload Compromise</span></div>
-  <div class="cloud-hero">
-    <div class="cloud-hero-eyebrow">Incident playbook</div>
-    <h1>Cloud Workload Compromise</h1>
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="playbooks.html">Playbooks</a><span>›</span><span>CL-PB-03</span></div>
+
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#061B2F 0%,#0F2E4D 42%,#1A4A7A 100%);">
+    <span class="kb-page-hero-icon">☁️</span>
+    <h1>CL-PB-03: Cloud Workload Compromise</h1>
     <p>Playbook for compromised cloud-hosted virtual machines, containers, Kubernetes workloads, serverless functions, app services, or platform workloads.</p>
-    <div class="cloud-pills"><span class="cloud-pill">Incident</span><span class="cloud-pill">Workload</span><span class="cloud-pill">EDR</span><span class="cloud-pill">Forensics</span></div>
+    <div class="kb-page-hero-meta"><span class="kb-meta-pill">Incident</span><span class="kb-meta-pill">Workload</span><span class="kb-meta-pill">EDR</span><span class="kb-meta-pill">Forensics</span></div>
   </div>
-  <div class="callout"><strong>Operational boundary:</strong> This document is tool-agnostic. Use platform-specific consoles or automation only where authorised and record every action in the incident or change ticket.</div>
-  <div class="cloud-box">
-    <table class="doc-table"><tbody>
-      <tr><th>Document ID</th><td><span class="doc-id">CL-PB-03</span></td><th>Status</th><td><span class="badge b-operational">Published</span></td></tr>
-      <tr><th>Owner</th><td>Cyber Security Operations</td><th>Review</th><td>Annual or post-incident</td></tr>
-      <tr><th>NIST CSF</th><td>Detect · Respond · Recover · Govern</td><th>Related</th><td><a href="cloud.html">CloudOps</a> · <a href="asm-cloud-baselines.html">Cloud Baselines</a></td></tr>
-    </tbody></table>
+
+  <!-- IRP-XREF -->
+  <div style="display:flex; align-items:flex-start; gap:10px; background:#E6F4F4; border:0.5px solid #8ECECE; border-left:3px solid #0E5C5C; border-radius:8px; padding:0.7rem 1rem; margin-bottom:1.25rem; font-size:13px; color:#073B3B; line-height:1.55;">
+    <span style="flex-shrink:0;">🛡️</span>
+    <span>This document operates under <a href="grc-irp-01.html" style="color:#0E5C5C;font-weight:600;text-decoration:none;">GRC-IRP-01: Cyber Security Incident Response Plan</a> — see for severity tiers (Sev&nbsp;1–5), escalation paths, evidence handling, and communication templates.</span>
   </div>
-  <div class="kb-section"><div class="kb-section-title">Procedure</div><div class="process-list">
-    <div class="proc-step"><div class="proc-num">1</div><div class="proc-body"><h4>Activation triggers</h4><p>EDR alert, suspicious process, crypto-mining, abnormal outbound traffic, container escape signal, unauthorised image execution, or web shell on cloud-hosted service.</p></div></div>
-    <div class="proc-step"><div class="proc-num">2</div><div class="proc-body"><h4>Stabilise</h4><p>Avoid destructive remediation before collecting evidence. Identify business criticality, owner, public exposure, identity assigned to workload, and data access.</p></div></div>
-    <div class="proc-step"><div class="proc-num">3</div><div class="proc-body"><h4>Contain</h4><p>Isolate network path, remove public ingress, disable managed identity if abused, snapshot disks, preserve logs, and restrict outbound communication.</p></div></div>
-    <div class="proc-step"><div class="proc-num">4</div><div class="proc-body"><h4>Investigate</h4><p>Review process execution, image provenance, vulnerability exploitation path, secrets exposure, lateral movement, and access to storage or databases.</p></div></div>
-    <div class="proc-step"><div class="proc-num">5</div><div class="proc-body"><h4>Recover</h4><p>Rebuild from trusted image or redeploy from clean IaC pipeline. Rotate credentials, patch exploited vulnerability, and validate monitoring.</p></div></div>
-    <div class="proc-step"><div class="proc-num">6</div><div class="proc-body"><h4>Post-incident</h4><p>Update image standards, vulnerability SLAs, network segmentation, secrets management, and workload logging requirements.</p></div></div>
-  </div></div>
-  <div class="kb-section"><div class="kb-section-title">Escalation and evidence</div><div class="cloud-box">
-    <p>Escalate immediately if privileged access abuse, broad data access, logging tampering, unauthorised federation, production outage, or regulatory notification risk is suspected.</p>
-    <p>Minimum evidence includes the alert, analyst timeline, affected resources, affected principals, approval record for containment, before/after configuration state, and validation that the risk has been removed or accepted.</p>
-  </div></div>
+
+  <div class="pb-meta-bar">
+    <div class="pb-meta-item">📋 <strong>ID:</strong> CL-PB-03</div><div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div><div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">📅 <strong>Published:</strong> 25 May 2026</div><div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item">🏷️ <strong>Category:</strong> Cloud Threat</div><div class="pb-meta-sep">·</div>
+    <div class="pb-meta-item"><span class="badge badge-active">Active</span></div>
+  </div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 1</div><div class="pb-section-title">Purpose</div><p>Playbook for compromised cloud-hosted virtual machines, containers, Kubernetes workloads, serverless functions, app services, or platform workloads.</p><p>This playbook provides a consistent incident lifecycle for cloud detection, containment, evidence preservation, recovery, and lessons learned.</p></div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 2</div><div class="pb-section-title">Scope</div><div class="pb-two-col"><div class="pb-sub-box"><h4>✅ In scope</h4><ul class="pb-bullet">
+      <li>Cloud-hosted virtual machines, containers, Kubernetes workloads, serverless functions, and app services</li>
+      <li>EDR or runtime alerts involving cloud workloads</li>
+      <li>Crypto-mining, web shell, malicious process, or abnormal outbound traffic</li>
+      <li>Unauthorised image execution or container escape signal</li>
+      <li>Workload identity, secrets, or data access linked to compromise</li>
+    </ul></div><div class="pb-sub-box"><h4>❌ Out of scope</h4><ul class="pb-bullet out-of-scope">
+      <li>Control-plane compromise or tenant-wide admin abuse → CL-PB-01</li>
+      <li>Public exposure without workload compromise → CL-PB-02</li>
+      <li>Pure endpoint workstation compromise → Endpoint playbooks</li>
+    </ul></div></div></div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 3</div><div class="pb-section-title">Trigger Conditions</div><p>Initiate this playbook when any of the following occur:</p><ul class="pb-bullet">
+      <li>EDR or runtime alert on cloud-hosted workload</li>
+      <li>Suspicious process, web shell, crypto-mining, or unauthorised image execution</li>
+      <li>Abnormal outbound traffic or command-and-control pattern</li>
+      <li>Container escape signal or unexpected privileged container</li>
+      <li>Vulnerability exploitation evidence on cloud workload</li>
+    </ul></div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 4</div><div class="pb-section-title">Initial Validation (Decision Logic)</div><p>Validate whether the activity is expected, authorised, and business justified:</p><ul class="pb-bullet">
+      <li>Is the alert linked to an active cloud workload and valid telemetry?</li>
+      <li>Is the process, image, function, or network behaviour expected for the service?</li>
+      <li>What business service, owner, identity, and data stores are attached?</li>
+      <li>Is there evidence of persistence, lateral movement, or credential access?</li>
+    </ul><div class="decision-box"><p>If a legitimate change or accepted exposure is confirmed, document the evidence and close as benign or approved exception. If unauthorised, suspicious, or unclear, continue with the assessment and escalation sections below.</p></div></div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 5</div><div class="pb-section-title">Cloud Workload Compromise Assessment</div><ul class="pb-bullet">
+      <li>Identify workload type, owner, criticality, public exposure, attached identity, and data access.</li>
+      <li>Avoid destructive remediation before collecting evidence.</li>
+      <li>Review process execution, image provenance, exploited vulnerability, secrets exposure, lateral movement, and storage/database access.</li>
+      <li>Preserve logs, snapshots, image metadata, deployment history, network flows, and identity context.</li>
+    </ul></div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 6</div><div class="pb-section-title">Severity &amp; Escalation Criteria</div><div class="escalation-box"><p>Treat as High or Critical when compromise affects production workloads, public services, privileged workload identity, sensitive data, lateral movement, or active command-and-control. Treat as Medium when contained to non-production with no data or identity impact.</p></div></div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 7</div><div class="pb-section-title">Response Strategy</div>      <div class="action-row"><span class="action-name">Stabilise the service and preserve evidence before rebuild.</span><span class="action-req req-yes">Required</span></div>
+      <div class="action-row"><span class="action-name">Isolate network path, remove public ingress, and restrict outbound communication.</span><span class="action-req req-yes">Required</span></div>
+      <div class="action-row"><span class="action-name">Snapshot disks, export configuration, preserve logs, and capture image or package evidence.</span><span class="action-req req-yes">Required</span></div>
+      <div class="action-row"><span class="action-name">Disable abused managed identity or rotate secrets after impact review.</span><span class="action-req req-yes">Required</span></div>
+      <div class="action-row"><span class="action-name">Rebuild from trusted image or redeploy from clean IaC pipeline; patch exploited vulnerability and validate monitoring.</span><span class="action-req req-yes">Required</span></div></div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 8</div><div class="pb-section-title">Runbook Invocation Matrix</div><div class="rb-invoke-grid">        <a class="rb-invoke-row" href="cl-rb-01.html"><span class="rb-invoke-code">CL-RB-01</span><span class="rb-invoke-scenario">Triage cloud workload alert context</span><span class="rb-invoke-arrow">›</span></a>
+        <a class="rb-invoke-row" href="cl-rb-04.html"><span class="rb-invoke-code">CL-RB-04</span><span class="rb-invoke-scenario">Isolate cloud workload and preserve evidence</span><span class="rb-invoke-arrow">›</span></a>
+        <a class="rb-invoke-row" href="cl-rb-02.html"><span class="rb-invoke-code">CL-RB-02</span><span class="rb-invoke-scenario">Contain abused workload identity if required</span><span class="rb-invoke-arrow">›</span></a></div></div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 9</div><div class="pb-section-title">Containment Decision Logic</div><div class="contain-grid"><div class="contain-box"><h4>Containment actions</h4><ul class="pb-bullet"><li>Remove public ingress and restrict security group/firewall rules.</li>
+<li>Quarantine subnet or detach from load balancer where approved.</li>
+<li>Restrict outbound communication to known required destinations.</li>
+<li>Snapshot before rebuild and preserve volatile context.</li></ul></div><div class="contain-box"><h4>Approval boundary</h4><ul class="pb-bullet"><li>Use read-only validation before changing production state where possible.</li><li>Obtain incident lead or authorised owner approval for disruptive changes.</li><li>Record every containment action in the incident or change ticket.</li></ul></div></div></div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 10</div><div class="pb-section-title">Scope Expansion Logic</div><div class="scope-grid"><div class="scope-box"><h4>Expand investigation to</h4><ul class="pb-bullet"><li>Review workload identity permissions, secrets, data stores, and adjacent workloads.</li>
+<li>Check image provenance, CI/CD pipeline, container registry, and recent deployment history.</li>
+<li>Search for similar vulnerable images, functions, and configurations.</li>
+<li>Review outbound connections, dropped files, and lateral movement paths.</li></ul></div><div class="scope-box"><h4>Stop expansion when</h4><ul class="pb-bullet"><li>No related risky configuration, identity, workload, or data access remains.</li><li>Affected owner confirms business context and residual risk is accepted or removed.</li><li>Monitoring validates no recurrence after containment.</li></ul></div></div></div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 11</div><div class="pb-section-title">Communication &amp; Coordination</div><div class="notify-grid"><div class="notify-card"><div class="notify-name">Incident Lead</div><div class="notify-role">Owns severity, coordination, and closure</div></div><div class="notify-card"><div class="notify-name">Cloud / Platform Owner</div><div class="notify-role">Approves production-impacting actions</div></div><div class="notify-card"><div class="notify-name">Business Owner</div><div class="notify-role">Confirms service and data impact</div></div><div class="notify-card"><div class="notify-name">GRC / Legal / Privacy</div><div class="notify-role">Engage if data, regulatory, or notification risk exists</div></div></div></div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 12</div><div class="pb-section-title">Closure Criteria</div><ul class="pb-bullet">
+      <li>Root cause and affected resources are documented.</li>
+      <li>Containment, recovery, and validation actions are complete or tracked as accepted risk.</li>
+      <li>Evidence package is attached to the incident record.</li>
+      <li>Preventive controls or remediation actions are assigned with owners and due dates.</li>
+    </ul></div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 13</div><div class="pb-section-title">Evidence to Capture</div><div class="evidence-grid"><div class="evidence-item">Alert and detection source</div><div class="evidence-item">Analyst timeline</div><div class="evidence-item">Affected resources and principals</div><div class="evidence-item">Before/after configuration state</div><div class="evidence-item">Approval record for containment</div><div class="evidence-item">Validation that risk was removed or accepted</div></div></div>
+
+  <div class="pb-section"><div class="pb-section-num">Section 14</div><div class="pb-section-title">Post-Incident Actions</div><ul class="pb-bullet">
+      <li>Update cloud security baselines, guardrails, and monitoring rules.</li>
+      <li>Correct IaC, policy, ownership, tagging, or review gaps.</li>
+      <li>Feed lessons learned into awareness, engineering backlog, and governance registers.</li>
+      <li>Review whether related runbooks or work instructions require updates.</li>
+    </ul></div>
 
   <div class="kb-footer"><span><span class="live-dot"></span>Last Updated · 25 May 2026 · Paulo Ferreira</span><span>Cloud Security Operations</span></div>
 </div>
-<script src="download-utils.js"></script>
-<script src="lang-switcher.js"></script>
 </body>
 </html>
