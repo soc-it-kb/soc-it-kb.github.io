@@ -14,6 +14,7 @@
   .badge-identity { background:#E6F1FB; color:#185FA5; }
   .badge-network  { background:#EDF6ED; color:#2D5A2D; }
   .badge-endpoint { background:#FEF0E6; color:#8B4A0E; }
+  .badge-cloud    { background:#E8F0FA; color:#1A4A7A; }
   .kb-entry-list { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; overflow:hidden; }
   .kb-entry { display:flex; align-items:center; padding:0.8rem 1.1rem; border-bottom:0.5px solid #f0f0ec; text-decoration:none; color:inherit; transition:background 0.1s; gap:12px; }
   .kb-entry:last-child { border-bottom:none; }
@@ -23,6 +24,7 @@
   .code-identity { background:#E6F1FB; color:#185FA5; }
   .code-network  { background:#EDF6ED; color:#2D5A2D; }
   .code-endpoint { background:#FEF0E6; color:#8B4A0E; }
+  .code-cloud    { background:#E8F0FA; color:#1A4A7A; }
   .code-critical { background:#FAECE7; color:#993C1D; }
   .kb-entry-name { font-size:14px; color:#1a1a1a; flex:1; line-height:1.4; }
   .kb-entry-meta { display:flex; align-items:center; gap:10px; flex-shrink:0; }
@@ -73,11 +75,12 @@
 
   <!-- Stats -->
   <div class="stats-row">
-    <div class="stat-card"><div class="stat-num">25</div><div class="stat-label">Total playbooks</div></div>
+    <div class="stat-card"><div class="stat-num">29</div><div class="stat-label">Total playbooks</div></div>
     <div class="stat-card"><div class="stat-num" style="color:#0F6E56;">7</div><div class="stat-label">Email threats</div></div>
     <div class="stat-card"><div class="stat-num" style="color:#185FA5;">7</div><div class="stat-label">Identity threats</div></div>
     <div class="stat-card"><div class="stat-num" style="color:#2D5A2D;">5</div><div class="stat-label">Network threats</div></div>
     <div class="stat-card"><div class="stat-num" style="color:#8B4A0E;">5</div><div class="stat-label">Endpoint threats</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#1A4A7A;">4</div><div class="stat-label">Cloud threats</div></div>
   </div>
 
   <div class="kb-how-box">
@@ -252,6 +255,38 @@
           <span class="kb-entry-code code-endpoint">EP-INV-WIN-01</span>
           <span class="kb-entry-name">Windows Endpoint Investigation</span>
           <span class="kb-entry-meta"><span class="kb-entry-date">27 Apr 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLOUD -->
+  <div class="kb-section">
+    <div class="kb-section-title">Cloud threat playbooks</div>
+    <div class="kb-category">
+      <div class="kb-category-header">
+        <div class="kb-category-title">☁️ Cloud threats <span class="kb-category-badge badge-cloud">4 playbooks</span></div>
+      </div>
+      <div class="kb-entry-list">
+        <a class="kb-entry" href="cl-pb-01.html">
+          <span class="kb-entry-code code-cloud">CL-PB-01</span>
+          <span class="kb-entry-name">Cloud Control Plane / Tenant Compromise</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">25 May 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="cl-pb-02.html">
+          <span class="kb-entry-code code-cloud">CL-PB-02</span>
+          <span class="kb-entry-name">Public Exposure / Cloud Misconfiguration</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">25 May 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="cl-pb-03.html">
+          <span class="kb-entry-code code-cloud">CL-PB-03</span>
+          <span class="kb-entry-name">Cloud Workload Compromise</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">25 May 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
+        </a>
+        <a class="kb-entry" href="cl-pb-04.html">
+          <span class="kb-entry-code code-cloud">CL-PB-04</span>
+          <span class="kb-entry-name">Cloud Data Exposure / Storage Incident</span>
+          <span class="kb-entry-meta"><span class="kb-entry-date">25 May 2026</span><span class="kb-entry-author">Paulo Ferreira</span><span class="kb-entry-arrow">›</span></span>
         </a>
       </div>
     </div>
