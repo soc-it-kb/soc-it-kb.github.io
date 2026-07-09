@@ -5,97 +5,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CL-WI-03: Disable Risky Cloud Principal — Cyber Security Knowledge Base</title>
 <link rel="stylesheet" href="shared.css">
+<style>
+  :root { --wi:#1A4A7A; --wi-light:#E8F0FA; --wi-border:#B9D1EA; --wi-dark:#0F2E4D; }
+  .wi-meta-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:0.9rem 1.25rem;margin-bottom:1.5rem}.wi-meta-item{display:flex;align-items:center;gap:6px;font-size:13px;color:#666}.wi-meta-item strong{color:#1a1a1a}.wi-meta-sep{color:#e0e0dc}.wi-badge-action{font-size:11px;font-weight:600;padding:2px 9px;border-radius:10px;background:#FAECE7;color:#993C1D;border:0.5px solid #F5C0B0}
+  .wi-section{background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:10px}.wi-section-num{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--wi);margin-bottom:4px}.wi-section-title{font-size:16px;font-weight:600;color:#1a1a1a;margin-bottom:0.9rem;padding-bottom:8px;border-bottom:0.5px solid #f0f0ec}.wi-section p{font-size:14px;color:#444;line-height:1.7;margin-bottom:8px}.wi-section p:last-child{margin-bottom:0}
+  .tag-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}.tag{font-size:12px;background:var(--wi-light);color:var(--wi);border:0.5px solid var(--wi-border);padding:3px 10px;border-radius:6px;font-weight:500}
+  .wi-roles{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}.wi-roles th{background:var(--wi-light);color:var(--wi);font-weight:600;padding:8px 12px;text-align:left;border:0.5px solid var(--wi-border);font-size:12px;text-transform:uppercase;letter-spacing:0.05em}.wi-roles td{padding:8px 12px;border:0.5px solid #e8e8e4;color:#444}.wi-roles tr:nth-child(even) td{background:#fafafa}.wi-roles td:first-child{font-weight:600;color:var(--wi-dark);white-space:nowrap}
+  .wi-phase{margin-bottom:1.5rem}.wi-phase:last-child{margin-bottom:0}.wi-phase-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid #e0e0dc}.wi-phase-num{width:26px;height:26px;border-radius:50%;background:var(--wi);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}.wi-phase-title{font-size:14px;font-weight:600;color:var(--wi-dark)}
+  .wi-steps{display:flex;flex-direction:column;gap:6px}.wi-step{display:flex;align-items:flex-start;gap:12px;background:#f9f9f7;border:0.5px solid #e8e8e4;border-radius:8px;padding:0.75rem 1rem}.wi-step-num{width:22px;height:22px;border-radius:50%;background:var(--wi-light);color:var(--wi);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}.wi-step-body{flex:1}.wi-step-text{font-size:14px;color:#1a1a1a;line-height:1.5}.wi-step-note{font-size:12px;color:#888;margin-top:4px;line-height:1.4;font-style:italic}
+  .precheck-box{background:#FAECE7;border:0.5px solid #F5C0B0;border-radius:10px;padding:1rem 1.25rem;margin-top:4px}.precheck-box-title{font-size:12px;font-weight:600;color:#993C1D;margin-bottom:8px}.precheck-list{display:flex;flex-direction:column;gap:5px}.precheck-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#7a2e10;line-height:1.5}.precheck-item::before{content:'🚫';font-size:13px;flex-shrink:0}
+  .callout-info{background:var(--wi-light);border:0.5px solid var(--wi-border);border-left:3px solid var(--wi);border-radius:8px;padding:0.9rem 1rem;margin-top:10px}.callout-info p{font-size:13px;color:var(--wi-dark);margin:0;line-height:1.5}.outcome-box{background:var(--wi-light);border:0.5px solid var(--wi-border);border-radius:10px;padding:1rem 1.25rem}.outcome-box p{font-size:13px;color:var(--wi);line-height:1.6;margin-bottom:0}
+  .esc-list,.mistakes-list{display:flex;flex-direction:column;gap:5px;margin-top:4px}.esc-item{display:flex;align-items:flex-start;gap:10px;background:#FAECE7;border:0.5px solid #F5C0B0;border-radius:8px;padding:0.6rem 0.9rem;font-size:13px;color:#7a2e10}.esc-item::before{content:'⚠️';font-size:13px;flex-shrink:0}.mistake-item{display:flex;align-items:flex-start;gap:10px;background:#FAEEDA;border:0.5px solid #FAC775;border-radius:8px;padding:0.6rem 0.9rem;font-size:13px;color:#6b3f0a}.mistake-item::before{content:'⚠️';font-size:13px;flex-shrink:0}
+  .rel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}.rel-box{background:#f9f9f7;border:0.5px solid #e8e8e4;border-radius:8px;padding:0.9rem 1rem}.rel-box h4{font-size:12px;font-weight:600;color:var(--wi);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px}.rel-link{display:flex;align-items:center;gap:8px;text-decoration:none;color:#444;font-size:13px;padding:4px 0}.rel-link:hover{color:var(--wi)}.rel-link::before{content:'›';color:var(--wi);font-weight:700}.rel-code{font-family:'SF Mono','Fira Code',monospace;font-size:11px;font-weight:600;background:var(--wi-light);color:var(--wi);border:0.5px solid var(--wi-border);padding:1px 6px;border-radius:4px;margin-right:4px}
+  .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:#aaa;margin-bottom:1rem}.breadcrumb a{color:var(--wi);text-decoration:none}.breadcrumb span{color:#ccc}.wi-nav{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:1rem}.wi-nav a{font-size:13px;color:var(--wi);text-decoration:none}
+  @media(max-width:640px){.rel-grid{grid-template-columns:1fr}.wi-roles td:first-child{white-space:normal}}
+</style>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="referrer" content="no-referrer">
-
-<style>
-  :root { --cloud:#1A4A7A; --cloud-light:#E8F0FA; --cloud-border:#B9D1EA; --cloud-dark:#0F2E4D; --ok:#0F6E56; --warn:#854F0B; --crit:#993C1D; }
-  .cloud-hero { background:linear-gradient(135deg,#061B2F 0%,#0F2E4D 42%,#1A4A7A 100%); border-radius:16px; padding:1.75rem 2rem; margin-bottom:1.5rem; color:#fff; }
-  .cloud-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.58;margin-bottom:8px;}
-  .cloud-hero h1{font-size:24px;font-weight:700;margin-bottom:8px;line-height:1.25;}
-  .cloud-hero p{font-size:14px;opacity:0.82;line-height:1.65;margin-bottom:10px;max-width:760px;}
-  .cloud-pills{display:flex;flex-wrap:wrap;gap:6px;}
-  .cloud-pill{background:rgba(255,255,255,0.14);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
-  .cloud-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:1.5rem;}
-  .cloud-stat{background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:1rem;text-align:center;}
-  .cloud-stat-num{font-size:26px;font-weight:700;color:var(--cloud);line-height:1;margin-bottom:4px;}
-  .cloud-stat-label{font-size:12px;color:#888;}
-  .cloud-intro,.cloud-box{background:#fff;border:0.5px solid #e0e0dc;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;}
-  .cloud-intro p,.cloud-box p{font-size:14px;color:#444;line-height:1.75;margin-bottom:10px;}
-  .cloud-intro p:last-child,.cloud-box p:last-child{margin-bottom:0;}
-  .domain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:12px;margin-bottom:1.5rem;}
-  .domain-card{background:#fff;border:0.5px solid var(--cloud-border);border-radius:14px;padding:1.25rem;text-decoration:none;color:inherit;display:block;transition:transform .15s,box-shadow .15s;}
-  .domain-card:hover{transform:translateY(-2px);box-shadow:0 4px 18px rgba(26,74,122,0.10);}
-  .domain-card-icon{font-size:26px;margin-bottom:8px;}
-  .domain-card-code{font-family:'SF Mono','Fira Code',monospace;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--cloud-light);color:var(--cloud);display:inline-block;margin-bottom:8px;}
-  .domain-card-title{font-size:15px;font-weight:700;color:var(--cloud-dark);margin-bottom:5px;}
-  .domain-card-desc{font-size:13px;line-height:1.55;color:#555;margin-bottom:8px;}
-  .domain-card-footer{font-size:12px;font-weight:600;color:var(--cloud);display:flex;justify-content:space-between;align-items:center;}
-  .doc-table{width:100%;border-collapse:collapse;font-size:13px;}
-  .doc-table th{background:#F0F2F5;color:#4A5568;font-weight:600;padding:8px 12px;text-align:left;border:0.5px solid #CBD5E0;font-size:12px;text-transform:uppercase;letter-spacing:.05em;}
-  .doc-table td{padding:8px 12px;border:0.5px solid #e8e8e4;color:#444;vertical-align:top;}
-  .doc-table tr:nth-child(even) td{background:#fafafa;}
-  .doc-id{font-family:'SF Mono','Fira Code',monospace;font-size:11px;font-weight:700;background:var(--cloud-light);color:var(--cloud);padding:2px 7px;border-radius:6px;white-space:nowrap;}
-  .badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:8px;white-space:nowrap;display:inline-block;}
-  .b-critical{background:#FAECE7;color:#993C1D}.b-high{background:#FEF0E6;color:#8B4A0E}.b-action{background:#FAEEDA;color:#854F0B}.b-operational{background:#E1F5EE;color:#0F6E56}.b-readonly{background:#E6F1FB;color:#185FA5}
-  .process-list{display:flex;flex-direction:column;gap:8px;}
-  .proc-step{display:flex;gap:12px;align-items:flex-start;background:#fff;border:0.5px solid #e0e0dc;border-radius:10px;padding:.9rem 1rem;}
-  .proc-num{width:26px;height:26px;border-radius:50%;background:var(--cloud);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .proc-body h4{font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:3px;}
-  .proc-body p{font-size:13px;color:#555;line-height:1.55;margin:0;}
-  .callout{background:#FAEEDA;border:0.5px solid #FAC775;border-left:4px solid #FAC775;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:13px;color:#6b3f0a;line-height:1.6;}
-  .breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:#aaa;margin-bottom:1rem;}.breadcrumb a{color:var(--cloud);text-decoration:none}.breadcrumb span{color:#ccc;}
-  @media(max-width:640px){.domain-grid{grid-template-columns:1fr}.cloud-hero{padding:1.4rem}.proc-step{flex-direction:column}}
-</style>
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
 </head>
 <body>
 <nav class="kb-topnav">
-  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
-  <a href="index.html">Home</a>
-  <a href="runbooks.html">Runbooks</a>
-  <a href="playbooks.html">Playbooks</a>
-  <a href="sops.html">SOPs</a>
-  <a href="work-instructions.html">Work Instructions</a>
-  <a href="asm.html">ASM</a>
-  <a href="cloud.html" class="active">Cloud Ops</a>
-  <a href="tools-references.html">Tools &amp; References</a>
-  <a href="governance.html">Governance</a>
-  <a href="grc.html">GRC</a>
-  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a><a href="index.html">Home</a><a href="runbooks.html">Runbooks</a><a href="playbooks.html">Playbooks</a><a href="sops.html">SOPs</a><a href="work-instructions.html" class="active">Work Instructions</a><a href="asm.html">ASM</a><a href="cloud.html">Cloud Ops</a><a href="tools-references.html">Tools &amp; References</a><a href="governance.html">Governance</a><a href="grc.html">GRC</a><div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
 </nav>
 <div class="page-wrapper">
-  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span>Disable Risky Cloud Principal</span></div>
-  <div class="cloud-hero">
-    <div class="cloud-hero-eyebrow">Work Instruction</div>
-    <h1>Disable Risky Cloud Principal</h1>
-    <p>Controlled process for disabling or restricting a risky human, service, managed, or third-party cloud principal.</p>
-    <div class="cloud-pills"><span class="cloud-pill">Work Instruction</span><span class="cloud-pill">Requires approval</span><span class="cloud-pill">Identity</span><span class="cloud-pill">Containment</span></div>
-  </div>
-  <div class="callout"><strong>Operational boundary:</strong> This document is tool-agnostic. Use platform-specific consoles or automation only where authorised and record every action in the incident or change ticket.</div>
-  <div class="cloud-box">
-    <table class="doc-table"><tbody>
-      <tr><th>Document ID</th><td><span class="doc-id">CL-WI-03</span></td><th>Status</th><td><span class="badge b-action">Published</span></td></tr>
-      <tr><th>Owner</th><td>Cyber Security Operations</td><th>Review</th><td>Annual or post-incident</td></tr>
-      <tr><th>NIST CSF</th><td>Detect · Respond · Recover · Govern</td><th>Related</th><td><a href="cloud.html">CloudOps</a> · <a href="asm-cloud-baselines.html">Cloud Baselines</a></td></tr>
-    </tbody></table>
-  </div>
-  <div class="kb-section"><div class="kb-section-title">Procedure</div><div class="process-list">
-    <div class="proc-step"><div class="proc-num">1</div><div class="proc-body"><h4>Classify principal</h4><p>Determine whether the principal is human, admin, service principal, managed identity, break-glass, third-party, or automation identity.</p></div></div>
-    <div class="proc-step"><div class="proc-num">2</div><div class="proc-body"><h4>Assess blast radius</h4><p>Review assignments, group membership, app permissions, resource ownership, workload dependency, and recent activity.</p></div></div>
-    <div class="proc-step"><div class="proc-num">3</div><div class="proc-body"><h4>Preserve evidence</h4><p>Export assignments, credentials, sign-ins, API activity, app consent, owners, and last-used metadata.</p></div></div>
-    <div class="proc-step"><div class="proc-num">4</div><div class="proc-body"><h4>Apply least disruptive restriction</h4><p>Block sign-in, revoke sessions, remove specific role, disable credential, restrict conditional access, or isolate dependent workload based on impact.</p></div></div>
-    <div class="proc-step"><div class="proc-num">5</div><div class="proc-body"><h4>Monitor impact</h4><p>Watch failed authentication, service health, alert recurrence, and attempts to create replacement credentials or identities.</p></div></div>
-    <div class="proc-step"><div class="proc-num">6</div><div class="proc-body"><h4>Document and hand over</h4><p>Record approval, action, timestamp, validation, rollback option, and owner for remediation.</p></div></div>
-  </div></div>
-  <div class="kb-section"><div class="kb-section-title">Escalation and evidence</div><div class="cloud-box">
-    <p>Escalate immediately if privileged access abuse, broad data access, logging tampering, unauthorised federation, production outage, or regulatory notification risk is suspected.</p>
-    <p>Minimum evidence includes the alert, analyst timeline, affected resources, affected principals, approval record for containment, before/after configuration state, and validation that the risk has been removed or accepted.</p>
-  </div></div>
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="work-instructions.html">Work Instructions</a><span>›</span><span>CL-WI-03</span></div>
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#0F2E4D 0%,#1A4A7A 100%);"><span class="kb-page-hero-icon">🔧</span><h1>CL-WI-03: Disable Risky Cloud Principal</h1><p>Controlled process for disabling or restricting a risky human, service, managed, automation, or third-party cloud principal with minimum disruption and full evidence traceability.</p><div class="kb-page-hero-meta"><span class="kb-meta-pill">☁️ CloudOps</span><span class="kb-meta-pill">Tier 2 / CloudOps</span><span class="kb-meta-pill">Requires approval</span><span class="kb-meta-pill">Identity containment</span></div></div>
+  <div style="display:flex;align-items:flex-start;gap:10px;background:#E6F4F4;border:0.5px solid #8ECECE;border-left:3px solid #0E5C5C;border-radius:8px;padding:0.7rem 1rem;margin-bottom:1.25rem;font-size:13px;color:#073B3B;line-height:1.55;"><span style="flex-shrink:0;">🛡️</span><span>This document operates under <a href="grc-irp-01.html" style="color:#0E5C5C;font-weight:600;text-decoration:none;">GRC-IRP-01: Cyber Security Incident Response Plan</a> — see for approval, evidence, and escalation requirements.</span></div>
+  <div class="wi-meta-bar"><div class="wi-meta-item">🔧 <strong>WI ID:</strong> CL-WI-03</div><div class="wi-meta-sep">·</div><div class="wi-meta-item">👤 <strong>Author:</strong> Paulo Ferreira</div><div class="wi-meta-sep">·</div><div class="wi-meta-item">📅 <strong>Published:</strong> 25 May 2026</div><div class="wi-meta-sep">·</div><div class="wi-meta-item"><span class="wi-badge-action">✅ Requires approval</span></div><div class="wi-meta-sep">·</div><div class="wi-meta-item"><span class="badge badge-active">Active</span></div></div>
 
-  <div class="kb-footer"><span><span class="live-dot"></span>Last Updated · 25 May 2026 · Paulo Ferreira</span><span>Cloud Security Operations</span></div>
+  <div class="wi-section"><div class="wi-section-num">Section 1</div><div class="wi-section-title">Purpose</div><p>Define how to restrict or disable a risky cloud principal while preserving evidence, assessing dependency impact, and applying the least disruptive containment action that removes immediate risk.</p><div class="callout-info"><p>📌 <strong>Authority boundary:</strong> Disabling a principal can break applications, automation, access paths, or emergency procedures. Approval and blast-radius assessment are mandatory unless emergency containment is declared.</p></div></div>
+  <div class="wi-section"><div class="wi-section-num">Section 2</div><div class="wi-section-title">When to Use</div><div class="tag-grid"><span class="tag">CL-PB-01 Control Plane Compromise</span><span class="tag">CL-PB-03 Workload Compromise</span><span class="tag">CL-RB-02 Identity Containment</span><span class="tag">Privileged access abuse</span><span class="tag">Risky service principal</span></div></div>
+  <div class="wi-section"><div class="wi-section-num">Section 3</div><div class="wi-section-title">Who Performs This</div><table class="wi-roles"><thead><tr><th>Role</th><th>Responsibility</th></tr></thead><tbody><tr><td>Tier-2 Analyst</td><td>Validate risk, preserve evidence, and recommend containment option.</td></tr><tr><td>CloudOps</td><td>Execute approved restrictions and monitor service impact.</td></tr><tr><td>Application / Service Owner</td><td>Confirm dependencies and business impact.</td></tr><tr><td>Incident Commander</td><td>Approve high-impact disablement or emergency containment.</td></tr></tbody></table></div>
+  <div class="wi-section"><div class="wi-section-num">Section 4</div><div class="wi-section-title">Inputs Required</div><div class="tag-grid"><span class="tag">🎫 Incident reference</span><span class="tag">👤 Principal ID / app ID</span><span class="tag">🔐 Roles and permissions</span><span class="tag">☁️ Tenant / resource scope</span><span class="tag">📌 Approval record</span></div></div>
+  <div class="wi-section"><div class="wi-section-num">Section 5</div><div class="wi-section-title">Pre-Checks &amp; Safety Notes</div><div class="precheck-box"><div class="precheck-box-title">Mandatory checks before containment</div><div class="precheck-list"><div class="precheck-item">Do not disable break-glass or critical automation identities without Incident Commander approval.</div><div class="precheck-item">Preserve assignments, credentials, sign-ins, API activity, app consent, owners, and last-used metadata.</div><div class="precheck-item">Prefer least disruptive restriction first where it removes immediate risk.</div></div></div></div>
+  <div class="wi-section"><div class="wi-section-num">Section 6</div><div class="wi-section-title">Step-by-Step Actions</div>
+    <div class="wi-phase"><div class="wi-phase-header"><div class="wi-phase-num">1</div><div class="wi-phase-title">Classify Principal and Risk</div></div><div class="wi-steps"><div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Determine whether the principal is human, admin, service principal, managed identity, break-glass, third-party, or automation identity.</div></div></div><div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">Review assignments, group membership, app permissions, resource ownership, workload dependency, and recent activity.</div></div></div></div></div>
+    <div class="wi-phase"><div class="wi-phase-header"><div class="wi-phase-num">2</div><div class="wi-phase-title">Preserve Evidence</div></div><div class="wi-steps"><div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Export assignments, credentials, sign-ins, API activity, app consent, owners, and last-used metadata.</div></div></div><div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">Record the approved containment path, approval authority, and rollback option.</div></div></div></div></div>
+    <div class="wi-phase"><div class="wi-phase-header"><div class="wi-phase-num">3</div><div class="wi-phase-title">Apply Least Disruptive Restriction</div></div><div class="wi-steps"><div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Block sign-in, revoke sessions, remove a specific role, disable a credential, restrict conditional access, or isolate a dependent workload based on impact.</div></div></div><div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">If malicious activity is active or privileged, execute emergency containment according to the incident command decision.</div><div class="wi-step-note">Document why normal approval sequence was compressed.</div></div></div></div></div>
+    <div class="wi-phase"><div class="wi-phase-header"><div class="wi-phase-num">4</div><div class="wi-phase-title">Monitor and Hand Over</div></div><div class="wi-steps"><div class="wi-step"><div class="wi-step-num">1</div><div class="wi-step-body"><div class="wi-step-text">Monitor failed authentication, service health, alert recurrence, and attempts to create replacement credentials or identities.</div></div></div><div class="wi-step"><div class="wi-step-num">2</div><div class="wi-step-body"><div class="wi-step-text">Record action, timestamp, validation, rollback option, and owner for remediation.</div></div></div></div></div>
+  </div>
+  <div class="wi-section"><div class="wi-section-num">Section 7</div><div class="wi-section-title">Expected Outcome</div><div class="outcome-box"><p>✅ Risky principal restricted or disabled<br>✅ Evidence preserved before containment<br>✅ Business impact monitored<br>✅ Remediation owner and rollback path documented</p></div></div>
+  <div class="wi-section"><div class="wi-section-num">Section 8</div><div class="wi-section-title">Common Mistakes to Avoid</div><div class="mistakes-list"><div class="mistake-item">Disabling a service principal without checking production dependencies.</div><div class="mistake-item">Removing roles before exporting evidence of assignments and activity.</div><div class="mistake-item">Applying broad tenant-wide restrictions when a narrower control removes the risk.</div></div></div>
+  <div class="wi-section"><div class="wi-section-num">Section 9</div><div class="wi-section-title">Escalation Conditions</div><div class="esc-list"><div class="esc-item">Principal has privileged, cross-tenant, or broad data access.</div><div class="esc-item">Break-glass, automation, or production owner identity is involved.</div><div class="esc-item">Attacker is actively creating credentials, roles, or persistence.</div></div></div>
+  <div class="wi-section"><div class="wi-section-num">Section 10</div><div class="wi-section-title">Related Playbooks &amp; Runbooks</div><div class="rel-grid"><div class="rel-box"><h4>Playbooks</h4><a class="rel-link" href="cl-pb-01.html"><span class="rel-code">CL-PB-01</span>Control Plane Compromise</a><a class="rel-link" href="cl-pb-03.html"><span class="rel-code">CL-PB-03</span>Workload Compromise</a></div><div class="rel-box"><h4>Runbooks</h4><a class="rel-link" href="cl-rb-02.html"><span class="rel-code">CL-RB-02</span>Contain Identity and Access Abuse</a><a class="rel-link" href="cl-wi-02.html"><span class="rel-code">CL-WI-02</span>Rotate Keys and Secrets</a></div></div></div>
+  <div class="wi-nav"><a href="cl-wi-02.html">← CL-WI-02: Rotate Cloud Access Keys and Secrets</a><a href="work-instructions.html">← Back to Work Instructions</a><a href="cloud.html">Cloud Security Operations →</a></div>
+  <div class="kb-footer"><span><span class="live-dot"></span>CL-WI-03 · Published 25 May 2026 · Paulo Ferreira</span><span><a href="work-instructions.html" style="color:var(--wi);text-decoration:none;">← Back to Work Instructions</a></span></div>
 </div>
-<script src="download-utils.js"></script>
-<script src="lang-switcher.js"></script>
 </body>
 </html>
