@@ -48,6 +48,11 @@
   .frm-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
   .frm-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
   @media print { .kb-topnav,.breadcrumb,.frm-nav,.kb-footer{display:none;} .frm-input{border:0.5pt solid #ccc;} }
+
+  .download-box { display:flex; align-items:center; gap:12px; flex-wrap:wrap; background:#E8F0FA; border:0.5px solid #B9D1EA; border-left:4px solid #1A4A7A; border-radius:10px; padding:0.9rem 1.1rem; margin:0 0 1.25rem 0; font-size:13px; color:#0F2E4D; }
+  .download-box strong { color:#0F2E4D; }
+  .download-box span { color:#444; flex:1; }
+  .download-box a { color:#1A4A7A; font-weight:700; text-decoration:none; background:#fff; border:0.5px solid #B9D1EA; border-radius:6px; padding:5px 10px; }
 </style>
 </head>
 <body>
@@ -67,6 +72,12 @@
   <div class="kb-topnav-search"><a href="search.html">Search</a></div>
 </nav>
 <div class="page-wrapper">
+  <div class="download-box">
+    <strong>Excel version available.</strong>
+    <span>Use the spreadsheet version when collecting responses, evidence, scores, or approvals.</span>
+    <a href="assets/downloads/grc/grc-frm-10.xlsx" download>Download Excel version</a>
+  </div>
+
   <div class="breadcrumb">
     <a href="index.html">Home</a><span>›</span>
     <a href="grc.html">GRC Hub</a><span>›</span>
