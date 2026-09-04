@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber &amp; IT Risk Appetite Statement — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; --risk:#993C1D; --risk-light:#FAECE7; --risk-border:#F5C0B0; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.82; line-height:1.6; margin-bottom:10px; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.8rem 1.2rem; margin-bottom:1.25rem; }
+  .meta-item { font-size:13px; color:#666; display:flex; align-items:center; gap:5px; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .risk-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .risk-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--grc); margin-bottom:4px; }
+  .risk-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .risk-section p { font-size:14px; color:#444; line-height:1.72; margin-bottom:8px; }
+  .risk-section p:last-child { margin-bottom:0; }
+  .risk-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .risk-table th { background:#f5f5f3; padding:8px 10px; text-align:left; font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#777; border:0.5px solid #e0e0dc; }
+  .risk-table td { padding:8px 10px; border:0.5px solid #ecece8; color:#333; vertical-align:top; line-height:1.45; }
+  .risk-table tr:nth-child(even) td { background:#fafafa; }
+  .card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; }
+  .risk-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.1rem; }
+  .risk-card h4 { font-size:13px; font-weight:700; color:var(--grc-dark); margin-bottom:5px; }
+  .risk-card p { font-size:12px; color:#555; line-height:1.5; margin:0; }
+  .callout { background:var(--risk-light); border:0.5px solid var(--risk-border); border-left:3px solid var(--risk-border); border-radius:10px; padding:1rem 1.2rem; margin-bottom:1rem; }
+  .callout p { font-size:13px; color:#6b2e12; line-height:1.6; margin:0; }
+  .step-list { display:flex; flex-direction:column; gap:7px; }
+  .step { display:flex; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .step-num { width:24px; height:24px; border-radius:50%; background:var(--grc); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-text { font-size:13px; color:#333; line-height:1.5; }
+  .doc-list { display:flex; flex-direction:column; gap:6px; }
+  .doc-row { display:flex; align-items:center; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; text-decoration:none; color:inherit; }
+  .doc-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; background:var(--grc-light); color:var(--grc); padding:2px 7px; border-radius:6px; white-space:nowrap; }
+  .doc-name { font-size:13px; color:#333; flex:1; }
+  .grc-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .grc-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+  @media(max-width:640px){ .step{flex-direction:row;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="cloud.html">Cloud Ops</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="grc.html">GRC Hub</a><span>›</span><a href="grc-risk.html">Risk</a><span>›</span><span>GRC-RISK-APP-01</span></div>
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · Risk · Appetite</div>
+    <h1>Cyber &amp; IT Risk Appetite Statement</h1>
+    <p>Provides a generic cyber and IT risk appetite model that can be adapted by organisations to define acceptable, tolerable, and unacceptable levels of risk.</p>
+    <div class="grc-page-hero-pills"><span class="grc-page-hero-pill">Risk appetite</span><span class="grc-page-hero-pill">Tolerance</span><span class="grc-page-hero-pill">Escalation</span><span class="grc-page-hero-pill">Acceptance</span></div>
+  </div>
+  <div class="meta-bar">
+    <span class="meta-item"><strong>Document ID:</strong> GRC-RISK-APP-01</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Type:</strong> Guidance / Template</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Status:</strong> <span class="badge-approved">Approved</span></span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Version:</strong> v1.0</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Owner:</strong> GRC Owner</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Last updated:</strong> 3 Sep 2026</span>
+  </div>
+  <div class="risk-section"><div class="risk-section-num">Purpose</div><div class="risk-section-title">How to use this statement</div><p>This page provides a generic risk appetite model for cyber and IT risk. It should be adapted to the organisation’s sector, obligations, funding model, regulatory environment, operating maturity, and critical service profile.</p><div class="callout"><p><strong>Important:</strong> risk appetite is not permission to ignore risk. It defines the level of residual risk leadership is willing to operate within, and the thresholds where escalation, treatment, or formal acceptance is required.</p></div></div>
+<div class="risk-section"><div class="risk-section-num">Default position</div><div class="risk-section-title">Overall cyber and IT risk appetite</div><div class="kb-table-wrap"><table class="risk-table"><thead><tr><th>Risk area</th><th>Default appetite</th><th>Interpretation</th></tr></thead><tbody><tr><td>Critical services and resilience</td><td>Low</td><td>Critical services should not depend on untested recovery, unsupported infrastructure, or single points of failure without documented acceptance.</td></tr><tr><td>Privileged access and identity</td><td>Low</td><td>Standing privilege, weak authentication, orphaned accounts, and unmanaged service accounts should be minimised and actively reviewed.</td></tr><tr><td>Sensitive and regulated data</td><td>Low</td><td>Exposure of sensitive data should be prevented through classification, access control, encryption, monitoring, and supplier assurance.</td></tr><tr><td>Internet-facing systems</td><td>Low to Moderate</td><td>Exposure is acceptable only when systems are known, owned, patched, monitored, and protected by appropriate controls.</td></tr><tr><td>Standard operational technology risk</td><td>Moderate</td><td>Some residual risk may be tolerated where impact is limited, controls are operating, and remediation is tracked.</td></tr><tr><td>Innovation and experimentation</td><td>Moderate</td><td>Controlled experimentation is acceptable when data, identity, logging, and segregation controls are in place.</td></tr></tbody></table></div></div>
+<div class="risk-section"><div class="risk-section-num">Tolerance thresholds</div><div class="risk-section-title">Suggested escalation bands</div><div class="kb-table-wrap"><table class="risk-table"><thead><tr><th>Residual rating</th><th>Tolerance position</th><th>Required action</th></tr></thead><tbody><tr><td>Critical</td><td>Outside appetite</td><td>Immediate executive escalation. Formal treatment plan or explicit time-bound acceptance required.</td></tr><tr><td>High</td><td>Usually outside appetite</td><td>Risk owner review required. Treatment plan, compensating controls, or acceptance within defined governance cadence.</td></tr><tr><td>Medium</td><td>Within managed tolerance</td><td>Track in risk register. Assign owner, review date, and treatment decision where appropriate.</td></tr><tr><td>Low</td><td>Normally acceptable</td><td>Monitor through normal control operation and periodic review.</td></tr></tbody></table></div></div>
+<div class="risk-section"><div class="risk-section-num">Mandatory escalation triggers</div><div class="risk-section-title">Risks that should not remain local</div><div class="kb-table-wrap"><table class="risk-table"><thead><tr><th>Trigger</th><th>Escalation expectation</th></tr></thead><tbody><tr><td>Tier-0 / privileged access weakness</td><td>Escalate to senior technology/security governance regardless of initial score.</td></tr><tr><td>Known exploited vulnerability on critical asset</td><td>Escalate if remediation exceeds defined SLA or compensating controls are weak.</td></tr><tr><td>Sensitive data exposure risk</td><td>Escalate where regulated, confidential, or high-volume data may be exposed.</td></tr><tr><td>Repeated policy or baseline exceptions</td><td>Escalate as a systemic control weakness, not isolated exceptions.</td></tr><tr><td>Supplier risk affecting critical service</td><td>Escalate when supplier weakness could disrupt critical operations or expose sensitive data.</td></tr><tr><td>BCP/DR gap for critical service</td><td>Escalate where recovery capability has not been tested or does not meet business tolerance.</td></tr></tbody></table></div></div>
+<div class="risk-section"><div class="risk-section-num">Acceptance rules</div><div class="risk-section-title">Minimum rules for accepted risk</div><div class="card-grid"><div class="risk-card"><h4>Named accountable owner</h4><p>Accepted risk must be owned by someone with business or service accountability.</p></div><div class="risk-card"><h4>Time-bound acceptance</h4><p>Acceptance must expire and be reviewed; indefinite acceptance should not be permitted.</p></div><div class="risk-card"><h4>Compensating controls</h4><p>Document what reduces likelihood, impact, or detection/response time while the risk remains open.</p></div><div class="risk-card"><h4>Evidence and rationale</h4><p>Record the reason for acceptance, options considered, and why treatment is not currently pursued.</p></div></div></div>
+<div class="risk-section"><div class="risk-section-num">Review cadence</div><div class="risk-section-title">How appetite should be maintained</div><div class="kb-table-wrap"><table class="risk-table"><thead><tr><th>Activity</th><th>Minimum frequency</th><th>Owner</th></tr></thead><tbody><tr><td>Review appetite statement</td><td>Annual or following major strategic, regulatory, threat, or operating model change.</td><td>Risk committee / executive sponsor</td></tr><tr><td>Review high and critical risks</td><td>Monthly or according to governance cadence.</td><td>GRC owner and accountable risk owners</td></tr><tr><td>Review accepted risks</td><td>Before expiry and after any relevant incident or material change.</td><td>Risk owner</td></tr><tr><td>Review tolerance breaches</td><td>At each governance forum until resolved, accepted, transferred, or avoided.</td><td>GRC owner / risk committee</td></tr></tbody></table></div></div>
+  <div class="grc-nav"><a href="grc-risk-taxonomy.html">← Previous</a><a href="grc-risk.html">← Back to Risk</a><a href="grc-wi-06.html">Next →</a></div>
+  <div class="kb-footer"><span><span class="live-dot"></span>GRC · Risk · Paulo Ferreira</span><span><a href="grc.html" style="color:var(--grc);text-decoration:none;">← Back to GRC Hub</a></span></div>
+</div>
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</body>
+</html>

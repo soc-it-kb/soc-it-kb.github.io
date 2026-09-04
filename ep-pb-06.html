@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EP-PB-06: Mimikatz / Credential Dumping Detection — Cyber Security Knowledge Base</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --ep:#8B4A0E; --ep-light:#FEF0E6; --ep-border:#F5C89A; --danger:#993C1D; --danger-light:#FAECE7; --info:#185FA5; --info-light:#E6F1FB; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--ep); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.9rem 1.25rem; margin-bottom:1.5rem; }
+  .meta-item { display:flex; align-items:center; gap:6px; font-size:13px; color:#666; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .doc-section { background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .doc-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ep); margin-bottom:4px; }
+  .doc-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .doc-section p { font-size:14px; color:#444; line-height:1.7; margin-bottom:8px; }
+  .doc-bullet { list-style:none; display:flex; flex-direction:column; gap:7px; }
+  .doc-bullet li { display:flex; align-items:flex-start; gap:10px; font-size:14px; color:#333; line-height:1.5; }
+  .doc-bullet li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--ep); flex-shrink:0; margin-top:5px; }
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .sub-box { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.9rem 1rem; }
+  .sub-box h4 { font-size:13px; font-weight:600; color:#1a1a1a; margin-bottom:8px; }
+  .warn-box { background:#FAECE7; border:0.5px solid #F5C0B0; border-radius:10px; padding:1rem 1.25rem; margin-top:4px; }
+  .warn-box p { font-size:13px; color:#993C1D; line-height:1.7; margin-bottom:0; }
+  .info-box { background:#E6F4F4; border:0.5px solid #8ECECE; border-left:3px solid #0E5C5C; border-radius:8px; padding:0.9rem 1rem; margin-bottom:1.25rem; font-size:13px; color:#073B3B; line-height:1.55; }
+  .tech-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+  .tech-tag { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--ep-light); color:var(--ep); border:0.5px solid var(--ep-border); padding:3px 10px; border-radius:6px; }
+  .invoke-row { display:flex; align-items:center; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; text-decoration:none; color:inherit; transition:border-color 0.15s; margin-bottom:6px; }
+  .invoke-row:hover { border-color:var(--ep); background:var(--ep-light); }
+  .invoke-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:600; background:var(--ep-light); color:var(--ep); padding:2px 8px; border-radius:6px; white-space:nowrap; }
+  .invoke-text { font-size:13px; color:#555; flex:1; }
+  .step { display:flex; align-items:flex-start; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; margin-bottom:6px; }
+  .step-num { width:24px; height:24px; border-radius:50%; background:var(--ep-light); color:var(--ep); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .step-text { font-size:14px; color:#1a1a1a; line-height:1.5; }
+  .step-note { font-size:12px; color:#777; margin-top:4px; line-height:1.4; font-style:italic; }
+  .evidence-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:8px; }
+  .evidence-item { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; font-size:13px; color:#444; display:flex; align-items:center; gap:8px; }
+  .evidence-item::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--ep); flex-shrink:0; }
+  .check-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .check-table th { background:#F0F2F5; color:#4A5568; font-weight:600; padding:8px 12px; text-align:left; border:0.5px solid #CBD5E0; font-size:12px; }
+  .check-table td { padding:8px 12px; border:0.5px solid #e8e8e4; color:#444; vertical-align:top; }
+  .nav-links { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .nav-links a { font-size:13px; color:var(--ep); text-decoration:none; }
+  @media(max-width:640px){ .two-col{grid-template-columns:1fr;} }
+</style>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html" class="active">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  
+  <a href="cloud.html">Cloud Ops</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="playbooks.html">Playbooks</a><span>›</span><span>EP-PB-06</span></div>
+  <div class="kb-page-hero" style="background:linear-gradient(135deg,#5C2E06 0%,#8B4A0E 100%);">
+    <span class="kb-page-hero-icon">🧠</span>
+    <h1>EP-PB-06: Mimikatz / Credential Dumping Detection</h1>
+    <p>Endpoint playbook for responding to Mimikatz or equivalent credential dumping detections, with emphasis on LSASS access validation, identity exposure assessment, lateral movement scoping, and credential recovery.</p>
+    <div class="kb-page-hero-meta"><span class="kb-meta-pill">💻 Endpoint threats</span><span class="kb-meta-pill">Credential theft</span><span class="kb-meta-pill">High / Critical severity</span><span class="kb-meta-pill">Tier 2 / 3</span></div>
+  </div>
+  <div class="info-box">🛡️ This document operates under <a href="grc-irp-01.html" style="color:#0E5C5C;font-weight:600;text-decoration:none;">GRC-IRP-01: Cyber Security Incident Response Plan</a>. Use the IRP for severity classification, evidence handling, legal coordination, communications, and executive escalation.</div>
+  <div class="meta-bar"><div class="meta-item"><strong>ID:</strong> EP-PB-06</div><div class="meta-sep">·</div><div class="meta-item"><strong>Author:</strong> Paulo Ferreira</div><div class="meta-sep">·</div><div class="meta-item"><strong>Published:</strong> 12 Jun 2026</div><div class="meta-sep">·</div><div class="meta-item"><strong>Category:</strong> Endpoint / Credential Theft</div><div class="meta-sep">·</div><div class="meta-item"><span class="badge badge-active">Active</span></div></div>
+
+  <div class="doc-section"><div class="doc-section-num">Section 1</div><div class="doc-section-title">Purpose</div>
+    <p>Provide an end-to-end response model for suspected or confirmed Mimikatz activity or equivalent credential dumping behaviour on Windows endpoints. The objective is to contain the host, determine whether credential material was exposed, protect privileged accounts, and prevent lateral movement.</p>
+    <div class="warn-box"><p><strong>Critical rule:</strong> treat any credible LSASS credential dumping event as a potential credential compromise, not only as malware execution. Do not close the incident after file quarantine alone.</p></div>
+  </div>
+  <div class="doc-section"><div class="doc-section-num">Section 2</div><div class="doc-section-title">Activation triggers</div>
+    <ul class="doc-bullet">
+      <li>EDR/XDR detection naming Mimikatz, credential dumping, LSASS access, credential theft, or suspicious memory scraping.</li>
+      <li>Process opening <code>lsass.exe</code> with high-risk access rights, especially from non-security tooling, user-writable paths, scripting hosts, or temporary directories.</li>
+      <li>Creation of LSASS dump files, suspicious use of dump utilities, or archive files staged soon after LSASS access.</li>
+      <li>Suspicious commands, modules, or strings associated with credential theft activity discovered in telemetry, memory, files, or command-line logs.</li>
+      <li>Post-detection signs of credential use: abnormal sign-ins, new sessions from the affected user, lateral movement, service creation, remote logons, or privileged group changes.</li>
+    </ul>
+    <div class="tech-grid"><span class="tech-tag">T1003</span><span class="tech-tag">T1003.001</span><span class="tech-tag">T1003.002</span><span class="tech-tag">T1003.004</span><span class="tech-tag">T1550.002</span><span class="tech-tag">T1078</span></div>
+  </div>
+  <div class="doc-section"><div class="doc-section-num">Section 3</div><div class="doc-section-title">Severity guidance</div>
+    <table class="check-table"><thead><tr><th>Severity</th><th>When to use</th><th>Required escalation</th></tr></thead><tbody>
+      <tr><td>High</td><td>Single endpoint, non-privileged user context, no evidence of successful dump or lateral movement.</td><td>Tier-2 SOC lead and endpoint owner.</td></tr>
+      <tr><td>Critical</td><td>Privileged user/session on host, LSASS dump confirmed, credential artefacts recovered, or signs of pass-the-hash / lateral movement.</td><td>Incident Commander, identity owner, MDR, local IT, and business owner.</td></tr>
+      <tr><td>Critical / Major Incident</td><td>Domain controller, server administrator workstation, PAW, jump host, shared server, or multiple hosts affected.</td><td>Full IRP escalation, legal/comms awareness, and executive notification as required.</td></tr>
+    </tbody></table>
+  </div>
+  <div class="doc-section"><div class="doc-section-num">Section 4</div><div class="doc-section-title">Response workflow</div>
+    <div class="step"><div class="step-num">1</div><div><div class="step-text"><strong>Validate the alert.</strong> Confirm detection source, host, user, parent process, process path, hash, command line, and whether LSASS was accessed or dumped.</div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-text"><strong>Contain the endpoint.</strong> Isolate the endpoint through EDR where business impact is acceptable; otherwise apply compensating network containment approved by Tier-2.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-text"><strong>Protect identities.</strong> Identify all interactive, service, cached, and privileged accounts that may have had credential material in memory; revoke sessions and rotate credentials based on exposure risk.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div><div class="step-text"><strong>Scope laterally.</strong> Hunt for the same hash, filename, command-line patterns, LSASS access pattern, remote logons, service creation, WMI/WinRM/RDP use, and authentication anomalies across the estate.</div></div></div>
+    <div class="step"><div class="step-num">5</div><div><div class="step-text"><strong>Eradicate and recover.</strong> Remove artefacts only after evidence is captured. Rebuild rather than clean if privileged credentials, domain admin sessions, or unknown persistence are involved.</div></div></div>
+    <div class="step"><div class="step-num">6</div><div><div class="step-text"><strong>Close with hardening actions.</strong> Confirm LSASS protection, Credential Guard / LSA protection where applicable, ASR rule coverage, privileged access hygiene, and monitoring detections.</div></div></div>
+  </div>
+  <div class="doc-section"><div class="doc-section-num">Section 5</div><div class="doc-section-title">Runbooks and work instructions invoked</div>
+    <a class="invoke-row" href="ep-rb-05.html"><span class="invoke-code">EP-RB-05</span><span class="invoke-text">Investigate Mimikatz / Credential Dumping Detection</span></a>
+    <a class="invoke-row" href="ep-wi-05.html"><span class="invoke-code">EP-WI-05</span><span class="invoke-text">Validate LSASS Credential Dumping Indicators</span></a>
+    <a class="invoke-row" href="ep-wi-02.html"><span class="invoke-code">EP-WI-02</span><span class="invoke-text">Isolate Endpoint Safely</span></a>
+    <a class="invoke-row" href="id-wi-02.html"><span class="invoke-code">ID-WI-02</span><span class="invoke-text">Reset Compromised Account / Credential Recovery</span></a>
+  </div>
+  <div class="doc-section"><div class="doc-section-num">Section 6</div><div class="doc-section-title">Evidence required before closure</div>
+    <div class="evidence-grid"><div class="evidence-item">Original EDR alert and detection timeline</div><div class="evidence-item">Process tree and parent-child chain</div><div class="evidence-item">LSASS access / dump evidence</div><div class="evidence-item">Affected account exposure list</div><div class="evidence-item">Lateral movement hunt results</div><div class="evidence-item">Credential rotation and session revocation evidence</div><div class="evidence-item">Eradication / rebuild decision record</div><div class="evidence-item">Preventive hardening actions or exception record</div></div>
+  </div>
+  <div class="doc-section"><div class="doc-section-num">Section 7</div><div class="doc-section-title">Closure criteria</div>
+    <ul class="doc-bullet"><li>No active credential dumping artefacts remain on affected systems.</li><li>All exposed accounts have been assessed and reset/rotated according to risk.</li><li>No related lateral movement, remote execution, or anomalous authentication remains unresolved.</li><li>Endpoint has been rebuilt or cleaned with Tier-2 approval and monitoring has confirmed stability.</li><li>Lessons learned and control gaps have been logged in the incident record.</li></ul>
+  </div>
+  <div class="doc-section"><div class="doc-section-num">References</div><div class="doc-section-title">External references</div>
+    <ul class="doc-bullet"><li>MITRE ATT&amp;CK — T1003 OS Credential Dumping and T1003.001 LSASS Memory.</li><li>Microsoft — Attack Surface Reduction rule: Block credential stealing from the Windows local security authority subsystem.</li><li>Microsoft — Configuring additional LSA protection.</li></ul>
+  </div>
+<div class="nav-links"><a href="ep-pb-05.html">← Previous: EP-PB-05</a><a href="playbooks.html">Back to Playbooks →</a></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRC-WI-06: Translate Technical Risk into Business Risk — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; --risk:#993C1D; --risk-light:#FAECE7; --risk-border:#F5C0B0; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.82; line-height:1.6; margin-bottom:10px; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.8rem 1.2rem; margin-bottom:1.25rem; }
+  .meta-item { font-size:13px; color:#666; display:flex; align-items:center; gap:5px; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .risk-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .risk-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--grc); margin-bottom:4px; }
+  .risk-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .risk-section p { font-size:14px; color:#444; line-height:1.72; margin-bottom:8px; }
+  .risk-section p:last-child { margin-bottom:0; }
+  .risk-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .risk-table th { background:#f5f5f3; padding:8px 10px; text-align:left; font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#777; border:0.5px solid #e0e0dc; }
+  .risk-table td { padding:8px 10px; border:0.5px solid #ecece8; color:#333; vertical-align:top; line-height:1.45; }
+  .risk-table tr:nth-child(even) td { background:#fafafa; }
+  .card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; }
+  .risk-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.1rem; }
+  .risk-card h4 { font-size:13px; font-weight:700; color:var(--grc-dark); margin-bottom:5px; }
+  .risk-card p { font-size:12px; color:#555; line-height:1.5; margin:0; }
+  .callout { background:var(--risk-light); border:0.5px solid var(--risk-border); border-left:3px solid var(--risk-border); border-radius:10px; padding:1rem 1.2rem; margin-bottom:1rem; }
+  .callout p { font-size:13px; color:#6b2e12; line-height:1.6; margin:0; }
+  .step-list { display:flex; flex-direction:column; gap:7px; }
+  .step { display:flex; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .step-num { width:24px; height:24px; border-radius:50%; background:var(--grc); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-text { font-size:13px; color:#333; line-height:1.5; }
+  .doc-list { display:flex; flex-direction:column; gap:6px; }
+  .doc-row { display:flex; align-items:center; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; text-decoration:none; color:inherit; }
+  .doc-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; background:var(--grc-light); color:var(--grc); padding:2px 7px; border-radius:6px; white-space:nowrap; }
+  .doc-name { font-size:13px; color:#333; flex:1; }
+  .grc-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .grc-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+  @media(max-width:640px){ .step{flex-direction:row;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="cloud.html">Cloud Ops</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="grc.html">GRC Hub</a><span>›</span><a href="grc-risk.html">Risk</a><span>›</span><span>GRC-WI-06</span></div>
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · Risk · Work instruction</div>
+    <h1>GRC-WI-06: Translate Technical Risk into Business Risk</h1>
+    <p>Step-by-step work instruction for converting technical findings, incidents, vulnerabilities, and control gaps into clear business risk statements.</p>
+    <div class="grc-page-hero-pills"><span class="grc-page-hero-pill">Work instruction</span><span class="grc-page-hero-pill">Business language</span><span class="grc-page-hero-pill">Risk statements</span><span class="grc-page-hero-pill">Escalation</span></div>
+  </div>
+  <div class="meta-bar">
+    <span class="meta-item"><strong>Document ID:</strong> GRC-WI-06</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Type:</strong> Work Instruction</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Status:</strong> <span class="badge-approved">Approved</span></span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Version:</strong> v1.0</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Owner:</strong> GRC Owner</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Last updated:</strong> 3 Sep 2026</span>
+  </div>
+  <div class="risk-section"><div class="risk-section-num">Purpose</div><div class="risk-section-title">When to use this work instruction</div><p>Use this work instruction when a technical issue needs to be converted into a risk record, governance update, management report, risk acceptance request, or enterprise risk escalation. It is intended for GRC analysts, SOC leads, IT operations owners, and risk reviewers.</p></div>
+<div class="risk-section"><div class="risk-section-num">Inputs</div><div class="risk-section-title">Information required before translation</div><div class="kb-table-wrap"><table class="risk-table"><thead><tr><th>Input</th><th>Why it matters</th></tr></thead><tbody><tr><td>Technical finding or event</td><td>Defines what was observed: vulnerability, alert, audit finding, control failure, incident, supplier gap, or architecture weakness.</td></tr><tr><td>Affected asset/service/data</td><td>Identifies what could be harmed and who depends on it.</td></tr><tr><td>Threat or failure scenario</td><td>Explains how the weakness could realistically be exploited or fail.</td></tr><tr><td>Existing controls</td><td>Shows whether likelihood or impact is already reduced.</td></tr><tr><td>Business dependency</td><td>Connects the technical issue to operations, compliance, service delivery, finance, reputation, or resilience.</td></tr></tbody></table></div></div>
+<div class="risk-section"><div class="risk-section-num">Procedure</div><div class="risk-section-title">Translation steps</div><div class="step-list"><div class="step"><div class="step-num">1</div><div class="step-text"><strong>Describe the technical condition.</strong> Capture the observable issue in plain language without overstating impact.</div></div><div class="step"><div class="step-num">2</div><div class="step-text"><strong>Identify the affected business object.</strong> Map the issue to service, process, data, user group, supplier, application, location, or critical asset.</div></div><div class="step"><div class="step-num">3</div><div class="step-text"><strong>Define the credible scenario.</strong> State what could happen if the issue is exploited, fails, or remains untreated.</div></div><div class="step"><div class="step-num">4</div><div class="step-text"><strong>Express business impact.</strong> Translate the scenario into operational, financial, legal, reputational, safety, resilience, or strategic impact.</div></div><div class="step"><div class="step-num">5</div><div class="step-text"><strong>Assess control confidence.</strong> Record preventive, detective, corrective, and compensating controls, including evidence quality.</div></div><div class="step"><div class="step-num">6</div><div class="step-text"><strong>Draft the risk statement.</strong> Use the standard pattern: There is a risk that [event] could occur because of [cause], resulting in [impact] affecting [asset/service/data/process].</div></div><div class="step"><div class="step-num">7</div><div class="step-text"><strong>Assign ownership and decision need.</strong> Identify who can accept, treat, transfer, or avoid the risk and what decision is required.</div></div></div></div>
+<div class="risk-section"><div class="risk-section-num">Examples</div><div class="risk-section-title">Technical-to-business translation examples</div><div class="kb-table-wrap"><table class="risk-table"><thead><tr><th>Technical finding</th><th>Weak wording</th><th>Better risk wording</th></tr></thead><tbody><tr><td>Critical vulnerability on internet-facing server</td><td>The server has a critical CVE.</td><td>There is a risk that an attacker could compromise the public service because a known critical vulnerability remains unremediated, resulting in service disruption, data exposure, and emergency recovery activity.</td></tr><tr><td>Shared admin account</td><td>There is a shared admin account.</td><td>There is a risk that privileged activity cannot be attributed to an individual because shared administrative credentials are in use, reducing accountability and increasing the impact of credential compromise.</td></tr><tr><td>Backups not tested</td><td>Backups are not being tested.</td><td>There is a risk that critical services cannot be restored within business tolerance because backup restoration has not been validated, resulting in extended outage during a major incident.</td></tr><tr><td>Supplier lacks MFA</td><td>Supplier does not use MFA.</td><td>There is a risk that supplier access could be compromised because strong authentication is not enforced, resulting in unauthorised access to supported systems or sensitive data.</td></tr></tbody></table></div></div>
+<div class="risk-section"><div class="risk-section-num">Quality checks</div><div class="risk-section-title">Before publishing or escalating a risk</div><div class="card-grid"><div class="risk-card"><h4>Business consequence is clear</h4><p>A non-technical stakeholder can understand why the risk matters.</p></div><div class="risk-card"><h4>Cause is not confused with impact</h4><p>The vulnerability, gap, or finding explains the cause; the consequence explains the risk.</p></div><div class="risk-card"><h4>Owner can act</h4><p>The named owner has authority or influence over treatment or acceptance.</p></div><div class="risk-card"><h4>Decision is explicit</h4><p>The record says whether mitigation, acceptance, transfer, avoidance, or further analysis is needed.</p></div></div></div>
+  <div class="grc-nav"><a href="grc-risk-appetite-statement.html">← Previous</a><a href="grc-risk.html">← Back to Risk</a><a href="grc-risk-reporting.html">Next →</a></div>
+  <div class="kb-footer"><span><span class="live-dot"></span>GRC · Risk · Paulo Ferreira</span><span><a href="grc.html" style="color:var(--grc);text-decoration:none;">← Back to GRC Hub</a></span></div>
+</div>
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</body>
+</html>

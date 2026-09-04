@@ -2356,5 +2356,77 @@
     "url": "cl-wi-03.html",
     "desc": "Controlled process for disabling or restricting a risky human, service, managed, or third-party cloud principal.",
     "tags": "cloud CloudOps SOC tenant subscription SaaS M365 Azure control plane workload storage identity access data exposure Work Instruction Requires approval Identity Containment Classify principal Assess blast radius Preserve evidence Apply least disruptive restriction Monitor impact Document and hand over"
+  },
+  {
+    "id": "EP-PB-06",
+    "title": "Mimikatz / Credential Dumping Detection",
+    "section": "SOC",
+    "sub": "Playbooks",
+    "url": "ep-pb-06.html",
+    "desc": "Respond to Mimikatz or equivalent credential dumping detections on Windows endpoints",
+    "tags": "mimikatz credential dumping lsass T1003 T1003.001 credential theft pass the hash endpoint"
+  },
+  {
+    "id": "EP-RB-05",
+    "title": "Investigate Mimikatz / Credential Dumping Detection",
+    "section": "SOC",
+    "sub": "Runbooks",
+    "url": "ep-rb-05.html",
+    "desc": "Validate and scope Mimikatz, LSASS access, and credential dumping detections",
+    "tags": "mimikatz lsass access credential dumping investigation endpoint runbook"
+  },
+  {
+    "id": "EP-WI-05",
+    "title": "Validate LSASS Credential Dumping Indicators",
+    "section": "SOC",
+    "sub": "Work Instructions",
+    "url": "ep-wi-05.html",
+    "desc": "Tool-agnostic work instruction for validating LSASS credential dumping indicators",
+    "tags": "LSASS credential dumping Mimikatz T1003.001 validation evidence work instruction"
+  },
+  {
+    "id": "GRC-ERM-01",
+    "title": "Cyber Risk and Enterprise Risk Management",
+    "section": "GRC",
+    "sub": "Risk guidance",
+    "url": "grc-erm-cyber-risk.html",
+    "desc": "Enterprise risk management guidance for translating cyber and IT risk into business impact, governance decisions, ownership, and enterprise escalation.",
+    "tags": "GRC risk enterprise risk management ERM cyber risk business impact governance NIST CSF Govern NIST SP 800-39 ISO 31000 ISO 27005 CISM"
+  },
+  {
+    "id": "GRC-RISK-TAX-01",
+    "title": "Cyber & IT Risk Taxonomy",
+    "section": "GRC",
+    "sub": "Risk reference",
+    "url": "grc-risk-taxonomy.html",
+    "desc": "Standard taxonomy for cyber and IT risk categories, causes, impact types, scenarios, ownership and register classification.",
+    "tags": "GRC risk taxonomy categories risk statement impact likelihood identity data cloud endpoint network vulnerability supplier resilience compliance security operations"
+  },
+  {
+    "id": "GRC-RISK-APP-01",
+    "title": "Cyber & IT Risk Appetite Statement",
+    "section": "GRC",
+    "sub": "Risk guidance",
+    "url": "grc-risk-appetite-statement.html",
+    "desc": "Generic risk appetite and tolerance model for cyber and IT risk, including escalation thresholds, acceptance rules, and mandatory escalation triggers.",
+    "tags": "GRC risk appetite tolerance acceptance threshold escalation residual risk critical high medium low governance"
+  },
+  {
+    "id": "GRC-RISK-REP-01",
+    "title": "Cyber Risk Reporting Model",
+    "section": "GRC",
+    "sub": "Risk guidance",
+    "url": "grc-risk-reporting.html",
+    "desc": "Cyber risk reporting model for operational, management, executive, and governance audiences, including KRIs, KPIs, KCIs and monthly report structure.",
+    "tags": "GRC risk reporting KRI KPI KCI dashboard executive board governance management report appetite trend treatment control assurance"
+  },
+  {
+    "id": "GRC-WI-06",
+    "title": "Translate Technical Risk into Business Risk",
+    "section": "GRC",
+    "sub": "Work Instructions",
+    "url": "grc-wi-06.html",
+    "desc": "Work instruction for converting vulnerabilities, findings, incidents, supplier gaps, and control weaknesses into business risk language.",
+    "tags": "GRC WI technical risk business risk risk statement impact translation vulnerability finding control weakness owner decision"
   }
 ]

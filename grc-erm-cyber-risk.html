@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Risk and Enterprise Risk Management — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; --risk:#993C1D; --risk-light:#FAECE7; --risk-border:#F5C0B0; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.82; line-height:1.6; margin-bottom:10px; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.8rem 1.2rem; margin-bottom:1.25rem; }
+  .meta-item { font-size:13px; color:#666; display:flex; align-items:center; gap:5px; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .risk-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .risk-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--grc); margin-bottom:4px; }
+  .risk-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .risk-section p { font-size:14px; color:#444; line-height:1.72; margin-bottom:8px; }
+  .risk-section p:last-child { margin-bottom:0; }
+  .risk-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .risk-table th { background:#f5f5f3; padding:8px 10px; text-align:left; font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#777; border:0.5px solid #e0e0dc; }
+  .risk-table td { padding:8px 10px; border:0.5px solid #ecece8; color:#333; vertical-align:top; line-height:1.45; }
+  .risk-table tr:nth-child(even) td { background:#fafafa; }
+  .card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; }
+  .risk-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.1rem; }
+  .risk-card h4 { font-size:13px; font-weight:700; color:var(--grc-dark); margin-bottom:5px; }
+  .risk-card p { font-size:12px; color:#555; line-height:1.5; margin:0; }
+  .callout { background:var(--risk-light); border:0.5px solid var(--risk-border); border-left:3px solid var(--risk-border); border-radius:10px; padding:1rem 1.2rem; margin-bottom:1rem; }
+  .callout p { font-size:13px; color:#6b2e12; line-height:1.6; margin:0; }
+  .step-list { display:flex; flex-direction:column; gap:7px; }
+  .step { display:flex; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .step-num { width:24px; height:24px; border-radius:50%; background:var(--grc); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-text { font-size:13px; color:#333; line-height:1.5; }
+  .doc-list { display:flex; flex-direction:column; gap:6px; }
+  .doc-row { display:flex; align-items:center; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; text-decoration:none; color:inherit; }
+  .doc-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; background:var(--grc-light); color:var(--grc); padding:2px 7px; border-radius:6px; white-space:nowrap; }
+  .doc-name { font-size:13px; color:#333; flex:1; }
+  .grc-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .grc-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+  @media(max-width:640px){ .step{flex-direction:row;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="cloud.html">Cloud Ops</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="grc.html">GRC Hub</a><span>›</span><a href="grc-risk.html">Risk</a><span>›</span><span>GRC-ERM-01</span></div>
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · Risk · Enterprise alignment</div>
+    <h1>Cyber Risk and Enterprise Risk Management</h1>
+    <p>Explains how cyber and IT risk should be positioned, escalated, and governed as part of broader enterprise risk management rather than treated as a purely technical issue.</p>
+    <div class="grc-page-hero-pills"><span class="grc-page-hero-pill">ERM alignment</span><span class="grc-page-hero-pill">Business impact</span><span class="grc-page-hero-pill">Governance oversight</span><span class="grc-page-hero-pill">NIST CSF Govern</span></div>
+  </div>
+  <div class="meta-bar">
+    <span class="meta-item"><strong>Document ID:</strong> GRC-ERM-01</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Type:</strong> Guidance</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Status:</strong> <span class="badge-approved">Approved</span></span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Version:</strong> v1.0</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Owner:</strong> GRC Owner</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Last updated:</strong> 3 Sep 2026</span>
+  </div>
+  <div class="risk-section"><div class="risk-section-num">Purpose</div><div class="risk-section-title">Why this page exists</div><p>Cyber and IT risks should be expressed in terms that business leaders can use to make decisions. This page provides the bridge between technical risk records, operational security findings, supplier assessments, business continuity concerns, and the enterprise risk register.</p><div class="callout"><p><strong>Operating principle:</strong> cyber risk is a business risk with technical causes. The GRC function should preserve technical evidence while translating exposure into business impact, decision options, ownership, and accountability.</p></div></div>
+<div class="risk-section"><div class="risk-section-num">Risk layers</div><div class="risk-section-title">Three-level risk view</div><div class="kb-table-wrap"><table class="risk-table"><thead><tr><th>Level</th><th>Primary question</th><th>Typical owner</th><th>Examples</th></tr></thead><tbody><tr><td>Enterprise risk</td><td>What could materially affect strategy, service delivery, finances, legal obligations, reputation, safety, or resilience?</td><td>Executive owner / risk committee</td><td>Major cyber incident, loss of critical service, systemic supplier failure, regulatory breach</td></tr><tr><td>Cyber & IT risk</td><td>What technology, security, data, supplier, or operational weakness could create enterprise impact?</td><td>Risk owner / control owner / GRC</td><td>Unmanaged privileged access, unsupported systems, weak backup assurance, cloud misconfiguration</td></tr><tr><td>Technical finding</td><td>What observable condition, vulnerability, control failure, or event indicates exposure?</td><td>SOC / IT Operations / asset owner</td><td>Critical vulnerability, missing EDR, exposed storage, suspicious sign-in, failed backup test</td></tr></tbody></table></div></div>
+<div class="risk-section"><div class="risk-section-num">Escalation criteria</div><div class="risk-section-title">When to escalate cyber risk to ERM</div><div class="kb-table-wrap"><table class="risk-table"><thead><tr><th>Trigger</th><th>Escalate when</th><th>Required output</th></tr></thead><tbody><tr><td>Risk above appetite</td><td>Residual risk remains High or Critical after available controls are considered.</td><td>Enterprise risk entry or executive risk decision.</td></tr><tr><td>Material business impact</td><td>Potential impact affects critical services, regulated data, safety, contractual obligations, or public trust.</td><td>Business impact statement and treatment options.</td></tr><tr><td>Cross-domain dependency</td><td>Risk cannot be treated by one technical team because it spans suppliers, budgets, legal, HR, or business operations.</td><td>Named enterprise risk owner and cross-functional action plan.</td></tr><tr><td>Repeated exception</td><td>Same exception pattern repeats across several assets, systems, locations, or suppliers.</td><td>Control weakness or systemic risk record.</td></tr><tr><td>Decision required</td><td>Treatment requires budget, policy change, risk acceptance, service interruption, or senior prioritisation.</td><td>Risk decision record or governance committee submission.</td></tr></tbody></table></div></div>
+<div class="risk-section"><div class="risk-section-num">Framework alignment</div><div class="risk-section-title">How this supports recognised frameworks</div><div class="kb-table-wrap"><table class="risk-table"><thead><tr><th>Framework</th><th>Relevant risk concept</th><th>KB implementation</th></tr></thead><tbody><tr><td>NIST CSF 2.0</td><td>Governance, risk management strategy, roles, policies, oversight, and cybersecurity risk integration with enterprise risk.</td><td>Risk register, risk reporting, appetite, ownership, escalation, and governance artefacts.</td></tr><tr><td>NIST SP 800-39</td><td>Organisation-wide view of information security risk across mission, assets, individuals, and external organisations.</td><td>Three-level risk view and translation from technical findings to enterprise risk.</td></tr><tr><td>ISO 31000</td><td>Risk management principles, framework, process, communication, monitoring, and review.</td><td>Standard lifecycle for identification, analysis, evaluation, treatment, monitoring, and reporting.</td></tr><tr><td>ISO/IEC 27005</td><td>Information security risk assessment and treatment supporting ISO/IEC 27001.</td><td>Cyber risk assessment methodology and residual risk treatment tracking.</td></tr><tr><td>ISACA / CISM</td><td>Information security risk management as a governance and business decision discipline.</td><td>Business-aligned ownership, appetite, reporting, and executive escalation.</td></tr></tbody></table></div></div>
+<div class="risk-section"><div class="risk-section-num">Minimum evidence</div><div class="risk-section-title">Evidence required for enterprise escalation</div><div class="card-grid"><div class="risk-card"><h4>Business consequence</h4><p>Describe realistic operational, financial, legal, reputational, safety, or resilience impact.</p></div><div class="risk-card"><h4>Risk owner</h4><p>Assign a person or role with authority to accept, fund, transfer, or remediate the risk.</p></div><div class="risk-card"><h4>Control position</h4><p>State current controls, known gaps, compensating controls, and confidence level.</p></div><div class="risk-card"><h4>Decision needed</h4><p>Make clear whether leadership is being asked to accept, fund, prioritise, avoid, or transfer the risk.</p></div></div></div>
+  <div class="grc-nav"><a href="grc-risk.html">← Previous</a><a href="grc-risk.html">← Back to Risk</a><a href="grc-risk-taxonomy.html">Next →</a></div>
+  <div class="kb-footer"><span><span class="live-dot"></span>GRC · Risk · Paulo Ferreira</span><span><a href="grc.html" style="color:var(--grc);text-decoration:none;">← Back to GRC Hub</a></span></div>
+</div>
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</body>
+</html>

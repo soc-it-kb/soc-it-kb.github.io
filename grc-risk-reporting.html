@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Risk Reporting Model — GRC Hub</title>
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<style>
+  :root { --grc:#0E5C5C; --grc-light:#E6F4F4; --grc-border:#8ECECE; --grc-dark:#073B3B; --risk:#993C1D; --risk-light:#FAECE7; --risk-border:#F5C0B0; }
+  .grc-page-hero { background:linear-gradient(135deg,#042626 0%,#073B3B 40%,#0E5C5C 100%); border-radius:16px; padding:1.5rem 1.75rem; margin-bottom:1.5rem; color:#fff; }
+  .grc-page-hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; opacity:0.55; margin-bottom:6px; }
+  .grc-page-hero h1 { font-size:22px; font-weight:700; margin-bottom:8px; }
+  .grc-page-hero p  { font-size:14px; opacity:0.82; line-height:1.6; margin-bottom:10px; }
+  .grc-page-hero-pills { display:flex; flex-wrap:wrap; gap:6px; }
+  .grc-page-hero-pill { background:rgba(255,255,255,0.15); font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .breadcrumb { display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; margin-bottom:1rem; }
+  .breadcrumb a { color:var(--grc); text-decoration:none; }
+  .breadcrumb span { color:#ccc; }
+  .meta-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#fff; border:0.5px solid #e0e0dc; border-radius:12px; padding:0.8rem 1.2rem; margin-bottom:1.25rem; }
+  .meta-item { font-size:13px; color:#666; display:flex; align-items:center; gap:5px; }
+  .meta-item strong { color:#1a1a1a; }
+  .meta-sep { color:#e0e0dc; }
+  .badge-approved { font-size:11px; font-weight:600; padding:2px 9px; border-radius:10px; background:#E1F5EE; color:#0F6E56; border:0.5px solid #82D4B0; }
+  .risk-section { background:#fff; border:0.5px solid var(--grc-border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:10px; }
+  .risk-section-num { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--grc); margin-bottom:4px; }
+  .risk-section-title { font-size:16px; font-weight:600; color:#1a1a1a; margin-bottom:0.9rem; padding-bottom:8px; border-bottom:0.5px solid #f0f0ec; }
+  .risk-section p { font-size:14px; color:#444; line-height:1.72; margin-bottom:8px; }
+  .risk-section p:last-child { margin-bottom:0; }
+  .risk-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .risk-table th { background:#f5f5f3; padding:8px 10px; text-align:left; font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#777; border:0.5px solid #e0e0dc; }
+  .risk-table td { padding:8px 10px; border:0.5px solid #ecece8; color:#333; vertical-align:top; line-height:1.45; }
+  .risk-table tr:nth-child(even) td { background:#fafafa; }
+  .card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; }
+  .risk-card { background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:10px; padding:1rem 1.1rem; }
+  .risk-card h4 { font-size:13px; font-weight:700; color:var(--grc-dark); margin-bottom:5px; }
+  .risk-card p { font-size:12px; color:#555; line-height:1.5; margin:0; }
+  .callout { background:var(--risk-light); border:0.5px solid var(--risk-border); border-left:3px solid var(--risk-border); border-radius:10px; padding:1rem 1.2rem; margin-bottom:1rem; }
+  .callout p { font-size:13px; color:#6b2e12; line-height:1.6; margin:0; }
+  .step-list { display:flex; flex-direction:column; gap:7px; }
+  .step { display:flex; gap:12px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.75rem 1rem; }
+  .step-num { width:24px; height:24px; border-radius:50%; background:var(--grc); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-text { font-size:13px; color:#333; line-height:1.5; }
+  .doc-list { display:flex; flex-direction:column; gap:6px; }
+  .doc-row { display:flex; align-items:center; gap:10px; background:#f9f9f7; border:0.5px solid #e8e8e4; border-radius:8px; padding:0.7rem 1rem; text-decoration:none; color:inherit; }
+  .doc-code { font-family:'SF Mono','Fira Code',monospace; font-size:11px; font-weight:700; background:var(--grc-light); color:var(--grc); padding:2px 7px; border-radius:6px; white-space:nowrap; }
+  .doc-name { font-size:13px; color:#333; flex:1; }
+  .grc-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:1rem; }
+  .grc-nav a { font-size:13px; color:var(--grc); text-decoration:none; }
+  @media(max-width:640px){ .step{flex-direction:row;} }
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  <a href="cloud.html">Cloud Ops</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html" class="active">GRC</a>
+  <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+  <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="grc.html">GRC Hub</a><span>›</span><a href="grc-risk.html">Risk</a><span>›</span><span>GRC-RISK-REP-01</span></div>
+  <div class="grc-page-hero">
+    <div class="grc-page-hero-eyebrow">GRC · Risk · Reporting</div>
+    <h1>Cyber Risk Reporting Model</h1>
+    <p>Defines a practical reporting model for communicating cyber and IT risk posture to operational teams, management, governance forums, and executive stakeholders.</p>
+    <div class="grc-page-hero-pills"><span class="grc-page-hero-pill">Risk reporting</span><span class="grc-page-hero-pill">KRIs</span><span class="grc-page-hero-pill">Governance forums</span><span class="grc-page-hero-pill">Executive visibility</span></div>
+  </div>
+  <div class="meta-bar">
+    <span class="meta-item"><strong>Document ID:</strong> GRC-RISK-REP-01</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Type:</strong> Guidance</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Status:</strong> <span class="badge-approved">Approved</span></span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Version:</strong> v1.0</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Owner:</strong> GRC Owner</span><span class="meta-sep">|</span>
+    <span class="meta-item"><strong>Last updated:</strong> 3 Sep 2026</span>
+  </div>
+  <div class="risk-section"><div class="risk-section-num">Purpose</div><div class="risk-section-title">Why risk reporting matters</div><p>Risk reporting converts risk records into decisions. The purpose is not to produce more dashboards, but to show whether risk is increasing or decreasing, whether treatment is effective, whether risk remains within appetite, and where leadership action is required.</p></div>
+<div class="risk-section"><div class="risk-section-num">Audience model</div><div class="risk-section-title">Different audiences need different risk views</div><div class="kb-table-wrap"><table class="risk-table"><thead><tr><th>Audience</th><th>Primary question</th><th>Reporting focus</th><th>Frequency</th></tr></thead><tbody><tr><td>SOC and IT operations</td><td>What needs action now?</td><td>New risks, urgent vulnerabilities, failed controls, overdue remediation, incidents driving risk changes.</td><td>Daily to weekly</td></tr><tr><td>GRC and risk owners</td><td>Are risks being managed according to process?</td><td>Risk register quality, treatment plans, accepted risk expiry, control gaps, evidence completeness.</td><td>Weekly to monthly</td></tr><tr><td>Management forum</td><td>Where do we need prioritisation or resource decisions?</td><td>Top risks, risks above appetite, overdue actions, recurring exceptions, cross-domain dependencies.</td><td>Monthly</td></tr><tr><td>Executive / board-level stakeholders</td><td>What could materially affect objectives, resilience, compliance, reputation, or service delivery?</td><td>Enterprise-level risk themes, risk movement, material decisions, assurance confidence, major residual exposures.</td><td>Quarterly or governance cadence</td></tr></tbody></table></div></div>
+<div class="risk-section"><div class="risk-section-num">Core metrics</div><div class="risk-section-title">Recommended KRI/KPI/KCI set</div><div class="kb-table-wrap"><table class="risk-table"><thead><tr><th>Metric type</th><th>Metric</th><th>Interpretation</th></tr></thead><tbody><tr><td>KRI</td><td>Number of High/Critical risks above appetite</td><td>Indicates exposure requiring governance attention.</td></tr><tr><td>KRI</td><td>Known exploited vulnerability exposure on critical assets</td><td>Shows time-sensitive likelihood and impact concentration.</td></tr><tr><td>KRI</td><td>Unsupported or unmonitored critical assets</td><td>Signals unmanaged attack surface and weak assurance.</td></tr><tr><td>KPI</td><td>Risk reviews completed on time</td><td>Measures process discipline and ownership.</td></tr><tr><td>KPI</td><td>Treatment actions closed by due date</td><td>Measures execution against agreed remediation plans.</td></tr><tr><td>KCI</td><td>MFA coverage for privileged users</td><td>Shows effectiveness of identity control coverage.</td></tr><tr><td>KCI</td><td>EDR/logging coverage for critical assets</td><td>Shows detection and response readiness.</td></tr><tr><td>KCI</td><td>Backup restore test success rate</td><td>Shows recovery assurance and resilience control effectiveness.</td></tr></tbody></table></div></div>
+<div class="risk-section"><div class="risk-section-num">Reporting structure</div><div class="risk-section-title">Recommended monthly cyber risk report</div><div class="kb-table-wrap"><table class="risk-table"><thead><tr><th>Section</th><th>Content</th></tr></thead><tbody><tr><td>Executive summary</td><td>One-page view of risk posture, key changes, decisions required, and risks above appetite.</td></tr><tr><td>Risk movement</td><td>New, closed, increased, decreased, accepted, and overdue risks since the last report.</td></tr><tr><td>Top risks</td><td>Top 5–10 risks by residual rating, business impact, trend, and decision need.</td></tr><tr><td>Treatment status</td><td>Mitigation plans, overdue actions, blockers, funding or ownership issues.</td></tr><tr><td>Control assurance</td><td>Key control indicators, failed control tests, evidence gaps, and compensating controls.</td></tr><tr><td>Exceptions and acceptances</td><td>Open exceptions, expiring acceptances, repeated patterns, and risk appetite breaches.</td></tr><tr><td>Forward look</td><td>Upcoming reviews, threat trends, audit activity, major changes, and risk themes to watch.</td></tr></tbody></table></div></div>
+<div class="risk-section"><div class="risk-section-num">Escalation rules</div><div class="risk-section-title">When reporting must trigger action</div><div class="card-grid"><div class="risk-card"><h4>Risk above appetite</h4><p>High and Critical residual risks require named action or formal acceptance.</p></div><div class="risk-card"><h4>Negative trend</h4><p>A deteriorating risk trend should trigger review even before thresholds are breached.</p></div><div class="risk-card"><h4>Control failure</h4><p>Failed key controls should be linked to affected risks and remediation owners.</p></div><div class="risk-card"><h4>Repeated exception</h4><p>Recurring exceptions should be reported as systemic risk, not isolated operational deviations.</p></div></div></div>
+<div class="risk-section"><div class="risk-section-num">Data sources</div><div class="risk-section-title">Recommended evidence sources</div><div class="kb-table-wrap"><table class="risk-table"><thead><tr><th>Source</th><th>Use in reporting</th></tr></thead><tbody><tr><td>Cyber & IT Risk Register</td><td>Source of current risks, ratings, owners, review dates, and treatment state.</td></tr><tr><td>Risk Acceptance Log</td><td>Accepted residual risks, expiry dates, compensating controls, and accountable owners.</td></tr><tr><td>Policy and baseline exception registers</td><td>Exceptions that may indicate tolerance breaches or systemic control weakness.</td></tr><tr><td>Validation and drift registers</td><td>Evidence of control effectiveness, failed checks, and recurring configuration drift.</td></tr><tr><td>Vulnerability and patching reports</td><td>Exposure, remediation progress, SLA performance, and KEV prioritisation.</td></tr><tr><td>Incident and problem records</td><td>Events that change likelihood, impact, control confidence, or risk treatment priority.</td></tr></tbody></table></div></div>
+  <div class="grc-nav"><a href="grc-wi-06.html">← Previous</a><a href="grc-risk.html">← Back to Risk</a><a href="grc-risk.html">Next →</a></div>
+  <div class="kb-footer"><span><span class="live-dot"></span>GRC · Risk · Paulo Ferreira</span><span><a href="grc.html" style="color:var(--grc);text-decoration:none;">← Back to GRC Hub</a></span></div>
+</div>
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+</body>
+</html>
