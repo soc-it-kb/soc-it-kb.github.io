@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Attack Surface Management — Cyber Security Knowledge Base</title>
 <link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
 <style>
   :root { --asm:#5B2D8E; --asm-light:#F3EEF9; --asm-border:#C9B3E8; --asm-dark:#3A1A5C; }
 
@@ -142,8 +145,8 @@
   <!-- Stats -->
   <div class="asm-stats">
     <div class="asm-stat"><div class="asm-stat-num">8</div><div class="asm-stat-label">ASM domains</div></div>
-    <div class="asm-stat"><div class="asm-stat-num">19</div><div class="asm-stat-label">SOPs</div></div>
-    <div class="asm-stat"><div class="asm-stat-num">62</div><div class="asm-stat-label">Work instructions</div></div>
+    <div class="asm-stat"><div class="asm-stat-num">20</div><div class="asm-stat-label">SOPs</div></div>
+    <div class="asm-stat"><div class="asm-stat-num">67</div><div class="asm-stat-label">Work instructions</div></div>
     <div class="asm-stat"><div class="asm-stat-num">3</div><div class="asm-stat-label">Framework alignments</div></div>
   </div>
 
@@ -233,8 +236,8 @@
         <div class="domain-card-icon">☁️</div>
         <div class="domain-card-code">ASM-CL</div>
         <div class="domain-card-title">Cloud Baselines</div>
-        <div class="domain-card-desc">Tenant-level security baselines for Microsoft 365 and Microsoft Azure. Licensing-tier-aware (A1 / E1 / A3 / E3 / E5). Covers tenant identity (Conditional Access, PIM, break-glass), M365 hardening, Azure subscription baseline, Azure workload patterns (including Azure-native cloud-WAF), and Defender suite configuration. CIS Foundations / MCSB / NIST / ISO aligned.</div>
-        <div class="domain-card-footer"><span>SOP · 5 Work Instructions · M365/Azure</span><span>→</span></div>
+        <div class="domain-card-desc">Tenant and workload security baselines for Microsoft 365, Azure and cloud workloads. Includes tenant identity, M365 hardening, Azure subscription baseline, AWS/Azure workload controls, evidence requirements, and Defender suite configuration.</div>
+        <div class="domain-card-footer"><span>2 SOPs · 10 Work Instructions · M365/Azure/AWS</span><span>→</span></div>
       </a>
 
       <a class="domain-card identity" href="asm-identity-governance.html">

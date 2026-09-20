@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>IT-CL-WI-09: Validate Cloud Encryption and Secrets Controls — Cyber Security Knowledge Base</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="shared.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<script src="download-utils.js"></script>
+<script src="lang-switcher.js"></script>
+
+<style>
+:root{--asm:#5B2D8E;--asm-light:#F3EEF9;--asm-border:#C9B3E8;--asm-dark:#3A1A5C;--wi:#2E5C8A;--wi-light:#E8F0F8;--wi-border:#A8C5DE;--wi-dark:#1A3A5C;--grc:#0E5C5C;--grc-light:#E6F4F4;--grc-border:#8ECECE;--grc-dark:#073B3B;}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:#aaa;margin-bottom:1rem}.breadcrumb a{color:#297086;text-decoration:none}.breadcrumb span{color:#ccc}
+.kb-page-hero{border-radius:16px;padding:1.55rem 1.85rem;margin-bottom:1.35rem;color:#fff}.kb-page-hero h1{font-size:22px;font-weight:700;margin:0 0 8px}.kb-page-hero p{font-size:14px;opacity:.86;line-height:1.65;margin:0 0 10px}.kb-page-hero-meta{display:flex;gap:6px;flex-wrap:wrap}.kb-meta-pill{background:rgba(255,255,255,.15);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.meta-bar{display:flex;gap:10px;flex-wrap:wrap;background:#fff;border:.5px solid #e0e0dc;border-radius:12px;padding:.85rem 1.15rem;margin-bottom:1.2rem}.meta-item{font-size:13px;color:#666}.meta-item strong{color:#1a1a1a}.badge-live{font-size:11px;font-weight:600;padding:2px 9px;border-radius:10px;background:#E1F5EE;color:#0F6E56;border:.5px solid #82D4B0}
+.section{background:#fff;border:.5px solid #d9d8d3;border-radius:12px;padding:1.15rem 1.35rem;margin-bottom:10px}.section.asm{border-color:var(--asm-border)}.section.wi{border-color:var(--wi-border)}.section.grc{border-color:var(--grc-border)}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#297086;margin-bottom:7px}.section.asm .section-label{color:var(--asm)}.section.wi .section-label{color:var(--wi)}.section.grc .section-label{color:var(--grc)}
+.section-title{font-size:16px;font-weight:600;margin-bottom:.8rem;padding-bottom:7px;border-bottom:.5px solid #f0f0ec;color:#1a1a1a}.section p{font-size:14px;color:#444;line-height:1.72;margin:0 0 8px}.section h3{font-size:14px;color:#1a1a1a;margin:14px 0 7px}.section h4{font-size:13px;color:#1a1a1a;margin:10px 0 5px}
+ul.clean{list-style:none;padding:0;margin:6px 0;display:flex;flex-direction:column;gap:6px}ul.clean li{display:flex;gap:9px;font-size:13px;color:#333;line-height:1.55}ul.clean li:before{content:'';width:6px;height:6px;border-radius:50%;background:#297086;flex-shrink:0;margin-top:7px}.section.asm ul.clean li:before{background:var(--asm)}.section.wi ul.clean li:before{background:var(--wi)}.section.grc ul.clean li:before{background:var(--grc)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.card{background:#f9f9f7;border:.5px solid #e8e8e4;border-radius:10px;padding:.9rem 1rem}.card h4{font-size:13px;font-weight:700;margin:0 0 5px}.card p{font-size:12px;line-height:1.5;margin:0;color:#555}
+.table-wrap{overflow-x:auto;background:#fff;border:.5px solid #e0e0dc;border-radius:12px;margin:10px 0}.std-table{width:100%;border-collapse:collapse;font-size:12px}.std-table th{background:#1A3A5C;color:#fff;padding:9px 10px;text-align:left;white-space:nowrap}.std-table td{padding:9px 10px;border:.5px solid #e8e8e4;vertical-align:top;color:#444}.std-table tr:nth-child(even) td{background:#fafafa}.std-table code{font-size:11px}
+.callout-info{background:#E8F0F8;border:.5px solid #A8C5DE;color:#1A3A5C;border-radius:10px;padding:.85rem 1rem;font-size:13px;line-height:1.55;margin:8px 0}.callout-warn{background:#FEF0E6;border:.5px solid #F5C89A;color:#5C2E06;border-radius:10px;padding:.85rem 1rem;font-size:13px;line-height:1.55;margin:8px 0}
+.step{background:#f9f9f7;border:.5px solid #e8e8e4;border-radius:10px;padding:.85rem 1rem;margin:8px 0}.step-title{font-size:13px;font-weight:700;color:#1A3A5C;margin-bottom:5px}.nav-row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:1rem}.nav-row a{font-size:13px;text-decoration:none;color:#297086}
+@media(max-width:760px){.std-table{font-size:11px}.kb-page-hero h1{font-size:19px}}
+</style>
+</head>
+<body>
+<nav class="kb-topnav">
+  <a class="kb-topnav-brand" href="index.html">Knowledge Base</a>
+  <a href="index.html" class="active">Home</a>
+  <a href="runbooks.html">Runbooks</a>
+  <a href="playbooks.html">Playbooks</a>
+  <a href="sops.html">SOPs</a>
+  <a href="work-instructions.html">Work Instructions</a>
+  <a href="asm.html">ASM</a>
+  
+  <a href="cloud.html">Cloud Ops</a>
+  <a href="tools-references.html">Tools &amp; References</a>
+  <a href="governance.html">Governance</a>
+  <a href="grc.html">GRC</a>
+    <div class="kb-topnav-search"><a href="search.html">🔍 Search</a></div>
+</nav>
+<div class="page-wrapper">
+<div class="breadcrumb"><a href="index.html">Home</a><span>&rsaquo;</span><a href="asm.html">ASM</a><span>&rsaquo;</span><a href="asm-cloud-baselines.html">Cloud Baselines</a><span>&rsaquo;</span><span>IT-CL-WI-09</span></div>
+<div class="kb-page-hero" style="background:linear-gradient(135deg,#0F2540 0%,#1A3A5C 40%,#2E5C8A 100%);">
+<span class="kb-page-hero-icon">✅</span>
+<h1>IT-CL-WI-09: Validate Cloud Encryption and Secrets Controls</h1>
+<p>Provides a repeatable method to validate encryption, key management, storage exposure and secrets controls across AWS and Azure.</p>
+<div class="kb-page-hero-meta"><span class="kb-meta-pill">Work Instruction</span><span class="kb-meta-pill">AWS</span><span class="kb-meta-pill">Azure</span><span class="kb-meta-pill">Encryption and Secrets</span></div>
+</div>
+<div class="meta-bar"><div class="meta-item">📋 <strong>Reference:</strong> IT-CL-WI-09</div><div class="meta-item">📌 <strong>Version:</strong> v1.0</div><div class="meta-item">👤 <strong>Owner:</strong> Cyber Security / Cloud Platform Teams</div><div class="meta-item">📅 <strong>Published:</strong> 19 Sep 2026</div><div class="meta-item"><span class="badge-live">Live</span></div></div>
+<div class="section wi"><div class="section-label">Objective</div><div class="section-title">Validate Encryption and Secrets controls</div><p>This work instruction provides evidence-based validation steps for AWS and Azure. It should be used during initial baseline assessment, quarterly control review, major cloud changes and after material incidents.</p><div class="callout-info"><strong>AWS examples:</strong> KMS, Secrets Manager, Parameter Store, S3 Block Public Access<br><strong>Azure examples:</strong> Key Vault, managed identities, Storage public access controls, Defender/Purview evidence</div></div>
+<div class="section wi"><div class="section-label">Steps</div><div class="section-title">Validation procedure</div><div class="step"><div class="step-title">Step 1: Validate encryption at rest</div><p>Confirm storage, databases, disks and backups use approved encryption and key ownership.</p></div><div class="step"><div class="step-title">Step 2: Validate encryption in transit</div><p>Confirm TLS enforcement, certificate management and secure administrative channels.</p></div><div class="step"><div class="step-title">Step 3: Validate secrets management</div><p>Confirm secrets are stored in Secrets Manager/Parameter Store or Key Vault and are not embedded in code/configuration.</p></div><div class="step"><div class="step-title">Step 4: Validate public storage controls</div><p>Confirm S3 block public access and Azure storage public access restrictions are in place.</p></div><div class="step"><div class="step-title">Step 5: Record evidence and gaps</div><p>Capture key policies, vault settings, secret scans, storage findings and exceptions.</p></div></div>
+<div class="section wi"><div class="section-label">Evidence</div><div class="section-title">Minimum evidence set</div><ul class="clean"><li><span>Configuration export or screenshot showing the relevant setting.</span></li><li><span>Evidence link or file reference recorded in the workbook evidence log.</span></li><li><span>Owner, review date, reviewer decision and any remediation ticket.</span></li><li><span>Exception or risk acceptance record where the baseline is not met.</span></li></ul></div>
+<div class="nav-row"><a href="asm-security-baselines.html">&larr; Security Baselines</a><a href="search.html">Search KB &rarr;</a></div>
+</div>
+</body>
+</html>

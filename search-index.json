@@ -2428,5 +2428,77 @@
     "url": "grc-wi-06.html",
     "desc": "Work instruction for converting vulnerabilities, findings, incidents, supplier gaps, and control weaknesses into business risk language.",
     "tags": "GRC WI technical risk business risk risk statement impact translation vulnerability finding control weakness owner decision"
+  },
+  {
+    "id": "Cloud Workload Security Baseline — AWS and Azure",
+    "section": "ASM",
+    "sub": "Security Baselines",
+    "title": "Cloud Workload Security Baseline — AWS and Azure",
+    "url": "asm-cloud-workload-baseline.html",
+    "desc": "Provider-neutral security baseline for AWS and Azure cloud workloads with common control outcomes, provider mappings, evidence requirements, ISO 27001 alignment and ISO 42001 applicability.",
+    "tags": "cloud workload baseline AWS Azure security baseline ISO 27001 ISO 42001 identity logging network encryption secrets vulnerability backup workload"
+  },
+  {
+    "id": "IT-CL-SOP-02",
+    "section": "SOP",
+    "sub": "Cloud Baselines",
+    "title": "IT-CL-SOP-02: Cloud Workload Baseline Governance",
+    "url": "it-cl-sop-02.html",
+    "desc": "SOP for governing cloud workload baseline assessment, evidence validation, gap treatment, exception handling and reporting across AWS and Azure.",
+    "tags": "SOP cloud baseline governance conformance evidence exceptions AWS Azure"
+  },
+  {
+    "id": "IT-CL-WI-06",
+    "section": "Work Instruction",
+    "sub": "Cloud Baselines",
+    "title": "IT-CL-WI-06: Validate Cloud Identity and Access Controls",
+    "url": "it-cl-wi-06.html",
+    "desc": "Work instruction for validating AWS and Azure identity, privileged access, workload identity and credential controls.",
+    "tags": "WI identity access cloud AWS Azure PIM IAM privileged workload identities"
+  },
+  {
+    "id": "IT-CL-WI-07",
+    "section": "Work Instruction",
+    "sub": "Cloud Baselines",
+    "title": "IT-CL-WI-07: Validate Cloud Logging and Monitoring Controls",
+    "url": "it-cl-wi-07.html",
+    "desc": "Work instruction for validating AWS and Azure logging, SIEM forwarding, alerting, retention and security posture monitoring controls.",
+    "tags": "WI logging monitoring CloudTrail Activity Logs SIEM Defender GuardDuty Security Hub"
+  },
+  {
+    "id": "IT-CL-WI-08",
+    "section": "Work Instruction",
+    "sub": "Cloud Baselines",
+    "title": "IT-CL-WI-08: Validate Cloud Network Exposure Controls",
+    "url": "it-cl-wi-08.html",
+    "desc": "Work instruction for validating AWS and Azure public exposure, segmentation, admin access, ingress, egress and private endpoint controls.",
+    "tags": "WI network exposure public access NSG security groups WAF private endpoint AWS Azure"
+  },
+  {
+    "id": "IT-CL-WI-09",
+    "section": "Work Instruction",
+    "sub": "Cloud Baselines",
+    "title": "IT-CL-WI-09: Validate Cloud Encryption and Secrets Controls",
+    "url": "it-cl-wi-09.html",
+    "desc": "Work instruction for validating AWS and Azure encryption, key management, storage exposure and secrets management controls.",
+    "tags": "WI encryption secrets KMS Key Vault Secrets Manager public storage TLS"
+  },
+  {
+    "id": "IT-CL-WI-10",
+    "section": "Work Instruction",
+    "sub": "Cloud Baselines",
+    "title": "IT-CL-WI-10: Validate Cloud Vulnerability, Patch and Backup Controls",
+    "url": "it-cl-wi-10.html",
+    "desc": "Work instruction for validating cloud vulnerability scanning, patching, hardening, backup and restore-test controls across AWS and Azure.",
+    "tags": "WI vulnerability patch backup Inspector Defender Azure Update Manager AWS Backup"
+  },
+  {
+    "id": "GRC-REG-CLOUD-BASELINE",
+    "section": "GRC",
+    "sub": "Registers",
+    "title": "GRC-REG-CLOUD-BASELINE: Cloud Baseline Control Register",
+    "url": "grc-register-cloud-baseline.html",
+    "desc": "Register structure for tracking cloud baseline control status, evidence, gaps, exceptions, risk mapping and ISO alignment across AWS and Azure.",
+    "tags": "GRC register cloud baseline controls AWS Azure evidence gap exception ISO"
   }
 ]
