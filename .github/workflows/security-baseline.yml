@@ -1,0 +1,58 @@
+name: Security Baseline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  security-baseline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for obvious secrets
+        run: |
+          python - <<'PY'
+          import os
+          import re
+          import sys
+
+          patterns = [
+              re.compile(r'(?i)(gh[pousr]_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|ASIA[0-9A-Z]{16}|-----BEGIN (RSA|EC|DSA|OPENSSH|PRIVATE) KEY-----|aws_access_key_id|aws_secret_access_key|password\s*[:=]\s*[\"\\']?[A-Za-z0-9!@#$%^&*()_+\-=\\[\\]{};:,.<>/?`~]{8,}|token\s*[:=]\s*[\"\\']?[A-Za-z0-9._\\-]{20,})')
+          ]
+
+          excluded = {'.git', 'node_modules', '.venv', 'venv', 'vendor', 'dist', 'build', '.next', '.pytest_cache', '.mypy_cache'}
+          hits = []
+
+          for root, dirs, files in os.walk('.'):
+              dirs[:] = [d for d in dirs if d not in excluded]
+              for file in files:
+                  path = os.path.join(root, file)
+                  try:
+                      with open(path, 'r', encoding='utf-8', errors='ignore') as handle:
+                          text = handle.read()
+                  except Exception:
+                      continue
+                  if any(pattern.search(text) for pattern in patterns):
+                      hits.append(path)
+
+          if hits:
+              print('Potential secrets detected:')
+              for hit in hits:
+                  print(f' - {hit}')
+              sys.exit(1)
+
+          print('No obvious secrets found.')
+          PY
+
+      - name: Dependency review
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
